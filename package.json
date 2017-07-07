@@ -21,7 +21,11 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "@types/mathjax": "0.0.31",
+    "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.4.1",
+    "jquery": "^3.2.1",
+    "mathjax": "^2.7.1",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },
