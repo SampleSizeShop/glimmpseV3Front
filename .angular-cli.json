@@ -22,9 +22,11 @@
         "../styles/bootstrap.sandstone.min.css",
         "styles.scss"
       ],
-      "scripts": ["../node_modules/mathjax/MathJax.js",
+      "scripts": [
+        "../node_modules/mathjax/MathJax.js",
         "../node_modules/mathjax/config/TeX-AMS-MML_HTMLorMML-full.js",
-        "../node_modules/mathjax/jax/output/HTML-CSS/fonts/TeX/fontdata.js"],
+        "../node_modules/mathjax/jax/output/HTML-CSS/fonts/TeX/fontdata.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

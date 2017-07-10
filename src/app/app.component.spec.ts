@@ -1,13 +1,17 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import {MatrixService} from "./matrix-service";
+import {MatrixService} from './matrix-service';
+import { MatrixComponent } from './matrix.component';
+import {FormsModule} from '@angular/forms';
+import {MathJaxDirective} from './mathjax.directive';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ FormsModule ],
       declarations: [
-        AppComponent
+        AppComponent, MatrixComponent, MathJaxDirective
       ],
       providers: [MatrixService]
     }).compileComponents();
