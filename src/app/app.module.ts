@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {MatrixService} from './matrix-service';
-import {MatrixComponent} from './matrix.component';
+import {MathJaxService} from './mathjax-service';
+import {MathJaxComponent} from './mathjax.component';
 import {MathJaxDirective} from './mathjax.directive';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -13,7 +13,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 @NgModule({
   declarations: [
     AppComponent,
-    MatrixComponent,
+    MathJaxComponent,
     MathJaxDirective
   ],
   imports: [
@@ -22,7 +22,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     FormsModule,
     HttpModule
   ],
-  providers: [MatrixService],
+  providers: [MathJaxService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

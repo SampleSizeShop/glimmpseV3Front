@@ -1,8 +1,8 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import {MatrixService} from './matrix-service';
-import { MatrixComponent } from './matrix.component';
+import {MathJaxService} from './mathjax-service';
+import { MathJaxComponent } from './mathjax.component';
 import {FormsModule} from '@angular/forms';
 import {MathJaxDirective} from './mathjax.directive';
 
@@ -11,9 +11,9 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [ FormsModule ],
       declarations: [
-        AppComponent, MatrixComponent, MathJaxDirective
+        AppComponent, MathJaxComponent, MathJaxDirective
       ],
-      providers: [MatrixService]
+      providers: [MathJaxService]
     }).compileComponents();
   }));
 
@@ -45,6 +45,6 @@ describe('AppComponent', () => {
   it('should render a MathJax component', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(typeof(app.matrix) == typeof(MatrixComponent) );
+    expect(typeof(app.mathjax_component) == typeof(MathJaxComponent) );
   }));
 });
