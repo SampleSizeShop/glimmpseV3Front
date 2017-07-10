@@ -8,6 +8,8 @@ import {MatrixService} from './matrix-service';
 import {MatrixComponent} from './matrix.component';
 import {MathJaxDirective} from './mathjax.directive';
 
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,6 +17,7 @@ import {MathJaxDirective} from './mathjax.directive';
     MathJaxDirective
   ],
   imports: [
+    BsDropdownModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule

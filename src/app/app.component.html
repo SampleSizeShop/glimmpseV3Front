@@ -4,15 +4,32 @@
     <h2>Angular & Bootstrap Demo</h2>
   </div>
   <div class="panel panel-primary">
-    <div class="panel-heading">Status</div>
+    <div class="panel-heading">
+      <h2>Status</h2>
+    </div>
     <div class="panel-body">
-      <h3>data provided by: {{message}}</h3>
+      data provided by: {{message}}
     </div>
   </div>
   <div class="panel panel-primary">
-    <div class="panel-heading">Status</div>
+    <div class="panel-heading">
+      <h4>MathJax Component</h4>
+    </div>
     <div class="panel-body">
       <matrix></matrix>
     </div>
+  </div>
+  <div class="btn-group" dropdown>
+    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+      Button dropdown <span class="caret"></span>
+    </button>
+    <ul *dropdownMenu class="dropdown-menu" role="menu">
+      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
+      <li role="menuitem"><a class="dropdown-item" href="#">Something else here</a></li>
+      <li class="divider dropdown-divider"></li>
+      <li role="menuitem"><a class="dropdown-item" href="#">Separated link</a>
+      </li>
+    </ul>
   </div>
 </div>
