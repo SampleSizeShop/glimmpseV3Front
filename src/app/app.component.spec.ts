@@ -41,4 +41,10 @@ describe('AppComponent', () => {
     fixture.detectChanges();
     expect(fixture.componentInstance.message).toBe('real service');
   }));
+
+  it('should render a MathJax component', async(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.debugElement.componentInstance;
+    expect(typeof(app.matrix) == typeof(MatrixComponent) );
+  }));
 });
