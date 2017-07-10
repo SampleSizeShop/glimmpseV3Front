@@ -5,10 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "build": "ng build"
   },
   "private": true,
   "dependencies": {
@@ -26,6 +23,7 @@
     "core-js": "^2.4.1",
     "css-loader": "^0.28.4",
     "jquery": "^3.2.1",
+    "karma-firefox-launcher": "^1.0.1",
     "mathjax": "^2.7.1",
     "mathjax-single-file": "github:pkra/mathjax-single-file",
     "ngx": "0.0.1",
