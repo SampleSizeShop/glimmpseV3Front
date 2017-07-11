@@ -1,19 +1,19 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import {MathJaxService} from './mathjax-service';
-import { MathJaxComponent } from './mathjax.component';
+import {FlaskService} from './flask.service';
+import { FlaskComponent } from './flask.component';
 import {FormsModule} from '@angular/forms';
-import {MathJaxDirective} from './mathjax.directive';
+import {FlaskDirective} from './flask.directive';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ FormsModule ],
       declarations: [
-        AppComponent, MathJaxComponent, MathJaxDirective
+        AppComponent, FlaskComponent, FlaskDirective
       ],
-      providers: [MathJaxService]
+      providers: [FlaskService]
     }).compileComponents();
   }));
 
@@ -33,7 +33,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome app');
+    expect(compiled.querySelector('h1').textContent).toContain('Demo');
   }));
 
   it('should should attach a message from service to the component', async(() => {
@@ -45,6 +45,6 @@ describe('AppComponent', () => {
   it('should render a MathJax component', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(typeof(app.mathjax_component) == typeof(MathJaxComponent) );
+    expect(typeof(app.mathjax_component) == typeof(FlaskComponent) );
   }));
 });
