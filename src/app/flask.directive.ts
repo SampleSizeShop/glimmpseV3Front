@@ -9,9 +9,11 @@ export class FlaskDirective implements OnInit, OnChanges {
 
   ngOnInit(){
     this.element.nativeElement.innerHTML = this.value;
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.element.nativeElement]);
   }
 
   ngOnChanges(){
     this.element.nativeElement.innerHTML = this.value;
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.element.nativeElement]);
   }
 }
