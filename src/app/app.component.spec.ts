@@ -1,19 +1,19 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import {FlaskService} from './flask.service';
-import { FlaskComponent } from './flask.component';
+import {MathJaxService} from './mathjax.service';
+import { MathJaxComponent } from './mathjax.component';
 import {FormsModule} from '@angular/forms';
-import {FlaskDirective} from './flask.directive';
+import {MathJaxDirective} from './mathjax.directive';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ FormsModule ],
       declarations: [
-        AppComponent, FlaskComponent, FlaskDirective
+        AppComponent, MathJaxComponent, MathJaxDirective
       ],
-      providers: [FlaskService]
+      providers: [MathJaxService]
     }).compileComponents();
   }));
 
