@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { FlaskService } from './flask.service';
-import {FlaskComponent} from './flask.component';
+import { MathJaxService } from './mathjax.service';
+import {MathJaxComponent} from './mathjax.component';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +10,8 @@ import {FlaskComponent} from './flask.component';
 export class AppComponent {
   title = 'app';
   public message: string;
-  public mathjax_component: FlaskComponent;
-  constructor(mathjaxService: FlaskService) {
+  public mathjax_component: MathJaxComponent;
+  constructor(mathjaxService: MathJaxService) {
     this.message = mathjaxService.getMessage();
   }
 }

@@ -1,9 +1,9 @@
 import {Directive, ElementRef, Input, OnChanges, OnInit} from "@angular/core";
 
 @Directive({
-  selector: '[flaskExpr]'})
-export class FlaskDirective implements OnInit, OnChanges {
-  @Input("flaskExpr") private value: string = "";
+  selector: '[mathJaxExpr]'})
+export class MathJaxDirective implements OnInit, OnChanges {
+  @Input("mathJaxExpr") private value: string = "";
   constructor(private element: ElementRef){
   }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 
 
-export class FlaskService{
+export class MathJaxService{
   getMessage(){
     return 'real service';
   }
