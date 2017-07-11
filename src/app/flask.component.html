@@ -1,5 +1,6 @@
 <body>
   <div class="container">
     <input #texInput id="TeX-input" (keyup)="texInput.value"/>
+    <div [flaskExpr]="output"></div>
   </div>
 </body>
