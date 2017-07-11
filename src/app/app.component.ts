@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MatrixService } from './matrix-service';
-import {MatrixComponent} from './matrix.component';
+import { MathJaxService } from './mathjax-service';
+import {MathJaxComponent} from './mathjax.component';
 
 @Component({
   selector: 'app-root',
@@ -10,8 +10,8 @@ import {MatrixComponent} from './matrix.component';
 export class AppComponent {
   title = 'app';
   public message: string;
-  public matrix: MatrixComponent;
-  constructor(matrixService: MatrixService) {
-    this.message = matrixService.getMessage();
+  public mathjax_component: MathJaxComponent;
+  constructor(mathjaxService: MathJaxService) {
+    this.message = mathjaxService.getMessage();
   }
 }

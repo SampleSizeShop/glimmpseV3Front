@@ -3,10 +3,11 @@
     MathJax.Hub.Config({
     tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
   </script>
-  <script type="text/javascript" async src="path-to-mathjax/MathJax.js?config=TeX-AMS_CHTML"></script>
+  <script type="text/javascript" async src="./node_modules/mathjax/MathJax.js?config=TeX-AMS_CHTML"></script>
 </head>
 <body>
   <div class="container">
+    <input #texInput id="TeX-input" (keyup)="texInput.value"/>
     <span [mathJaxExpr]="output" ></span>
   </div>
 </body>
