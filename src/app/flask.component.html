@@ -2,7 +2,7 @@
   <div class="row align-items-center">
     <div class="col" layout-align="left centre">
       <div class="row align-self-start">
-        <input #texInput id="TeX-input" (keyup)="texInput.value" />
+        <input #texInput id="TeX-input" (keyup)="texInput.value" [(ngModel)]="texString"/>
       </div>
       <div class="row align-self-end">
         <div class="btn-group" dropdown>
@@ -20,7 +20,9 @@
         </div>
       </div>
     </div>
-    <div class="col" layout-align="right centre"><div [flaskExpr]="output"></div></div>
+    <div class="col" layout-align="right centre">
+      <div [flaskExpr]="texString"></div>
+    </div>
   </div>
 </div>
 
