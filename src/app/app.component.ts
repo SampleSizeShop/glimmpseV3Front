@@ -11,7 +11,4 @@ export class AppComponent {
   title = 'app';
   public message: string;
   public mathjax_component: MathJaxComponent;
-  constructor(mathjaxService: MathJaxService) {
-    this.message = mathjaxService.getMessage();
-  }
 }

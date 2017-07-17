@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "../styles/bootstrap.sandstone.min.css",
+        "../styles/bootstrap.yeti.min.css",
         "styles.scss"
       ],
       "scripts": [],
