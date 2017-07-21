@@ -1,9 +1,9 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {MathJaxService} from "./mathjax.service";
+import {MathJaxService} from "../services/mathjax.service";
 import 'rxjs/add/operator/map';
 @Component({
   selector: 'mathjax-component',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['../app.component.css'],
   templateUrl: './mathjax.component.html'
 })
 export class MathJaxComponent implements OnInit, OnChanges {

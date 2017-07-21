@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MathJaxService } from './mathjax.service';
-import {MathJaxComponent} from './mathjax.component';
+import { MathJaxService } from './services/mathjax.service';
+import {MathJaxComponent} from './mathjax/mathjax.component';
 
 @Component({
   selector: 'app-root',

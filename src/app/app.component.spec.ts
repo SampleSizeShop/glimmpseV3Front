@@ -1,10 +1,10 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import {MathJaxService} from './mathjax.service';
-import { MathJaxComponent } from './mathjax.component';
+import {MathJaxService} from './services/mathjax.service';
+import { MathJaxComponent } from './mathjax/mathjax.component';
 import {FormsModule} from '@angular/forms';
-import {MathJaxDirective} from './mathjax.directive';
+import {MathJaxDirective} from './mathjax/mathjax.directive';
 import {Http, HttpModule, XHRBackend} from "@angular/http";
 import {MockBackend} from "@angular/http/testing";
 
