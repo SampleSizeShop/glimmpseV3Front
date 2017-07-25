@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col">
       <div class="col-8">
-        <input [formControl]="tex" #texInput id="TeX-input" (keyup)="texInput.value" [(ngModel)]="texString"  class="form-control form-control-lg"/>
+        <input #texInput id="TeX-input" (keyup)="texInput.value" [(ngModel)]="texString"  class="form-control form-control-lg"/>
       </div>
       <div class="col-8">
         <button (click)="updateTexString()" class="btn btn-primary btn-lg btn-block" >Load TeX</button>

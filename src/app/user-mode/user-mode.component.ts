@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-mode.component.scss']
 })
 export class UserModeComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit() {

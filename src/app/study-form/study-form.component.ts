@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-study-form',
@@ -7,9 +6,7 @@ import {FormControl, FormGroup} from '@angular/forms';
   styleUrls: ['./study-form.component.scss']
 })
 export class StudyFormComponent implements OnInit {
-  study = new FormGroup({
-    mode: new FormControl()
-  });
+
 
   ngOnInit() {
   }

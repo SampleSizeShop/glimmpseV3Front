@@ -8,10 +8,5 @@ import {FormControl, FormGroup} from '@angular/forms';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  search = new FormGroup({
-    text: new FormControl()
-  });
-  title = 'app';
-  public message: string;
-  public mathjax_component: MathJaxComponent;
+
 }

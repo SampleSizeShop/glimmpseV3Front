@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MathJaxService } from './services/mathjax.service';
 import { MathJaxComponent } from './mathjax/mathjax.component';
@@ -25,7 +25,7 @@ import { StudyFormComponent } from './study-form/study-form.component';
   imports: [
     BsDropdownModule.forRoot(),
     BrowserModule,
-    ReactiveFormsModule,
+    FormsModule,
     HttpModule,
     BrowserAnimationsModule,
     AppRoutingModule
