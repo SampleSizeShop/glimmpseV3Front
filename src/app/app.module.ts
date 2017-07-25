@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { RouterModule }   from '@angular/router';
 
 import { AppComponent } from './app.component';
 import {FormsModule} from '@angular/forms';
@@ -9,16 +10,18 @@ import {MathJaxComponent} from './mathjax/mathjax.component';
 import {MathJaxDirective} from './mathjax/mathjax.directive';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { StudyFormComponent } from './study-form/study-form.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MdButtonModule, MdInputModule} from '@angular/material';
+import { OutcomesFormComponent } from './outcomes-form/outcomes-form.component';
+import {AppRoutingModule} from './app-routing-module';
+import { UserModeComponent } from './user-mode/user-mode.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MathJaxComponent,
     MathJaxDirective,
-    StudyFormComponent
+    OutcomesFormComponent,
+    UserModeComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
@@ -26,8 +29,7 @@ import {MdButtonModule, MdInputModule} from '@angular/material';
     FormsModule,
     HttpModule,
     BrowserAnimationsModule,
-    MdInputModule,
-    MdButtonModule
+    AppRoutingModule
   ],
   providers: [MathJaxService],
   bootstrap: [AppComponent]
