@@ -15,7 +15,7 @@
   <div class="collapse  navbar-collapse">
   <ul class="navbar-nav mr-auto">
   <li class="nav-item ">
-    <a class="nav-link" href="#">Home</a>
+    <a class="nav-link" href="/new">Home</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#">Login</a>
@@ -24,7 +24,7 @@
     <a class="nav-link" routerLink="/mathjax">Documentation</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" routerLink="/outcomes">About</a>
+    <a class="nav-link" routerLink="#">About</a>
   </li>
   </ul>
     <form class="form-inline">
@@ -34,15 +34,6 @@
   </div>
 </nav>
 <div class="container">
-  <div style="padding-top: 10px">
-    <h4>MathJax Component</h4>
-  </div>
-  <div class="jumbotron">
-    <router-outlet></router-outlet>
-  </div>
-  <h6>Study design progress</h6>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar" style="width: 25%; height: 20px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-  </div>
+  <router-outlet></router-outlet>
 </div>
 

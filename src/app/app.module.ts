@@ -11,17 +11,17 @@ import {MathJaxDirective} from './mathjax/mathjax.directive';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { OutcomesFormComponent } from './outcomes-form/outcomes-form.component';
 import {AppRoutingModule} from './app-routing-module';
 import { UserModeComponent } from './user-mode/user-mode.component';
+import { StudyFormComponent } from './study-form/study-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MathJaxComponent,
     MathJaxDirective,
-    OutcomesFormComponent,
-    UserModeComponent
+    UserModeComponent,
+    StudyFormComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),
