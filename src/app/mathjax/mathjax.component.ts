@@ -3,7 +3,7 @@ import {MathJaxService} from '../services/mathjax.service';
 import 'rxjs/add/operator/map';
 import {FormGroup, FormControl} from '@angular/forms';
 @Component({
-  selector: 'mathjax-component',
+  selector: 'app-mathjax-component',
   styleUrls: ['../app.component.css'],
   templateUrl: './mathjax.component.html'
 })
