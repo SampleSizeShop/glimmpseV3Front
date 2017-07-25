@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MathJaxService } from './services/mathjax.service';
 import {MathJaxComponent} from './mathjax/mathjax.component';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +8,9 @@ import {MathJaxComponent} from './mathjax/mathjax.component';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  search = new FormGroup({
+    text: new FormControl()
+  });
   title = 'app';
   public message: string;
   public mathjax_component: MathJaxComponent;
