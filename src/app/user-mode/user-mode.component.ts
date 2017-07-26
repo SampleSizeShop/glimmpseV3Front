@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {StudyDesign} from '../shared/study-design';
+import {StudyService} from '../services/study.service';
 
 @Component({
   selector: 'app-user-mode',
@@ -7,25 +7,26 @@ import {StudyDesign} from '../shared/study-design';
   styleUrls: ['./user-mode.component.scss']
 })
 export class UserModeComponent implements OnInit {
-  model: StudyDesign = new StudyDesign();
-  selected: string;
+  guided: boolean;
 
-  constructor() { }
+  constructor(private study_service: StudyService) {}
 
   selectGuided() {
-    this.model.mode = 'GUIDED';
-    this.selected = this.model.mode;
-  }
-  selectFlex() {
-    this.model.mode = 'FLEXIBLE';
-    this.selected = this.model.mode;
+    this.study_service.setGuided(true);
+    this.updateForm();
   }
 
-  isGuided() { if ( this.model.mode === 'GUIDED' ) {
-                  return true;
-    }
-    return false;
+  selectFlex() {
+    this.study_service.setGuided(false);
+    this.updateForm();
   }
+
+  private updateForm() {
+    this.guided = this.study_service.isGuided();
+    this.study_service.selectMode(this.guided);
+    this.study_service.setNext('TARGET_EVENT');
+  }
+
   ngOnInit() {
     this.selectGuided();
   }

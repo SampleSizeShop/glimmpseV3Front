@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing-module';
 import { UserModeComponent } from './user-mode/user-mode.component';
 import { StudyFormComponent } from './study-form/study-form.component';
+import { TargetEventComponent } from './target-event/target-event.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { StudyFormComponent } from './study-form/study-form.component';
     MathJaxComponent,
     MathJaxDirective,
     UserModeComponent,
-    StudyFormComponent
+    StudyFormComponent,
+    TargetEventComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

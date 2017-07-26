@@ -2,18 +2,18 @@
   <fieldset>
   <h5>Choose design mode:</h5>
   <div class="btn-group" data-toggle="buttons">
-    <label aria-pressed="true" class="btn btn-primary" [class.active]="'GUIDED' === selected">
+    <label aria-pressed="true" class="btn btn-primary" [class.active]="guided">
       <input type="radio" id="GUIDED" (click)="selectGuided()"> Guided Mode
     </label>
-    <label class="btn btn-primary" aria-pressed="true" [class.active]="'FLEXIBLE' === selected">
+    <label class="btn btn-primary" aria-pressed="true" [class.active]="!guided">
       <input type="radio" id="FLEXIBLE" (click)="selectFlex()"> Flexible Mode
     </label>
   </div>
   <div>
-    <p *ngIf="!isGuided()">
+    <p *ngIf="!guided">
       I'll show you something to make you change your mind
     </p>
-    <p *ngIf="isGuided()">
+    <p *ngIf="guided">
       Let me take you by the hand and I'll show you round the streets of London
     </p>
   </div>
