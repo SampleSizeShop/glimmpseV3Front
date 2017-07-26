@@ -24,6 +24,14 @@ export class SolveForComponent implements OnInit {
     return this.targetEvent === 'REJECTION';
   }
 
+  isCIWidth(): boolean {
+    return this.targetEvent === 'CIWIDTH';
+  }
+
+  isWAVR(): boolean {
+    return this.targetEvent === 'WAVR';
+  }
+
   ngOnInit() {
     this.selectPower()
   }
