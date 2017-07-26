@@ -1,10 +1,12 @@
 import {Outcome} from './outcome';
 
-export const MODES = {0:'GUIDED', 1:'FLEXIBLE'}
-
 export class StudyDesign {
-  constructor(public name?: string,
-              public outcomes?: Outcome[],
-              public mode?: Boolean
+  public mode: string;
+  public outcomes: Outcome[];
+  public name: string;
+
+  constructor(name?: string,
+              outcomes?: Outcome[],
+              mode?: Boolean
 ) {}
 }

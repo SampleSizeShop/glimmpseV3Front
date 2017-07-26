@@ -1,17 +1,21 @@
-<fieldset>
+<form #modeForm="ngForm">
+  <fieldset>
   <h5>Choose design mode:</h5>
   <div class="btn-group" data-toggle="buttons">
-    <label class="btn btn-primary" aria-pressed="true">
-      <input type="radio" id="option1"> Guided Mode
+    <label aria-pressed="true" class="btn btn-primary" [class.active]="'GUIDED' === selected">
+      <input type="radio" id="GUIDED" (click)="selectGuided()"> Guided Mode
     </label>
-    <label class="btn btn-primary" aria-pressed="true">
-      <input type="radio" id="option2"> Flexible Mode
+    <label class="btn btn-primary" aria-pressed="true" [class.active]="'FLEXIBLE' === selected">
+      <input type="radio" id="FLEXIBLE" (click)="selectFlex()"> Flexible Mode
     </label>
   </div>
   <div>
-    <p></p>
-    <p>
-      This gives you all of the control and lets you break it yourself :p
+    <p *ngIf="!isGuided()">
+      I'll show you something to make you change your mind
+    </p>
+    <p *ngIf="isGuided()">
+      Let me take you by the hand and I'll show you round the streets of London
     </p>
   </div>
-</fieldset>
+  </fieldset>
+</form>
