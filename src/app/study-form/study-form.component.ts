@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
+import {Subject} from 'rxjs/Subject';
 
 
 @Component({
@@ -13,8 +14,11 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   valid = false;
   guided: boolean;
   private _targetEvent: string;
+  private _solveFor: string;
   modeSubscription: Subscription;
   targetEventSubscription: Subscription;
+  solveForSubscription: Subscription;
+
   constructor(private study_service: StudyService) {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
@@ -29,6 +33,39 @@ export class StudyFormComponent implements OnInit, OnDestroy {
         this.valid = true;
       }
     )
+
+    this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
+      solveFor => {
+        this.solveFor = solveFor;
+        this.valid = true;
+      }
+    )
+  }
+
+  next(): void {
+    if ( this.getStage() === 'MODE' && this.guided ) {
+      this.setStage( 'TARGET_EVENT' )
+    } else if ( this.getStage() === 'TARGET_EVENT' && this.guided ) {
+      this.setStage( 'SOLVE_FOR' )
+    } else if ( this.getStage() === 'SOLVE_FOR' && this.guided ) {
+      this.setStage( 'SOLVE_FOR' )
+    }
+  }
+
+  back(): void {
+    if ( this.getStage() === 'TARGET_EVENT' ) {
+      this.setStage( 'MODE' )
+    } else if ( this.getStage() === 'SOLVE_FOR' ) {
+      this.setStage( 'TARGET_EVENT' )
+    }
+  }
+
+  ngOnInit() {}
+
+  ngOnDestroy() {
+    this.modeSubscription.unsubscribe();
+    this.targetEventSubscription.unsubscribe();
+    this.solveForSubscription.unsubscribe();
   }
 
   getStage(): string {
@@ -39,29 +76,20 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.study_service.stage = stage;
   }
 
-  next(): void {
-    if ( this.getStage() === 'MODE' && this.guided ) {
-      this.setStage( 'TARGET_EVENT' )
-    }
-  }
-
-  back(): void {
-    if ( this.getStage() === 'TARGET_EVENT' ) {
-      this.setStage( 'MODE' )
-    }
-  }
-
-  ngOnInit() {}
-
-  ngOnDestroy() {
-    this.modeSubscription.unsubscribe()
-  }
-
   get targetEvent(): string {
     return this._targetEvent;
   }
 
   set targetEvent(value: string) {
     this._targetEvent = value;
+  }
+
+
+  get solveFor(): string {
+    return this._solveFor;
+  }
+
+  set solveFor(value: string) {
+    this._solveFor = value;
   }
 }

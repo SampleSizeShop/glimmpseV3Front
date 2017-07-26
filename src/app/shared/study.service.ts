@@ -4,6 +4,7 @@ import {Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {UserModeComponent} from '../user-mode/user-mode.component';
 import {Subject} from 'rxjs/Subject';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class StudyService {
@@ -17,15 +18,21 @@ export class StudyService {
   modeSelected$ = this._modeSelectedSource.asObservable();
 
   // target event observable stream
-  private _targetEventSource = new Subject<string>();
+  private _targetEventSource = new BehaviorSubject<string>('REJECTION');
   targetEventSelected$ = this._targetEventSource.asObservable();
 
+  // solve for observable stream
+  private _solveForSource = new Subject<string>();
+  solveForSelected$ = this._solveForSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
   }
   selectTargetEvent(targetEvent: string) {
     this._targetEventSource.next(targetEvent);
+  }
+  selectSolveFor(solveFor: string) {
+    this._solveForSource.next(solveFor);
   }
 
   constructor(private  http: Http) {

@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing-module';
 import { UserModeComponent } from './user-mode/user-mode.component';
 import { StudyFormComponent } from './study-form/study-form.component';
 import { TargetEventComponent } from './target-event/target-event.component';
+import { SolveForComponent } from './solve-for/solve-for.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { TargetEventComponent } from './target-event/target-event.component';
     MathJaxDirective,
     UserModeComponent,
     StudyFormComponent,
-    TargetEventComponent
+    TargetEventComponent,
+    SolveForComponent
   ],
   imports: [
     BsDropdownModule.forRoot(),

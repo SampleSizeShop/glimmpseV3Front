@@ -1,0 +1,36 @@
+<form #modeForm="ngForm">
+  <fieldset *ngIf="isRejection()">
+    <div class="btn-group" data-toggle="buttons">
+      <label aria-pressed="true" class="btn btn-primary" [class.active]="isPower()">
+        <input type="radio" id="REJECTION" (click)="selectPower()"> Power
+      </label>
+      <label class="btn btn-primary" aria-pressed="true" [class.active]="isSampleSize()">
+        <input type="radio" id="CIWIDTH" (click)="selectSampleSize()"> Sample Size
+      </label>
+    </div>
+    <div>
+      <p *ngIf="isPower()">
+        I am just a poor boy
+        Though my story's seldom told
+        I have squandered my resistance
+        For a pocketful of mumbles
+        Such are promises
+        All lies and jest
+        Still, a man hears what he wants to hear
+        And disregards the rest
+      </p>
+      <p *ngIf="isSampleSize()">
+        In the clearing stands a boxer
+        And a fighter by his trade
+        And he carries the remainders
+        Of every glove that laid him down
+        And cut him till he cried out
+        In his anger and his shame
+        “I am leaving, I am leaving”
+        But the fighter still remains
+        Still remains
+      </p>
+    </div>
+  </fieldset>
+  <h6>Target event: {{targetEvent}}</h6>
+</form>

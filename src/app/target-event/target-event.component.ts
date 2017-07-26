@@ -30,15 +30,15 @@ export class TargetEventComponent implements OnInit {
   }
 
   isRejection(): boolean {
-    return this.targetEvent === 'REJECTION' ? true : false;
+    return this.targetEvent === 'REJECTION';
   }
 
   isCIWidth(): boolean {
-    return this.targetEvent === 'CIWIDTH' ? true : false;
+    return this.targetEvent === 'CIWIDTH';
   }
 
   isWAVR(): boolean {
-    return this.targetEvent === 'WAVR' ? true : false;
+    return this.targetEvent === 'WAVR';
   }
 
   get targetEvent(): string {
