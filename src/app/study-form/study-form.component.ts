@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
-import {StudyService} from '../services/study.service';
+import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 
 
@@ -12,22 +12,31 @@ import {Subscription} from 'rxjs/Subscription';
 export class StudyFormComponent implements OnInit, OnDestroy {
   valid = false;
   guided: boolean;
+  private _targetEvent: string;
   modeSubscription: Subscription;
+  targetEventSubscription: Subscription;
   constructor(private study_service: StudyService) {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
         this.guided = guided;
-        this.valid = !guided;
+        this.valid = guided;
+      }
+    )
+
+    this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
+      targetEvent => {
+        this.targetEvent = targetEvent;
+        this.valid = true;
       }
     )
   }
 
   getStage(): string {
-    return this.study_service.getStage();
+    return this.study_service.stage;
   }
 
   setStage(stage: string): void {
-    return this.study_service.setStage(stage);
+    this.study_service.stage = stage;
   }
 
   next(): void {
@@ -36,12 +45,23 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit() {
-    this.study_service.getStudyDesign().name = ('New GLM');
+  back(): void {
+    if ( this.getStage() === 'TARGET_EVENT' ) {
+      this.setStage( 'MODE' )
+    }
   }
+
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.modeSubscription.unsubscribe()
   }
 
+  get targetEvent(): string {
+    return this._targetEvent;
+  }
+
+  set targetEvent(value: string) {
+    this._targetEvent = value;
+  }
 }

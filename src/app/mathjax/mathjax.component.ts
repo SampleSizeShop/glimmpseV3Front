@@ -1,5 +1,5 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {MathJaxService} from '../services/mathjax.service';
+import {MathJaxService} from '../shared/mathjax.service';
 import 'rxjs/add/operator/map';
 import {FormGroup, FormControl} from '@angular/forms';
 @Component({

@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MathJaxService } from './services/mathjax.service';
+import { MathJaxService } from './shared/mathjax.service';
 import { MathJaxComponent } from './mathjax/mathjax.component';
 import { MathJaxDirective } from './mathjax/mathjax.directive';
 

@@ -12,11 +12,11 @@
       </div>
       <hr>
       <div class="d-flex justify-content-end">
-        <div class="mr-auto p-2" hidden>
-          <button type="submit" class="btn btn-primary">Back</button>
+        <div class="mr-auto p-2">
+          <button type="submit" class="btn btn-primary" *ngIf="'MODE' != getStage()" (click)="back()">Back</button>
         </div>
         <div class="p-2">
-          <button type="submit" class="btn btn-primary" (click)="next()" [class.disabled]="valid">Next</button>
+          <button type="submit" class="btn btn-primary" (click)="next()" [class.disabled]="!valid">Next</button>
         </div>
       </div>
     </div>

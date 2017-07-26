@@ -1,3 +1,37 @@
-<p>
-  target-event works!
-</p>
+<form #modeForm="ngForm">
+  <fieldset>
+    <h5>Choose target event:</h5>
+    <div class="btn-group" data-toggle="buttons">
+      <label aria-pressed="true" class="btn btn-primary" [class.active]="isRejection()">
+        <input type="radio" id="REJECTION" (click)="selectRejectionOnly()"> Rejection Only
+      </label>
+      <label class="btn btn-primary" aria-pressed="true" [class.active]="isCIWidth()">
+        <input type="radio" id="CIWIDTH" (click)="selectCIWidth()"> CI Width Only
+      </label>
+      <label class="btn btn-primary" aria-pressed="true" [class.active]="isWAVR()">
+        <input type="radio" id="WAVR" (click)="selectWAVR()"> WAVR
+      </label>
+    </div>
+    <div>
+      <p *ngIf="isRejection()">
+        We'd like to know a little bit about you for our files
+        We'd like to help you learn to help yourself
+        Look around you all you see are sympathetic eyes
+        Stroll around the grounds until you feel at home
+      </p>
+      <p *ngIf="isCIWidth()">
+        Hide it in the hiding place where no one ever goes
+        Put it in your pantry with your cupcakes
+        It's a little secret just the Robinson's affair
+        Most of all you've got to hide it from the kids
+      </p>
+      <p *ngIf="isWAVR()">
+        Sitting on a sofa on a Sunday afternoon
+        Going to the candidates' debate
+        Laugh about it, shout about it
+        When you've got to choose
+        Every way you look at this you lose
+      </p>
+    </div>
+  </fieldset>
+</form>

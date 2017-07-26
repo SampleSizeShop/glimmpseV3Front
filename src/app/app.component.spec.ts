@@ -1,7 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import {MathJaxService} from './services/mathjax.service';
+import {MathJaxService} from './shared/mathjax.service';
 import { MathJaxComponent } from './mathjax/mathjax.component';
 import {FormsModule} from '@angular/forms';
 import {MathJaxDirective} from './mathjax/mathjax.directive';
