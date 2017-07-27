@@ -12,9 +12,11 @@ export class SolveForComponent implements OnInit {
   private _solveFor: string;
   private _targetEvent: string;
 
-  power = new FormControl();
-  sampleSize = new FormControl();
-  ciwidth = new FormControl();
+  powerSampleSizeForm = new FormGroup({
+    power: new FormControl(),
+    sampleSize: new FormControl(),
+    ciwidth: new FormControl()
+  });
 
   targetEventSubscription: Subscription;
 
