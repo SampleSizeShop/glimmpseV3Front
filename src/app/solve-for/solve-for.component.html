@@ -50,13 +50,13 @@
           <label for="power" ng-non-bindable *ngIf="isRejection()">Probability &#123;Reject null&#125;:</label>
           <label for="power" ng-non-bindable *ngIf="isCIWidth()">Probability &#123;achieve CI Width&#125;:</label>
           <label for="power" ng-non-bindable *ngIf="isWAVR()">Probability &#123;WAVR&#125;:</label>
-          <input type="number" class="form-control" id="power" aria-describedby="powerhelp" placeholder="Choose a number between 0 -> 1">
+          <input type="number" class="form-control" id="power" name="power" [(ngModel)]="solveFor" aria-describedby="powerhelp" placeholder="Choose a number between 0 -> 1">
           <small id="powerhelp" class="form-text text-muted">Sample size must be an integer between 0 > x > 1</small>
         </div>
         <div class="form-group" *ngIf="isCIWidth() || isWAVR()">
-          <label for="ciwidth">Confidence Interval Width:</label>
-          <input type="number" class="form-control" id="ciwidth" aria-describedby="ciwidthhelp" placeholder="Choose a number between 0 -> 10">
-          <small id="ciwidthhelp" class="form-text text-muted">Sample size must be an integer between 0 > x > 10</small>
+          <label for="ciwidthtwo">Confidence Interval Width:</label>
+          <input type="number" class="form-control" id="ciwidthtwo" aria-describedby="ciwidthhelptwo" placeholder="Choose a number between 0 -> 10">
+          <small id="ciwidthhelptwo" class="form-text text-muted">Sample size must be an integer between 0 > x > 10</small>
         </div>
       </div>
     </div>
