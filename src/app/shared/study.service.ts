@@ -2,7 +2,6 @@ import {Injectable, ViewChild} from '@angular/core';
 import {StudyDesign} from './study-design';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import {UserModeComponent} from '../user-mode/user-mode.component';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 

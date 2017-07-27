@@ -1,22 +1,20 @@
-<script src="user-mode.component.ts"></script>
-<form #modeForm="ngForm">
-  <fieldset>
-  <h5>Choose design mode:</h5>
-  <div class="btn-group" data-toggle="buttons">
-    <label aria-pressed="true" class="btn btn-primary" [class.active]="guided">
-      <input type="radio" id="GUIDED" (click)="selectGuided()"> Guided Mode
-    </label>
-    <label class="btn btn-primary" aria-pressed="true" [class.active]="!guided">
-      <input type="radio" id="FLEXIBLE" (click)="selectFlex()"> Flexible Mode
-    </label>
-  </div>
-  <div>
-    <p *ngIf="!guided">
-      I'll show you something to make you change your mind
-    </p>
-    <p *ngIf="guided">
-      Let me take you by the hand and I'll show you round the streets of London
-    </p>
-  </div>
-  </fieldset>
-</form>
+<fieldset>
+<h5>Choose design mode:</h5>
+<div class="btn-group" data-toggle="buttons">
+  <label aria-pressed="true" class="btn btn-primary" [class.active]="guided">
+    <input type="radio" id="GUIDED" (click)="selectGuided()"> Guided Mode
+  </label>
+  <label class="btn btn-primary" aria-pressed="true" [class.active]="!guided">
+    <input type="radio" id="FLEXIBLE" (click)="selectFlex()"> Flexible Mode
+  </label>
+</div>
+<div>
+  <p *ngIf="!guided">
+    I'll show you something to make you change your mind
+  </p>
+  <p *ngIf="guided">
+    Let me take you by the hand and I'll show you round the streets of London
+  </p>
+</div>
+</fieldset>
+GUIDED IN CHILD {{guided}}

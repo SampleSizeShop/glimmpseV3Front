@@ -8,5 +8,6 @@ import {FormControl, FormGroup} from '@angular/forms';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+search = new FormControl();
 
 }
