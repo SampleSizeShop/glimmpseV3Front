@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-solve-for',
@@ -10,6 +11,11 @@ import {Subscription} from 'rxjs/Subscription';
 export class SolveForComponent implements OnInit {
   private _solveFor: string;
   private _targetEvent: string;
+
+  power = new FormControl();
+  sampleSize = new FormControl();
+  ciwidth = new FormControl();
+
   targetEventSubscription: Subscription;
 
   constructor(private study_service: StudyService) {

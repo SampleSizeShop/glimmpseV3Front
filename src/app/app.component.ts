@@ -9,5 +9,4 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class AppComponent {
 search = new FormControl();
-
 }

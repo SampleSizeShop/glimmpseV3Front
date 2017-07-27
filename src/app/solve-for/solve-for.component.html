@@ -1,13 +1,13 @@
 <fieldset>
   <div class="btn-group" data-toggle="buttons">
     <label *ngIf="isRejection()" aria-pressed="true" class="btn btn-primary" [class.active]="isPower()">
-      <input type="radio" id="PowerButton" (click)="selectPower()"> Power
+      <input type="radio" id="powerbtn" (click)="selectPower()"> Power
     </label>
     <label *ngIf="isCIWidth() || isWAVR()" aria-pressed="true" class="btn btn-primary" [class.active]="isPower()">
-      <input type="radio" id="ProbabilityButton" (click)="selectPower()"> Probability
+      <input type="radio" id="probabilitybtn" (click)="selectPower()"> Probability
     </label>
     <label class="btn btn-primary" aria-pressed="true" [class.active]="isSampleSize()">
-      <input type="radio" id="SAMPLESIZE" (click)="selectSampleSize()"> Sample Size
+      <input type="radio" id="samplesizebtn" (click)="selectSampleSize()"> Sample Size
     </label>
   </div>
   <div>
@@ -22,16 +22,6 @@
         Still, a man hears what he wants to hear
         And disregards the rest
       </p>
-      <div class="form-group">
-        <label for="samplesize">Enter your sample size:</label>
-        <input type="number" class="form-control" id="samplesize" aria-describedby="samplesizehelp" placeholder="Choose a number from 1 -> 1000">
-        <small id="samplesizehelp" class="form-text text-muted">Sample size must be an integer between 1 >= x > 1000</small>
-      </div>
-      <div class="form-group" *ngIf="isCIWidth() || isWAVR()">
-        <label for="ciwidth">Confidence Interval Width:</label>
-        <input type="number" class="form-control" id="ciwidth" aria-describedby="ciwidthhelp" placeholder="Choose a between 0 -> 10">
-        <small id="ciwidthhelp" class="form-text text-muted">Sample size must be an integer between 0 > x > 10</small>
-      </div>
     </div>
     <div *ngIf="isSampleSize()">
       <p>
@@ -45,19 +35,32 @@
         But the fighter still remains
         Still remains
       </p>
-      <div class="form-group">
-        <label for="power" ng-non-bindable *ngIf="isRejection()">Probability &#123;Reject null&#125;:</label>
-        <label for="power" ng-non-bindable *ngIf="isCIWidth()">Probability &#123;achieve CI Width&#125;:</label>
-        <label for="power" ng-non-bindable *ngIf="isWAVR()">Probability &#123;WAVR&#125;:</label>
-        <input type="number" class="form-control" id="power" name="power" [formControl]="solveFor" aria-describedby="powerhelp" placeholder="Choose a number between 0 -> 1">
-        <small id="powerhelp" class="form-text text-muted">Sample size must be an integer between 0 > x > 1</small>
-      </div>
+    </div>
+    <div class="form-group" *ngIf="isPower()">
+      <label for="samplesize">Enter your sample size:</label>
+      <input type="number" class="form-control" id="samplesize" aria-describedby="samplesizehelp" placeholder="Choose a number from 1 -> 1000" [formControl]="power">
+      <small id="samplesizehelp" class="form-text text-muted">Sample size must be an integer between 1 >= x > 1000</small>
+    </div>
+    <div class="form-group" *ngIf="isSampleSize()">
+      <label for="power" ng-non-bindable *ngIf="isRejection()">Probability &#123;Reject null&#125;:</label>
+      <label for="power" ng-non-bindable *ngIf="isCIWidth()">Probability &#123;achieve CI Width&#125;:</label>
+      <label for="power" ng-non-bindable *ngIf="isWAVR()">Probability &#123;WAVR&#125;:</label>
+      <input type="number" class="form-control" id="power" name="power" aria-describedby="powerhelp" placeholder="Choose a number between 0 -> 1" [formControl]="sampleSize">
+      <small id="powerhelp" class="form-text text-muted">Sample size must be an integer between 0 > x > 1</small>
       <div class="form-group" *ngIf="isCIWidth() || isWAVR()">
-        <label for="ciwidthtwo">Confidence Interval Width:</label>
-        <input type="number" class="form-control" id="ciwidthtwo" aria-describedby="ciwidthhelptwo" placeholder="Choose a number between 0 -> 10">
-        <small id="ciwidthhelptwo" class="form-text text-muted">Sample size must be an integer between 0 > x > 10</small>
+        <label for="ciwidth">Confidence Interval Width:</label>
+        <input type="number" class="form-control" id="ciwidth" aria-describedby="ciwidthhelp" placeholder="Choose a number between 0 -> 10" [formControl]="ciwidth">
+        <small id="ciwidthhelp" class="form-text text-muted">Sample size must be an integer between 0 > x > 10</small>
       </div>
     </div>
   </div>
 </fieldset>
 <small>Target event: {{targetEvent}}</small>
+<small>isPower: {{isPower()}}</small>
+<small>isSampleSize: {{isSampleSize()}}</small>
+<small>isRejection: {{isRejection()}}</small>
+<small>isCIWidth: {{isCIWidth()}}</small>
+<small>isWAVR: {{isWAVR()}}</small>
+<p>SOLVE FOR: {{solveFor}}</p>
+
+
