@@ -13,24 +13,14 @@
   </div>
   <div>
     <p *ngIf="isRejection()">
-      We'd like to know a little bit about you for our files
-      We'd like to help you learn to help yourself
-      Look around you all you see are sympathetic eyes
-      Stroll around the grounds until you feel at home
+      An event ‘rejection’ is said to occur if the confidence interval excludes the null value of the parameter. The Probability &#123;Rejection&#125; refers to the probability of rejecting the null hypothesis – also referenced as the Power of the study.  In this context, the goal is to find an adequate sample size for given the power the investigator would like to achieve.
     </p>
     <p *ngIf="isCIWidth()">
-      Hide it in the hiding place where no one ever goes
-      Put it in your pantry with your cupcakes
-      It's a little secret just the Robinson's affair
-      Most of all you've got to hide it from the kids
+      An event ‘width’ is said to occur if the observed confidence interval width is less than a fixed constant chosen a priori. The Probability &#123;CI Width&#125; refers to the probability of achieving that event.  In this context, the goal is to find an adequate sample size given the probability the investigator would like to achieve.
     </p>
     <p *ngIf="isWAVR()">
-      Sitting on a sofa on a Sunday afternoon
-      Going to the candidates' debate
-      Laugh about it, shout about it
-      When you've got to choose
-      Every way you look at this you lose
+      An event ‘validity’ is said to occur if the parameter of interest is contained between the observed upper and lower confidence interval bounds. The Probability &#123;WAVR&#125; refers to the probability of achieving the Width AND a valid rejection of the null hypothesis.  In this context, the goal is to find an adequate sample size given the probability the investigator would like to achieve.
     </p>
   </div>
 </fieldset>
-TARGET EVENT IN CHILD {{targetEvent}}
+

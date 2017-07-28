@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-solve-for',
@@ -11,21 +11,24 @@ import {FormControl, FormGroup} from '@angular/forms';
 export class SolveForComponent implements OnInit {
   private _solveFor: string;
   private _targetEvent: string;
-
-  powerSampleSizeForm = new FormGroup({
-    power: new FormControl(),
-    sampleSize: new FormControl(),
-    ciwidth: new FormControl()
-  });
-
+  powerSampleSizeForm: FormGroup;
   targetEventSubscription: Subscription;
 
-  constructor(private study_service: StudyService) {
+  constructor(private study_service: StudyService, private fb: FormBuilder) {
     this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
       targetEvent => {
         this.targetEvent = targetEvent;
       }
     )
+    this.createForm();
+  }
+
+  createForm(): void {
+    this.powerSampleSizeForm = this.fb.group({
+      power: '',
+      sampleSize: '',
+      ciwidth: ''
+    })
   }
 
   isRejection(): boolean {
