@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {Subject} from 'rxjs/Subject';
 
 
 @Component({
