@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetEventComponent } from './target-event.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {StudyService} from '../shared/study.service';
+import {MockBackend} from '@angular/http/testing';
+import {Http} from '@angular/http';
 
 describe('TargetEventComponent', () => {
   let component: TargetEventComponent;
@@ -8,7 +12,9 @@ describe('TargetEventComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TargetEventComponent ]
+      imports: [ ReactiveFormsModule ],
+      declarations: [ TargetEventComponent ],
+      providers: [ StudyService, { provide: Http, useClass: MockBackend } ]
     })
     .compileComponents();
   }));
