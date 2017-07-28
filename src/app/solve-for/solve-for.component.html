@@ -1,18 +1,19 @@
 <form [formGroup]="powerSampleSizeForm" novalidate>
+  <h5>Solve for:</h5>
   <fieldset>
     <div class="btn-group" data-toggle="buttons">
-      <label *ngIf="isRejection()" aria-pressed="true" class="btn btn-primary" [class.active]="isPower()">
-        <input type="radio" id="powerbtn" (click)="selectPower()"> Power
+      <label *ngIf="isRejection()" aria-pressed="true" class="btn btn-primary" [class.active]="isPower()" id="powerbtn">
+        <input type="radio" id="powerradio" (click)="selectPower()"> Power
       </label>
-      <label *ngIf="isCIWidth() || isWAVR()" aria-pressed="true" class="btn btn-primary" [class.active]="isPower()">
-        <input type="radio" id="probabilitybtn" (click)="selectPower()"> Probability
+      <label *ngIf="isCIWidth() || isWAVR()" aria-pressed="true" class="btn btn-primary" [class.active]="isPower()" id="probabilitybtn">
+        <input type="radio" id="probabilityradio" (click)="selectPower()"> Probability
       </label>
-      <label class="btn btn-primary" aria-pressed="true" [class.active]="isSampleSize()">
-        <input type="radio" id="samplesizebtn" (click)="selectSampleSize()"> Sample Size
+      <label class="btn btn-primary" aria-pressed="true" [class.active]="isSampleSize()" id="samplesizebtn">
+        <input type="radio" id="samplesizeradio" (click)="selectSampleSize()"> Sample Size
       </label>
     </div>
     <div>
-      <div *ngIf="isPower()">
+      <div *ngIf="isPower()" id="samplesizedesc">
         <p>
           I am just a poor boy
           Though my story's seldom told
@@ -24,7 +25,7 @@
           And disregards the rest
         </p>
       </div>
-      <div *ngIf="isSampleSize()">
+      <div *ngIf="isSampleSize()" id="powerdesc">
         <p>
           In the clearing stands a boxer
           And a fighter by his trade
@@ -37,15 +38,15 @@
           Still remains
         </p>
       </div>
-      <div class="form-group" *ngIf="isPower()">
+      <div class="form-group" *ngIf="isPower()" id="samplesizeinput">
         <label for="samplesize">Enter your sample size:</label>
         <input type="number" class="form-control" id="samplesize" aria-describedby="samplesizehelp" placeholder="Choose a number from 1 -> 1000" formControlName="sampleSize">
         <small id="samplesizehelp" class="form-text text-muted">Sample size must be an integer between 1 >= x > 1000</small>
       </div>
-      <div class="form-group" *ngIf="isSampleSize()">
-        <label for="power" ng-non-bindable *ngIf="isRejection()">Probability &#123;Reject null&#125;:</label>
-        <label for="power" ng-non-bindable *ngIf="isCIWidth()">Probability &#123;achieve CI Width&#125;:</label>
-        <label for="power" ng-non-bindable *ngIf="isWAVR()">Probability &#123;WAVR&#125;:</label>
+      <div class="form-group" *ngIf="isSampleSize()" id="powerinput">
+        <label for="power" ng-non-bindable *ngIf="isRejection()" id="rejectnulllbl">Probability &#123;Reject null&#125;:</label>
+        <label for="power" ng-non-bindable *ngIf="isCIWidth()" id="achieveciwidthlbl">Probability &#123;achieve CI Width&#125;:</label>
+        <label for="power" ng-non-bindable *ngIf="isWAVR()" id="probwavrlbl">Probability &#123;WAVR&#125;:</label>
         <input type="number" class="form-control" id="power" aria-describedby="powerhelp" placeholder="Choose a number between 0 -> 1" formControlName="power">
         <small id="powerhelp" class="form-text text-muted">Sample size must be an integer between 0 > x > 1</small>
         <div class="form-group" *ngIf="isCIWidth() || isWAVR()">
