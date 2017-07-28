@@ -1,18 +1,18 @@
 <fieldset>
 <h5>Choose study design mode:</h5>
 <div class="btn-group" data-toggle="buttons">
-  <label aria-pressed="true" class="btn btn-primary" [class.active]="guided">
+  <label aria-pressed="true" class="btn btn-primary" [class.active]="guided" id="guidedbtn">
     <input type="radio" id="GUIDED" (click)="selectGuided()"> Guided Mode
   </label>
-  <label class="btn btn-primary" aria-pressed="true" [class.active]="!guided">
+  <label class="btn btn-primary" aria-pressed="true" [class.active]="!guided" id="flexbtn">
     <input type="radio" id="FLEXIBLE" (click)="selectFlex()"> Flexible Mode
   </label>
 </div>
 <div>
-  <p *ngIf="!guided">
+  <p *ngIf="!guided" id="flexdesc">
     Enter the features of your study design in any order you choose.
   </p>
-  <p *ngIf="guided">
+  <p *ngIf="guided" id="guideddesc">
     Let us walk you through the steps required to design your study.
   </p>
 </div>

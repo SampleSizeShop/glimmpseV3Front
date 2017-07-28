@@ -19,13 +19,29 @@ describe('TargetEventComponent', () => {
     .compileComponents();
   }));
 
+  it('select RejectionOnly should ste targetEvent to rejection', () => {
+    component.selectRejectionOnly();
+    expect(component.isRejection())
+  });
+
+  it('select CI Width should ste targetEvent to CI width', () => {
+    component.selectCIWidth();
+    expect(component.isCIWidth())
+  });
+
+  it('select WAVR should ste targetEvent to WAVR', () => {
+    component.selectCIWidth();
+    expect(component.isCIWidth())
+  });
+
   beforeEach(() => {
     fixture = TestBed.createComponent(TargetEventComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should be created', () => {
+  it('should be created with rejection selected', () => {
     expect(component).toBeTruthy();
+    component.isRejection()
   });
 });
