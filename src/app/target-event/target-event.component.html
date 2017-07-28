@@ -1,24 +1,24 @@
 <fieldset>
   <h5>Choose target event:</h5>
   <div class="btn-group" data-toggle="buttons">
-    <label aria-pressed="true" class="btn btn-primary" [class.active]="isRejection()">
+    <label aria-pressed="true" class="btn btn-primary" [class.active]="isRejection()" id="rejectionbtn">
       <input type="radio" id="REJECTION" (click)="selectRejectionOnly()"> Rejection Only
     </label>
-    <label class="btn btn-primary" aria-pressed="true" [class.active]="isCIWidth()">
+    <label class="btn btn-primary" aria-pressed="true" [class.active]="isCIWidth()" id="ciwidthbtn">
       <input type="radio" id="CIWIDTH" (click)="selectCIWidth()"> CI Width Only
     </label>
-    <label class="btn btn-primary" aria-pressed="true" [class.active]="isWAVR()">
+    <label class="btn btn-primary" aria-pressed="true" [class.active]="isWAVR()" id="wavrbtn">
       <input type="radio" id="WAVR" (click)="selectWAVR()"> WAVR
     </label>
   </div>
   <div>
-    <p *ngIf="isRejection()">
+    <p *ngIf="isRejection()" id="rejectiondesc">
       An event ‘rejection’ is said to occur if the confidence interval excludes the null value of the parameter. The Probability &#123;Rejection&#125; refers to the probability of rejecting the null hypothesis – also referenced as the Power of the study.  In this context, the goal is to find an adequate sample size for given the power the investigator would like to achieve.
     </p>
-    <p *ngIf="isCIWidth()">
+    <p *ngIf="isCIWidth()" id="ciwidthdesc">
       An event ‘width’ is said to occur if the observed confidence interval width is less than a fixed constant chosen a priori. The Probability &#123;CI Width&#125; refers to the probability of achieving that event.  In this context, the goal is to find an adequate sample size given the probability the investigator would like to achieve.
     </p>
-    <p *ngIf="isWAVR()">
+    <p *ngIf="isWAVR()" id="wavrdesc">
       An event ‘validity’ is said to occur if the parameter of interest is contained between the observed upper and lower confidence interval bounds. The Probability &#123;WAVR&#125; refers to the probability of achieving the Width AND a valid rejection of the null hypothesis.  In this context, the goal is to find an adequate sample size given the probability the investigator would like to achieve.
     </p>
   </div>
