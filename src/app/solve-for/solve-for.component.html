@@ -51,10 +51,16 @@
         <label for="power" ng-non-bindable *ngIf="isCIWidth()" id="achieveciwidthlbl">Probability &#123;achieve CI Width&#125;:</label>
         <label for="power" ng-non-bindable *ngIf="isWAVR()" id="probwavrlbl">Probability &#123;WAVR&#125;:</label>
         <input type="number" class="form-control" id="power" aria-describedby="powerhelp" placeholder="Choose a number between 0 -> 1" formControlName="power">
+        <div *ngIf="formErrors.power" class="alert alert-danger">
+          <div class="form-control-feedback">{{formErrors.power}}</div>
+        </div>
         <small id="powerhelp" class="form-text text-muted">Power must be an integer between 0 > x > 1</small>
         <div class="form-group" *ngIf="isCIWidth() || isWAVR()">
           <label for="ciwidth">Confidence Interval Width:</label>
           <input type="number" class="form-control" id="ciwidth" aria-describedby="ciwidthhelp" placeholder="Choose a number between 0 -> 10" formControlName="ciwidth">
+          <div *ngIf="formErrors.ciwidth" class="alert alert-danger">
+            <div class="form-control-feedback">{{formErrors.ciwidth}}</div>
+          </div>
           <small id="ciwidthhelp" class="form-text text-muted">Confidence Interval width must be an integer between 0 > x > 10</small>
         </div>
       </div>
