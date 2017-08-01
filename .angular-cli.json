@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "../styles/bootstrap.yeti.min.css",
+        "../styles/bootstrap.min.css",
         "styles.scss"
       ],
       "scripts": [],

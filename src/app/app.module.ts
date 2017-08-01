@@ -28,7 +28,7 @@ import {LoggerModule} from 'ngx-logger';
     SolveForComponent
   ],
   imports: [
-    LoggerModule.forRoot({serverLoggingUrl: 'http://127.0.0.1:5000/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'}),
+    LoggerModule.forRoot({serverLoggingUrl: 'http://127.0.0.1:5000/api/clientsidelog', level: 'DEBUG'} ),
     BsDropdownModule.forRoot(),
     BrowserModule,
     ReactiveFormsModule,

@@ -2,15 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn} from '@angular/forms';
-import {VALID} from '@angular/forms/src/model';
+import {LoggerModule, NGXLogger} from 'ngx-logger';
 
-
-export function minMaxValidator(min: number, max: number): ValidatorFn {
+export function minMaxValidator(min: number, max: number, logger?: NGXLogger): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
     const val = control.value;
     if (val < min) {
+      if (logger) {
+        logger.error('value is less than ' + min )
+      }
       return { 'minval': val }
     } else if ( val > max ) {
+      if (logger) {
+        logger.error('value greater less than max ' + max )
+      }
       return { 'maxval': val }
     } else {
       return null;
@@ -21,15 +26,14 @@ export function minMaxValidator(min: number, max: number): ValidatorFn {
 @Component({
   selector: 'app-solve-for',
   templateUrl: './solve-for.component.html',
-  styleUrls: ['./solve-for.component.scss']
+  styleUrls: ['./solve-for.component.scss'],
+  providers: [NGXLogger]
 })
 export class SolveForComponent implements OnInit {
   private _solveFor: string;
   private _targetEvent: string;
   powerSampleSizeForm: FormGroup;
   targetEventSubscription: Subscription;
-  accessed = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  disp=0;
   formErrors = {
     'power': '',
     'samplesize': '',
@@ -48,7 +52,7 @@ export class SolveForComponent implements OnInit {
       'maxval':     'Value too high' }
   };
 
-  constructor(private study_service: StudyService, private fb: FormBuilder) {
+  constructor(private study_service: StudyService, private fb: FormBuilder, private logger: NGXLogger) {
     this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
       targetEvent => {
         this.targetEvent = targetEvent;
@@ -59,9 +63,9 @@ export class SolveForComponent implements OnInit {
 
   buildForm(): void {
     this.powerSampleSizeForm = this.fb.group({
-      power: ['0.5', minMaxValidator(0, 1)],
-      sampleSize: ['10', minMaxValidator(1, 1000)],
-      ciwidth: ['1', minMaxValidator(0, 10)]
+      power: ['0.5', minMaxValidator(0, 1, this.logger)],
+      samplesize: ['10', minMaxValidator(1, 1000, this.logger)],
+      ciwidth: ['1', minMaxValidator(0, 10, this.logger)]
     });
 
     this.powerSampleSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -71,26 +75,22 @@ export class SolveForComponent implements OnInit {
 
 
   onValueChanged(data?: any) {
-    if (!this.powerSampleSizeForm) { return; }
+    if (!this.powerSampleSizeForm) {
+      return;
+    }
     const form = this.powerSampleSizeForm;
 
     for (const field in this.formErrors) {
-      console.log('Error Field: ' + field)
-      console.log('formErrors[Field]: ' + this.formErrors[field])
-      // clear previous error message (if any)
       this.formErrors[field] = '';
-      console.log('form.get(field) ' + form.get(field))
       const control = form.get(field);
-
       if (control && control.dirty && !control.valid) {
-        console.log('messages: ' + this.validationMessages[field])
         const messages = this.validationMessages[field];
         for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
+            this.formErrors[field] += messages[key] + ' ';
         }
       }
     }
-  }
+   }
 
   isRejection(): boolean {
     return this.targetEvent === 'REJECTION';

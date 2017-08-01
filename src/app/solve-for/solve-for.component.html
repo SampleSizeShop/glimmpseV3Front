@@ -40,9 +40,9 @@
       </div>
       <div class="form-group" *ngIf="isPower()" id="samplesizeinput">
         <label for="samplesize">Enter your sample size:</label>
-        <input type="number" class="form-control" id="samplesize" aria-describedby="samplesizehelp" placeholder="Choose a number from 1 -> 1000" formControlName="sampleSize">
-        <div *ngIf="powerSampleSizeForm.status === 'INVALID'" class="form-group has-danger">
-          <div class="form-control-feedback">Value too high</div>
+        <input type="number" class="form-control" id="samplesize" aria-describedby="samplesizehelp" placeholder="Choose a number from 1 -> 1000" formControlName="samplesize">
+        <div *ngIf="formErrors.samplesize" class="alert alert-danger">
+          <div class="form-control-feedback">{{formErrors.samplesize}}</div>
         </div>
         <small id="samplesizehelp" class="form-text text-muted">Sample size must be an integer between 1 >= x > 1000</small>
       </div>
@@ -61,6 +61,12 @@
     </div>
   </fieldset>
   <small>Target event: {{targetEvent}}</small>
+  <p>
+    <small>Form status {{powerSampleSizeForm.status}}</small>
+  </p>
+  <p>
+    <small>Form errors (samplesize) {{formErrors.samplesize}}</small>
+  </p>
 </form>
 
 

@@ -43,7 +43,6 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    this.logger.warn('Clicked Next')
     if ( this.getStage() === 'MODE' && this.guided ) {
       this.setStage( 'TARGET_EVENT' )
     } else if ( this.getStage() === 'TARGET_EVENT' && this.guided ) {

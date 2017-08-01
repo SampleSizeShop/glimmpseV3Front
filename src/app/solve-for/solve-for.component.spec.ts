@@ -7,6 +7,8 @@ import {Http} from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {LoggerModule, NGXLogger} from "ngx-logger";
+import {NGXLoggerMock} from 'ngx-logger';
 
 describe('SolveForComponent', () => {
   let component: SolveForComponent;
@@ -14,9 +16,11 @@ describe('SolveForComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ ReactiveFormsModule ],
+      imports: [
+        ReactiveFormsModule,
+        LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})],
       declarations: [ SolveForComponent ],
-      providers: [ StudyService, { provide: Http, useClass: MockBackend } ]
+      providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();
   }));
