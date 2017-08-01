@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MathJaxService } from './shared/mathjax.service';
+import { MathJaxService } from './mathjax/mathjax.service';
 import { MathJaxComponent } from './mathjax/mathjax.component';
 import { MathJaxDirective } from './mathjax/mathjax.directive';
 
@@ -15,6 +15,7 @@ import { UserModeComponent } from './user-mode/user-mode.component';
 import { StudyFormComponent } from './study-form/study-form.component';
 import { TargetEventComponent } from './target-event/target-event.component';
 import { SolveForComponent } from './solve-for/solve-for.component';
+import {LoggerModule} from 'ngx-logger';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SolveForComponent } from './solve-for/solve-for.component';
     SolveForComponent
   ],
   imports: [
+    LoggerModule.forRoot({serverLoggingUrl: 'http://127.0.0.1:5000/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'}),
     BsDropdownModule.forRoot(),
     BrowserModule,
     ReactiveFormsModule,

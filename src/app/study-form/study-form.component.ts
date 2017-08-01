@@ -1,13 +1,14 @@
 import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
+import {NGXLogger} from 'ngx-logger';
 
 
 @Component({
   selector: 'app-study-form',
   templateUrl: './study-form.component.html',
   styleUrls: ['./study-form.component.scss'],
-  providers: [StudyService]
+  providers: [StudyService, NGXLogger]
 })
 export class StudyFormComponent implements OnInit, OnDestroy {
   valid = false;
@@ -18,7 +19,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   targetEventSubscription: Subscription;
   solveForSubscription: Subscription;
 
-  constructor(private study_service: StudyService) {
+  constructor(private study_service: StudyService, private logger: NGXLogger) {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
         this.guided = guided;
@@ -42,6 +43,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
+    this.logger.warn('Clicked Next')
     if ( this.getStage() === 'MODE' && this.guided ) {
       this.setStage( 'TARGET_EVENT' )
     } else if ( this.getStage() === 'TARGET_EVENT' && this.guided ) {
