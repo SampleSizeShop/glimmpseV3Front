@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn} from '@angular/forms';
-import {LoggerModule, NGXLogger} from 'ngx-logger';
+import {NGXLogger} from 'ngx-logger';
+import {trigger, state, style, animate, transition} from '@angular/animations';
 
 export function minMaxValidator(min: number, max: number, logger?: NGXLogger): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
