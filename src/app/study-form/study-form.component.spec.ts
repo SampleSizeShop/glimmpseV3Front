@@ -30,7 +30,6 @@ describe('StudyFormComponent', () => {
     fixture.detectChanges();
 
     getSpy = spyOn(component, 'getStage');
-    spyOn(component, 'setNextBack');
     spyOn(component, 'setStage');
   }));
 
@@ -45,7 +44,6 @@ describe('StudyFormComponent', () => {
         component.next();
       }
       expect(component.setStage).toHaveBeenCalledTimes(component.noStages - 1);
-      expect(component.setNextBack).toHaveBeenCalledTimes(component.noStages)
     } else {
       expect(false)
     }
@@ -58,7 +56,6 @@ describe('StudyFormComponent', () => {
         component.next();
       }
       expect(component.setStage).toHaveBeenCalledTimes(component.noStages - 1);
-      expect(component.setNextBack).toHaveBeenCalledTimes(component.noStages)
     } else {
       expect(false)
     }
