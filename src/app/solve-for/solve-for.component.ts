@@ -3,25 +3,7 @@ import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn} from '@angular/forms';
 import {NGXLogger} from 'ngx-logger';
-
-export function minMaxValidator(min: number, max: number, logger?: NGXLogger): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} => {
-    const val = control.value;
-    if (val < min) {
-      if (logger) {
-        logger.error('value is less than ' + min )
-      }
-      return { 'minval': val }
-    } else if ( val > max ) {
-      if (logger) {
-        logger.error('value greater less than max ' + max )
-      }
-      return { 'maxval': val }
-    } else {
-      return null;
-    }
-  }
-}
+import {minMaxValidator} from '../shared/minmax.validator';
 
 @Component({
   selector: 'app-solve-for',
@@ -41,13 +23,13 @@ export class SolveForComponent implements OnInit {
   };
   private _validationMessages = {
     'power': {
-      'minval':      'Value too low.',
+      'minval':     'Value too low.',
       'maxval':     'Value too high' },
     'samplesize': {
-      'minval':      'Value too low.',
+      'minval':     'Value too low.',
       'maxval':     'Value too high' },
     'ciwidth': {
-      'minval':      'Value too low.',
+      'minval':     'Value too low.',
       'maxval':     'Value too high' }
   };
 
@@ -71,7 +53,6 @@ export class SolveForComponent implements OnInit {
 
     this.onValueChanged(); // (re)set validation messages now
   }
-
 
   onValueChanged(data?: any) {
     if (!this.powerSampleSizeForm) {
@@ -165,11 +146,20 @@ export class SolveForComponent implements OnInit {
     this._targetEventSubscription = value;
   }
 
-  get validationMessages(): { power: { minval: string; maxval: string }; samplesize: { minval: string; maxval: string }; ciwidth: { minval: string; maxval: string } } {
+  get validationMessages(): {
+      power: { minval: string; maxval: string };
+      samplesize: { minval: string; maxval: string };
+      ciwidth: { minval: string; maxval: string }
+    }
+    {
     return this._validationMessages;
   }
 
-  set validationMessages(value: { power: { minval: string; maxval: string }; samplesize: { minval: string; maxval: string }; ciwidth: { minval: string; maxval: string } }) {
+  set validationMessages(value: {
+      power: { minval: string; maxval: string };
+      samplesize: { minval: string; maxval: string };
+      ciwidth: { minval: string; maxval: string }
+    }) {
     this._validationMessages = value;
   }
 }
