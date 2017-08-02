@@ -8,5 +8,13 @@ import {FormControl, FormGroup} from '@angular/forms';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-search = new FormControl();
+  private _search = new FormControl();
+
+  get search(): FormControl {
+    return this._search;
+  }
+
+  set search(value: FormControl) {
+    this._search = value;
+  }
 }
