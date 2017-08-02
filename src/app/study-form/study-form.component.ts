@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {NGXLogger} from 'ngx-logger';
@@ -12,6 +12,8 @@ import {environment} from 'environments/environment';
 })
 export class StudyFormComponent implements OnInit, OnDestroy {
   valid = false;
+  private _hasNext: boolean;
+  private _hasBack: boolean;
   guided: boolean;
   private _targetEvent: string;
   private _solveFor: string;
@@ -49,6 +51,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     if ( current < this._noStages &&  this.guided ) {
       this.setStage( current + 1 );
     }
+    this.setNextBack()
   }
 
   back(): void {
@@ -56,11 +59,28 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     if ( current > 1 &&  this.guided ) {
       this.setStage( current - 1 );
     }
+    this.setNextBack()
+  }
+
+  setNextBack(): void {
+    const current = this.getStage();
+    if ( current < this._noStages ) {
+      this.hasNext = true;
+    } else {
+      this.hasNext = false;
+    }
+    if ( current > 1 ) {
+      this.hasBack = true;
+    } else {
+      this.hasBack = false;
+    }
   }
 
   ngOnInit() {
     this._stages = environment.stages;
     this._noStages = Object.keys(this._stages).length;
+    this.hasNext = true;
+    this.hasBack = false;
   }
 
   ngOnDestroy() {
@@ -112,5 +132,22 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
   set stages(value) {
     this._stages = value;
+  }
+
+
+  get hasNext(): boolean {
+    return this._hasNext;
+  }
+
+  set hasNext(value: boolean) {
+    this._hasNext = value;
+  }
+
+  get hasBack(): boolean {
+    return this._hasBack;
+  }
+
+  set hasBack(value: boolean) {
+    this._hasBack = value;
   }
 }

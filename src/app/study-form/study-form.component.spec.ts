@@ -14,6 +14,7 @@ import any = jasmine.any;
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
   let fixture: ComponentFixture<StudyFormComponent>;
+  let getSpy;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,17 +25,28 @@ describe('StudyFormComponent', () => {
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();
+
+    fixture = TestBed.createComponent(StudyFormComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    getSpy = spyOn(component, 'getStage');
+    spyOn(component, 'setNextBack');
+    spyOn(component, 'setStage');
   }));
+
+  it('should be created', () => {
+    expect(component).toBeTruthy();
+  });
 
   it('Should set the stage when next is called', () => {
     if ( component.stages ) {
-      const getSpy = spyOn(component, 'getStage');
-      spyOn(component, 'setStage');
       for ( let i = 1 ; i <= component.noStages; i++ ) {
         getSpy.and.returnValue(i)
         component.next();
       }
       expect(component.setStage).toHaveBeenCalledTimes(component.noStages - 1);
+      expect(component.setNextBack).toHaveBeenCalledTimes(component.noStages)
     } else {
       expect(false)
     }
@@ -42,25 +54,40 @@ describe('StudyFormComponent', () => {
 
   it('Should set the stage when back is called unless we are ate stage 1', () => {
     if ( component.stages ) {
-      const getSpy = spyOn(component, 'getStage');
-      spyOn(component, 'setStage');
-      for ( let i = 1; i <= component.noStages; i++ ) {
+      for ( let i = 1 ; i <= component.noStages; i++ ) {
         getSpy.and.returnValue(i)
-        component.back();
+        component.next();
       }
       expect(component.setStage).toHaveBeenCalledTimes(component.noStages - 1);
+      expect(component.setNextBack).toHaveBeenCalledTimes(component.noStages)
     } else {
       expect(false)
     }
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(StudyFormComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  it('Should correctly set next and back boolean flags for the first stage', () => {
+    getSpy.and.returnValue(1);
+    component.setNextBack()
+    expect(component.hasBack)
+    expect(component.hasNext)
   });
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
+  it('Should correctly set next and back boolean flags for the middle stages', () => {
+    if ( component.noStages > 2 ) {
+      for ( let i = 2 ; i <= component.noStages; i++ ) {
+        getSpy.and.returnValue(i)
+        component.setNextBack()
+        expect(component.hasBack)
+        expect(component.hasNext)
+      }
+    }
   });
+
+  it('Should correctly set next and back boolean flags for the last stage', () => {
+    getSpy.and.returnValue(component.noStages);
+    component.setNextBack()
+    expect(component.hasBack)
+    expect(!component.hasNext)
+  });
+
 });

@@ -15,10 +15,10 @@
     <hr>
     <div class="d-flex justify-content-end">
       <div class="mr-auto p-2">
-        <button type="submit" class="btn btn-primary" *ngIf="'MODE' != getStageName()" (click)="back()">Back</button>
+        <button type="submit" class="btn btn-primary" *ngIf="hasBack" (click)="back()">Back</button>
       </div>
       <div class="p-2">
-        <button type="submit" class="btn btn-primary" (click)="next()" [class.disabled]="!valid">Next</button>
+        <button type="submit" class="btn btn-primary" *ngIf="hasNext" (click)="next()" [class.disabled]="!valid">Next</button>
       </div>
     </div>
   </div>
