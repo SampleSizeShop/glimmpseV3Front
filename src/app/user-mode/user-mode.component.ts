@@ -25,7 +25,6 @@ export class UserModeComponent implements OnInit {
   private updateForm() {
     this.guided = this.study_service.guided;
     this.study_service.selectMode(this.guided);
-    this.study_service.next = 'TARGET_EVENT';
   }
 
   ngOnInit() {

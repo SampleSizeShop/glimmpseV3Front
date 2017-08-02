@@ -3,19 +3,19 @@
 </div>
 <div class="jumbotron">
   <div class="container">
-    <div class="d-flex justify-content-start"  *ngIf="'MODE' === getStage()">
+    <div class="d-flex justify-content-start"  *ngIf="'MODE' === getStageName()">
       <app-user-mode></app-user-mode>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'TARGET_EVENT' === getStage()">
+    <div class="d-flex justify-content-start" *ngIf="'TARGET_EVENT' === getStageName()">
       <app-target-event></app-target-event>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'SOLVE_FOR' === getStage()">
+    <div class="d-flex justify-content-start" *ngIf="'SOLVE_FOR' === getStageName()">
       <app-solve-for></app-solve-for>
     </div>
     <hr>
     <div class="d-flex justify-content-end">
       <div class="mr-auto p-2">
-        <button type="submit" class="btn btn-primary" *ngIf="'MODE' != getStage()" (click)="back()">Back</button>
+        <button type="submit" class="btn btn-primary" *ngIf="'MODE' != getStageName()" (click)="back()">Back</button>
       </div>
       <div class="p-2">
         <button type="submit" class="btn btn-primary" (click)="next()" [class.disabled]="!valid">Next</button>

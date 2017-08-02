@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {NGXLogger} from 'ngx-logger';
-
+import {environment} from 'environments/environment';
 
 @Component({
   selector: 'app-study-form',
@@ -18,6 +18,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   modeSubscription: Subscription;
   targetEventSubscription: Subscription;
   solveForSubscription: Subscription;
+  private _stages;
+  private _noStages: number;
 
   constructor(private study_service: StudyService, private logger: NGXLogger) {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
@@ -43,24 +45,23 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    if ( this.getStage() === 'MODE' && this.guided ) {
-      this.setStage( 'TARGET_EVENT' )
-    } else if ( this.getStage() === 'TARGET_EVENT' && this.guided ) {
-      this.setStage( 'SOLVE_FOR' )
-    } else if ( this.getStage() === 'SOLVE_FOR' && this.guided ) {
-      this.setStage( 'SOLVE_FOR' )
+    const current = this.getStage();
+    if ( current < this._noStages &&  this.guided ) {
+      this.setStage( current + 1 );
     }
   }
 
   back(): void {
-    if ( this.getStage() === 'TARGET_EVENT' ) {
-      this.setStage( 'MODE' )
-    } else if ( this.getStage() === 'SOLVE_FOR' ) {
-      this.setStage( 'TARGET_EVENT' )
+    const current = this.getStage();
+    if ( current > 1 &&  this.guided ) {
+      this.setStage( current - 1 );
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._stages = environment.stages;
+    this._noStages = Object.keys(this._stages).length;
+  }
 
   ngOnDestroy() {
     this.modeSubscription.unsubscribe();
@@ -68,11 +69,14 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.solveForSubscription.unsubscribe();
   }
 
-  getStage(): string {
-    return this.study_service.stage;
+  getStageName(): string {
+    return this._stages[this.study_service.stage];
   }
 
-  setStage(stage: string): void {
+  getStage(): number {
+    return this.study_service.stage;
+  }
+  setStage(stage: number): void {
     this.study_service.stage = stage;
   }
 
@@ -91,5 +95,22 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
   set solveFor(value: string) {
     this._solveFor = value;
+  }
+
+
+  get noStages(): number {
+    return this._noStages;
+  }
+
+  set noStages(value: number) {
+    this._noStages = value;
+  }
+
+  get stages() {
+    return this._stages;
+  }
+
+  set stages(value) {
+    this._stages = value;
   }
 }

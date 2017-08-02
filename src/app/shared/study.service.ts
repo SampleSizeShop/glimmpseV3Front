@@ -1,16 +1,18 @@
-import {Injectable, ViewChild} from '@angular/core';
+import {Injectable, OnInit, ViewChild} from '@angular/core';
 import {StudyDesign} from './study-design';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {environment} from 'environments/environment';
 
 @Injectable()
 export class StudyService {
   private _study: StudyDesign;
-  private _stage: string;
+  private _stage: number;
   private _next: string;
   private _targetEvent: string;
+  private _stages;
 
   // user mode observale stream
   private _modeSelectedSource = new Subject<boolean>();
@@ -36,7 +38,8 @@ export class StudyService {
 
   constructor(private  http: Http) {
     this._study = new StudyDesign();
-    this._stage = 'MODE'
+    this._stages = environment.stages;
+    this._stage = 1;
   }
 
   get guided(){
@@ -55,11 +58,11 @@ export class StudyService {
     this._study = value;
   }
 
-  get stage(): string {
+  get stage(): number {
     return this._stage;
   }
 
-  set stage(value: string) {
+  set stage(value: number) {
     this._stage = value;
   }
 
