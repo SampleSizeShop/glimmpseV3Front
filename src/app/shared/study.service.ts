@@ -1,11 +1,11 @@
-import {Injectable, OnInit, ViewChild} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {StudyDesign} from './study-design';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {environment} from 'environments/environment';
 import {Observable} from 'rxjs/Observable';
+import {constants} from './constants';
 
 @Injectable()
 export class StudyService {
@@ -20,7 +20,7 @@ export class StudyService {
   private _modeSelected$ = this._modeSelectedSource.asObservable();
 
   // target event observable stream
-  private _targetEventSource = new BehaviorSubject<string>('REJECTION');
+  private _targetEventSource = new BehaviorSubject<string>(constants.REJECTION_EVENT);
   private _targetEventSelected$ = this._targetEventSource.asObservable();
 
   // solve for observable stream
@@ -39,7 +39,7 @@ export class StudyService {
 
   constructor(private  http: Http) {
     this._study = new StudyDesign();
-    this._stages = environment.stages;
+    this._stages = constants.STAGES;
     this._stage = 1;
   }
 

@@ -6,12 +6,12 @@ export function minMaxValidator(min: number, max: number, logger?: NGXLogger): V
     const val = control.value;
     if (val < min) {
       if (logger) {
-        logger.error('value is less than ' + min )
+        logger.debug('value is less than ' + min )
       }
       return { 'minval': val }
     } else if ( val > max ) {
       if (logger) {
-        logger.error('value greater less than max ' + max )
+        logger.debug('value greater less than max ' + max )
       }
       return { 'maxval': val }
     } else {

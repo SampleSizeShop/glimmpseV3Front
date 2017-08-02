@@ -1,21 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { MathJaxService } from './mathjax/mathjax.service';
-import { MathJaxComponent } from './mathjax/mathjax.component';
-import { MathJaxDirective } from './mathjax/mathjax.directive';
+import {AppComponent} from './app.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
+import {MathJaxService} from './mathjax/mathjax.service';
+import {MathJaxComponent} from './mathjax/mathjax.component';
+import {MathJaxDirective} from './mathjax/mathjax.directive';
 
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing-module';
-import { UserModeComponent } from './user-mode/user-mode.component';
-import { StudyFormComponent } from './study-form/study-form.component';
-import { TargetEventComponent } from './target-event/target-event.component';
-import { SolveForComponent } from './solve-for/solve-for.component';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing-module';
+import {UserModeComponent} from './user-mode/user-mode.component';
+import {StudyFormComponent} from './study-form/study-form.component';
+import {TargetEventComponent} from './target-event/target-event.component';
+import {SolveForComponent} from './solve-for/solve-for.component';
 import {LoggerModule} from 'ngx-logger';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import {LoggerModule} from 'ngx-logger';
     SolveForComponent
   ],
   imports: [
-    LoggerModule.forRoot({serverLoggingUrl: 'http://127.0.0.1:5000/api/clientsidelog', level: 'DEBUG'} ),
+    LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),
     BsDropdownModule.forRoot(),
     BrowserModule,
     ReactiveFormsModule,

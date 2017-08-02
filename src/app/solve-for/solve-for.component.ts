@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {AbstractControl, FormBuilder, FormGroup, ValidatorFn} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../shared/minmax.validator';
+import {constants} from '../shared/constants';
 
 @Component({
   selector: 'app-solve-for',
@@ -16,22 +17,8 @@ export class SolveForComponent implements OnInit {
   private _targetEvent: string;
   private _powerSampleSizeForm: FormGroup;
   private _targetEventSubscription: Subscription;
-  private _formErrors = {
-    'power': '',
-    'samplesize': '',
-    'ciwidth': ''
-  };
-  private _validationMessages = {
-    'power': {
-      'minval':     'Value too low.',
-      'maxval':     'Value too high' },
-    'samplesize': {
-      'minval':     'Value too low.',
-      'maxval':     'Value too high' },
-    'ciwidth': {
-      'minval':     'Value too low.',
-      'maxval':     'Value too high' }
-  };
+  private _formErrors = constants.TARGET_EVENT_FORM_ERRORS;
+  private _validationMessages = constants.TARGET_EVENT_VALIDATION_MESSAGES;
 
   constructor(private study_service: StudyService, private fb: FormBuilder, private logger: NGXLogger) {
     this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
@@ -73,15 +60,15 @@ export class SolveForComponent implements OnInit {
    }
 
   isRejection(): boolean {
-    return this.targetEvent === 'REJECTION';
+    return this.targetEvent === constants.REJECTION_EVENT;
   }
 
   isCIWidth(): boolean {
-    return this.targetEvent === 'CIWIDTH';
+    return this.targetEvent === constants.CIWIDTH_EVENT;
   }
 
   isWAVR(): boolean {
-    return this.targetEvent === 'WAVR';
+    return this.targetEvent === constants.WAVR_EVENT;
   }
 
   ngOnInit() {
@@ -89,21 +76,21 @@ export class SolveForComponent implements OnInit {
   }
 
   selectPower() {
-    this.solveFor = 'POWER'
+    this.solveFor = constants.SOLVE_FOR_POWER;
     this.study_service.selectSolveFor(this.solveFor);
   }
 
   selectSampleSize() {
-    this.solveFor = 'SAMPLE_SIZE'
+    this.solveFor = constants.SOLVE_FOR_SAMPLESIZE;
     this.study_service.selectSolveFor(this.solveFor);
   }
 
   isPower(): boolean {
-    return this.solveFor === 'POWER';
+    return this.solveFor === constants.SOLVE_FOR_POWER;
   }
 
   isSampleSize(): boolean {
-    return this.solveFor === 'SAMPLE_SIZE';
+    return this.solveFor === constants.SOLVE_FOR_SAMPLESIZE;
   }
 
   get solveFor(): string {

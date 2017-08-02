@@ -1,8 +1,8 @@
-import {Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {NGXLogger} from 'ngx-logger';
-import {environment} from 'environments/environment';
+import {constants} from '../shared/constants';
 
 @Component({
   selector: 'app-study-form',
@@ -77,7 +77,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this._stages = environment.stages;
+    this._stages = constants.STAGES;
     this._noStages = Object.keys(this._stages).length;
     this.hasNext = true;
     this.hasBack = false;

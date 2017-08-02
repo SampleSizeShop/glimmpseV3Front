@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {StudyService} from '../shared/study.service';
+import {constants} from '../shared/constants';
 
 @Component({
   selector: 'app-target-event',
@@ -11,17 +12,17 @@ export class TargetEventComponent implements OnInit {
   constructor(private study_service: StudyService) { }
 
   selectRejectionOnly() {
-    this.targetEvent = 'REJECTION';
+    this.targetEvent = constants.REJECTION_EVENT;
     this.study_service.selectTargetEvent(this.targetEvent)
   }
 
   selectCIWidth() {
-    this.targetEvent = 'CIWIDTH';
+    this.targetEvent = constants.CIWIDTH_EVENT;
     this.study_service.selectTargetEvent(this.targetEvent)
   }
 
   selectWAVR() {
-    this.targetEvent = 'WAVR';
+    this.targetEvent = constants.WAVR_EVENT;
     this.study_service.selectTargetEvent(this.targetEvent)
   }
 
@@ -30,15 +31,15 @@ export class TargetEventComponent implements OnInit {
   }
 
   isRejection(): boolean {
-    return this.targetEvent === 'REJECTION';
+    return this.targetEvent === constants.REJECTION_EVENT;
   }
 
   isCIWidth(): boolean {
-    return this.targetEvent === 'CIWIDTH';
+    return this.targetEvent === constants.CIWIDTH_EVENT;
   }
 
   isWAVR(): boolean {
-    return this.targetEvent === 'WAVR';
+    return this.targetEvent === constants.WAVR_EVENT;
   }
 
   get targetEvent(): string {

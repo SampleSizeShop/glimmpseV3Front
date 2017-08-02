@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   name: 'dev',
-  stages: {1: 'MODE', 2: 'TARGET_EVENT', 3: 'SOLVE_FOR'}
+  serverLoggingUrl: 'http://127.0.0.1:5000/api/clientsidelog',
+  loglevel: 'DEBUG'
 };
