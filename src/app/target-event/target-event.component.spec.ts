@@ -21,6 +21,11 @@ describe('TargetEventComponent', () => {
     .compileComponents();
   }));
 
+  it('should be created with rejection selected', () => {
+    expect(component).toBeTruthy();
+    component.isRejection()
+  });
+
   it('select RejectionOnly should ste targetEvent to rejection', () => {
     component.selectRejectionOnly();
     expect(component.isRejection())
@@ -130,10 +135,5 @@ describe('TargetEventComponent', () => {
     const desc: DebugElement = fixture.debugElement.query(By.css('.active'));
     const el = desc.nativeElement;
     expect(el.id).toEqual('wavrbtn')
-  });
-
-  it('should be created with rejection selected', () => {
-    expect(component).toBeTruthy();
-    component.isRejection()
   });
 });

@@ -25,6 +25,10 @@ describe('UserModeComponent', () => {
     fixture.detectChanges();
   }));
 
+  it('should be created', () => {
+    expect(component).toBeTruthy();
+  });
+
   it('select Guided should select guided mode', () => {
     component.selectGuided();
     fixture.detectChanges();
@@ -81,9 +85,5 @@ describe('UserModeComponent', () => {
     const desc: DebugElement = fixture.debugElement.query(By.css('.active'));
     const el = desc.nativeElement;
     expect(el.id).toEqual('flexbtn')
-  });
-
-  it('should be created', () => {
-    expect(component).toBeTruthy();
   });
 });
