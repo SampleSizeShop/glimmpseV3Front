@@ -17,6 +17,8 @@ import {TargetEventComponent} from './target-event/target-event.component';
 import {SolveForComponent} from './solve-for/solve-for.component';
 import {LoggerModule} from 'ngx-logger';
 import {environment} from '../environments/environment';
+import { StatisticalTestsComponent } from './statistical-tests/statistical-tests.component';
+import { TypeOneErrorComponent } from './type-one-error/type-one-error.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import {environment} from '../environments/environment';
     UserModeComponent,
     StudyFormComponent,
     TargetEventComponent,
-    SolveForComponent
+    SolveForComponent,
+    StatisticalTestsComponent,
+    TypeOneErrorComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

@@ -9,6 +9,8 @@ import {SolveForComponent} from '../solve-for/solve-for.component';
 import {MockBackend} from '@angular/http/testing';
 import {Http} from '@angular/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {StatisticalTestsComponent} from '../statistical-tests/statistical-tests.component';
+import {TypeOneErrorComponent} from '../type-one-error/type-one-error.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -20,7 +22,7 @@ describe('StudyFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'}) ],
-      declarations: [ StudyFormComponent, UserModeComponent, TargetEventComponent, SolveForComponent ],
+      declarations: [ StudyFormComponent, UserModeComponent, TargetEventComponent, SolveForComponent, StatisticalTestsComponent, TypeOneErrorComponent ],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();

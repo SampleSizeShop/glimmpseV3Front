@@ -1,11 +1,14 @@
 export const constants = {
   // Guided mode stages and ordering
-  STAGES: {1: 'MODE', 2: 'TARGET_EVENT', 3: 'SOLVE_FOR'},
+  STAGES: {1: 'MODE', 2: 'TARGET_EVENT', 3: 'SOLVE_FOR', 4: 'STATISTICAL_TESTS', 5: 'TYPE_ONE_ERROR'},
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
     'power': '',
     'samplesize': '',
     'ciwidth': ''
+  },
+  TYPE_ONE_ERROR_ERRORS: {
+    'typeoneerror': ''
   },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
@@ -17,6 +20,12 @@ export const constants = {
       'maxval': 'Value too high'
     },
     'ciwidth': {
+      'minval': 'Value too low.',
+      'maxval': 'Value too high'
+    }
+  },
+  TYPE_ONE_ERROR_VALIDATION_MESSAGES: {
+    'typeoneerror': {
       'minval': 'Value too low.',
       'maxval': 'Value too high'
     }
