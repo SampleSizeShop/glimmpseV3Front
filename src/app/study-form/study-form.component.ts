@@ -11,15 +11,15 @@ import {environment} from 'environments/environment';
   providers: [StudyService, NGXLogger]
 })
 export class StudyFormComponent implements OnInit, OnDestroy {
-  valid = false;
+  private _valid = false;
   private _hasNext: boolean;
   private _hasBack: boolean;
-  guided: boolean;
+  private _guided: boolean;
   private _targetEvent: string;
   private _solveFor: string;
-  modeSubscription: Subscription;
-  targetEventSubscription: Subscription;
-  solveForSubscription: Subscription;
+  private _modeSubscription: Subscription;
+  private _targetEventSubscription: Subscription;
+  private _solveForSubscription: Subscription;
   private _stages;
   private _noStages: number;
 
@@ -89,6 +89,22 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.solveForSubscription.unsubscribe();
   }
 
+  get valid(): boolean {
+    return this._valid;
+  }
+
+  set valid(value: boolean) {
+    this._valid = value;
+  }
+
+  get guided(): boolean {
+    return this._guided;
+  }
+
+  set guided(value: boolean) {
+    this._guided = value;
+  }
+
   getStageName(): string {
     return this._stages[this.study_service.stage];
   }
@@ -149,5 +165,29 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
   set hasBack(value: boolean) {
     this._hasBack = value;
+  }
+
+  get modeSubscription(): Subscription {
+    return this._modeSubscription;
+  }
+
+  set modeSubscription(value: Subscription) {
+    this._modeSubscription = value;
+  }
+
+  get targetEventSubscription(): Subscription {
+    return this._targetEventSubscription;
+  }
+
+  set targetEventSubscription(value: Subscription) {
+    this._targetEventSubscription = value;
+  }
+
+  get solveForSubscription(): Subscription {
+    return this._solveForSubscription;
+  }
+
+  set solveForSubscription(value: Subscription) {
+    this._solveForSubscription = value;
   }
 }
