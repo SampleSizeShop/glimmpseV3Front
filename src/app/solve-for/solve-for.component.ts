@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {AbstractControl, FormBuilder, FormGroup, ValidatorFn} from '@angular/forms';
 import {NGXLogger} from 'ngx-logger';
-import {trigger, state, style, animate, transition} from '@angular/animations';
 
 export function minMaxValidator(min: number, max: number, logger?: NGXLogger): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
@@ -33,15 +32,14 @@ export function minMaxValidator(min: number, max: number, logger?: NGXLogger): V
 export class SolveForComponent implements OnInit {
   private _solveFor: string;
   private _targetEvent: string;
-  powerSampleSizeForm: FormGroup;
-  targetEventSubscription: Subscription;
-  formErrors = {
+  private _powerSampleSizeForm: FormGroup;
+  private _targetEventSubscription: Subscription;
+  private _formErrors = {
     'power': '',
     'samplesize': '',
     'ciwidth': ''
   };
-
-  validationMessages = {
+  private _validationMessages = {
     'power': {
       'minval':      'Value too low.',
       'maxval':     'Value too high' },
@@ -54,7 +52,7 @@ export class SolveForComponent implements OnInit {
   };
 
   constructor(private study_service: StudyService, private fb: FormBuilder, private logger: NGXLogger) {
-    this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
+    this._targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
       targetEvent => {
         this.targetEvent = targetEvent;
       }
@@ -141,5 +139,29 @@ export class SolveForComponent implements OnInit {
 
   set targetEvent(value: string) {
     this._targetEvent = value;
+  }
+
+  get powerSampleSizeForm(): FormGroup {
+    return this._powerSampleSizeForm;
+  }
+
+  set powerSampleSizeForm(value: FormGroup) {
+    this._powerSampleSizeForm = value;
+  }
+
+  get formErrors(): { power: string; samplesize: string; ciwidth: string } {
+    return this._formErrors;
+  }
+
+  set formErrors(value: { power: string; samplesize: string; ciwidth: string }) {
+    this._formErrors = value;
+  }
+
+  get validationMessages(): { power: { minval: string; maxval: string }; samplesize: { minval: string; maxval: string }; ciwidth: { minval: string; maxval: string } } {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value: { power: { minval: string; maxval: string }; samplesize: { minval: string; maxval: string }; ciwidth: { minval: string; maxval: string } }) {
+    this._validationMessages = value;
   }
 }
