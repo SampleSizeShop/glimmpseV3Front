@@ -52,7 +52,7 @@ export class SolveForComponent implements OnInit {
   };
 
   constructor(private study_service: StudyService, private fb: FormBuilder, private logger: NGXLogger) {
-    this._targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
+    this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
       targetEvent => {
         this.targetEvent = targetEvent;
       }
@@ -155,6 +155,14 @@ export class SolveForComponent implements OnInit {
 
   set formErrors(value: { power: string; samplesize: string; ciwidth: string }) {
     this._formErrors = value;
+  }
+
+  get targetEventSubscription(): Subscription {
+    return this._targetEventSubscription;
+  }
+
+  set targetEventSubscription(value: Subscription) {
+    this._targetEventSubscription = value;
   }
 
   get validationMessages(): { power: { minval: string; maxval: string }; samplesize: { minval: string; maxval: string }; ciwidth: { minval: string; maxval: string } } {
