@@ -1,36 +1,63 @@
 <h5>Choose your statistical tests:</h5>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col">Multivariate:</div>
-    <div class="col">Univariate:</div>
-    <div class="col">Future:</div>
-  </div>
-  <div class="row">
-
-    <div class="col">
-      <div class="btn-group-vertical" data-toggle="buttons">
-        <button type="button" class="btn btn-primary">Hotelling Lawley Trace</button>
-        <button type="button" class="btn btn-primary">Pillai-Bartlett Trace</button>
-        <button type="button" class="btn btn-primary">Wilks Likelihood Ratio</button>
+      <div class="col">
+      <div>Multivariate:</div>
+      <div class="btn-group-vertical btn-block" data-toggle="buttons">
+        <label class="btn btn-primary" style="margin-bottom: 0px;">
+          <input type="checkbox" checked=""> Hotelling Lawley Trace
+        </label>
+        <label class="btn btn-primary" style="margin-bottom: 0px;">
+          <input type="checkbox" checked=""> Pillai-Bartlett Trace
+        </label>
+        <label class="btn btn-primary">
+          <input type="checkbox" checked=""> Wilks Likelihood Ratio
+        </label>
+      </div>
+      <div>Univariate:</div>
+      <div class="btn-group-vertical  btn-block" data-toggle="buttons">
+        <label class="btn btn-primary" style="margin-bottom: 0px;">
+          <input type="checkbox" checked="">Repeated Measures: Box Correction
+        </label>
+        <label class="btn btn-primary" style="margin-bottom: 0px;">
+          <input type="checkbox" checked="">Repeated Measures: Geisser-Greenhouse Correction
+        </label>
+        <label class="btn btn-primary" style="margin-bottom: 0px;">
+          <input type="checkbox" checked="">Repeated Measures: Huynh-Feldt Correction
+        </label>
+        <label class="btn btn-primary">
+          <input type="checkbox" checked="">Repeated Measure: uncorrected
+        </label>
+      </div>
+      <div>Future:</div>
+      <div class="btn-group-vertical btn-block" data-toggle="buttons">
+        <label class="btn btn-primary" style="margin-bottom: 0px;">
+          <input type="checkbox" checked="">High Dimension, low sample size- UNIREP
+        </label>
+        <label class="btn btn-primary">
+          <input type="checkbox" checked="">High Dimension, low sample size - MULTIREP
+        </label>
       </div>
     </div>
-
     <div class="col">
-      <div class="btn-group-vertical" data-toggle="buttons">
-        <button type="button" class="btn btn-primary">Repeated Measures with Box Correction</button>
-        <button type="button" class="btn btn-primary">Repeated Measures with Geisser-Greenhouse Correction</button>
-        <button type="button" class="btn btn-primary">Repeated Measures with Huynh-Feldt Correction</button>
-        <button type="button" class="btn btn-primary">Repeated Measure, uncorrected</button>
+      <div class="card">
+        <h3 class="card-header">Repeated Measures: Geisser Greenhouse Correction</h3>
+        <div class="card-block">
+          <h5 class="card-title">A longer title describibg what you've selected</h5>
+          <h6 class="card-subtitle text-muted">A poncy quote</h6>
+        </div>
+        <img style="height: 200px; width: 100%; display: block;" src="../../assets/images/geisser-greenhouse-correction.jpg" alt="Card image">
+        <div class="card-block">
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+        <div class="card-footer text-muted text-xs-center">
+          2 days ago
+        </div>
       </div>
     </div>
-
-    <div class="col">
-      <div class="btn-group-vertical" data-toggle="buttons">
-        <button type="button" class="btn btn-primary">High Dimension, low sample size- UNIREP</button>
-        <button type="button" class="btn btn-primary">High Dimension, low sample size - MULTIREP</button>
-      </div>
-    </div>
-
   </div>
 </div>
+
 
