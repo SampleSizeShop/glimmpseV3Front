@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { MathJaxService } from './mathjax.service';
-import {MathJaxComponent} from './mathjax.component';
+import {MathJaxComponent} from './mathjax/mathjax.component';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +8,13 @@ import {MathJaxComponent} from './mathjax.component';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'app';
-  public message: string;
-  public mathjax_component: MathJaxComponent;
+  private _search = new FormControl();
+
+  get search(): FormControl {
+    return this._search;
+  }
+
+  set search(value: FormControl) {
+    this._search = value;
+  }
 }

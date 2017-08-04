@@ -1,21 +1,25 @@
-import { TestBed, async } from '@angular/core/testing';
+import {async, TestBed} from '@angular/core/testing';
 
-import { AppComponent } from './app.component';
-import {MathJaxService} from './mathjax.service';
-import { MathJaxComponent } from './mathjax.component';
-import {FormsModule} from '@angular/forms';
-import {MathJaxDirective} from './mathjax.directive';
-import {Http, HttpModule, XHRBackend} from "@angular/http";
-import {MockBackend} from "@angular/http/testing";
+import {AppComponent} from './app.component';
+import {MathJaxComponent} from './mathjax/mathjax.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MathJaxDirective} from './mathjax/mathjax.directive';
+import {RouterTestingModule} from '@angular/router/testing';
+import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule ],
-      declarations: [
-        AppComponent, MathJaxComponent, MathJaxDirective
+      imports: [
+        ReactiveFormsModule,
+        RouterTestingModule
       ],
-      providers: [MathJaxService,  { provide: Http, useClass: MockBackend } ]
+      declarations: [
+        AppComponent,
+        MathJaxComponent,
+        MathJaxDirective
+      ],
+      providers: []
     }).compileComponents();
   }));
 
@@ -23,12 +27,6 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-  }));
-
-  it(`should have as title 'GLIMMPSE'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toContain('GLIMMPSE');
   }));
 
 });

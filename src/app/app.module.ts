@@ -1,26 +1,45 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppComponent } from './app.component';
-import {FormsModule} from '@angular/forms';
+import {AppComponent} from './app.component';
+import {ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {MathJaxService} from './mathjax.service';
-import {MathJaxComponent} from './mathjax.component';
-import {MathJaxDirective} from './mathjax.directive';
+import {MathJaxService} from './mathjax/mathjax.service';
+import {MathJaxComponent} from './mathjax/mathjax.component';
+import {MathJaxDirective} from './mathjax/mathjax.directive';
 
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing-module';
+import {UserModeComponent} from './user-mode/user-mode.component';
+import {StudyFormComponent} from './study-form/study-form.component';
+import {TargetEventComponent} from './target-event/target-event.component';
+import {SolveForComponent} from './solve-for/solve-for.component';
+import {LoggerModule} from 'ngx-logger';
+import {environment} from '../environments/environment';
+import { StatisticalTestsComponent } from './statistical-tests/statistical-tests.component';
+import { TypeOneErrorComponent } from './type-one-error/type-one-error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MathJaxComponent,
-    MathJaxDirective
+    MathJaxDirective,
+    UserModeComponent,
+    StudyFormComponent,
+    TargetEventComponent,
+    SolveForComponent,
+    StatisticalTestsComponent,
+    TypeOneErrorComponent
   ],
   imports: [
+    LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),
     BsDropdownModule.forRoot(),
     BrowserModule,
-    FormsModule,
-    HttpModule
+    ReactiveFormsModule,
+    HttpModule,
+    BrowserAnimationsModule,
+    AppRoutingModule
   ],
   providers: [MathJaxService],
   bootstrap: [AppComponent]
