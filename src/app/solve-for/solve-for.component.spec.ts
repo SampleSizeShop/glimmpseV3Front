@@ -1,4 +1,4 @@
-import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import { SolveForComponent } from './solve-for.component';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -7,7 +7,7 @@ import {Http} from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {LoggerModule, NGXLogger} from "ngx-logger";
+import {LoggerModule, NGXLogger} from 'ngx-logger';
 import {NGXLoggerMock} from 'ngx-logger';
 
 describe('SolveForComponent', () => {

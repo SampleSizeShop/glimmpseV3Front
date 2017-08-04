@@ -35,5 +35,15 @@ export const constants = {
   WAVR_EVENT: 'WAVR',
   // Solve for constants
   SOLVE_FOR_POWER: 'POWER',
-  SOLVE_FOR_SAMPLESIZE: 'SAMPLESIZE'
+  SOLVE_FOR_SAMPLESIZE: 'SAMPLESIZE',
+  // Statistical Tests Constants
+  STATISTICAL_TESTS: {HOTELLING_LAWLEY: 'Hotelling Lawley Trace',
+    PILLAI_BARTLET: 'Pillai-Bartlett Trace',
+  WILKS_LIKLIEHOOD: 'Wilks Likelihood Ratio',
+  BOX_CORRECTION: 'Repeated Measures: Box Correction',
+  GEISSER_GREENHOUSE: 'Repeated Measures: Geisser-Greenhouse Correction',
+  HUYNH_FELDT: 'Repeated Measures: Huynh-Feldt Correction',
+  UNCORRECTED: 'Repeated Measure: uncorrected',
+  UNIREP: 'High Dimension, low sample size- UNIREP',
+  MULTIREP: 'High Dimension, low sample size - MULTIREP'}
 };

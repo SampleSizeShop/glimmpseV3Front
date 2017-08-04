@@ -4,38 +4,38 @@
       <div class="col">
       <div>Multivariate:</div>
       <div class="btn-group-vertical btn-block" data-toggle="buttons">
-        <label class="btn btn-primary" style="margin-bottom: 0px;">
-          <input type="checkbox" checked=""> Hotelling Lawley Trace
+        <label class="btn btn-primary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(statisticalTests.HOTELLING_LAWLEY)">
+          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.HOTELLING_LAWLEY)">{{statisticalTests.HOTELLING_LAWLEY}}
         </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;">
-          <input type="checkbox" checked=""> Pillai-Bartlett Trace
+        <label class="btn btn-primary" style="margin-bottom: 0px;" id="pb" [class.active]="isSelected(statisticalTests.PILLAI_BARTLET)">
+          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.PILLAI_BARTLET)">{{statisticalTests.PILLAI_BARTLET}}
         </label>
-        <label class="btn btn-primary">
-          <input type="checkbox" checked=""> Wilks Likelihood Ratio
+        <label class="btn btn-primary" [class.active]="isSelected(statisticalTests.WILKS_LIKLIEHOOD)">
+          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.WILKS_LIKLIEHOOD)">{{statisticalTests.WILKS_LIKLIEHOOD}}
         </label>
       </div>
       <div>Univariate:</div>
       <div class="btn-group-vertical  btn-block" data-toggle="buttons">
-        <label class="btn btn-primary" style="margin-bottom: 0px;">
-          <input type="checkbox" checked="">Repeated Measures: Box Correction
+        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.BOX_CORRECTION)">
+          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.BOX_CORRECTION)">{{statisticalTests.BOX_CORRECTION}}
         </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;">
-          <input type="checkbox" checked="">Repeated Measures: Geisser-Greenhouse Correction
+        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.GEISSER_GREENHOUSE)">
+          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.GEISSER_GREENHOUSE)">{{statisticalTests.GEISSER_GREENHOUSE}}
         </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;">
-          <input type="checkbox" checked="">Repeated Measures: Huynh-Feldt Correction
+        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.HUYNH_FELDT)">
+          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.HUYNH_FELDT)">{{statisticalTests.HUYNH_FELDT}}
         </label>
-        <label class="btn btn-primary">
-          <input type="checkbox" checked="">Repeated Measure: uncorrected
+        <label class="btn btn-primary" [class.active]="isSelected(statisticalTests.UNCORRECTED)">
+          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.UNCORRECTED)">{{statisticalTests.UNCORRECTED}}
         </label>
       </div>
       <div>Future:</div>
       <div class="btn-group-vertical btn-block" data-toggle="buttons">
-        <label class="btn btn-primary" style="margin-bottom: 0px;">
-          <input type="checkbox" checked="">High Dimension, low sample size- UNIREP
+        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.UNIREP)">
+          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.UNIREP)">{{statisticalTests.UNIREP}}
         </label>
-        <label class="btn btn-primary">
-          <input type="checkbox" checked="">High Dimension, low sample size - MULTIREP
+        <label class="btn btn-primary" [class.active]="isSelected(statisticalTests.MULTIREP)">
+          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.MULTIREP)">{{statisticalTests.MULTIREP}}
         </label>
       </div>
     </div>
