@@ -28,8 +28,8 @@ export class TypeOneErrorComponent implements OnInit {
       }
     );
     this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
-      targetEvent => {
-        this.solveFor = targetEvent;
+      solveFor => {
+        this.solveFor = solveFor;
       }
     );
     this.buildForm();

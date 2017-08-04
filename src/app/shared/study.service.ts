@@ -24,7 +24,7 @@ export class StudyService {
   private _targetEventSelected$ = this._targetEventSource.asObservable();
 
   // solve for observable stream
-  private _solveForSource = new Subject<string>();
+  private _solveForSource = new BehaviorSubject<string>(constants.SOLVE_FOR_POWER);
   private _solveForSelected$ = this._solveForSource.asObservable();
 
   selectMode(guided: boolean) {
@@ -123,11 +123,11 @@ export class StudyService {
     this._targetEventSelected$ = value;
   }
 
-  get solveForSource(): Subject<string> {
+  get solveForSource(): BehaviorSubject<string> {
     return this._solveForSource;
   }
 
-  set solveForSource(value: Subject<string>) {
+  set solveForSource(value: BehaviorSubject<string>) {
     this._solveForSource = value;
   }
 
