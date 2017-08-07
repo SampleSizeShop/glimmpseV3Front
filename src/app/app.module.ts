@@ -19,6 +19,7 @@ import {LoggerModule} from 'ngx-logger';
 import {environment} from '../environments/environment';
 import { StatisticalTestsComponent } from './statistical-tests/statistical-tests.component';
 import { TypeOneErrorComponent } from './type-one-error/type-one-error.component';
+import { WitinIsuComponent } from './witin-isu/witin-isu.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { TypeOneErrorComponent } from './type-one-error/type-one-error.component
     TargetEventComponent,
     SolveForComponent,
     StatisticalTestsComponent,
-    TypeOneErrorComponent
+    TypeOneErrorComponent,
+    WitinIsuComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

@@ -11,6 +11,7 @@ import {Http} from '@angular/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StatisticalTestsComponent} from '../statistical-tests/statistical-tests.component';
 import {TypeOneErrorComponent} from '../type-one-error/type-one-error.component';
+import {WitinIsuComponent} from '../witin-isu/witin-isu.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -22,7 +23,7 @@ describe('StudyFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'}) ],
-      declarations: [ StudyFormComponent, UserModeComponent, TargetEventComponent, SolveForComponent, StatisticalTestsComponent, TypeOneErrorComponent ],
+      declarations: [ StudyFormComponent, UserModeComponent, TargetEventComponent, SolveForComponent, StatisticalTestsComponent, TypeOneErrorComponent, WitinIsuComponent ],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();
