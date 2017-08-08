@@ -1,6 +1,6 @@
 export const constants = {
   // Guided mode stages and ordering
-  STAGES: {1: 'MODE', 2: 'TARGET_EVENT', 3: 'SOLVE_FOR', 4: 'STATISTICAL_TESTS', 5: 'TYPE_ONE_ERROR', 6: 'WITHIN_ISU'},
+  STAGES: {1: 'MODE', 2: 'TARGET_EVENT', 3: 'SOLVE_FOR', 4: 'STATISTICAL_TESTS', 5: 'TYPE_ONE_ERROR', 6: 'WITHIN_ISU', 7: 'COVARIANCE'},
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
     'power': '',

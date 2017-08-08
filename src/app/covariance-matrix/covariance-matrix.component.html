@@ -1,0 +1,12 @@
+<div class="container-fluid">
+  <h5 style="padding: 0">Define your covariance matrix:</h5>
+  <div style="padding: 15px">
+    <div *ngFor="let r of rank; let a=index" class="row">
+      <div *ngFor="let c of rank; let b=index" class="col" style="padding: 0">
+        <div *ngIf="r >= c">
+          <input type="number">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

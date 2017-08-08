@@ -20,6 +20,7 @@ import {environment} from '../environments/environment';
 import { StatisticalTestsComponent } from './statistical-tests/statistical-tests.component';
 import { TypeOneErrorComponent } from './type-one-error/type-one-error.component';
 import { WitinIsuComponent } from './witin-isu/witin-isu.component';
+import { CovarianceMatrixComponent } from './covariance-matrix/covariance-matrix.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { WitinIsuComponent } from './witin-isu/witin-isu.component';
     SolveForComponent,
     StatisticalTestsComponent,
     TypeOneErrorComponent,
-    WitinIsuComponent
+    WitinIsuComponent,
+    CovarianceMatrixComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),
