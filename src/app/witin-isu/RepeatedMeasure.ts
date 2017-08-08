@@ -1,4 +1,4 @@
-export class WithinISUOutcome {
+export class RepeatedMeasure {
   private _name = '';
   private _noRepeats = 0;
   private _spacing = 0;

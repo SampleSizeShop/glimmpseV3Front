@@ -2,7 +2,7 @@ import {Component, OnChanges, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {FormBuilder, FormGroup, FormArray} from '@angular/forms';
 import {constants} from '../shared/constants';
-import {WithinISUOutcome} from './WithinISUOutcome';
+import {RepeatedMeasure} from './RepeatedMeasure';
 
 @Component({
   selector: 'app-witin-isu',
@@ -49,7 +49,7 @@ export class WitinIsuComponent implements OnInit, OnChanges{
     }
   }
 
-  setRepeatedMeasures(repeatedMeasures: WithinISUOutcome[]) {
+  setRepeatedMeasures(repeatedMeasures: RepeatedMeasure[]) {
     const repeatedMeasureFGs = repeatedMeasures.map(outcome => this.fb.group(outcome));
     const repeatedMeasuresFA = this.fb.array(repeatedMeasureFGs);
     this.withinISUForm.setControl('repeatedmeasures', repeatedMeasuresFA);
@@ -60,7 +60,7 @@ export class WitinIsuComponent implements OnInit, OnChanges{
   }
 
   addRepeatedMeasure() {
-    this.repeatedmeasures.push(this.fb.group(new WithinISUOutcome()));
+    this.repeatedmeasures.push(this.fb.group(new RepeatedMeasure()));
   }
 
   selectGuided() {

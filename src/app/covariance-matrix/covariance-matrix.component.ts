@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
@@ -13,7 +13,7 @@ export class CovarianceMatrixComponent implements OnInit {
   private _covarianveMatrixForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.size = 5;
+    if (!this.size) { this.size = 5; }
     this.rank =  Array.from(Array(this.size).keys());
   }
 
@@ -41,14 +41,6 @@ export class CovarianceMatrixComponent implements OnInit {
     return this.covarianveMatrixForm.get('covarianceMatrix') as FormArray;
   }
 
-  get size(): number {
-    return this._size;
-  }
-
-  set size(value: number) {
-    this._size = value;
-  }
-
   get covarianveMatrixForm(): FormGroup {
     return this._covarianveMatrixForm;
   }
@@ -57,6 +49,15 @@ export class CovarianceMatrixComponent implements OnInit {
     this._covarianveMatrixForm = value;
   }
 
+  get size(): number {
+    return this._size;
+  }
+
+  @Input()
+  set size(value: number) {
+    this._size = value;
+    this.rank =  Array.from(Array(this.size).keys());
+  }
 
   get rank() {
     return this._rank;
