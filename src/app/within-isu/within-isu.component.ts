@@ -6,8 +6,8 @@ import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 
 @Component({
   selector: 'app-witin-isu',
-  templateUrl: './witin-isu.component.html',
-  styleUrls: ['./witin-isu.component.scss']
+  templateUrl: './within-isu.component.html',
+  styleUrls: ['./within-isu.component.scss']
 })
 export class WitinIsuComponent implements OnInit, OnChanges{
 
