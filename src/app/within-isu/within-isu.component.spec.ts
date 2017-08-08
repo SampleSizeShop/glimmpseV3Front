@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WitinIsuComponent } from './witin-isu.component';
+import { WitinIsuComponent } from './within-isu.component';
 
 describe('WitinIsuComponent', () => {
   let component: WitinIsuComponent;

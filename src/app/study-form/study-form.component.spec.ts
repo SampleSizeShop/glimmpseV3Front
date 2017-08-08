@@ -11,7 +11,7 @@ import {Http} from '@angular/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StatisticalTestsComponent} from '../statistical-tests/statistical-tests.component';
 import {TypeOneErrorComponent} from '../type-one-error/type-one-error.component';
-import {WitinIsuComponent} from '../witin-isu/witin-isu.component';
+import {WitinIsuComponent} from '../within-isu/within-isu.component';
 import {CovarianceMatrixComponent} from '../covariance-matrix/covariance-matrix.component';
 
 describe('StudyFormComponent', () => {
