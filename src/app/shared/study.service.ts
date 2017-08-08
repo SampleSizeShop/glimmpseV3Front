@@ -14,6 +14,7 @@ export class StudyService {
   private _next: string;
   private _targetEvent: string;
   private _stages;
+  private _multipleOutcomes: boolean;
 
   // user mode observale stream
   private _modeSelectedSource = new Subject<boolean>();
@@ -137,6 +138,18 @@ export class StudyService {
 
   set solveForSelected$(value: Observable<string>) {
     this._solveForSelected$ = value;
+  }
+
+  selectMultipleOutcomes(multipleOutcomes: boolean) {
+    this.multipleOutcomes = multipleOutcomes
+  }
+
+  get multipleOutcomes(): boolean {
+    return this._multipleOutcomes;
+  }
+
+  set multipleOutcomes(value: boolean) {
+    this._multipleOutcomes = value;
   }
 }
 

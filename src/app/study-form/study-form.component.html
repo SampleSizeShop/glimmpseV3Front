@@ -3,22 +3,22 @@
 </div>
 <div class="jumbotron">
   <div class="container">
-    <div class="d-flex justify-content-start"  *ngIf="'MODE' === getStageName()">
+    <div class="d-flex justify-content-start"  *ngIf="stages[1] === getStageName()">
       <app-user-mode></app-user-mode>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'TARGET_EVENT' === getStageName()">
+    <div class="d-flex justify-content-start" *ngIf="stages[2] === getStageName()">
       <app-target-event></app-target-event>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'SOLVE_FOR' === getStageName()">
+    <div class="d-flex justify-content-start" *ngIf="stages[3] === getStageName()">
       <app-solve-for></app-solve-for>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'STATISTICAL_TESTS' === getStageName()">
+    <div class="d-flex justify-content-start" *ngIf="stages[4] === getStageName()">
       <app-statistical-tests></app-statistical-tests>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'TYPE_ONE_ERROR' === getStageName()">
+    <div class="d-flex justify-content-start" *ngIf="stages[5] === getStageName()">
       <app-type-one-error></app-type-one-error>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'WITHIN_ISU' === getStageName()">
+    <div class="d-flex justify-content-start" *ngIf="stages[6] === getStageName()">
       <app-witin-isu></app-witin-isu>
     </div>
     <hr>

@@ -10,6 +10,9 @@ export const constants = {
   TYPE_ONE_ERROR_ERRORS: {
     'typeoneerror': ''
   },
+  WITHIN_ISU_ERRORS: {
+    'singleoutcomeerror': ''
+  },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
       'minval': 'Value too low.',
@@ -29,6 +32,9 @@ export const constants = {
       'minval': 'Value too low.',
       'maxval': 'Value too high'
     }
+  },
+  WITHIN_ISU_VALIDATION_MESSAGES: {
+    'singleoutcome': {}
   },
   REJECTION_EVENT: 'REJECTION',
   CIWIDTH_EVENT: 'CIWIDTH',

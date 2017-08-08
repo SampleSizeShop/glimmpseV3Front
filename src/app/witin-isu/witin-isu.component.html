@@ -1,3 +1,48 @@
-<p>
-  witin-isu works!
-</p>
+<form [formGroup]="withinISUForm">
+  <h5>Do you have more than one outcome?</h5>
+  <div class="btn-group" data-toggle="buttons">
+    <label aria-pressed="true" class="btn btn-primary" [class.active]="multipleOutcomes" id="guidedbtn">
+      <input type="radio" id="GUIDED" (click)="selectMultipleOutcomes()"> Yes
+    </label>
+    <label class="btn btn-primary" aria-pressed="true" [class.active]="!multipleOutcomes" id="flexbtn">
+      <input type="radio" id="FLEXIBLE" (click)="selectSingleOutcome()"> No
+    </label>
+  </div>
+  <div *ngIf="!multipleOutcomes">
+    <div class="form-group" id="singleoutcomeinput">
+      <label for="singleoutcome">Name your outcome variable:</label>
+      <input type="string" class="form-control" id="singleoutcome" aria-describedby="singleoutcomehelp" placeholder="You must enter an outcome variable name..." formControlName="singleoutcome" required>
+      <div *ngIf="formErrors.singleoutcomeerror" class="alert alert-danger">
+        <div class="form-control-feedback">{{formErrors.singleoutcomeerror}}</div>
+      </div>
+      <small id="singleoutcomehelp" class="form-text text-muted">Outcome variable name must not contain any special characters</small>
+    </div>
+  </div>
+  <div *ngIf="multipleOutcomes">
+    <button (click)="addRepeatedMeasure()" type="button" class="btn btn-primary">+ Repeated Measure</button>
+    <div formArrayName="repeatedmeasures" class="well well-lg">
+      <div *ngFor="let measure of repeatedmeasures.controls; let i=index" [formGroupName]="i" class ="well well-lg">
+        <!-- The repeated measure template -->
+        <div style="margin-left: 1em;">
+          <div class="form-group">
+            <label class="center-block">Name:
+              <input class="form-control" formControlName="name">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">No. Repeats:
+              <input class="form-control" formControlName="noRepeats">
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="center-block">Spacing:
+              <input class="form-control" formControlName="spacing">
+            </label>
+          </div>
+        </div>
+        <br>
+        <!-- End of the repeated measure template -->
+      </div>
+    </div>
+  </div>
+</form>
