@@ -37,7 +37,7 @@ export class TypeOneErrorComponent implements OnInit {
 
   buildForm(): void {
     this.typeOneErrorRateForm = this.fb.group({
-      typeoneerror: ['0.5', minMaxValidator(0, 1, this.logger)]
+      typeoneerror: ['0.05', minMaxValidator(0, 1, this.logger)]
     });
 
     this.typeOneErrorRateForm.valueChanges.subscribe(data => this.onValueChanged(data));
