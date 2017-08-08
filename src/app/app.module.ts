@@ -21,6 +21,7 @@ import { StatisticalTestsComponent } from './statistical-tests/statistical-tests
 import { TypeOneErrorComponent } from './type-one-error/type-one-error.component';
 import { WitinIsuComponent } from './witin-isu/witin-isu.component';
 import { CovarianceMatrixComponent } from './covariance-matrix/covariance-matrix.component';
+import { RepeatedMeasureComponent } from './repeated-measure/repeated-measure.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { CovarianceMatrixComponent } from './covariance-matrix/covariance-matrix
     StatisticalTestsComponent,
     TypeOneErrorComponent,
     WitinIsuComponent,
-    CovarianceMatrixComponent
+    CovarianceMatrixComponent,
+    RepeatedMeasureComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

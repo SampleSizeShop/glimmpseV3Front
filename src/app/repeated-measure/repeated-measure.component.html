@@ -1,0 +1,33 @@
+<form [formGroup]="repeatedMeasureForm">
+  <div style="margin-left: 1em;">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="center-block">Name:
+              <input class="form-control" formControlName="name">
+            </label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="center-block">No. Repeats:
+              <input class="form-control" formControlName="noRepeats">
+            </label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="center-block">Spacing:
+              <input class="form-control" formControlName="spacing">
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <app-covariance-matrix [size]="4"></app-covariance-matrix>
+      </div>
+    </div>
+  </div>
+  <br>
+</form>

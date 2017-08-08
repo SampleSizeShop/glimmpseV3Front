@@ -2,7 +2,7 @@ import {Component, OnChanges, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {FormBuilder, FormGroup, FormArray} from '@angular/forms';
 import {constants} from '../shared/constants';
-import {RepeatedMeasure} from './RepeatedMeasure';
+import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 
 @Component({
   selector: 'app-witin-isu',
