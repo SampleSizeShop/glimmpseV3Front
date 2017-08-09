@@ -34,8 +34,11 @@ export class CovarianceMatrixComponent implements OnInit, AfterContentInit, OnCh
 
     for (const r of this.sizeArray) {
       for (const c of this.sizeArray) {
-        if (r >= c) {
-          const name = r.toString() + c.toString();
+        const name = r.toString() + c.toString();
+        if (r > c) {
+          this.controls[name] = [0];
+        }
+        if (r === c) {
           this.controls[name] = [1];
         }
       }
