@@ -2,7 +2,7 @@ export class RepeatedMeasure {
   private _name = '';
   private _noRepeats = 0;
   private _spacing = 0;
-  private _covarianceMatrix = [];
+  private _covarianceMatrix = '';
 
   get name(): string {
     return this._name;
@@ -28,11 +28,11 @@ export class RepeatedMeasure {
     this._spacing = value;
   }
 
-  get covarianceMatrix(): Array<number> {
+  get covarianceMatrix(): string {
     return this._covarianceMatrix;
   }
 
-  set covarianceMatrix(value: Array<number>) {
+  set covarianceMatrix(value: string) {
     this._covarianceMatrix = value;
   }
 }

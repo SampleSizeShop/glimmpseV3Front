@@ -1,52 +1,84 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {AfterContentInit, Component, Input, OnChanges, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {CovarianceMatrixService} from '../shared/covarianceMatrix.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-covariance-matrix',
   templateUrl: './covariance-matrix.component.html',
   styleUrls: ['./covariance-matrix.component.scss']
 })
-export class CovarianceMatrixComponent implements OnInit {
+export class CovarianceMatrixComponent implements OnInit, AfterContentInit, OnChanges {
 
   private _size: number;
-  private _rank;
-  private _covarianveMatrixForm: FormGroup;
+  private _sizeArray: number[];
+  private _controls: {};
+  private _covarianceMatrixForm: FormGroup;
+  private _covarianceMatrixSubscription: Subscription;
+  private _uMatrix: string;
+  private _isBuilt: boolean;
 
-  constructor(private fb: FormBuilder) {
-    if (!this.size) { this.size = 5; }
-    this.rank =  Array.from(Array(this.size).keys());
+  constructor(private _fb: FormBuilder, private _covarianceMatrixService: CovarianceMatrixService) {
+    this.isBuilt = false;
+    this.covarianceMatrixSubscription = this._covarianceMatrixService.covarianceMatrix$.subscribe(
+      covarianceMatrix => {
+        this.uMatrix = covarianceMatrix;
+      }
+    );
   }
 
   buildForm(): void {
-    this.covarianveMatrixForm = this.fb.group({
-      covarianceMatrix: this.fb.array([])
-    });
+    this.isBuilt = false;
+    this.controls = {};
+    this.sizeArray =  Array.from(Array(this.size).keys());
 
-    this.covarianveMatrixForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    for (const r of this.sizeArray) {
+      for (const c of this.sizeArray) {
+        if (r >= c) {
+          const name = r.toString() + c.toString();
+          this.controls[name] = [1];
+        }
+      }
+    }
 
-    this.onValueChanged(); // (re)set validation messages now
+    this.covarianceMatrixForm = this._fb.group(this.controls);
+
+    this.isBuilt = true;
   }
 
   onValueChanged(data?: any) {
-    if (!this.covarianveMatrixForm) {
+    if (!this.covarianceMatrixForm) {
       return;
     }
-    const form = this.covarianveMatrixForm;
+    const form = this.covarianceMatrixForm;
   }
 
   ngOnInit() {
   }
 
-  get covarianceMatrix(): FormArray {
-    return this.covarianveMatrixForm.get('covarianceMatrix') as FormArray;
+  ngOnChanges() {
+
   }
 
-  get covarianveMatrixForm(): FormGroup {
-    return this._covarianveMatrixForm;
+  ngAfterContentInit() {
+    this.buildForm();
   }
 
-  set covarianveMatrixForm(value: FormGroup) {
-    this._covarianveMatrixForm = value;
+  updateMatrix() {
+    this.covarianceMatrixService.updateCovarianceMatrix('[[1, 2, 3], [4, 5, 6], [7, 8, 9]]')
+  }
+
+  get covarianceMatrixInputArray(): FormArray {
+    this.size = 0;
+    return this.covarianceMatrixForm.get('covarianceMatrixInputArray') as FormArray;
+  }
+
+  get covarianceMatrixForm(): FormGroup {
+    return this._covarianceMatrixForm;
+  }
+
+  set covarianceMatrixForm(value: FormGroup) {
+    this._covarianceMatrixForm = value;
   }
 
   get size(): number {
@@ -56,14 +88,62 @@ export class CovarianceMatrixComponent implements OnInit {
   @Input()
   set size(value: number) {
     this._size = value;
-    this.rank =  Array.from(Array(this.size).keys());
   }
 
-  get rank() {
-    return this._rank;
+  get controls(): {} {
+    return this._controls;
   }
 
-  set rank(value) {
-    this._rank = value;
+  set controls(value: {}) {
+    this._controls = value;
+  }
+
+  get covarianceMatrixSubscription(): Subscription {
+    return this._covarianceMatrixSubscription;
+  }
+
+  set covarianceMatrixSubscription(value: Subscription) {
+    this._covarianceMatrixSubscription = value;
+  }
+
+  get fb(): FormBuilder {
+    return this._fb;
+  }
+
+  set fb(value: FormBuilder) {
+    this._fb = value;
+  }
+
+  get covarianceMatrixService(): CovarianceMatrixService {
+    return this._covarianceMatrixService;
+  }
+
+  set covarianceMatrixService(value: CovarianceMatrixService) {
+    this._covarianceMatrixService = value;
+  }
+
+
+  get uMatrix(): string {
+    return this._uMatrix;
+  }
+
+  set uMatrix(value: string) {
+    this._uMatrix = value;
+  }
+
+  get sizeArray(): number[] {
+    return this._sizeArray;
+  }
+
+  set sizeArray(value: number[]) {
+    this._sizeArray = value;
+  }
+
+  get isBuilt(): boolean {
+    return this._isBuilt;
+  }
+
+  set isBuilt(value: boolean) {
+    this._isBuilt = value;
   }
 }

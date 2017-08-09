@@ -15,6 +15,7 @@ export class WitinIsuComponent implements OnInit, OnChanges{
   private _withinISUForm: FormGroup;
   private _formErrors = constants.WITHIN_ISU_ERRORS;
   private _validationMessages = constants.WITHIN_ISU_VALIDATION_MESSAGES;
+  private _repeatedMeasures: RepeatedMeasure[];
 
   constructor(private study_service: StudyService, private fb: FormBuilder) {
     this.buildForm();
@@ -63,11 +64,6 @@ export class WitinIsuComponent implements OnInit, OnChanges{
     this.repeatedmeasures.push(this.fb.group(new RepeatedMeasure()));
   }
 
-  selectGuided() {
-    this.study_service.guided = true;
-    this.updateForm();
-  }
-
   selectSingleOutcome() {
     this.multipleOutcomes = false;
     this.updateForm();
@@ -113,6 +109,14 @@ export class WitinIsuComponent implements OnInit, OnChanges{
 
   set validationMessages(value: any) {
     this._validationMessages = value;
+  }
+
+  get repeatedMeasures(): RepeatedMeasure[] {
+    return this._repeatedMeasures;
+  }
+
+  set repeatedMeasures(value: RepeatedMeasure[]) {
+    this._repeatedMeasures = value;
   }
 
   ngOnInit() {
