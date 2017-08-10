@@ -95,7 +95,7 @@ export class CorrelationMatrixComponent implements  OnInit, OnChanges {
     }
 
     for (const row of Array.from(rows.values())) {
-      let rowVals = {};
+      const rowVals = {};
       matrixStr = matrixStr + '[';
       for (const name in values) {
         const parts = this.splitName(name);
