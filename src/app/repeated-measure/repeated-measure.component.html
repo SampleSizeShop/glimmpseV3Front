@@ -5,31 +5,33 @@
         <div class="col">
           <div class="form-group">
             <label class="center-block">Name:
-              <input class="form-control" formControlName="name">
+              <input class="form-control" formControlName="name" required>
             </label>
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label class="center-block">No. Repeats:
-              <input class="form-control" formControlName="noRepeats" required>
+              <input type="number" class="form-control" formControlName="noRepeats" required>
             </label>
           </div>
         </div>
         <div class="col">
           <div class="form-group">
             <label class="center-block">Spacing:
-              <input class="form-control" formControlName="spacing">
+              <input type="number" class="form-control" formControlName="spacing" required>
             </label>
           </div>
         </div>
       </div>
       <div class="row" *ngIf="repeatedMeasureForm.status==='VALID'">
-        <app-correlation-matrix [size]="2"></app-correlation-matrix>
+        <app-correlation-matrix [size]="repeatedMeasure.noRepeats"></app-correlation-matrix>
       </div>
     </div>
   </div>
   <br>
   <button type="submit" (click)="onSubmit()" class="btn btn-primary">Submit</button>
 </form>
-RM: {{uMatrix}}
+RM: {{repeatedMeasure.correlationMatrix}}
+<br>
+Form: {{repeatedMeasure.name}} {{repeatedMeasure.noRepeats}} {{repeatedMeasure.spacing}}

@@ -15,16 +15,18 @@ export class RepeatedMeasureComponent {
   private _repeatedMeasure: RepeatedMeasure;
   private _repeatedMeasureForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
-  private _uMatrix: string;
 
   constructor(private _fb: FormBuilder, private correlationMatrixService: CorrelationMatrixService) {
+    this.repeatedMeasure = new RepeatedMeasure();
     this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
-        this.uMatrix = correlationMatrix;
+        this.repeatedMeasure.correlationMatrix = correlationMatrix;
       }
     );
     this.buildForm();
+    this.updateName();
     this.updateNoRepeats();
+    this.updateSpacing();
   }
 
   buildForm(): void {
@@ -41,10 +43,22 @@ export class RepeatedMeasureComponent {
     this.correlationMatrixService.updateCorrelationMatrix(JSON.stringify(this.repeatedMeasure))
   }
 
+  updateName() {
+    const noRepeatsControl = this.repeatedMeasureForm.get('name');
+    noRepeatsControl.valueChanges.forEach(
+      (value: string) => this.repeatedMeasure.name = value);
+  }
+
   updateNoRepeats() {
     const noRepeatsControl = this.repeatedMeasureForm.get('noRepeats');
     noRepeatsControl.valueChanges.forEach(
       (value: number) => this.repeatedMeasure.noRepeats = value);
+  }
+
+  updateSpacing() {
+    const noRepeatsControl = this.repeatedMeasureForm.get('spacing');
+    noRepeatsControl.valueChanges.forEach(
+      (value: number) => this.repeatedMeasure.spacing = value);
   }
 
   get repeatedMeasure(): RepeatedMeasure {
@@ -86,13 +100,5 @@ export class RepeatedMeasureComponent {
 
   set repeatedMeasureService(value: CorrelationMatrixService) {
     this.correlationMatrixService = value;
-  }
-
-  get uMatrix(): string {
-    return this._uMatrix;
-  }
-
-  set uMatrix(value: string) {
-    this._uMatrix = value;
   }
 }
