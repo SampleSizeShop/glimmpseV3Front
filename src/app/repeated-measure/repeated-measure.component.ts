@@ -10,7 +10,7 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['./repeated-measure.component.scss'],
   providers: [CorrelationMatrixService]
 })
-export class RepeatedMeasureComponent implements OnInit, OnChanges {
+export class RepeatedMeasureComponent {
 
   private _repeatedMeasure: RepeatedMeasure;
   private _repeatedMeasureForm: FormGroup;
@@ -24,6 +24,7 @@ export class RepeatedMeasureComponent implements OnInit, OnChanges {
       }
     );
     this.buildForm();
+    this.updateNoRepeats();
   }
 
   buildForm(): void {
@@ -40,11 +41,10 @@ export class RepeatedMeasureComponent implements OnInit, OnChanges {
     this.correlationMatrixService.updateCorrelationMatrix(JSON.stringify(this.repeatedMeasure))
   }
 
-  ngOnInit() {
-  }
-
-  ngOnChanges() {
-    // this.correlationMatrixService.updateCorrelationMatrix('2');
+  updateNoRepeats() {
+    const noRepeatsControl = this.repeatedMeasureForm.get('noRepeats');
+    noRepeatsControl.valueChanges.forEach(
+      (value: number) => this.repeatedMeasure.noRepeats = value);
   }
 
   get repeatedMeasure(): RepeatedMeasure {
