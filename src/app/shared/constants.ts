@@ -51,5 +51,6 @@ export const constants = {
   HUYNH_FELDT: 'Repeated Measures: Huynh-Feldt Correction',
   UNCORRECTED: 'Repeated Measure: uncorrected',
   UNIREP: 'High Dimension, low sample size- UNIREP',
-  MULTIREP: 'High Dimension, low sample size - MULTIREP'}
+  MULTIREP: 'High Dimension, low sample size - MULTIREP'},
+  SEPARATOR: '-',
 };

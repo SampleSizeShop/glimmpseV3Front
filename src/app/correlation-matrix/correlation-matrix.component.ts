@@ -2,13 +2,14 @@ import {AfterContentInit, Component, Input, OnChanges, OnInit} from '@angular/co
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
+import {constants} from '../shared/constants';
 
 @Component({
   selector: 'app-correlation-matrix',
   templateUrl: './correlation-matrix.component.html',
   styleUrls: ['./correlation-matrix.component.scss']
 })
-export class CorrelationMatrixComponent implements  OnInit {
+export class CorrelationMatrixComponent implements  OnInit, OnChanges {
 
   private _size: number;
   private _sizeArray: number[];
@@ -19,6 +20,7 @@ export class CorrelationMatrixComponent implements  OnInit {
   private _correlationMatrixSubscription: Subscription;
   private _uMatrix: string;
   public disp: string
+
   constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService) {
     this.correlationMatrixSubscription = this._correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
@@ -28,14 +30,14 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   buildForm(): void {
-    this.values = {};
+    if (!this.values) {this.values = {}; }
     this.controlDefs = {};
     this.controls = {};
     this.sizeArray =  Array.from(Array(this.size).keys());
 
     for (const r of this.sizeArray) {
       for (const c of this.sizeArray) {
-        const name = r.toString() + '-' + c.toString();
+        const name = this.buildName(r.toString(), c.toString());
         if (r > c) {
           this.controlDefs[name] = [0];
           this.values[name] = 0;
@@ -63,24 +65,67 @@ export class CorrelationMatrixComponent implements  OnInit {
         }
       });
     }
-    this.disp = this.buildArrayString(this.values);
+
+    this.uMatrix = this.buildArrayString(this.values);
+  }
+
+  ngOnChanges() {
+
   }
 
   private transposeName(name: string): string {
-    const parts = name.split('-');
+    const parts = this.splitName(name);
     if (parts.length === 2 && parts[0] !== parts[1]) {
-      name = parts[1] + '-' + parts[0];
+      name = this.buildName(parts[1], parts[0]);
     }
     return name;
   }
 
   private linkToTranspose(name: string): boolean {
-    const parts = name.split('-');
+    const parts = this.splitName(name);
     return (parts.length === 2 && parseInt(parts[0], 10) > parseInt(parts[1], 10)) ? true : false;
   }
 
   private buildArrayString(values: {}): string {
-    return JSON.stringify(values);
+    let matrixStr = '[';
+    const rows = new Set();
+    for ( const name in values ) {
+      const parts = this.splitName(name);
+      rows.add(parts[0]);
+    }
+
+    for (const row of Array.from(rows.values())) {
+      let rowVals = {};
+      matrixStr = matrixStr + '[';
+      for (const name in values) {
+        const parts = this.splitName(name);
+        if (parts[0] === row) {
+          rowVals[parts[1]] = values[name];
+        }
+      }
+      for (const val in rowVals ) {
+        matrixStr = matrixStr + rowVals[val] + ',';
+      }
+      matrixStr = this.trimLastChar(matrixStr);
+      matrixStr = matrixStr + '],';
+    }
+
+    matrixStr = this.trimLastChar(matrixStr);
+    matrixStr = matrixStr + ']';
+
+    return matrixStr;
+  }
+
+  private trimLastChar(str: string) {
+    return str.substring(0, str.length - 1);
+  }
+
+  private splitName(name: string) {
+    return name.split(constants.SEPARATOR);
+  }
+
+  private buildName(first: string, second: string): string {
+    return first + constants.SEPARATOR + second;
   }
 
   ngOnInit() {
@@ -88,7 +133,8 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   updateMatrix() {
-    this.correlationMatrixService.updateCorrelationMatrix('')
+    this.uMatrix = this.buildArrayString(this.values);
+    this.correlationMatrixService.updateCorrelationMatrix( this.uMatrix );
   }
 
   get correlationMatrixForm(): FormGroup {
