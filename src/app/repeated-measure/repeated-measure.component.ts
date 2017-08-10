@@ -38,11 +38,6 @@ export class RepeatedMeasureComponent {
     });
   }
 
-  onSubmit() {
-    // this.repeatedMeasure = new RepeatedMeasure();
-    this.correlationMatrixService.updateCorrelationMatrix(JSON.stringify(this.repeatedMeasure))
-  }
-
   updateName() {
     const noRepeatsControl = this.repeatedMeasureForm.get('name');
     noRepeatsControl.valueChanges.forEach(
@@ -92,13 +87,5 @@ export class RepeatedMeasureComponent {
 
   set fb(value: FormBuilder) {
     this._fb = value;
-  }
-
-  get repeatedMeasureService(): CorrelationMatrixService {
-    return this.correlationMatrixService;
-  }
-
-  set repeatedMeasureService(value: CorrelationMatrixService) {
-    this.correlationMatrixService = value;
   }
 }
