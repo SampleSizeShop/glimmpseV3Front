@@ -4,14 +4,15 @@
     <form [formGroup]="correlationMatrixForm">
       <div *ngFor="let r of sizeArray; let a=index" class="row">
         <div *ngFor="let c of sizeArray; let b=index" class="col" style="padding: 0">
-          <div *ngIf="r >= c">
-            <input type="number" class="form-control" formControlName="{{r}}{{c}}" id="{{r}}{{c}}">
+          <div>
+            <input type="number" class="form-control" formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}">
           </div>
         </div>
       </div>
     </form>
   </div>
 </div>
-CV: {{uMatrix}}
-<button class="btn btn-primary" (click)="updateMatrix()">UpdateMatrix</button>
+<button class="btn btn-primary" (click)="updateMatrix()">Add Repeated Measure</button>
 {{values | json}}
+<br>
+{{disp}}

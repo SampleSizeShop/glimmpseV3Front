@@ -18,7 +18,7 @@ export class CorrelationMatrixComponent implements  OnInit {
   private _correlationMatrixForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
   private _uMatrix: string;
-
+  public disp: string
   constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService) {
     this.correlationMatrixSubscription = this._correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
@@ -35,14 +35,18 @@ export class CorrelationMatrixComponent implements  OnInit {
 
     for (const r of this.sizeArray) {
       for (const c of this.sizeArray) {
-        const name = r.toString() + c.toString();
+        const name = r.toString() + '-' + c.toString();
         if (r > c) {
           this.controlDefs[name] = [0];
           this.values[name] = 0;
         }
         if (r === c) {
-          this.controlDefs[name] = [1];
+          this.controlDefs[name] = [{value: 1, disabled: true}];
           this.values[name] = 1;
+        }
+        if (r < c) {
+          this.controlDefs[name] = [{value: 0, disabled: true}];
+          this.values[name] = 0;
         }
       }
     }
@@ -50,12 +54,33 @@ export class CorrelationMatrixComponent implements  OnInit {
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
     for (const name in this.controlDefs) {
       this.controls[name] = this.correlationMatrixForm.get(name);
+      this.controls[name].valueChanges.forEach((value: number) => {
+        this.values[name] = value;
+        if (this.linkToTranspose(name)) {
+          const transpose = this.transposeName(name);
+          this.values[transpose] = value;
+          this.correlationMatrixForm.get(transpose).setValue(value);
+        }
+      });
     }
-    for (const name in this.controlDefs) {
-      console.log(name);
-      console.log(typeof this.values[name]);
-      this.controls[name].valueChanges.forEach((value: number) => this.values[name] = value);
+    this.disp = this.buildArrayString(this.values);
+  }
+
+  private transposeName(name: string): string {
+    const parts = name.split('-');
+    if (parts.length === 2 && parts[0] !== parts[1]) {
+      name = parts[1] + '-' + parts[0];
     }
+    return name;
+  }
+
+  private linkToTranspose(name: string): boolean {
+    const parts = name.split('-');
+    return (parts.length === 2 && parseInt(parts[0], 10) > parseInt(parts[1], 10)) ? true : false;
+  }
+
+  private buildArrayString(values: {}): string {
+    return JSON.stringify(values);
   }
 
   ngOnInit() {
@@ -63,7 +88,7 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   updateMatrix() {
-    this.correlationMatrixService.updateCorrelationMatrix('[[1, 2, 3], [4, 5, 6], [7, 8, 9]]')
+    this.correlationMatrixService.updateCorrelationMatrix('')
   }
 
   get correlationMatrixForm(): FormGroup {
