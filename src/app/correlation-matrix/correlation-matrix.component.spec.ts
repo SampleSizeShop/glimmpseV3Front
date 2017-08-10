@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CovarianceMatrixComponent } from './covariance-matrix.component';
+import { CorrelationMatrixComponent } from './correlation-matrix.component';
 
-describe('CovarianceMatrixComponent', () => {
-  let component: CovarianceMatrixComponent;
-  let fixture: ComponentFixture<CovarianceMatrixComponent>;
+describe('CorrelationMatrixComponent', () => {
+  let component: CorrelationMatrixComponent;
+  let fixture: ComponentFixture<CorrelationMatrixComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CovarianceMatrixComponent ]
+      declarations: [ CorrelationMatrixComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CovarianceMatrixComponent);
+    fixture = TestBed.createComponent(CorrelationMatrixComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

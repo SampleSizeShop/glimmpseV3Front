@@ -12,7 +12,7 @@ import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StatisticalTestsComponent} from '../statistical-tests/statistical-tests.component';
 import {TypeOneErrorComponent} from '../type-one-error/type-one-error.component';
 import {WitinIsuComponent} from '../within-isu/within-isu.component';
-import {CovarianceMatrixComponent} from '../covariance-matrix/covariance-matrix.component';
+import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -24,7 +24,15 @@ describe('StudyFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'}) ],
-      declarations: [ StudyFormComponent, UserModeComponent, TargetEventComponent, SolveForComponent, StatisticalTestsComponent, TypeOneErrorComponent, WitinIsuComponent, CovarianceMatrixComponent ],
+      declarations: [
+        StudyFormComponent,
+        UserModeComponent,
+        TargetEventComponent,
+        SolveForComponent,
+        StatisticalTestsComponent,
+        TypeOneErrorComponent,
+        WitinIsuComponent,
+        CorrelationMatrixComponent ],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();

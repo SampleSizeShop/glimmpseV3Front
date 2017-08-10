@@ -20,7 +20,7 @@ import {environment} from '../environments/environment';
 import { StatisticalTestsComponent } from './statistical-tests/statistical-tests.component';
 import { TypeOneErrorComponent } from './type-one-error/type-one-error.component';
 import { WitinIsuComponent } from './within-isu/within-isu.component';
-import { CovarianceMatrixComponent } from './covariance-matrix/covariance-matrix.component';
+import { CorrelationMatrixComponent } from './correlation-matrix/correlation-matrix.component';
 import { RepeatedMeasureComponent } from './repeated-measure/repeated-measure.component';
 
 @NgModule({
@@ -35,7 +35,7 @@ import { RepeatedMeasureComponent } from './repeated-measure/repeated-measure.co
     StatisticalTestsComponent,
     TypeOneErrorComponent,
     WitinIsuComponent,
-    CovarianceMatrixComponent,
+    CorrelationMatrixComponent,
     RepeatedMeasureComponent
   ],
   imports: [

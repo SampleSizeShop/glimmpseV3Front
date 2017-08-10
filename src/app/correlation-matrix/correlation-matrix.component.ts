@@ -1,26 +1,26 @@
 import {AfterContentInit, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {CovarianceMatrixService} from '../shared/covarianceMatrix.service';
+import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({
-  selector: 'app-covariance-matrix',
-  templateUrl: './covariance-matrix.component.html',
-  styleUrls: ['./covariance-matrix.component.scss']
+  selector: 'app-correlation-matrix',
+  templateUrl: './correlation-matrix.component.html',
+  styleUrls: ['./correlation-matrix.component.scss']
 })
-export class CovarianceMatrixComponent implements  OnInit {
+export class CorrelationMatrixComponent implements  OnInit {
 
   private _size: number;
   private _sizeArray: number[];
   private _controls: {};
-  private _covarianceMatrixForm: FormGroup;
-  private _covarianceMatrixSubscription: Subscription;
+  private _correlationMatrixForm: FormGroup;
+  private _correlationMatrixSubscription: Subscription;
   private _uMatrix: string;
 
-  constructor(private _fb: FormBuilder, private _covarianceMatrixService: CovarianceMatrixService) {
-    this.covarianceMatrixSubscription = this._covarianceMatrixService.covarianceMatrix$.subscribe(
-      covarianceMatrix => {
-        this.uMatrix = covarianceMatrix;
+  constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService) {
+    this.correlationMatrixSubscription = this._correlationMatrixService.correlationMatrix$.subscribe(
+      correlationMatrix => {
+        this.uMatrix = correlationMatrix;
       }
     );
   }
@@ -41,7 +41,7 @@ export class CovarianceMatrixComponent implements  OnInit {
       }
     }
 
-    this.covarianceMatrixForm = this._fb.group(this.controls);
+    this.correlationMatrixForm = this._fb.group(this.controls);
   }
 
   ngOnInit() {
@@ -49,15 +49,15 @@ export class CovarianceMatrixComponent implements  OnInit {
   }
 
   updateMatrix() {
-    this.covarianceMatrixService.updateCovarianceMatrix('[[1, 2, 3], [4, 5, 6], [7, 8, 9]]')
+    this.correlationMatrixService.updateCorrelationMatrix('[[1, 2, 3], [4, 5, 6], [7, 8, 9]]')
   }
 
-  get covarianceMatrixForm(): FormGroup {
-    return this._covarianceMatrixForm;
+  get correlationMatrixForm(): FormGroup {
+    return this._correlationMatrixForm;
   }
 
-  set covarianceMatrixForm(value: FormGroup) {
-    this._covarianceMatrixForm = value;
+  set correlationMatrixForm(value: FormGroup) {
+    this._correlationMatrixForm = value;
   }
 
   get size(): number {
@@ -77,12 +77,12 @@ export class CovarianceMatrixComponent implements  OnInit {
     this._controls = value;
   }
 
-  get covarianceMatrixSubscription(): Subscription {
-    return this._covarianceMatrixSubscription;
+  get correlationMatrixSubscription(): Subscription {
+    return this._correlationMatrixSubscription;
   }
 
-  set covarianceMatrixSubscription(value: Subscription) {
-    this._covarianceMatrixSubscription = value;
+  set correlationMatrixSubscription(value: Subscription) {
+    this._correlationMatrixSubscription = value;
   }
 
   get fb(): FormBuilder {
@@ -93,12 +93,12 @@ export class CovarianceMatrixComponent implements  OnInit {
     this._fb = value;
   }
 
-  get covarianceMatrixService(): CovarianceMatrixService {
-    return this._covarianceMatrixService;
+  get correlationMatrixService(): CorrelationMatrixService {
+    return this._correlationMatrixService;
   }
 
-  set covarianceMatrixService(value: CovarianceMatrixService) {
-    this._covarianceMatrixService = value;
+  set correlationMatrixService(value: CorrelationMatrixService) {
+    this._correlationMatrixService = value;
   }
 
   get uMatrix(): string {

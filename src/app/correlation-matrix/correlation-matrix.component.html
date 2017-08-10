@@ -1,7 +1,7 @@
 <div class="container-fluid">
-  <h5 style="padding: 0">Define your covariance matrix:</h5>
+  <h5 style="padding: 0">Define your correlation matrix:</h5>
   <div style="padding: 15px">
-    <form [formGroup]="covarianceMatrixForm">
+    <form [formGroup]="correlationMatrixForm">
       <div *ngFor="let r of sizeArray; let a=index" class="row">
         <div *ngFor="let c of sizeArray; let b=index" class="col" style="padding: 0">
           <div *ngIf="r >= c">

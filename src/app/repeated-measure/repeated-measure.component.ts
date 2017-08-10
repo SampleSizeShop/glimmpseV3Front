@@ -1,26 +1,26 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {CovarianceMatrixService} from '../shared/covarianceMatrix.service';
+import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-repeated-measure',
   templateUrl: './repeated-measure.component.html',
   styleUrls: ['./repeated-measure.component.scss'],
-  providers: [CovarianceMatrixService]
+  providers: [CorrelationMatrixService]
 })
 export class RepeatedMeasureComponent implements OnInit, OnChanges {
 
   private _repeatedMeasure: RepeatedMeasure;
   private _repeatedMeasureForm: FormGroup;
-  private _covarianceMatrixSubscription: Subscription;
+  private _correlationMatrixSubscription: Subscription;
   private _uMatrix: string;
 
-  constructor(private _fb: FormBuilder, private covarianceMatrixService: CovarianceMatrixService) {
-    this.covarianceMatrixSubscription = this.covarianceMatrixService.covarianceMatrix$.subscribe(
-      covarianceMatrix => {
-        this.uMatrix = covarianceMatrix;
+  constructor(private _fb: FormBuilder, private correlationMatrixService: CorrelationMatrixService) {
+    this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
+      correlationMatrix => {
+        this.uMatrix = correlationMatrix;
       }
     );
     this.buildForm();
@@ -31,20 +31,20 @@ export class RepeatedMeasureComponent implements OnInit, OnChanges {
       name: [''],
       noRepeats: [''],
       spacing: [''],
-      covarianceMatrix: ''
+      correlationMatrix: ''
     });
   }
 
   onSubmit() {
     // this.repeatedMeasure = new RepeatedMeasure();
-    this.covarianceMatrixService.updateCovarianceMatrix(JSON.stringify(this.repeatedMeasure))
+    this.correlationMatrixService.updateCorrelationMatrix(JSON.stringify(this.repeatedMeasure))
   }
 
   ngOnInit() {
   }
 
   ngOnChanges() {
-    // this.covarianceMatrixService.updateCovarianceMatrix('2');
+    // this.correlationMatrixService.updateCorrelationMatrix('2');
   }
 
   get repeatedMeasure(): RepeatedMeasure {
@@ -64,12 +64,12 @@ export class RepeatedMeasureComponent implements OnInit, OnChanges {
     this._repeatedMeasureForm = value;
   }
 
-  get covarianceMatrixSubscription(): Subscription {
-    return this._covarianceMatrixSubscription;
+  get correlationMatrixSubscription(): Subscription {
+    return this._correlationMatrixSubscription;
   }
 
-  set covarianceMatrixSubscription(value: Subscription) {
-    this._covarianceMatrixSubscription = value;
+  set correlationMatrixSubscription(value: Subscription) {
+    this._correlationMatrixSubscription = value;
   }
 
   get fb(): FormBuilder {
@@ -80,12 +80,12 @@ export class RepeatedMeasureComponent implements OnInit, OnChanges {
     this._fb = value;
   }
 
-  get repeatedMeasureService(): CovarianceMatrixService {
-    return this.covarianceMatrixService;
+  get repeatedMeasureService(): CorrelationMatrixService {
+    return this.correlationMatrixService;
   }
 
-  set repeatedMeasureService(value: CovarianceMatrixService) {
-    this.covarianceMatrixService = value;
+  set repeatedMeasureService(value: CorrelationMatrixService) {
+    this.correlationMatrixService = value;
   }
 
   get uMatrix(): string {
