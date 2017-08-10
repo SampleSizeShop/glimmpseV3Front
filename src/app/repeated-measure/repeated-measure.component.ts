@@ -35,11 +35,16 @@ export class RepeatedMeasureComponent implements OnInit, OnChanges {
     });
   }
 
+  onSubmit() {
+    // this.repeatedMeasure = new RepeatedMeasure();
+    this.covarianceMatrixService.updateCovarianceMatrix(JSON.stringify(this.repeatedMeasure))
+  }
+
   ngOnInit() {
   }
 
   ngOnChanges() {
-    this.covarianceMatrixService.updateCovarianceMatrix('2');
+    // this.covarianceMatrixService.updateCovarianceMatrix('2');
   }
 
   get repeatedMeasure(): RepeatedMeasure {

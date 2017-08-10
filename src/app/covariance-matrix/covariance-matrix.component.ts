@@ -1,5 +1,5 @@
 import {AfterContentInit, Component, Input, OnChanges, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {CovarianceMatrixService} from '../shared/covarianceMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -8,7 +8,7 @@ import {Subscription} from 'rxjs/Subscription';
   templateUrl: './covariance-matrix.component.html',
   styleUrls: ['./covariance-matrix.component.scss']
 })
-export class CovarianceMatrixComponent implements OnInit, AfterContentInit, OnChanges {
+export class CovarianceMatrixComponent implements  OnInit {
 
   private _size: number;
   private _sizeArray: number[];
@@ -16,10 +16,8 @@ export class CovarianceMatrixComponent implements OnInit, AfterContentInit, OnCh
   private _covarianceMatrixForm: FormGroup;
   private _covarianceMatrixSubscription: Subscription;
   private _uMatrix: string;
-  private _isBuilt: boolean;
 
   constructor(private _fb: FormBuilder, private _covarianceMatrixService: CovarianceMatrixService) {
-    this.isBuilt = false;
     this.covarianceMatrixSubscription = this._covarianceMatrixService.covarianceMatrix$.subscribe(
       covarianceMatrix => {
         this.uMatrix = covarianceMatrix;
@@ -28,7 +26,6 @@ export class CovarianceMatrixComponent implements OnInit, AfterContentInit, OnCh
   }
 
   buildForm(): void {
-    this.isBuilt = false;
     this.controls = {};
     this.sizeArray =  Array.from(Array(this.size).keys());
 
@@ -45,35 +42,14 @@ export class CovarianceMatrixComponent implements OnInit, AfterContentInit, OnCh
     }
 
     this.covarianceMatrixForm = this._fb.group(this.controls);
-
-    this.isBuilt = true;
-  }
-
-  onValueChanged(data?: any) {
-    if (!this.covarianceMatrixForm) {
-      return;
-    }
-    const form = this.covarianceMatrixForm;
   }
 
   ngOnInit() {
-  }
-
-  ngOnChanges() {
-
-  }
-
-  ngAfterContentInit() {
     this.buildForm();
   }
 
   updateMatrix() {
     this.covarianceMatrixService.updateCovarianceMatrix('[[1, 2, 3], [4, 5, 6], [7, 8, 9]]')
-  }
-
-  get covarianceMatrixInputArray(): FormArray {
-    this.size = 0;
-    return this.covarianceMatrixForm.get('covarianceMatrixInputArray') as FormArray;
   }
 
   get covarianceMatrixForm(): FormGroup {
@@ -125,7 +101,6 @@ export class CovarianceMatrixComponent implements OnInit, AfterContentInit, OnCh
     this._covarianceMatrixService = value;
   }
 
-
   get uMatrix(): string {
     return this._uMatrix;
   }
@@ -140,13 +115,5 @@ export class CovarianceMatrixComponent implements OnInit, AfterContentInit, OnCh
 
   set sizeArray(value: number[]) {
     this._sizeArray = value;
-  }
-
-  get isBuilt(): boolean {
-    return this._isBuilt;
-  }
-
-  set isBuilt(value: boolean) {
-    this._isBuilt = value;
   }
 }

@@ -12,7 +12,7 @@
         <div class="col">
           <div class="form-group">
             <label class="center-block">No. Repeats:
-              <input class="form-control" formControlName="noRepeats">
+              <input class="form-control" formControlName="noRepeats" required>
             </label>
           </div>
         </div>
@@ -24,11 +24,12 @@
           </div>
         </div>
       </div>
-      <div class="row">
-        <app-covariance-matrix [size]="4"></app-covariance-matrix>
+      <div class="row" *ngIf="repeatedMeasureForm.status==='VALID'">
+        <app-covariance-matrix [size]="2"></app-covariance-matrix>
       </div>
     </div>
   </div>
   <br>
+  <button type="submit" (click)="onSubmit()" class="btn btn-primary">Submit</button>
 </form>
 RM: {{uMatrix}}
