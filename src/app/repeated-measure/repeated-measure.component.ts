@@ -17,7 +17,8 @@ export class RepeatedMeasureComponent {
   private _correlationMatrixSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private correlationMatrixService: CorrelationMatrixService) {
-    this.repeatedMeasure = new RepeatedMeasure();
+    // TODO: fix this. Shouldn't need the if/new.
+    if (!this.repeatedMeasure) { this.repeatedMeasure = new RepeatedMeasure(); }
     this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
         this.repeatedMeasure.correlationMatrix = correlationMatrix;
