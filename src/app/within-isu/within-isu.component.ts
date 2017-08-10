@@ -3,11 +3,14 @@ import {StudyService} from '../shared/study.service';
 import {FormBuilder, FormGroup, FormArray} from '@angular/forms';
 import {constants} from '../shared/constants';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
+import {RepeatedMeasureService} from '../shared/repeatedMeasure.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-witin-isu',
   templateUrl: './within-isu.component.html',
-  styleUrls: ['./within-isu.component.scss']
+  styleUrls: ['./within-isu.component.scss'],
+  providers: [RepeatedMeasure, RepeatedMeasureService]
 })
 export class WitinIsuComponent implements OnInit, OnChanges{
 
@@ -15,10 +18,18 @@ export class WitinIsuComponent implements OnInit, OnChanges{
   private _withinISUForm: FormGroup;
   private _formErrors = constants.WITHIN_ISU_ERRORS;
   private _validationMessages = constants.WITHIN_ISU_VALIDATION_MESSAGES;
-  private _repeatedMeasures: RepeatedMeasure[];
+  private _repeatedMeasures: RepeatedMeasure[] = [];
+  private _repeatedMeasureSubscription: Subscription;
 
-  constructor(private study_service: StudyService, private fb: FormBuilder) {
+  constructor(private study_service: StudyService,
+              private _repeatedMeasureService: RepeatedMeasureService,
+              private fb: FormBuilder) {
     this.buildForm();
+    this.repeatedMeasureSubscription = this.repeatedMeasureService.repeatedMeasure$.subscribe(
+      repeatedMeasure => {
+        this.repeatedMeasures.push(repeatedMeasure);
+      }
+    );
   }
 
   buildForm(): void {
@@ -124,5 +135,21 @@ export class WitinIsuComponent implements OnInit, OnChanges{
 
   ngOnChanges() {
     this.setRepeatedMeasures([]);
+  }
+
+  get repeatedMeasureService(): RepeatedMeasureService {
+    return this._repeatedMeasureService;
+  }
+
+  set repeatedMeasureService(value: RepeatedMeasureService) {
+    this._repeatedMeasureService = value;
+  }
+
+  get repeatedMeasureSubscription(): Subscription {
+    return this._repeatedMeasureSubscription;
+  }
+
+  set repeatedMeasureSubscription(value: Subscription) {
+    this._repeatedMeasureSubscription = value;
   }
 }

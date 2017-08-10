@@ -1,3 +1,6 @@
+import {Injectable} from '@angular/core';
+
+@Injectable()
 export class RepeatedMeasure {
   private _name = '';
   private _noRepeats = 0;

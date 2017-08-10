@@ -3,6 +3,7 @@ import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
+import {RepeatedMeasureService} from '../shared/repeatedMeasure.service';
 
 @Component({
   selector: 'app-repeated-measure',
@@ -12,19 +13,17 @@ import {Subscription} from 'rxjs/Subscription';
 })
 export class RepeatedMeasureComponent {
 
-  private _repeatedMeasure: RepeatedMeasure;
   private _repeatedMeasureForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder, private correlationMatrixService: CorrelationMatrixService) {
-    // TODO: fix this. Shouldn't need the if/new.
-    if (!this.repeatedMeasure) { this.repeatedMeasure = new RepeatedMeasure(); }
-    this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
-      correlationMatrix => {
-        this.repeatedMeasure.correlationMatrix = correlationMatrix;
-      }
-    );
+  constructor(
+    private _fb: FormBuilder,
+    private _correlationMatrixService: CorrelationMatrixService,
+    private _repeatedMeasureService: RepeatedMeasureService,
+    private _repeatedMeasure: RepeatedMeasure
+  ) {
     this.buildForm();
+    this.updateCorrelationMatrix();
     this.updateName();
     this.updateNoRepeats();
     this.updateSpacing();
@@ -37,6 +36,19 @@ export class RepeatedMeasureComponent {
       spacing: [''],
       correlationMatrix: ''
     });
+  }
+
+  addRepeatedMeasure() {
+    this.repeatedMeasureService.updateRepeatedMeasure( this.repeatedMeasure );
+  }
+
+  updateCorrelationMatrix() {
+    this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
+      correlationMatrix => {
+        this.repeatedMeasureForm.get('correlationMatrix').setValue(correlationMatrix);
+        this.repeatedMeasure.correlationMatrix = correlationMatrix;
+      }
+    );
   }
 
   updateName() {
@@ -88,5 +100,21 @@ export class RepeatedMeasureComponent {
 
   set fb(value: FormBuilder) {
     this._fb = value;
+  }
+
+  get repeatedMeasureService(): RepeatedMeasureService {
+    return this._repeatedMeasureService;
+  }
+
+  set repeatedMeasureService(value: RepeatedMeasureService) {
+    this._repeatedMeasureService = value;
+  }
+
+  get correlationMatrixService(): CorrelationMatrixService {
+    return this._correlationMatrixService;
+  }
+
+  set correlationMatrixService(value: CorrelationMatrixService) {
+    this._correlationMatrixService = value;
   }
 }

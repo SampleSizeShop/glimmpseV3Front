@@ -63,10 +63,11 @@ export class CorrelationMatrixComponent implements  OnInit, OnChanges {
           this.values[transpose] = value;
           this.correlationMatrixForm.get(transpose).setValue(value);
         }
+        this.updateMatrix()
       });
     }
 
-    this.uMatrix = this.buildArrayString(this.values);
+    this.updateMatrix()
   }
 
   ngOnChanges() {
