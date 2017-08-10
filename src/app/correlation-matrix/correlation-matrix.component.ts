@@ -1,5 +1,5 @@
 import {AfterContentInit, Component, Input, OnChanges, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
 
@@ -12,7 +12,9 @@ export class CorrelationMatrixComponent implements  OnInit {
 
   private _size: number;
   private _sizeArray: number[];
+  private _controlDefs: {};
   private _controls: {};
+  private _values: {};
   private _correlationMatrixForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
   private _uMatrix: string;
@@ -26,6 +28,8 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   buildForm(): void {
+    this.values = {};
+    this.controlDefs = {};
     this.controls = {};
     this.sizeArray =  Array.from(Array(this.size).keys());
 
@@ -33,15 +37,25 @@ export class CorrelationMatrixComponent implements  OnInit {
       for (const c of this.sizeArray) {
         const name = r.toString() + c.toString();
         if (r > c) {
-          this.controls[name] = [0];
+          this.controlDefs[name] = [0];
+          this.values[name] = 0;
         }
         if (r === c) {
-          this.controls[name] = [1];
+          this.controlDefs[name] = [1];
+          this.values[name] = 1;
         }
       }
     }
 
-    this.correlationMatrixForm = this._fb.group(this.controls);
+    this.correlationMatrixForm = this._fb.group(this.controlDefs);
+    for (const name in this.controlDefs) {
+      this.controls[name] = this.correlationMatrixForm.get(name);
+    }
+    for (const name in this.controlDefs) {
+      console.log(name);
+      console.log(typeof this.values[name]);
+      this.controls[name].valueChanges.forEach((value: number) => this.values[name] = value);
+    }
   }
 
   ngOnInit() {
@@ -69,12 +83,12 @@ export class CorrelationMatrixComponent implements  OnInit {
     this._size = value;
   }
 
-  get controls(): {} {
-    return this._controls;
+  get controlDefs(): {} {
+    return this._controlDefs;
   }
 
-  set controls(value: {}) {
-    this._controls = value;
+  set controlDefs(value: {}) {
+    this._controlDefs = value;
   }
 
   get correlationMatrixSubscription(): Subscription {
@@ -115,5 +129,21 @@ export class CorrelationMatrixComponent implements  OnInit {
 
   set sizeArray(value: number[]) {
     this._sizeArray = value;
+  }
+
+  get values(): {} {
+    return this._values;
+  }
+
+  set values(value: {}) {
+    this._values = value;
+  }
+
+  get controls(): {} {
+    return this._controls;
+  }
+
+  set controls(value: {}) {
+    this._controls = value;
   }
 }
