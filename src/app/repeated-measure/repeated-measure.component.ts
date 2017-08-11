@@ -11,7 +11,7 @@ import {RepeatedMeasureService} from '../shared/repeatedMeasure.service';
   styleUrls: ['./repeated-measure.component.scss'],
   providers: [CorrelationMatrixService]
 })
-export class RepeatedMeasureComponent {
+export class RepeatedMeasureComponent implements OnInit {
 
   private _repeatedMeasureForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
@@ -21,20 +21,25 @@ export class RepeatedMeasureComponent {
     private _correlationMatrixService: CorrelationMatrixService,
     private _repeatedMeasureService: RepeatedMeasureService,
     private _repeatedMeasure: RepeatedMeasure
-  ) {
+  ) {}
+
+  ngOnInit() {
     this.buildForm();
     this.updateCorrelationMatrix();
     this.updateName();
     this.updateNoRepeats();
     this.updateSpacing();
+    if (this.repeatedMeasure.correlationMatrix !== 'DEFAULT_VALUE') {
+      this._correlationMatrixService.updateCorrelationMatrix(this.repeatedMeasure.correlationMatrix);
+    }
   }
 
   buildForm(): void {
     this.repeatedMeasureForm = this.fb.group({
-      name: [''],
-      noRepeats: [''],
-      spacing: [''],
-      correlationMatrix: ''
+      name: [this.repeatedMeasure.name],
+      noRepeats: [this.repeatedMeasure.noRepeats],
+      spacing: [this.repeatedMeasure.spacing],
+      correlationMatrix: this.repeatedMeasure.correlationMatrix
     });
   }
 
@@ -46,7 +51,9 @@ export class RepeatedMeasureComponent {
     this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
         this.repeatedMeasureForm.get('correlationMatrix').setValue(correlationMatrix);
-        this.repeatedMeasure.correlationMatrix = correlationMatrix;
+        if (correlationMatrix !== 'DEFAULT_VALUE') {
+          this.repeatedMeasure.correlationMatrix = correlationMatrix;
+        }
       }
     );
   }
@@ -60,7 +67,11 @@ export class RepeatedMeasureComponent {
   updateNoRepeats() {
     const noRepeatsControl = this.repeatedMeasureForm.get('noRepeats');
     noRepeatsControl.valueChanges.forEach(
-      (value: number) => this.repeatedMeasure.noRepeats = value);
+      (value: number) => {
+        this.repeatedMeasure.noRepeats = value;
+        this._correlationMatrixService.updateSize(value);
+      }
+    );
   }
 
   updateSpacing() {

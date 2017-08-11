@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 export class RepeatedMeasure {
-  private _name = '';
-  private _noRepeats = 0;
-  private _spacing = 0;
-  private _correlationMatrix = '';
+  private _name = null;
+  private _noRepeats = null;
+  private _spacing = null;
+  private _correlationMatrix = null;
 
   get name(): string {
     return this._name;

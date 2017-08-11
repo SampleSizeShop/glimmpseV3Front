@@ -70,7 +70,12 @@ export class WitinIsuComponent {
       this.repeatedMeasures.splice(index, 1);
     }
   }
-  editRepeatedMeasure(measure: RepeatedMeasure) {}
+
+  editRepeatedMeasure(measure: RepeatedMeasure) {
+    this.repeatedMeasure = measure;
+    this.deleteRepeatedMeasure(measure);
+    this.editing = true;
+  }
 
   addRepeatedMeasure() {
     this.repeatedMeasure = new RepeatedMeasure();

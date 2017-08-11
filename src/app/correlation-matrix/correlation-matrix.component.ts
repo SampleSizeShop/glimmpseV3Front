@@ -9,7 +9,7 @@ import {constants} from '../shared/constants';
   templateUrl: './correlation-matrix.component.html',
   styleUrls: ['./correlation-matrix.component.scss']
 })
-export class CorrelationMatrixComponent implements  OnInit, OnChanges {
+export class CorrelationMatrixComponent implements  OnInit {
 
   private _size: number;
   private _sizeArray: number[];
@@ -26,51 +26,77 @@ export class CorrelationMatrixComponent implements  OnInit, OnChanges {
         this.uMatrix = correlationMatrix;
       }
     );
+    this.correlationMatrixSubscription = this._correlationMatrixService.size$.subscribe(
+      size => {
+        this.size = size;
+      }
+    );
+  }
+
+  ngOnInit() {
+    this.buildForm();
   }
 
   buildForm(): void {
-    if (!this.values) {this.values = {}; }
-    this.controlDefs = {};
-    this.controls = {};
-    this.sizeArray =  Array.from(Array(this.size).keys());
+    if (this.uMatrix && this.uMatrix !== 'DEFAULT_VALUE') {
+      this.size = this.uMatrix.split('],[').length;
+      if (!this.values) {this.values = {}; }
+      this.controlDefs = {};
+      this.controls = {};
+      this.sizeArray =  Array.from(Array(this.size).keys());
 
-    for (const r of this.sizeArray) {
-      for (const c of this.sizeArray) {
-        const name = this.buildName(r.toString(), c.toString());
-        if (r > c) {
-          this.controlDefs[name] = [0];
-          this.values[name] = 0;
+      for (const r of this.sizeArray) {
+        for (const c of this.sizeArray) {
+          const name = this.buildName(r.toString(), c.toString());
+          if (r > c) {
+            this.controlDefs[name] = [0];
+            this.values[name] = 0;
+          }
+          if (r === c) {
+            this.controlDefs[name] = [{value: 1, disabled: true}];
+            this.values[name] = 1;
+          }
+          if (r < c) {
+            this.controlDefs[name] = [{value: 0, disabled: true}];
+            this.values[name] = 0;
+          }
         }
-        if (r === c) {
-          this.controlDefs[name] = [{value: 1, disabled: true}];
-          this.values[name] = 1;
-        }
-        if (r < c) {
-          this.controlDefs[name] = [{value: 0, disabled: true}];
-          this.values[name] = 0;
+      }
+    }
+    if (this.size !== -1) {
+      if (!this.values) {this.values = {}; }
+      this.controlDefs = {};
+      this.controls = {};
+      this.sizeArray =  Array.from(Array(this.size).keys());
+
+      for (const r of this.sizeArray) {
+        for (const c of this.sizeArray) {
+          const name = this.buildName(r.toString(), c.toString());
+          if (r > c) {
+            this.controlDefs[name] = [0];
+            this.values[name] = 0;
+          }
+          if (r === c) {
+            this.controlDefs[name] = [{value: 1, disabled: true}];
+            this.values[name] = 1;
+          }
+          if (r < c) {
+            this.controlDefs[name] = [{value: 0, disabled: true}];
+            this.values[name] = 0;
+          }
         }
       }
     }
 
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
-    for (const name in this.controlDefs) {
-      this.controls[name] = this.correlationMatrixForm.get(name);
-      this.controls[name].valueChanges.forEach((value: number) => {
-        this.values[name] = value;
-        if (this.linkToTranspose(name)) {
-          const transpose = this.transposeName(name);
-          this.values[transpose] = value;
-          this.correlationMatrixForm.get(transpose).setValue(value);
-        }
-        this.updateMatrix()
-      });
-    }
+    this.trackControlChanges();
 
     this.updateMatrix()
   }
 
-  ngOnChanges() {
-
+  updateMatrix() {
+    this.uMatrix = this.buildArrayString(this.values);
+    this.correlationMatrixService.updateCorrelationMatrix( this.uMatrix );
   }
 
   private transposeName(name: string): string {
@@ -128,13 +154,19 @@ export class CorrelationMatrixComponent implements  OnInit, OnChanges {
     return first + constants.SEPARATOR + second;
   }
 
-  ngOnInit() {
-    this.buildForm();
-  }
-
-  updateMatrix() {
-    this.uMatrix = this.buildArrayString(this.values);
-    this.correlationMatrixService.updateCorrelationMatrix( this.uMatrix );
+  trackControlChanges() {
+    for (const name in this.controlDefs) {
+      this.controls[name] = this.correlationMatrixForm.get(name);
+      this.controls[name].valueChanges.forEach((value: number) => {
+        this.values[name] = value;
+        if (this.linkToTranspose(name)) {
+          const transpose = this.transposeName(name);
+          this.values[transpose] = value;
+          this.correlationMatrixForm.get(transpose).setValue(value);
+        }
+        this.updateMatrix()
+      });
+    }
   }
 
   get correlationMatrixForm(): FormGroup {
