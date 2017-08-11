@@ -117,10 +117,6 @@ export class CorrelationMatrixComponent implements  OnInit {
     this.uMatrix.values = vals;
   }
 
-  private trimLastChar(str: string) {
-    return str.substring(0, str.length - 1);
-  }
-
   private splitName(name: string) {
     return name.split(constants.SEPARATOR);
   }
