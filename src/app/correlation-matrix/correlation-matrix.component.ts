@@ -19,7 +19,6 @@ export class CorrelationMatrixComponent implements  OnInit, OnChanges {
   private _correlationMatrixForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
   private _uMatrix: string;
-  public disp: string
 
   constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService) {
     this.correlationMatrixSubscription = this._correlationMatrixService.correlationMatrix$.subscribe(
