@@ -39,55 +39,31 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   buildForm(): void {
-    if (this.uMatrix && this.uMatrix.values.length > 0) {
-      const mat = this.uMatrix.values;
-      this.size = mat.length;
-      if (!this.values) {this.values = {}; }
-      this.controlDefs = {};
-      this.controls = {};
-      this.sizeArray =  Array.from(Array(this.size).keys());
-
-      for (const r of this.sizeArray) {
-        for (const c of this.sizeArray) {
-          const name = this.buildName(r.toString(), c.toString());
-          if (r > c) {
-            this.controlDefs[name] = [mat[r][c]];
-            this.values[name] = mat[r][c];
-          }
-          if (r === c) {
-            this.controlDefs[name] = [{value: mat[r][c], disabled: true}];
-            this.values[name] = mat[r][c];
-          }
-          if (r < c) {
-            this.controlDefs[name] = [{value: mat[r][c], disabled: true}];
-            this.values[name] = mat[r][c];
-          }
-        }
-      }
-      this.size = -1;
-    }
     if (this.size !== -1) {
       this.uMatrix.populateDefaultValues(this.size);
-      if (!this.values) {this.values = {}; }
-      this.controlDefs = {};
-      this.controls = {};
-      this.sizeArray =  Array.from(Array(this.size).keys());
+    }
+    const mat = this.uMatrix.values;
+    this.size = mat.length;
 
-      for (const r of this.sizeArray) {
-        for (const c of this.sizeArray) {
-          const name = this.buildName(r.toString(), c.toString());
-          if (r > c) {
-            this.controlDefs[name] = [0];
-            this.values[name] = 0;
-          }
-          if (r === c) {
-            this.controlDefs[name] = [{value: 1, disabled: true}];
-            this.values[name] = 1;
-          }
-          if (r < c) {
-            this.controlDefs[name] = [{value: 0, disabled: true}];
-            this.values[name] = 0;
-          }
+    this.values = {};
+    this.controlDefs = {};
+    this.controls = {};
+    this.sizeArray =  Array.from(Array(this.size).keys());
+
+    for (const r of this.sizeArray) {
+      for (const c of this.sizeArray) {
+        const name = this.buildName(r.toString(), c.toString());
+        if (r > c) {
+          this.controlDefs[name] = [mat[r][c]];
+          this.values[name] = mat[r][c];
+        }
+        if (r === c) {
+          this.controlDefs[name] = [{value: mat[r][c], disabled: true}];
+          this.values[name] = mat[r][c];
+        }
+        if (r < c) {
+          this.controlDefs[name] = [{value: mat[r][c], disabled: true}];
+          this.values[name] = mat[r][c];
         }
       }
     }
