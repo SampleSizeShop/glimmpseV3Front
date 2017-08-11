@@ -51,7 +51,7 @@ export class RepeatedMeasureComponent implements OnInit {
     this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
         this.repeatedMeasureForm.get('correlationMatrix').setValue(correlationMatrix);
-        if (correlationMatrix && correlationMatrix.values) {
+        if (correlationMatrix && correlationMatrix.values.length > 0) {
           this.repeatedMeasure.correlationMatrix = correlationMatrix;
         }
       }

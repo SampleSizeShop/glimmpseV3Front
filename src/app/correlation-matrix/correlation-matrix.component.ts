@@ -39,7 +39,7 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   buildForm(): void {
-    if (this.uMatrix && this.uMatrix.values) {
+    if (this.uMatrix && this.uMatrix.values.length > 0) {
       const mat = this.uMatrix.values;
       this.size = mat.length;
       if (!this.values) {this.values = {}; }
@@ -67,6 +67,7 @@ export class CorrelationMatrixComponent implements  OnInit {
       this.size = -1;
     }
     if (this.size !== -1) {
+      this.uMatrix.populateDefaultValues(this.size);
       if (!this.values) {this.values = {}; }
       this.controlDefs = {};
       this.controls = {};
