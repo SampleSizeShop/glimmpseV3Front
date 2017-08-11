@@ -3,6 +3,7 @@ import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
 import {constants} from '../shared/constants';
+import {CorrelationMatrix} from '../shared/CorrelationMatrix';
 
 @Component({
   selector: 'app-correlation-matrix',
@@ -18,7 +19,7 @@ export class CorrelationMatrixComponent implements  OnInit {
   private _values: {};
   private _correlationMatrixForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
-  private _uMatrix: string;
+  private _uMatrix: CorrelationMatrix;
 
   constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService) {
     this.correlationMatrixSubscription = this._correlationMatrixService.correlationMatrix$.subscribe(
@@ -38,21 +39,8 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   buildForm(): void {
-    if (this.uMatrix && this.uMatrix !== 'DEFAULT_VALUE') {
-      this.uMatrix = this.uMatrix.substring(2, this.uMatrix.length - 2);
-      const rows = this.uMatrix.split('],[');
-
-      let mat = [];
-      for (const row of rows ) {
-        let r = [];
-        const vals = row.split(',');
-        for (const val of vals) {
-          r.push(parseInt(val, 10));
-        }
-        mat.push(r);
-      }
-      console.log(JSON.stringify(mat));
-
+    if (this.uMatrix && this.uMatrix.values) {
+      const mat = this.uMatrix.values;
       this.size = mat.length;
       if (!this.values) {this.values = {}; }
       this.controlDefs = {};
@@ -110,7 +98,7 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   updateMatrix() {
-    this.uMatrix = this.buildArrayString(this.values);
+    this.setUMatrixFromValues();
     this.correlationMatrixService.updateCorrelationMatrix( this.uMatrix );
   }
 
@@ -127,34 +115,29 @@ export class CorrelationMatrixComponent implements  OnInit {
     return (parts.length === 2 && parseInt(parts[0], 10) > parseInt(parts[1], 10)) ? true : false;
   }
 
-  private buildArrayString(values: {}): string {
-    let matrixStr = '[';
+  private setUMatrixFromValues() {
+    const vals = new Array();
     const rows = new Set();
-    for ( const name in values ) {
-      const parts = this.splitName(name);
+    for(const val in this.values) {
+      const parts = this.splitName(val);
       rows.add(parts[0]);
     }
 
     for (const row of Array.from(rows.values())) {
-      const rowVals = {};
-      matrixStr = matrixStr + '[';
-      for (const name in values) {
+      const rowVals: number[] = [];
+
+      for (const name in this.values) {
         const parts = this.splitName(name);
         if (parts[0] === row) {
-          rowVals[parts[1]] = values[name];
+          rowVals[parts[1]] = this.values[name];
         }
       }
-      for (const val in rowVals ) {
-        matrixStr = matrixStr + rowVals[val] + ',';
-      }
-      matrixStr = this.trimLastChar(matrixStr);
-      matrixStr = matrixStr + '],';
+
+      vals[row] = rowVals;
     }
 
-    matrixStr = this.trimLastChar(matrixStr);
-    matrixStr = matrixStr + ']';
-
-    return matrixStr;
+    console.log(JSON.stringify(vals))
+    this.uMatrix.values = vals;
   }
 
   private trimLastChar(str: string) {
@@ -233,11 +216,11 @@ export class CorrelationMatrixComponent implements  OnInit {
     this._correlationMatrixService = value;
   }
 
-  get uMatrix(): string {
+  get uMatrix(): CorrelationMatrix {
     return this._uMatrix;
   }
 
-  set uMatrix(value: string) {
+  set uMatrix(value: CorrelationMatrix) {
     this._uMatrix = value;
   }
 

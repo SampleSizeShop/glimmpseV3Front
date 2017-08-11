@@ -29,7 +29,7 @@ export class RepeatedMeasureComponent implements OnInit {
     this.updateName();
     this.updateNoRepeats();
     this.updateSpacing();
-    if (this.repeatedMeasure.correlationMatrix !== 'DEFAULT_VALUE') {
+    if (this.repeatedMeasure.correlationMatrix && this.repeatedMeasure.correlationMatrix.values) {
       this._correlationMatrixService.updateCorrelationMatrix(this.repeatedMeasure.correlationMatrix);
     }
   }
@@ -51,7 +51,7 @@ export class RepeatedMeasureComponent implements OnInit {
     this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
         this.repeatedMeasureForm.get('correlationMatrix').setValue(correlationMatrix);
-        if (correlationMatrix !== 'DEFAULT_VALUE') {
+        if (correlationMatrix && correlationMatrix.values) {
           this.repeatedMeasure.correlationMatrix = correlationMatrix;
         }
       }

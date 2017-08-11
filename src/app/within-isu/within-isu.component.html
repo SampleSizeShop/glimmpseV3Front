@@ -45,7 +45,7 @@
       <td>{{measure.name}}</td>
       <td>{{measure.noRepeats}}</td>
       <td>{{measure.spacing}}</td>
-      <td>{{measure.correlationMatrix}}</td>
+      <td>{{measure.correlationMatrix | json}}</td>
       <td>
         <button class="btn btn-primary" type="check" (click)="editRepeatedMeasure(measure)">Edit</button>
         <button class="btn btn-primary" type="check" (click)="deleteRepeatedMeasure(measure)">Delete</button>

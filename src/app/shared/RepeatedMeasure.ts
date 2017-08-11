@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {CorrelationMatrix} from './CorrelationMatrix';
 
 @Injectable()
 export class RepeatedMeasure {
@@ -31,11 +32,11 @@ export class RepeatedMeasure {
     this._spacing = value;
   }
 
-  get correlationMatrix(): string {
+  get correlationMatrix(): CorrelationMatrix {
     return this._correlationMatrix;
   }
 
-  set correlationMatrix(value: string) {
+  set correlationMatrix(value: CorrelationMatrix) {
     this._correlationMatrix = value;
   }
 }
