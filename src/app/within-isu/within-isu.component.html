@@ -36,14 +36,16 @@
       <th>Name</th>
       <th># Repeats</th>
       <th>Spacing</th>
+      <th>Corellation Matrix</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let measure of repeatedMeasures" class="table-info">
-      <td>1</td>
-      <td>Column content</td>
-      <td>Column content</td>
-      <td>Column content</td>
+      <td><button class="btn btn-primary" type="check">Edit</button></td>
+      <td>{{measure.name}}</td>
+      <td>{{measure.noRepeats}}</td>
+      <td>{{measure.spacing}}</td>
+      <td>{{measure.correlationMatrix}}</td>
     </tr>
     </tbody>
   </table>
