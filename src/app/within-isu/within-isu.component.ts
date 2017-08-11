@@ -63,6 +63,15 @@ export class WitinIsuComponent {
     }
   }
 
+  deleteRepeatedMeasure(measure: RepeatedMeasure) {
+    let index = -1;
+    index = this.repeatedMeasures.indexOf(measure);
+    if (index > -1) {
+      this.repeatedMeasures.splice(index, 1);
+    }
+  }
+  editRepeatedMeasure(measure: RepeatedMeasure) {}
+
   addRepeatedMeasure() {
     this.repeatedMeasure = new RepeatedMeasure();
     this.editing = true;
