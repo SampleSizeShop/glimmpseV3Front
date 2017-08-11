@@ -21,10 +21,8 @@
   <div *ngIf="multipleOutcomes">
     <h6>Choose type of variable to add:</h6>
     <button (click)="addRepeatedMeasure()" type="button" class="btn btn-primary">+ Repeated Measure</button>
-    <div formArrayName="repeatedmeasures" class="well well-lg">
-      <div *ngFor="let measure of repeatedmeasures.controls; let i=index" [formGroupName]="i" class ="well well-lg">
-        <app-repeated-measure [repeatedMeasure]="measure"></app-repeated-measure>
-      </div>
+    <div *ngIf="editing" >
+        <app-repeated-measure [repeatedMeasure]="repeatedMeasure"></app-repeated-measure>
     </div>
   </div>
 </form>

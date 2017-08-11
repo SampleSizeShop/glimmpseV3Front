@@ -5,7 +5,6 @@ import {Subject} from 'rxjs/Subject';
 
 @Injectable()
 export class RepeatedMeasureService {
-  // Repeated measure observable stream
   private _repeatedMeasureSource = new Subject<RepeatedMeasure>();
   private _repeatedMeasure$ = this.repeatedMeasureSource.asObservable();
 
@@ -20,5 +19,4 @@ export class RepeatedMeasureService {
   get repeatedMeasure$(): Observable<RepeatedMeasure> {
     return this._repeatedMeasure$;
   }
-
 }

@@ -12,18 +12,21 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['./within-isu.component.scss'],
   providers: [RepeatedMeasure, RepeatedMeasureService]
 })
-export class WitinIsuComponent implements OnInit, OnChanges{
+export class WitinIsuComponent {
 
   private _multipleOutcomes: boolean;
   private _withinISUForm: FormGroup;
   private _formErrors = constants.WITHIN_ISU_ERRORS;
   private _validationMessages = constants.WITHIN_ISU_VALIDATION_MESSAGES;
   private _repeatedMeasures: RepeatedMeasure[] = [];
+  private _repeatedMeasure: RepeatedMeasure;
   private _repeatedMeasureSubscription: Subscription;
+  private _editing: boolean;
 
   constructor(private study_service: StudyService,
               private _repeatedMeasureService: RepeatedMeasureService,
               private fb: FormBuilder) {
+    this.editing = false;
     this.buildForm();
     this.repeatedMeasureSubscription = this.repeatedMeasureService.repeatedMeasure$.subscribe(
       repeatedMeasure => {
@@ -35,7 +38,6 @@ export class WitinIsuComponent implements OnInit, OnChanges{
   buildForm(): void {
     this.withinISUForm = this.fb.group({
       singleoutcome: '',
-      repeatedmeasures: this.fb.array([])
     });
 
     this.withinISUForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -60,18 +62,9 @@ export class WitinIsuComponent implements OnInit, OnChanges{
     }
   }
 
-  setRepeatedMeasures(repeatedMeasures: RepeatedMeasure[]) {
-    const repeatedMeasureFGs = repeatedMeasures.map(outcome => this.fb.group(outcome));
-    const repeatedMeasuresFA = this.fb.array(repeatedMeasureFGs);
-    this.withinISUForm.setControl('repeatedmeasures', repeatedMeasuresFA);
-  }
-
-  get repeatedmeasures(): FormArray {
-    return this.withinISUForm.get('repeatedmeasures') as FormArray;
-  }
-
   addRepeatedMeasure() {
-    this.repeatedmeasures.push(this.fb.group(new RepeatedMeasure()));
+    this.repeatedMeasure = new RepeatedMeasure();
+    this.editing = true;
   }
 
   selectSingleOutcome() {
@@ -129,14 +122,6 @@ export class WitinIsuComponent implements OnInit, OnChanges{
     this._repeatedMeasures = value;
   }
 
-  ngOnInit() {
-    this.setRepeatedMeasures([]);
-  }
-
-  ngOnChanges() {
-    this.setRepeatedMeasures([]);
-  }
-
   get repeatedMeasureService(): RepeatedMeasureService {
     return this._repeatedMeasureService;
   }
@@ -151,5 +136,21 @@ export class WitinIsuComponent implements OnInit, OnChanges{
 
   set repeatedMeasureSubscription(value: Subscription) {
     this._repeatedMeasureSubscription = value;
+  }
+
+  get editing(): boolean {
+    return this._editing;
+  }
+
+  set editing(value: boolean) {
+    this._editing = value;
+  }
+
+  get repeatedMeasure(): RepeatedMeasure {
+    return this._repeatedMeasure;
+  }
+
+  set repeatedMeasure(value: RepeatedMeasure) {
+    this._repeatedMeasure = value;
   }
 }
