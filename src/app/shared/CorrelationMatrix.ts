@@ -16,7 +16,7 @@ export class CorrelationMatrix {
   populateDefaultValues(size: number) {
     const sizeArray =  Array.from(Array(size).keys());
     for (const r in sizeArray) {
-      const row = []
+      const row = [];
       for (const c in sizeArray) {
         if (r === c) {
           row[c] = 1;
