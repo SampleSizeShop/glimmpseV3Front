@@ -1,3 +1,5 @@
+import * as math from 'mathjs';
+
 export class CorrelationMatrix {
   private _values: number[][];
 
@@ -26,5 +28,7 @@ export class CorrelationMatrix {
       }
       this.values[r] = row;
     }
+    const k = math.matrix([[1, 2], [3, 4]]);
+    console.log(k.toJSON());
   }
 }
