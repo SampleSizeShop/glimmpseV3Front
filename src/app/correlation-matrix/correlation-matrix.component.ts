@@ -80,11 +80,11 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   updateMatrix() {
-    this.setUMatrixFromValues();
+    this._setUMatrixFromValues();
     this.correlationMatrixService.updateCorrelationMatrix( this.uMatrix );
   }
 
-  private transposeName(name: string): string {
+  _transposeName(name: string): string {
     const parts = this.splitName(name);
     if (parts.length === 2 && parts[0] !== parts[1]) {
       name = this.buildName(parts[1], parts[0]);
@@ -92,22 +92,20 @@ export class CorrelationMatrixComponent implements  OnInit {
     return name;
   }
 
-  private linkToTranspose(name: string): boolean {
+  _linkToTranspose(name: string): boolean {
     const parts = this.splitName(name);
     return (parts.length === 2 && parseInt(parts[0], 10) > parseInt(parts[1], 10)) ? true : false;
   }
 
-  private setUMatrixFromValues() {
+  _setUMatrixFromValues() {
     const vals = new Array();
     const rows = new Set();
     for(const val in this.values) {
       const parts = this.splitName(val);
       rows.add(parts[0]);
     }
-
     for (const row of Array.from(rows.values())) {
       const rowVals: number[] = [];
-
       for (const name in this.values) {
         const parts = this.splitName(name);
         if (parts[0] === row) {
@@ -117,8 +115,6 @@ export class CorrelationMatrixComponent implements  OnInit {
 
       vals[row] = rowVals;
     }
-
-    console.log(JSON.stringify(vals))
     this.uMatrix.values = math.matrix(vals);
   }
 
@@ -135,8 +131,8 @@ export class CorrelationMatrixComponent implements  OnInit {
       this.controls[name] = this.correlationMatrixForm.get(name);
       this.controls[name].valueChanges.forEach((value: number) => {
         this.values[name] = value;
-        if (this.linkToTranspose(name)) {
-          const transpose = this.transposeName(name);
+        if (this._linkToTranspose(name)) {
+          const transpose = this._transposeName(name);
           this.values[transpose] = value;
           this.correlationMatrixForm.get(transpose).setValue(value);
         }

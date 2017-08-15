@@ -55,5 +55,47 @@ describe('CorrelationMatrixComponent', () => {
     component._initializeProperties();
     component._defineFormControls();
     expect(Object.keys(component.controlDefs)).toEqual(Object.keys(component.values));
-  } )
+  } );
+
+  it('Should give the transposed matrix element', () => {
+    const actual = '2-3';
+    const expected = '3-2';
+    expect(component._transposeName(actual)).toEqual(expected);
+  });
+
+  it('Should return true if element is not on a diagonal', () => {
+    const actual = '1-0';
+    expect(component._linkToTranspose(actual)).toEqual(true);
+  });
+
+  it('Should return false if element is on a diagonal', () => {
+    const actual = '1-1';
+    expect(component._linkToTranspose(actual)).toEqual(false);
+  });
+
+  it('Should correctly build a mathjs matrix from the values in the control', () => {
+    component.values = {'0-0': 1, '0-1': 0, '1-0': 0, '1-1': 1};
+    component._setUMatrixFromValues();
+    expect(component.uMatrix.values.get([0, 0])).toEqual(1);
+    expect(component.uMatrix.values.get([0, 1])).toEqual(0);
+    expect(component.uMatrix.values.get([1, 0])).toEqual(0);
+    expect(component.uMatrix.values.get([1, 1])).toEqual(1);
+  });
+
+  it('Should give disable cells inherited colour', () => {
+    const expected = 'inherit'
+    expect(component.getStyle(0,1)).toEqual(expected);
+  });
+
+  it('Should give diagonal cells contrast colour', () => {
+    const white = '#ffffff';
+    const inherit = 'inherit';
+    expect(component.getStyle(0, 0) !== white);
+    expect(component.getStyle(0, 0) !== inherit);
+  });
+
+  it('Should colour active cells white', () => {
+    const expected = '#ffffff'
+    expect(component.getStyle(1, 0)).toEqual(expected);
+  });
 });
