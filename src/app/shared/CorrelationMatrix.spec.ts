@@ -11,7 +11,6 @@ describe('CorrelationMatrix', () => {
 
   it('Should be populated as a square diagonal matrix', () => {
     component.populateDefaultValues(2);
-    console.log('M', component.values.toJSON());
     expect(component.values.get([0, 0])).toEqual(1);
     expect(component.values.get([0, 1])).toEqual(0);
     expect(component.values.get([1, 0])).toEqual(0);

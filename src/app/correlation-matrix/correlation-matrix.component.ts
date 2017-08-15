@@ -40,8 +40,8 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   buildForm(): void {
-    this.initializeProperties();
-    this.defineFormControls();
+    this._initializeProperties();
+    this._defineFormControls();
 
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
     this.trackControlChanges();
@@ -49,7 +49,7 @@ export class CorrelationMatrixComponent implements  OnInit {
     this.updateMatrix()
   }
 
-  private initializeProperties() {
+  _initializeProperties() {
     if (this.size !== -1) {
       this.uMatrix.populateDefaultValues(this.size);
     }
@@ -60,23 +60,21 @@ export class CorrelationMatrixComponent implements  OnInit {
     this.controls = {};
   }
 
-  private defineFormControls() {
+  _defineFormControls() {
     this.sizeArray = Array.from(Array(this.size).keys());
     for (const r of this.sizeArray) {
       for (const c of this.sizeArray) {
         const name = this.buildName(r.toString(), c.toString());
         if (r > c) {
           this.controlDefs[name] = this.uMatrix.values.get([r, c]);
-          this.values[name] = this.uMatrix.values.get([r, c]);
         }
         if (r === c) {
           this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true}];
-          this.values[name] = this.uMatrix.values.get([r, c]);
         }
         if (r < c) {
           this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true}];
-          this.values[name] = this.uMatrix.values.get([r, c]);
         }
+        this.values[name] = this.uMatrix.values.get([r, c]);
       }
     };
   }
