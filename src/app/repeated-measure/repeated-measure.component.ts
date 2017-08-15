@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
 import {RepeatedMeasureService} from '../shared/repeatedMeasure.service';
+import Matrix = mathjs.Matrix;
 
 @Component({
   selector: 'app-repeated-measure',
@@ -51,7 +52,7 @@ export class RepeatedMeasureComponent implements OnInit {
     this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
         this.repeatedMeasureForm.get('correlationMatrix').setValue(correlationMatrix);
-        if (correlationMatrix && correlationMatrix.values.length > 0) {
+        if (correlationMatrix && correlationMatrix.values ) {
           this.repeatedMeasure.correlationMatrix = correlationMatrix;
         }
       }

@@ -1,34 +1,22 @@
 import * as math from 'mathjs';
+import Matrix = mathjs.Matrix;
 
 export class CorrelationMatrix {
-  private _values: number[][];
+  private _values: Matrix;
 
   constructor() {
-    this.values = [];
+    this.values = math.matrix();
   }
 
-  get values(): number[][] {
+  get values(): Matrix {
     return this._values;
   }
 
-  set values(value: number[][]) {
+  set values(value: Matrix) {
     this._values = value;
   }
 
-  populateDefaultValues(size: number) {
-    const sizeArray =  Array.from(Array(size).keys());
-    for (const r in sizeArray) {
-      const row = [];
-      for (const c in sizeArray) {
-        if (r === c) {
-          row[c] = 1;
-        } else {
-          row[c] = 0;
-        }
-      }
-      this.values[r] = row;
-    }
-    const k = math.matrix([[1, 2], [3, 4]]);
-    console.log(k.toJSON());
+  populateDefaultValues(size: number): void {
+    this.values = math.diag(Array(size).fill(1), 'dense');
   }
 }

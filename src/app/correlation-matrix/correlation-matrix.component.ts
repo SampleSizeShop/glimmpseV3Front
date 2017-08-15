@@ -1,9 +1,11 @@
-import {AfterContentInit, Component, Input, OnChanges, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
+import { Component, Input, OnInit} from '@angular/core';
+import { FormBuilder, FormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
 import {constants} from '../shared/constants';
 import {CorrelationMatrix} from '../shared/CorrelationMatrix';
+import * as math from 'mathjs';
+import Matrix = mathjs.Matrix;
 
 @Component({
   selector: 'app-correlation-matrix',
@@ -42,8 +44,10 @@ export class CorrelationMatrixComponent implements  OnInit {
     if (this.size !== -1) {
       this.uMatrix.populateDefaultValues(this.size);
     }
-    const mat = this.uMatrix.values;
-    this.size = mat.length;
+    const mat: Matrix = this.uMatrix.values;
+    console.log('Test Get: ', typeof this.uMatrix.values);
+    console.log('Test Get: ', mat[0]);
+    this.size = mat.size()[0];
 
     this.values = {};
     this.controlDefs = {};
@@ -54,19 +58,19 @@ export class CorrelationMatrixComponent implements  OnInit {
       for (const c of this.sizeArray) {
         const name = this.buildName(r.toString(), c.toString());
         if (r > c) {
-          this.controlDefs[name] = [mat[r][c]];
-          this.values[name] = mat[r][c];
+          this.controlDefs[name] = mat.get([r, c]);
+          this.values[name] = mat.get([r, c]);
         }
         if (r === c) {
-          this.controlDefs[name] = [{value: mat[r][c], disabled: true}];
-          this.values[name] = mat[r][c];
+          this.controlDefs[name] = [{value: mat.get([r, c]), disabled: true}];
+          this.values[name] = mat.get([r, c]);
         }
         if (r < c) {
-          this.controlDefs[name] = [{value: mat[r][c], disabled: true}];
-          this.values[name] = mat[r][c];
+          this.controlDefs[name] = [{value: mat.get([r, c]), disabled: true}];
+          this.values[name] = mat.get([r, c]);
         }
       }
-    }
+    };
 
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
     this.trackControlChanges();
@@ -114,7 +118,7 @@ export class CorrelationMatrixComponent implements  OnInit {
     }
 
     console.log(JSON.stringify(vals))
-    this.uMatrix.values = vals;
+    this.uMatrix.values = math.matrix(vals);
   }
 
   private splitName(name: string) {
