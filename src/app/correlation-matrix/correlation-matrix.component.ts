@@ -14,6 +14,7 @@ import * as math from 'mathjs';
 export class CorrelationMatrixComponent implements  OnInit {
 
   private _size: number;
+  private _sizeArray: number[];
   private _controlDefs: {};
   private _controls: {};
   private _values: {};
@@ -39,27 +40,30 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   buildForm(): void {
-    this.initialiseProperties();
-    this.defineControls();
+    this.initializeProperties();
+    this.defineFormControls();
+
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
     this.trackControlChanges();
+
     this.updateMatrix()
   }
 
-  private initialiseProperties() {
+  private initializeProperties() {
     if (this.size !== -1) {
       this.uMatrix.populateDefaultValues(this.size);
     }
+
     this.size = this.uMatrix.values.size()[0];
     this.values = {};
     this.controlDefs = {};
     this.controls = {};
   }
 
-  private defineControls() {
-    const sizeArray = Array.from(Array(this.size).keys());
-    for (const r of sizeArray) {
-      for (const c of sizeArray) {
+  private defineFormControls() {
+    this.sizeArray = Array.from(Array(this.size).keys());
+    for (const r of this.sizeArray) {
+      for (const c of this.sizeArray) {
         const name = this.buildName(r.toString(), c.toString());
         if (r > c) {
           this.controlDefs[name] = this.uMatrix.values.get([r, c]);
@@ -209,6 +213,14 @@ export class CorrelationMatrixComponent implements  OnInit {
 
   set uMatrix(value: CorrelationMatrix) {
     this._uMatrix = value;
+  }
+
+  get sizeArray(): number[] {
+    return this._sizeArray;
+  }
+
+  set sizeArray(value: number[]) {
+    this._sizeArray = value;
   }
 
   get values(): {} {
