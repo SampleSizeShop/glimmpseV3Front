@@ -31,6 +31,10 @@ export class CorrelationMatrixComponent implements  OnInit {
     this.correlationMatrixSubscription = this._correlationMatrixService.size$.subscribe(
       size => {
         this.size = size;
+        if (size !== -1 && this.uMatrix.values.size()[0] > 0) {
+          this.buildForm();
+          this.sizeArray = Array.from(Array(this.size).keys());
+        }
       }
     );
   }
