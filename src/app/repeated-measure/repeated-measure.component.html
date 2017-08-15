@@ -24,10 +24,10 @@
           </div>
         </div>
       </div>
-      <div class="row" *ngIf="repeatedMeasureForm.status==='VALID'">
+      <div class="row" *ngIf="repeatedMeasureForm.status==='VALID'" id="correlationMatrix">
         <app-correlation-matrix></app-correlation-matrix>
       </div>
     </div>
   </div>
-  <button class="btn btn-primary" [disabled]="repeatedMeasureForm.status!=='VALID'" (click)="addRepeatedMeasure()">Add Repeated Measure</button>
+  <button class="btn btn-primary" [disabled]="repeatedMeasureForm.status!=='VALID'" (click)="addRepeatedMeasure()" id="addMeasureBtn">Add Repeated Measure</button>
 </form>
