@@ -13,6 +13,8 @@ import {StatisticalTestsComponent} from '../statistical-tests/statistical-tests.
 import {TypeOneErrorComponent} from '../type-one-error/type-one-error.component';
 import {WitinIsuComponent} from '../within-isu/within-isu.component';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
+import {RepeatedMeasure} from '../shared/RepeatedMeasure';
+import {RepeatedMeasureComponent} from '../repeated-measure/repeated-measure.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -32,6 +34,7 @@ describe('StudyFormComponent', () => {
         StatisticalTestsComponent,
         TypeOneErrorComponent,
         WitinIsuComponent,
+        RepeatedMeasureComponent,
         CorrelationMatrixComponent ],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })

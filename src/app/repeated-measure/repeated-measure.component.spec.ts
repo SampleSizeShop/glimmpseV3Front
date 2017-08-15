@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RepeatedMeasureComponent } from './repeated-measure.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
+import {RepeatedMeasureService} from '../shared/repeatedMeasure.service';
+import {RepeatedMeasure} from '../shared/RepeatedMeasure';
+import {Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 
 describe('RepeatedMeasureComponent', () => {
   let component: RepeatedMeasureComponent;
@@ -8,7 +14,9 @@ describe('RepeatedMeasureComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RepeatedMeasureComponent ]
+      imports: [ ReactiveFormsModule ],
+      declarations: [ RepeatedMeasureComponent, CorrelationMatrixComponent ],
+      providers: [ RepeatedMeasureService, RepeatedMeasure ]
     })
     .compileComponents();
   }));

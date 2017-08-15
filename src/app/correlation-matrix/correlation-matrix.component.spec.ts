@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CorrelationMatrixComponent } from './correlation-matrix.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 
 describe('CorrelationMatrixComponent', () => {
   let component: CorrelationMatrixComponent;
@@ -8,7 +10,9 @@ describe('CorrelationMatrixComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CorrelationMatrixComponent ]
+      imports: [ ReactiveFormsModule ],
+      declarations: [ CorrelationMatrixComponent ],
+      providers: [ CorrelationMatrixService ]
     })
     .compileComponents();
   }));

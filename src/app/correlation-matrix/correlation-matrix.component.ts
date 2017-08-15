@@ -5,7 +5,6 @@ import {Subscription} from 'rxjs/Subscription';
 import {constants} from '../shared/constants';
 import {CorrelationMatrix} from '../shared/CorrelationMatrix';
 import * as math from 'mathjs';
-import Matrix = mathjs.Matrix;
 
 @Component({
   selector: 'app-correlation-matrix',
@@ -15,7 +14,6 @@ import Matrix = mathjs.Matrix;
 export class CorrelationMatrixComponent implements  OnInit {
 
   private _size: number;
-  private _sizeArray: number[];
   private _controlDefs: {};
   private _controls: {};
   private _values: {};
@@ -44,38 +42,40 @@ export class CorrelationMatrixComponent implements  OnInit {
     if (this.size !== -1) {
       this.uMatrix.populateDefaultValues(this.size);
     }
-    const mat: Matrix = this.uMatrix.values;
-    console.log('Test Get: ', typeof this.uMatrix.values);
-    console.log('Test Get: ', mat[0]);
-    this.size = mat.size()[0];
+
+    this.size = this.uMatrix.values.size()[0];
 
     this.values = {};
     this.controlDefs = {};
     this.controls = {};
-    this.sizeArray =  Array.from(Array(this.size).keys());
 
-    for (const r of this.sizeArray) {
-      for (const c of this.sizeArray) {
-        const name = this.buildName(r.toString(), c.toString());
-        if (r > c) {
-          this.controlDefs[name] = mat.get([r, c]);
-          this.values[name] = mat.get([r, c]);
-        }
-        if (r === c) {
-          this.controlDefs[name] = [{value: mat.get([r, c]), disabled: true}];
-          this.values[name] = mat.get([r, c]);
-        }
-        if (r < c) {
-          this.controlDefs[name] = [{value: mat.get([r, c]), disabled: true}];
-          this.values[name] = mat.get([r, c]);
-        }
-      }
-    };
+    this.defineControls();
 
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
     this.trackControlChanges();
 
     this.updateMatrix()
+  }
+
+  private defineControls() {
+    const sizeArray = Array.from(Array(this.size).keys());
+    for (const r of sizeArray) {
+      for (const c of sizeArray) {
+        const name = this.buildName(r.toString(), c.toString());
+        if (r > c) {
+          this.controlDefs[name] = this.uMatrix.values.get([r, c]);
+          this.values[name] = this.uMatrix.values.get([r, c]);
+        }
+        if (r === c) {
+          this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true}];
+          this.values[name] = this.uMatrix.values.get([r, c]);
+        }
+        if (r < c) {
+          this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true}];
+          this.values[name] = this.uMatrix.values.get([r, c]);
+        }
+      }
+    };
   }
 
   updateMatrix() {
@@ -210,14 +210,6 @@ export class CorrelationMatrixComponent implements  OnInit {
 
   set uMatrix(value: CorrelationMatrix) {
     this._uMatrix = value;
-  }
-
-  get sizeArray(): number[] {
-    return this._sizeArray;
-  }
-
-  set sizeArray(value: number[]) {
-    this._sizeArray = value;
   }
 
   get values(): {} {
