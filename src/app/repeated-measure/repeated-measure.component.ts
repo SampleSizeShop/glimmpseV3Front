@@ -29,10 +29,12 @@ export class RepeatedMeasureComponent implements OnInit {
     this.updateCorrelationMatrix();
     this.updateName();
     this.updateNoRepeats();
+    this.updateCorrelationType();
     this.updateSpacing();
     if (this.repeatedMeasure.correlationMatrix && this.repeatedMeasure.correlationMatrix.values) {
       this._correlationMatrixService.updateCorrelationMatrix(this.repeatedMeasure.correlationMatrix);
     }
+    this.updateVariance();
   }
 
   buildForm(): void {
@@ -40,12 +42,26 @@ export class RepeatedMeasureComponent implements OnInit {
       name: [this.repeatedMeasure.name],
       noRepeats: [this.repeatedMeasure.noRepeats],
       spacing: [this.repeatedMeasure.spacing],
-      correlationMatrix: this.repeatedMeasure.correlationMatrix
+      correlationType: [this.repeatedMeasure.correlationType],
+      correlationMatrix: this.repeatedMeasure.correlationMatrix,
+      variance: [this.repeatedMeasure.variance]
     });
   }
 
   addRepeatedMeasure() {
     this.repeatedMeasureService.updateRepeatedMeasure( this.repeatedMeasure );
+  }
+
+  updateVariance() {
+    const correlationTypeControl = this.repeatedMeasureForm.get('correlationType');
+    correlationTypeControl.valueChanges.forEach(
+      (value: string) => this.repeatedMeasure.correlationType = value);
+  }
+
+  updateCorrelationType() {
+    const varianceControl = this.repeatedMeasureForm.get('variance');
+    varianceControl.valueChanges.forEach(
+      (value: number) => this.repeatedMeasure.variance = value);
   }
 
   updateCorrelationMatrix() {

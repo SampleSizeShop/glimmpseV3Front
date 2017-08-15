@@ -6,7 +6,9 @@ export class RepeatedMeasure {
   private _name = null;
   private _noRepeats = null;
   private _spacing = null;
+  private _correlationType = 'Default';
   private _correlationMatrix = null;
+  private _variance = null;
 
   get name(): string {
     return this._name;
@@ -38,5 +40,21 @@ export class RepeatedMeasure {
 
   set correlationMatrix(value: CorrelationMatrix) {
     this._correlationMatrix = value;
+  }
+
+  get correlationType(): string {
+    return this._correlationType;
+  }
+
+  set correlationType(value: string) {
+    this._correlationType = value;
+  }
+
+  get variance(): number {
+    return this._variance;
+  }
+
+  set variance(value: number) {
+    this._variance = value;
   }
 }
