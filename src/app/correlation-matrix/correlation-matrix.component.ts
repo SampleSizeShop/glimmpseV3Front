@@ -39,22 +39,21 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   buildForm(): void {
+    this.initialiseProperties();
+    this.defineControls();
+    this.correlationMatrixForm = this._fb.group(this.controlDefs);
+    this.trackControlChanges();
+    this.updateMatrix()
+  }
+
+  private initialiseProperties() {
     if (this.size !== -1) {
       this.uMatrix.populateDefaultValues(this.size);
     }
-
     this.size = this.uMatrix.values.size()[0];
-
     this.values = {};
     this.controlDefs = {};
     this.controls = {};
-
-    this.defineControls();
-
-    this.correlationMatrixForm = this._fb.group(this.controlDefs);
-    this.trackControlChanges();
-
-    this.updateMatrix()
   }
 
   private defineControls() {
