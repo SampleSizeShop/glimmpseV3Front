@@ -8,10 +8,13 @@ import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matr
 import {StudyService} from '../shared/study.service';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
+import {DebugElement} from '@angular/core';
+import {By} from '@angular/platform-browser';
 
 describe('WitinIsuComponent', () => {
   let component: WitinIsuComponent;
   let fixture: ComponentFixture<WitinIsuComponent>;
+  let measure: RepeatedMeasure;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -26,9 +29,39 @@ describe('WitinIsuComponent', () => {
     fixture = TestBed.createComponent(WitinIsuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    measure = new RepeatedMeasure();
+    measure.name = 'NAME';
+    measure.noRepeats = 2;
+    measure.spacing = 2;
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  })
+
+  it('Should remove the selected repeated measure when deleteRepeatedMeasure is called', () => {
+    component.repeatedMeasures.push(measure);
+    expect(component.repeatedMeasures.length).toEqual(1);
+    component.deleteRepeatedMeasure(measure);
+    expect(component.repeatedMeasures.length).toEqual(0);
   });
+
+  it('Should set components repeated measure to one selected and editing true when editRepeartedMeasure is called.', () => {
+    component.repeatedMeasures.push(measure);
+    component.editRepeatedMeasure(measure);
+    expect(component.editing).toEqual(true);
+    expect(component.repeatedMeasures.length).toEqual(0)
+    expect(component.repeatedMeasure).toEqual(measure);
+  });
+
+  it('Should add a new repeated measure and set editing to true whe addRepeatedMeasure is called', () => {
+    component.addRepeatedMeasure();
+    expect(component.editing).toEqual(true);
+    expect(component.repeatedMeasures.length).toEqual(0)
+    expect(component.repeatedMeasure.noRepeats).toBeFalsy();
+    expect(component.repeatedMeasure.name).toBeFalsy();
+    expect(component.repeatedMeasure.spacing).toBeFalsy();
+  });
+
 });

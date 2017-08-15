@@ -18,7 +18,7 @@
       <small id="singleoutcomehelp" class="form-text text-muted">Outcome variable name must not contain any special characters</small>
     </div>
   </div>
-  <div *ngIf="multipleOutcomes">
+  <div *ngIf="multipleOutcomes" id="multioutcomeinput">
     <div *ngIf="!editing">
       <h6>Choose type of variable to add:</h6>
       <button (click)="addRepeatedMeasure()" type="button" class="btn btn-primary">+ Repeated Measure</button>

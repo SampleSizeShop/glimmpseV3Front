@@ -31,7 +31,7 @@ export class WitinIsuComponent {
     this.repeatedMeasureSubscription = this.repeatedMeasureService.repeatedMeasure$.subscribe(
       repeatedMeasure => {
         this.repeatedMeasures.push(repeatedMeasure);
-        this.editing=false;
+        this.editing = false;
       }
     );
   }
