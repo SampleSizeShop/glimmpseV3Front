@@ -144,6 +144,17 @@ export class CorrelationMatrixComponent implements  OnInit {
     }
   }
 
+  getStyle(row: number, col: number): string {
+    let style = 'inherit';
+    if ( row === col) {
+      style = 'rgba(2, 117, 216, 0.21)';
+    }
+    if ( row > col) {
+      style = '#ffffff';
+    }
+    return style;
+  }
+
   get correlationMatrixForm(): FormGroup {
     return this._correlationMatrixForm;
   }

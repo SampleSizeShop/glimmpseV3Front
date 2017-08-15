@@ -4,12 +4,7 @@
     <form [formGroup]="correlationMatrixForm">
       <div *ngFor="let r of sizeArray; let a=index" class="row">
         <div *ngFor="let c of sizeArray; let b=index" class="col" style="padding: 0">
-          <div *ngIf="r==c" >
-            <input type="number" class="form-control" style="background-color : rgba(2, 117, 216, 0.21);" formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}">
-          </div>
-          <div *ngIf="r!=c" >
-            <input type="number" class="form-control" formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}">
-          </div>
+          <input type="number" class="form-control" [style.background-color]="getStyle(r, c)" formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}">
         </div>
       </div>
     </form>
