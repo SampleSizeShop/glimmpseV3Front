@@ -15,6 +15,7 @@ import {WitinIsuComponent} from '../within-isu/within-isu.component';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {RepeatedMeasureComponent} from '../repeated-measure/repeated-measure.component';
+import {MathJaxDirective} from '../mathjax/mathjax.directive';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -35,7 +36,8 @@ describe('StudyFormComponent', () => {
         TypeOneErrorComponent,
         WitinIsuComponent,
         RepeatedMeasureComponent,
-        CorrelationMatrixComponent ],
+        CorrelationMatrixComponent,
+        MathJaxDirective],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();

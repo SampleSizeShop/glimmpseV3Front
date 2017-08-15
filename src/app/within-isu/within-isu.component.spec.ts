@@ -10,6 +10,7 @@ import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {MathJaxDirective} from '../mathjax/mathjax.directive';
 
 describe('WitinIsuComponent', () => {
   let component: WitinIsuComponent;
@@ -19,7 +20,7 @@ describe('WitinIsuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ ReactiveFormsModule ],
-      declarations: [ WitinIsuComponent, RepeatedMeasureComponent, CorrelationMatrixComponent ],
+      declarations: [ WitinIsuComponent, RepeatedMeasureComponent, CorrelationMatrixComponent, MathJaxDirective ],
       providers: [ RepeatedMeasure, StudyService, { provide: Http, useClass: MockBackend } ]
     })
     .compileComponents();
