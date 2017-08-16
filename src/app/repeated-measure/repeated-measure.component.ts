@@ -90,7 +90,7 @@ export class RepeatedMeasureComponent implements OnInit {
   }
 
   updateMatrixValid() {
-    this._correlationMatrixValidSubscription = this._correlationMatrixService.valid$.subscribe(
+    this.correlationMatrixValidSubscription = this._correlationMatrixService.valid$.subscribe(
       valid => {
         this.matrixValid = valid;
       });
@@ -189,5 +189,13 @@ export class RepeatedMeasureComponent implements OnInit {
 
   set matrixValid(value: boolean) {
     this._matrixValid = value;
+  }
+
+  get correlationMatrixValidSubscription(): Subscription {
+    return this._correlationMatrixValidSubscription;
+  }
+
+  set correlationMatrixValidSubscription(value: Subscription) {
+    this._correlationMatrixValidSubscription = value;
   }
 }
