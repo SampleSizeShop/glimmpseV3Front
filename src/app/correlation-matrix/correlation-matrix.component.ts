@@ -5,11 +5,14 @@ import {Subscription} from 'rxjs/Subscription';
 import {constants} from '../shared/constants';
 import {CorrelationMatrix} from '../shared/CorrelationMatrix';
 import * as math from 'mathjs';
+import {minMaxValidator} from "app/shared/minmax.validator";
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-correlation-matrix',
   templateUrl: './correlation-matrix.component.html',
-  styleUrls: ['./correlation-matrix.component.scss']
+  styleUrls: ['./correlation-matrix.component.scss'],
+  providers: [ NGXLogger ]
 })
 export class CorrelationMatrixComponent implements  OnInit {
 
@@ -24,7 +27,11 @@ export class CorrelationMatrixComponent implements  OnInit {
   private _min: number;
   private _max: number;
 
-  constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService) {
+  private _formErrors = constants.CORRELATION_MATRIX_FORM_ERRORS;
+  private _messages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
+  private _validationMessages = {};
+
+  constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService, private logger: NGXLogger) {
     this.correlationMatrixSubscription = this._correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
         this.uMatrix = correlationMatrix;
@@ -51,11 +58,39 @@ export class CorrelationMatrixComponent implements  OnInit {
 
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
     this.trackControlChanges();
-
     this.updateMatrix()
   }
 
+  onValueChanged(data?: any) {
+    if (!this.correlationMatrixForm) {
+      return;
+    }
+    const form = this.correlationMatrixForm;
+
+    for (const field in this.controlDefs) {
+      this.formErrors[field] = '';
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
+  }
+
+  getFormErrors(): string {
+    let messages = '';
+    for (const element in this.formErrors) {
+      if (this.formErrors[element]) {
+        messages = messages + element + ': ' + this.formErrors[element] + ' ';
+      }
+    }
+    return messages;
+  }
+
   _initializeProperties() {
+    this.formErrors = {};
     if (this.size !== -1) {
       this.uMatrix.populateDefaultValues(this.size);
     }
@@ -67,18 +102,22 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   _defineFormControls() {
+    this.validationMessages = {};
     this.sizeArray = Array.from(Array(this.size).keys());
     for (const r of this.sizeArray) {
       for (const c of this.sizeArray) {
         const name = this.buildName(r.toString(), c.toString());
+        this.validationMessages[name] = this.messages;
         if (r > c) {
-          this.controlDefs[name] = this.uMatrix.values.get([r, c]);
+          this.controlDefs[name] = [this.uMatrix.values.get([r, c]), minMaxValidator(this.min, this.max, this.logger)];
         }
         if (r === c) {
-          this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true}];
+          this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true},
+                                    minMaxValidator(this.min, this.max, this.logger)];
         }
         if (r < c) {
-          this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true}];
+          this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true},
+                                    minMaxValidator(this.min, this.max, this.logger)];
         }
         this.values[name] = this.uMatrix.values.get([r, c]);
       }
@@ -141,6 +180,7 @@ export class CorrelationMatrixComponent implements  OnInit {
           const transpose = this._transposeName(name);
           this.values[transpose] = value;
           this.correlationMatrixForm.get(transpose).setValue(value);
+          this.onValueChanged();
         }
         this.updateMatrix()
       });
@@ -255,5 +295,29 @@ export class CorrelationMatrixComponent implements  OnInit {
   @Input()
   set max(value: number) {
     this._max = value;
+  }
+
+  get formErrors(): { correlationmatrixerror } | any {
+    return this._formErrors;
+  }
+
+  set formErrors(value: { correlationmatrixerror } | any) {
+    this._formErrors = value;
+  }
+
+  get validationMessages(): { matrix } | any {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value: { matrix } | any) {
+    this._validationMessages = value;
+  }
+
+  get messages(): { minval; maxval } | any {
+    return this._messages;
+  }
+
+  set messages(value: { minval; maxval } | any) {
+    this._messages = value;
   }
 }

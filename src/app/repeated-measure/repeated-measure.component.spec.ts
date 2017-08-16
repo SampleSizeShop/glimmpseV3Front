@@ -9,6 +9,7 @@ import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {LoggerModule} from 'ngx-logger';
 
 describe('RepeatedMeasureComponent', () => {
   let component: RepeatedMeasureComponent;
@@ -16,9 +17,10 @@ describe('RepeatedMeasureComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ ReactiveFormsModule ],
+      imports: [  ReactiveFormsModule,
+                  LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})],
       declarations: [ RepeatedMeasureComponent, CorrelationMatrixComponent ],
-      providers: [ RepeatedMeasureService, RepeatedMeasure ]
+      providers: [ RepeatedMeasureService, RepeatedMeasure, { provide: Http, useClass: MockBackend } ]
     })
     .compileComponents();
   }));

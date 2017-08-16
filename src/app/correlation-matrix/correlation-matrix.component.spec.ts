@@ -3,6 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CorrelationMatrixComponent } from './correlation-matrix.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
+import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 
 describe('CorrelationMatrixComponent', () => {
   let component: CorrelationMatrixComponent;
@@ -10,9 +13,10 @@ describe('CorrelationMatrixComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ ReactiveFormsModule ],
+      imports: [  ReactiveFormsModule,
+                  LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})],
       declarations: [ CorrelationMatrixComponent ],
-      providers: [ CorrelationMatrixService ]
+      providers: [ CorrelationMatrixService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();
   }));

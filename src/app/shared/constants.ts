@@ -54,5 +54,10 @@ export const constants = {
   MULTIREP: 'High Dimension, low sample size - MULTIREP'},
   SEPARATOR: '-',
   CORRELATION_MIN: -1,
-  CORRELATION_MAX: 1
+  CORRELATION_MAX: 1,
+  CORRELATION_MATRIX_FORM_ERRORS: {},
+  CORRELATION_MATRIX_VALIDATION_MESSAGES: {
+    'minval': 'Value too low.',
+    'maxval': 'Value too high'
+  },
 };
