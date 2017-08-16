@@ -1,10 +1,10 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
 import {RepeatedMeasureService} from '../shared/repeatedMeasure.service';
-import Matrix = mathjs.Matrix;
+import {constants} from '../shared/constants';
 
 @Component({
   selector: 'app-repeated-measure',
@@ -16,6 +16,8 @@ export class RepeatedMeasureComponent implements OnInit {
 
   private _repeatedMeasureForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
+  private _min: number;
+  private _max: number;
 
   constructor(
     private _fb: FormBuilder,
@@ -25,6 +27,8 @@ export class RepeatedMeasureComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.min = constants.CORRELATION_MIN;
+    this.max = constants.CORRELATION_MAX;
     this.buildForm();
     this.updateCorrelationMatrix();
     this.updateName();
@@ -144,5 +148,21 @@ export class RepeatedMeasureComponent implements OnInit {
 
   set correlationMatrixService(value: CorrelationMatrixService) {
     this._correlationMatrixService = value;
+  }
+
+  get min(): number {
+    return this._min;
+  }
+
+  set min(value: number) {
+    this._min = value;
+  }
+
+  get max(): number {
+    return this._max;
+  }
+
+  set max(value: number) {
+    this._max = value;
   }
 }

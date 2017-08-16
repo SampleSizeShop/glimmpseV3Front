@@ -21,6 +21,8 @@ export class CorrelationMatrixComponent implements  OnInit {
   private _correlationMatrixForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
   private _uMatrix: CorrelationMatrix;
+  private _min: number;
+  private _max: number;
 
   constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService) {
     this.correlationMatrixSubscription = this._correlationMatrixService.correlationMatrix$.subscribe(
@@ -235,5 +237,23 @@ export class CorrelationMatrixComponent implements  OnInit {
 
   set controls(value: {}) {
     this._controls = value;
+  }
+
+  get min(): number {
+    return this._min;
+  }
+
+  @Input()
+  set min(value: number) {
+    this._min = value;
+  }
+
+  get max(): number {
+    return this._max;
+  }
+
+  @Input()
+  set max(value: number) {
+    this._max = value;
   }
 }

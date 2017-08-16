@@ -53,4 +53,6 @@ export const constants = {
   UNIREP: 'High Dimension, low sample size- UNIREP',
   MULTIREP: 'High Dimension, low sample size - MULTIREP'},
   SEPARATOR: '-',
+  CORRELATION_MIN: -1,
+  CORRELATION_MAX: 1
 };
