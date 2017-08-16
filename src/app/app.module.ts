@@ -22,6 +22,7 @@ import { TypeOneErrorComponent } from './type-one-error/type-one-error.component
 import { WitinIsuComponent } from './within-isu/within-isu.component';
 import { CorrelationMatrixComponent } from './correlation-matrix/correlation-matrix.component';
 import { RepeatedMeasureComponent } from './repeated-measure/repeated-measure.component';
+import { DifferentMeasuresComponent } from './different-measures/different-measures.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { RepeatedMeasureComponent } from './repeated-measure/repeated-measure.co
     TypeOneErrorComponent,
     WitinIsuComponent,
     CorrelationMatrixComponent,
-    RepeatedMeasureComponent
+    RepeatedMeasureComponent,
+    DifferentMeasuresComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),
