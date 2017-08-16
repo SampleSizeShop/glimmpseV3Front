@@ -1,11 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {DifferentMeasures} from '../shared/DifferentMeasures';
 import {constants} from '../shared/constants';
 import {DiffMeasure} from '../shared/DiffMeasure';
 import {DifferentMeasuresService} from '../shared/differentMeasures.service';
+import {promise} from 'selenium-webdriver';
+import setDefaultFlow = promise.setDefaultFlow;
 
 @Component({
   selector: 'app-different-measures',
@@ -13,7 +15,7 @@ import {DifferentMeasuresService} from '../shared/differentMeasures.service';
   styleUrls: ['./different-measures.component.scss'],
   providers: [CorrelationMatrixService]
 })
-export class DifferentMeasuresComponent implements OnInit {
+export class DifferentMeasuresComponent implements OnInit, OnChanges {
 
   private _differentMeasuresForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
@@ -27,28 +29,52 @@ export class DifferentMeasuresComponent implements OnInit {
     private _differentMeasuresService: DifferentMeasuresService,
     private _correlationMatrixService: CorrelationMatrixService,
     private _differentMeasures: DifferentMeasures
-  ) { }
-
-  ngOnInit() {
+  ) {
     this.min = constants.CORRELATION_MIN;
     this.max = constants.CORRELATION_MAX;
-    this.buildForm()
-    this.updateCorrelationMatrix();
 
+    this.buildForm();
+  }
+
+  ngOnInit() {
+    this.updateCorrelationMatrix();
     if (this.differentMeasures.correlationMatrix && this.differentMeasures.correlationMatrix.values) {
       this._correlationMatrixService.updateCorrelationMatrix(this.differentMeasures.correlationMatrix);
     }
     this.updateMatrixValid();
   }
 
+  ngOnChanges() {
+    this.differentMeasuresForm.reset({
+      diffMeasures: this.fb.array(this.differentMeasures.differentMeasures)
+    });
+    this.correlationMatrixService.updateSize(this.differentMeasures.differentMeasures.length);
+    this.setDiffMeasures(this.differentMeasures.differentMeasures);
+  }
+
   buildForm(): void {
     this.differentMeasuresForm = this.fb.group({
-      measures: this.fb.group(new DiffMeasure()),
+      diffMeasures: this.fb.array([]),
       correlationType: [this.differentMeasures.correlationType],
       correlationMatrix: this.differentMeasures.correlationMatrix,
       variance: [this.differentMeasures.variance]
     });
   }
+
+  get diffMeasures(): FormArray {
+    return this.differentMeasuresForm.get('diffMeasures') as FormArray;
+  };
+
+  setDiffMeasures(measures: DiffMeasure[]) {
+    const measureFGs = measures.map(measure => this.fb.group(measure));
+    const measureFormArray = this.fb.array(measureFGs);
+    this.differentMeasuresForm.setControl('diffMeasures', measureFormArray);
+  }
+
+  addDiffMeasure() {
+    this.diffMeasures.push(this.fb.group(new DiffMeasure()));
+  }
+
 
   updateCorrelationMatrix() {
     this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(

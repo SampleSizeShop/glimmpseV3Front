@@ -4,16 +4,16 @@ import {DiffMeasure} from './DiffMeasure';
 
 @Injectable()
 export class DifferentMeasures {
-  private  _differentMeasures: Set<DiffMeasure>;
+  private  _differentMeasures: DiffMeasure[] = [new DiffMeasure(), new DiffMeasure()];
   private _correlationType = 'Default';
   private _correlationMatrix = null;
   private _variance = null;
 
-  get differentMeasures(): Set<DiffMeasure> {
+  get differentMeasures(): DiffMeasure[] {
     return this._differentMeasures;
   }
 
-  set differentMeasures(value: Set<DiffMeasure>) {
+  set differentMeasures(value: DiffMeasure[] ) {
     this._differentMeasures = value;
   }
 
