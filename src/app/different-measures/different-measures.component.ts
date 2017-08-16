@@ -4,6 +4,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {DifferentMeasures} from '../shared/DifferentMeasures';
 import {constants} from '../shared/constants';
+import {DiffMeasure} from '../shared/DiffMeasure';
+import {DifferentMeasuresService} from '../shared/differentMeasures.service';
 
 @Component({
   selector: 'app-different-measures',
@@ -22,6 +24,7 @@ export class DifferentMeasuresComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
+    private _differentMeasuresService: DifferentMeasuresService,
     private _correlationMatrixService: CorrelationMatrixService,
     private _differentMeasures: DifferentMeasures
   ) { }
@@ -40,7 +43,7 @@ export class DifferentMeasuresComponent implements OnInit {
 
   buildForm(): void {
     this.differentMeasuresForm = this.fb.group({
-
+      measures: this.fb.group(new DiffMeasure()),
       correlationType: [this.differentMeasures.correlationType],
       correlationMatrix: this.differentMeasures.correlationMatrix,
       variance: [this.differentMeasures.variance]
@@ -63,6 +66,17 @@ export class DifferentMeasuresComponent implements OnInit {
       valid => {
         this.matrixValid = valid;
       });
+  }
+
+  enableAddMeasureButton(): boolean {
+    if (this.differentMeasuresForm.status === 'VALID' && this.matrixValid) {
+      return false;
+    }
+    return true;
+  }
+
+  addMeasure() {
+    this.differentMeasuresService.updateDifferentMeasures( this.differentMeasures );
   }
 
   get differentMeasuresForm(): FormGroup {
@@ -119,6 +133,14 @@ export class DifferentMeasuresComponent implements OnInit {
 
   set fb(value: FormBuilder) {
     this._fb = value;
+  }
+
+  get differentMeasuresService(): DifferentMeasuresService {
+    return this._differentMeasuresService;
+  }
+
+  set differentMeasuresService(value: DifferentMeasuresService) {
+    this._differentMeasuresService = value;
   }
 
   get correlationMatrixService(): CorrelationMatrixService {

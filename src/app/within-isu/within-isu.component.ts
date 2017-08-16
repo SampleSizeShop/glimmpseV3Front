@@ -5,12 +5,19 @@ import {constants} from '../shared/constants';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {RepeatedMeasureService} from '../shared/repeatedMeasure.service';
 import {Subscription} from 'rxjs/Subscription';
+import {DifferentMeasuresService} from '../shared/differentMeasures.service';
+import {DifferentMeasures} from '../shared/DifferentMeasures';
 
 @Component({
   selector: 'app-witin-isu',
   templateUrl: './within-isu.component.html',
   styleUrls: ['./within-isu.component.scss'],
-  providers: [RepeatedMeasure, RepeatedMeasureService]
+  providers: [
+    RepeatedMeasure,
+    RepeatedMeasureService,
+    DifferentMeasures,
+    DifferentMeasuresService
+  ]
 })
 export class WitinIsuComponent {
 
@@ -20,18 +27,21 @@ export class WitinIsuComponent {
   private _validationMessages = constants.WITHIN_ISU_VALIDATION_MESSAGES;
   private _repeatedMeasures: RepeatedMeasure[] = [];
   private _repeatedMeasure: RepeatedMeasure;
+  private _differentMeasures: DifferentMeasures[] = [];
+  private _differentMeasure: DifferentMeasures;
   private _repeatedMeasureSubscription: Subscription;
-  private _editing: boolean;
+  private _editingRepeatedMeasure: boolean;
+  private _editingDifferentMeasures: boolean;
 
   constructor(private study_service: StudyService,
               private _repeatedMeasureService: RepeatedMeasureService,
               private fb: FormBuilder) {
-    this.editing = false;
+    this.editingRepeatedMeasure = false;
     this.buildForm();
     this.repeatedMeasureSubscription = this.repeatedMeasureService.repeatedMeasure$.subscribe(
       repeatedMeasure => {
         this.repeatedMeasures.push(repeatedMeasure);
-        this.editing = false;
+        this.editingRepeatedMeasure = false;
       }
     );
   }
@@ -74,12 +84,17 @@ export class WitinIsuComponent {
   editRepeatedMeasure(measure: RepeatedMeasure) {
     this.repeatedMeasure = measure;
     this.deleteRepeatedMeasure(measure);
-    this.editing = true;
+    this.editingRepeatedMeasure = true;
   }
 
   addRepeatedMeasure() {
     this.repeatedMeasure = new RepeatedMeasure();
-    this.editing = true;
+    this.editingRepeatedMeasure = true;
+  }
+
+  addDifferentMeasure() {
+    this.differentMeasure = new DifferentMeasures();
+    this.editingDifferentMeasures = true;
   }
 
   selectSingleOutcome() {
@@ -104,6 +119,9 @@ export class WitinIsuComponent {
     this._multipleOutcomes = value;
   }
 
+  editing(): boolean {
+    return this.editingRepeatedMeasure || this.editingDifferentMeasures ? true : false;
+  }
 
   get withinISUForm(): FormGroup {
     return this._withinISUForm;
@@ -153,12 +171,20 @@ export class WitinIsuComponent {
     this._repeatedMeasureSubscription = value;
   }
 
-  get editing(): boolean {
-    return this._editing;
+  get editingRepeatedMeasure(): boolean {
+    return this._editingRepeatedMeasure;
   }
 
-  set editing(value: boolean) {
-    this._editing = value;
+  set editingRepeatedMeasure(value: boolean) {
+    this._editingRepeatedMeasure = value;
+  }
+
+  get editingDifferentMeasures(): boolean {
+    return this._editingDifferentMeasures;
+  }
+
+  set editingDifferentMeasures(value: boolean) {
+    this._editingDifferentMeasures = value;
   }
 
   get repeatedMeasure(): RepeatedMeasure {
@@ -167,5 +193,21 @@ export class WitinIsuComponent {
 
   set repeatedMeasure(value: RepeatedMeasure) {
     this._repeatedMeasure = value;
+  }
+
+  get differentMeasures(): DifferentMeasures[] {
+    return this._differentMeasures;
+  }
+
+  set differentMeasures(value: DifferentMeasures[]) {
+    this._differentMeasures = value;
+  }
+
+  get differentMeasure(): DifferentMeasures {
+    return this._differentMeasure;
+  }
+
+  set differentMeasure(value: DifferentMeasures) {
+    this._differentMeasure = value;
   }
 }

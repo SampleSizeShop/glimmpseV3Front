@@ -19,16 +19,26 @@
     </div>
   </div>
   <div *ngIf="multipleOutcomes" id="multioutcomeinput">
-    <div *ngIf="!editing">
+    <div *ngIf="!editing()">
       <h6>Choose type of variable to add:</h6>
-      <button (click)="addRepeatedMeasure()" type="button" class="btn btn-primary">+ Repeated Measure</button>
+      <div class="row">
+        <div class="col">
+          <button (click)="addRepeatedMeasure()" type="button" class="btn btn-primary">+ Repeated Measure</button>
+        </div>
+        <div class="col">
+          <button (click)="addDifferentMeasure()" type="button" class="btn btn-primary">+ Different Measures</button>
+        </div>
+      </div>
     </div>
-    <div *ngIf="editing" >
+    <div *ngIf="editingRepeatedMeasure" >
         <app-repeated-measure [repeatedMeasure]="repeatedMeasure"></app-repeated-measure>
+    </div>
+    <div *ngIf="editingDifferentMeasures" >
+        <app-different-measures [differentMeasures]="differentMeasure"></app-different-measures>
     </div>
   </div>
 </form>
-<div class="container-fluid" *ngIf="!editing && repeatedMeasures && repeatedMeasures.length > 0 ">
+<div class="container-fluid" *ngIf="!editingRepeatedMeasure && repeatedMeasures && repeatedMeasures.length > 0 ">
   <table class="table table-striped table-hover table-bordered">
     <thead class="thead-default">
     <tr>

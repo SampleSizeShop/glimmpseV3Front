@@ -48,17 +48,17 @@ describe('WitinIsuComponent', () => {
     expect(component.repeatedMeasures.length).toEqual(0);
   });
 
-  it('Should set components repeated measure to one selected and editing true when editRepeartedMeasure is called.', () => {
+  it('Should set components repeated measure to one selected and editingRepeatedMeasure true when editRepeartedMeasure is called.', () => {
     component.repeatedMeasures.push(measure);
     component.editRepeatedMeasure(measure);
-    expect(component.editing).toEqual(true);
+    expect(component.editingRepeatedMeasure).toEqual(true);
     expect(component.repeatedMeasures.length).toEqual(0)
     expect(component.repeatedMeasure).toEqual(measure);
   });
 
-  it('Should add a new repeated measure and set editing to true whe addRepeatedMeasure is called', () => {
+  it('Should add a new repeated measure and set editingRepeatedMeasure to true whe addRepeatedMeasure is called', () => {
     component.addRepeatedMeasure();
-    expect(component.editing).toEqual(true);
+    expect(component.editingRepeatedMeasure).toEqual(true);
     expect(component.repeatedMeasures.length).toEqual(0)
     expect(component.repeatedMeasure.noRepeats).toBeFalsy();
     expect(component.repeatedMeasure.name).toBeFalsy();

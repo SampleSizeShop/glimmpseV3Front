@@ -1,3 +1,47 @@
-<p>
-  different-measures works!
-</p>
+<form [formGroup]="differentMeasuresForm">
+  <div style="margin-left: 1em;">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="center-block">Name:
+              <input class="form-control" formControlName="name" required>
+            </label>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label class="center-block">Dimension:
+              <input type="number" class="form-control" formControlName="dimension" required>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="correlationSelect">Correlation Type:</label>
+            <select class="form-control" id="correlationSelect" formControlName="correlationType">
+              <option>Default</option>
+              <option>Unstructured</option>
+              <option>LEAR</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="differentMeasuresForm.status==='VALID'" id="correlationMatrix">
+        <app-correlation-matrix [min]="min" [max]="max"></app-correlation-matrix>
+      </div>
+      <div class="row" *ngIf="differentMeasuresForm.status==='VALID'" id="varianceInput">
+        <div class="col">
+          <div class="form-group">
+            <label class="center-block">Variance:
+              <input type="number" class="form-control" formControlName="variance">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" [disabled]="enableAddMeasureButton()" (click)="addMeasure()" id="addMeasureBtn">Add Repeated Measure</button>
+</form>

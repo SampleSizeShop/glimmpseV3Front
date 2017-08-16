@@ -1,6 +1,15 @@
 export class DiffMeasure {
+  private _id: number;
   private _name: string;
   private _dimension: number;
+
+  get id(): number {
+    return this._id;
+  }
+
+  set id(value: number) {
+    this._id = value;
+  }
 
   get name(): string {
     return this._name;
