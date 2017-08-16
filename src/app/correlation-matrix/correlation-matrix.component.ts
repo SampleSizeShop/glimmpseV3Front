@@ -62,6 +62,7 @@ export class CorrelationMatrixComponent implements  OnInit {
   }
 
   onValueChanged(data?: any) {
+    let isValid = true;
     if (!this.correlationMatrixForm) {
       return;
     }
@@ -74,9 +75,11 @@ export class CorrelationMatrixComponent implements  OnInit {
         const messages = this.validationMessages[field];
         for (const key in control.errors) {
           this.formErrors[field] += messages[key] + ' ';
+          isValid = false;
         }
       }
     }
+    this._correlationMatrixService.updateValid(isValid);
   }
 
   getFormErrors(): string {

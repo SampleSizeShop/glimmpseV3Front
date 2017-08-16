@@ -50,5 +50,5 @@
       </div>
     </div>
   </div>
-  <button class="btn btn-primary" [disabled]="repeatedMeasureForm.status!=='VALID'" (click)="addRepeatedMeasure()" id="addMeasureBtn">Add Repeated Measure</button>
+  <button class="btn btn-primary" [disabled]="enableAddMeasureButton()" (click)="addRepeatedMeasure()" id="addMeasureBtn">Add Repeated Measure</button>
 </form>

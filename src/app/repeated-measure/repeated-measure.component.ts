@@ -16,8 +16,10 @@ export class RepeatedMeasureComponent implements OnInit {
 
   private _repeatedMeasureForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
+  private _correlationMatrixValidSubscription: Subscription;
   private _min: number;
   private _max: number;
+  private _matrixValid: boolean;
 
   constructor(
     private _fb: FormBuilder,
@@ -38,6 +40,7 @@ export class RepeatedMeasureComponent implements OnInit {
     if (this.repeatedMeasure.correlationMatrix && this.repeatedMeasure.correlationMatrix.values) {
       this._correlationMatrixService.updateCorrelationMatrix(this.repeatedMeasure.correlationMatrix);
     }
+    this.updateMatrixValid();
     this.updateVariance();
   }
 
@@ -54,6 +57,13 @@ export class RepeatedMeasureComponent implements OnInit {
 
   addRepeatedMeasure() {
     this.repeatedMeasureService.updateRepeatedMeasure( this.repeatedMeasure );
+  }
+
+  enableAddMeasureButton(): boolean {
+    if (this.repeatedMeasureForm.status === 'VALID' && this.matrixValid) {
+      return false;
+    }
+    return true;
   }
 
   updateVariance() {
@@ -77,6 +87,13 @@ export class RepeatedMeasureComponent implements OnInit {
         }
       }
     );
+  }
+
+  updateMatrixValid() {
+    this._correlationMatrixValidSubscription = this._correlationMatrixService.valid$.subscribe(
+      valid => {
+        this.matrixValid = valid;
+      });
   }
 
   updateName() {
@@ -164,5 +181,13 @@ export class RepeatedMeasureComponent implements OnInit {
 
   set max(value: number) {
     this._max = value;
+  }
+
+  get matrixValid(): boolean {
+    return this._matrixValid;
+  }
+
+  set matrixValid(value: boolean) {
+    this._matrixValid = value;
   }
 }

@@ -13,12 +13,19 @@ export class CorrelationMatrixService {
   private _sizeSource = new BehaviorSubject<number>(-1);
   private _size$ = this.sizeSource.asObservable();
 
+  private _validSource = new BehaviorSubject<boolean>(true);
+  private _valid$ = this.validSource.asObservable();
+
   updateCorrelationMatrix(uMatrix: CorrelationMatrix) {
     this.correlationMatrixSource.next(uMatrix);
   }
 
   updateSize(size: number) {
     this.sizeSource.next(size);
+  }
+
+  updateValid(valid: boolean) {
+    this.validSource.next(valid);
   }
 
   get correlationMatrixSource(): BehaviorSubject<CorrelationMatrix> {
@@ -35,5 +42,13 @@ export class CorrelationMatrixService {
 
   get size$(): Observable<number> {
     return this._size$;
+  }
+
+  get validSource(): BehaviorSubject<boolean> {
+    return this._validSource;
+  }
+
+  get valid$(): Observable<boolean> {
+    return this._valid$;
   }
 }
