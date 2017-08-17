@@ -32,8 +32,11 @@
       </div>
     </div>
     <div class="row">
-      <button  class="btn btn-primary" type="button">+ Child Cluster</button>
+      <button  *ngIf="canHaveChild()" class="btn btn-primary" type="button" (click)="addChildCluster()">+ Child Cluster</button>
+    </div>
+    <div *ngIf="hasChildCluster">
+      <app-cluster [cluster]="childCluster"></app-cluster>
     </div>
   </div>
-  <button class="btn btn-primary" [disabled]="enableAddClusterButton()" (click)="addCluster()" id="addClusterBtn">Add Cluster</button>
+  <button *ngIf="isRoot()" class="btn btn-primary" [disabled]="enableAddClusterButton()" (click)="addCluster()" id="addClusterBtn">Add Cluster</button>
 </form>

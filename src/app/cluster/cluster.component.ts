@@ -7,18 +7,24 @@ import {Cluster} from '../shared/Cluster';
 @Component({
   selector: 'app-cluster',
   templateUrl: './cluster.component.html',
-  styleUrls: ['./cluster.component.scss']
+  styleUrls: ['./cluster.component.scss'],
+  providers: [ClusterService]
 })
 export class ClusterComponent implements OnInit {
   private _clusterForm: FormGroup;
   private _clusterSubscription: Subscription;
   private _correlationMatrixSubscription: Subscription;
+  private _childCluster: Cluster;
+  private _hasChildCluster: boolean;
 
   constructor(
     private _fb: FormBuilder,
     private _clusterService: ClusterService,
     private _cluster: Cluster
-  ) { }
+  ) {
+    this.hasChildCluster = false;
+    this.childCluster = null;
+  }
 
   ngOnInit() {
     this.buildForm();
@@ -39,10 +45,24 @@ export class ClusterComponent implements OnInit {
     return this.clusterForm.status === 'VALID' ? true : false;
   }
 
+  addChildCluster() {
+    this.childCluster = new Cluster();
+    this.childCluster.level = this.cluster.level + 1;
+    this.hasChildCluster = true;
+  }
+
   addCluster() {
     const formValues = this.clusterForm.value;
     this.cluster = formValues;
     this.clusterService.updateCluster(this.cluster)
+  }
+
+  isRoot(): boolean {
+    return this.cluster.level === 0 ? true : false;
+  }
+
+  canHaveChild() {
+    return this.cluster.level < 10 && !this.hasChildCluster ? true : false;
   }
 
   get clusterForm(): FormGroup {
@@ -92,5 +112,21 @@ export class ClusterComponent implements OnInit {
   @Input()
   set cluster(value: Cluster) {
     this._cluster = value;
+  }
+
+  get childCluster(): Cluster {
+    return this._childCluster;
+  }
+
+  set childCluster(value: Cluster) {
+    this._childCluster = value;
+  }
+
+  get hasChildCluster(): boolean {
+    return this._hasChildCluster;
+  }
+
+  set hasChildCluster(value: boolean) {
+    this._hasChildCluster = value;
   }
 }

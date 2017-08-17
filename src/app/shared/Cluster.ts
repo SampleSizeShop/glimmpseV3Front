@@ -8,6 +8,7 @@ export class Cluster {
   private _childCluster: Cluster;
   private _intraClassCorrelation: number;
   private _variance: number;
+  private _level: number;
 
   constructor() {
     this.elementName = '';
@@ -16,6 +17,7 @@ export class Cluster {
     this.childCluster = null;
     this.intraClassCorrelation = 0;
     this.variance = 0;
+    this.level = 0;
   }
 
   get elementName(): string {
@@ -64,5 +66,13 @@ export class Cluster {
 
   set intraClassCorrelation(value: number) {
     this._intraClassCorrelation = value;
+  }
+
+  get level(): number {
+    return this._level;
+  }
+
+  set level(value: number) {
+    this._level = value;
   }
 }
