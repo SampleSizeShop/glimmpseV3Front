@@ -107,6 +107,8 @@ export class DifferentMeasuresComponent implements OnInit {
   }
 
   addMeasure() {
+    const formValues = this.differentMeasuresForm.value;
+    this.differentMeasures.differentMeasures = formValues.diffMeasures;
     this.differentMeasuresService.updateDifferentMeasures( this.differentMeasures );
   }
 

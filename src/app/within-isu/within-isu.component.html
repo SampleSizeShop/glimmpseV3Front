@@ -38,7 +38,7 @@
     </div>
   </div>
 </form>
-<div class="container-fluid" *ngIf="!editingRepeatedMeasure && repeatedMeasures && repeatedMeasures.length > 0 ">
+<div class="container-fluid" *ngIf="!editingRepeatedMeasure && !editingDifferentMeasures && repeatedMeasures && repeatedMeasures.length > 0 ">
   <table class="table table-striped table-hover table-bordered">
     <thead class="thead-default">
     <tr>
@@ -55,6 +55,31 @@
       <td>{{measure.name}}</td>
       <td>{{measure.noRepeats}}</td>
       <td>{{measure.spacing}}</td>
+      <td><div [mathJaxExpr]="measure.correlationMatrix.toTeX()"></div></td>
+      <td>
+        <button class="btn btn-primary" type="check" (click)="editRepeatedMeasure(measure)">Edit</button>
+        <button class="btn btn-primary" type="check" (click)="deleteRepeatedMeasure(measure)">Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container-fluid" *ngIf="!editingRepeatedMeasure && !editingDifferentMeasures && differentMeasures && differentMeasures.length > 0 ">
+  <table class="table table-striped table-hover table-bordered">
+    <thead class="thead-default">
+    <tr>
+      <th>Measures</th>
+      <th>Corellation Matrix</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let measure of differentMeasures" class="table-info">
+      <td>
+        <div *ngFor="let diffMeasure of measure.differentMeasures">
+          <div> {{diffMeasure.name}} - {{diffMeasure.dimension}}</div>
+          <br>
+      </div>
+      </td>
       <td><div [mathJaxExpr]="measure.correlationMatrix.toTeX()"></div></td>
       <td>
         <button class="btn btn-primary" type="check" (click)="editRepeatedMeasure(measure)">Edit</button>

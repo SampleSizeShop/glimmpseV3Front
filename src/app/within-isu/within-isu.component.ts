@@ -30,11 +30,13 @@ export class WitinIsuComponent {
   private _differentMeasures: DifferentMeasures[] = [];
   private _differentMeasure: DifferentMeasures;
   private _repeatedMeasureSubscription: Subscription;
+  private _differentMeasureSubscription: Subscription;
   private _editingRepeatedMeasure: boolean;
   private _editingDifferentMeasures: boolean;
 
   constructor(private study_service: StudyService,
               private _repeatedMeasureService: RepeatedMeasureService,
+              private _differentMeasuresService: DifferentMeasuresService,
               private fb: FormBuilder) {
     this.editingRepeatedMeasure = false;
     this.buildForm();
@@ -42,6 +44,12 @@ export class WitinIsuComponent {
       repeatedMeasure => {
         this.repeatedMeasures.push(repeatedMeasure);
         this.editingRepeatedMeasure = false;
+      }
+    );
+    this.differentMeasureSubscription = this.differentMeasuresService.differentMeasures$.subscribe(
+      differentMeasure => {
+        this.differentMeasures.push(differentMeasure);
+        this.editingDifferentMeasures = false;
       }
     );
   }
@@ -157,6 +165,22 @@ export class WitinIsuComponent {
 
   get repeatedMeasureService(): RepeatedMeasureService {
     return this._repeatedMeasureService;
+  }
+
+  get differentMeasuresService(): DifferentMeasuresService {
+    return this._differentMeasuresService;
+  }
+
+  set differentMeasuresService(value: DifferentMeasuresService) {
+    this._differentMeasuresService = value;
+  }
+
+  get differentMeasureSubscription(): Subscription {
+    return this._differentMeasureSubscription;
+  }
+
+  set differentMeasureSubscription(value: Subscription) {
+    this._differentMeasureSubscription = value;
   }
 
   set repeatedMeasureService(value: RepeatedMeasureService) {
