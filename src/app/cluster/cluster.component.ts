@@ -62,7 +62,7 @@ export class ClusterComponent implements OnInit {
   }
 
   canHaveChild() {
-    return this.cluster.level < 10 && !this.hasChildCluster ? true : false;
+    return this.cluster.level < 9 && !this.hasChildCluster ? true : false;
   }
 
   get clusterForm(): FormGroup {
