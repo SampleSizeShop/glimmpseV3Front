@@ -56,25 +56,30 @@ export class DifferentMeasuresComponent implements OnInit {
   };
 
   setDiffMeasures(measures: DiffMeasure[]) {
-    const measureFGs = measures.map(measure => this.fb.group(measure));
+    const measureFGs = measures.map(measure => this.fb.group({name: [measure.name], dimension: [measure.dimension]}));
     const measureFormArray = this.fb.array(measureFGs);
     this.differentMeasuresForm.setControl('diffMeasures', measureFormArray);
   }
 
   addDiffMeasure() {
+    const a = this.differentMeasuresForm.value;
+    this.differentMeasures.differentMeasures = a.diffMeasures;
     this.differentMeasures.differentMeasures.push(new DiffMeasure);
     this.setDiffMeasures(this.differentMeasures.differentMeasures);
     if( this.differentMeasures.differentMeasures.length >= 2 ) {
       this.correlationMatrixService.updateSize(this.differentMeasures.differentMeasures.length);
     }
+
+    // This is here to ensure that we don't get a changed after checked error caused by the *ngIf looking at form validity.
+    // I think this means that I'm not updating the form array in the accepted manner.
     this._changeDetectorRef.detectChanges();
+
     this.updateCorrelationMatrix();
     if (this.differentMeasures.correlationMatrix && this.differentMeasures.correlationMatrix.values) {
       this._correlationMatrixService.updateCorrelationMatrix(this.differentMeasures.correlationMatrix);
     }
     this.updateMatrixValid();
   }
-
 
   updateCorrelationMatrix() {
     this.correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
