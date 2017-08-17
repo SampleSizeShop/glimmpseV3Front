@@ -1,0 +1,39 @@
+<form [formGroup]="clusterForm">
+  <div style="margin-left: 1em;">
+
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+          <label class="center-block">Element Name:
+            <input class="form-control" formControlName="elementName" required>
+          </label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="center-block">Cluster Level:
+            <input type="number" class="form-control" formControlName="clusterLevel" required>
+          </label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="center-block">Number of Elements in Cluster:
+            <input type="number" class="form-control" formControlName="noElements" required>
+          </label>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label class="center-block">Intra Class Correlation:
+            <input type="number" class="form-control" formControlName="intraClassCorrelation" required>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <button  class="btn btn-primary" type="button">+ Child Cluster</button>
+    </div>
+  </div>
+  <button class="btn btn-primary" [disabled]="enableAddClusterButton()" (click)="addCluster()" id="addClusterBtn">Add Cluster</button>
+</form>

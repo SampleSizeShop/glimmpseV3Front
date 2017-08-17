@@ -7,6 +7,8 @@ import {RepeatedMeasureService} from '../shared/repeatedMeasure.service';
 import {Subscription} from 'rxjs/Subscription';
 import {DifferentMeasuresService} from '../shared/differentMeasures.service';
 import {DifferentMeasures} from '../shared/DifferentMeasures';
+import {ClusterService} from '../shared/cluster.service';
+import {Cluster} from '../shared/Cluster';
 
 @Component({
   selector: 'app-witin-isu',
@@ -16,7 +18,9 @@ import {DifferentMeasures} from '../shared/DifferentMeasures';
     RepeatedMeasure,
     RepeatedMeasureService,
     DifferentMeasures,
-    DifferentMeasuresService
+    DifferentMeasuresService,
+    Cluster,
+    ClusterService,
   ]
 })
 export class WitinIsuComponent {
@@ -29,15 +33,20 @@ export class WitinIsuComponent {
   private _repeatedMeasure: RepeatedMeasure;
   private _differentMeasures: DifferentMeasures[] = [];
   private _differentMeasure: DifferentMeasures;
+  private _clusters: Cluster[] = [];
+  private _cluster: Cluster;
   private _repeatedMeasureSubscription: Subscription;
   private _differentMeasureSubscription: Subscription;
+  private _clusterSubscription: Subscription;
   private _editingRepeatedMeasure: boolean;
   private _editingDifferentMeasures: boolean;
+  private _editingClusters: boolean;
 
-  constructor(private study_service: StudyService,
+  constructor(private _study_service: StudyService,
               private _repeatedMeasureService: RepeatedMeasureService,
               private _differentMeasuresService: DifferentMeasuresService,
-              private fb: FormBuilder) {
+              private _clusterService: ClusterService,
+              private _fb: FormBuilder) {
     this.editingRepeatedMeasure = false;
     this.buildForm();
     this.repeatedMeasureSubscription = this.repeatedMeasureService.repeatedMeasure$.subscribe(
@@ -52,10 +61,16 @@ export class WitinIsuComponent {
         this.editingDifferentMeasures = false;
       }
     );
+    this.clusterSubscription = this.clusterService.cluster$.subscribe(
+      cluster => {
+        this.clusters.push(cluster);
+        this.editingClusters = false;
+      }
+    );
   }
 
   buildForm(): void {
-    this.withinISUForm = this.fb.group({
+    this.withinISUForm = this._fb.group({
       singleoutcome: '',
     });
 
@@ -105,6 +120,11 @@ export class WitinIsuComponent {
     this.editingDifferentMeasures = true;
   }
 
+  addCluster() {
+    this.cluster = new Cluster();
+    this.editingClusters = true;
+  }
+
   selectSingleOutcome() {
     this.multipleOutcomes = false;
     this.updateForm();
@@ -116,7 +136,7 @@ export class WitinIsuComponent {
   }
 
   private updateForm() {
-    this.study_service.selectMultipleOutcomes(this.multipleOutcomes);
+    this._study_service.selectMultipleOutcomes(this.multipleOutcomes);
   }
 
   get multipleOutcomes(): boolean {
@@ -128,7 +148,7 @@ export class WitinIsuComponent {
   }
 
   editing(): boolean {
-    return this.editingRepeatedMeasure || this.editingDifferentMeasures ? true : false;
+    return this.editingRepeatedMeasure || this.editingDifferentMeasures || this.editingClusters ? true : false;
   }
 
   get withinISUForm(): FormGroup {
@@ -233,5 +253,61 @@ export class WitinIsuComponent {
 
   set differentMeasure(value: DifferentMeasures) {
     this._differentMeasure = value;
+  }
+
+  get clusters(): Cluster[] {
+    return this._clusters;
+  }
+
+  set clusters(value: Cluster[]) {
+    this._clusters = value;
+  }
+
+  get cluster(): Cluster {
+    return this._cluster;
+  }
+
+  set cluster(value: Cluster) {
+    this._cluster = value;
+  }
+
+  get clusterSubscription(): Subscription {
+    return this._clusterSubscription;
+  }
+
+  set clusterSubscription(value: Subscription) {
+    this._clusterSubscription = value;
+  }
+
+  get study_service(): StudyService {
+    return this._study_service;
+  }
+
+  set study_service(value: StudyService) {
+    this._study_service = value;
+  }
+
+  get clusterService(): ClusterService {
+    return this._clusterService;
+  }
+
+  set clusterService(value: ClusterService) {
+    this._clusterService = value;
+  }
+
+  get fb(): FormBuilder {
+    return this._fb;
+  }
+
+  set fb(value: FormBuilder) {
+    this._fb = value;
+  }
+
+  get editingClusters(): boolean {
+    return this._editingClusters;
+  }
+
+  set editingClusters(value: boolean) {
+    this._editingClusters = value;
   }
 }
