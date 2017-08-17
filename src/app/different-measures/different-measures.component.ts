@@ -37,22 +37,9 @@ export class DifferentMeasuresComponent implements OnInit {
 
   ngOnInit() {
     this.buildForm();
-    this.createMeasuresArray()
     if( this.differentMeasures.differentMeasures.length > 2 ) {
       this.correlationMatrixService.updateSize(this.differentMeasures.differentMeasures.length);
     }
-  }
-
-  createMeasuresArray() {
-    const controlDefs = [];
-    for (const measure of this.differentMeasures.differentMeasures) {
-      controlDefs.push(this.fb.group(measure));
-    }
-    this.differentMeasuresForm.reset({
-      diffMeasures: this.fb.array(controlDefs)
-    }
-    );
-    this._changeDetectorRef.detectChanges();
   }
 
   buildForm(): void {
