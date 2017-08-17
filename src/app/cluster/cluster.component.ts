@@ -36,13 +36,13 @@ export class ClusterComponent implements OnInit {
       clusterLevel: [this.cluster.clusterLevel],
       noElements: [this.cluster.noElements],
       childCluster: [this.cluster.childCluster],
-      intraClassCorrelation: this.cluster.intraClassCorrelation,
+      intraClassCorrelation: [this.cluster.intraClassCorrelation],
       variance: [this.cluster.variance]
     });
   }
 
   enableAddClusterButton(): boolean {
-    return this.clusterForm.status === 'VALID' ? true : false;
+    return this.clusterForm.status === 'VALID' ? false : true;
   }
 
   addChildCluster() {
