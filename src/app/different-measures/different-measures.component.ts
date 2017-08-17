@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
@@ -15,7 +15,7 @@ import setDefaultFlow = promise.setDefaultFlow;
   styleUrls: ['./different-measures.component.scss'],
   providers: [CorrelationMatrixService]
 })
-export class DifferentMeasuresComponent implements OnInit, OnChanges {
+export class DifferentMeasuresComponent implements OnInit {
 
   private _differentMeasuresForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
@@ -28,28 +28,31 @@ export class DifferentMeasuresComponent implements OnInit, OnChanges {
     private _fb: FormBuilder,
     private _differentMeasuresService: DifferentMeasuresService,
     private _correlationMatrixService: CorrelationMatrixService,
-    private _differentMeasures: DifferentMeasures
+    private _differentMeasures: DifferentMeasures,
+    private _changeDetectorRef: ChangeDetectorRef,
   ) {
     this.min = constants.CORRELATION_MIN;
     this.max = constants.CORRELATION_MAX;
-
-    this.buildForm();
   }
 
   ngOnInit() {
-    this.updateCorrelationMatrix();
-    if (this.differentMeasures.correlationMatrix && this.differentMeasures.correlationMatrix.values) {
-      this._correlationMatrixService.updateCorrelationMatrix(this.differentMeasures.correlationMatrix);
+    this.buildForm();
+    this.createMeasuresArray()
+    if( this.differentMeasures.differentMeasures.length > 2 ) {
+      this.correlationMatrixService.updateSize(this.differentMeasures.differentMeasures.length);
     }
-    this.updateMatrixValid();
   }
 
-  ngOnChanges() {
+  createMeasuresArray() {
+    const controlDefs = [];
+    for (const measure of this.differentMeasures.differentMeasures) {
+      controlDefs.push(this.fb.group(measure));
+    }
     this.differentMeasuresForm.reset({
-      diffMeasures: this.fb.array(this.differentMeasures.differentMeasures)
-    });
-    this.correlationMatrixService.updateSize(this.differentMeasures.differentMeasures.length);
-    this.setDiffMeasures(this.differentMeasures.differentMeasures);
+      diffMeasures: this.fb.array(controlDefs)
+    }
+    );
+    this._changeDetectorRef.detectChanges();
   }
 
   buildForm(): void {
@@ -72,7 +75,17 @@ export class DifferentMeasuresComponent implements OnInit, OnChanges {
   }
 
   addDiffMeasure() {
-    this.diffMeasures.push(this.fb.group(new DiffMeasure()));
+    this.differentMeasures.differentMeasures.push(new DiffMeasure);
+    this.setDiffMeasures(this.differentMeasures.differentMeasures);
+    if( this.differentMeasures.differentMeasures.length >= 2 ) {
+      this.correlationMatrixService.updateSize(this.differentMeasures.differentMeasures.length);
+    }
+    this._changeDetectorRef.detectChanges();
+    this.updateCorrelationMatrix();
+    if (this.differentMeasures.correlationMatrix && this.differentMeasures.correlationMatrix.values) {
+      this._correlationMatrixService.updateCorrelationMatrix(this.differentMeasures.correlationMatrix);
+    }
+    this.updateMatrixValid();
   }
 
 

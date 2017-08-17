@@ -4,7 +4,7 @@ import {DiffMeasure} from './DiffMeasure';
 
 @Injectable()
 export class DifferentMeasures {
-  private  _differentMeasures: DiffMeasure[] = [new DiffMeasure(), new DiffMeasure()];
+  private  _differentMeasures: DiffMeasure[] = [];
   private _correlationType = 'Default';
   private _correlationMatrix = null;
   private _variance = null;
