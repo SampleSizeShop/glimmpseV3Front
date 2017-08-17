@@ -62,8 +62,8 @@ export class DifferentMeasuresComponent implements OnInit {
   }
 
   addDiffMeasure() {
-    const a = this.differentMeasuresForm.value;
-    this.differentMeasures.differentMeasures = a.diffMeasures;
+    const formValues = this.differentMeasuresForm.value;
+    this.differentMeasures.differentMeasures = formValues.diffMeasures;
     this.differentMeasures.differentMeasures.push(new DiffMeasure);
     this.setDiffMeasures(this.differentMeasures.differentMeasures);
     if( this.differentMeasures.differentMeasures.length >= 2 ) {
