@@ -7,6 +7,7 @@ import {LoggerModule} from 'ngx-logger';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {DifferentMeasures} from '../shared/DifferentMeasures';
+import {DifferentMeasuresService} from '../shared/differentMeasures.service';
 
 describe('DifferentMeasuresComponent', () => {
   let component: DifferentMeasuresComponent;
@@ -17,7 +18,7 @@ describe('DifferentMeasuresComponent', () => {
       imports: [  ReactiveFormsModule,
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})],
       declarations: [ DifferentMeasuresComponent, CorrelationMatrixComponent ],
-      providers: [ DifferentMeasures, { provide: Http, useClass: MockBackend } ]
+      providers: [ DifferentMeasures, { provide: Http, useClass: MockBackend }, DifferentMeasuresService ]
     })
     .compileComponents();
   }));
