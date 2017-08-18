@@ -40,7 +40,7 @@
         <app-different-measures [differentMeasures]="differentMeasure"></app-different-measures>
     </div>
     <div *ngIf="editingClusters" >
-        <app-cluster [cluster]="cluster"></app-cluster>
+        <app-cluster [clusters]="cluster"></app-cluster>
     </div>
   </div>
 </form>
@@ -89,6 +89,44 @@
       </div>
       </td>
       <td><div [mathJaxExpr]="measure.correlationMatrix.toTeX()"></div></td>
+      <td>
+        <button class="btn btn-primary" type="check" >Edit</button>
+        <button class="btn btn-primary" type="check" >Delete</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container-fluid" *ngIf="!editingRepeatedMeasure && !editingDifferentMeasures && !editingClusters && differentMeasures && clusters.length > 0 ">
+  <h5>Different Measures within same ISU</h5>
+  <table class="table table-striped table-hover table-bordered">
+    <thead class="thead-default">
+    <tr>
+      <th>Element Names</th>
+      <th>Cluster Levels</th>
+      <th>Intra class Correlation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let cluster of clusters" class="table-info">
+      <td>
+        <div *ngFor="let level of cluster">
+          <div>{{level.elementName}}</div>
+          <br>
+        </div>
+      </td>
+      <td>
+        <div *ngFor="let level of cluster">
+          <div>{{level.clusterLevel}}</div>
+          <br>
+        </div>
+      </td>
+      <td>
+        <div *ngFor="let level of cluster">
+          <div>{{level.intraClassCorrelation}}</div>
+          <br>
+        </div>
+      </td>
       <td>
         <button class="btn btn-primary" type="check" >Edit</button>
         <button class="btn btn-primary" type="check" >Delete</button>

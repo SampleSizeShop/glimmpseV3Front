@@ -33,8 +33,8 @@ export class WitinIsuComponent {
   private _repeatedMeasure: RepeatedMeasure;
   private _differentMeasures: DifferentMeasures[] = [];
   private _differentMeasure: DifferentMeasures;
-  private _clusters: Cluster[] = [];
-  private _cluster: Cluster;
+  private _clusters = [];
+  private _cluster: Cluster[];
   private _repeatedMeasureSubscription: Subscription;
   private _differentMeasureSubscription: Subscription;
   private _clusterSubscription: Subscription;
@@ -121,7 +121,7 @@ export class WitinIsuComponent {
   }
 
   addCluster() {
-    this.cluster = new Cluster();
+    this.cluster = [new Cluster()];
     this.editingClusters = true;
   }
 
@@ -255,19 +255,19 @@ export class WitinIsuComponent {
     this._differentMeasure = value;
   }
 
-  get clusters(): Cluster[] {
+  get clusters() {
     return this._clusters;
   }
 
-  set clusters(value: Cluster[]) {
+  set clusters(value) {
     this._clusters = value;
   }
 
-  get cluster(): Cluster {
+  get cluster(): Cluster[] {
     return this._cluster;
   }
 
-  set cluster(value: Cluster) {
+  set cluster(value: Cluster[]) {
     this._cluster = value;
   }
 

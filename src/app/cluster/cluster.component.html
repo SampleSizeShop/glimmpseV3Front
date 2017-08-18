@@ -1,42 +1,57 @@
 <form [formGroup]="clusterForm">
   <div style="margin-left: 1em;">
-    <h6>Level {{cluster.level + 1}}</h6>
-    <div class="row">
-      <div class="col">
-        <div class="form-group">
-          <label class="center-block">Element Name:
-            <input class="form-control" formControlName="elementName" required>
-          </label>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <label class="center-block">Cluster Level:
-            <input type="string" class="form-control" formControlName="clusterLevel" required>
-          </label>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <label class="center-block">No. Elements in Cluster:
-            <input type="number" class="form-control" formControlName="noElements" required>
-          </label>
-        </div>
-      </div>
-      <div class="col">
-        <div class="form-group">
-          <label class="center-block">Intra Class Correlation:
-            <input type="number" class="form-control" formControlName="intraClassCorrelation" required>
-          </label>
-        </div>
-      </div>
-    </div>
+
     <div class="row">
       <button  *ngIf="canHaveChild()" class="btn btn-primary" type="button" (click)="addChildCluster()">+ Child Cluster</button>
     </div>
-    <div *ngIf="hasChildCluster">
-      <app-cluster [cluster]="childCluster"></app-cluster>
+    <div formArrayName="clusters">
+      <div *ngFor="let cluster of clusters; let i = index" [formGroupName]="i">
+
+        <h6>Level {{cluster.level + 1}}</h6>
+        <hr>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <label class="center-block">Element Name:
+                <input class="form-control" formControlName="elementName" required>
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="center-block">Cluster Level:
+                <input type="string" class="form-control" formControlName="clusterLevel" required>
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="center-block">No. Elements:
+                <input type="number" class="form-control" formControlName="noElements" required>
+              </label>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="form-group">
+              <label class="center-block">Intra Class Correlation:
+                <input type="number" class="form-control" formControlName="intraClassCorrelation" required>
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label class="center-block">Variance:
+                <input type="number" class="form-control" formControlName="variance" required>
+              </label>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
+
+
   </div>
-  <button *ngIf="isRoot()" class="btn btn-primary" [disabled]="enableAddClusterButton()" (click)="addCluster()" id="addClusterBtn">Add Cluster</button>
+  <button class="btn btn-primary" [disabled]="enableAddClusterButton()" (click)="addCluster()" id="addClusterBtn">Add Cluster</button>
 </form>

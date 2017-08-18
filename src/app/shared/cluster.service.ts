@@ -5,18 +5,18 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class ClusterService {
-  private _clusterSource = new Subject<Cluster>();
+  private _clusterSource = new Subject<Cluster[]>();
   private _cluster$ = this.clusterSource.asObservable();
 
-  updateCluster(cluster: Cluster) {
-    this.clusterSource.next(cluster);
+  updateCluster(clusters: Cluster[]) {
+    this.clusterSource.next(clusters);
   }
 
-  get clusterSource(): Subject<Cluster> {
+  get clusterSource(): Subject<Cluster[]> {
     return this._clusterSource;
   }
 
-  get cluster$(): Observable<Cluster> {
+  get cluster$(): Observable<Cluster[]> {
     return this._cluster$;
   }
 }
