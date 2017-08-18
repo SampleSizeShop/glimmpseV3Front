@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {ClusterService} from '../shared/cluster.service';
@@ -9,7 +9,7 @@ import {Cluster} from '../shared/Cluster';
   templateUrl: './cluster.component.html',
   styleUrls: ['./cluster.component.scss']
 })
-export class ClusterComponent implements OnInit {
+export class ClusterComponent implements OnInit, OnChanges {
   private _clusterForm: FormGroup;
   private _clusterSubscription: Subscription;
   private _correlationMatrixSubscription: Subscription;
@@ -21,6 +21,10 @@ export class ClusterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.buildForm();
+  }
+
+  ngOnChanges() {
     this.buildForm();
   }
 
@@ -54,6 +58,7 @@ export class ClusterComponent implements OnInit {
   }
 
   addChildCluster() {
+    this.updateClustersFromForm();
     const child = new Cluster();
     child.level = this.getMaxLevel() + 1;
     this.clusters.push(child);
@@ -71,9 +76,13 @@ export class ClusterComponent implements OnInit {
   }
 
   addCluster() {
+    this.updateClustersFromForm();
+    this.clusterService.updateCluster(this.clusters)
+  }
+
+  updateClustersFromForm() {
     const formValues = this.clusterForm.value;
     this.clusters = formValues.clusters;
-    this.clusterService.updateCluster(this.clusters)
   }
 
   canHaveChild() {

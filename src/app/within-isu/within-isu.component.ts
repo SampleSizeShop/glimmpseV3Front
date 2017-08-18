@@ -97,21 +97,21 @@ export class WitinIsuComponent {
   }
 
   deleteRepeatedMeasure(measure: RepeatedMeasure) {
-    let index = this.repeatedMeasures.indexOf(measure);
+    const index = this.repeatedMeasures.indexOf(measure);
     if (index > -1) {
       this.repeatedMeasures.splice(index, 1);
     }
   }
 
   deleteDifferentMeasure(measure: DifferentMeasures) {
-    let index = this.differentMeasures.indexOf(measure);
+    const index = this.differentMeasures.indexOf(measure);
     if (index > -1) {
       this.differentMeasures.splice(index, 1);
     }
   }
 
-  deleteCluster(cluster: Cluster) {
-    let index = this.clusters.indexOf(cluster);
+  deleteCluster(cluster: Cluster[]) {
+    const index = this.clusters.indexOf(cluster);
     if (index > -1) {
       this.clusters.splice(index, 1);
     }
@@ -121,6 +121,18 @@ export class WitinIsuComponent {
     this.repeatedMeasure = measure;
     this.deleteRepeatedMeasure(measure);
     this.editingRepeatedMeasure = true;
+  }
+
+  editDifferentMeasure(measure: DifferentMeasures) {
+    this.differentMeasure = measure;
+    this.deleteDifferentMeasure(measure);
+    this.editingDifferentMeasures = true;
+  }
+
+  editCluster(cluster: Cluster[]) {
+    this.cluster = cluster;
+    this.deleteCluster(cluster);
+    this.editingClusters = true;
   }
 
   addRepeatedMeasure() {

@@ -90,7 +90,7 @@
       </td>
       <td><div [mathJaxExpr]="measure.correlationMatrix.toTeX()"></div></td>
       <td>
-        <button class="btn btn-primary" type="check" >Edit</button>
+        <button class="btn btn-primary" type="check" (click)="editDifferentMeasure(measure)">Edit</button>
         <button class="btn btn-primary" type="check" (click)="deleteDifferentMeasure(measure)">Delete</button>
       </td>
     </tr>
@@ -98,7 +98,7 @@
   </table>
 </div>
 <div class="container-fluid" *ngIf="!editingRepeatedMeasure && !editingDifferentMeasures && !editingClusters && differentMeasures && clusters.length > 0 ">
-  <h5>Different Measures within same ISU</h5>
+  <h5>Clusters</h5>
   <table class="table table-striped table-hover table-bordered">
     <thead class="thead-default">
     <tr>
@@ -128,7 +128,7 @@
         </div>
       </td>
       <td>
-        <button class="btn btn-primary" type="check" >Edit</button>
+        <button class="btn btn-primary" type="check" (click)="editCluster(cluster)">Edit</button>
         <button class="btn btn-primary" type="check" (click)="deleteCluster(cluster)">Delete</button>
       </td>
     </tr>
