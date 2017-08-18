@@ -91,7 +91,7 @@
       <td><div [mathJaxExpr]="measure.correlationMatrix.toTeX()"></div></td>
       <td>
         <button class="btn btn-primary" type="check" >Edit</button>
-        <button class="btn btn-primary" type="check" >Delete</button>
+        <button class="btn btn-primary" type="check" (click)="deleteDifferentMeasure(measure)">Delete</button>
       </td>
     </tr>
     </tbody>
@@ -129,7 +129,7 @@
       </td>
       <td>
         <button class="btn btn-primary" type="check" >Edit</button>
-        <button class="btn btn-primary" type="check" >Delete</button>
+        <button class="btn btn-primary" type="check" (click)="deleteCluster(cluster)">Delete</button>
       </td>
     </tr>
     </tbody>

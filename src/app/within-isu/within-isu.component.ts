@@ -97,10 +97,23 @@ export class WitinIsuComponent {
   }
 
   deleteRepeatedMeasure(measure: RepeatedMeasure) {
-    let index = -1;
-    index = this.repeatedMeasures.indexOf(measure);
+    let index = this.repeatedMeasures.indexOf(measure);
     if (index > -1) {
       this.repeatedMeasures.splice(index, 1);
+    }
+  }
+
+  deleteDifferentMeasure(measure: DifferentMeasures) {
+    let index = this.differentMeasures.indexOf(measure);
+    if (index > -1) {
+      this.differentMeasures.splice(index, 1);
+    }
+  }
+
+  deleteCluster(cluster: Cluster) {
+    let index = this.clusters.indexOf(cluster);
+    if (index > -1) {
+      this.clusters.splice(index, 1);
     }
   }
 
