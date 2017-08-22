@@ -13,7 +13,11 @@
       <div class="col">
         <div class="form-group" *ngIf="firstOutcome() || nextOutcome()">
           <input class="form-control" formControlName="outcomes" (keyup.enter)="addOutcome()">
-        </div></div>
+          <div *ngIf="formErrors.outcomes" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.outcomes}}</div>
+          </div>
+        </div>
+      </div>
       <div class="col">
         <i class="material-icons" (click)="addOutcome()" style="margin-top: 10px">add</i>
       </div>

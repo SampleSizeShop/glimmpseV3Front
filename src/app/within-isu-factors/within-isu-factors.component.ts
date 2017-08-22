@@ -12,8 +12,12 @@ export class WithinIsuFactorsComponent implements OnInit {
   private _outcomesForm: FormGroup;
   private _outcomes: string[];
   private _max: number;
+  private _validationMessages;
+  private _formErrors;
 
   constructor(private _fb: FormBuilder) {
+    this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
+    this.formErrors = constants.OUTCOME_FORM_ERRORS;
     this._max = constants.MAX_OUTCOMES;
     this.outcomes = [];
   }
@@ -26,6 +30,28 @@ export class WithinIsuFactorsComponent implements OnInit {
     this.outcomesForm = this.fb.group({
       outcomes: ['', outcomeValidator(this.outcomes)]
     });
+
+    this.outcomesForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged();
+  }
+
+  onValueChanged(data?: any) {
+    if (!this.outcomesForm) {
+      return;
+    }
+    const form = this.outcomesForm;
+
+    for (const field in this.validationMessages) {
+      this.formErrors[field] = '';
+      const control = form.get(field);
+
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
   }
 
   addOutcome() {
@@ -84,5 +110,21 @@ export class WithinIsuFactorsComponent implements OnInit {
 
   set max(value: number) {
     this._max = value;
+  }
+
+  get validationMessages() {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value) {
+    this._validationMessages = value;
+  }
+
+  get formErrors() {
+    return this._formErrors;
+  }
+
+  set formErrors(value) {
+    this._formErrors = value;
   }
 }

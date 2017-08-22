@@ -61,4 +61,10 @@ export const constants = {
     'maxval': 'Value too high'
   },
   MAX_OUTCOMES: 10,
+  OUTCOME_FORM_ERRORS: {},
+  OUTCOME_FORM_VALIDATION_MESSAGES: {
+    'outcomes': {
+      'duplicate': 'You have already added that outcome.'
+    }
+  }
 };

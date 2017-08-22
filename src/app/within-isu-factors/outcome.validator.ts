@@ -4,7 +4,7 @@ export function outcomeValidator(outcomes: string []): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
     const val = control.value;
     if (outcomes.indexOf(val) !== -1) {
-      return { 'Value already exists in outcomes': val}
+      return { 'duplicate': val}
     } else {
       return null;
     }
