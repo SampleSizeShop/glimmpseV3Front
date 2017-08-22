@@ -24,6 +24,8 @@ import { CorrelationMatrixComponent } from './correlation-matrix/correlation-mat
 import { RepeatedMeasureComponent } from './repeated-measure/repeated-measure.component';
 import { DifferentMeasuresComponent } from './different-measures/different-measures.component';
 import { ClusterComponent } from './cluster/cluster.component';
+import { WithinIsuFactorsComponent } from './within-isu-factors/within-isu-factors.component';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { ClusterComponent } from './cluster/cluster.component';
     CorrelationMatrixComponent,
     RepeatedMeasureComponent,
     DifferentMeasuresComponent,
-    ClusterComponent
+    ClusterComponent,
+    WithinIsuFactorsComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

@@ -1,6 +1,6 @@
 export const constants = {
   // Guided mode stages and ordering
-  STAGES: {1: 'MODE', 2: 'TARGET_EVENT', 3: 'SOLVE_FOR', 4: 'STATISTICAL_TESTS', 5: 'TYPE_ONE_ERROR', 6: 'WITHIN_ISU'},
+  STAGES: {1: 'MODE', 2: 'TARGET_EVENT', 3: 'SOLVE_FOR', 4: 'STATISTICAL_TESTS', 5: 'TYPE_ONE_ERROR', 6: 'WITHIN_ISU_FACTORS'},
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
     'power': '',
@@ -60,4 +60,5 @@ export const constants = {
     'minval': 'Value too low.',
     'maxval': 'Value too high'
   },
+  MAX_OUTCOMES: 10,
 };

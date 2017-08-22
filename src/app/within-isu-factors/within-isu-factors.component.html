@@ -1,0 +1,34 @@
+<div *ngIf="firstOutcome()">
+  <h5>Name your first outcome:</h5>
+</div>
+<div *ngIf="nextOutcome()">
+  <h5>Would you like to add another?</h5>
+</div>
+<div *ngIf="!firstOutcome() && !nextOutcome()">
+  <h5>You cannot have more than {{max}} outcomes.</h5>
+</div>
+<form [formGroup]="outcomesForm">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <div class="form-group" *ngIf="firstOutcome() || nextOutcome()">
+          <input class="form-control" formControlName="outcomes" (keyup.enter)="addOutcome()">
+        </div></div>
+      <div class="col">
+        <i class="material-icons" (click)="addOutcome()" style="margin-top: 10px">add</i>
+      </div>
+    </div>
+  </div>
+  <div *ngFor="let outcome of outcomes">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          {{outcome}}
+        </div>
+        <div class="col">
+          <i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px">remove</i>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
