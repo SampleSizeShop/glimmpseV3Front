@@ -22,7 +22,7 @@ export class CorrelationMatrix {
   }
 
   toTeX(): string {
-    let texString = '$\\begin{pmatrix}';
+    let texString = '$\\begin{bmatrix}';
     let row = 0;
     this.values.forEach(function (value, index, matrix) {
       if (index[0] > row) {
@@ -31,7 +31,7 @@ export class CorrelationMatrix {
       }
       texString = texString + value + ' & '
     })
-    texString = texString.slice(0, texString.length - 2) + '\\end{pmatrix}$';
+    texString = texString.slice(0, texString.length - 2) + '\\end{bmatrix}$';
     return texString;
   }
 }

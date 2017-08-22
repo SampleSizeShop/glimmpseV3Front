@@ -10,7 +10,7 @@
   </div>
   <div *ngIf="!multipleOutcomes">
     <div class="form-group" id="singleoutcomeinput">
-      <label for="singleoutcome">Name your outcome variable:</label>
+      <label for="singleoutcome">Name your outcome:</label>
       <input type="string" class="form-control" id="singleoutcome" aria-describedby="singleoutcomehelp" placeholder="You must enter an outcome variable name..." formControlName="singleoutcome" required>
       <div *ngIf="formErrors.singleoutcomeerror" class="alert alert-danger">
         <div class="form-control-feedback">{{formErrors.singleoutcomeerror}}</div>
@@ -20,7 +20,7 @@
   </div>
   <div *ngIf="multipleOutcomes" id="multioutcomeinput">
     <div *ngIf="!editing()">
-      <h6>Choose type of variable to add:</h6>
+      <h6>Tell us more about this outcome:</h6>
       <div class="row">
         <div class="col">
           <button (click)="addRepeatedMeasure()" type="button" class="btn btn-primary">+ Repeated Measure</button>
@@ -90,7 +90,7 @@
       </td>
       <td><div [mathJaxExpr]="measure.correlationMatrix.toTeX()"></div></td>
       <td>
-        <button class="btn btn-primary" type="check" (click)="editDifferentMeasure(measure)">Edit</button>
+        <button class="btn btn-primary" type="check" >Edit</button>
         <button class="btn btn-primary" type="check" (click)="deleteDifferentMeasure(measure)">Delete</button>
       </td>
     </tr>

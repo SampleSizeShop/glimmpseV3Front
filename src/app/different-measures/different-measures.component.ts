@@ -15,7 +15,7 @@ import setDefaultFlow = promise.setDefaultFlow;
   styleUrls: ['./different-measures.component.scss'],
   providers: [CorrelationMatrixService]
 })
-export class DifferentMeasuresComponent implements OnInit {
+export class DifferentMeasuresComponent implements OnInit, OnChanges {
 
   private _differentMeasuresForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
@@ -40,6 +40,16 @@ export class DifferentMeasuresComponent implements OnInit {
     if( this.differentMeasures.differentMeasures.length > 2 ) {
       this.correlationMatrixService.updateSize(this.differentMeasures.differentMeasures.length);
     }
+  }
+
+  ngOnChanges() {
+/*    if (this.differentMeasures.differentMeasures && this.differentMeasures.differentMeasures.length > 0 ) {
+      this.setDiffMeasures(this.differentMeasures.differentMeasures)
+    }
+    this.buildForm();
+    if( this.differentMeasures.differentMeasures.length > 2 ) {
+      this.correlationMatrixService.updateSize(this.differentMeasures.differentMeasures.length);
+    }*/
   }
 
   buildForm(): void {
