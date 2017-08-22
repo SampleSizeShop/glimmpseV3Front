@@ -55,8 +55,8 @@ export class WithinIsuFactorsComponent implements OnInit {
   }
 
   addOutcome() {
-    if (this.outcomesForm.status === 'VALID') {
-      this.outcomes.push(this.outcomesForm.value.outcomes);
+    if (this.outcomesForm.status === 'VALID' && this.outcomesForm.value.outcomes.trim() !== '' ) {
+      this.outcomes.push(this.outcomesForm.value.outcomes.trim());
       this.outcomesForm.reset();
     }
   }
