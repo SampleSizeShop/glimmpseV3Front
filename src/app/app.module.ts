@@ -24,7 +24,7 @@ import { CorrelationMatrixComponent } from './correlation-matrix/correlation-mat
 import { RepeatedMeasureComponent } from './repeated-measure/repeated-measure.component';
 import { DifferentMeasuresComponent } from './different-measures/different-measures.component';
 import { ClusterComponent } from './cluster/cluster.component';
-import { WithinIsuFactorsComponent } from './within-isu-factors/within-isu-factors.component';
+import { WithinIsuFactorsComponent } from './within-isu-outcomes/within-isu-outcomes.component';
 
 
 @NgModule({

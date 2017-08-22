@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WithinIsuFactorsComponent } from './within-isu-factors.component';
+import { WithinIsuFactorsComponent } from './within-isu-outcomes.component';
 
 describe('WithinIsuFactorsComponent', () => {
   let component: WithinIsuFactorsComponent;

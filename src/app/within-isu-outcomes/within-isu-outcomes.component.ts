@@ -5,8 +5,8 @@ import {outcomeValidator} from './outcome.validator';
 
 @Component({
   selector: 'app-within-isu-factors',
-  templateUrl: './within-isu-factors.component.html',
-  styleUrls: ['./within-isu-factors.component.scss']
+  templateUrl: './within-isu-outcomes.component.html',
+  styleUrls: ['./within-isu-outcomes.scss']
 })
 export class WithinIsuFactorsComponent implements OnInit {
   private _outcomesForm: FormGroup;
