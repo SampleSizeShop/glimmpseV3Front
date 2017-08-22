@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../shared/constants';
+import {outcomeValidator} from './outcome.validator';
 
 @Component({
   selector: 'app-within-isu-factors',
@@ -23,13 +24,15 @@ export class WithinIsuFactorsComponent implements OnInit {
 
   buildForm() {
     this.outcomesForm = this.fb.group({
-      outcomes: ['']
+      outcomes: ['', outcomeValidator(this.outcomes)]
     });
   }
 
   addOutcome() {
-    this.outcomes.push(this.outcomesForm.value.outcomes);
-    this.outcomesForm.reset();
+    if (this.outcomesForm.status === 'VALID') {
+      this.outcomes.push(this.outcomesForm.value.outcomes);
+      this.outcomesForm.reset();
+    }
   }
 
   removeOutcome(value: string) {

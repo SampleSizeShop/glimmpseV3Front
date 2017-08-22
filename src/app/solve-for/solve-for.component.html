@@ -1,6 +1,6 @@
 <form [formGroup]="powerSampleSizeForm" novalidate>
   <h5>Solve for:</h5>
-  <fieldset>
+  <div class="container-fluid">
     <div class="btn-group" data-toggle="buttons">
       <label *ngIf="isRejection()" aria-pressed="true" class="btn btn-primary" [class.active]="isPower()" id="powerbtn">
         <input type="radio" id="powerradio" (click)="selectPower()"> Power
@@ -41,7 +41,7 @@
       <div class="form-group" *ngIf="isPower()" id="samplesizeinput">
         <label for="samplesize">Enter your sample size:</label>
         <input type="number" class="form-control" id="samplesize" aria-describedby="samplesizehelp" placeholder="Choose a number from 1 -> 1000" formControlName="samplesize" required>
-        <div *ngIf="formErrors.samplesize" class="alert alert-danger">
+        <div *ngIf="formErrors.samplesize" class="form-group has-danger">
           <div class="form-control-feedback">{{formErrors.samplesize}}</div>
         </div>
         <small id="samplesizehelp" class="form-text text-muted">Sample size must be an integer between 1 >= x > 1000</small>
@@ -51,21 +51,21 @@
         <label for="power" ng-non-bindable *ngIf="isCIWidth()" id="achieveciwidthlbl">Probability &#123;achieve CI Width&#125;:</label>
         <label for="power" ng-non-bindable *ngIf="isWAVR()" id="probwavrlbl">Probability &#123;WAVR&#125;:</label>
         <input type="number" class="form-control" id="power" aria-describedby="powerhelp" placeholder="Choose a number between 0 -> 1" formControlName="power" required>
-        <div *ngIf="formErrors.power" class="alert alert-danger">
+        <div *ngIf="formErrors.power" class="form-group has-danger">
           <div class="form-control-feedback">{{formErrors.power}}</div>
         </div>
         <small id="powerhelp" class="form-text text-muted">Power must be an integer between 0 > x > 1</small>
         <div class="form-group" *ngIf="isCIWidth() || isWAVR()">
           <label for="ciwidth">Confidence Interval Width:</label>
           <input type="number" class="form-control" id="ciwidth" aria-describedby="ciwidthhelp" placeholder="Choose a number between 0 -> 10" formControlName="ciwidth" required>
-          <div *ngIf="formErrors.ciwidth" class="alert alert-danger">
+          <div *ngIf="formErrors.ciwidth" class="form-group has-danger">
             <div class="form-control-feedback">{{formErrors.ciwidth}}</div>
           </div>
           <small id="ciwidthhelp" class="form-text text-muted">Confidence Interval width must be an integer between 0 > x > 10</small>
         </div>
       </div>
     </div>
-  </fieldset>
+  </div>
   <small>Target event: {{targetEvent}}</small>
 </form>
 

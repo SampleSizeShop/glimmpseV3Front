@@ -12,7 +12,7 @@
     <div class="form-group" id="singleoutcomeinput">
       <label for="singleoutcome">Name your outcome:</label>
       <input type="string" class="form-control" id="singleoutcome" aria-describedby="singleoutcomehelp" placeholder="You must enter an outcome variable name..." formControlName="singleoutcome" required>
-      <div *ngIf="formErrors.singleoutcomeerror" class="alert alert-danger">
+      <div *ngIf="formErrors.singleoutcomeerror" class="form-group has-danger">
         <div class="form-control-feedback">{{formErrors.singleoutcomeerror}}</div>
       </div>
       <small id="singleoutcomehelp" class="form-text text-muted">Outcome variable name must not contain any special characters</small>
