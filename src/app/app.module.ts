@@ -19,11 +19,7 @@ import {LoggerModule} from 'ngx-logger';
 import {environment} from '../environments/environment';
 import { StatisticalTestsComponent } from './statistical-tests/statistical-tests.component';
 import { TypeOneErrorComponent } from './type-one-error/type-one-error.component';
-import { WitinIsuComponent } from './within-isu/within-isu.component';
 import { CorrelationMatrixComponent } from './correlation-matrix/correlation-matrix.component';
-import { RepeatedMeasureComponent } from './repeated-measure/repeated-measure.component';
-import { DifferentMeasuresComponent } from './different-measures/different-measures.component';
-import { ClusterComponent } from './cluster/cluster.component';
 import { WithinIsuOutcomesComponent } from './within-isu-outcomes/within-isu-outcomes.component';
 import { WithinIsuRepeatedMeasuresComponent } from './within-isu-repeated-measures/within-isu-repeated-measures.component';
 
@@ -39,11 +35,7 @@ import { WithinIsuRepeatedMeasuresComponent } from './within-isu-repeated-measur
     SolveForComponent,
     StatisticalTestsComponent,
     TypeOneErrorComponent,
-    WitinIsuComponent,
     CorrelationMatrixComponent,
-    RepeatedMeasureComponent,
-    DifferentMeasuresComponent,
-    ClusterComponent,
     WithinIsuOutcomesComponent,
     WithinIsuRepeatedMeasuresComponent
   ],

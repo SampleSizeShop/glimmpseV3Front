@@ -13,12 +13,9 @@ import {StatisticalTestsComponent} from '../statistical-tests/statistical-tests.
 import {TypeOneErrorComponent} from '../type-one-error/type-one-error.component';
 import {WitinIsuComponent} from '../within-isu/within-isu.component';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
-import {RepeatedMeasure} from '../shared/RepeatedMeasure';
-import {RepeatedMeasureComponent} from '../repeated-measure/repeated-measure.component';
 import {MathJaxDirective} from '../mathjax/mathjax.directive';
 import {DifferentMeasuresComponent} from '../different-measures/different-measures.component';
 import {WithinIsuOutcomesComponent} from '../within-isu-outcomes/within-isu-outcomes.component';
-import {Cluster} from 'cluster';
 import {ClusterComponent} from '../cluster/cluster.component';
 import {WithinIsuRepeatedMeasuresComponent} from '../within-isu-repeated-measures/within-isu-repeated-measures.component';
 
@@ -42,7 +39,6 @@ describe('StudyFormComponent', () => {
         WitinIsuComponent,
         WithinIsuOutcomesComponent,
         WithinIsuRepeatedMeasuresComponent,
-        RepeatedMeasureComponent,
         DifferentMeasuresComponent,
         CorrelationMatrixComponent,
         ClusterComponent,
