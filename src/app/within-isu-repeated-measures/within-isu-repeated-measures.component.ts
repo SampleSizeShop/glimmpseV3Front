@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {constants} from '../shared/constants';
 import {outcomeValidator} from '../within-isu-outcomes/outcome.validator';
+import {NavigationService} from 'app/shared/navigation.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -23,7 +25,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
   private _step: string;
   private _maxDimensions: number;
 
-  constructor(private _fb: FormBuilder) {
+  private _directionCommand: string;
+  private _childNavigationMode: boolean;
+  private _navigationSubscription: Subscription;
+
+  constructor(private _fb: FormBuilder, private navigation_service: NavigationService) {
 
     this.validationMessages = constants.REPEATED_MEASURE_FORM_VALIDATION_MESSAGES;
     this.formErrors = constants.REPEATED_MEASURE_FORM_ERRORS;
@@ -34,6 +40,14 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
     this.included = false;
     this.editing = false;
     this.types = constants.REPEATED_MEASURE_TYPES;
+
+
+    this.navigationSubscription = this.navigation_service.navigation$.subscribe(
+      direction => {
+        this.directionCommand = direction;
+        this.internallyNavigate(this.directionCommand);
+      }
+    );
   }
 
   ngOnInit() {
@@ -75,6 +89,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
       this.dimensions.push(this.dimensionsForm.value.dimensions.trim());
       this.dimensionsForm.reset();
     }
+    if (this.dimensions && this.dimensions.length > 0) {
+      this.navigation_service.updateNextEnabled(true);
+      this.navigation_service.updateBackEnabled(true);
+    }
   }
 
   removeDimension(value: string) {
@@ -88,12 +106,17 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
   includeRepeatedMeasures() {
     this.included = true;
     this.editing = true;
+    this.navigation_service.updateNavigationMode(true);
     this.repMeasure = new RepeatedMeasure();
     this.step = 'DIMENSIONS';
   }
 
   dontincludeRepeatedMeasures() {
     this.included = false;
+  }
+
+  internallyNavigate(direction: string): void {
+    console.log(direction);
   }
 
   get dimensionsForm(): FormGroup {
@@ -198,5 +221,29 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
 
   set editing(value: boolean) {
     this._editing = value;
+  }
+
+  get navigationSubscription(): Subscription {
+    return this._navigationSubscription;
+  }
+
+  set navigationSubscription(value: Subscription) {
+    this._navigationSubscription = value;
+  }
+
+  get directionCommand(): string {
+    return this._directionCommand;
+  }
+
+  set directionCommand(value: string) {
+    this._directionCommand = value;
+  }
+
+  get childNavigationMode(): boolean {
+    return this._childNavigationMode;
+  }
+
+  set childNavigationMode(value: boolean) {
+    this._childNavigationMode = value;
   }
 }
