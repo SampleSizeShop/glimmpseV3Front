@@ -35,6 +35,13 @@ describe('WithinIsuOutcomesComponent', () => {
     expect(component.outcomes[0]).toEqual(val);
   });
 
+  it('should remove the selected value of the form to the list of outcomes.', () => {
+    const val = 'ABC';
+    component.outcomes.push(val);
+    component.removeOutcome(val);
+    expect(component.outcomes.length).toEqual(0);
+  });
+
   it('should not add an empty outcome', () => {
     const val = '  ';
     component.outcomesForm.value.outcomes = val;
