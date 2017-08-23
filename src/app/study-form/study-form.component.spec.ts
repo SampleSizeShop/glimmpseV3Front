@@ -17,6 +17,9 @@ import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {RepeatedMeasureComponent} from '../repeated-measure/repeated-measure.component';
 import {MathJaxDirective} from '../mathjax/mathjax.directive';
 import {DifferentMeasuresComponent} from '../different-measures/different-measures.component';
+import {WithinIsuOutcomesComponent} from '../within-isu-outcomes/within-isu-outcomes.component';
+import {Cluster} from 'cluster';
+import {ClusterComponent} from '../cluster/cluster.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -36,9 +39,11 @@ describe('StudyFormComponent', () => {
         StatisticalTestsComponent,
         TypeOneErrorComponent,
         WitinIsuComponent,
+        WithinIsuOutcomesComponent,
         RepeatedMeasureComponent,
         DifferentMeasuresComponent,
         CorrelationMatrixComponent,
+        ClusterComponent,
         MathJaxDirective],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })

@@ -19,7 +19,7 @@ describe('CorrelationMatrix', () => {
 
   it('Should return a TeX formatted string', () => {
     component.populateDefaultValues(2);
-    expect(component.toTeX()).toEqual('$\\begin{pmatrix}1 & 0 \\\\0 & 1 \\end{pmatrix}$')
+    expect(component.toTeX()).toEqual('$\\begin{bmatrix}1 & 0 \\\\0 & 1 \\end{bmatrix}$')
   });
 
 });

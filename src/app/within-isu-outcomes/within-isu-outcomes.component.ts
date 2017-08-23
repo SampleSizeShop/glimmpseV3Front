@@ -8,7 +8,7 @@ import {outcomeValidator} from './outcome.validator';
   templateUrl: './within-isu-outcomes.component.html',
   styleUrls: ['./within-isu-outcomes.scss']
 })
-export class WithinIsuFactorsComponent implements OnInit {
+export class WithinIsuOutcomesComponent implements OnInit {
   private _outcomesForm: FormGroup;
   private _outcomes: string[];
   private _max: number;
