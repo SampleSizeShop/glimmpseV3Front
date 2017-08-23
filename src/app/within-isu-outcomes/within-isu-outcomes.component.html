@@ -9,9 +9,9 @@
 </div>
 <form [formGroup]="outcomesForm">
   <div class="container-fluid">
-    <div class="row">
+    <div class="row" *ngIf="firstOutcome() || nextOutcome()">
       <div class="col">
-        <div class="form-group" *ngIf="firstOutcome() || nextOutcome()">
+        <div class="form-group">
           <input class="form-control" formControlName="outcomes" (keyup.enter)="addOutcome()" id="outcomes">
           <div *ngIf="formErrors.outcomes" class="form-group has-danger">
             <div class="form-control-feedback" id="outcomeserr">{{formErrors.outcomes}}</div>

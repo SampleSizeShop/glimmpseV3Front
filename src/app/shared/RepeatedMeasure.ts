@@ -1,5 +1,5 @@
 export class RepeatedMeasure {
-  dimension: string [] = [];
+  dimensions: string[] = [];
   type = '';
   noRepeats = 0;
   spacing: number[] = [];

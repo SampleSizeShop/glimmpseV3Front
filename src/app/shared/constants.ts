@@ -73,5 +73,14 @@ export const constants = {
     'outcomes': {
       'duplicate': 'You have already added that outcome.'
     }
-  }
+  },
+  MAX_REPEATED_MEASURES: 10,
+  MAX_REPEATED_MEASURE_DIMENSIONS: 10,
+  REPEATED_MEASURE_TYPES: ['NUMERIC', 'CATEGORICAL', 'ORDINAL'],
+  REPEATED_MEASURE_FORM_ERRORS: {},
+  REPEATED_MEASURE_FORM_VALIDATION_MESSAGES: {
+    'outcomes': {
+      'duplicate': 'You have already added that outcome.'
+    }
+  },
 };

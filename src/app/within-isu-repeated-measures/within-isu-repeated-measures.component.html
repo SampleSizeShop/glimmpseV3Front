@@ -1,3 +1,60 @@
-<p>
-  within-isu-repeated-measures works!
-</p>
+<div *ngIf="firstRepeatedMeasure() && !editing" id="firstoutcome">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h5>Are you taking repeated measures?</h5>
+      </div>
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label [class.active]="included" id="includerptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Yes
+          </label>
+          <label [class.active]="!included" id="norptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="norptmeasuresradio" (click)="dontincludeRepeatedMeasures()">No
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="included" >
+  <div id="dimensionsheader">
+  <h5>Define the dimensions of your Repeated measurement:</h5>
+  </div>
+  <div *ngIf="!firstDimension() && !nextDimension()" id="outcomesfull">
+    <h5>Whoa! That's a lot of dimensions!! We'll handle this lot, but if you really, really want to analyse more than {{max}} dimensions, consult a statstician... and good luck...</h5>
+  </div>
+  <div *ngIf="step === 'DIMENSIONS'"></div>
+  <form [formGroup]="dimensionsForm">
+    <div class="container-fluid">
+      <div class="row" *ngIf="firstDimension() || nextDimension()">
+        <div class="col">
+          <div class="form-group">
+            <input class="form-control" formControlName="dimensions" (keyup.enter)="addDimension()" id="dimensions">
+            <div *ngIf="formErrors.dimensions" class="form-group has-danger">
+              <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensions}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <i class="material-icons" (click)="addDimension()" style="margin-top: 10px" id="adddimension">add</i>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let dimension of dimensions" id="dimensionlist">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col">
+            {{dimension}}
+          </div>
+          <div class="col">
+            <i class="material-icons" (click)="removeDimension(dimension)" style="margin-bottom: 5px" id="removedimension">remove</i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
