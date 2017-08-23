@@ -25,6 +25,7 @@ import { RepeatedMeasureComponent } from './repeated-measure/repeated-measure.co
 import { DifferentMeasuresComponent } from './different-measures/different-measures.component';
 import { ClusterComponent } from './cluster/cluster.component';
 import { WithinIsuOutcomesComponent } from './within-isu-outcomes/within-isu-outcomes.component';
+import { WithinIsuRepeatedMeasuresComponent } from './within-isu-repeated-measures/within-isu-repeated-measures.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { WithinIsuOutcomesComponent } from './within-isu-outcomes/within-isu-out
     RepeatedMeasureComponent,
     DifferentMeasuresComponent,
     ClusterComponent,
-    WithinIsuOutcomesComponent
+    WithinIsuOutcomesComponent,
+    WithinIsuRepeatedMeasuresComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

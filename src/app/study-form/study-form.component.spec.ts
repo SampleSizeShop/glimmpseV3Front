@@ -20,6 +20,7 @@ import {DifferentMeasuresComponent} from '../different-measures/different-measur
 import {WithinIsuOutcomesComponent} from '../within-isu-outcomes/within-isu-outcomes.component';
 import {Cluster} from 'cluster';
 import {ClusterComponent} from '../cluster/cluster.component';
+import {WithinIsuRepeatedMeasuresComponent} from '../within-isu-repeated-measures/within-isu-repeated-measures.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -40,6 +41,7 @@ describe('StudyFormComponent', () => {
         TypeOneErrorComponent,
         WitinIsuComponent,
         WithinIsuOutcomesComponent,
+        WithinIsuRepeatedMeasuresComponent,
         RepeatedMeasureComponent,
         DifferentMeasuresComponent,
         CorrelationMatrixComponent,

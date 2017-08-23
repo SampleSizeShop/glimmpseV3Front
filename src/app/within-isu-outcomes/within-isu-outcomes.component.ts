@@ -4,7 +4,7 @@ import {constants} from '../shared/constants';
 import {outcomeValidator} from './outcome.validator';
 
 @Component({
-  selector: 'app-within-isu-factors',
+  selector: 'app-within-isu-outcomes',
   templateUrl: './within-isu-outcomes.component.html',
   styleUrls: ['./within-isu-outcomes.scss']
 })
