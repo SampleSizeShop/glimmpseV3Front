@@ -20,41 +20,88 @@
 
 
 <div *ngIf="included" >
-  <div id="dimensionsheader">
-  <h5>Define the dimensions of your Repeated measurement:</h5>
-  </div>
-  <div *ngIf="!firstDimension() && !nextDimension()" id="outcomesfull">
-    <h6>Whoa! That's a lot of dimensions!! We'll handle this lot, but if you really, really want to analyse more than {{max}} dimensions, consult a statstician... and good luck...</h6>
-  </div>
-  <div *ngIf="stages[0] === stageName"></div>
-  <form [formGroup]="dimensionsForm">
-    <div class="container-fluid">
-      <div class="row" *ngIf="firstDimension() || nextDimension()">
-        <div class="col">
-          <div class="form-group">
-            <input class="form-control" formControlName="dimensions" (keyup.enter)="addDimension()" id="dimensions">
-            <div *ngIf="formErrors.dimensions" class="form-group has-danger">
-              <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensions}}</div>
+
+  <div *ngIf="stages[0] === stageName">
+    <div id="dimensionsheader">
+      <h5>Define the dimensions of your Repeated measurement:</h5>
+    </div>
+    <div *ngIf="!firstDimension() && !nextDimension()" id="outcomesfull">
+      <h6>Whoa! That's a lot of dimensions!! We'll handle this lot, but if you really, really want to analyse more than {{max}} dimensions, consult a statstician... and good luck...</h6>
+    </div>
+    <form [formGroup]="dimensionsForm">
+      <div class="container-fluid">
+        <div class="row" *ngIf="firstDimension() || nextDimension()">
+          <div class="col">
+            <div class="form-group">
+              <input class="form-control" formControlName="dimensions" (keyup.enter)="addDimension()" id="dimensions">
+              <div *ngIf="formErrors.dimensions" class="form-group has-danger">
+                <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensions}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <i class="material-icons" (click)="addDimension()" style="margin-top: 10px" id="adddimension">add</i>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let dimension of dimensions" id="dimensionlist">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col">
+              {{dimension}}
+            </div>
+            <div class="col">
+              <i class="material-icons" (click)="removeDimension(dimension)" style="margin-bottom: 5px" id="removedimension">remove</i>
             </div>
           </div>
         </div>
-        <div class="col">
-          <i class="material-icons" (click)="addDimension()" style="margin-top: 10px" id="adddimension">add</i>
-        </div>
       </div>
+    </form>
+  </div>
+
+  <div *ngIf="stages[1] === stageName">
+    <div if="typeheader">
+      <h5>What type of repeatede measure is this?</h5>
+      <form [formGroup]="typeForm">
+        <div class="form-group">
+          <label for="exampleSelect1">Example select</label>
+          <select class="form-control" id="exampleSelect1" required>
+            <option *ngFor="let type of types">{{type}}</option>
+          </select>
+        </div>
+      </form>
     </div>
-    <div *ngFor="let dimension of dimensions" id="dimensionlist">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col">
-            {{dimension}}
+  </div>
+
+  <div *ngIf="stages[2] === stageName">
+    <div if="repeatesheader">
+      <h5>How many measurements are you taking?</h5>
+      <form [formGroup]="repeatsForm">
+        <div class="form-group" id="repeatsinput">
+          <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
+          <div *ngIf="formErrors.repeats" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.repeats}}</div>
           </div>
-          <div class="col">
-            <i class="material-icons" (click)="removeDimension(dimension)" style="margin-bottom: 5px" id="removedimension">remove</i>
+          <small id="repeatshelp" class="form-text text-muted">You must have between 2 and 10 repeats (inclusive)</small>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="stages[3] === stageName">
+    <div if="spacingheader">
+      <h5>Tell us about the spacing of your measurements:</h5>
+      <form [formGroup]="spacingForm">
+        <div class="form-group" id="spacinginput" *ngFor="let space of spacingControlNames">
+          Measurement #{{space + 1}}:
+          <input type="number" class="form-control" id="spacing" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
+          <div *ngIf="formErrors.spacing" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.spacing}}</div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
-  </form>
+  </div>
+
 </div>
 

@@ -79,9 +79,10 @@ export const constants = {
   REPEATED_MEASURE_STAGES: {
     0: 'DIMENSIONS',
     1: 'TYPE',
-    2: 'SPACING'
+    2: 'REPEATS',
+    3: 'SPACING'
   },
-  REPEATED_MEASURE_TYPES: ['NUMERIC', 'CATEGORICAL', 'ORDINAL'],
+  REPEATED_MEASURE_TYPES: ['Numeric', 'Categorical', 'Ordinal'],
   REPEATED_MEASURE_FORM_ERRORS: {},
   REPEATED_MEASURE_FORM_VALIDATION_MESSAGES: {
     'outcomes': {

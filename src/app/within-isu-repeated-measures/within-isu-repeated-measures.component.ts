@@ -1,22 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Form, FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {constants} from '../shared/constants';
 import {outcomeValidator} from '../within-isu-outcomes/outcome.validator';
 import {NavigationService} from 'app/shared/navigation.service';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../shared/study.service';
+import {minMaxValidator} from '../shared/minmax.validator';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
   templateUrl: './within-isu-repeated-measures.component.html',
   styleUrls: ['./within-isu-repeated-measures.component.scss']
 })
-export class WithinIsuRepeatedMeasuresComponent implements OnInit {
+export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   private _dimensionsForm: FormGroup;
+  private _typeForm: FormGroup;
+  private _repeatsForm: FormGroup;
+  private _spacingForm: FormGroup;
   private _repeatedMeasures: RepeatedMeasure[];
   private _repMeasure: RepeatedMeasure;
   private _dimensions: string [];
+  private _spacingControlNames: number[];
   private _max: number;
   private _stages;
   private _stage: number;
@@ -28,7 +33,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
   private _maxDimensions: number;
 
   private _directionCommand: string;
-  private _childNavigationMode: boolean;
   private _navigationSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private navigation_service: NavigationService, private study_service: StudyService) {
@@ -41,6 +45,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
     this.stage = -1;
     this.repeatedMeasures = [];
     this.dimensions = [];
+    this.spacingControlNames = [0, 1];
     this.included = false;
     this.editing = false;
     this.types = constants.REPEATED_MEASURE_TYPES;
@@ -61,8 +66,52 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
   buildForm() {
     this.dimensionsForm = this.fb.group({
         dimensions: ['', outcomeValidator(this.dimensions)]
+    });
+    this.typeForm = this.fb.group({
+      type: [this.types[0]]
+    });
+    this.repeatsForm = this.fb.group({
+      repeats: [2, minMaxValidator(2, 10)]
+    });
+    this.spacingForm = this.fb.group({
+      spacing: this.fb.array([])
     })
+    this.updateSpacingFormControls(2);
+    this.dimensionsForm.valueChanges.subscribe(status => {
+      this.updateStudyFormStatus(this.dimensionsForm.status);
+    } );
+    this.repeatsForm.valueChanges.subscribe( status => {
+      this.updateStudyFormStatus(this.repeatsForm.status);
+      this.updateSpacingFormControls(this.repeatsForm.value.repeats)
+    } );
   };
+
+  updateStudyFormStatus(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this.study_service.updateValid(valid);
+  }
+
+  updateSpacingFormControls(repeats: number) {
+    this.spacingControlNames = Array.from(Array(repeats).keys())
+    const controlDefs = {};
+    for (const name of this.spacingControlNames) {
+      controlDefs[name] = [0];
+    }
+    this.spacingForm = this._fb.group(controlDefs);
+  }
+
+  getStageStatus(stage: number): string {
+    if (stage === 0) {
+      return this.dimensionsForm.status;
+    }
+    if ( stage === 1) {
+      return this.typeForm.status;
+    }
+    if (stage === 2 ) {
+      return this.repeatsForm.status
+    }
+    return 'INVALID';
+  }
 
   firstRepeatedMeasure(): boolean {
     return this.repeatedMeasures.length === 0 ? true : false;
@@ -126,7 +175,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
   }
 
   internallyNavigate(direction: string): void {
-    console.log(direction);
     let next = this.stage;
     if ( direction === 'BACK' ) {
       next = this.stage - 1;
@@ -142,8 +190,12 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
     }
     if (this.stages[next]) {
       this.stage = next;
-      console.log(this.stage)
+      this.updateStudyFormStatus(this.getStageStatus(this.stage));
     }
+  }
+
+  ngOnDestroy() {
+    this.navigationSubscription.unsubscribe();
   }
 
   get stageName() {
@@ -158,12 +210,36 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
     this._dimensionsForm = value;
   }
 
+  get typeForm(): FormGroup {
+    return this._typeForm;
+  }
+
+  set typeForm(value: FormGroup) {
+    this._typeForm = value;
+  }
+
+  get repeatsForm(): FormGroup {
+    return this._repeatsForm;
+  }
+
+  set repeatsForm(value: FormGroup) {
+    this._repeatsForm = value;
+  }
+
   get repeatedMeasures(): RepeatedMeasure[] {
     return this._repeatedMeasures;
   }
 
   set repeatedMeasures(value: RepeatedMeasure[]) {
     this._repeatedMeasures = value;
+  }
+
+  get spacingForm(): FormGroup {
+    return this._spacingForm;
+  }
+
+  set spacingForm(value: FormGroup) {
+    this._spacingForm = value;
   }
 
   get max(): number {
@@ -262,14 +338,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
     this._directionCommand = value;
   }
 
-  get childNavigationMode(): boolean {
-    return this._childNavigationMode;
-  }
-
-  set childNavigationMode(value: boolean) {
-    this._childNavigationMode = value;
-  }
-
   get stages() {
     return this._stages;
   }
@@ -284,5 +352,13 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
 
   set stage(value: number) {
     this._stage = value;
+  }
+
+  get spacingControlNames(): number[] {
+    return this._spacingControlNames;
+  }
+
+  set spacingControlNames(value: number[]) {
+    this._spacingControlNames = value;
   }
 }
