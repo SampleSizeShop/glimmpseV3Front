@@ -84,6 +84,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       this.updateStudyFormStatus(this.repeatsForm.status);
       this.updateSpacingFormControls(this.repeatsForm.value.repeats)
     } );
+    this.spacingForm.valueChanges.subscribe( status => {
+      this.updateStudyFormStatus(this.spacingForm.status);
+    });
   };
 
   updateStudyFormStatus(status: string) {
@@ -95,7 +98,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this.spacingControlNames = Array.from(Array(repeats).keys())
     const controlDefs = {};
     for (const name of this.spacingControlNames) {
-      controlDefs[name] = [0];
+      controlDefs[name] = [0, minMaxValidator(0.000000000000001, 100000000000000)];
     }
     this.spacingForm = this._fb.group(controlDefs);
   }

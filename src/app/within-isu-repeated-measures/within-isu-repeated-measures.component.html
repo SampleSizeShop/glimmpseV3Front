@@ -90,7 +90,7 @@
 
   <div *ngIf="stages[3] === stageName">
     <div if="spacingheader">
-      <h5>Tell us about the spacing of your measurements:</h5>
+      <h5>Tell us about the spacing between your measurements:</h5>
       <form [formGroup]="spacingForm">
         <div class="form-group" id="spacinginput" *ngFor="let space of spacingControlNames">
           Measurement #{{space + 1}}:
