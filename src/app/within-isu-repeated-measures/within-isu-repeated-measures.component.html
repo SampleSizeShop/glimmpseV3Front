@@ -85,7 +85,7 @@
         <div class="form-group">
           <label for="exampleSelect1">Example select</label>
           <select class="form-control" id="exampleSelect1" required>
-            <option *ngFor="let type of types">{{type}}</option>
+            <option *ngFor="let type of types" value="{{type}}">{{type}}</option>
           </select>
         </div>
       </form>
@@ -122,4 +122,5 @@
     </div>
   </div>
 </div>
-{{repeatedMeasures[0] | json}}
+<br>
+<div *ngFor="let repeatedMeasure of repeatedMeasures; let i = index">{{repeatedMeasures[i] | json}}</div>

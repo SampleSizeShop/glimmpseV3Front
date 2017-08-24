@@ -216,7 +216,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     }
     if ( next >= Object.keys(this.stages).length ) {
       this.addRepeatedMeasure();
+      this.resetForms();
       this.stage = -1;
+      this.editing = false;
       this.navigation_service.updateNavigationMode(false);
     }
     if (this.stages[next]) {
@@ -225,6 +227,19 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       this.stage = next;
       this.updateStudyFormStatus(this.getStageStatus(this.stage));
     }
+  }
+
+  resetForms() {
+    this.dimensionsForm.reset();
+    this.typeForm.reset();
+    this.repeatsForm.reset();
+    this.spacingForm.reset();
+
+    this.dimensions = [];
+    this.type = '';
+    this.repeats = 0;
+    this.spacingValues = [];
+    this.repMeasure = new RepeatedMeasure();
   }
 
   ngOnDestroy() {
