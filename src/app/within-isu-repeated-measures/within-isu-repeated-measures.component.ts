@@ -30,6 +30,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   private _included: boolean;
   private _editing: boolean;
   private _types: string[];
+  private _type: string;
+  private _repeats: number;
+  private _spacingValues: number[];
   private _maxDimensions: number;
 
   private _directionCommand: string;
@@ -49,6 +52,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this.included = false;
     this.editing = false;
     this.types = constants.REPEATED_MEASURE_TYPES;
+    this.spacingValues = [];
 
 
     this.navigationSubscription = this.navigation_service.navigation$.subscribe(
@@ -81,12 +85,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       this.updateStudyFormStatus(this.dimensionsForm.status);
     } );
     this.repeatsForm.valueChanges.subscribe( status => {
+      this.repeats = this.repeatsForm.value.repeats;
       this.updateStudyFormStatus(this.repeatsForm.status);
-      this.updateSpacingFormControls(this.repeatsForm.value.repeats)
+      this.updateSpacingFormControls(this.repeats)
     } );
-    this.spacingForm.valueChanges.subscribe( status => {
-      this.updateStudyFormStatus(this.spacingForm.status);
-    });
   };
 
   updateStudyFormStatus(status: string) {
@@ -101,19 +103,17 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       controlDefs[name] = [0, minMaxValidator(0.000000000000001, 100000000000000)];
     }
     this.spacingForm = this._fb.group(controlDefs);
-  }
+    this.spacingForm.valueChanges.subscribe( spacingValues => {
 
-  getStageStatus(stage: number): string {
-    if (stage === 0) {
-      return this.dimensionsForm.status;
-    }
-    if ( stage === 1) {
-      return this.typeForm.status;
-    }
-    if (stage === 2 ) {
-      return this.repeatsForm.status
-    }
-    return 'INVALID';
+      this.updateStudyFormStatus(this.spacingForm.status);
+      if (this.spacingForm.status === 'VALID') {
+        this.spacingValues = [];
+        for (const val of this.spacingControlNames) {
+          this.spacingValues.push(spacingValues[val]);
+        }
+      }
+
+    });
   }
 
   firstRepeatedMeasure(): boolean {
@@ -136,6 +136,16 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       return true;
     }
     return false;
+  }
+
+  addRepeatedMeasure() {
+    const measure = new RepeatedMeasure();
+    measure.dimensions = this.dimensions;
+    measure.noRepeats = this.repeatsForm.value.repeats;
+    measure.type = this.typeForm.value.type;
+    measure.spacing = this.spacingValues;
+
+    this.repeatedMeasures.push(measure);
   }
 
   addDimension() {
@@ -177,6 +187,22 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this.stage = -1;
   }
 
+  getStageStatus(stage: number): string {
+    if (stage === 0) {
+      return this.dimensionsForm.status;
+    }
+    if ( stage === 1) {
+      return this.typeForm.status;
+    }
+    if (stage === 2 ) {
+      return this.repeatsForm.status
+    }
+    if (stage === 3 ) {
+      return this.spacingForm.status
+    }
+    return 'INVALID';
+  }
+
   internallyNavigate(direction: string): void {
     let next = this.stage;
     if ( direction === 'BACK' ) {
@@ -189,9 +215,13 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       this.dontincludeRepeatedMeasures();
     }
     if ( next >= Object.keys(this.stages).length ) {
-      console.log('ADD REPEATED MEASURE NOW!!!');
+      this.addRepeatedMeasure();
+      this.stage = -1;
+      this.navigation_service.updateNavigationMode(false);
     }
     if (this.stages[next]) {
+      this.type = this.typeForm.value.type;
+      this.repeats = this.repeatsForm.value.repeats;
       this.stage = next;
       this.updateStudyFormStatus(this.getStageStatus(this.stage));
     }
@@ -363,5 +393,29 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   set spacingControlNames(value: number[]) {
     this._spacingControlNames = value;
+  }
+
+  get spacingValues(): number[] {
+    return this._spacingValues;
+  }
+
+  set spacingValues(value: number[]) {
+    this._spacingValues = value;
+  }
+
+  get type(): string {
+    return this._type;
+  }
+
+  set type(value: string) {
+    this._type = value;
+  }
+
+  get repeats(): number {
+    return this._repeats;
+  }
+
+  set repeats(value: number) {
+    this._repeats = value;
   }
 }

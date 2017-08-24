@@ -18,6 +18,25 @@
   </div>
 </div>
 
+<div *ngIf="nextRepeatedMeasure() && !editing" id="nextoutcome">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h5>Would you like to add another set of repeated measures?</h5>
+      </div>
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label [class.active]="included" id="includenextrptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Yes
+          </label>
+          <label [class.active]="!included" id="notrptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="notrptmeasuresradio" (click)="dontincludeRepeatedMeasures()">No
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div *ngIf="included" >
 
@@ -102,6 +121,5 @@
       </form>
     </div>
   </div>
-
 </div>
-
+{{repeatedMeasures[0] | json}}
