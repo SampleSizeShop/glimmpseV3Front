@@ -83,9 +83,8 @@
       <h5>What type of repeatede measure is this?</h5>
       <form [formGroup]="typeForm">
         <div class="form-group">
-          <label for="exampleSelect1">Example select</label>
-          <select class="form-control" id="exampleSelect1" required>
-            <option *ngFor="let type of types" value="{{type}}">{{type}}</option>
+          <select class="form-control" id="type" formControlName="type">
+            <option *ngFor="let t of types" [value]="t">{{t}}</option>
           </select>
         </div>
       </form>
