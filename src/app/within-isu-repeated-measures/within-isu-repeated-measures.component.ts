@@ -5,6 +5,7 @@ import {constants} from '../shared/constants';
 import {outcomeValidator} from '../within-isu-outcomes/outcome.validator';
 import {NavigationService} from 'app/shared/navigation.service';
 import {Subscription} from 'rxjs/Subscription';
+import {StudyService} from '../shared/study.service';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -17,24 +18,27 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
   private _repMeasure: RepeatedMeasure;
   private _dimensions: string [];
   private _max: number;
+  private _stages;
+  private _stage: number;
   private _validationMessages;
   private _formErrors;
   private _included: boolean;
   private _editing: boolean;
   private _types: string[];
-  private _step: string;
   private _maxDimensions: number;
 
   private _directionCommand: string;
   private _childNavigationMode: boolean;
   private _navigationSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder, private navigation_service: NavigationService) {
+  constructor(private _fb: FormBuilder, private navigation_service: NavigationService, private study_service: StudyService) {
 
     this.validationMessages = constants.REPEATED_MEASURE_FORM_VALIDATION_MESSAGES;
     this.formErrors = constants.REPEATED_MEASURE_FORM_ERRORS;
     this.max = constants.MAX_REPEATED_MEASURES;
     this.maxDimensions = constants.MAX_REPEATED_MEASURE_DIMENSIONS;
+    this.stages = constants.REPEATED_MEASURE_STAGES;
+    this.stage = -1;
     this.repeatedMeasures = [];
     this.dimensions = [];
     this.included = false;
@@ -90,8 +94,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
       this.dimensionsForm.reset();
     }
     if (this.dimensions && this.dimensions.length > 0) {
-      this.navigation_service.updateNextEnabled(true);
-      this.navigation_service.updateBackEnabled(true);
+      this.study_service.updateValid(true);
     }
   }
 
@@ -107,16 +110,44 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
     this.included = true;
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
+    this.navigation_service.updateNextEnabled(true);
+    this.study_service.updateValid(false);
     this.repMeasure = new RepeatedMeasure();
-    this.step = 'DIMENSIONS';
+    this.stage = this.stage = 0;
   }
 
   dontincludeRepeatedMeasures() {
+    this.navigation_service.updateNextEnabled(false);
+    this.navigation_service.updateNavigationMode(false);
     this.included = false;
+    this.editing = false;
+    this.study_service.updateValid(true);
+    this.stage = -1;
   }
 
   internallyNavigate(direction: string): void {
     console.log(direction);
+    let next = this.stage;
+    if ( direction === 'BACK' ) {
+      next = this.stage - 1;
+    }
+    if ( direction === 'NEXT' ) {
+      next = this.stage + 1;
+    }
+    if ( next < 0) {
+      this.dontincludeRepeatedMeasures();
+    }
+    if ( next >= Object.keys(this.stages).length ) {
+      console.log('ADD REPEATED MEASURE NOW!!!');
+    }
+    if (this.stages[next]) {
+      this.stage = next;
+      console.log(this.stage)
+    }
+  }
+
+  get stageName() {
+    return this.stages[this.stage]
   }
 
   get dimensionsForm(): FormGroup {
@@ -183,14 +214,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
     this._types = value;
   }
 
-  get step(): string {
-    return this._step;
-  }
-
-  set step(value: string) {
-    this._step = value;
-  }
-
   get maxDimensions(): number {
     return this._maxDimensions;
   }
@@ -245,5 +268,21 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit {
 
   set childNavigationMode(value: boolean) {
     this._childNavigationMode = value;
+  }
+
+  get stages() {
+    return this._stages;
+  }
+
+  set stages(value) {
+    this._stages = value;
+  }
+
+  get stage(): number {
+    return this._stage;
+  }
+
+  set stage(value: number) {
+    this._stage = value;
   }
 }

@@ -24,9 +24,9 @@
   <h5>Define the dimensions of your Repeated measurement:</h5>
   </div>
   <div *ngIf="!firstDimension() && !nextDimension()" id="outcomesfull">
-    <h5>Whoa! That's a lot of dimensions!! We'll handle this lot, but if you really, really want to analyse more than {{max}} dimensions, consult a statstician... and good luck...</h5>
+    <h6>Whoa! That's a lot of dimensions!! We'll handle this lot, but if you really, really want to analyse more than {{max}} dimensions, consult a statstician... and good luck...</h6>
   </div>
-  <div *ngIf="step === 'DIMENSIONS'"></div>
+  <div *ngIf="stages[0] === stageName"></div>
   <form [formGroup]="dimensionsForm">
     <div class="container-fluid">
       <div class="row" *ngIf="firstDimension() || nextDimension()">

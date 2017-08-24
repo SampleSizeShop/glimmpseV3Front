@@ -25,7 +25,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _nextEnabledSubscription: Subscription;
   private _backEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
-  private _navigationSubscription: Subscription;
+  private _validSubscription: Subscription;
 
   private _stages;
   private _noStages: number;
@@ -64,11 +64,13 @@ export class StudyFormComponent implements OnInit, OnDestroy {
         this.childComponentNav = childNavMode;
       }
     );
-    this.navigationSubscription = this.navigation_service.navigation$.subscribe(
-      direction => {
-        this.childDirectionCommand = direction;
+
+    this.validSubscription = this.study_service.valid$.subscribe(
+      valid => {
+        this.valid = valid;
       }
     );
+
     this.nextEnabledSubscription = this.navigation_service.nextEnabled$.subscribe(
       enabled => {
         this.hasNext = enabled;
@@ -82,14 +84,14 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   }
 
   next(): void {
-    if (this.childComponentNav) {
+    if (this.childComponentNav &&  this.valid) {
       this.navigation_service.updateNavigation('NEXT');
     } else {
-    const current = this.getStage();
-    if ( current < this._noStages &&  this.guided ) {
-      this.setStage( current + 1 );
-    }
-    this.setNextBack();
+      const current = this.getStage();
+      if ( current < this._noStages &&  this.valid ) {
+        this.setStage( current + 1 );
+        this.setNextBack();
+      }
     }
   }
 
@@ -131,7 +133,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.targetEventSubscription.unsubscribe();
     this.solveForSubscription.unsubscribe();
     this.childNavigationModeSubscription.unsubscribe();
-    this.navigationSubscription.unsubscribe();
+    this.validSubscription.unsubscribe();
     this.nextEnabledSubscription.unsubscribe();
     this.backEnabledSubscription.unsubscribe();
   }
@@ -270,12 +272,12 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._childNavigationModeSubscription = value;
   }
 
-  get navigationSubscription(): Subscription {
-    return this._navigationSubscription;
+  get validSubscription(): Subscription {
+    return this._validSubscription;
   }
 
-  set navigationSubscription(value: Subscription) {
-    this._navigationSubscription = value;
+  set validSubscription(value: Subscription) {
+    this._validSubscription = value;
   }
 
   get childDirectionCommand(): string {
