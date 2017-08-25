@@ -63,6 +63,21 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     );
   }
 
+  buildForm() {
+    this.dimensionsForm = this.fb.group({
+      dimensions: ['', outcomeValidator(this.dimensions)]
+    });
+    this.typeForm = this.fb.group({
+      type: [this.types[0]]
+    });
+    this.repeatsForm = this.fb.group({
+      repeats: [2, minMaxValidator(2, 10)]
+    });
+    this.spacingForm = this.fb.group({
+      spacing: this.fb.array([])
+    })
+  };
+
   ngOnInit() {
     this.buildForm();
     this.updateSpacingFormControls(2);
@@ -103,24 +118,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     }
   }
 
-  hasDimensions(): boolean {
-    return this.dimensions && this.dimensions.length > 0;
+  ngOnDestroy() {
+    this.navigationSubscription.unsubscribe();
   }
-
-  buildForm() {
-    this.dimensionsForm = this.fb.group({
-        dimensions: ['', outcomeValidator(this.dimensions)]
-    });
-    this.typeForm = this.fb.group({
-      type: [this.types[0]]
-    });
-    this.repeatsForm = this.fb.group({
-      repeats: [2, minMaxValidator(2, 10)]
-    });
-    this.spacingForm = this.fb.group({
-      spacing: this.fb.array([])
-    })
-  };
 
   updateStudyFormStatus(status: string) {
     const valid = status === 'VALID' ? true : false;
@@ -137,24 +137,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       this.spacingForm = this._fb.group(controlDefs);
       this.spacingValues = [];
     }
-  }
-
-  hasRepeatedMeasures(): boolean {
-    return this.repeatedMeasures.length > 0;
-  }
-
-  nextRepeatedMeasure(): boolean {
-    if (this.hasRepeatedMeasures() && this.repeatedMeasures.length < this.max ) {
-      return true;
-    }
-    return false;
-  }
-
-  nextDimension(): boolean {
-    if (this.hasDimensions() && this.dimensions.length < this.maxDimensions ) {
-      return true;
-    }
-    return false;
   }
 
   addRepeatedMeasure() {
@@ -239,33 +221,51 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     if ( next >= Object.keys(this.stages).length ) {
       this.addRepeatedMeasure();
       this.resetForms();
-      this.stage = -1;
-      this.editing = false;
-      this.navigation_service.updateNavigationMode(false);
     }
     if (this.stages[next]) {
-      this.type = this.typeForm.value.type;
-      this.repeats = this.repeatsForm.value.repeats;
-      this.stage = next;
-      this.updateStudyFormStatus(this.getStageStatus(this.stage));
+      this.setStage(next);
     }
+  }
+
+  setStage(next: number) {
+    this.stage = next;
+    this.updateStudyFormStatus(this.getStageStatus(this.stage));
   }
 
   resetForms() {
-    this.dimensionsForm.reset();
-    this.typeForm.reset();
-    this.repeatsForm.reset();
-    this.spacingForm.reset();
+    this.buildForm();
 
     this.dimensions = [];
-    this.type = constants.REPEATED_MEASURE_TYPES[0];
+    this.type = this.types[0];
     this.repeats = 2;
     this.spacingValues = [];
     this.repMeasure = new RepeatedMeasure();
+
+    this.stage = -1;
+    this.editing = false;
+    this.navigation_service.updateNavigationMode(false);
   }
 
-  ngOnDestroy() {
-    this.navigationSubscription.unsubscribe();
+  hasDimensions(): boolean {
+    return this.dimensions && this.dimensions.length > 0;
+  }
+
+  hasRepeatedMeasures(): boolean {
+    return this.repeatedMeasures.length > 0;
+  }
+
+  nextRepeatedMeasure(): boolean {
+    if (this.hasRepeatedMeasures() && this.repeatedMeasures.length < this.max ) {
+      return true;
+    }
+    return false;
+  }
+
+  nextDimension(): boolean {
+    if (this.hasDimensions() && this.dimensions.length < this.maxDimensions ) {
+      return true;
+    }
+    return false;
   }
 
   get stageName() {
