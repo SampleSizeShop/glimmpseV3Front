@@ -66,23 +66,19 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     if (this.stage === 0) {
-      this.elementForm.valueChanges.subscribe(status => {
-        if (this.elementForm.status !== 'INVALID') {
-          this.updateStudyFormStatus('VALID');
-        } else {
-          this.updateStudyFormStatus('INVALID');
-        }
-      });
+      if (this.elementForm.status !== 'INVALID') {
+        this.updateStudyFormStatus('VALID');
+      } else {
+        this.updateStudyFormStatus('INVALID');
+      }
     }
     if (this.stage === 1) {
-      this.clusterLevelForm.valueChanges.subscribe(status => {
-        if (this.clusterLevelForm.status !== 'INVALID') {
-          this.updateStudyFormStatus('VALID');
-        } else {
-          this.updateStudyFormStatus('INVALID');
-        }
-      });
+      if (this.levels && this.levels.length > 0) {
+        this.updateStudyFormStatus('VALID');
+      } else {
+        this.updateStudyFormStatus('INVALID');
       }
+    }
   }
 
   addCluster() {
@@ -110,6 +106,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     level.levelName = this.clusterLevelForm.value.levelName;
     level.noElements = this.clusterLevelForm.value.noElements;
     this.levels.push(level);
+    this.clusterLevelForm.reset();
   }
 
   includeClusters(cluster?: Cluster) {
