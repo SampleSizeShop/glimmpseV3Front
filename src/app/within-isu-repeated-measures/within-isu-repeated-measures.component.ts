@@ -66,19 +66,23 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   ngOnInit() {
     this.buildForm();
     this.updateSpacingFormControls(2);
-    this.dimensionsForm.valueChanges.subscribe(status => {
-      if(this.dimensions && this.dimensions.length > 0) {
-        this.updateStudyFormStatus(this.dimensionsForm.status);
-      }
-    } );
-    this.repeatsForm.valueChanges.subscribe( status => {
-      this.repeats = this.repeatsForm.value.repeats;
-      this.updateStudyFormStatus(this.repeatsForm.status);
-      this.updateSpacingFormControls(this.repeats);
-    } );
   }
 
   ngDoCheck() {
+    if (this.stage === 0) {
+      this.dimensionsForm.valueChanges.subscribe(status => {
+        if(this.dimensions && this.dimensions.length > 0) {
+          this.updateStudyFormStatus(this.dimensionsForm.status);
+        }
+      } );
+    }
+    if (this.stage === 1) {
+      this.repeatsForm.valueChanges.subscribe( status => {
+        this.repeats = this.repeatsForm.value.repeats;
+        this.updateStudyFormStatus(this.repeatsForm.status);
+        this.updateSpacingFormControls(this.repeats);
+      } );
+    }
     if (this.stage === 2) {
       this.repeats = this.repeatsForm.value.repeats;
       this.updateStudyFormStatus(this.repeatsForm.status);
@@ -130,16 +134,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       this.spacingValues = [];
     }
   }
-
-  /** updateSpacingFormControls(repeats: number) {
-    this.spacingControlNames = Array.from(Array(repeats).keys())
-    const controlDefs = {};
-    for (const name of this.spacingControlNames) {
-      controlDefs[name] = [0, minMaxValidator(0.000000000000001, 100000000000000)];
-    }
-    this.spacingForm = this._fb.group(controlDefs);
-
-  } **/
 
   firstRepeatedMeasure(): boolean {
     return this.repeatedMeasures.length === 0 ? true : false;
@@ -264,8 +258,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.spacingForm.reset();
 
     this.dimensions = [];
-    this.type = '';
-    this.repeats = 0;
+    this.type = constants.REPEATED_MEASURE_TYPES[0];
+    this.repeats = 2;
     this.spacingValues = [];
     this.repMeasure = new RepeatedMeasure();
   }
