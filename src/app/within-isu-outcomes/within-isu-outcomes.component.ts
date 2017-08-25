@@ -1,21 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../shared/constants';
 import {outcomeValidator} from './outcome.validator';
+import {NavigationService} from '../shared/navigation.service';
+import {StudyService} from '../shared/study.service';
 
 @Component({
   selector: 'app-within-isu-outcomes',
   templateUrl: './within-isu-outcomes.component.html',
   styleUrls: ['./within-isu-outcomes.scss']
 })
-export class WithinIsuOutcomesComponent implements OnInit {
+export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   private _outcomesForm: FormGroup;
   private _outcomes: string[];
   private _max: number;
   private _validationMessages;
   private _formErrors;
 
-  constructor(private _fb: FormBuilder) {
+  constructor(private _fb: FormBuilder, private study_service: StudyService) {
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
     this.formErrors = constants.OUTCOME_FORM_ERRORS;
     this._max = constants.MAX_OUTCOMES;
@@ -51,6 +53,15 @@ export class WithinIsuOutcomesComponent implements OnInit {
           this.formErrors[field] += messages[key] + ' ';
         }
       }
+    }
+  }
+
+  ngDoCheck() {
+    if (!this.outcomes || this.outcomes.length < 1) {
+      this.study_service.updateValid(false);
+    }
+    if (this.outcomes && this.outcomes.length >= 1) {
+      this.study_service.updateValid(true );
     }
   }
 
