@@ -125,7 +125,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
   }
 
   dontincludeClusters() {
-    this.navigation_service.updateNextEnabled(false);
     this.navigation_service.updateNavigationMode(false);
     this.included = false;
     this.editing = false;
