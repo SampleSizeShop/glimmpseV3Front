@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {Form, FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {constants} from '../shared/constants';
@@ -13,7 +13,7 @@ import {minMaxValidator} from '../shared/minmax.validator';
   templateUrl: './within-isu-repeated-measures.component.html',
   styleUrls: ['./within-isu-repeated-measures.component.scss']
 })
-export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
+export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, DoCheck {
   private _dimensionsForm: FormGroup;
   private _typeForm: FormGroup;
   private _repeatsForm: FormGroup;
@@ -65,6 +65,38 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
+    this.updateSpacingFormControls(2);
+    this.dimensionsForm.valueChanges.subscribe(status => {
+      if(this.dimensions && this.dimensions.length > 0) {
+        this.updateStudyFormStatus(this.dimensionsForm.status);
+      }
+    } );
+    this.repeatsForm.valueChanges.subscribe( status => {
+      this.repeats = this.repeatsForm.value.repeats;
+      this.updateStudyFormStatus(this.repeatsForm.status);
+      this.updateSpacingFormControls(this.repeats);
+    } );
+  }
+
+  ngDoCheck() {
+    if (this.stage === 2) {
+      this.repeats = this.repeatsForm.value.repeats;
+      this.updateStudyFormStatus(this.repeatsForm.status);
+      if (this.repeatsForm.status === 'VALID') {
+        this.updateSpacingFormControls(this.repeats);
+      }
+    }
+    if (this.stage === 3) {
+      this.spacingForm.valueChanges.subscribe( spacingValues => {
+        this.updateStudyFormStatus(this.spacingForm.status);
+        if (this.spacingForm.status === 'VALID') {
+          this.spacingValues = [];
+          for (const val of this.spacingControlNames) {
+            this.spacingValues.push(spacingValues[val]);
+          }
+        }
+      });
+    }
   }
 
   buildForm() {
@@ -80,15 +112,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this.spacingForm = this.fb.group({
       spacing: this.fb.array([])
     })
-    this.updateSpacingFormControls(2);
-    this.dimensionsForm.valueChanges.subscribe(status => {
-      this.updateStudyFormStatus(this.dimensionsForm.status);
-    } );
-    this.repeatsForm.valueChanges.subscribe( status => {
-      this.repeats = this.repeatsForm.value.repeats;
-      this.updateStudyFormStatus(this.repeatsForm.status);
-      this.updateSpacingFormControls(this.repeats)
-    } );
   };
 
   updateStudyFormStatus(status: string) {
@@ -97,24 +120,26 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   updateSpacingFormControls(repeats: number) {
+    if (this.repeatsForm.status === 'VALID') {
+      this.spacingControlNames = Array.from(Array(repeats).keys())
+      const controlDefs = {};
+      for (const name of this.spacingControlNames) {
+        controlDefs[name] = [0, minMaxValidator(0.000000000000001, 100000000000000)];
+      }
+      this.spacingForm = this._fb.group(controlDefs);
+      this.spacingValues = [];
+    }
+  }
+
+  /** updateSpacingFormControls(repeats: number) {
     this.spacingControlNames = Array.from(Array(repeats).keys())
     const controlDefs = {};
     for (const name of this.spacingControlNames) {
       controlDefs[name] = [0, minMaxValidator(0.000000000000001, 100000000000000)];
     }
     this.spacingForm = this._fb.group(controlDefs);
-    this.spacingForm.valueChanges.subscribe( spacingValues => {
 
-      this.updateStudyFormStatus(this.spacingForm.status);
-      if (this.spacingForm.status === 'VALID') {
-        this.spacingValues = [];
-        for (const val of this.spacingControlNames) {
-          this.spacingValues.push(spacingValues[val]);
-        }
-      }
-
-    });
-  }
+  } **/
 
   firstRepeatedMeasure(): boolean {
     return this.repeatedMeasures.length === 0 ? true : false;
@@ -164,6 +189,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     const index = this.dimensions.indexOf(value);
     if (index > -1) {
       this.dimensions.splice(index, 1);
+    }
+    if ( this.dimensions && this.dimensions.length === 0 ) {
+      this.study_service.updateValid( false );
     }
     this.dimensionsForm.reset();
   }
