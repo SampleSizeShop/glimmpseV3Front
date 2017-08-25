@@ -89,10 +89,9 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
   addCluster() {
     this.cluster.elementName = this.elementForm.value.elementName;
 
-    const level = new ClusterLevel();
-    level.levelName = this.clusterLevelForm.value.levelName;
-    level.noElements = this.clusterLevelForm.value.noElements;
-    this.cluster.levels.push(level);
+    for (const level of this.levels) {
+      this.cluster.levels.push(level);
+    }
 
     this.clusters.push(this.cluster);
   }
@@ -101,6 +100,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     this.removeCluster(cluster);
     this.cluster = cluster;
     this.elementForm.get('elementName').setValue(this.cluster.elementName);
+    this.levels = this.cluster.levels;
     this.clusterLevelForm.get('levelName').setValue(this.cluster.levels[0].levelName);
     this.clusterLevelForm.get('noElements').setValue(this.cluster.levels[0].noElements);
     this.includeClusters();
