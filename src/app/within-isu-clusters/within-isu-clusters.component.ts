@@ -27,6 +27,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
   private _included: boolean;
   private _editing: boolean;
   private _maxLevels: number;
+  private _levels: ClusterLevel[];
 
   private _directionCommand: string;
   private _navigationSubscription: Subscription;
@@ -38,6 +39,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     this.max = constants.MAX_ELEMENTS;
     this.maxLevels = constants.MAX_LEVELS;
     this.clusters = [];
+    this.levels = [];
     this.stage = -1;
     this.stages = constants.CLUSTER_STAGES;
 
@@ -114,6 +116,13 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     }
   }
 
+  addLevel() {
+    const level = new ClusterLevel();
+    level.levelName = this.clusterLevelForm.value.levelName;
+    level.noElements = this.clusterLevelForm.value.noElements;
+    this.levels.push(level);
+  }
+
   includeClusters(cluster?: Cluster) {
     this.included = true;
     this.editing = true;
@@ -182,6 +191,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     this.buildForm();
 
     this.cluster = new Cluster();
+    this.levels = [];
 
     this.stage = -1;
     this.editing = false;
@@ -313,6 +323,14 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
 
   set navigationSubscription(value: Subscription) {
     this._navigationSubscription = value;
+  }
+
+  get levels(): ClusterLevel[] {
+    return this._levels;
+  }
+
+  set levels(value: ClusterLevel[]) {
+    this._levels = value;
   }
 
   get fb(): FormBuilder {

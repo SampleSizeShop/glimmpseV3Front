@@ -125,6 +125,7 @@
   </div>
 </div>
 <br>
+<small *ngIf="hasRepeatedMeasures()">Repeated Measures:</small>
 <div *ngFor="let repeatedMeasure of repeatedMeasures; let i = index">
   <div class="container-fluid">
     <div class="row">

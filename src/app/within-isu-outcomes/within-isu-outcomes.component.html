@@ -23,6 +23,8 @@
       </div>
     </div>
   </div>
+  <br>
+  <small *ngIf="!firstOutcome()">Outcomes:</small>
   <div *ngFor="let outcome of outcomes" id="outcomelist">
     <div class="container-fluid">
       <div class="row">
