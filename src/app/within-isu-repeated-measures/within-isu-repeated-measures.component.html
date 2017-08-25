@@ -35,6 +35,12 @@
   </div>
 </div>
 
+<div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure() && !editing" id="fulloutcome">
+  <div class="container-fluid">
+    <h5>That's all folks!</h5>
+  </div>
+</div>
+
 <div *ngIf="included" >
 
   <div *ngIf="stages[0] === stageName">
