@@ -81,20 +81,15 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   ngDoCheck() {
     if (this.stage === 0) {
-      this.dimensionsForm.valueChanges.subscribe(status => {
-        if (this.dimensionsForm.status !== 'INVALID') {
-          this.updateStudyFormStatus('VALID');
-        } else {
-          this.updateStudyFormStatus('INVALID');
-        }
-      } );
+      if (this.dimensionsForm.status !== 'INVALID') {
+        this.updateStudyFormStatus('VALID');
+      } else {
+        this.updateStudyFormStatus('INVALID');
+      }
     }
-    if (this.stage === 1) {
-      this.repeatsForm.valueChanges.subscribe( status => {
-        this.repeats = this.repeatsForm.value.repeats;
-        this.updateStudyFormStatus(this.repeatsForm.status);
-        this.updateSpacingFormControls(this.repeats, this.spacingValues);
-      } );
+  if (this.stage === 1) {
+      this.repeats = this.repeatsForm.value.repeats;
+      this.updateStudyFormStatus(this.repeatsForm.status);
     }
     if (this.stage === 2) {
       this.updateStudyFormStatus(this.repeatsForm.status);
@@ -106,15 +101,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       }
     }
     if (this.stage === 3) {
-      this.spacingForm.valueChanges.subscribe( spacingValues => {
-        this.updateStudyFormStatus(this.spacingForm.status);
-        if (this.spacingForm.status === 'VALID') {
-          this.spacingValues = [];
-          for (const val of this.spacingControlNames) {
-            this.spacingValues.push(spacingValues[val]);
-          }
-        }
-      });
+      this.updateStudyFormStatus(this.spacingForm.status);
     }
   }
 
@@ -143,6 +130,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     measure.dimension = this.dimensionsForm.value.dimension;
     measure.noRepeats = this.repeatsForm.value.repeats;
     measure.type = this.typeForm.value.type;
+    for (const name of this.spacingControlNames) {
+      this.spacingValues.push(this.spacingForm.get(name.toString()).value);
+    }
     measure.spacing = this.spacingValues;
 
     this.repeatedMeasures.push(measure);
