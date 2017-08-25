@@ -20,7 +20,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   private _spacingForm: FormGroup;
   private _repeatedMeasures: RepeatedMeasure[];
   private _repMeasure: RepeatedMeasure;
-  private _dimensions: string [];
   private _spacingControlNames: number[];
   private _max: number;
   private _stages;
@@ -33,7 +32,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   private _type: string;
   private _repeats: number;
   private _spacingValues: number[];
-  private _maxDimensions: number;
 
   private _directionCommand: string;
   private _navigationSubscription: Subscription;
@@ -43,11 +41,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.validationMessages = constants.REPEATED_MEASURE_FORM_VALIDATION_MESSAGES;
     this.formErrors = constants.REPEATED_MEASURE_FORM_ERRORS;
     this.max = constants.MAX_REPEATED_MEASURES;
-    this.maxDimensions = constants.MAX_REPEATED_MEASURE_DIMENSIONS;
     this.stages = constants.REPEATED_MEASURE_STAGES;
     this.stage = -1;
     this.repeatedMeasures = [];
-    this.dimensions = [];
     this.spacingControlNames = [0, 1];
     this.included = false;
     this.editing = false;
@@ -65,7 +61,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   buildForm() {
     this.dimensionsForm = this.fb.group({
-      dimensions: ['', outcomeValidator(this.dimensions)]
+      dimension: ['']
     });
     this.typeForm = this.fb.group({
       type: [this.types[0]]
@@ -86,7 +82,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   ngDoCheck() {
     if (this.stage === 0) {
       this.dimensionsForm.valueChanges.subscribe(status => {
-        if(this.hasDimensions() && this.dimensionsForm.status !== 'INVALID') {
+        if (this.dimensionsForm.status !== 'INVALID') {
           this.updateStudyFormStatus('VALID');
         } else {
           this.updateStudyFormStatus('INVALID');
@@ -144,7 +140,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   addRepeatedMeasure() {
     const measure = new RepeatedMeasure();
-    measure.dimensions = this.dimensions;
+    measure.dimension = this.dimensionsForm.value.dimension;
     measure.noRepeats = this.repeatsForm.value.repeats;
     measure.type = this.typeForm.value.type;
     measure.spacing = this.spacingValues;
@@ -156,11 +152,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.removeRepeatedMeasure(measure);
 
     this.repMeasure = measure;
-    this.dimensions = measure.dimensions;
     this.type = measure.type;
     this.repeats = measure.noRepeats;
     this.spacingValues = measure.spacing;
 
+    this.dimensionsForm.get('dimension').setValue(measure.dimension);
     this.typeForm.get('type').setValue(measure.type);
     this.repeatsForm.get('repeats').setValue(measure.noRepeats);
 
@@ -176,29 +172,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     if ( !this.hasRepeatedMeasures() ) {
       this.dontincludeRepeatedMeasures();
     }
-  }
-
-  addDimension() {
-    if (this.dimensionsForm.status === 'VALID'
-        && this.dimensionsForm.value.dimensions
-        && this.dimensionsForm.value.dimensions.trim() !== '' ) {
-      this.dimensions.push(this.dimensionsForm.value.dimensions.trim());
-      this.dimensionsForm.reset();
-    }
-    if (this.hasDimensions()) {
-      this.study_service.updateValid(true);
-    }
-  }
-
-  removeDimension(value: string) {
-    const index = this.dimensions.indexOf(value);
-    if (index > -1) {
-      this.dimensions.splice(index, 1);
-    }
-    if ( !this.hasDimensions() ) {
-      this.study_service.updateValid( false );
-    }
-    this.dimensionsForm.reset();
   }
 
   includeRepeatedMeasures(measure?: RepeatedMeasure) {
@@ -273,7 +246,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   resetForms() {
     this.buildForm();
 
-    this.dimensions = [];
     this.type = this.types[0];
     this.repeats = 2;
     this.spacingValues = [];
@@ -284,23 +256,12 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.navigation_service.updateNavigationMode(false);
   }
 
-  hasDimensions(): boolean {
-    return this.dimensions && this.dimensions.length > 0;
-  }
-
   hasRepeatedMeasures(): boolean {
     return this.repeatedMeasures.length > 0;
   }
 
   nextRepeatedMeasure(): boolean {
     if (this.hasRepeatedMeasures() && this.repeatedMeasures.length < this.max ) {
-      return true;
-    }
-    return false;
-  }
-
-  nextDimension(): boolean {
-    if (this.hasDimensions() && this.dimensions.length < this.maxDimensions ) {
       return true;
     }
     return false;
@@ -398,28 +359,12 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this._types = value;
   }
 
-  get maxDimensions(): number {
-    return this._maxDimensions;
-  }
-
-  set maxDimensions(value: number) {
-    this._maxDimensions = value;
-  }
-
   get repMeasure(): RepeatedMeasure {
     return this._repMeasure;
   }
 
   set repMeasure(value: RepeatedMeasure) {
     this._repMeasure = value;
-  }
-
-  get dimensions(): string[] {
-    return this._dimensions;
-  }
-
-  set dimensions(value: string[]) {
-    this._dimensions = value;
   }
 
   get editing(): boolean {

@@ -45,36 +45,14 @@
 
   <div *ngIf="stages[0] === stageName">
     <div id="dimensionsheader">
-      <h5>Define the dimensions of your Repeated measurement:</h5>
-    </div>
-    <div *ngIf="hasDimensions() && !nextDimension()" id="outcomesfull">
-      <h6>Whoa! That's a lot of dimensions!! We'll handle this lot, but if you really, really want to analyse more than {{max}} dimensions, consult a statstician... and good luck...</h6>
+      <h5>What dimension are you measuring?</h5>
     </div>
     <form [formGroup]="dimensionsForm">
       <div class="container-fluid">
-        <div class="row" *ngIf="!hasDimensions() || nextDimension()">
-          <div class="col">
-            <div class="form-group">
-              <input class="form-control" formControlName="dimensions" (keyup.enter)="addDimension()" id="dimensions">
-              <div *ngIf="formErrors.dimensions" class="form-group has-danger">
-                <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensions}}</div>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <i class="material-icons" (click)="addDimension()" style="margin-top: 10px" id="adddimension">add</i>
-          </div>
-        </div>
-      </div>
-      <div *ngFor="let dimension of dimensions" id="dimensionlist">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col">
-              {{dimension}}
-            </div>
-            <div class="col">
-              <i class="material-icons" (click)="removeDimension(dimension)" style="margin-bottom: 5px" id="removedimension">remove</i>
-            </div>
+        <div class="form-group">
+          <input class="form-control" formControlName="dimension" id="dimension" required>
+          <div *ngIf="formErrors.dimension" class="form-group has-danger">
+            <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimension}}</div>
           </div>
         </div>
       </div>
