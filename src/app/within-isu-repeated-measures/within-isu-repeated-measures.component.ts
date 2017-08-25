@@ -80,7 +80,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   ngOnInit() {
     this.buildForm();
-    this.updateSpacingFormControls(2);
+    this.updateSpacingFormControls(2, this.spacingValues);
   }
 
   ngDoCheck() {
@@ -97,14 +97,16 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       this.repeatsForm.valueChanges.subscribe( status => {
         this.repeats = this.repeatsForm.value.repeats;
         this.updateStudyFormStatus(this.repeatsForm.status);
-        this.updateSpacingFormControls(this.repeats);
+        this.updateSpacingFormControls(this.repeats, this.spacingValues);
       } );
     }
     if (this.stage === 2) {
-      this.repeats = this.repeatsForm.value.repeats;
       this.updateStudyFormStatus(this.repeatsForm.status);
-      if (this.repeatsForm.status === 'VALID') {
-        this.updateSpacingFormControls(this.repeats);
+      if (this.repeats !== this.repeatsForm.value.repeats) {
+        this.repeats = this.repeatsForm.value.repeats;
+        if (this.repeatsForm.status === 'VALID') {
+          this.updateSpacingFormControls(this.repeats, this.spacingValues);
+        }
       }
     }
     if (this.stage === 3) {
@@ -168,6 +170,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.repeatsForm.get('repeats').setValue(measure.noRepeats);
 
     this.includeRepeatedMeasures(measure);
+    this.updateSpacingFormControls(this.repeats, this.spacingValues);
   }
 
   removeRepeatedMeasure(measure: RepeatedMeasure) {
