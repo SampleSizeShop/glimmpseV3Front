@@ -128,8 +128,11 @@
 <div *ngFor="let repeatedMeasure of repeatedMeasures; let i = index">
   <div class="container-fluid">
     <div class="row">
-      <div class="col">
+      <div class="col col-md-auto">
         <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">remove</i>
+      </div>
+      <div class="col  col-md-auto">
+        <i class="material-icons" (click)="editRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="editrepeatedMeasure">create</i>
       </div>
       <div class="col">
         {{repeatedMeasures[i] | json}}

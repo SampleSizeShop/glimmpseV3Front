@@ -151,6 +151,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.repeatedMeasures.push(measure);
   }
 
+  editRepeatedMeasure(measure: RepeatedMeasure) {}
+
   removeRepeatedMeasure(measure: RepeatedMeasure) {
     const index = this.repeatedMeasures.indexOf(measure);
     if (index > -1) {
