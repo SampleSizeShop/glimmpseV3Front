@@ -86,7 +86,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   ngDoCheck() {
     if (this.stage === 0) {
       this.dimensionsForm.valueChanges.subscribe(status => {
-        if(this.hasDimensions() && this.dimensionsForm.status === 'VALID') {
+        if(this.hasDimensions() && this.dimensionsForm.status !== 'INVALID') {
           this.updateStudyFormStatus('VALID');
         } else {
           this.updateStudyFormStatus('INVALID');
@@ -129,12 +129,16 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.study_service.updateValid(valid);
   }
 
-  updateSpacingFormControls(repeats: number) {
+  updateSpacingFormControls(repeats: number, values?: number[] ) {
     if (this.repeatsForm.status === 'VALID') {
       this.spacingControlNames = Array.from(Array(repeats).keys())
       const controlDefs = {};
       for (const name of this.spacingControlNames) {
-        controlDefs[name] = [0, minMaxValidator(0.000000000000001, 100000000000000)];
+        if (values && values.length === repeats) {
+          controlDefs[name] = [values[name], minMaxValidator(0.000000000000001, 100000000000000)];
+        } else {
+          controlDefs[name] = [0, minMaxValidator(0.000000000000001, 100000000000000)];
+        }
       }
       this.spacingForm = this._fb.group(controlDefs);
       this.spacingValues = [];
@@ -151,7 +155,20 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.repeatedMeasures.push(measure);
   }
 
-  editRepeatedMeasure(measure: RepeatedMeasure) {}
+  editRepeatedMeasure(measure: RepeatedMeasure) {
+    this.removeRepeatedMeasure(measure);
+
+    this.repMeasure = measure;
+    this.dimensions = measure.dimensions;
+    this.type = measure.type;
+    this.repeats = measure.noRepeats;
+    this.spacingValues = measure.spacing;
+
+    this.typeForm.get('type').setValue(measure.type);
+    this.repeatsForm.get('repeats').setValue(measure.noRepeats);
+
+    this.includeRepeatedMeasures();
+  }
 
   removeRepeatedMeasure(measure: RepeatedMeasure) {
     const index = this.repeatedMeasures.indexOf(measure);
