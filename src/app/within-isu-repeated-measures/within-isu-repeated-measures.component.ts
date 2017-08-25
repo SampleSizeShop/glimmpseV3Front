@@ -139,12 +139,12 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     }
   }
 
-  firstRepeatedMeasure(): boolean {
-    return this.repeatedMeasures.length === 0 ? true : false;
+  hasRepeatedMeasures(): boolean {
+    return this.repeatedMeasures.length > 0;
   }
 
   nextRepeatedMeasure(): boolean {
-    if (!this.firstRepeatedMeasure() && this.repeatedMeasures.length < this.max ) {
+    if (this.hasRepeatedMeasures() && this.repeatedMeasures.length < this.max ) {
       return true;
     }
     return false;
