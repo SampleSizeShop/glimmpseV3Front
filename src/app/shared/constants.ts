@@ -7,7 +7,9 @@ export const constants = {
     4: 'STATISTICAL_TESTS',
     5: 'TYPE_ONE_ERROR',
     6: 'WITHIN_ISU_OUTCOMES',
-    7: 'WITHIN_ISU_REPEATED_MEASURES'},
+    7: 'WITHIN_ISU_REPEATED_MEASURES',
+    8: 'WITHIN_ISU_CLUSTERS'
+  },
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
     'power': '',
@@ -89,4 +91,16 @@ export const constants = {
       'duplicate': 'You have already added that outcome.'
     }
   },
+  MAX_LEVELS: 10,
+  MAX_ELEMENTS: 10,
+  CLUSTERS_FORM_ERRORS: {},
+  CLUSTERS_FORM_VALIDATION_MESSAGES: {
+    'outcomes': {
+      'duplicate': 'You have already added that outcome.'
+    }
+  },
+  CLUSTER_STAGES: {
+    0: 'ELEMENT_NAME',
+    1: 'LEVELS',
+  }
 };

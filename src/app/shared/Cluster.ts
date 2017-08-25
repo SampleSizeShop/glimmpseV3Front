@@ -1,8 +1,5 @@
 export class Cluster {
   elementName = '';
-  clusterLevel = '';
+  levelName = '';
   noElements = 0;
-  intraClassCorrelation = 0;
-  variance = 0;
-  level = 0;
 }

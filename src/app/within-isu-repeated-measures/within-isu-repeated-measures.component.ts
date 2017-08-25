@@ -126,11 +126,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.navigationSubscription.unsubscribe();
   }
 
-  updateStudyFormStatus(status: string) {
-    const valid = status === 'VALID' ? true : false;
-    this.study_service.updateValid(valid);
-  }
-
   updateSpacingFormControls(repeats: number, values?: number[] ) {
     if (this.repeatsForm.status === 'VALID') {
       this.spacingControlNames = Array.from(Array(repeats).keys())
@@ -221,7 +216,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   }
 
   dontincludeRepeatedMeasures() {
-    this.navigation_service.updateNextEnabled(false);
     this.navigation_service.updateNavigationMode(false);
     this.included = false;
     this.editing = false;
@@ -269,6 +263,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   setStage(next: number) {
     this.stage = next;
     this.updateStudyFormStatus(this.getStageStatus(this.stage));
+  }
+
+  updateStudyFormStatus(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this.study_service.updateValid(valid);
   }
 
   resetForms() {
