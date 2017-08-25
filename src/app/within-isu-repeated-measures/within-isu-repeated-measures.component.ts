@@ -71,7 +71,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   ngDoCheck() {
     if (this.stage === 0) {
       this.dimensionsForm.valueChanges.subscribe(status => {
-        if(this.dimensions && this.dimensions.length > 0) {
+        if(this.hasDimensions()) {
           this.updateStudyFormStatus(this.dimensionsForm.status);
         }
       } );
@@ -101,6 +101,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
         }
       });
     }
+  }
+
+  hasDimensions(): boolean {
+    return this.dimensions && this.dimensions.length > 0;
   }
 
   buildForm() {
@@ -146,12 +150,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     return false;
   }
 
-  firstDimension(): boolean {
-    return this.dimensions.length === 0 ? true : false;
-  }
-
   nextDimension(): boolean {
-    if (!this.firstDimension() && this.dimensions.length < this.maxDimensions ) {
+    if (this.hasDimensions() && this.dimensions.length < this.maxDimensions ) {
       return true;
     }
     return false;
@@ -174,7 +174,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       this.dimensions.push(this.dimensionsForm.value.dimensions.trim());
       this.dimensionsForm.reset();
     }
-    if (this.dimensions && this.dimensions.length > 0) {
+    if (this.hasDimensions()) {
       this.study_service.updateValid(true);
     }
   }
@@ -184,7 +184,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     if (index > -1) {
       this.dimensions.splice(index, 1);
     }
-    if ( this.dimensions && this.dimensions.length === 0 ) {
+    if ( !this.hasDimensions() ) {
       this.study_service.updateValid( false );
     }
     this.dimensionsForm.reset();
