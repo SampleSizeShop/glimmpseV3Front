@@ -86,8 +86,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   ngDoCheck() {
     if (this.stage === 0) {
       this.dimensionsForm.valueChanges.subscribe(status => {
-        if(this.hasDimensions()) {
-          this.updateStudyFormStatus(this.dimensionsForm.status);
+        if(this.hasDimensions() && this.dimensionsForm.status === 'VALID') {
+          this.updateStudyFormStatus('VALID');
+        } else {
+          this.updateStudyFormStatus('INVALID');
         }
       } );
     }
@@ -216,6 +218,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       next = this.stage + 1;
     }
     if ( next < 0) {
+      this.resetForms();
       this.dontincludeRepeatedMeasures();
     }
     if ( next >= Object.keys(this.stages).length ) {
