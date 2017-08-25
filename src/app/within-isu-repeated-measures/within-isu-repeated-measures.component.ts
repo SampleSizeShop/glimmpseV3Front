@@ -151,6 +151,16 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.repeatedMeasures.push(measure);
   }
 
+  removeRepeatedMeasure(measure: RepeatedMeasure) {
+    const index = this.repeatedMeasures.indexOf(measure);
+    if (index > -1) {
+      this.repeatedMeasures.splice(index, 1);
+    }
+    if ( !this.hasRepeatedMeasures() ) {
+      this.dontincludeRepeatedMeasures();
+    }
+  }
+
   addDimension() {
     if (this.dimensionsForm.status === 'VALID'
         && this.dimensionsForm.value.dimensions
