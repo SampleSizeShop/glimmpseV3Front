@@ -17,7 +17,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
 
   private _elementForm: FormGroup;
   private _clusterLevelForm: FormGroup;
-  private _clusters: Cluster[];
   private _cluster: Cluster;
   private _max: number;
   private _stages;
@@ -38,10 +37,10 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     this.formErrors = constants.CLUSTERS_FORM_ERRORS;
     this.max = constants.MAX_ELEMENTS;
     this.maxLevels = constants.MAX_LEVELS;
-    this.clusters = [];
     this.levels = [];
     this.stage = -1;
     this.stages = constants.CLUSTER_STAGES;
+    this.cluster = null;
 
     this.navigationSubscription = this.navigation_service.navigation$.subscribe(
       direction => {
@@ -87,33 +86,23 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
   }
 
   addCluster() {
+    this.cluster = new Cluster();
     this.cluster.elementName = this.elementForm.value.elementName;
 
     for (const level of this.levels) {
       this.cluster.levels.push(level);
     }
-
-    this.clusters.push(this.cluster);
   }
 
   editCluster(cluster: Cluster) {
-    this.removeCluster(cluster);
-    this.cluster = cluster;
-    this.elementForm.get('elementName').setValue(this.cluster.elementName);
-    this.levels = this.cluster.levels;
-    this.clusterLevelForm.get('levelName').setValue(this.cluster.levels[0].levelName);
-    this.clusterLevelForm.get('noElements').setValue(this.cluster.levels[0].noElements);
+    this.removeCluster();
+    this.elementForm.get('elementName').setValue(cluster.elementName);
+    this.levels = cluster.levels;
     this.includeClusters();
   }
 
-  removeCluster(cluster: Cluster) {
-    const index = this.clusters.indexOf(cluster);
-    if (index > -1) {
-      this.clusters.splice(index, 1);
-    }
-    if ( !this.hasClusters() ) {
-      this.dontincludeClusters();
-    }
+  removeCluster() {
+    this.cluster = null;
   }
 
   addLevel() {
@@ -131,8 +120,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     this.study_service.updateValid(false);
     if (cluster) {
       this.cluster = cluster;
-    } else {
-      this.cluster = new Cluster();
     }
     this.stage = this.stage = 0;
   }
@@ -189,24 +176,14 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
 
   resetForms() {
     this.buildForm();
-
-    this.cluster = new Cluster();
     this.levels = [];
-
     this.stage = -1;
     this.editing = false;
     this.navigation_service.updateNavigationMode(false);
   }
 
-  hasClusters(): boolean {
-    return this.clusters && this.clusters.length > 0;
-  }
-
-  nextCluster(): boolean {
-    if (this.hasClusters() && this.clusters.length < this.max) {
-      return true;
-    }
-    return false;
+  hasCluster(): boolean {
+    return this.cluster ? true : false;
   }
 
   get stageName() {
@@ -227,14 +204,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
 
   set clusterLevelForm(value: FormGroup) {
     this._clusterLevelForm = value;
-  }
-
-  get clusters(): Cluster[] {
-    return this._clusters;
-  }
-
-  set clusters(value: Cluster[]) {
-    this._clusters = value;
   }
 
   get cluster(): Cluster {

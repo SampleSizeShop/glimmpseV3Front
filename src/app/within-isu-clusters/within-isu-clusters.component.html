@@ -1,4 +1,4 @@
-<div *ngIf="!hasClusters() && !editing" id="firstcluster">
+<div *ngIf="!hasCluster() && !editing" id="firstcluster">
   <div class="container-fluid">
     <div class="row">
       <div class="col">
@@ -15,29 +15,6 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div *ngIf="nextCluster() && !editing" id="nextoutcome">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col">
-        <h5>Would you like to define another cluster?</h5>
-      </div>
-      <div class="col">
-        <div class="btn-group" data-toggle="buttons">
-          <label [class.active]="included" id="includenextrptmeasuresbtn" class="btn btn-primary">
-            <input type="radio" id="includenextrptmeasuresradio" (click)="includeClusters()">+ Add Another
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div *ngIf="hasClusters() && !nextCluster() && !editing" id="fulloutcome">
-  <div class="container-fluid">
-    <h5>That's all folks!</h5>
   </div>
 </div>
 
@@ -99,8 +76,9 @@
 </div>
 
 <br>
-<small *ngIf="hasClusters()">Clusters:</small>
-<div *ngFor="let cluster of clusters; let i = index">
+
+<div *ngIf="hasCluster()" >
+  <small >Cluster:</small>
   <div class="container-fluid">
     <div class="row">
       <div class="col col-md-auto">
@@ -110,7 +88,7 @@
         <i class="material-icons" (click)="editCluster(cluster)" style="margin-bottom: 5px" id="editcluster">create</i>
       </div>
       <div class="col">
-        {{clusters[i] | json}}
+        {{cluster | json}}
       </div>
     </div>
   </div>
