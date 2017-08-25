@@ -167,7 +167,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.typeForm.get('type').setValue(measure.type);
     this.repeatsForm.get('repeats').setValue(measure.noRepeats);
 
-    this.includeRepeatedMeasures();
+    this.includeRepeatedMeasures(measure);
   }
 
   removeRepeatedMeasure(measure: RepeatedMeasure) {
@@ -203,13 +203,17 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.dimensionsForm.reset();
   }
 
-  includeRepeatedMeasures() {
+  includeRepeatedMeasures(measure?: RepeatedMeasure) {
     this.included = true;
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
     this.navigation_service.updateNextEnabled(true);
     this.study_service.updateValid(false);
-    this.repMeasure = new RepeatedMeasure();
+    if (measure) {
+      this.repMeasure = measure;
+    } else {
+      this.repMeasure = new RepeatedMeasure();
+    }
     this.stage = this.stage = 0;
   }
 
