@@ -26,11 +26,11 @@
   <div *ngFor="let outcome of outcomes" id="outcomelist">
     <div class="container-fluid">
       <div class="row">
-        <div class="col">
-          {{outcome}}
+        <div class="col col-md-auto">
+          <i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">remove</i>
         </div>
         <div class="col">
-          <i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">remove</i>
+          {{outcome}}
         </div>
       </div>
     </div>
