@@ -1,5 +1,6 @@
+import {ClusterLevel} from './ClusterLevel';
+
 export class Cluster {
   elementName = '';
-  levelName = '';
-  noElements = 0;
+  levels: ClusterLevel[] = [];
 }

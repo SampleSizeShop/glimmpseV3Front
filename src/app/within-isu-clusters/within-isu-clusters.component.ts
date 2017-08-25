@@ -6,6 +6,7 @@ import {NavigationService} from '../shared/navigation.service';
 import {constants} from '../shared/constants';
 import {Subscription} from 'rxjs/Subscription';
 import {minMaxValidator} from '../shared/minmax.validator';
+import {ClusterLevel} from '../shared/ClusterLevel';
 
 @Component({
   selector: 'app-within-isu-clusters',
@@ -85,8 +86,11 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
 
   addCluster() {
     this.cluster.elementName = this.elementForm.value.elementName;
-    this.cluster.levelName = this.clusterLevelForm.value.levelName;
-    this.cluster.noElements = this.clusterLevelForm.value.noElements;
+
+    const level = new ClusterLevel();
+    level.levelName = this.clusterLevelForm.value.levelName;
+    level.noElements = this.clusterLevelForm.value.noElements;
+    this.cluster.levels.push(level);
 
     this.clusters.push(this.cluster);
   }
@@ -95,8 +99,8 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     this.removeCluster(cluster);
     this.cluster = cluster;
     this.elementForm.get('elementName').setValue(this.cluster.elementName);
-    this.clusterLevelForm.get('levelName').setValue(this.cluster.levelName);
-    this.clusterLevelForm.get('noElements').setValue(this.cluster.noElements);
+    this.clusterLevelForm.get('levelName').setValue(this.cluster.levels[0].levelName);
+    this.clusterLevelForm.get('noElements').setValue(this.cluster.levels[0].noElements);
     this.includeClusters();
   }
 
