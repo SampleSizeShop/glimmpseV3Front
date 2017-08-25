@@ -211,8 +211,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       next = this.stage + 1;
     }
     if ( next < 0) {
-      this.resetForms();
       this.dontincludeRepeatedMeasures();
+      this.resetForms();
     }
     if ( next >= Object.keys(this.stages).length ) {
       this.addRepeatedMeasure();
