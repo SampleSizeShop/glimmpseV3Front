@@ -92,8 +92,11 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
   }
 
   editCluster(cluster: Cluster) {
+    this.removeCluster(cluster);
     this.cluster = cluster;
     this.elementForm.get('elementName').setValue(this.cluster.elementName);
+    this.clusterLevelForm.get('levelName').setValue(this.cluster.levelName);
+    this.clusterLevelForm.get('noElements').setValue(this.cluster.noElements);
     this.includeClusters();
   }
 

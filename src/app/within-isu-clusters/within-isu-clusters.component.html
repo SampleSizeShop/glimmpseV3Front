@@ -60,16 +60,27 @@
   <div *ngIf="stages[1] === stageName">
     <h5>Name the cluster level and the number of elements in that level:</h5>
     <form [formGroup]="clusterLevelForm">
-      <div class="form-group">
-        <input class="form-control" formControlName="levelName" id="levelName" required>
-        <div *ngIf="formErrors.levelName" class="form-group has-danger">
-          <div class="form-control-feedback" id="levelnameerr">{{formErrors.levelName}}</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <input class="form-control" formControlName="noElements" id="noElements" required>
-        <div *ngIf="formErrors.noElements" class="form-group has-danger">
-          <div class="form-control-feedback" id="noelementserr">{{formErrors.noElements}}</div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col col-md-auto">
+            <div class="form-group">
+              <label for="levelName">Name:</label>
+              <input class="form-control" formControlName="levelName" id="levelName" required>
+              <div *ngIf="formErrors.levelName" class="form-group has-danger">
+                <div class="form-control-feedback" id="levelnameerr">{{formErrors.levelName}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="col col-md-auto">
+            <div class="form-group">
+              <label for="noElements"># Elements:</label>
+              <input class="form-control" formControlName="noElements" id="noElements" required>
+              <div *ngIf="formErrors.noElements" class="form-group has-danger">
+                <div class="form-control-feedback" id="noelementserr">{{formErrors.noElements}}</div>
+              </div>
+              <small id="noElementsHelp" class="form-text text-muted"># Elements must be an integer between 2 and 10000 (inclusive)</small>
+            </div>
+          </div>
         </div>
       </div>
     </form>
