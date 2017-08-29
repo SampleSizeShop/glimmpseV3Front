@@ -240,6 +240,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.repeats = 2;
     this.spacingValues = [];
     this.repMeasure = new RepeatedMeasure();
+    this.updateSpacingFormControls(2, this.spacingValues);
 
     this.stage = -1;
     this.editing = false;
