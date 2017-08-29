@@ -1,0 +1,95 @@
+<div *ngIf="!hasCluster() && !editing" id="firstcluster">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h5>Are your outcomes measured in a cluster?</h5>
+      </div>
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label [class.active]="included" id="includerptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="includerptmeasuresradio" (click)="includeClusters()">Yes
+          </label>
+          <label [class.active]="!included" id="norptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="norptmeasuresradio" (click)="dontincludeClusters()">No
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="included">
+
+  <div *ngIf="stages[0] === stageName">
+    <div id="clustersheader">
+      <h5>Name the element in your cluster:</h5>
+    </div>
+    <form [formGroup]="elementForm">
+      <div class="form-group">
+        <input class="form-control" formControlName="elementName" id="elementName" required>
+        <div *ngIf="formErrors.elementName" class="form-group has-danger">
+          <div class="form-control-feedback" id="elementNameerr">{{formErrors.elementName}}</div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="stages[1] === stageName">
+    <h5>Name each level in the cluster and the number of elements in that level:</h5>
+    <form [formGroup]="clusterLevelForm">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col col-md-auto">
+            <div class="form-group">
+              <label for="levelName">Name:</label>
+              <input class="form-control" formControlName="levelName" id="levelName" required>
+              <div *ngIf="formErrors.levelName" class="form-group has-danger">
+                <div class="form-control-feedback" id="levelnameerr">{{formErrors.levelName}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="col col-md-auto">
+            <div class="form-group">
+              <label for="noElements"># Elements:</label>
+              <input class="form-control" formControlName="noElements" id="noElements" required>
+              <div *ngIf="formErrors.noElements" class="form-group has-danger">
+                <div class="form-control-feedback" id="noelementserr">{{formErrors.noElements}}</div>
+              </div>
+              <small id="noElementsHelp" class="form-text text-muted"># Elements must be an integer between 2 and 10000 (inclusive)</small>
+            </div>
+          </div>
+          <div class="col col-md-auto">
+            <br>
+            <i class="material-icons" (click)="addLevel()" style="margin-top: 10px" id="addLevel">add</i>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <br>
+    <small>Levels:</small>
+    <div *ngFor="let level of levels; let i = index">
+      {{levels[i] | json}}
+    </div>
+  </div>
+
+</div>
+
+<br>
+
+<div *ngIf="hasCluster()" >
+  <small >Cluster:</small>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-md-auto">
+        <i class="material-icons" (click)="removeCluster(cluster)" style="margin-bottom: 5px" id="removecluster">remove</i>
+      </div>
+      <div class="col  col-md-auto">
+        <i class="material-icons" (click)="editCluster(cluster)" style="margin-bottom: 5px" id="editcluster">create</i>
+      </div>
+      <div class="col">
+        {{cluster | json}}
+      </div>
+    </div>
+  </div>
+</div>

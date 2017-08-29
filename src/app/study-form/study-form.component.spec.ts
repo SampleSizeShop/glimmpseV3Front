@@ -11,6 +11,13 @@ import {Http} from '@angular/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StatisticalTestsComponent} from '../statistical-tests/statistical-tests.component';
 import {TypeOneErrorComponent} from '../type-one-error/type-one-error.component';
+import {WitinIsuComponent} from '../within-isu/within-isu.component';
+import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
+import {MathJaxDirective} from '../mathjax/mathjax.directive';
+import {DifferentMeasuresComponent} from '../different-measures/different-measures.component';
+import {WithinIsuOutcomesComponent} from '../within-isu-outcomes/within-isu-outcomes.component';
+import {ClusterComponent} from '../cluster/cluster.component';
+import {WithinIsuRepeatedMeasuresComponent} from '../within-isu-repeated-measures/within-isu-repeated-measures.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -22,7 +29,20 @@ describe('StudyFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'}) ],
-      declarations: [ StudyFormComponent, UserModeComponent, TargetEventComponent, SolveForComponent, StatisticalTestsComponent, TypeOneErrorComponent ],
+      declarations: [
+        StudyFormComponent,
+        UserModeComponent,
+        TargetEventComponent,
+        SolveForComponent,
+        StatisticalTestsComponent,
+        TypeOneErrorComponent,
+        WitinIsuComponent,
+        WithinIsuOutcomesComponent,
+        WithinIsuRepeatedMeasuresComponent,
+        DifferentMeasuresComponent,
+        CorrelationMatrixComponent,
+        ClusterComponent,
+        MathJaxDirective],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();

@@ -3,12 +3,13 @@ import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';
+import {NavigationService} from '../shared/navigation.service';
 
 @Component({
   selector: 'app-study-form',
   templateUrl: './study-form.component.html',
   styleUrls: ['./study-form.component.scss'],
-  providers: [StudyService, NGXLogger]
+  providers: [StudyService, NGXLogger, NavigationService]
 })
 export class StudyFormComponent implements OnInit, OnDestroy {
   private _valid = false;
@@ -20,46 +21,90 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _modeSubscription: Subscription;
   private _targetEventSubscription: Subscription;
   private _solveForSubscription: Subscription;
+
+  private _nextEnabledSubscription: Subscription;
+  private _backEnabledSubscription: Subscription;
+  private _childNavigationModeSubscription: Subscription;
+  private _validSubscription: Subscription;
+
   private _stages;
   private _noStages: number;
+  private _childComponentNav: boolean;
+  private _childDirectionCommand: string;
 
-  constructor(private study_service: StudyService, private logger: NGXLogger) {
+  constructor(
+    private study_service: StudyService,
+    private logger: NGXLogger,
+    private navigation_service: NavigationService
+  ) {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
         this.guided = guided;
         this.valid = guided;
       }
-    )
+    );
 
     this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
       targetEvent => {
         this.targetEvent = targetEvent;
         this.valid = true;
       }
-    )
+    );
 
     this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
       solveFor => {
         this.solveFor = solveFor;
         this.valid = true;
       }
-    )
+    );
+
+    this.childComponentNav = false;
+    this.childNavigationModeSubscription = this.navigation_service.childNavigationMode$.subscribe(
+      childNavMode => {
+        this.childComponentNav = childNavMode;
+      }
+    );
+
+    this.validSubscription = this.study_service.valid$.subscribe(
+      valid => {
+        this.valid = valid;
+      }
+    );
+
+    this.nextEnabledSubscription = this.navigation_service.nextEnabled$.subscribe(
+      enabled => {
+        this.hasNext = enabled;
+      }
+    );
+    this.backEnabledSubscription = this.navigation_service.backEnabled$.subscribe(
+      enabled => {
+        this.hasBack = enabled;
+      }
+    );
   }
 
   next(): void {
-    const current = this.getStage();
-    if ( current < this._noStages &&  this.guided ) {
-      this.setStage( current + 1 );
+    if (this.childComponentNav &&  this.valid) {
+      this.navigation_service.updateNavigation('NEXT');
+    } else {
+      const current = this.getStage();
+      if ( current < this._noStages &&  this.valid ) {
+        this.setStage( current + 1 );
+        this.setNextBack();
+      }
     }
-    this.setNextBack()
   }
 
   back(): void {
-    const current = this.getStage();
-    if ( current > 1 &&  this.guided ) {
-      this.setStage( current - 1 );
+    if (this.childComponentNav) {
+      this.navigation_service.updateNavigation('BACK');
+    } else {
+      const current = this.getStage();
+      if (current > 1 && this.guided) {
+        this.setStage(current - 1);
+      }
+      this.setNextBack();
     }
-    this.setNextBack()
   }
 
   setNextBack(): void {
@@ -87,6 +132,10 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.modeSubscription.unsubscribe();
     this.targetEventSubscription.unsubscribe();
     this.solveForSubscription.unsubscribe();
+    this.childNavigationModeSubscription.unsubscribe();
+    this.validSubscription.unsubscribe();
+    this.nextEnabledSubscription.unsubscribe();
+    this.backEnabledSubscription.unsubscribe();
   }
 
   get valid(): boolean {
@@ -189,5 +238,53 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
   set solveForSubscription(value: Subscription) {
     this._solveForSubscription = value;
+  }
+
+  get childComponentNav(): boolean {
+    return this._childComponentNav;
+  }
+
+  set childComponentNav(value: boolean) {
+    this._childComponentNav = value;
+  }
+
+  get nextEnabledSubscription(): Subscription {
+    return this._nextEnabledSubscription;
+  }
+
+  set nextEnabledSubscription(value: Subscription) {
+    this._nextEnabledSubscription = value;
+  }
+
+  get backEnabledSubscription(): Subscription {
+    return this._backEnabledSubscription;
+  }
+
+  set backEnabledSubscription(value: Subscription) {
+    this._backEnabledSubscription = value;
+  }
+
+  get childNavigationModeSubscription(): Subscription {
+    return this._childNavigationModeSubscription;
+  }
+
+  set childNavigationModeSubscription(value: Subscription) {
+    this._childNavigationModeSubscription = value;
+  }
+
+  get validSubscription(): Subscription {
+    return this._validSubscription;
+  }
+
+  set validSubscription(value: Subscription) {
+    this._validSubscription = value;
+  }
+
+  get childDirectionCommand(): string {
+    return this._childDirectionCommand;
+  }
+
+  set childDirectionCommand(value: string) {
+    this._childDirectionCommand = value;
   }
 }

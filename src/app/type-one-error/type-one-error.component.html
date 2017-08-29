@@ -10,7 +10,7 @@
       <div class="form-group" id="typeoneerrorinput">
         <label for="typeoneerror">Enter your desired type one error rate:</label>
         <input type="number" class="form-control" id="typeoneerror" aria-describedby="typeoneerrorhelp" placeholder="Choose a number 0 > x > 1" formControlName="typeoneerror" required>
-        <div *ngIf="formErrors.typeoneerror" class="alert alert-danger">
+        <div *ngIf="formErrors.typeoneerror" class="form-group has-danger">
           <div class="form-control-feedback">{{formErrors.typeoneerror}}</div>
         </div>
         <small id="typeoneerrorhelp" class="form-text text-muted">Sample size must be an integer between 0 > x > 1</small>

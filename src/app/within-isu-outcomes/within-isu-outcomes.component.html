@@ -1,0 +1,40 @@
+<div *ngIf="firstOutcome()" id="firstoutcome">
+  <h5>Name your first outcome:</h5>
+</div>
+<div *ngIf="nextOutcome()" id="nextoutcome">
+  <h5>Would you like to add another?</h5>
+</div>
+<div *ngIf="!firstOutcome() && !nextOutcome()" id="outcomesfull">
+  <h5>Whoa! That's a lot of outcomes!! We'll handle this lot, but if you really, really want to analyse more than {{max}} outcomes, consult a statstician... and good luck...</h5>
+</div>
+<form [formGroup]="outcomesForm">
+  <div class="container-fluid">
+    <div class="row" *ngIf="firstOutcome() || nextOutcome()">
+      <div class="col">
+        <div class="form-group">
+          <input class="form-control" formControlName="outcomes" (keyup.enter)="addOutcome()" id="outcomes">
+          <div *ngIf="formErrors.outcomes" class="form-group has-danger">
+            <div class="form-control-feedback" id="outcomeserr">{{formErrors.outcomes}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <i class="material-icons" (click)="addOutcome()" style="margin-top: 10px" id="addoutcome">add</i>
+      </div>
+    </div>
+  </div>
+  <br>
+  <small *ngIf="!firstOutcome()">Outcomes:</small>
+  <div *ngFor="let outcome of outcomes" id="outcomelist">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col col-md-auto">
+          <i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">remove</i>
+        </div>
+        <div class="col">
+          {{outcome}}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

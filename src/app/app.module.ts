@@ -19,6 +19,11 @@ import {LoggerModule} from 'ngx-logger';
 import {environment} from '../environments/environment';
 import { StatisticalTestsComponent } from './statistical-tests/statistical-tests.component';
 import { TypeOneErrorComponent } from './type-one-error/type-one-error.component';
+import { CorrelationMatrixComponent } from './correlation-matrix/correlation-matrix.component';
+import { WithinIsuOutcomesComponent } from './within-isu-outcomes/within-isu-outcomes.component';
+import { WithinIsuRepeatedMeasuresComponent } from './within-isu-repeated-measures/within-isu-repeated-measures.component';
+import { WithinIsuClustersComponent } from './within-isu-clusters/within-isu-clusters.component';
+
 
 @NgModule({
   declarations: [
@@ -30,7 +35,11 @@ import { TypeOneErrorComponent } from './type-one-error/type-one-error.component
     TargetEventComponent,
     SolveForComponent,
     StatisticalTestsComponent,
-    TypeOneErrorComponent
+    TypeOneErrorComponent,
+    CorrelationMatrixComponent,
+    WithinIsuOutcomesComponent,
+    WithinIsuRepeatedMeasuresComponent,
+    WithinIsuClustersComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

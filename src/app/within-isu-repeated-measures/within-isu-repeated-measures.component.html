@@ -1,0 +1,121 @@
+<div *ngIf="!hasRepeatedMeasures() && !editing" id="firstoutcome">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h5>Are you taking repeated measures?</h5>
+      </div>
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label [class.active]="included" id="includerptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Yes
+          </label>
+          <label [class.active]="!included" id="norptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="norptmeasuresradio" (click)="dontincludeRepeatedMeasures()">No
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="nextRepeatedMeasure() && !editing" id="nextoutcome">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h5>Would you like to add another set of repeated measures?</h5>
+      </div>
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label [class.active]="included" id="includenextrptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">+ Add Another
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure() && !editing" id="fulloutcome">
+  <div class="container-fluid">
+    <h5>That's all folks!</h5>
+  </div>
+</div>
+
+<div *ngIf="included" >
+
+  <div *ngIf="stages[0] === stageName">
+    <div id="dimensionsheader">
+      <h5>What dimension are you measuring?</h5>
+    </div>
+    <form [formGroup]="dimensionsForm">
+      <div class="container-fluid">
+        <div class="form-group">
+          <input class="form-control" formControlName="dimension" id="dimension" required>
+          <div *ngIf="formErrors.dimension" class="form-group has-danger">
+            <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimension}}</div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div *ngIf="stages[1] === stageName">
+    <div if="typeheader">
+      <h5>What type of repeatede measure is this?</h5>
+      <form [formGroup]="typeForm">
+        <div class="form-group">
+          <select class="form-control" id="type" formControlName="type">
+            <option *ngFor="let t of types" [value]="t">{{t}}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="stages[2] === stageName">
+    <div if="repeatesheader">
+      <h5>How many measurements are you taking?</h5>
+      <form [formGroup]="repeatsForm">
+        <div class="form-group" id="repeatsinput">
+          <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
+          <div *ngIf="formErrors.repeats" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.repeats}}</div>
+          </div>
+          <small id="repeatshelp" class="form-text text-muted">You must have between 2 and 10 repeats (inclusive)</small>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="stages[3] === stageName">
+    <div if="spacingheader">
+      <h5>Tell us about the spacing between your measurements:</h5>
+      <form [formGroup]="spacingForm">
+        <div class="form-group" id="spacinginput" *ngFor="let space of spacingControlNames">
+          Measurement #{{space + 1}}:
+          <input type="number" class="form-control" id="spacing" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
+          <div *ngIf="formErrors.spacing" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.spacing}}</div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<br>
+<small *ngIf="hasRepeatedMeasures()">Repeated Measures:</small>
+<div *ngFor="let repeatedMeasure of repeatedMeasures; let i = index">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-md-auto">
+        <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">remove</i>
+      </div>
+      <div class="col  col-md-auto">
+        <i class="material-icons" (click)="editRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="editrepeatedMeasure">create</i>
+      </div>
+      <div class="col">
+        {{repeatedMeasures[i] | json}}
+      </div>
+    </div>
+  </div>
+</div>

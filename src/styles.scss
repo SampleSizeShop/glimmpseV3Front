@@ -1,9 +1,6 @@
-.ng-valid[required], .ng-valid.required  {
-  border-left: 5px solid #42A948; /* green */
-}
-
 .ng-invalid:not(form)  {
-  border-left: 5px solid #a94442; /* red */
+  border-bottom: 2px solid #9a0200; /* red */
+  color: #9a0200;
 }
 
 .navbar-inverse {
@@ -14,4 +11,8 @@
 
 body{
   min-width:452px;
+}
+
+.material-icons:hover {
+  color: #2196F3;
 }

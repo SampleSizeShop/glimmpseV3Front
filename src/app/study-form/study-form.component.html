@@ -1,36 +1,39 @@
 <div style="padding-top: 10px">
   <h4>New Study</h4>
+  <hr>
 </div>
-<div class="jumbotron">
   <div class="container">
-    <div class="d-flex justify-content-start"  *ngIf="'MODE' === getStageName()">
+    <div class="d-flex justify-content-start" *ngIf="stages[1] === getStageName()">
       <app-user-mode></app-user-mode>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'TARGET_EVENT' === getStageName()">
+    <div class="d-flex justify-content-start" *ngIf="stages[2] === getStageName()">
       <app-target-event></app-target-event>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'SOLVE_FOR' === getStageName()">
+    <div class="d-flex justify-content-start" *ngIf="stages[3] === getStageName()">
       <app-solve-for></app-solve-for>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'STATISTICAL_TESTS' === getStageName()">
+    <div class="d-flex justify-content-start" *ngIf="stages[4] === getStageName()">
       <app-statistical-tests></app-statistical-tests>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="'TYPE_ONE_ERROR' === getStageName()">
+    <div class="d-flex justify-content-start" *ngIf="stages[5] === getStageName()">
       <app-type-one-error></app-type-one-error>
     </div>
-    <hr>
-    <div class="d-flex justify-content-end">
-      <div class="mr-auto p-2">
-        <button type="submit" class="btn btn-primary" *ngIf="hasBack" (click)="back()">Back</button>
-      </div>
-      <div class="p-2">
-        <button type="submit" class="btn btn-primary" *ngIf="hasNext" (click)="next()" [class.disabled]="!valid">Next</button>
-      </div>
+    <div class="d-flex justify-content-start" *ngIf="stages[6] === getStageName()">
+      <app-within-isu-outcomes></app-within-isu-outcomes>
+    </div>
+    <div class="d-flex justify-content-start" *ngIf="stages[7] === getStageName()">
+      <app-within-isu-repeated-measures></app-within-isu-repeated-measures>
+    </div>
+    <div class="d-flex justify-content-start" *ngIf="stages[8] === getStageName()">
+      <app-within-isu-clusters></app-within-isu-clusters>
     </div>
   </div>
-</div>
-<h6>Study design progress</h6>
-<div class="progress">
-  <div class="progress-bar" role="progressbar" style="width: 25%; height: 20px;" aria-valuenow="25" aria-valuemin="0"
-       aria-valuemax="100"></div>
+<hr>
+<div class="d-flex justify-content-end" >
+  <div class="mr-auto p-2">
+    <button type="submit" class="btn btn-primary" *ngIf="hasBack" (click)="back()">Back</button>
+  </div>
+  <div class="p-2">
+    <button type="submit" class="btn btn-primary" *ngIf="hasNext" (click)="next()" [class.disabled]="!valid">Next</button>
+  </div>
 </div>
