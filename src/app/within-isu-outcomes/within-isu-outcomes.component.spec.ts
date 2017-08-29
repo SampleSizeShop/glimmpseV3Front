@@ -4,6 +4,10 @@ import { WithinIsuOutcomesComponent } from './within-isu-outcomes.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {NavigationService} from '../shared/navigation.service';
+import {StudyService} from '../shared/study.service';
+import {MockBackend} from '@angular/http/testing';
+import {Http} from '@angular/http';
 
 describe('WithinIsuOutcomesComponent', () => {
   let component: WithinIsuOutcomesComponent;
@@ -12,7 +16,8 @@ describe('WithinIsuOutcomesComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [ WithinIsuOutcomesComponent ]
+      declarations: [ WithinIsuOutcomesComponent ],
+      providers: [StudyService, {provide: Http, useClass: MockBackend}, NavigationService]
     })
     .compileComponents();
   }));

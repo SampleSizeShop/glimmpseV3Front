@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WithinIsuClustersComponent } from './within-isu-clusters.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {StudyService} from '../shared/study.service';
+import {Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
+import {NavigationService} from '../shared/navigation.service';
 
 describe('WithinIsuClustersComponent', () => {
   let component: WithinIsuClustersComponent;
@@ -8,7 +13,11 @@ describe('WithinIsuClustersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WithinIsuClustersComponent ]
+      imports: [
+        ReactiveFormsModule
+      ],
+      declarations: [ WithinIsuClustersComponent ],
+      providers: [ StudyService,  { provide: Http, useClass: MockBackend}, NavigationService]
     })
     .compileComponents();
   }));
