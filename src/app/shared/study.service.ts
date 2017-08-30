@@ -34,6 +34,9 @@ export class StudyService {
   private _selectedTestsSource = new Subject<Set<string>>();
   private _selectdTests$ = this._selectedTestsSource.asObservable();
 
+  private _typeOneErrorRateSource = new Subject<number>();
+  private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
+
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
   }
@@ -58,6 +61,10 @@ export class StudyService {
 
   updateSelectedTests(tests: Set<string>) {
     this._selectedTestsSource.next(tests);
+  }
+
+  updateTypeOneErrorRate(rate: number) {
+    this._typeOneErrorRateSource.next(rate);
   }
 
   constructor(private  http: Http) {
@@ -159,6 +166,14 @@ export class StudyService {
 
   set selectdTests$(value: Observable<Set<string>>) {
     this._selectdTests$ = value;
+  }
+
+  get typeOneErrorRate$(): Observable<number> {
+    return this._typeOneErrorRate$;
+  }
+
+  set typeOneErrorRate$(value: Observable<number>) {
+    this._typeOneErrorRate$ = value;
   }
 }
 

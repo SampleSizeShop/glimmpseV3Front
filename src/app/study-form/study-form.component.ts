@@ -26,6 +26,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _samplesizeSubscription: Subscription;
   private _ciwidthSubscription: Subscription;
   private _selectedTestsSubscription: Subscription;
+  private _typeOneErrorRateSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -84,6 +85,12 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.selectedTestsSubscription = this.study_service.selectdTests$.subscribe(
       tests => {
         this.study.selectedTests = tests;
+      }
+    );
+
+    this.typeOneErrorRateSubscription = this.study_service.typeOneErrorRate$.subscribe(
+      rate => {
+        this.study.typeOneErrorRate = rate;
       }
     );
 
@@ -315,5 +322,13 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
   set selectedTestsSubscription(value: Subscription) {
     this._selectedTestsSubscription = value;
+  }
+
+  get typeOneErrorRateSubscription(): Subscription {
+    return this._typeOneErrorRateSubscription;
+  }
+
+  set typeOneErrorRateSubscription(value: Subscription) {
+    this._typeOneErrorRateSubscription = value;
   }
 }

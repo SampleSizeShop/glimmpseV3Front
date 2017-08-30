@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
@@ -12,26 +12,12 @@ import {StudyService} from '../shared/study.service';
   styleUrls: ['./type-one-error.component.scss'],
   providers:[NGXLogger]
 })
-export class TypeOneErrorComponent implements OnInit {
-  private _solveFor: string;
-  private _targetEvent: string;
+export class TypeOneErrorComponent implements DoCheck {
   private _typeOneErrorRateForm: FormGroup;
   private _formErrors = constants.TYPE_ONE_ERROR_ERRORS;
   private _validationMessages = constants.TYPE_ONE_ERROR_VALIDATION_MESSAGES;
-  private _targetEventSubscription: Subscription;
-  private _solveForSubscription: Subscription;
 
   constructor(private study_service: StudyService, private fb: FormBuilder, private logger: NGXLogger) {
-    this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
-      targetEvent => {
-        this.targetEvent = targetEvent;
-      }
-    );
-    this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
-      solveFor => {
-        this.solveFor = solveFor;
-      }
-    );
     this.buildForm();
   }
 
@@ -41,7 +27,6 @@ export class TypeOneErrorComponent implements OnInit {
     });
 
     this.typeOneErrorRateForm.valueChanges.subscribe(data => this.onValueChanged(data));
-
     this.onValueChanged(); // (re)set validation messages now
   }
 
@@ -63,23 +48,8 @@ export class TypeOneErrorComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-  }
-
-  get solveFor(): string {
-    return this._solveFor;
-  }
-
-  set solveFor(value: string) {
-    this._solveFor = value;
-  }
-
-  get targetEvent(): string {
-    return this._targetEvent;
-  }
-
-  set targetEvent(value: string) {
-    this._targetEvent = value;
+  ngDoCheck() {
+    this.study_service.updateTypeOneErrorRate(this.typeOneErrorRateForm.get('typeoneerror').value);
   }
 
   get typeOneErrorRateForm(): FormGroup {
@@ -106,19 +76,4 @@ export class TypeOneErrorComponent implements OnInit {
     this._validationMessages = value;
   }
 
-  get targetEventSubscription(): Subscription {
-    return this._targetEventSubscription;
-  }
-
-  set targetEventSubscription(value: Subscription) {
-    this._targetEventSubscription = value;
-  }
-
-  get solveForSubscription(): Subscription {
-    return this._solveForSubscription;
-  }
-
-  set solveForSubscription(value: Subscription) {
-    this._solveForSubscription = value;
-  }
 }

@@ -6,6 +6,7 @@ export class StudyDesign {
   private _samplesize: number;
   private _ciwidth: number;
   private _selectedTests: Set<string>;
+  private _typeOneErrorRate: number;
 
   constructor(name?: string,
               guided?: boolean,
@@ -14,7 +15,8 @@ export class StudyDesign {
               power?: number,
               samplesize?: number,
               ciwidth?: number,
-              selectedTests?: Set<string>
+              selectedTests?: Set<string>,
+              typeOneErrorRate?: number
 ) {}
 
   get name(): string {
@@ -71,5 +73,13 @@ export class StudyDesign {
 
   set selectedTests(value: Set<string>) {
     this._selectedTests = value;
+  }
+
+  get typeOneErrorRate(): number {
+    return this._typeOneErrorRate;
+  }
+
+  set typeOneErrorRate(value: number) {
+    this._typeOneErrorRate = value;
   }
 }
