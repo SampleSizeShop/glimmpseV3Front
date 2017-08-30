@@ -5,6 +5,7 @@ export class StudyDesign {
   private _power: number;
   private _samplesize: number;
   private _ciwidth: number;
+  private _selectedTests: Set<string>;
 
   constructor(name?: string,
               guided?: boolean,
@@ -12,7 +13,8 @@ export class StudyDesign {
               solveFor?: string,
               power?: number,
               samplesize?: number,
-              ciwidth?: number
+              ciwidth?: number,
+              selectedTests?: Set<string>
 ) {}
 
   get name(): string {
@@ -61,5 +63,13 @@ export class StudyDesign {
 
   set ciwidth(value: number) {
     this._ciwidth = value;
+  }
+
+  get selectedTests(): Set<string> {
+    return this._selectedTests;
+  }
+
+  set selectedTests(value: Set<string>) {
+    this._selectedTests = value;
   }
 }

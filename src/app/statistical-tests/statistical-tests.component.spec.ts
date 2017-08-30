@@ -3,6 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StatisticalTestsComponent } from './statistical-tests.component';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
+import {StudyService} from '../shared/study.service';
+import {Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 
 describe('StatisticalTestsComponent', () => {
   let component: StatisticalTestsComponent;
@@ -10,7 +13,8 @@ describe('StatisticalTestsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StatisticalTestsComponent ]
+      declarations: [ StatisticalTestsComponent ],
+      providers: [ StudyService, {provide: Http, useClass: MockBackend} ]
     })
     .compileComponents();
   }));

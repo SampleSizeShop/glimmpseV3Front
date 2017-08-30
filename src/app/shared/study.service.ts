@@ -13,15 +13,12 @@ export class StudyService {
   private _next: string;
   private _stages;
 
-  // user mode observale stream
   private _modeSelectedSource = new Subject<boolean>();
   private _modeSelected$ = this._modeSelectedSource.asObservable();
 
-  // target event observable stream
   private _targetEventSource = new BehaviorSubject<string>(constants.REJECTION_EVENT);
   private _targetEventSelected$ = this._targetEventSource.asObservable();
 
-  // solve for observable stream
   private _solveForSource = new BehaviorSubject<string>(constants.SOLVE_FOR_POWER);
   private _solveForSelected$ = this._solveForSource.asObservable();
 
@@ -33,6 +30,9 @@ export class StudyService {
 
   private _ciwidthSource = new Subject<number>();
   private _ciwidth$ = this._ciwidthSource.asObservable();
+
+  private _selectedTestsSource = new Subject<Set<string>>();
+  private _selectdTests$ = this._selectedTestsSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -54,6 +54,10 @@ export class StudyService {
 
   updateCiWidth(ciWidth: number) {
     this._ciwidthSource.next(ciWidth);
+  }
+
+  updateSelectedTests(tests: Set<string>) {
+    this._selectedTestsSource.next(tests);
   }
 
   constructor(private  http: Http) {
@@ -147,6 +151,14 @@ export class StudyService {
 
   set ciwidth$(value: Observable<number>) {
     this._ciwidth$ = value;
+  }
+
+  get selectdTests$(): Observable<Set<string>> {
+    return this._selectdTests$;
+  }
+
+  set selectdTests$(value: Observable<Set<string>>) {
+    this._selectdTests$ = value;
   }
 }
 

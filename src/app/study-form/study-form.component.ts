@@ -25,6 +25,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _powerSubscription: Subscription;
   private _samplesizeSubscription: Subscription;
   private _ciwidthSubscription: Subscription;
+  private _selectedTestsSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -68,8 +69,6 @@ export class StudyFormComponent implements OnInit, OnDestroy {
       }
     );
 
-
-
     this.ciwidthSubscription = this.study_service.ciwidth$.subscribe(
       ciwidth => {
         this.study.ciwidth = ciwidth;
@@ -79,6 +78,12 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.powerSubscription = this.study_service.power$.subscribe(
       power => {
         this.study.power = power;
+      }
+    );
+
+    this.selectedTestsSubscription = this.study_service.selectdTests$.subscribe(
+      tests => {
+        this.study.selectedTests = tests;
       }
     );
 
@@ -302,5 +307,13 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
   set ciwidthSubscription(value: Subscription) {
     this._ciwidthSubscription = value;
+  }
+
+  get selectedTestsSubscription(): Subscription {
+    return this._selectedTestsSubscription;
+  }
+
+  set selectedTestsSubscription(value: Subscription) {
+    this._selectedTestsSubscription = value;
   }
 }
