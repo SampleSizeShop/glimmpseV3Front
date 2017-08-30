@@ -23,7 +23,6 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _solveForSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
-  private _backEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
   private _validSubscription: Subscription;
 
@@ -74,11 +73,6 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.nextEnabledSubscription = this.navigation_service.nextEnabled$.subscribe(
       enabled => {
         this.hasNext = enabled;
-      }
-    );
-    this.backEnabledSubscription = this.navigation_service.backEnabled$.subscribe(
-      enabled => {
-        this.hasBack = enabled;
       }
     );
   }
@@ -135,7 +129,6 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.childNavigationModeSubscription.unsubscribe();
     this.validSubscription.unsubscribe();
     this.nextEnabledSubscription.unsubscribe();
-    this.backEnabledSubscription.unsubscribe();
   }
 
   get valid(): boolean {
@@ -254,14 +247,6 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
   set nextEnabledSubscription(value: Subscription) {
     this._nextEnabledSubscription = value;
-  }
-
-  get backEnabledSubscription(): Subscription {
-    return this._backEnabledSubscription;
-  }
-
-  set backEnabledSubscription(value: Subscription) {
-    this._backEnabledSubscription = value;
   }
 
   get childNavigationModeSubscription(): Subscription {
