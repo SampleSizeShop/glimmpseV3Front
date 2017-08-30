@@ -6,6 +6,7 @@ import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {constants} from './constants';
+import {RepeatedMeasure} from './RepeatedMeasure';
 
 @Injectable()
 export class StudyService {
@@ -40,6 +41,9 @@ export class StudyService {
   private _withinIsuOutcomesSource = new Subject<Set<string>>();
   private _withinIsuOutcomes$ = this._withinIsuOutcomesSource.asObservable();
 
+  private _withinIsuRepeatedMeasuresSource = new Subject<RepeatedMeasure[]>();
+  private _withinIsuRepeatedMeasures$ = this._withinIsuRepeatedMeasuresSource.asObservable();
+
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
   }
@@ -72,6 +76,10 @@ export class StudyService {
 
   updateWthinIsuOutcomes(outcomes: Set<string>) {
     this._withinIsuOutcomesSource.next(outcomes);
+  }
+
+  updateWithinIsuRepeatedMeasures(measures: RepeatedMeasure[]) {
+    this._withinIsuRepeatedMeasuresSource.next(measures);
   }
 
   constructor(private  http: Http) {
@@ -189,6 +197,14 @@ export class StudyService {
 
   set withinIsuOutcomes$(value: Observable<Set<string>>) {
     this._withinIsuOutcomes$ = value;
+  }
+
+  get withinIsuRepeatedMeasures$(): Observable<RepeatedMeasure[]> {
+    return this._withinIsuRepeatedMeasures$;
+  }
+
+  set withinIsuRepeatedMeasures$(value: Observable<RepeatedMeasure[]>) {
+    this._withinIsuRepeatedMeasures$ = value;
   }
 }
 

@@ -103,6 +103,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     if (this.stage === 3) {
       this.updateStudyFormStatus(this.spacingForm.status);
     }
+    if (!this.included) {
+      this.study_service.updateWithinIsuRepeatedMeasures([]);
+    } else {
+      this.study_service.updateWithinIsuRepeatedMeasures(this.repeatedMeasures);
+    }
   }
 
   ngOnDestroy() {
