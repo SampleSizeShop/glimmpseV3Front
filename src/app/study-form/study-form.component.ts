@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
+import {StudyDesign} from '../shared/study-design';
 
 @Component({
   selector: 'app-study-form',
@@ -16,8 +17,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _hasNext: boolean;
   private _hasBack: boolean;
   private _guided: boolean;
-  private _targetEvent: string;
-  private _solveFor: string;
+  private _study: StudyDesign;
+
   private _modeSubscription: Subscription;
   private _targetEventSubscription: Subscription;
   private _solveForSubscription: Subscription;
@@ -29,13 +30,14 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _stages;
   private _noStages: number;
   private _childComponentNav: boolean;
-  private _childDirectionCommand: string;
 
   constructor(
     private study_service: StudyService,
     private logger: NGXLogger,
     private navigation_service: NavigationService
   ) {
+    this.study = new StudyDesign();
+
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
         this.guided = guided;
@@ -45,14 +47,14 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
     this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
       targetEvent => {
-        this.targetEvent = targetEvent;
+        this.study.targetEvent = targetEvent;
         this.valid = true;
       }
     );
 
     this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
       solveFor => {
-        this.solveFor = solveFor;
+        this.study.solveFor = solveFor;
         this.valid = true;
       }
     );
@@ -158,24 +160,6 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.study_service.stage = stage;
   }
 
-  get targetEvent(): string {
-    return this._targetEvent;
-  }
-
-  set targetEvent(value: string) {
-    this._targetEvent = value;
-  }
-
-
-  get solveFor(): string {
-    return this._solveFor;
-  }
-
-  set solveFor(value: string) {
-    this._solveFor = value;
-  }
-
-
   get noStages(): number {
     return this._noStages;
   }
@@ -265,11 +249,11 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._validSubscription = value;
   }
 
-  get childDirectionCommand(): string {
-    return this._childDirectionCommand;
+  get study(): StudyDesign {
+    return this._study;
   }
 
-  set childDirectionCommand(value: string) {
-    this._childDirectionCommand = value;
+  set study(value: StudyDesign) {
+    this._study = value;
   }
 }

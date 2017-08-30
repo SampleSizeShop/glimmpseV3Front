@@ -9,7 +9,6 @@ import {constants} from './constants';
 
 @Injectable()
 export class StudyService {
-  private _study: StudyDesign;
   private _stage: number;
   private _next: string;
   private _targetEvent: string;
@@ -41,25 +40,8 @@ export class StudyService {
   }
 
   constructor(private  http: Http) {
-    this._study = new StudyDesign();
     this._stages = constants.STAGES;
     this._stage = 1;
-  }
-
-  get guided(){
-    return this.study.guided;
-  }
-
-  set guided(mode: boolean){
-    this.study.guided = mode;
-  }
-
-  get study(): StudyDesign {
-    return this._study;
-  }
-
-  set study(value: StudyDesign) {
-    this._study = value;
   }
 
   get stage(): number {
