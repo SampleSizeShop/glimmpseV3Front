@@ -1,3 +1,5 @@
+import {WithinISUFactors} from './WithinISUFactors';
+
 export class StudyDesign {
   private _name: string;
   private _targetEvent: string;
@@ -7,6 +9,7 @@ export class StudyDesign {
   private _ciwidth: number;
   private _selectedTests: Set<string>;
   private _typeOneErrorRate: number;
+  private _withinIsuFactors: WithinISUFactors;
 
   constructor(name?: string,
               guided?: boolean,
@@ -16,8 +19,11 @@ export class StudyDesign {
               samplesize?: number,
               ciwidth?: number,
               selectedTests?: Set<string>,
-              typeOneErrorRate?: number
-) {}
+              typeOneErrorRate?: number,
+              withinIsuFactors?: WithinISUFactors
+) {
+    this.withinIsuFactors = new WithinISUFactors();
+  }
 
   get name(): string {
     return this._name;
@@ -81,5 +87,13 @@ export class StudyDesign {
 
   set typeOneErrorRate(value: number) {
     this._typeOneErrorRate = value;
+  }
+
+  get withinIsuFactors(): WithinISUFactors {
+    return this._withinIsuFactors;
+  }
+
+  set withinIsuFactors(value: WithinISUFactors) {
+    this._withinIsuFactors = value;
   }
 }

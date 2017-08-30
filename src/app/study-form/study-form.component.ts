@@ -27,6 +27,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _ciwidthSubscription: Subscription;
   private _selectedTestsSubscription: Subscription;
   private _typeOneErrorRateSubscription: Subscription;
+  private _withinIsuOutcomeSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -91,6 +92,12 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.typeOneErrorRateSubscription = this.study_service.typeOneErrorRate$.subscribe(
       rate => {
         this.study.typeOneErrorRate = rate;
+      }
+    );
+
+    this.withinIsuOutcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
+      outcomes => {
+        this.study.withinIsuFactors.outcomes = outcomes;
       }
     );
 
@@ -330,5 +337,13 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
   set typeOneErrorRateSubscription(value: Subscription) {
     this._typeOneErrorRateSubscription = value;
+  }
+
+  get withinIsuOutcomeSubscription(): Subscription {
+    return this._withinIsuOutcomeSubscription;
+  }
+
+  set withinIsuOutcomeSubscription(value: Subscription) {
+    this._withinIsuOutcomeSubscription = value;
   }
 }

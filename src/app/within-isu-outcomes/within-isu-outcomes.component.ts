@@ -57,6 +57,13 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
+    if(this.outcomes) {
+      const outcomeSet = new Set<string>();
+      this.outcomes.forEach( outcome => {
+        outcomeSet.add(outcome);
+      });
+      this.study_service.updateWthinIsuOutcomes(outcomeSet);
+    }
     if (!this.outcomes || this.outcomes.length < 1) {
       this.navigation_service.updateValid(false);
     }

@@ -37,6 +37,9 @@ export class StudyService {
   private _typeOneErrorRateSource = new Subject<number>();
   private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
 
+  private _withinIsuOutcomesSource = new Subject<Set<string>>();
+  private _withinIsuOutcomes$ = this._withinIsuOutcomesSource.asObservable();
+
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
   }
@@ -65,6 +68,10 @@ export class StudyService {
 
   updateTypeOneErrorRate(rate: number) {
     this._typeOneErrorRateSource.next(rate);
+  }
+
+  updateWthinIsuOutcomes(outcomes: Set<string>) {
+    this._withinIsuOutcomesSource.next(outcomes);
   }
 
   constructor(private  http: Http) {
@@ -174,6 +181,14 @@ export class StudyService {
 
   set typeOneErrorRate$(value: Observable<number>) {
     this._typeOneErrorRate$ = value;
+  }
+
+  get withinIsuOutcomes$(): Observable<Set<string>> {
+    return this._withinIsuOutcomes$;
+  }
+
+  set withinIsuOutcomes$(value: Observable<Set<string>>) {
+    this._withinIsuOutcomes$ = value;
   }
 }
 
