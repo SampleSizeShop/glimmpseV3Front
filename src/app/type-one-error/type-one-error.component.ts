@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';
-import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../shared/study.service';
 
 @Component({

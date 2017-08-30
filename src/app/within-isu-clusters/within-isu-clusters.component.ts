@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {Cluster} from '../shared/Cluster';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../shared/study.service';
@@ -13,7 +13,7 @@ import {ClusterLevel} from '../shared/ClusterLevel';
   templateUrl: './within-isu-clusters.component.html',
   styleUrls: ['./within-isu-clusters.component.scss']
 })
-export class WithinIsuClustersComponent implements OnInit, DoCheck {
+export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   private _elementForm: FormGroup;
   private _clusterLevelForm: FormGroup;
@@ -84,6 +84,10 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     } else {
       this.study_service.updateWithinIsuCluster(this.cluster);
     }
+  }
+
+  ngOnDestroy() {
+    this.navigationSubscription.unsubscribe();
   }
 
   addCluster() {

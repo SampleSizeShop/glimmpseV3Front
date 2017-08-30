@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -12,7 +12,7 @@ import {constants} from '../shared/constants';
   styleUrls: ['./solve-for.component.scss'],
   providers: [NGXLogger]
 })
-export class SolveForComponent implements OnInit, DoCheck {
+export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   private _solveFor: string;
   private _targetEvent: string;
   private _powerSampleSizeForm: FormGroup;
@@ -84,6 +84,10 @@ export class SolveForComponent implements OnInit, DoCheck {
         this.study_service.updateCiWidth(this.powerSampleSizeForm.get('ciwidth').value);
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.targetEventSubscription.unsubscribe();
   }
 
   selectPower() {

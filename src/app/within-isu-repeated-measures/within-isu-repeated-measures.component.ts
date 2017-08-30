@@ -1,8 +1,7 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
-import {Form, FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {constants} from '../shared/constants';
-import {outcomeValidator} from '../within-isu-outcomes/outcome.validator';
 import {NavigationService} from 'app/shared/navigation.service';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../shared/study.service';

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
@@ -14,7 +14,7 @@ import {NGXLogger} from 'ngx-logger';
   styleUrls: ['./correlation-matrix.component.scss'],
   providers: [ NGXLogger ]
 })
-export class CorrelationMatrixComponent implements  OnInit {
+export class CorrelationMatrixComponent implements  OnInit, OnDestroy {
 
   private _size: number;
   private _sizeArray: number[];
@@ -50,6 +50,10 @@ export class CorrelationMatrixComponent implements  OnInit {
 
   ngOnInit() {
     this.buildForm();
+  }
+
+  ngOnDestroy() {
+    this.correlationMatrixSubscription.unsubscribe();
   }
 
   buildForm(): void {
