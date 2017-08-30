@@ -2,11 +2,17 @@ export class StudyDesign {
   private _name: string;
   private _targetEvent: string;
   private _solveFor: string;
+  private _power: number;
+  private _samplesize: number;
+  private _ciwidth: number;
 
   constructor(name?: string,
               guided?: boolean,
               targetEvent?: string,
-              solveFor?: string
+              solveFor?: string,
+              power?: number,
+              samplesize?: number,
+              ciwidth?: number
 ) {}
 
   get name(): string {
@@ -31,5 +37,29 @@ export class StudyDesign {
 
   set solveFor(value: string) {
     this._solveFor = value;
+  }
+
+  get power(): number {
+    return this._power;
+  }
+
+  set power(value: number) {
+    this._power = value;
+  }
+
+  get samplesize(): number {
+    return this._samplesize;
+  }
+
+  set samplesize(value: number) {
+    this._samplesize = value;
+  }
+
+  get ciwidth(): number {
+    return this._ciwidth;
+  }
+
+  set ciwidth(value: number) {
+    this._ciwidth = value;
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -12,7 +12,7 @@ import {constants} from '../shared/constants';
   styleUrls: ['./solve-for.component.scss'],
   providers: [NGXLogger]
 })
-export class SolveForComponent implements OnInit {
+export class SolveForComponent implements OnInit, DoCheck {
   private _solveFor: string;
   private _targetEvent: string;
   private _powerSampleSizeForm: FormGroup;
@@ -37,7 +37,6 @@ export class SolveForComponent implements OnInit {
     });
 
     this.powerSampleSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
-
     this.onValueChanged(); // (re)set validation messages now
   }
 
@@ -73,6 +72,18 @@ export class SolveForComponent implements OnInit {
 
   ngOnInit() {
     this.selectPower()
+  }
+
+  ngDoCheck() {
+    if (this.isPower()) {
+      this.study_service.updateSamplesize(this.powerSampleSizeForm.get('samplesize').value);
+    }
+    if (this.isSampleSize()) {
+      this.study_service.updatePower(this.powerSampleSizeForm.get('power').value);
+      if (this.isCIWidth() || this.isWAVR()) {
+        this.study_service.updateCiWidth(this.powerSampleSizeForm.get('ciwidth').value);
+      }
+    }
   }
 
   selectPower() {

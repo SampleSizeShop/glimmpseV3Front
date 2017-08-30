@@ -11,9 +11,7 @@ import {constants} from './constants';
 export class StudyService {
   private _stage: number;
   private _next: string;
-  private _targetEvent: string;
   private _stages;
-  private _multipleOutcomes: boolean;
 
   // user mode observale stream
   private _modeSelectedSource = new Subject<boolean>();
@@ -27,7 +25,14 @@ export class StudyService {
   private _solveForSource = new BehaviorSubject<string>(constants.SOLVE_FOR_POWER);
   private _solveForSelected$ = this._solveForSource.asObservable();
 
+  private _powerSource = new Subject<number>();
+  private _power$ = this._powerSource.asObservable();
 
+  private _samplesizeSource = new Subject<number>();
+  private _samplesize$ = this._samplesizeSource.asObservable();
+
+  private _ciwidthSource = new Subject<number>();
+  private _ciwidth$ = this._ciwidthSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -37,6 +42,18 @@ export class StudyService {
   }
   selectSolveFor(solveFor: string) {
     this._solveForSource.next(solveFor);
+  }
+
+  updatePower(power: number) {
+    this._powerSource.next(power);
+  }
+
+  updateSamplesize(samplesize: number) {
+    this._samplesizeSource.next(samplesize);
+  }
+
+  updateCiWidth(ciWidth: number) {
+    this._ciwidthSource.next(ciWidth);
   }
 
   constructor(private  http: Http) {
@@ -58,22 +75,6 @@ export class StudyService {
 
   set next(value: string) {
     this._next = value;
-  }
-
-  get targetEvent(): string {
-    return this._targetEvent;
-  }
-
-  set targetEvent(value: string) {
-    this._targetEvent = value;
-  }
-
-  get stages() {
-    return this._stages;
-  }
-
-  set stages(value) {
-    this._stages = value;
   }
 
   get modeSelectedSource(): Subject<boolean> {
@@ -124,17 +125,28 @@ export class StudyService {
     this._solveForSelected$ = value;
   }
 
-  selectMultipleOutcomes(multipleOutcomes: boolean) {
-    this.multipleOutcomes = multipleOutcomes
+  get power$(): Observable<number> {
+    return this._power$;
   }
 
-  get multipleOutcomes(): boolean {
-    return this._multipleOutcomes;
+  set power$(value: Observable<number>) {
+    this._power$ = value;
   }
 
-  set multipleOutcomes(value: boolean) {
-    this._multipleOutcomes = value;
+  get samplesize$(): Observable<number> {
+    return this._samplesize$;
   }
 
+  set samplesize$(value: Observable<number>) {
+    this._samplesize$ = value;
+  }
+
+  get ciwidth$(): Observable<number> {
+    return this._ciwidth$;
+  }
+
+  set ciwidth$(value: Observable<number>) {
+    this._ciwidth$ = value;
+  }
 }
 

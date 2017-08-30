@@ -22,6 +22,9 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _modeSubscription: Subscription;
   private _targetEventSubscription: Subscription;
   private _solveForSubscription: Subscription;
+  private _powerSubscription: Subscription;
+  private _samplesizeSubscription: Subscription;
+  private _ciwidthSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -56,6 +59,26 @@ export class StudyFormComponent implements OnInit, OnDestroy {
       solveFor => {
         this.study.solveFor = solveFor;
         this.valid = true;
+      }
+    );
+
+    this.samplesizeSubscription = this.study_service.samplesize$.subscribe(
+      samplesize => {
+        this.study.samplesize = samplesize;
+      }
+    );
+
+
+
+    this.ciwidthSubscription = this.study_service.ciwidth$.subscribe(
+      ciwidth => {
+        this.study.ciwidth = ciwidth;
+      }
+    );
+
+    this.powerSubscription = this.study_service.power$.subscribe(
+      power => {
+        this.study.power = power;
       }
     );
 
@@ -255,5 +278,29 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
   set study(value: StudyDesign) {
     this._study = value;
+  }
+
+  get powerSubscription(): Subscription {
+    return this._powerSubscription;
+  }
+
+  set powerSubscription(value: Subscription) {
+    this._powerSubscription = value;
+  }
+
+  get samplesizeSubscription(): Subscription {
+    return this._samplesizeSubscription;
+  }
+
+  set samplesizeSubscription(value: Subscription) {
+    this._samplesizeSubscription = value;
+  }
+
+  get ciwidthSubscription(): Subscription {
+    return this._ciwidthSubscription;
+  }
+
+  set ciwidthSubscription(value: Subscription) {
+    this._ciwidthSubscription = value;
   }
 }
