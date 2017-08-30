@@ -79,6 +79,11 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
         this.updateStudyFormStatus('INVALID');
       }
     }
+    if (!this.included) {
+      this.study_service.updateWithinIsuCluster(null);
+    } else {
+      this.study_service.updateWithinIsuCluster(this.cluster);
+    }
   }
 
   addCluster() {

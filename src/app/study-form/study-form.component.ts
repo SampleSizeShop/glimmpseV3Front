@@ -29,6 +29,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _typeOneErrorRateSubscription: Subscription;
   private _withinIsuOutcomeSubscription: Subscription;
   private _withinIsuRepeatedMeasuresSubscription: Subscription;
+  private _withinIsuClusterSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -105,6 +106,12 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.withinIsuRepeatedMeasuresSubscription = this.study_service.withinIsuRepeatedMeasures$.subscribe(
       measures => {
         this.study.withinIsuFactors.repeatedMeasures = measures;
+      }
+    );
+
+    this.withinIsuClusterSubscription = this.study_service.withinIsuCluster$.subscribe(
+      cluster => {
+        this.study.withinIsuFactors.cluster = cluster;
       }
     );
 
@@ -360,5 +367,13 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
   set withinIsuRepeatedMeasuresSubscription(value: Subscription) {
     this._withinIsuRepeatedMeasuresSubscription = value;
+  }
+
+  get withinIsuClusterSubscription(): Subscription {
+    return this._withinIsuClusterSubscription;
+  }
+
+  set withinIsuClusterSubscription(value: Subscription) {
+    this._withinIsuClusterSubscription = value;
   }
 }
