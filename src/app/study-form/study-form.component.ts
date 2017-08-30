@@ -184,9 +184,18 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.modeSubscription.unsubscribe();
     this.targetEventSubscription.unsubscribe();
     this.solveForSubscription.unsubscribe();
+    this.powerSubscription.unsubscribe();
+    this.samplesizeSubscription.unsubscribe();
+    this.ciwidthSubscription.unsubscribe();
+    this.selectedTestsSubscription.unsubscribe();
+    this.typeOneErrorRateSubscription.unsubscribe();
+    this.withinIsuOutcomeSubscription.unsubscribe();
+    this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
+    this.withinIsuClusterSubscription.unsubscribe();
+
+    this.nextEnabledSubscription.unsubscribe();
     this.childNavigationModeSubscription.unsubscribe();
     this.validSubscription.unsubscribe();
-    this.nextEnabledSubscription.unsubscribe();
   }
 
   get valid(): boolean {
@@ -231,7 +240,6 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   set stages(value) {
     this._stages = value;
   }
-
 
   get hasNext(): boolean {
     return this._hasNext;
