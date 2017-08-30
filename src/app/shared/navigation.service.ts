@@ -13,6 +13,9 @@ export class NavigationService {
   private _nextEnabledSource = new Subject<boolean>();
   private _nextEnabled$ = this.nextEnabledSource.asObservable();
 
+  private _validSource = new Subject<boolean>();
+  private _valid$ = this.validSource.asObservable();
+
 
   updateNavigation(direction: string) {
     this.navigationSource.next(direction);
@@ -24,6 +27,10 @@ export class NavigationService {
 
   updateNextEnabled(enabled: boolean) {
     this.nextEnabledSource.next(enabled)
+  }
+
+  updateValid(valid: boolean) {
+    this.validSource.next(valid);
   }
 
   get navigationSource(): Subject<string> {
@@ -50,4 +57,19 @@ export class NavigationService {
     return this._nextEnabled$;
   }
 
+  get validSource(): Subject<boolean> {
+    return this._validSource;
+  }
+
+  set validSource(value: Subject<boolean>) {
+    this._validSource = value;
+  }
+
+  get valid$(): Observable<boolean> {
+    return this._valid$;
+  }
+
+  set valid$(value: Observable<boolean>) {
+    this._valid$ = value;
+  }
 }

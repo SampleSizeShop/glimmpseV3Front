@@ -64,7 +64,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.validSubscription = this.study_service.valid$.subscribe(
+    this.validSubscription = this.navigation_service.valid$.subscribe(
       valid => {
         this.valid = valid;
       }

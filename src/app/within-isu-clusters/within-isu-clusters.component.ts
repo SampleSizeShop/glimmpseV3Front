@@ -114,7 +114,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
     this.navigation_service.updateNextEnabled(true);
-    this.study_service.updateValid(false);
+    this.navigation_service.updateValid(false);
     if (cluster) {
       this.cluster = cluster;
     }
@@ -125,7 +125,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     this.navigation_service.updateNavigationMode(false);
     this.included = false;
     this.editing = false;
-    this.study_service.updateValid(true);
+    this.navigation_service.updateValid(true);
     this.stage = -1;
   }
 
@@ -167,7 +167,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
 
   updateStudyFormStatus(status: string) {
     const valid = status === 'VALID' ? true : false;
-    this.study_service.updateValid(valid);
+    this.navigation_service.updateValid(valid);
   }
 
   resetForms() {

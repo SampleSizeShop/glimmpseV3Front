@@ -169,7 +169,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
     this.navigation_service.updateNextEnabled(true);
-    this.study_service.updateValid(false);
+    this.navigation_service.updateValid(false);
     if (measure) {
       this.repMeasure = measure;
     } else {
@@ -182,7 +182,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.navigation_service.updateNavigationMode(false);
     this.included = false;
     this.editing = false;
-    this.study_service.updateValid(true);
+    this.navigation_service.updateValid(true);
     this.stage = -1;
   }
 
@@ -230,7 +230,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   updateStudyFormStatus(status: string) {
     const valid = status === 'VALID' ? true : false;
-    this.study_service.updateValid(valid);
+    this.navigation_service.updateValid(valid);
   }
 
   resetForms() {

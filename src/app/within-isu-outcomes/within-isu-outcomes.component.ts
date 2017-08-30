@@ -17,7 +17,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   private _validationMessages;
   private _formErrors;
 
-  constructor(private _fb: FormBuilder, private study_service: StudyService) {
+  constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
     this.formErrors = constants.OUTCOME_FORM_ERRORS;
     this._max = constants.MAX_OUTCOMES;
@@ -58,10 +58,10 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
 
   ngDoCheck() {
     if (!this.outcomes || this.outcomes.length < 1) {
-      this.study_service.updateValid(false);
+      this.navigation_service.updateValid(false);
     }
     if (this.outcomes && this.outcomes.length >= 1) {
-      this.study_service.updateValid(true );
+      this.navigation_service.updateValid(true );
     }
   }
 

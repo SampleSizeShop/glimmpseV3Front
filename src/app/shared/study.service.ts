@@ -28,9 +28,7 @@ export class StudyService {
   private _solveForSource = new BehaviorSubject<string>(constants.SOLVE_FOR_POWER);
   private _solveForSelected$ = this._solveForSource.asObservable();
 
-  // boolean flag used to enable/disable next button
-  private _validSource = new Subject<boolean>();
-  private _valid$ = this.validSource.asObservable();
+
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -40,10 +38,6 @@ export class StudyService {
   }
   selectSolveFor(solveFor: string) {
     this._solveForSource.next(solveFor);
-  }
-
-  updateValid(valid: boolean) {
-    this.validSource.next(valid);
   }
 
   constructor(private  http: Http) {
@@ -160,20 +154,5 @@ export class StudyService {
     this._multipleOutcomes = value;
   }
 
-  get validSource(): Subject<boolean> {
-    return this._validSource;
-  }
-
-  set validSource(value: Subject<boolean>) {
-    this._validSource = value;
-  }
-
-  get valid$(): Observable<boolean> {
-    return this._valid$;
-  }
-
-  set valid$(value: Observable<boolean>) {
-    this._valid$ = value;
-  }
 }
 
