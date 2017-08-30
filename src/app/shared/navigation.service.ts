@@ -13,8 +13,6 @@ export class NavigationService {
   private _nextEnabledSource = new Subject<boolean>();
   private _nextEnabled$ = this.nextEnabledSource.asObservable();
 
-  private _backEnabledSource = new Subject<boolean>();
-  private _backEnabled$ = this.backEnabledSource.asObservable();
 
   updateNavigation(direction: string) {
     this.navigationSource.next(direction);
@@ -25,10 +23,6 @@ export class NavigationService {
   }
 
   updateNextEnabled(enabled: boolean) {
-    this.nextEnabledSource.next(enabled)
-  }
-
-  updateBackEnabled(enabled: boolean) {
     this.nextEnabledSource.next(enabled)
   }
 
@@ -56,11 +50,4 @@ export class NavigationService {
     return this._nextEnabled$;
   }
 
-  get backEnabledSource(): Subject<boolean> {
-    return this._backEnabledSource;
-  }
-
-  get backEnabled$(): Observable<boolean> {
-    return this._backEnabled$;
-  }
 }
