@@ -45,94 +45,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     private navigation_service: NavigationService
   ) {
     this.study = new StudyDesign();
-
-    this.modeSubscription = this.study_service.modeSelected$.subscribe(
-      guided => {
-        this.guided = guided;
-        this.valid = guided;
-      }
-    );
-
-    this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
-      targetEvent => {
-        this.study.targetEvent = targetEvent;
-        this.valid = true;
-      }
-    );
-
-    this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
-      solveFor => {
-        this.study.solveFor = solveFor;
-        this.valid = true;
-      }
-    );
-
-    this.samplesizeSubscription = this.study_service.samplesize$.subscribe(
-      samplesize => {
-        this.study.samplesize = samplesize;
-      }
-    );
-
-    this.ciwidthSubscription = this.study_service.ciwidth$.subscribe(
-      ciwidth => {
-        this.study.ciwidth = ciwidth;
-      }
-    );
-
-    this.powerSubscription = this.study_service.power$.subscribe(
-      power => {
-        this.study.power = power;
-      }
-    );
-
-    this.selectedTestsSubscription = this.study_service.selectdTests$.subscribe(
-      tests => {
-        this.study.selectedTests = tests;
-      }
-    );
-
-    this.typeOneErrorRateSubscription = this.study_service.typeOneErrorRate$.subscribe(
-      rate => {
-        this.study.typeOneErrorRate = rate;
-      }
-    );
-
-    this.withinIsuOutcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
-      outcomes => {
-        this.study.withinIsuFactors.outcomes = outcomes;
-      }
-    );
-
-    this.withinIsuRepeatedMeasuresSubscription = this.study_service.withinIsuRepeatedMeasures$.subscribe(
-      measures => {
-        this.study.withinIsuFactors.repeatedMeasures = measures;
-      }
-    );
-
-    this.withinIsuClusterSubscription = this.study_service.withinIsuCluster$.subscribe(
-      cluster => {
-        this.study.withinIsuFactors.cluster = cluster;
-      }
-    );
-
-    this.childComponentNav = false;
-    this.childNavigationModeSubscription = this.navigation_service.childNavigationMode$.subscribe(
-      childNavMode => {
-        this.childComponentNav = childNavMode;
-      }
-    );
-
-    this.validSubscription = this.navigation_service.valid$.subscribe(
-      valid => {
-        this.valid = valid;
-      }
-    );
-
-    this.nextEnabledSubscription = this.navigation_service.nextEnabled$.subscribe(
-      enabled => {
-        this.hasNext = enabled;
-      }
-    );
+    this.subscribeToStudyService();
+    this.subscribeToNavigationService();
   }
 
   next(): void {
@@ -156,6 +70,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
         this.setStage(current - 1);
       }
       this.setNextBack();
+      this.valid = true;
     }
   }
 
@@ -181,21 +96,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.modeSubscription.unsubscribe();
-    this.targetEventSubscription.unsubscribe();
-    this.solveForSubscription.unsubscribe();
-    this.powerSubscription.unsubscribe();
-    this.samplesizeSubscription.unsubscribe();
-    this.ciwidthSubscription.unsubscribe();
-    this.selectedTestsSubscription.unsubscribe();
-    this.typeOneErrorRateSubscription.unsubscribe();
-    this.withinIsuOutcomeSubscription.unsubscribe();
-    this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
-    this.withinIsuClusterSubscription.unsubscribe();
-
-    this.nextEnabledSubscription.unsubscribe();
-    this.childNavigationModeSubscription.unsubscribe();
-    this.validSubscription.unsubscribe();
+    this.unsubscribeFromStudyService();
+    this.unsubscribeFromNavigationService();
   }
 
   get valid(): boolean {
@@ -384,4 +286,116 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   set withinIsuClusterSubscription(value: Subscription) {
     this._withinIsuClusterSubscription = value;
   }
+
+  subscribeToStudyService() {
+    this.modeSubscription = this.study_service.modeSelected$.subscribe(
+      guided => {
+        this.guided = guided;
+        this.valid = guided;
+      }
+    );
+
+    this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
+      targetEvent => {
+        this.study.targetEvent = targetEvent;
+        this.valid = true;
+      }
+    );
+
+    this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
+      solveFor => {
+        this.study.solveFor = solveFor;
+        this.valid = true;
+      }
+    );
+
+    this.samplesizeSubscription = this.study_service.samplesize$.subscribe(
+      samplesize => {
+        this.study.samplesize = samplesize;
+      }
+    );
+
+    this.ciwidthSubscription = this.study_service.ciwidth$.subscribe(
+      ciwidth => {
+        this.study.ciwidth = ciwidth;
+      }
+    );
+
+    this.powerSubscription = this.study_service.power$.subscribe(
+      power => {
+        this.study.power = power;
+      }
+    );
+
+    this.selectedTestsSubscription = this.study_service.selectdTests$.subscribe(
+      tests => {
+        this.study.selectedTests = tests;
+      }
+    );
+
+    this.typeOneErrorRateSubscription = this.study_service.typeOneErrorRate$.subscribe(
+      rate => {
+        this.study.typeOneErrorRate = rate;
+      }
+    );
+
+    this.withinIsuOutcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
+      outcomes => {
+        this.study.withinIsuFactors.outcomes = outcomes;
+      }
+    );
+
+    this.withinIsuRepeatedMeasuresSubscription = this.study_service.withinIsuRepeatedMeasures$.subscribe(
+      measures => {
+        this.study.withinIsuFactors.repeatedMeasures = measures;
+      }
+    );
+
+    this.withinIsuClusterSubscription = this.study_service.withinIsuCluster$.subscribe(
+      cluster => {
+        this.study.withinIsuFactors.cluster = cluster;
+      }
+    );
+  };
+
+  unsubscribeFromStudyService() {
+    this.modeSubscription.unsubscribe();
+    this.targetEventSubscription.unsubscribe();
+    this.solveForSubscription.unsubscribe();
+    this.powerSubscription.unsubscribe();
+    this.samplesizeSubscription.unsubscribe();
+    this.ciwidthSubscription.unsubscribe();
+    this.selectedTestsSubscription.unsubscribe();
+    this.typeOneErrorRateSubscription.unsubscribe();
+    this.withinIsuOutcomeSubscription.unsubscribe();
+    this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
+    this.withinIsuClusterSubscription.unsubscribe();
+  };
+
+  subscribeToNavigationService() {
+    this.childComponentNav = false;
+    this.childNavigationModeSubscription = this.navigation_service.childNavigationMode$.subscribe(
+      childNavMode => {
+        this.childComponentNav = childNavMode;
+      }
+    );
+
+    this.validSubscription = this.navigation_service.valid$.subscribe(
+      valid => {
+        this.valid = valid;
+      }
+    );
+
+    this.nextEnabledSubscription = this.navigation_service.nextEnabled$.subscribe(
+      enabled => {
+        this.hasNext = enabled;
+      }
+    );
+  };
+
+  unsubscribeFromNavigationService() {
+    this.nextEnabledSubscription.unsubscribe();
+    this.childNavigationModeSubscription.unsubscribe();
+    this.validSubscription.unsubscribe();
+  };
 }

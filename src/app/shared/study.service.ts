@@ -86,7 +86,7 @@ export class StudyService {
     this._withinIsuRepeatedMeasuresSource.next(measures);
   }
 
-  updateWithinIsuCluster(cluster: Cluster){
+  updateWithinIsuCluster(cluster: Cluster) {
     this._withinIsuClusterSource.next(cluster);
   }
 
