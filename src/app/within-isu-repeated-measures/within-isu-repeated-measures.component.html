@@ -1,4 +1,4 @@
-<div *ngIf="!hasRepeatedMeasures() && !editing" id="firstoutcome">
+<div *ngIf="!hasRepeatedMeasures() && !editing" id="firstrepmeasure">
   <div class="container-fluid">
     <div class="row">
       <div class="col">
@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<div *ngIf="nextRepeatedMeasure() && !editing" id="nextoutcome">
+<div *ngIf="nextRepeatedMeasure() && !editing" id="nextrepmeasure">
   <div class="container-fluid">
     <div class="row">
       <div class="col">
@@ -35,7 +35,7 @@
   </div>
 </div>
 
-<div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure() && !editing" id="fulloutcome">
+<div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure() && !editing" id="fullrepmeasure">
   <div class="container-fluid">
     <h5>That's all folks!</h5>
   </div>
@@ -61,7 +61,7 @@
 
   <div *ngIf="stages[1] === stageName">
     <div if="typeheader">
-      <h5>What type of repeatede measure is this?</h5>
+      <h5>What type of repeated measure is this?</h5>
       <form [formGroup]="typeForm">
         <div class="form-group">
           <select class="form-control" id="type" formControlName="type">
