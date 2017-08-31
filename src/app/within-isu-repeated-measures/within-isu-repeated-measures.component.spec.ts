@@ -37,7 +37,7 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#dimension'));
     const el = desc.nativeElement;
-    expect(el).toBeTruthy()
+    expect(el).toBeTruthy();
   });
 
   it('Should show the type form when the user clicks next after defining the dimension', () => {
@@ -47,10 +47,10 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#type'));
     const el = desc.nativeElement;
-    expect(el).toBeTruthy()
+    expect(el).toBeTruthy();
   });
 
-  it('Should show the spacing form when the user clicks next after defining the type', () => {
+  it('Should show the repeats form when the user clicks next after defining the type', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
@@ -59,12 +59,22 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#repeats'));
     const el = desc.nativeElement;
-    expect(el).toBeTruthy()
+    expect(el).toBeTruthy();
+  });
+
+  it('Should show the spacing form when the user clicks next after defining the number of repeats', () => {
+    component.includeRepeatedMeasures();
+    component.dimensionForm.get('dimension').setValue('Measure1');
+    component.typeForm.get('type').setValue('Type1');
+    component.setStage(2);
+    component.internallyNavigate('NEXT');
+    fixture.detectChanges();
+    const desc: DebugElement = fixture.debugElement.query(By.css('#spacing'));
+    const el = desc.nativeElement;
+    expect(el).toBeTruthy();
   });
 
   it('Should add a repeated measure to the study when the user clicks next after defining the spacing', () => {
-    spyOn(component, 'addRepeatedMeasure')
-
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
@@ -72,6 +82,26 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.setStage(3);
     component.internallyNavigate('NEXT');
     fixture.detectChanges();
-    expect(component.addRepeatedMeasure).toHaveBeenCalled();
+    expect(component.repeatedMeasures.length).toBe(1);
+    const desc: DebugElement = fixture.debugElement.query(By.css('#nextrepmeasure'));
+    const el = desc.nativeElement;
+    expect(el).toBeTruthy();
+  });
+
+  it('Should add a load all forms with properties of a repeated measure when edit measure is selected.', () => {
+    component.includeRepeatedMeasures();
+    component.dimensionForm.get('dimension').setValue('Measure1');
+    component.typeForm.get('type').setValue('Type1');
+    component.spacingValues.push(1);
+    component.setStage(3);
+    component.internallyNavigate('NEXT');
+    fixture.detectChanges();
+    expect(component.repeatedMeasures.length).toBe(1);
+    const desc: DebugElement = fixture.debugElement.query(By.css('#nextrepmeasure'));
+    const el = desc.nativeElement;
+    expect(el).toBeTruthy()
+    component.editRepeatedMeasure(component.repeatedMeasures[0]);
+    fixture.detectChanges();
+    expect(component.dimensionForm.get('dimension').value).toBe('Measure1');
   });
 });
