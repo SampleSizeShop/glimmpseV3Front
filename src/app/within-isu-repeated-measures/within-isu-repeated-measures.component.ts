@@ -60,7 +60,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   buildForm() {
     this.dimensionForm = this.fb.group({
-      dimension: ['']
+      dimension: [''],
+      units: ['']
     });
     this.typeForm = this.fb.group({
       type: [this.types[0]]
@@ -140,6 +141,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   addRepeatedMeasure() {
     const measure = new RepeatedMeasure();
     measure.dimension = this.dimensionForm.value.dimension;
+    measure.units = this.dimensionForm.value.units;
     measure.noRepeats = this.repeatsForm.value.repeats;
     measure.type = this.typeForm.value.type;
     for (const name of this.spacingControlNames) {
