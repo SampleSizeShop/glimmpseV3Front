@@ -114,8 +114,10 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     const level = new ClusterLevel();
     level.levelName = this.clusterLevelForm.value.levelName;
     level.noElements = this.clusterLevelForm.value.noElements;
-    this.levels.push(level);
-    this.clusterLevelForm.reset();
+    if (level.levelName && level.noElements) {
+      this.levels.push(level);
+      this.clusterLevelForm.reset();
+    }
   }
 
   includeClusters(cluster?: Cluster) {
