@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {StudyDesign} from './study-design';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {Subject} from 'rxjs/Subject';
@@ -33,7 +32,7 @@ export class StudyService {
   private _ciwidthSource = new BehaviorSubject<number>(1);
   private _ciwidth$ = this._ciwidthSource.asObservable();
 
-  private _selectedTestsSource = new Subject<Set<string>>();
+  private _selectedTestsSource = new BehaviorSubject<string[]>([constants.STATISTICAL_TESTS.HOTELLING_LAWLEY]);
   private _selectdTests$ = this._selectedTestsSource.asObservable();
 
   private _typeOneErrorRateSource = new BehaviorSubject<number>(0.05);
@@ -70,7 +69,7 @@ export class StudyService {
     this._ciwidthSource.next(ciWidth);
   }
 
-  updateSelectedTests(tests: Set<string>) {
+  updateSelectedTests(tests: string[]) {
     this._selectedTestsSource.next(tests);
   }
 
@@ -183,11 +182,11 @@ export class StudyService {
     this._ciwidth$ = value;
   }
 
-  get selectdTests$(): Observable<Set<string>> {
+  get selectdTests$(): Observable<string[]> {
     return this._selectdTests$;
   }
 
-  set selectdTests$(value: Observable<Set<string>>) {
+  set selectdTests$(value: Observable<string[]>) {
     this._selectdTests$ = value;
   }
 

@@ -4,7 +4,7 @@ import {minMaxValidator} from '../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';
 import {StudyService} from '../shared/study.service';
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-type-one-error',

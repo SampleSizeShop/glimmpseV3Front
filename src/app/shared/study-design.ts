@@ -7,7 +7,7 @@ export class StudyDesign {
   private _power: number;
   private _samplesize: number;
   private _ciwidth: number;
-  private _selectedTests: Set<string>;
+  private _selectedTests: string[];
   private _typeOneErrorRate: number;
   private _withinIsuFactors: WithinISUFactors;
 
@@ -73,11 +73,11 @@ export class StudyDesign {
     this._ciwidth = value;
   }
 
-  get selectedTests(): Set<string> {
+  get selectedTests(): string[] {
     return this._selectedTests;
   }
 
-  set selectedTests(value: Set<string>) {
+  set selectedTests(value: string[]) {
     this._selectedTests = value;
   }
 
