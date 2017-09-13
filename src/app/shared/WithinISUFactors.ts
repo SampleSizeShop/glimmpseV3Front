@@ -2,7 +2,7 @@ import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
 
 export class WithinISUFactors {
-  outcomes: string[] = [];
+  outcomes: Set<string> = new Set<string>();
   repeatedMeasures: RepeatedMeasure[] = null;
-  clusters: Cluster[] = null;
+  cluster: Cluster = null;
 }

@@ -1,4 +1,4 @@
-<div *ngIf="!hasRepeatedMeasures() && !editing" id="firstoutcome">
+<div *ngIf="!hasRepeatedMeasures() && !editing" id="firstrepmeasure">
   <div class="container-fluid">
     <div class="row">
       <div class="col">
@@ -7,10 +7,7 @@
       <div class="col">
         <div class="btn-group" data-toggle="buttons">
           <label [class.active]="included" id="includerptmeasuresbtn" class="btn btn-primary">
-            <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Yes
-          </label>
-          <label [class.active]="!included" id="norptmeasuresbtn" class="btn btn-primary">
-            <input type="radio" id="norptmeasuresradio" (click)="dontincludeRepeatedMeasures()">No
+            <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">I would like to define repeated measurements on a dimension
           </label>
         </div>
       </div>
@@ -18,16 +15,16 @@
   </div>
 </div>
 
-<div *ngIf="nextRepeatedMeasure() && !editing" id="nextoutcome">
+<div *ngIf="nextRepeatedMeasure() && !editing" id="nextrepmeasure">
   <div class="container-fluid">
     <div class="row">
       <div class="col">
-        <h5>Would you like to add another set of repeated measures?</h5>
+        <h5>Would you like to include repeated measurements on another dimension?</h5>
       </div>
       <div class="col">
         <div class="btn-group" data-toggle="buttons">
           <label [class.active]="included" id="includenextrptmeasuresbtn" class="btn btn-primary">
-            <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">+ Add Another
+            <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Define another set of repeated measurements.
           </label>
         </div>
       </div>
@@ -35,7 +32,7 @@
   </div>
 </div>
 
-<div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure() && !editing" id="fulloutcome">
+<div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure() && !editing" id="fullrepmeasure">
   <div class="container-fluid">
     <h5>That's all folks!</h5>
   </div>
@@ -45,15 +42,20 @@
 
   <div *ngIf="stages[0] === stageName">
     <div id="dimensionsheader">
-      <h5>What dimension are you measuring?</h5>
+      <h5>What is the name of the dimension you will be measuring and in what units (if applicable) is it measured?</h5>
     </div>
-    <form [formGroup]="dimensionsForm">
+    <form [formGroup]="dimensionForm">
       <div class="container-fluid">
         <div class="form-group">
+          <label for="dimension">Dimension:</label>
           <input class="form-control" formControlName="dimension" id="dimension" required>
           <div *ngIf="formErrors.dimension" class="form-group has-danger">
             <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimension}}</div>
           </div>
+        </div>
+        <div class="form-group">
+          <label for="units">Units:</label>
+          <input class="form-control" formControlName="units" id="units">
         </div>
       </div>
     </form>
@@ -61,7 +63,7 @@
 
   <div *ngIf="stages[1] === stageName">
     <div if="typeheader">
-      <h5>What type of repeatede measure is this?</h5>
+      <h5>What type of data is {{dimensionForm.value.dimension}}?</h5>
       <form [formGroup]="typeForm">
         <div class="form-group">
           <select class="form-control" id="type" formControlName="type">
@@ -74,7 +76,7 @@
 
   <div *ngIf="stages[2] === stageName">
     <div if="repeatesheader">
-      <h5>How many measurements are you taking?</h5>
+      <h5>How many times are you measuring {{dimensionForm.value.dimension}}?</h5>
       <form [formGroup]="repeatsForm">
         <div class="form-group" id="repeatsinput">
           <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
@@ -89,14 +91,27 @@
 
   <div *ngIf="stages[3] === stageName">
     <div if="spacingheader">
-      <h5>Tell us about the spacing between your measurements:</h5>
+      <h5>At which values of {{dimensionForm.value.dimension}} will you be taking measurements:</h5>
       <form [formGroup]="spacingForm">
         <div class="form-group" id="spacinginput" *ngFor="let space of spacingControlNames">
-          Measurement #{{space + 1}}:
-          <input type="number" class="form-control" id="spacing" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
-          <div *ngIf="formErrors.spacing" class="form-group has-danger">
-            <div class="form-control-feedback">{{formErrors.spacing}}</div>
+
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                Measurement #{{space + 1}} at
+              </div>
+              <div class="col">
+                <input type="number" class="form-control" id="spacing" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
+                <div *ngIf="formErrors.spacing" class="form-group has-danger">
+                  <div class="form-control-feedback">{{formErrors.spacing}}</div>
+                </div>
+              </div>
+              <div class="col">
+                {{dimensionForm.value.units}}
+              </div>
+            </div>
           </div>
+
         </div>
       </form>
     </div>

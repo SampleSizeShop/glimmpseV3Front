@@ -76,7 +76,7 @@ export const constants = {
       'duplicate': 'You have already added that outcome.'
     }
   },
-  MAX_REPEATED_MEASURES: 10,
+  MAX_REPEATED_MEASURES: 5,
   REPEATED_MEASURE_STAGES: {
     0: 'DIMENSIONS',
     1: 'TYPE',

@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {Cluster} from '../shared/Cluster';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../shared/study.service';
@@ -13,7 +13,7 @@ import {ClusterLevel} from '../shared/ClusterLevel';
   templateUrl: './within-isu-clusters.component.html',
   styleUrls: ['./within-isu-clusters.component.scss']
 })
-export class WithinIsuClustersComponent implements OnInit, DoCheck {
+export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   private _elementForm: FormGroup;
   private _clusterLevelForm: FormGroup;
@@ -79,6 +79,15 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
         this.updateStudyFormStatus('INVALID');
       }
     }
+    if (!this.included) {
+      this.study_service.updateWithinIsuCluster(null);
+    } else {
+      this.study_service.updateWithinIsuCluster(this.cluster);
+    }
+  }
+
+  ngOnDestroy() {
+    this.navigationSubscription.unsubscribe();
   }
 
   addCluster() {
@@ -105,8 +114,10 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     const level = new ClusterLevel();
     level.levelName = this.clusterLevelForm.value.levelName;
     level.noElements = this.clusterLevelForm.value.noElements;
-    this.levels.push(level);
-    this.clusterLevelForm.reset();
+    if (level.levelName && level.noElements) {
+      this.levels.push(level);
+      this.clusterLevelForm.reset();
+    }
   }
 
   includeClusters(cluster?: Cluster) {
@@ -114,7 +125,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
     this.navigation_service.updateNextEnabled(true);
-    this.study_service.updateValid(false);
+    this.navigation_service.updateValid(false);
     if (cluster) {
       this.cluster = cluster;
     }
@@ -125,7 +136,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
     this.navigation_service.updateNavigationMode(false);
     this.included = false;
     this.editing = false;
-    this.study_service.updateValid(true);
+    this.navigation_service.updateValid(true);
     this.stage = -1;
   }
 
@@ -167,7 +178,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck {
 
   updateStudyFormStatus(status: string) {
     const valid = status === 'VALID' ? true : false;
-    this.study_service.updateValid(valid);
+    this.navigation_service.updateValid(valid);
   }
 
   resetForms() {

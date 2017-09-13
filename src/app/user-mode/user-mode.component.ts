@@ -13,17 +13,12 @@ export class UserModeComponent implements OnInit {
   constructor(private study_service: StudyService) {}
 
   selectGuided() {
-    this.study_service.guided = true;
-    this.updateForm();
+    this.guided = true;
+    this.study_service.selectMode(this.guided);
   }
 
   selectFlex() {
-    this.study_service.guided = false;
-    this.updateForm();
-  }
-
-  private updateForm() {
-    this.guided = this.study_service.guided;
+    this.guided = false;
     this.study_service.selectMode(this.guided);
   }
 
