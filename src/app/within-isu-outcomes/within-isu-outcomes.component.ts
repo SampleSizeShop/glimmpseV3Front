@@ -4,6 +4,8 @@ import {constants} from '../shared/constants';
 import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyService} from '../shared/study.service';
+import {Subscription} from "rxjs/Subscription";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
   selector: 'app-within-isu-outcomes',
@@ -16,12 +18,18 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   private _max: number;
   private _validationMessages;
   private _formErrors;
+  private _outcomeSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
     this.formErrors = constants.OUTCOME_FORM_ERRORS;
     this._max = constants.MAX_OUTCOMES;
-    this.outcomes = [];
+
+    this.outcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
+      outcomes => {
+        this.outcomes = outcomes;
+      }
+    );
   }
 
   ngOnInit() {
@@ -57,12 +65,8 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
-    if(this.outcomes) {
-      const outcomeSet = new Set<string>();
-      this.outcomes.forEach( outcome => {
-        outcomeSet.add(outcome);
-      });
-      this.study_service.updateWthinIsuOutcomes(outcomeSet);
+    if (this.outcomes) {
+      this.study_service.updateWthinIsuOutcomes(this.outcomes);
     }
     if (!this.outcomes || this.outcomes.length < 1) {
       this.navigation_service.updateValid(false);
@@ -144,5 +148,13 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
 
   set formErrors(value) {
     this._formErrors = value;
+  }
+
+  get outcomeSubscription(): Subscription {
+    return this._outcomeSubscription;
+  }
+
+  set outcomeSubscription(value: Subscription) {
+    this._outcomeSubscription = value;
   }
 }

@@ -39,7 +39,7 @@ export class StudyService {
   private _typeOneErrorRateSource = new Subject<number>();
   private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
 
-  private _withinIsuOutcomesSource = new Subject<Set<string>>();
+  private _withinIsuOutcomesSource = new BehaviorSubject<string[]>([]);
   private _withinIsuOutcomes$ = this._withinIsuOutcomesSource.asObservable();
 
   private _withinIsuRepeatedMeasuresSource = new BehaviorSubject<RepeatedMeasure[]>([]);
@@ -78,7 +78,7 @@ export class StudyService {
     this._typeOneErrorRateSource.next(rate);
   }
 
-  updateWthinIsuOutcomes(outcomes: Set<string>) {
+  updateWthinIsuOutcomes(outcomes: string[]) {
     this._withinIsuOutcomesSource.next(outcomes);
   }
 
@@ -199,11 +199,11 @@ export class StudyService {
     this._typeOneErrorRate$ = value;
   }
 
-  get withinIsuOutcomes$(): Observable<Set<string>> {
+  get withinIsuOutcomes$(): Observable<string[]> {
     return this._withinIsuOutcomes$;
   }
 
-  set withinIsuOutcomes$(value: Observable<Set<string>>) {
+  set withinIsuOutcomes$(value: Observable<string[]>) {
     this._withinIsuOutcomes$ = value;
   }
 
