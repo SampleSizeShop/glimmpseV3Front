@@ -49,7 +49,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.types = constants.REPEATED_MEASURE_TYPES;
     this.spacingValues = [];
 
-
     this.navigationSubscription = this.navigation_service.navigation$.subscribe(
       direction => {
         this.directionCommand = direction;
@@ -70,7 +69,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       repeats: [2, minMaxValidator(2, 10)]
     });
     this.spacingForm = this.fb.group({
-      spacing: this.fb.array([])
+      spacing: this.fb.array([]),
+      first: [0],
+      interval: [0]
     })
   };
 
@@ -133,8 +134,19 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
           controlDefs[name] = [0, minMaxValidator(0.000000000000001, 100000000000000)];
         }
       }
+
+      controlDefs['first'] = this.spacingForm.value.first;
+      controlDefs['interval'] = this.spacingForm.value.interval;
+
       this.spacingForm = this._fb.group(controlDefs);
       this.spacingValues = [];
+    }
+  }
+
+  autoFill() {
+    for ( const name of this.spacingControlNames ) {
+        const value = this.spacingForm.value.first + name * this.spacingForm.value.interval;
+        this.spacingForm.get(name.toString()).setValue(value);
     }
   }
 
