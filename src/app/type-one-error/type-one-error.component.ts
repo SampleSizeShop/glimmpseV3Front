@@ -4,6 +4,7 @@ import {minMaxValidator} from '../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';
 import {StudyService} from '../shared/study.service';
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-type-one-error',
@@ -12,17 +13,25 @@ import {StudyService} from '../shared/study.service';
   providers:[NGXLogger]
 })
 export class TypeOneErrorComponent implements DoCheck {
+  private _typeOneErrorRate: number;
   private _typeOneErrorRateForm: FormGroup;
   private _formErrors = constants.TYPE_ONE_ERROR_ERRORS;
   private _validationMessages = constants.TYPE_ONE_ERROR_VALIDATION_MESSAGES;
 
+  private _typeOneErrorRateSubscription: Subscription;
+
   constructor(private study_service: StudyService, private fb: FormBuilder, private logger: NGXLogger) {
+    this.typeOneErrorRateSubscription = this.study_service.typeOneErrorRate$.subscribe(
+      typeOneErrorRate => {
+        this.typeOneErrorRate = typeOneErrorRate
+    }
+    );
     this.buildForm();
   }
 
   buildForm(): void {
     this.typeOneErrorRateForm = this.fb.group({
-      typeoneerror: ['0.05', minMaxValidator(0, 1, this.logger)]
+      typeoneerror: [this.typeOneErrorRate, minMaxValidator(0, 1, this.logger)]
     });
 
     this.typeOneErrorRateForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -75,4 +84,19 @@ export class TypeOneErrorComponent implements DoCheck {
     this._validationMessages = value;
   }
 
+  get typeOneErrorRate(): number {
+    return this._typeOneErrorRate;
+  }
+
+  set typeOneErrorRate(value: number) {
+    this._typeOneErrorRate = value;
+  }
+
+  get typeOneErrorRateSubscription(): Subscription {
+    return this._typeOneErrorRateSubscription;
+  }
+
+  set typeOneErrorRateSubscription(value: Subscription) {
+    this._typeOneErrorRateSubscription = value;
+  }
 }
