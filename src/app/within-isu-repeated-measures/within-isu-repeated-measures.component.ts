@@ -25,7 +25,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   private _stage: number;
   private _validationMessages;
   private _formErrors;
-  private _included: boolean;
   private _editing: boolean;
   private _types: string[];
   private _type: string;
@@ -44,7 +43,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.stages = constants.REPEATED_MEASURE_STAGES;
     this.stage = -1;
     this.spacingControlNames = [0, 1];
-    this.included = false;
     this.editing = false;
     this.types = constants.REPEATED_MEASURE_TYPES;
     this.spacingValues = [];
@@ -111,11 +109,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     if (this.stage === 3) {
       this.setNextEnabled(this.spacingForm.status);
     }
-    if (!this.included) {
-      //this.study_service.updateWithinIsuRepeatedMeasures([]);
-    } else {
-      this.study_service.updateWithinIsuRepeatedMeasures(this.repeatedMeasures);
-    }
+    this.study_service.updateWithinIsuRepeatedMeasures(this.repeatedMeasures);
   }
 
   private updateRepeatsForm() {
@@ -195,7 +189,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   }
 
   includeRepeatedMeasures(measure?: RepeatedMeasure) {
-    this.included = true;
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
     this.navigation_service.updateNextEnabled(true);
@@ -210,7 +203,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   dontincludeRepeatedMeasures() {
     this.navigation_service.updateNavigationMode(false);
-    this.included = false;
     this.editing = false;
     this.navigation_service.updateValid(true);
     this.stage = -1;
@@ -362,14 +354,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   set fb(value: FormBuilder) {
     this._fb = value;
-  }
-
-  get included(): boolean {
-    return this._included;
-  }
-
-  set included(value: boolean) {
-    this._included = value;
   }
 
   get types(): string[] {
