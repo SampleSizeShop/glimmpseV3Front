@@ -45,7 +45,7 @@ export class StudyService {
   private _withinIsuRepeatedMeasuresSource = new BehaviorSubject<RepeatedMeasure[]>([]);
   private _withinIsuRepeatedMeasures$ = this._withinIsuRepeatedMeasuresSource.asObservable();
 
-  private _withinIsuClusterSource = new Subject<Cluster>();
+  private _withinIsuClusterSource = new BehaviorSubject<Cluster>(null);
   private _withinIsuCluster$ = this._withinIsuClusterSource.asObservable();
 
   selectMode(guided: boolean) {

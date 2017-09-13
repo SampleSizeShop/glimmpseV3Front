@@ -30,6 +30,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   private _directionCommand: string;
   private _navigationSubscription: Subscription;
+  private _clusterSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
 
@@ -40,12 +41,16 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this.levels = [];
     this.stage = -1;
     this.stages = constants.CLUSTER_STAGES;
-    this.cluster = null;
 
     this.navigationSubscription = this.navigation_service.navigation$.subscribe(
       direction => {
         this.directionCommand = direction;
         this.internallyNavigate(this.directionCommand);
+      }
+    );
+    this.clusterSubscription = this.study_service.withinIsuCluster$.subscribe(
+      cluster => {
+        this.cluster = cluster;
       }
     );
   }
@@ -79,11 +84,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
         this.updateStudyFormStatus('INVALID');
       }
     }
-    if (!this.included) {
-      this.study_service.updateWithinIsuCluster(null);
-    } else {
-      this.study_service.updateWithinIsuCluster(this.cluster);
-    }
+    this.study_service.updateWithinIsuCluster(this.cluster);
   }
 
   ngOnDestroy() {
@@ -315,5 +316,13 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   set fb(value: FormBuilder) {
     this._fb = value;
+  }
+
+  get clusterSubscription(): Subscription {
+    return this._clusterSubscription;
+  }
+
+  set clusterSubscription(value: Subscription) {
+    this._clusterSubscription = value;
   }
 }
