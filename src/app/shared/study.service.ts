@@ -54,7 +54,7 @@ export class StudyService {
   selectTargetEvent(targetEvent: string) {
     this._targetEventSource.next(targetEvent);
   }
-  selectSolveFor(solveFor: string) {
+  updateSolveFor(solveFor: string) {
     this._solveForSource.next(solveFor);
   }
 
