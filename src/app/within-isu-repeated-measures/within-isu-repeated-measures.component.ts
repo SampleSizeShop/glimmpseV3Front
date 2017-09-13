@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {constants} from '../shared/constants';
@@ -34,6 +34,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   private _directionCommand: string;
   private _navigationSubscription: Subscription;
+  private _repeatedMeasuresSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private navigation_service: NavigationService, private study_service: StudyService) {
 
@@ -42,7 +43,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.max = constants.MAX_REPEATED_MEASURES;
     this.stages = constants.REPEATED_MEASURE_STAGES;
     this.stage = -1;
-    this.repeatedMeasures = [];
     this.spacingControlNames = [0, 1];
     this.included = false;
     this.editing = false;
@@ -55,6 +55,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
         this.internallyNavigate(this.directionCommand);
       }
     );
+
+    this.repeatedMeasuresSubscription = this.study_service.withinIsuRepeatedMeasures$.subscribe( repeatedMeasures => {
+      this.repeatedMeasures = repeatedMeasures;
+    });
   }
 
   buildForm() {
@@ -108,7 +112,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       this.setNextEnabled(this.spacingForm.status);
     }
     if (!this.included) {
-      this.study_service.updateWithinIsuRepeatedMeasures([]);
+      //this.study_service.updateWithinIsuRepeatedMeasures([]);
     } else {
       this.study_service.updateWithinIsuRepeatedMeasures(this.repeatedMeasures);
     }
@@ -454,5 +458,13 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   set repeats(value: number) {
     this._repeats = value;
+  }
+
+  get repeatedMeasuresSubscription(): Subscription {
+    return this._repeatedMeasuresSubscription;
+  }
+
+  set repeatedMeasuresSubscription(value: Subscription) {
+    this._repeatedMeasuresSubscription = value;
   }
 }

@@ -42,7 +42,7 @@ export class StudyService {
   private _withinIsuOutcomesSource = new Subject<Set<string>>();
   private _withinIsuOutcomes$ = this._withinIsuOutcomesSource.asObservable();
 
-  private _withinIsuRepeatedMeasuresSource = new Subject<RepeatedMeasure[]>();
+  private _withinIsuRepeatedMeasuresSource = new BehaviorSubject<RepeatedMeasure[]>([]);
   private _withinIsuRepeatedMeasures$ = this._withinIsuRepeatedMeasuresSource.asObservable();
 
   private _withinIsuClusterSource = new Subject<Cluster>();
