@@ -24,19 +24,19 @@ export class StudyService {
   private _solveForSource = new BehaviorSubject<string>(constants.SOLVE_FOR_POWER);
   private _solveForSelected$ = this._solveForSource.asObservable();
 
-  private _powerSource = new Subject<number>();
+  private _powerSource = new BehaviorSubject<number>(0.5);
   private _power$ = this._powerSource.asObservable();
 
-  private _samplesizeSource = new Subject<number>();
+  private _samplesizeSource = new BehaviorSubject<number>(10);
   private _samplesize$ = this._samplesizeSource.asObservable();
 
-  private _ciwidthSource = new Subject<number>();
+  private _ciwidthSource = new BehaviorSubject<number>(1);
   private _ciwidth$ = this._ciwidthSource.asObservable();
 
   private _selectedTestsSource = new Subject<Set<string>>();
   private _selectdTests$ = this._selectedTestsSource.asObservable();
 
-  private _typeOneErrorRateSource = new Subject<number>();
+  private _typeOneErrorRateSource = new BehaviorSubject<number>(0.05);
   private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
 
   private _withinIsuOutcomesSource = new BehaviorSubject<string[]>([]);
