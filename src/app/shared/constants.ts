@@ -8,7 +8,8 @@ export const constants = {
     5: 'TYPE_ONE_ERROR',
     6: 'WITHIN_ISU_OUTCOMES',
     7: 'WITHIN_ISU_REPEATED_MEASURES',
-    8: 'WITHIN_ISU_CLUSTERS'
+    8: 'WITHIN_ISU_CLUSTERS',
+    9: 'BETWEEN_ISU'
   },
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {

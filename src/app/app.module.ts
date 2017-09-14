@@ -23,6 +23,7 @@ import { CorrelationMatrixComponent } from './correlation-matrix/correlation-mat
 import { WithinIsuOutcomesComponent } from './within-isu-outcomes/within-isu-outcomes.component';
 import { WithinIsuRepeatedMeasuresComponent } from './within-isu-repeated-measures/within-isu-repeated-measures.component';
 import { WithinIsuClustersComponent } from './within-isu-clusters/within-isu-clusters.component';
+import { BetweenIsuComponent } from './between-isu/between-isu.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { WithinIsuClustersComponent } from './within-isu-clusters/within-isu-clu
     CorrelationMatrixComponent,
     WithinIsuOutcomesComponent,
     WithinIsuRepeatedMeasuresComponent,
-    WithinIsuClustersComponent
+    WithinIsuClustersComponent,
+    BetweenIsuComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),
