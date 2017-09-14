@@ -46,6 +46,6 @@ describe('StatisticalTestsComponent', () => {
     }
     fixture.detectChanges();
     const activeElements: DebugElement[] = fixture.debugElement.queryAll(By.css('.active'));
-    expect(activeElements.length).toEqual(component.selectedTests.size);
+    expect(activeElements.length).toEqual(component.selectedTests.length);
   });
 });
