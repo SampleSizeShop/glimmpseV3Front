@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {StudyDesign} from './study-design';
 import {Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import {Subject} from 'rxjs/Subject';
@@ -24,28 +23,28 @@ export class StudyService {
   private _solveForSource = new BehaviorSubject<string>(constants.SOLVE_FOR_POWER);
   private _solveForSelected$ = this._solveForSource.asObservable();
 
-  private _powerSource = new Subject<number>();
+  private _powerSource = new BehaviorSubject<number>(0.5);
   private _power$ = this._powerSource.asObservable();
 
-  private _samplesizeSource = new Subject<number>();
+  private _samplesizeSource = new BehaviorSubject<number>(10);
   private _samplesize$ = this._samplesizeSource.asObservable();
 
-  private _ciwidthSource = new Subject<number>();
+  private _ciwidthSource = new BehaviorSubject<number>(1);
   private _ciwidth$ = this._ciwidthSource.asObservable();
 
-  private _selectedTestsSource = new Subject<Set<string>>();
+  private _selectedTestsSource = new BehaviorSubject<string[]>([constants.STATISTICAL_TESTS.HOTELLING_LAWLEY]);
   private _selectdTests$ = this._selectedTestsSource.asObservable();
 
-  private _typeOneErrorRateSource = new Subject<number>();
+  private _typeOneErrorRateSource = new BehaviorSubject<number>(0.05);
   private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
 
-  private _withinIsuOutcomesSource = new Subject<Set<string>>();
+  private _withinIsuOutcomesSource = new BehaviorSubject<string[]>([]);
   private _withinIsuOutcomes$ = this._withinIsuOutcomesSource.asObservable();
 
-  private _withinIsuRepeatedMeasuresSource = new Subject<RepeatedMeasure[]>();
+  private _withinIsuRepeatedMeasuresSource = new BehaviorSubject<RepeatedMeasure[]>([]);
   private _withinIsuRepeatedMeasures$ = this._withinIsuRepeatedMeasuresSource.asObservable();
 
-  private _withinIsuClusterSource = new Subject<Cluster>();
+  private _withinIsuClusterSource = new BehaviorSubject<Cluster>(null);
   private _withinIsuCluster$ = this._withinIsuClusterSource.asObservable();
 
   selectMode(guided: boolean) {
@@ -54,7 +53,7 @@ export class StudyService {
   selectTargetEvent(targetEvent: string) {
     this._targetEventSource.next(targetEvent);
   }
-  selectSolveFor(solveFor: string) {
+  updateSolveFor(solveFor: string) {
     this._solveForSource.next(solveFor);
   }
 
@@ -70,7 +69,7 @@ export class StudyService {
     this._ciwidthSource.next(ciWidth);
   }
 
-  updateSelectedTests(tests: Set<string>) {
+  updateSelectedTests(tests: string[]) {
     this._selectedTestsSource.next(tests);
   }
 
@@ -78,7 +77,7 @@ export class StudyService {
     this._typeOneErrorRateSource.next(rate);
   }
 
-  updateWthinIsuOutcomes(outcomes: Set<string>) {
+  updateWthinIsuOutcomes(outcomes: string[]) {
     this._withinIsuOutcomesSource.next(outcomes);
   }
 
@@ -183,11 +182,11 @@ export class StudyService {
     this._ciwidth$ = value;
   }
 
-  get selectdTests$(): Observable<Set<string>> {
+  get selectdTests$(): Observable<string[]> {
     return this._selectdTests$;
   }
 
-  set selectdTests$(value: Observable<Set<string>>) {
+  set selectdTests$(value: Observable<string[]>) {
     this._selectdTests$ = value;
   }
 
@@ -199,11 +198,11 @@ export class StudyService {
     this._typeOneErrorRate$ = value;
   }
 
-  get withinIsuOutcomes$(): Observable<Set<string>> {
+  get withinIsuOutcomes$(): Observable<string[]> {
     return this._withinIsuOutcomes$;
   }
 
-  set withinIsuOutcomes$(value: Observable<Set<string>>) {
+  set withinIsuOutcomes$(value: Observable<string[]>) {
     this._withinIsuOutcomes$ = value;
   }
 

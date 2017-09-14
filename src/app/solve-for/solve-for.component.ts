@@ -14,9 +14,16 @@ import {constants} from '../shared/constants';
 })
 export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   private _solveFor: string;
+  private _power: number;
+  private _samplesize: number;
+  private _ciwidth: number;
   private _targetEvent: string;
   private _powerSampleSizeForm: FormGroup;
   private _targetEventSubscription: Subscription;
+  private _solveForSubscription: Subscription;
+  private _powerSubscription: Subscription;
+  private _samplesizeSubscription: Subscription;
+  private _ciwidthSubscription: Subscription;
   private _formErrors = constants.TARGET_EVENT_FORM_ERRORS;
   private _validationMessages = constants.TARGET_EVENT_VALIDATION_MESSAGES;
 
@@ -26,14 +33,34 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
         this.targetEvent = targetEvent;
       }
     )
+    this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
+      solveFor => {
+        this.solveFor = solveFor;
+      }
+    );
+    this.powerSubscription = this.study_service.power$.subscribe(
+      power => {
+        this.power = power;
+      }
+    );
+    this.samplesizeSubscription = this.study_service.samplesize$.subscribe(
+      samplesize => {
+        this.samplesize = samplesize;
+      }
+    );
+    this.ciwidthSubscription = this.study_service.ciwidth$.subscribe(
+      ciwidth => {
+        this.ciwidth = ciwidth;
+      }
+    );
     this.buildForm();
   }
 
   buildForm(): void {
     this.powerSampleSizeForm = this.fb.group({
-      power: ['0.5', minMaxValidator(0, 1, this.logger)],
-      samplesize: ['10', minMaxValidator(1, 1000, this.logger)],
-      ciwidth: ['1', minMaxValidator(0, 10, this.logger)]
+      power: [this.power, minMaxValidator(0, 1, this.logger)],
+      samplesize: [this.samplesize, minMaxValidator(1, 1000, this.logger)],
+      ciwidth: [this.ciwidth, minMaxValidator(0, 10, this.logger)]
     });
 
     this.powerSampleSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -70,18 +97,17 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     return this.targetEvent === constants.WAVR_EVENT;
   }
 
-  ngOnInit() {
-    this.selectPower()
-  }
+  ngOnInit() {}
 
   ngDoCheck() {
+    this.study_service.updateSolveFor(this.solveFor);
     if (this.isPower()) {
-      this.study_service.updateSamplesize(this.powerSampleSizeForm.get('samplesize').value);
+      this.study_service.updateSamplesize(this.powerSampleSizeForm.value.samplesize);
     }
     if (this.isSampleSize()) {
-      this.study_service.updatePower(this.powerSampleSizeForm.get('power').value);
+      this.study_service.updatePower(this.powerSampleSizeForm.value.power);
       if (this.isCIWidth() || this.isWAVR()) {
-        this.study_service.updateCiWidth(this.powerSampleSizeForm.get('ciwidth').value);
+        this.study_service.updateCiWidth(this.powerSampleSizeForm.value.ciwidth);
       }
     }
   }
@@ -92,12 +118,12 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   selectPower() {
     this.solveFor = constants.SOLVE_FOR_POWER;
-    this.study_service.selectSolveFor(this.solveFor);
+    this.study_service.updateSolveFor(this.solveFor);
   }
 
   selectSampleSize() {
     this.solveFor = constants.SOLVE_FOR_SAMPLESIZE;
-    this.study_service.selectSolveFor(this.solveFor);
+    this.study_service.updateSolveFor(this.solveFor);
   }
 
   isPower(): boolean {
@@ -163,5 +189,62 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
       ciwidth: { minval: string; maxval: string }
     }) {
     this._validationMessages = value;
+  }
+
+
+  get power(): number {
+    return this._power;
+  }
+
+  set power(value: number) {
+    this._power = value;
+  }
+
+  get samplesize(): number {
+    return this._samplesize;
+  }
+
+  set samplesize(value: number) {
+    this._samplesize = value;
+  }
+
+  get ciwidth(): number {
+    return this._ciwidth;
+  }
+
+  set ciwidth(value: number) {
+    this._ciwidth = value;
+  }
+
+  get solveForSubscription(): Subscription {
+    return this._solveForSubscription;
+  }
+
+  set solveForSubscription(value: Subscription) {
+    this._solveForSubscription = value;
+  }
+
+  get powerSubscription(): Subscription {
+    return this._powerSubscription;
+  }
+
+  set powerSubscription(value: Subscription) {
+    this._powerSubscription = value;
+  }
+
+  get samplesizeSubscription(): Subscription {
+    return this._samplesizeSubscription;
+  }
+
+  set samplesizeSubscription(value: Subscription) {
+    this._samplesizeSubscription = value;
+  }
+
+  get ciwidthSubscription(): Subscription {
+    return this._ciwidthSubscription;
+  }
+
+  set ciwidthSubscription(value: Subscription) {
+    this._ciwidthSubscription = value;
   }
 }

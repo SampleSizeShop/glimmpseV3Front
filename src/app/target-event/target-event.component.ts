@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {constants} from '../shared/constants';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-target-event',
@@ -9,7 +10,14 @@ import {constants} from '../shared/constants';
 })
 export class TargetEventComponent implements OnInit {
   private _targetEvent: string;
-  constructor(private study_service: StudyService) { }
+  private _targetEventSubscription: Subscription;
+  constructor(private study_service: StudyService) {
+    this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
+      event => {
+        this.targetEvent = event;
+      }
+    );
+  }
 
   selectRejectionOnly() {
     this.targetEvent = constants.REJECTION_EVENT;
@@ -27,7 +35,6 @@ export class TargetEventComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.selectRejectionOnly();
   }
 
   isRejection(): boolean {
@@ -48,5 +55,13 @@ export class TargetEventComponent implements OnInit {
 
   set targetEvent(value: string) {
     this._targetEvent = value;
+  }
+
+  get targetEventSubscription(): Subscription {
+    return this._targetEventSubscription;
+  }
+
+  set targetEventSubscription(value: Subscription) {
+    this._targetEventSubscription = value;
   }
 }

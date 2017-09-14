@@ -1,6 +1,7 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
 import {constants} from '../shared/constants';
 import {StudyService} from '../shared/study.service';
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-statistical-tests',
@@ -9,11 +10,16 @@ import {StudyService} from '../shared/study.service';
 })
 export class StatisticalTestsComponent implements OnInit, DoCheck {
   private _statisticalTests;
-  private _selectedTests: Set<string>;
+  private _selectedTests: string[];
+  private _selectedTestsSubscription: Subscription;
   constructor(private study_service: StudyService) {
     this.statisticalTests = constants.STATISTICAL_TESTS;
-    this.selectedTests = new Set<string>();
-    this.selectedTests.add(this.statisticalTests.HOTELLING_LAWLEY);
+
+    this.selectedTestsSubscription = this.study_service.selectdTests$.subscribe(
+      selectedTests => {
+        this.selectedTests = selectedTests;
+      }
+    );
   }
 
   ngOnInit() {}
@@ -23,15 +29,16 @@ export class StatisticalTestsComponent implements OnInit, DoCheck {
   }
 
   selectTest(value: string) {
-    if (this.selectedTests.has(value)) {
-      this.selectedTests.delete(value);
+    const i = this.selectedTests.indexOf(value);
+    if (i !== -1) {
+      this.selectedTests.splice(i, 1)
     } else {
-      this.selectedTests.add(value);
+      this.selectedTests.push(value);
     }
   }
 
   isSelected(value: string): boolean {
-    return this.selectedTests.has(value);
+    return this.selectedTests.includes(value);
   }
 
   get statisticalTests() {
@@ -42,12 +49,19 @@ export class StatisticalTestsComponent implements OnInit, DoCheck {
     this._statisticalTests = value;
   }
 
-
-  get selectedTests(): Set<string> {
+  get selectedTests(): string[] {
     return this._selectedTests;
   }
 
-  set selectedTests(value: Set<string>) {
+  set selectedTests(value: string[]) {
     this._selectedTests = value;
+  }
+
+  get selectedTestsSubscription(): Subscription {
+    return this._selectedTestsSubscription;
+  }
+
+  set selectedTestsSubscription(value: Subscription) {
+    this._selectedTestsSubscription = value;
   }
 }
