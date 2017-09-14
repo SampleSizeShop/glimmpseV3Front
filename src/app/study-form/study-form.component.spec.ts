@@ -16,6 +16,7 @@ import {MathJaxDirective} from '../mathjax/mathjax.directive';
 import {WithinIsuOutcomesComponent} from '../within-isu-outcomes/within-isu-outcomes.component';
 import {WithinIsuRepeatedMeasuresComponent} from '../within-isu-repeated-measures/within-isu-repeated-measures.component';
 import {WithinIsuClustersComponent} from '../within-isu-clusters/within-isu-clusters.component';
+import {BetweenIsuComponent} from "../between-isu/between-isu.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -37,6 +38,7 @@ describe('StudyFormComponent', () => {
         WithinIsuOutcomesComponent,
         WithinIsuRepeatedMeasuresComponent,
         WithinIsuClustersComponent,
+        BetweenIsuComponent,
         CorrelationMatrixComponent,
         MathJaxDirective],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
