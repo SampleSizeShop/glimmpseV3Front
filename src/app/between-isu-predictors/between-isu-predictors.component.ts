@@ -98,6 +98,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   addGroup() {
     this.groups.push(this.groupsForm.value.group);
+    this.groupsForm.reset();
   }
 
   removeGroup(group: string) {
