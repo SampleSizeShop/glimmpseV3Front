@@ -6,7 +6,7 @@ import {StudyService} from '../shared/study.service';
 import {NavigationService} from '../shared/navigation.service';
 import {Predictor} from '../shared/Predictor';
 import {constants} from '../shared/constants';
-import {outcomeValidator} from "../within-isu-outcomes/outcome.validator";
+import {outcomeValidator} from '../within-isu-outcomes/outcome.validator';
 
 @Component({
   selector: 'app-between-isu',
@@ -20,6 +20,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _predictor: Predictor;
   private _groups: string[];
   private _maxGroups: number;
+  private _maxPredictors: number;
   private _betweenIsuFactors: BetweenISUFactors;
 
   private _editing: boolean;
@@ -36,8 +37,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.stages = constants.BETWEEN_ISU_STAGES;
     this.stage = -1;
 
+    this.predictors = [];
     this.groups = [];
     this.maxGroups = constants.MAX_GROUPS;
+    this.maxPredictors = constants.MAX_PREDICTORS;
 
     this.navigationSubscription = this.navigation_service.navigation$.subscribe(
       direction => {
@@ -60,6 +63,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   ngOnDestroy() {
+    this.navigationSubscription.unsubscribe();
     this.betweenIsuFactorsSubscription.unsubscribe();
   }
 
@@ -78,9 +82,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     }
     if (this.stage === 1) {
       this.setNextEnabled(this.groupsForm.status);
-    }
-    if (this.stage === 2) {
-      this.setNextEnabled('VALID');
     }
     this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
   }
@@ -112,14 +113,12 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.groupsForm.reset();
   }
 
-  includeBetweenIsuFactors(betweenIsuFactors?: BetweenISUFactors) {
+  includeBetweenIsuFactors() {
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
     this.navigation_service.updateNextEnabled(true);
     this.navigation_service.updateValid(false);
-    if (betweenIsuFactors) {
-      this.betweenIsuFactors = betweenIsuFactors;
-    } else {
+    if (!this.betweenIsuFactors) {
       this.betweenIsuFactors = new BetweenISUFactors();
     }
     this.stage = this.stage = 0;
@@ -132,16 +131,18 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.stage = -1;
   }
 
-  addBetweenIsuFactor () {
-    const betweenIsuFactors = new BetweenISUFactors();
-    betweenIsuFactors.predictors = this.predictors;
-  }
-
   addPredictor() {
     this.predictor = new Predictor();
     this.predictor.name = this.predictorForm.value.predictorName;
     this.predictor.groups = this.groups;
+
+    this.betweenIsuFactors.predictors.push(this.predictor);
   }
+
+  removePredictor() {}
+  editPredictor() {}
+
+
 
   getStageStatus(stage: number): string {
     if (stage === 0) {
@@ -149,9 +150,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     }
     if (stage === 1) {
       return this.groupsForm.status;
-    }
-    if (stage === 2) {
-      return 'VALID';
     }
     return 'INVALID';
   }
@@ -189,11 +187,29 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   resetForms() {
+    this.groupsForm.reset();
+    this.predictorForm.reset();
+    this.groups = [];
     this.buildForm();
 
     this.stage = -1;
     this.editing = false;
     this.navigation_service.updateNavigationMode(false);
+  }
+
+
+  hasPredictors(): boolean {
+    if (this.betweenIsuFactors) {
+      return this.betweenIsuFactors.predictors.length > 0;
+    }
+    return false;
+  }
+
+  nextPredictors(): boolean {
+    if (this.hasPredictors() && this.predictors.length < this.maxPredictors ) {
+      return true;
+    }
+    return false;
   }
 
   get stageName() {
@@ -319,5 +335,13 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set maxGroups(value: number) {
     this._maxGroups = value;
+  }
+
+  get maxPredictors(): number {
+    return this._maxPredictors;
+  }
+
+  set maxPredictors(value: number) {
+    this._maxPredictors = value;
   }
 }

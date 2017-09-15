@@ -30,6 +30,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _withinIsuOutcomeSubscription: Subscription;
   private _withinIsuRepeatedMeasuresSubscription: Subscription;
   private _withinIsuClusterSubscription: Subscription;
+  private _betweenIsuFactorsSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -287,6 +288,14 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._withinIsuClusterSubscription = value;
   }
 
+  get betweenIsuFactorsSubscription(): Subscription {
+    return this._betweenIsuFactorsSubscription;
+  }
+
+  set betweenIsuFactorsSubscription(value: Subscription) {
+    this._betweenIsuFactorsSubscription = value;
+  }
+
   subscribeToStudyService() {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
@@ -356,6 +365,12 @@ export class StudyFormComponent implements OnInit, OnDestroy {
         this.study.withinIsuFactors.cluster = cluster;
       }
     );
+
+    this.betweenIsuFactorsSubscription = this.study_service.betweenIsuFactors$.subscribe(
+      betweenIsuFactors => {
+        this.study.betweenIsuFactors = betweenIsuFactors;
+      }
+    );
   };
 
   unsubscribeFromStudyService() {
@@ -370,6 +385,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.withinIsuOutcomeSubscription.unsubscribe();
     this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
     this.withinIsuClusterSubscription.unsubscribe();
+    this.betweenIsuFactorsSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {

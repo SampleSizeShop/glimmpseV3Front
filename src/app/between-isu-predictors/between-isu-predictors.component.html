@@ -1,10 +1,12 @@
 <script src="../within-isu-repeated-measures/within-isu-repeated-measures.component.ts"></script>
-
 <div *ngIf="!editing" id="firstPredictor">
   <div class="container-fluid">
     <div class="row">
-      <div class="col">
+      <div class="col" *ngIf="!hasPredictors()">
         <h5>Do you have any Between ISU Factors?</h5>
+      </div>
+      <div class="col" *ngIf="hasPredictors()">
+        <h5>Would you like to add another Predictor?</h5>
       </div>
       <div class="col">
         <button id="addbetweenbtn" (click)="includeBetweenIsuFactors()" class="btn btn-primary">Define Between ISU Factors</button>
@@ -51,4 +53,24 @@
       </div>
     </div>
   </form>
+</div>
+
+<div *ngIf="hasPredictors()">
+  <br>
+  <small>Between ISU Predictors:</small>
+  <div *ngFor="let predictor of betweenIsuFactors.predictors; let i = index">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col col-md-auto">
+          <i class="material-icons" (click)="removePredictor(predictor)" style="margin-bottom: 5px" id="removepredictor">remove</i>
+        </div>
+        <div class="col  col-md-auto">
+          <i class="material-icons" (click)="editPredictor(predictor)" style="margin-bottom: 5px" id="editpredictor">create</i>
+        </div>
+        <div class="col">
+          {{predictor | json}}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
