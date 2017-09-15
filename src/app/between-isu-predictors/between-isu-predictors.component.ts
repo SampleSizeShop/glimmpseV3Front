@@ -9,10 +9,10 @@ import {constants} from '../shared/constants';
 
 @Component({
   selector: 'app-between-isu',
-  templateUrl: './between-isu.component.html',
-  styleUrls: ['./between-isu.component.css']
+  templateUrl: './between-isu-predictors.component.html',
+  styleUrls: ['./between-isu-predictors.component.css']
 })
-export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
+export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy {
   private _predictorForm: FormGroup;
   private _groupsForm: FormGroup;
   private _predictors: Predictor[];

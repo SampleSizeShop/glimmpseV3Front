@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BetweenIsuComponent } from './between-isu.component';
+import { BetweenIsuPredictorsComponent } from './between-isu-predictors.component';
 import {StudyService} from '../shared/study.service';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
@@ -8,21 +8,21 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {BetweenISUFactors} from "../shared/BetweenISUFactors";
 import {Predictor} from "../shared/Predictor";
 
-describe('BetweenIsuComponent', () => {
-  let component: BetweenIsuComponent;
-  let fixture: ComponentFixture<BetweenIsuComponent>;
+describe('BetweenIsuPredictorsComponent', () => {
+  let component: BetweenIsuPredictorsComponent;
+  let fixture: ComponentFixture<BetweenIsuPredictorsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [ BetweenIsuComponent ],
+      declarations: [ BetweenIsuPredictorsComponent ],
       providers: [StudyService, { provide: Http, useClass: MockBackend }]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BetweenIsuComponent);
+    fixture = TestBed.createComponent(BetweenIsuPredictorsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
