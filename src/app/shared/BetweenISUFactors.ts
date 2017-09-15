@@ -1,5 +1,5 @@
 import {Predictor} from './Predictor';
-import {BetweenIsuCombination} from "./BetweenIsuCombination";
+import {BetweenIsuCombination} from './BetweenIsuCombination';
 
 export class BetweenISUFactors {
   predictors: Predictor[] = [];

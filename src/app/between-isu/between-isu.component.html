@@ -1,8 +1,25 @@
-<form [formGroup]="predictorForm">
+<script src="../within-isu-repeated-measures/within-isu-repeated-measures.component.ts"></script>
+
+<div *ngIf="!editing" id="firstPredictor">
   <div class="container-fluid">
-    <div class="form-group">
-      <h5>Name your predictor:</h5>
-      <input class="form-control" formControlName="predictorName">
+    <div class="row">
+      <div class="col">
+        <h5>Do you have any Between ISU Factors?</h5>
+      </div>
+      <div class="col">
+        <button id="addbetweenbtn" (click)="includeBetweenIsuFactors()" class="btn btn-primary">Define Between ISU Factors</button>
+      </div>
     </div>
   </div>
-</form>
+</div>
+
+<div *ngIf="stages[0] === stageName">
+  <form [formGroup]="predictorForm">
+    <div class="container-fluid">
+      <div class="form-group">
+        <h5>Name your predictor:</h5>
+        <input class="form-control" formControlName="predictorName">
+      </div>
+    </div>
+  </form>
+</div>
