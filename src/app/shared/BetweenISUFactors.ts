@@ -32,7 +32,7 @@ export class BetweenISUFactors {
   get allPredictorValues() {
     const predictorValues = [];
     for (const predictor of this.predictors) {
-      predictorValues.push(predictor.values);
+      predictorValues.push(predictor.groups);
     }
     return predictorValues;
   }

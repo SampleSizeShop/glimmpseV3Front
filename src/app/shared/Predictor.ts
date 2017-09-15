@@ -1,4 +1,4 @@
 export class Predictor{
   name = '';
-  values: string[] = [];
+  groups: string[] = [];
 }

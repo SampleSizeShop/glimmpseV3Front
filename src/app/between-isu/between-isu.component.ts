@@ -14,7 +14,10 @@ import {constants} from '../shared/constants';
 })
 export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
   private _predictorForm: FormGroup;
+  private _groupsForm: FormGroup;
   private _predictors: Predictor[];
+  private _predictor: Predictor;
+  private _groups: string[];
   private _betweenIsuFactors: BetweenISUFactors;
 
   private _editing: boolean;
@@ -48,7 +51,7 @@ export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck() {
-    this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
+    this.updateFormStatus();
   }
 
   ngOnDestroy() {
@@ -59,7 +62,25 @@ export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
     this.predictorForm = this.fb.group({
       predictorName: ['']
     });
+    this.groupsForm = this.fb.group({
+      group: ['']
+    });
   }
+
+  private updateFormStatus() {
+    if (this.stage === 0) {
+      this.setNextEnabled(this.predictorForm.status);
+    }
+    if (this.stage === 1) {
+      this.setNextEnabled(this.groupsForm.status);
+    }
+    if (this.stage === 2) {
+      this.setNextEnabled('VALID');
+    }
+    this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
+  }
+
+  addGroup() {}
 
   includeBetweenIsuFactors(betweenIsuFactors?: BetweenISUFactors) {
     this.editing = true;
@@ -86,9 +107,21 @@ export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
     betweenIsuFactors.predictors = this.predictors;
   }
 
+  addPredictor() {
+    this.predictor = new Predictor();
+    this.predictor.name = this.predictorForm.value.predictorName;
+    this.predictor.groups = this.groups;
+  }
+
   getStageStatus(stage: number): string {
     if (stage === 0) {
       return this.predictorForm.status;
+    }
+    if (stage === 1) {
+      return this.groupsForm.status;
+    }
+    if (stage === 2) {
+      return 'VALID';
     }
     return 'INVALID';
   }
@@ -106,7 +139,7 @@ export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
       this.resetForms();
     }
     if ( next >= Object.keys(this.stages).length ) {
-      this.addBetweenIsuFactor();
+      this.addPredictor();
       this.resetForms();
     }
     if (this.stages[next]) {
@@ -143,6 +176,14 @@ export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
 
   set predictorForm(value: FormGroup) {
     this._predictorForm = value;
+  }
+
+  get groupsForm(): FormGroup {
+    return this._groupsForm;
+  }
+
+  set groupsForm(value: FormGroup) {
+    this._groupsForm = value;
   }
 
   get betweenIsuFactors(): BetweenISUFactors {
@@ -224,5 +265,21 @@ export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
 
   set predictors(value: Predictor[]) {
     this._predictors = value;
+  }
+
+  get predictor(): Predictor {
+    return this._predictor;
+  }
+
+  set predictor(value: Predictor) {
+    this._predictor = value;
+  }
+
+  get groups(): string[] {
+    return this._groups;
+  }
+
+  set groups(value: string[]) {
+    this._groups = value;
   }
 }

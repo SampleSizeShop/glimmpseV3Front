@@ -36,19 +36,19 @@ describe('BetweenIsuComponent', () => {
 
     const gender = new Predictor();
     gender.name = 'Gender';
-    gender.values = ['m', 'f'];
+    gender.groups = ['m', 'f'];
 
     const dose = new Predictor();
     dose.name = 'Dose';
-    dose.values = ['a', 'b', 'c'];
+    dose.groups = ['a', 'b', 'c'];
 
     const three = new Predictor();
     three.name = 'Three';
-    three.values = ['x', 'y', 'z'];
+    three.groups = ['x', 'y', 'z'];
 
     const five = new Predictor();
     five.name = 'Three';
-    five.values = ['1', '2', '3', '4'];
+    five.groups = ['1', '2', '3', '4'];
 
     x.predictors.push(gender);
     x.predictors.push(dose);
