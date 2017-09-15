@@ -18,6 +18,7 @@ export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
   private _predictors: Predictor[];
   private _predictor: Predictor;
   private _groups: string[];
+  private _maxGroups: number;
   private _betweenIsuFactors: BetweenISUFactors;
 
   private _editing: boolean;
@@ -33,6 +34,9 @@ export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
               private navigation_service: NavigationService) {
     this.stages = constants.BETWEEN_ISU_STAGES;
     this.stage = -1;
+
+    this.groups = [];
+    this.maxGroups = constants.MAX_GROUPS;
 
     this.navigationSubscription = this.navigation_service.navigation$.subscribe(
       direction => {
@@ -80,7 +84,29 @@ export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
     this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
   }
 
-  addGroup() {}
+
+  firstGroup(): boolean {
+    return this.groups.length === 0 ? true : false;
+  }
+
+  nextGroup(): boolean {
+    if (!this.firstGroup() && this.groups.length < this.maxGroups ) {
+      return true;
+    }
+    return false;
+  }
+
+  addGroup() {
+    this.groups.push(this.groupsForm.value.group);
+  }
+
+  removeGroup(group: string) {
+    const index = this.groups.indexOf(group);
+    if (index > -1) {
+      this.groups.splice(index, 1);
+    }
+    this.groupsForm.reset();
+  }
 
   includeBetweenIsuFactors(betweenIsuFactors?: BetweenISUFactors) {
     this.editing = true;
@@ -281,5 +307,13 @@ export class BetweenIsuComponent implements OnInit, DoCheck, OnDestroy {
 
   set groups(value: string[]) {
     this._groups = value;
+  }
+
+  get maxGroups(): number {
+    return this._maxGroups;
+  }
+
+  set maxGroups(value: number) {
+    this._maxGroups = value;
   }
 }

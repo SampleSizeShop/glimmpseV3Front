@@ -108,4 +108,6 @@ export const constants = {
     1: 'GROUPS',
     2: 'GROUP_SIZE'
   },
+  MAX_PREDICTORS: 10,
+  MAX_GROUPS: 10,
 };
