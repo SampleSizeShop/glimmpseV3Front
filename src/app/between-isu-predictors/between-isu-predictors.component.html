@@ -27,7 +27,7 @@
 <div *ngIf="stages[1] === stageName">
   <form [formGroup]="groupsForm">
     <div class="container-fluid">
-      <div class="row">
+      <div class="row" *ngIf="firstGroup() || nextGroup()">
         <div class="col">
           <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">
         </div>

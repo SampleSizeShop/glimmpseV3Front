@@ -6,6 +6,7 @@ import {StudyService} from '../shared/study.service';
 import {NavigationService} from '../shared/navigation.service';
 import {Predictor} from '../shared/Predictor';
 import {constants} from '../shared/constants';
+import {outcomeValidator} from "../within-isu-outcomes/outcome.validator";
 
 @Component({
   selector: 'app-between-isu',
@@ -67,7 +68,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       predictorName: ['']
     });
     this.groupsForm = this.fb.group({
-      group: ['']
+      group: ['', outcomeValidator(this.groups)]
     });
   }
 
@@ -97,8 +98,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   addGroup() {
-    this.groups.push(this.groupsForm.value.group);
-    this.groupsForm.reset();
+    if (this.groupsForm.status === 'VALID' && this.groupsForm.value.group && this.groupsForm.value.group.trim() !== '' ) {
+      this.groups.push(this.groupsForm.value.group);
+      this.groupsForm.reset();
+    }
   }
 
   removeGroup(group: string) {
