@@ -3,7 +3,7 @@ import {BetweenIsuCombination} from './BetweenIsuCombination';
 
 export class BetweenISUFactors {
   predictors: Predictor[] = [];
-  combinations: string[] = [];
+  combinations: BetweenIsuCombination[] = [];
   smallestGroupSize: number[] = [];
 
   generateCombinations() {
@@ -11,8 +11,13 @@ export class BetweenISUFactors {
     for (const values of this.allPredictorValues ) {
       combinations = this.getListPairCombinations( values, combinations );
     }
-    console.log(combinations);
-    this.combinations = combinations;
+    this.combinations = [];
+    for ( const c of combinations ) {
+      const comb = new BetweenIsuCombination();
+      comb.id.push(c);
+      comb.size = 1;
+      this.combinations.push(comb);
+    }
   }
 
   getListPairCombinations (a, b): string[] {

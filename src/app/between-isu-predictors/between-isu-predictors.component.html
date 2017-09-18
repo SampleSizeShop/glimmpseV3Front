@@ -68,8 +68,8 @@
   <div *ngIf="stages[2] === stageName && solveFor === 'SAMPLESIZE'">
     <div class="container-fluid">
       <h5>Tell us about the relative sizes of your groups as listed below:</h5>
-      <div *ngFor="let name of groupNames; let i = index">
-        #{{i +1}} {{name}}
+      <div *ngFor="let name of betweenIsuFactors.combinations; let i = index">
+        #{{i +1}} {{name.id[0]}}
       </div>
     </div>
   </div>

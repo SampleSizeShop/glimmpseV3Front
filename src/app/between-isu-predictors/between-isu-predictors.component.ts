@@ -229,7 +229,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   updateGroupsizeFormControls() {
     this.betweenIsuFactors.generateCombinations();
-    this.groupNames = this.betweenIsuFactors.combinations;
   }
 
   hasPredictors(): boolean {
