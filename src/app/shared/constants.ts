@@ -105,7 +105,8 @@ export const constants = {
   },
   BETWEEN_ISU_STAGES: {
     0: 'PREDICTOR',
-    1: 'GROUPS'
+    1: 'GROUPS',
+    2: 'GROUP_SIZE',
   },
   MAX_PREDICTORS: 10,
   MAX_GROUPS: 10,

@@ -121,14 +121,14 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     if (!this.betweenIsuFactors) {
       this.betweenIsuFactors = new BetweenISUFactors();
     }
-    this.stage = this.stage = 0;
+    this.stage = 0;
   }
 
-  dontincludeBetweenIsuFactors() {
-    this.navigation_service.updateNavigationMode(false);
-    this.editing = false;
-    this.navigation_service.updateValid(true);
+  resetNavigation() {
     this.stage = -1;
+    this.editing = false;
+    this.navigation_service.updateNavigationMode(false);
+    this.navigation_service.updateValid(true);
   }
 
   addPredictor() {
@@ -137,6 +137,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.predictor.groups = this.groups;
 
     this.betweenIsuFactors.predictors.push(this.predictor);
+    this.editing = false;
   }
 
   removePredictor() {}
@@ -157,20 +158,34 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   internallyNavigate(direction: string): void {
     let next = this.stage;
     if ( direction === 'BACK' ) {
-      next = this.stage - 1;
+      if (this.stage === 2 ) {
+        next = -1;
+        this.resetNavigation();
+      } else {
+        next = this.stage - 1;
+      }
     }
     if ( direction === 'NEXT' ) {
-      next = this.stage + 1;
+      if (this.stage === -1
+        && !this.editing
+        && this.hasPredictors() ) {
+        next = 2;
+      } else if (this.stage === 1
+        && this.editing ) {
+        this.addPredictor();
+        next = -1;
+      } else {
+        next = this.stage + 1;
+      }
     }
     if ( next < 0) {
-      this.dontincludeBetweenIsuFactors();
       this.resetForms();
     }
     if ( next >= Object.keys(this.stages).length ) {
-      this.addPredictor();
       this.resetForms();
+      this.resetNavigation();
     }
-    if (this.stages[next]) {
+    if (this.stages[next] || next === -1) {
       this.setStage(next);
     }
   }
@@ -179,6 +194,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   setStage(next: number) {
     this.stage = next;
     this.setNextEnabled(this.getStageStatus(this.stage));
+    if (this.stage === -1 ) {
+      this.setNextEnabled('VALID');
+    }
   }
 
   setNextEnabled(status: string) {
@@ -191,11 +209,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.predictorForm.reset();
     this.groups = [];
     this.buildForm();
-
-    this.stage = -1;
-    this.editing = false;
-    this.navigation_service.updateNavigationMode(false);
   }
+
 
 
   hasPredictors(): boolean {

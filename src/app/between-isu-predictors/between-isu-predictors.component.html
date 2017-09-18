@@ -1,5 +1,5 @@
 <script src="../within-isu-repeated-measures/within-isu-repeated-measures.component.ts"></script>
-<div *ngIf="!editing" id="firstPredictor">
+<div *ngIf="!editing && stage === -1" id="firstPredictor">
   <div class="container-fluid">
     <div class="row">
       <div class="col" *ngIf="!hasPredictors()">
@@ -30,6 +30,7 @@
   <form [formGroup]="groupsForm">
     <div class="container-fluid">
       <div class="row" *ngIf="firstGroup() || nextGroup()">
+        <h5>Name at least two groups:</h5>
         <div class="col">
           <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">
         </div>
@@ -54,6 +55,8 @@
     </div>
   </form>
 </div>
+
+<div *ngIf="stages[2] === stageName">Stage 2 baby! Tell us about those groups</div>
 
 <div *ngIf="hasPredictors()">
   <br>
