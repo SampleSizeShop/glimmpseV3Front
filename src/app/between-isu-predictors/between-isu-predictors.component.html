@@ -56,17 +56,26 @@
   </form>
 </div>
 
-<div *ngIf="stages[2] === stageName && solveFor === 'POWER'">
-  <div class="container-fluid">
-    <h5>What size is your smallest group?</h5>
-  </div>
-</div>
+<form [formGroup]="groupSizeForm">
 
-<div *ngIf="stages[2] === stageName && solveFor === 'SAMPLESIZE'">
-  <div class="container-fluid">
-    <h5>Tell us about the relative sizes of your groups as listed below:</h5>
+  <div *ngIf="stages[2] === stageName && solveFor === 'POWER'">
+    <div class="container-fluid">
+      <h5>What size is your smallest group?</h5>
+      <input type="number" class="form-control" id="smallestgroupsize" formControlName="smallestGroupSize" required>
+    </div>
   </div>
-</div>
+
+  <div *ngIf="stages[2] === stageName && solveFor === 'SAMPLESIZE'">
+    <div class="container-fluid">
+      <h5>Tell us about the relative sizes of your groups as listed below:</h5>
+      <div *ngFor="let name of groupNames; let i = index">
+        #{{i +1}} {{name}}
+      </div>
+    </div>
+  </div>
+
+</form>
+
 
 <div *ngIf="hasPredictors()">
   <br>

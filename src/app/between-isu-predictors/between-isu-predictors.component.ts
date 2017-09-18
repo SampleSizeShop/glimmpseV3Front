@@ -16,6 +16,7 @@ import {outcomeValidator} from '../within-isu-outcomes/outcome.validator';
 export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy {
   private _predictorForm: FormGroup;
   private _groupsForm: FormGroup;
+  private _groupSizeForm: FormGroup;
   private _predictors: Predictor[];
   private _predictor: Predictor;
   private _groups: string[];
@@ -23,6 +24,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _maxPredictors: number;
   private _betweenIsuFactors: BetweenISUFactors;
   private _solveFor: string;
+
+  private _groupNames: string[];
 
   private _editing: boolean;
   private _stages;
@@ -80,6 +83,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.groupsForm = this.fb.group({
       group: ['', outcomeValidator(this.groups)]
     });
+    this.groupSizeForm = this.fb.group( {
+      smallestGroupSize: [1]
+    } );
   }
 
   private updateFormStatus() {
@@ -88,6 +94,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     }
     if (this.stage === 1) {
       this.setNextEnabled(this.groupsForm.status);
+    }
+    if (this.stage === 2) {
+      this.setNextEnabled(this.groupSizeForm.status);
     }
     this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
   }
@@ -176,6 +185,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
         && !this.editing
         && this.hasPredictors() ) {
         next = 2;
+        this.updateGroupsizeFormControls();
       } else if (this.stage === 1
         && this.editing ) {
         this.addPredictor();
@@ -217,7 +227,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.buildForm();
   }
 
-
+  updateGroupsizeFormControls() {
+    this.betweenIsuFactors.generateCombinations();
+    this.groupNames = this.betweenIsuFactors.combinations;
+  }
 
   hasPredictors(): boolean {
     if (this.betweenIsuFactors) {
@@ -231,6 +244,14 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       return true;
     }
     return false;
+  }
+
+  get groupNames(): string[] {
+    return this._groupNames;
+  }
+
+  set groupNames(value: string[]) {
+    this._groupNames = value;
   }
 
   get stageName() {
@@ -251,6 +272,14 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set groupsForm(value: FormGroup) {
     this._groupsForm = value;
+  }
+
+  get groupSizeForm(): FormGroup {
+    return this._groupSizeForm;
+  }
+
+  set groupSizeForm(value: FormGroup) {
+    this._groupSizeForm = value;
   }
 
   get betweenIsuFactors(): BetweenISUFactors {
