@@ -22,6 +22,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _maxGroups: number;
   private _maxPredictors: number;
   private _betweenIsuFactors: BetweenISUFactors;
+  private _solveFor: string;
 
   private _editing: boolean;
   private _stages;
@@ -30,6 +31,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _navigationSubscription: Subscription;
 
   private _betweenIsuFactorsSubscription: Subscription;
+  private _solveForSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService,
@@ -52,6 +54,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.betweenIsuFactorsSubscription = this.study_service.betweenIsuFactors$.subscribe( betweenIsuFactors => {
       this.betweenIsuFactors = betweenIsuFactors;
     });
+
+    this.solveForSubscription = this.study_service.solveForSelected$.subscribe( solveFor => {
+      this.solveFor = solveFor;
+    })
   }
 
   ngOnInit() {
@@ -263,6 +269,14 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._betweenIsuFactorsSubscription = value;
   }
 
+  get solveForSubscription(): Subscription {
+    return this._solveForSubscription;
+  }
+
+  set solveForSubscription(value: Subscription) {
+    this._solveForSubscription = value;
+  }
+
   get fb(): FormBuilder {
     return this._fb;
   }
@@ -358,5 +372,13 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set maxPredictors(value: number) {
     this._maxPredictors = value;
+  }
+
+  get solveFor(): string {
+    return this._solveFor;
+  }
+
+  set solveFor(value: string) {
+    this._solveFor = value;
   }
 }

@@ -56,7 +56,17 @@
   </form>
 </div>
 
-<div *ngIf="stages[2] === stageName">Stage 2 baby! Tell us about those groups</div>
+<div *ngIf="stages[2] === stageName && solveFor === 'POWER'">
+  <div class="container-fluid">
+    <h5>What size is your smallest group?</h5>
+  </div>
+</div>
+
+<div *ngIf="stages[2] === stageName && solveFor === 'SAMPLESIZE'">
+  <div class="container-fluid">
+    <h5>Tell us about the relative sizes of your groups as listed below:</h5>
+  </div>
+</div>
 
 <div *ngIf="hasPredictors()">
   <br>
