@@ -56,7 +56,7 @@
   </form>
 </div>
 
-<form [formGroup]="groupSizeForm">
+<form [formGroup]="groupSizeForm" class="form-horizontal">
 
   <div *ngIf="stages[2] === stageName && solveFor === 'POWER'">
     <div class="container-fluid">
@@ -68,9 +68,16 @@
   <div *ngIf="stages[2] === stageName && solveFor === 'SAMPLESIZE'">
     <div class="container-fluid">
       <h5>Tell us about the relative sizes of your groups as listed below:</h5>
-      <div *ngFor="let name of betweenIsuFactors.combinations; let i = index">
-        #{{i +1}} {{name.id[0]}}
+
+      <div *ngFor="let name of betweenIsuFactors.combinations; let i = index" class="row">
+        <div class="col-md-auto">
+          <label for="{{name.id[0]}}" style="margin-bottom: 0px">{{name.id[0]}}:</label>
+        </div>
+        <div class="col-md-auto">
+          <input type="number" value="{{name.size}}" id="{{name.id[0]}}">
+        </div>
       </div>
+
     </div>
   </div>
 
