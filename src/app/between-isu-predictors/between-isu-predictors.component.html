@@ -69,14 +69,21 @@
     <div class="container-fluid">
       <h5>Tell us about the relative sizes of your groups as listed below:</h5>
 
-      <div *ngFor="let combination of betweenIsuFactors.combinations; let i = index" class="row">
+      <div *ngFor="let group of subGroups; let i = index;">
+        {{i}}
+        <div *ngFor="let combination of group">
+          {{combination.name}}
+        </div>
+      </div>
+
+      <!-- <div *ngFor="let combination of betweenIsuFactors.combinations; let i = index;" class="row">
         <div class="col-md-auto">
           <label for="{{combination.name}}" style="margin-bottom: 0px">{{combination.name}}:</label>
         </div>
         <div class="col-md-auto">
           <input type="number" value="{{combination.size}}" id="{{combination.name}}">
         </div>
-      </div>
+      </div> -->
 
     </div>
   </div>

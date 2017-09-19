@@ -36,7 +36,7 @@ export class BetweenISUFactors {
 
         subGroupCombinations.push(group);
       });
-      return [{table: table}, {subGroups: subGroupCombinations}];
+      return [table, subGroupCombinations];
     }
   }
 
