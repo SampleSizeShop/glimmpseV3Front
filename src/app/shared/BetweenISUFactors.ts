@@ -7,38 +7,20 @@ export class BetweenISUFactors {
   smallestGroupSize: number[] = [];
 
   generateCombinations() {
-    let combinations = [];
-    for (const values of this.allPredictorValues ) {
-      combinations = this.getListPairCombinations( values, combinations );
-    }
-    this.combinations = [];
-    for ( const c of combinations ) {
-      const comb = new BetweenIsuCombination();
-      comb.id.push(c);
-      comb.size = 1;
-      this.combinations.push(comb);
-    }
+    this.assignChildren();
+    this.combinations = this.predictors[0].mapCombinations();
   }
 
-  getListPairCombinations (a, b): string[] {
-    if (a.length === 0 && b.length > 0) { return b; }
-    if (b.length === 0 && a.length > 0) { return a; }
-
-    const l = [];
-    a.map( x => {
-      b.map( y => {
-        const z = x + ' - ' + y;
-        l.push(z);
-      } );
-    } );
-    return l;
-  }
-
-  get allPredictorValues() {
-    const predictorValues = [];
-    for (const predictor of this.predictors) {
-      predictorValues.push(predictor.groups);
+  assignChildren() {
+    const pList = [];
+    let p = this.predictors.pop();
+    while (this.predictors.length > 0) {
+      const child = this.predictors.pop();
+      p.child = child
+      pList.push(p);
+      p = child;
     }
-    return predictorValues;
+    pList.push(p);
+    this.predictors = pList;
   }
 }

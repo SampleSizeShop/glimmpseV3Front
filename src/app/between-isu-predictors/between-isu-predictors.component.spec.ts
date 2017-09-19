@@ -5,8 +5,9 @@ import {StudyService} from '../shared/study.service';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
-import {BetweenISUFactors} from "../shared/BetweenISUFactors";
-import {Predictor} from "../shared/Predictor";
+import {BetweenISUFactors} from '../shared/BetweenISUFactors';
+import {Predictor} from '../shared/Predictor';
+import {NavigationService} from '../shared/navigation.service';
 
 describe('BetweenIsuPredictorsComponent', () => {
   let component: BetweenIsuPredictorsComponent;
@@ -16,7 +17,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ BetweenIsuPredictorsComponent ],
-      providers: [StudyService, { provide: Http, useClass: MockBackend }]
+      providers: [StudyService, { provide: Http, useClass: MockBackend }, NavigationService]
     })
     .compileComponents();
   }));
@@ -47,7 +48,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     three.groups = ['x', 'y', 'z'];
 
     const five = new Predictor();
-    five.name = 'Three';
+    five.name = 'Five';
     five.groups = ['1', '2', '3', '4'];
 
     x.predictors.push(gender);

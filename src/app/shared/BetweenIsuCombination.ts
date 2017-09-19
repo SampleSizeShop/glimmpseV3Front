@@ -1,4 +1,18 @@
 export class BetweenIsuCombination {
-  id: string[] = [];
+  id: GroupId[] = [];
   size: number;
+
+  constructor( id?: GroupId[], size?: number) {
+    if (id) { this.id = id; }
+    if (size) { this.size = size; }
+  }
+}
+
+export class GroupId {
+  predictor: string;
+  name: string;
+  constructor(predictor: string, name: string) {
+    this.predictor = predictor;
+    this.name = name;
+  }
 }
