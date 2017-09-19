@@ -158,8 +158,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   removePredictor() {}
   editPredictor() {}
 
-
-
   getStageStatus(stage: number): string {
     if (stage === 0) {
       return this.predictorForm.status;
@@ -229,6 +227,13 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   updateGroupsizeFormControls() {
     this.betweenIsuFactors.generateCombinations();
+  }
+
+  groupCombinations() {
+    const predictorNames = this.betweenIsuFactors.predictorNames;
+    const row = predictorNames.pop();
+    const col = predictorNames.pop();
+    const groups = [];
   }
 
   hasPredictors(): boolean {

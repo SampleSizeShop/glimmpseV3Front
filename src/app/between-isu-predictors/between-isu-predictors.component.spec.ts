@@ -57,5 +57,10 @@ describe('BetweenIsuPredictorsComponent', () => {
     x.predictors.push(five);
 
     x.generateCombinations();
+    const y = x.groupCombinations();
+    x.combinations.forEach( combination => {
+      expect(combination.id.length).toEqual(x.predictors.length);
+    });
+    expect(x.combinations.size).toEqual(72);
   });
 });
