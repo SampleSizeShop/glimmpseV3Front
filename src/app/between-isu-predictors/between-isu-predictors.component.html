@@ -70,12 +70,30 @@
       <h5>Tell us about the relative sizes of your groups as listed below:</h5>
 
       <div *ngFor="let table of tables; let i = index;">
-        {{table.groupName}}
-        <div class="row" *ngFor="let row of table.rows;">
-          <div class="col" *ngFor="let col of table.cols;">
-            {{table.getMember(row, col).name}}
+        <br>
+        <h6>{{table.groupName}}</h6>
+        <hr>
+
+        <div class="row">
+          <div class="col col-md-auto"></div>
+          <div class="col col-md-auto">{{table.rowDimension}}</div>
+        </div>
+        <div class="row">
+          <div class="col col-md-auto">{{table.colDimension}}</div>
+          <div class="col col-md-auto">
+            <div class="row">
+              <div class="col col-md-auto"></div>
+              <div class="col" *ngFor="let col of table.cols;">{{col}}</div>
+            </div>
+            <div class="row" *ngFor="let row of table.rows;">
+              <div class="col col-md-auto">{{row}}</div>
+              <div class="col col-md-auto" *ngFor="let col of table.cols;">
+                {{table.getMember(row, col).name}}<!--<input type="number" value="1">  -->
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
 
