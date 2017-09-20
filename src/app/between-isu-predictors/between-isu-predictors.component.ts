@@ -18,6 +18,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _predictorForm: FormGroup;
   private _groupsForm: FormGroup;
   private _groupSizeForm: FormGroup;
+  private _relativeGroupSizeForm: FormGroup;
   private _predictors: Predictor[];
   private _predictor: Predictor;
   private _groups: string[];
@@ -87,6 +88,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.groupSizeForm = this.fb.group( {
       smallestGroupSize: [1]
     } );
+    this.relativeGroupSizeForm = this.fb.group( {} )
   }
 
   private updateFormStatus() {
@@ -229,6 +231,20 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   updateGroupsizeFormControls() {
     this.betweenIsuFactors.generateCombinations();
     this.tables = this.betweenIsuFactors.groupCombinations();
+    const controlDefs = {};
+    this.tables.forEach( table => {
+      const names = table.table.keys();
+      let done = false;
+      let next = names.next();
+      while ( !done ) {
+        const key = next.value;
+        const combination = table.table.get(key);
+        controlDefs[combination.name] = [1];
+        next = names.next();
+        done = next.done;
+      }
+    });
+    this.relativeGroupSizeForm = this.fb.group(controlDefs);
   }
 
   hasPredictors(): boolean {
@@ -271,6 +287,14 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set groupSizeForm(value: FormGroup) {
     this._groupSizeForm = value;
+  }
+
+  get relativeGroupSizeForm(): FormGroup {
+    return this._relativeGroupSizeForm;
+  }
+
+  set relativeGroupSizeForm(value: FormGroup) {
+    this._relativeGroupSizeForm = value;
   }
 
   get betweenIsuFactors(): BetweenISUFactors {

@@ -10,7 +10,7 @@ export class BetweenIsuCombination {
   get name(): string {
     let name = '';
     this.id.forEach( groupId => {
-      name = name + groupId.name + ' :';
+      name = name + groupId.name;
     })
     return name;
   }
