@@ -92,5 +92,13 @@ describe('BetweenIsuPredictorsComponent', () => {
     const member = tables[0].getMember('m', null).name;
     expect(member).toEqual('m');
   });
-  it('', () => {});
+  it('Should return the expected group name', () => {
+    const x = new BetweenISUFactors();
+    x.predictors.push(gender);
+
+    x.generateCombinations();
+    const tables = x.groupCombinations();
+    const groupNmae = tables[0].groupName;
+    expect(groupNmae).toEqual(' Gender:m');
+  });
 });

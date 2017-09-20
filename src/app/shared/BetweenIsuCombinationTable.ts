@@ -126,7 +126,9 @@ class TableKey {
   toString() {
     let name = '';
     if (this.row) { name = name + this.row.predictor + this.row.name; }
-    if ( !isNullOrUndefined(this.col) && !isNullOrUndefined(this.col.predictor) && !isNullOrUndefined(this.col.name)) { name = name + this.col.predictor + this.col.name; }
+    if ( !isNullOrUndefined(this.col)
+      && !isNullOrUndefined(this.col.predictor)
+      && !isNullOrUndefined(this.col.name)) { name = name + this.col.predictor + this.col.name; }
     return name;
   }
 
