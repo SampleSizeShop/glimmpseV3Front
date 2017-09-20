@@ -1,5 +1,6 @@
 import {Predictor} from './Predictor';
 import {BetweenIsuCombination} from './BetweenIsuCombination';
+import {BetweenIsuCombinationTable} from "./BetweenIsuCombinationTable";
 
 export class BetweenISUFactors {
   predictors: Predictor[] = [];
@@ -16,12 +17,12 @@ export class BetweenISUFactors {
 
   groupCombinations() {
     const names = this.predictorNames;
-    let table = [];
+    let tableDimensions = [];
     if (this.predictors && ( this.predictors.length === 1 || this.predictors.length === 2)) {
-      table = names;
+      tableDimensions = names;
     }
     if (this.predictors && this.predictors.length > 2) {
-      table = [names.pop(), names.pop()];
+      tableDimensions = [names.pop(), names.pop()];
     }
 
     const subGroupCombinations = this.getSubGroupCombinations(names);
@@ -38,7 +39,14 @@ export class BetweenISUFactors {
 
       subGroups.push([subGroup, group]);
     });
-    return [table, subGroups];
+
+    const tables = [];
+    subGroups.forEach( subGroup => {
+      const table = new BetweenIsuCombinationTable( subGroup[1], tableDimensions, subGroup[0] );
+      tables.push(table);
+    } );
+
+    return [tableDimensions, subGroups];
   }
 
   isElementinSubGroup(combination: BetweenIsuCombination, subGroup: BetweenIsuCombination) {

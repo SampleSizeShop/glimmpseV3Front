@@ -1,4 +1,5 @@
 import {BetweenIsuCombination, GroupId} from './BetweenIsuCombination';
+import {strictEqual} from "assert";
 
 export class BetweenIsuCombinationTable {
   private _table: Map<TableKey, BetweenIsuCombination>;
@@ -20,6 +21,12 @@ export class BetweenIsuCombinationTable {
   }
 
   populateTableandRowsAndColumns(members: BetweenIsuCombination[]) {
+    this.table = new Map<TableKey, BetweenIsuCombination>();
+    this.rows = [];
+    this.cols = [];
+
+    const rowSet = new Set<string>();
+    const colSet = new Set<string>();
     members.forEach( member => {
       let row = null;
       let col = null;
@@ -35,9 +42,16 @@ export class BetweenIsuCombinationTable {
 
       const key = new TableKey(row, col);
       this.table.set(key, member);
-      this.rows.push( row.name );
-      this.cols.push( col.name );
+      rowSet.add( row.name );
+      colSet.add( col.name );
     } );
+
+    rowSet.forEach( val => {
+      this.rows.push(val);
+    } )
+    colSet.forEach( val => {
+      this.cols.push(val);
+    } )
   }
 
   getMember(row: string, col: string) {
