@@ -70,6 +70,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   ngDoCheck() {
+    if (this.stage === 2 && this.solveFor === 'SAMPLESIZE') {
+      this.updateCombinations();
+    }
     this.updateFormStatus();
   }
 
@@ -228,8 +231,16 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.buildForm();
   }
 
+  updateCombinations() {
+    this.betweenIsuFactors.combinations.forEach( combination => {
+      const value = this.relativeGroupSizeForm.get(combination.name).value;
+      combination.size = value;
+    });
+  }
+
   updateGroupsizeFormControls() {
     this.betweenIsuFactors.generateCombinations();
+    this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
     this.tables = this.betweenIsuFactors.groupCombinations();
     const controlDefs = {};
     this.tables.forEach( table => {
