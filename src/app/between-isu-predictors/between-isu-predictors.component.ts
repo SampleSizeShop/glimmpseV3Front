@@ -7,6 +7,7 @@ import {NavigationService} from '../shared/navigation.service';
 import {Predictor} from '../shared/Predictor';
 import {constants} from '../shared/constants';
 import {outcomeValidator} from '../within-isu-outcomes/outcome.validator';
+import {BetweenIsuCombinationTable} from '../shared/BetweenIsuCombinationTable';
 
 @Component({
   selector: 'app-between-isu',
@@ -25,10 +26,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _betweenIsuFactors: BetweenISUFactors;
   private _solveFor: string;
 
-  private _groupNames: string[];
-  private _subGroups;
-  private _subGroupNames;
-  private _tableDimensions;
+  private _tables: BetweenIsuCombinationTable[];
 
   private _editing: boolean;
   private _stages;
@@ -230,14 +228,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   updateGroupsizeFormControls() {
     this.betweenIsuFactors.generateCombinations();
-    const subGroupCombinations = this.betweenIsuFactors.groupCombinations();
-    this.tableDimensions = subGroupCombinations[0];
-    this.subGroups = [];
-    this.subGroupNames = [];
-    subGroupCombinations[1].forEach( subGroup => {
-      this.subGroupNames.push(subGroup[0]);
-      this.subGroups.push(subGroup[1]);
-    } )
+    this.tables = this.betweenIsuFactors.groupCombinations();
   }
 
   hasPredictors(): boolean {
@@ -252,14 +243,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       return true;
     }
     return false;
-  }
-
-  get groupNames(): string[] {
-    return this._groupNames;
-  }
-
-  set groupNames(value: string[]) {
-    this._groupNames = value;
   }
 
   get stageName() {
@@ -419,27 +402,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._solveFor = value;
   }
 
-  get subGroups() {
-    return this._subGroups;
+  get tables(): BetweenIsuCombinationTable[] {
+    return this._tables;
   }
 
-  set subGroups(value) {
-    this._subGroups = value;
-  }
-
-  get subGroupNames() {
-    return this._subGroupNames;
-  }
-
-  set subGroupNames(value) {
-    this._subGroupNames = value;
-  }
-
-  get tableDimensions() {
-    return this._tableDimensions;
-  }
-
-  set tableDimensions(value) {
-    this._tableDimensions = value;
+  set tables(value: BetweenIsuCombinationTable[]) {
+    this._tables = value;
   }
 }

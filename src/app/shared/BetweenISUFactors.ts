@@ -42,11 +42,11 @@ export class BetweenISUFactors {
 
     const tables = [];
     subGroups.forEach( subGroup => {
-      const table = new BetweenIsuCombinationTable( subGroup[1], tableDimensions, subGroup[0] );
+      const table = new BetweenIsuCombinationTable( subGroup[1], tableDimensions, subGroup[0].id );
       tables.push(table);
     } );
 
-    return [tableDimensions, subGroups];
+    return tables;
   }
 
   isElementinSubGroup(combination: BetweenIsuCombination, subGroup: BetweenIsuCombination) {
