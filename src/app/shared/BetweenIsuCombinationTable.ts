@@ -11,8 +11,7 @@ export class BetweenIsuCombinationTable {
   constructor(members: BetweenIsuCombination[], tableDimensions: string[], groupName: GroupId[]) {
     this.groupIdentifier = groupName
     this.populateTableDimensions(tableDimensions);
-    this.populateRowsAndColumns(members);
-    this.populateTable(members);
+    this.populateTableandRowsAndColumns(members);
   }
 
   populateTableDimensions(tableDimensions: string []) {
@@ -20,37 +19,25 @@ export class BetweenIsuCombinationTable {
     this.colDimension = tableDimensions[1];
   }
 
-  populateRowsAndColumns(members: BetweenIsuCombination[]) {
-    members.forEach( member => {
-      member.id.forEach( predictor => {
-        if (predictor.predictor === this.rowDimension) {
-          this.rows.push( predictor.name );
-        }
-        if ( predictor.predictor === this.colDimension ) {
-          this.cols.push( predictor.name );
-        }
-      } );
-    } );
-  }
-
-  populateTable(members: BetweenIsuCombination[]) {
-    this.table = new Map<TableKey, BetweenIsuCombination>();
+  populateTableandRowsAndColumns(members: BetweenIsuCombination[]) {
     members.forEach( member => {
       let row = null;
       let col = null;
 
-      member.id.forEach( predictor => {
-        if (predictor.predictor === this.rowDimension ) {
-          row = predictor
+      member.id.forEach( groupId => {
+        if (groupId.predictor === this.rowDimension) {
+          row = groupId
         }
-        if (predictor.predictor === this.colDimension ) {
-          col = predictor
+        if ( groupId.predictor === this.colDimension ) {
+          col = groupId
         }
-      });
+      } );
 
       const key = new TableKey(row, col);
-      this.table.set(key, member)
-    });
+      this.table.set(key, member);
+      this.rows.push( row.name );
+      this.cols.push( col.name );
+    } );
   }
 
   getMember(row: string, col: string) {
