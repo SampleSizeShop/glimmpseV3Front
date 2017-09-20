@@ -15,29 +15,30 @@ export class BetweenISUFactors {
   }
 
   groupCombinations() {
+    const names = this.predictorNames;
+    let table = [];
     if (this.predictors && ( this.predictors.length === 1 || this.predictors.length === 2)) {
-      const names = this.predictorNames;
-      return [{table: names}];
+      table = names;
     }
     if (this.predictors && this.predictors.length > 2) {
-      const names = this.predictorNames;
-      const table = [names.pop(), names.pop()];
-      const subGroups = this.getSubGroups(names);
-      const subGroupCombinations = [];
-
-      subGroups.forEach( subGroup => {
-        const group = [];
-
-        this.combinations.forEach(combination => {
-          if (this.isElementinSubGroup(combination, subGroup)) {
-            group.push(combination);
-          }
-        });
-
-        subGroupCombinations.push(group);
-      });
-      return [table, subGroupCombinations];
+      table = [names.pop(), names.pop()];
     }
+
+    const subGroupCombinations = this.getSubGroupCombinations(names);
+    const subGroups = [];
+
+    subGroupCombinations.forEach( subGroup => {
+      const group = [];
+
+      this.combinations.forEach(combination => {
+        if (this.isElementinSubGroup(combination, subGroup)) {
+          group.push(combination);
+        }
+      });
+
+      subGroups.push([subGroup, group]);
+    });
+    return [table, subGroups];
   }
 
   isElementinSubGroup(combination: BetweenIsuCombination, subGroup: BetweenIsuCombination) {
@@ -52,7 +53,7 @@ export class BetweenISUFactors {
     return include;
   }
 
-  getSubGroups(names: string[]): BetweenIsuCombination[] {
+  getSubGroupCombinations(names: string[]): BetweenIsuCombination[] {
     let groups = [];
     names.forEach( name => {
       this.predictors.forEach( predictor => {

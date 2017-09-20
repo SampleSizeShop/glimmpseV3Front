@@ -70,11 +70,15 @@
       <h5>Tell us about the relative sizes of your groups as listed below:</h5>
 
       <div *ngFor="let group of subGroups; let i = index;">
-        {{i}}
-        <div *ngFor="let combination of group">
-          {{combination.name}}
+        {{subGroupNames[i].name | json}}
+        <div class="container-fluid">
+          <div class="row" ngFor="let row of rows;">
+            <div class="col" ngFor="let col of cols"></div>
+          </div>
         </div>
+        <div *ngFor="let combination of group">
       </div>
+    </div>
 
       <!-- <div *ngFor="let combination of betweenIsuFactors.combinations; let i = index;" class="row">
         <div class="col-md-auto">

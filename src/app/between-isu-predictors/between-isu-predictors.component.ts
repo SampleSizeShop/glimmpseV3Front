@@ -27,6 +27,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   private _groupNames: string[];
   private _subGroups;
+  private _subGroupNames;
+  private _tableDimensions;
 
   private _editing: boolean;
   private _stages;
@@ -228,8 +230,14 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   updateGroupsizeFormControls() {
     this.betweenIsuFactors.generateCombinations();
-    const a = this.betweenIsuFactors.groupCombinations();
-    this.subGroups = a[1]
+    const subGroupCombinations = this.betweenIsuFactors.groupCombinations();
+    this.tableDimensions = subGroupCombinations[0];
+    this.subGroups = [];
+    this.subGroupNames = [];
+    subGroupCombinations[1].forEach( subGroup => {
+      this.subGroupNames.push(subGroup[0]);
+      this.subGroups.push(subGroup[1]);
+    } )
   }
 
   hasPredictors(): boolean {
@@ -417,5 +425,21 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set subGroups(value) {
     this._subGroups = value;
+  }
+
+  get subGroupNames() {
+    return this._subGroupNames;
+  }
+
+  set subGroupNames(value) {
+    this._subGroupNames = value;
+  }
+
+  get tableDimensions() {
+    return this._tableDimensions;
+  }
+
+  set tableDimensions(value) {
+    this._tableDimensions = value;
   }
 }
