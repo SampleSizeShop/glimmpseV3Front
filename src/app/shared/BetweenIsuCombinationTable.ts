@@ -1,8 +1,7 @@
 import {BetweenIsuCombination, GroupId} from './BetweenIsuCombination';
-import {strictEqual} from "assert";
 
 export class BetweenIsuCombinationTable {
-  private _table: Map<TableKey, BetweenIsuCombination>;
+  private _table: Map<string, BetweenIsuCombination>;
   private _rows: string[];
   private _cols: string[];
   private _rowDimension: string;
@@ -21,7 +20,7 @@ export class BetweenIsuCombinationTable {
   }
 
   populateTableandRowsAndColumns(members: BetweenIsuCombination[]) {
-    this.table = new Map<TableKey, BetweenIsuCombination>();
+    this.table = new Map<string, BetweenIsuCombination>();
     this.rows = [];
     this.cols = [];
 
@@ -41,7 +40,7 @@ export class BetweenIsuCombinationTable {
       } );
 
       const key = new TableKey(row, col);
-      this.table.set(key, member);
+      this.table.set(key.toString(), member);
       rowSet.add( row.name );
       colSet.add( col.name );
     } );
@@ -59,7 +58,7 @@ export class BetweenIsuCombinationTable {
       new GroupId( this.rowDimension, row ),
       new GroupId(this.colDimension, col)
     );
-    return this.table.get(key);
+    return this.table.get(key.toString());
   }
 
   get groupName() {
@@ -70,11 +69,11 @@ export class BetweenIsuCombinationTable {
     return name;
   }
 
-  get table(): Map<TableKey, BetweenIsuCombination> {
+  get table(): Map<string, BetweenIsuCombination> {
     return this._table;
   }
 
-  set table(value: Map<TableKey, BetweenIsuCombination>) {
+  set table(value: Map<string, BetweenIsuCombination>) {
     this._table = value;
   }
 
@@ -122,6 +121,10 @@ export class BetweenIsuCombinationTable {
 class TableKey {
   row: GroupId;
   col: GroupId;
+
+  toString() {
+    return this.row.predictor + this.row.name + this.col.predictor + this.col.name;
+  }
 
   constructor(row: GroupId, col: GroupId) {
     this.row = row;

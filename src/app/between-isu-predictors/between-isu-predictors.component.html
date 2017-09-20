@@ -71,9 +71,9 @@
 
       <div *ngFor="let table of tables; let i = index;">
         {{table.groupName}}
-        <div class="row" ngFor="let row of table.rows;">
-          <div class="col" ngFor="let col of table.cols">
-            table.getMember(row, col)
+        <div class="row" *ngFor="let row of table.rows;">
+          <div class="col" *ngFor="let col of table.cols;">
+            {{table.getMember(row, col).name}}
           </div>
         </div>
       </div>

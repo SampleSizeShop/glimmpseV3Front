@@ -8,6 +8,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {BetweenISUFactors} from '../shared/BetweenISUFactors';
 import {Predictor} from '../shared/Predictor';
 import {NavigationService} from '../shared/navigation.service';
+import {TableKey} from "../shared/BetweenIsuCombinationTable";
+import {GroupId} from "../shared/BetweenIsuCombination";
 
 describe('BetweenIsuPredictorsComponent', () => {
   let component: BetweenIsuPredictorsComponent;
@@ -58,9 +60,19 @@ describe('BetweenIsuPredictorsComponent', () => {
 
     x.generateCombinations();
     const y = x.groupCombinations();
+
     x.combinations.forEach( combination => {
       expect(combination.id.length).toEqual(x.predictors.length);
     });
     expect(x.combinations.size).toEqual(72);
+  });
+
+  it('Should match two keys', () => {
+    // const k1 = new TableKey( new GroupId( 'a', '1' ), new GroupId( 'b',  '2' ) );
+    // const k2 = new TableKey( new GroupId( 'a', '1' ), new GroupId( 'b',  '2' ) );
+    const k1 = 'a1b2';
+    const k2 = 'a1b2';
+    const res = (k1 === k2);
+    expect(res);
   });
 });
