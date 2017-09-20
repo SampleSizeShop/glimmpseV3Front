@@ -1,4 +1,5 @@
 import {BetweenIsuCombination, GroupId} from './BetweenIsuCombination';
+import {isNullOrUndefined} from "util";
 
 export class BetweenIsuCombinationTable {
   private _table: Map<string, BetweenIsuCombination>;
@@ -41,8 +42,8 @@ export class BetweenIsuCombinationTable {
 
       const key = new TableKey(row, col);
       this.table.set(key.toString(), member);
-      rowSet.add( row.name );
-      colSet.add( col.name );
+      if (row ) {rowSet.add( row.name ); }
+      if (col) {colSet.add( col.name ); }
     } );
 
     rowSet.forEach( val => {
@@ -123,7 +124,10 @@ class TableKey {
   col: GroupId;
 
   toString() {
-    return this.row.predictor + this.row.name + this.col.predictor + this.col.name;
+    let name = '';
+    if (this.row) { name = name + this.row.predictor + this.row.name; }
+    if ( !isNullOrUndefined(this.col) && !isNullOrUndefined(this.col.predictor) && !isNullOrUndefined(this.col.name)) { name = name + this.col.predictor + this.col.name; }
+    return name;
   }
 
   constructor(row: GroupId, col: GroupId) {
