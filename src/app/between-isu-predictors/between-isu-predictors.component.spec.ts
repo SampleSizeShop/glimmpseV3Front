@@ -82,6 +82,31 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(el).toBeTruthy();
   });
 
+  it('Should add a group when we click add group', () => {
+    component.editing = false;
+    component.setStage(-1);
+    component.includeBetweenIsuFactors();
+    component.predictorForm.get('predictorName').setValue('A');
+    component.internallyNavigate('NEXT');
+    component.groupsForm.get('group').setValue('a1');
+    component.addGroup();
+    fixture.detectChanges();
+    expect(component.groups.length).toEqual(1);
+  });
+
+  it('Should add a group when we click add group', () => {
+    component.editing = false;
+    component.setStage(-1);
+    component.includeBetweenIsuFactors();
+    component.predictorForm.get('predictorName').setValue('A');
+    component.internallyNavigate('NEXT');
+    component.groupsForm.get('group').setValue('a1');
+    component.addGroup();
+    component.removeGroup('a1')
+    fixture.detectChanges();
+    expect(component.groups.length).toEqual(0);
+  });
+
   it('Should add a BetweenIsuPredictor to the study design and give the option to add another,' +
     ' once we have added groups and clicked next', () => {
     component.editing = false;
@@ -171,6 +196,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     fixture.detectChanges();
     component.internallyNavigate('NEXT');
     component.internallyNavigate('NEXT');
+    fixture.detectChanges();
 
     expect(component.betweenIsuFactors.predictors.length).toEqual(2);
     const stageName = component.stageName;
