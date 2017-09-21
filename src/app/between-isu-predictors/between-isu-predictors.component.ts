@@ -182,6 +182,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   editPredictor(predictor: Predictor) {
     this.removePredictor(predictor);
+    this.predictorForm = this.fb.group({
+      predictorName: ['', outcomeValidator(this.betweenIsuFactors ? this.betweenIsuFactors.predictorNames : [] )]
+    });
     this.includeBetweenIsuFactors(predictor);
 
     this.navigation_service.updateNavigationMode(true);
