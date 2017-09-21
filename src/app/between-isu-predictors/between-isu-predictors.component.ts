@@ -19,7 +19,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _groupsForm: FormGroup;
   private _groupSizeForm: FormGroup;
   private _relativeGroupSizeForm: FormGroup;
-  private _predictors: Predictor[];
   private _predictor: Predictor;
   private _groups: string[];
   private _maxGroups: number;
@@ -44,7 +43,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.stages = constants.BETWEEN_ISU_STAGES;
     this.stage = -1;
 
-    this.predictors = [];
     this.groups = [];
     this.maxGroups = constants.MAX_GROUPS;
     this.maxPredictors = constants.MAX_PREDICTORS;
@@ -266,7 +264,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   nextPredictors(): boolean {
-    if (this.hasPredictors() && this.predictors.length < this.maxPredictors ) {
+    if (this.hasPredictors() && this.betweenIsuFactors.predictors.length < this.maxPredictors ) {
       return true;
     }
     return false;
@@ -386,15 +384,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set editing(value: boolean) {
     this._editing = value;
-  }
-
-
-  get predictors(): Predictor[] {
-    return this._predictors;
-  }
-
-  set predictors(value: Predictor[]) {
-    this._predictors = value;
   }
 
   get predictor(): Predictor {
