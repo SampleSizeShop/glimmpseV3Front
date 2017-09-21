@@ -30,6 +30,9 @@
     <div class="d-flex justify-content-start" *ngIf="stages[9] === getStageName()">
       <app-between-isu></app-between-isu>
     </div>
+    <div class="d-flex justify-content-start" *ngIf="stages[10] === getStageName()">
+      <app-between-isu-groups></app-between-isu-groups>
+    </div>
   </div>
 <hr>
 <div class="d-flex justify-content-end" >
@@ -41,5 +44,6 @@
   </div>
 </div>
 <br>
-HELLO!
-{{study | json}}
+Child nav: {{childComponentNav}}
+<br>
+Stage : {{getStageName()}}

@@ -5,6 +5,7 @@ import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-study-form',
@@ -56,7 +57,13 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     } else {
       const current = this.getStage();
       if ( current < this._noStages &&  this.valid ) {
-        this.setStage( current + 1 );
+        if (current === 9
+          && (isNullOrUndefined(this.study.betweenIsuFactors)
+          || this.study.betweenIsuFactors.predictors.length === 0)) {
+          this.setStage(11)
+        } else {
+          this.setStage( current + 1 );
+        }
         this.setNextBack();
       }
     }
@@ -68,7 +75,13 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     } else {
       const current = this.getStage();
       if (current > 1 && this.guided) {
-        this.setStage(current - 1);
+        if (current === 11
+          && (isNullOrUndefined(this.study.betweenIsuFactors)
+          || this.study.betweenIsuFactors.predictors.length === 0)) {
+          this.setStage(9)
+        } else {
+          this.setStage(current - 1);
+        }
       }
       this.setNextBack();
       this.valid = true;

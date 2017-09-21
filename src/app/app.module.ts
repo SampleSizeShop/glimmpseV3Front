@@ -24,6 +24,7 @@ import { WithinIsuOutcomesComponent } from './within-isu-outcomes/within-isu-out
 import { WithinIsuRepeatedMeasuresComponent } from './within-isu-repeated-measures/within-isu-repeated-measures.component';
 import { WithinIsuClustersComponent } from './within-isu-clusters/within-isu-clusters.component';
 import { BetweenIsuPredictorsComponent } from './between-isu-predictors/between-isu-predictors.component';
+import { BetweenIsuGroupsComponent } from './between-isu-groups/between-isu-groups.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { BetweenIsuPredictorsComponent } from './between-isu-predictors/between-
     WithinIsuOutcomesComponent,
     WithinIsuRepeatedMeasuresComponent,
     WithinIsuClustersComponent,
-    BetweenIsuPredictorsComponent
+    BetweenIsuPredictorsComponent,
+    BetweenIsuGroupsComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

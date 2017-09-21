@@ -9,7 +9,8 @@ export const constants = {
     6: 'WITHIN_ISU_OUTCOMES',
     7: 'WITHIN_ISU_REPEATED_MEASURES',
     8: 'WITHIN_ISU_CLUSTERS',
-    9: 'BETWEEN_ISU'
+    9: 'BETWEEN_ISU_PREDICTORS',
+    10: 'BETWEEN_ISU_GROUPS',
   },
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
@@ -106,8 +107,7 @@ export const constants = {
   BETWEEN_ISU_STAGES: {
     0: 'PREDICTOR',
     1: 'GROUPS',
-    2: 'GROUP_SIZE',
   },
-  MAX_PREDICTORS: 10,
+  MAX_PREDICTORS: 5,
   MAX_GROUPS: 10,
 };
