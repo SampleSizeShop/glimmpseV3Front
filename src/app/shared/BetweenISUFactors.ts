@@ -8,6 +8,7 @@ export class BetweenISUFactors {
   smallestGroupSize: number[] = [];
 
   generateCombinations() {
+    this.combinations = new Map();
     this.predictors = this.assignChildren(this.predictors);
     const combinationList = this.predictors[0].mapCombinations();
     combinationList.forEach( combination => {

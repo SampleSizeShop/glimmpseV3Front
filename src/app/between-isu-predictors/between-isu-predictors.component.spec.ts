@@ -173,6 +173,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     component.internallyNavigate('NEXT');
 
     expect(component.betweenIsuFactors.predictors.length).toEqual(2);
+    const stageName = component.stageName;
     const desc: DebugElement = fixture.debugElement.query(By.css('#relativeGroupSizeForm'));
     const el = desc.nativeElement;
     expect(el).toBeTruthy();
