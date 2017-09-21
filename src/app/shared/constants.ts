@@ -102,5 +102,12 @@ export const constants = {
   CLUSTER_STAGES: {
     0: 'ELEMENT_NAME',
     1: 'LEVELS',
-  }
+  },
+  BETWEEN_ISU_STAGES: {
+    0: 'PREDICTOR',
+    1: 'GROUPS',
+    2: 'GROUP_SIZE',
+  },
+  MAX_PREDICTORS: 10,
+  MAX_GROUPS: 10,
 };

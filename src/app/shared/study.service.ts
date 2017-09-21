@@ -7,6 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {constants} from './constants';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
+import {BetweenISUFactors} from "./BetweenISUFactors";
 
 @Injectable()
 export class StudyService {
@@ -46,6 +47,9 @@ export class StudyService {
 
   private _withinIsuClusterSource = new BehaviorSubject<Cluster>(null);
   private _withinIsuCluster$ = this._withinIsuClusterSource.asObservable();
+
+  private _betweenIsuFactorsSource = new BehaviorSubject<BetweenISUFactors>(null);
+  private _betweenIsuFactors$ = this._betweenIsuFactorsSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -87,6 +91,10 @@ export class StudyService {
 
   updateWithinIsuCluster(cluster: Cluster) {
     this._withinIsuClusterSource.next(cluster);
+  }
+
+  updateBetweenIsuFactors(betweenIsuFactors: BetweenISUFactors) {
+    this._betweenIsuFactorsSource.next(betweenIsuFactors)
   }
 
   constructor(private  http: Http) {
@@ -220,6 +228,14 @@ export class StudyService {
 
   set withinIsuCluster$(value: Observable<Cluster>) {
     this._withinIsuCluster$ = value;
+  }
+
+  get betweenIsuFactors$(): Observable<BetweenISUFactors> {
+    return this._betweenIsuFactors$;
+  }
+
+  set betweenIsuFactors$(value: Observable<BetweenISUFactors>) {
+    this._betweenIsuFactors$ = value;
   }
 }
 

@@ -1,4 +1,5 @@
 import {WithinISUFactors} from './WithinISUFactors';
+import {BetweenISUFactors} from './BetweenISUFactors';
 
 export class StudyDesign {
   private _name: string;
@@ -10,6 +11,7 @@ export class StudyDesign {
   private _selectedTests: string[];
   private _typeOneErrorRate: number;
   private _withinIsuFactors: WithinISUFactors;
+  private _betweenIsuFactors: BetweenISUFactors;
 
   constructor(name?: string,
               guided?: boolean,
@@ -20,7 +22,8 @@ export class StudyDesign {
               ciwidth?: number,
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
-              withinIsuFactors?: WithinISUFactors
+              withinIsuFactors?: WithinISUFactors,
+              betweenIsuFactors?: BetweenISUFactors
 ) {
     this.withinIsuFactors = new WithinISUFactors();
   }
@@ -95,5 +98,13 @@ export class StudyDesign {
 
   set withinIsuFactors(value: WithinISUFactors) {
     this._withinIsuFactors = value;
+  }
+
+  get betweenIsuFactors(): BetweenISUFactors {
+    return this._betweenIsuFactors;
+  }
+
+  set betweenIsuFactors(value: BetweenISUFactors) {
+    this._betweenIsuFactors = value;
   }
 }

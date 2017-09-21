@@ -1,0 +1,137 @@
+<script src="../within-isu-repeated-measures/within-isu-repeated-measures.component.ts"></script>
+<div *ngIf="!editing && stage === -1" id="firstPredictor">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col" *ngIf="!hasPredictors()">
+        <h5>Do you have any Between ISU Factors?</h5>
+      </div>
+      <div class="col" *ngIf="hasPredictors()">
+        <h5>Would you like to add another Predictor?</h5>
+      </div>
+      <div class="col">
+        <button id="addbetweenbtn" (click)="includeBetweenIsuFactors()" class="btn btn-primary">Define Between ISU Factors</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="stages[0] === stageName">
+  <form [formGroup]="predictorForm" id="predictorForm">
+    <div class="container-fluid">
+      <div class="form-group">
+        <h5>Name your predictor:</h5>
+        <input class="form-control" formControlName="predictorName" required>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="stages[1] === stageName">
+  <form [formGroup]="groupsForm" id="groupsForm">
+    <div class="container-fluid">
+      <div class="row" *ngIf="firstGroup() || nextGroup()">
+        <h5>Name at least two groups:</h5>
+        <div class="col">
+          <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">
+        </div>
+        <div class="col">
+          <i class="material-icons" (click)="addGroup()" style="margin-top: 10px" id="addgroup">add</i>
+        </div>
+      </div>
+      <br>
+      <small *ngIf="!firstGroup()">Outcomes:</small>
+      <div *ngFor="let grp of groups" id="grouplist">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col col-md-auto">
+              <i class="material-icons" (click)="removeGroup(grp)" style="margin-bottom: 5px" id="removeoutcome">remove</i>
+            </div>
+            <div class="col">
+              {{grp}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+<div *ngIf="stages[2] === stageName && solveFor === 'POWER'">
+  <form [formGroup]="groupSizeForm" class="form-horizontal" id="groupSizeForm">
+    <div class="container-fluid">
+      <h5>What size is your smallest group?</h5>
+      <input type="number" class="form-control" id="smallestgroupsize" formControlName="smallestGroupSize" required>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="stages[2] === stageName && solveFor === 'SAMPLESIZE'">
+  <form [formGroup]="relativeGroupSizeForm" id="relativeGroupSizeForm">
+  <div class="container-fluid">
+    <h5>Tell us about the relative sizes of your groups as listed below:</h5>
+
+    <div *ngFor="let table of tables; let i = index;">
+      <br>
+      <div *ngIf="table.groupName !== ''">
+        <h6>{{table.groupName}}</h6>
+        <hr>
+      </div>
+
+      <div *ngIf="table.hasCols()">
+        <div class="row">
+          <div class="col col-md-auto"></div>
+          <div class="col col-md-auto">{{table.colDimension}}</div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col col-md-auto">{{table.rowDimension}}</div>
+        <div class="col col-md-auto">
+          <div class="row">
+            <div class="col col-md-auto"></div>
+            <div class="col" *ngFor="let col of table.cols;">{{col}}</div>
+          </div>
+          <div class="row" *ngFor="let row of table.rows;">
+            <div class="col col-md-auto">{{row}}</div>
+
+            <div class="col col-md-auto" *ngFor="let col of table.cols;">
+              <input type="number" formControlName="{{table.getMember(row, col).name}}">
+            </div>
+
+           <div *ngIf="!table.hasCols()">
+               <input type="number" formControlName="{{table.getMember(row, null).name}}">
+           </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </form>
+</div>
+
+
+
+
+<div *ngIf="hasPredictors()">
+  <br>
+  <small>Between ISU Predictors:</small>
+  <div *ngFor="let predictor of betweenIsuFactors.predictors; let i = index">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col col-md-auto">
+          <i class="material-icons" (click)="removePredictor(predictor)" style="margin-bottom: 5px" id="removepredictor">remove</i>
+        </div>
+        <div class="col  col-md-auto">
+          <i class="material-icons" (click)="editPredictor(predictor)" style="margin-bottom: 5px" id="editpredictor">create</i>
+        </div>
+        <div class="col">
+          {{predictor | json}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

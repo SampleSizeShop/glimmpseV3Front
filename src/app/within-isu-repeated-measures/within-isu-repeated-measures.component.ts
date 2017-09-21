@@ -198,7 +198,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     } else {
       this.repMeasure = new RepeatedMeasure();
     }
-    this.stage = this.stage = 0;
+    this.stage = 0;
   }
 
   dontincludeRepeatedMeasures() {
