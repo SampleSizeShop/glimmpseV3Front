@@ -71,6 +71,13 @@ export class BetweenIsuCombinationTable {
     return name;
   }
 
+  hasCols() {
+    if (isNullOrUndefined(this.cols) || (this.cols && this.cols.length === 0) ) {
+      return false;
+    }
+    return true;
+  }
+
   get table(): Map<string, BetweenIsuCombination> {
     return this._table;
   }
