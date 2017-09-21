@@ -92,13 +92,37 @@ describe('BetweenIsuPredictorsComponent', () => {
     const member = tables[0].getMember('m', null).name;
     expect(member).toEqual('m');
   });
-  it('Should return the expected group name', () => {
+
+  it('Should return the expected group name for the special case - one predictor', () => {
     const x = new BetweenISUFactors();
     x.predictors.push(gender);
 
     x.generateCombinations();
     const tables = x.groupCombinations();
+    const groupName = tables[0].groupName;
+    expect(groupName).toEqual('' );
+  });
+
+  it('Should return the expected group name for special case - two predictors', () => {
+    const x = new BetweenISUFactors();
+    x.predictors.push(gender);
+    x.predictors.push(dose);
+
+    x.generateCombinations();
+    const tables = x.groupCombinations();
     const groupNmae = tables[0].groupName;
-    expect(groupNmae).toEqual(' Gender:m');
+    expect(groupNmae).toEqual('');
+  });
+
+  it('Should return the expected group names for > 2 predictors', () => {
+    const x = new BetweenISUFactors();
+    x.predictors.push(gender);
+    x.predictors.push(dose);
+    x.predictors.push(three);
+
+    x.generateCombinations();
+    const tables = x.groupCombinations();
+    const groupNmae = tables[0].groupName;
+    expect(groupNmae).toEqual('Three:x');
   });
 });

@@ -17,34 +17,44 @@ export class BetweenISUFactors {
 
   groupCombinations() {
     const names = this.predictorNames;
-    let tableDimensions = [];
-    if (this.predictors && ( this.predictors.length === 1 || this.predictors.length === 2)) {
-      tableDimensions = names;
+    const tableDimensions = [];
+    if ( !this.predictors ) {
+      // TODO: log error and navigate to some sort of error page???
+      return null;
     }
-    if (this.predictors && this.predictors.length > 2) {
-      tableDimensions = [names.pop(), names.pop()];
-    }
+
+    if ( names.length > 0 ) { tableDimensions.push(names.pop()); }
+    if ( names.length > 0 ) { tableDimensions.push(names.pop()); }
 
     const subGroupCombinations = this.getSubGroupCombinations(names);
     const subGroups = [];
+    const tables = [];
 
-    subGroupCombinations.forEach( subGroup => {
-      const group = [];
+    if ( subGroupCombinations.length > 0 ) {
+      subGroupCombinations.forEach(subGroup => {
+        const group = [];
 
-      this.combinations.forEach(combination => {
-        if (this.isElementinSubGroup(combination, subGroup)) {
-          group.push(combination);
-        }
+        this.combinations.forEach(combination => {
+          if (this.isElementinSubGroup(combination, subGroup)) {
+            group.push(combination);
+          }
+        });
+
+        subGroups.push([subGroup, group]);
       });
 
-      subGroups.push([subGroup, group]);
-    });
-
-    const tables = [];
-    subGroups.forEach( subGroup => {
-      const table = new BetweenIsuCombinationTable( subGroup[1], tableDimensions, subGroup[0].id );
+      subGroups.forEach(subGroup => {
+        const table = new BetweenIsuCombinationTable(subGroup[1], tableDimensions, subGroup[0].id);
+        tables.push(table);
+      });
+    } else {
+      const combinations = [];
+      this.combinations.forEach( combination => {
+        combinations.push( combination );
+      } );
+      const table = new BetweenIsuCombinationTable(combinations, tableDimensions, []);
       tables.push(table);
-    } );
+    }
 
     return tables;
   }
@@ -70,6 +80,9 @@ export class BetweenISUFactors {
         }
       })
     });
+    if ( groups.length === 0 ) {
+      return [];
+    }
     groups = this.assignChildren(groups);
     const subgroups = groups[0].mapCombinations();
     return subgroups;

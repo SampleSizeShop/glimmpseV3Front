@@ -1,5 +1,5 @@
 import {BetweenIsuCombination, GroupId} from './BetweenIsuCombination';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 export class BetweenIsuCombinationTable {
   private _table: Map<string, BetweenIsuCombination>;
@@ -67,6 +67,7 @@ export class BetweenIsuCombinationTable {
     this.groupIdentifier.forEach( id => {
       name = name + ' ' + id.predictor + ':' + id.name;
     } );
+    name = name.trim();
     return name;
   }
 
