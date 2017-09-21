@@ -70,6 +70,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     if (this.stage === 2 && this.solveFor === 'SAMPLESIZE') {
       this.updateCombinations();
     }
+    if (this.stage === 2 && this.solveFor === 'POWER') {
+      this.updateSmallestGroupSize();
+    }
     this.updateFormStatus();
   }
 
@@ -167,11 +170,15 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     if (index > -1) {
       this.betweenIsuFactors.predictors.splice(index, 1);
     }
+
+    this.navigation_service.updateNavigationMode(true);
   }
 
   editPredictor(predictor: Predictor) {
     this.removePredictor(predictor);
     this.includeBetweenIsuFactors(predictor);
+
+    this.navigation_service.updateNavigationMode(true);
   }
 
   getStageStatus(stage: number): string {
@@ -237,6 +244,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   resetForms() {
     this.groupsForm.reset();
     this.predictorForm.reset();
+    this.relativeGroupSizeForm.reset();
+    this.groupSizeForm.reset();
     this.groups = [];
     this.buildForm();
   }
@@ -246,6 +255,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       const value = this.relativeGroupSizeForm.get(combination.name).value;
       combination.size = value;
     });
+  }
+
+  updateSmallestGroupSize() {
+    this.betweenIsuFactors.smallestGroupSize = this.groupSizeForm.value.smallestGroupSize;
   }
 
   updateGroupsizeFormControls() {
