@@ -127,6 +127,23 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(el).toBeTruthy();
   });
 
+  it('Should remove a BetweenIsuPredictor when we click the remove button', () => {
+    component.editing = false;
+    component.setStage(-1);
+    component.includeBetweenIsuFactors();
+    component.predictorForm.get('predictorName').setValue('A');
+    component.internallyNavigate('NEXT');
+    component.groupsForm.get('group').setValue('a1');
+    component.addGroup();
+    component.groupsForm.get('group').setValue('a2');
+    component.addGroup();
+    fixture.detectChanges();
+    component.internallyNavigate('NEXT');
+    fixture.detectChanges();
+    component.removePredictor(component.betweenIsuFactors.predictors[0]);
+    expect(component.betweenIsuFactors.predictors.length).toEqual(0);
+  });
+
   it('Should show the group size form if we are solving for power and we have defined all of our predictors', () => {
     component.editing = false;
     component.setStage(-1);

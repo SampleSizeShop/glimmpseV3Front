@@ -19,7 +19,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _groupsForm: FormGroup;
   private _groupSizeForm: FormGroup;
   private _relativeGroupSizeForm: FormGroup;
-  private _predictor: Predictor;
   private _groups: string[];
   private _maxGroups: number;
   private _maxPredictors: number;
@@ -132,13 +131,17 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.groupsForm.reset();
   }
 
-  includeBetweenIsuFactors() {
+  includeBetweenIsuFactors(predictor?: Predictor) {
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
     this.navigation_service.updateNextEnabled(true);
     this.navigation_service.updateValid(false);
     if (!this.betweenIsuFactors) {
       this.betweenIsuFactors = new BetweenISUFactors();
+    }
+    if ( predictor ) {
+      this.predictorForm.get('predictorName').setValue(predictor.name)
+      this.groups = predictor.groups;
     }
     this.stage = 0;
   }
@@ -151,16 +154,25 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   addPredictor() {
-    this.predictor = new Predictor();
-    this.predictor.name = this.predictorForm.value.predictorName;
-    this.predictor.groups = this.groups;
+    const predictor = new Predictor();
+    predictor.name = this.predictorForm.value.predictorName;
+    predictor.groups = this.groups;
 
-    this.betweenIsuFactors.predictors.push(this.predictor);
+    this.betweenIsuFactors.predictors.push(predictor);
     this.editing = false;
   }
 
-  removePredictor() {}
-  editPredictor() {}
+  removePredictor(predictor: Predictor) {
+    const index = this.betweenIsuFactors.predictors.indexOf(predictor);
+    if (index > -1) {
+      this.betweenIsuFactors.predictors.splice(index, 1);
+    }
+  }
+
+  editPredictor(predictor: Predictor) {
+    this.removePredictor(predictor);
+    this.includeBetweenIsuFactors(predictor);
+  }
 
   getStageStatus(stage: number): string {
     if (stage === 0) {
@@ -384,14 +396,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set editing(value: boolean) {
     this._editing = value;
-  }
-
-  get predictor(): Predictor {
-    return this._predictor;
-  }
-
-  set predictor(value: Predictor) {
-    this._predictor = value;
   }
 
   get groups(): string[] {
