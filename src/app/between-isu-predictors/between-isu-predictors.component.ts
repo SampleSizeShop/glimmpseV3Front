@@ -100,7 +100,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       this.setNextEnabled(this.predictorForm.status);
     }
     if (this.stage === 1) {
-      this.setNextEnabled(this.groupsForm.status);
+      if (this.groups && this.groups.length >= 2) {
+        this.setNextEnabled(this.groupsForm.status);
+      } else {
+        this.setNextEnabled('INVALID');
+      }
     }
     if (this.stage === 2 && this.solveFor === 'POWER') {
       this.setNextEnabled(this.groupSizeForm.status);
