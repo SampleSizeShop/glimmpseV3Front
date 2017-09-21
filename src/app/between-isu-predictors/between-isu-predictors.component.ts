@@ -202,7 +202,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     if ( direction === 'BACK' ) {
       if (this.stage === 2 ) {
         next = -1;
-        this.resetNavigation();
       } else {
         next = this.stage - 1;
       }
