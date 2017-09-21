@@ -83,7 +83,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   buildForm() {
     this.predictorForm = this.fb.group({
-      predictorName: ['']
+      predictorName: ['', outcomeValidator(this.betweenIsuFactors ? this.betweenIsuFactors.predictorNames : [] )]
     });
     this.groupsForm = this.fb.group({
       group: ['', outcomeValidator(this.groups)]
@@ -101,8 +101,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     if (this.stage === 1) {
       this.setNextEnabled(this.groupsForm.status);
     }
-    if (this.stage === 2) {
+    if (this.stage === 2 && this.solveFor === 'POWER') {
       this.setNextEnabled(this.groupSizeForm.status);
+    }
+    if (this.stage === 2 && this.solveFor === 'SAMPLESIZE') {
+      this.setNextEnabled(this.relativeGroupSizeForm.status);
     }
     this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
   }
@@ -137,7 +140,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   includeBetweenIsuFactors(predictor?: Predictor) {
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
-    this.navigation_service.updateNextEnabled(true);
+    this.navigation_service.updateNextEnabled( true );
     this.navigation_service.updateValid(false);
     if (!this.betweenIsuFactors) {
       this.betweenIsuFactors = new BetweenISUFactors();
@@ -145,6 +148,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     if ( predictor ) {
       this.predictorForm.get('predictorName').setValue(predictor.name)
       this.groups = predictor.groups;
+      if ( this.predictorForm.status === 'VALID' ) {
+        this.navigation_service.updateValid( true );
+      }
     }
     this.stage = 0;
   }
@@ -216,6 +222,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       }
     }
     if ( next < 0) {
+      this.editing = false;
       this.resetForms();
     }
     if ( next >= Object.keys(this.stages).length ) {
