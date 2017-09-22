@@ -27,24 +27,32 @@
         </div>
 
         <div class="row">
-          <div class="col col-md-auto">{{table.rowDimension}}</div>
           <div class="col col-md-auto">
-            <div class="row">
-              <div class="col col-md-auto"></div>
-              <div class="col" *ngFor="let col of table.cols;">{{col}}</div>
+            <div class="verticaltext">
+              <div class="verticaltext_content">{{table.rowDimension}}</div>
             </div>
-            <div class="row" *ngFor="let row of table.rows;">
-              <div class="col col-md-auto">{{row}}</div>
+          </div>
 
-              <div class="col col-md-auto" *ngFor="let col of table.cols;">
-                <input type="number" formControlName="{{table.getMember(row, col).name}}">
-              </div>
-
-              <div *ngIf="!table.hasCols()">
-                <input type="number" formControlName="{{table.getMember(row, null).name}}">
-              </div>
-
-            </div>
+          <div class="col col-md-auto">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th *ngFor="let col of table.cols;">{{col}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of table.rows;">
+                  <td>{{row}}</td>
+                  <td *ngFor="let col of table.cols;">
+                    <input type="number" formControlName="{{table.getMember(row, col).name}}">
+                  </td>
+                  <td *ngIf="!table.hasCols()">
+                    <input type="number" formControlName="{{table.getMember(row, null).name}}">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 
