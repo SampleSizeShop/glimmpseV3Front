@@ -144,10 +144,9 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(component.betweenIsuFactors.predictors.length).toEqual(0);
   });
 
-  it('Should show the group size form if we are solving for power and we have defined all of our predictors', () => {
+  it('Should allow us to edit a BetweenIsuPredictor when we click the edit button', () => {
     component.editing = false;
     component.setStage(-1);
-    component.solveFor = 'POWER';
     component.includeBetweenIsuFactors();
     component.predictorForm.get('predictorName').setValue('A');
     component.internallyNavigate('NEXT');
@@ -157,69 +156,12 @@ describe('BetweenIsuPredictorsComponent', () => {
     component.addGroup();
     fixture.detectChanges();
     component.internallyNavigate('NEXT');
-    component.internallyNavigate('NEXT');
+    const predictor = component.betweenIsuFactors.predictors[0];
+    component.editPredictor(predictor);
     fixture.detectChanges();
-    expect(component.betweenIsuFactors.predictors.length).toEqual(1);
-    const desc: DebugElement = fixture.debugElement.query(By.css('#groupSizeForm'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy();
-  });
-
-  it('Should show the relative group size form if we are solving for power and we have defined all of our predictors', () => {
-    component.editing = false;
-    component.setStage(-1);
-    component.solveFor = 'SAMPLESIZE';
-    component.includeBetweenIsuFactors();
-    component.predictorForm.get('predictorName').setValue('A');
-    component.internallyNavigate('NEXT');
-    component.groupsForm.get('group').setValue('a1');
-    component.addGroup();
-    component.groupsForm.get('group').setValue('a2');
-    component.addGroup();
-    fixture.detectChanges();
-    component.internallyNavigate('NEXT');
-    component.internallyNavigate('NEXT');
-    fixture.detectChanges();
-    expect(component.betweenIsuFactors.predictors.length).toEqual(1);
-    const desc: DebugElement = fixture.debugElement.query(By.css('#relativeGroupSizeForm'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy();
-  });
-
-  it('Should allow the user to add another predictor when you navigate back from the relative groupsize form.', () => {
-    component.editing = false;
-    component.setStage(-1);
-    component.solveFor = 'SAMPLESIZE';
-    component.includeBetweenIsuFactors();
-    component.predictorForm.get('predictorName').setValue('A');
-    component.internallyNavigate('NEXT');
-    component.groupsForm.get('group').setValue('a1');
-    component.addGroup();
-    component.groupsForm.get('group').setValue('a2');
-    component.addGroup();
-    fixture.detectChanges();
-    component.internallyNavigate('NEXT');
-    component.internallyNavigate('NEXT');
-    component.internallyNavigate('BACK');
-    fixture.detectChanges();
-
-    component.includeBetweenIsuFactors();
-    component.predictorForm.get('predictorName').setValue('B');
-    component.internallyNavigate('NEXT');
-    component.groupsForm.get('group').setValue('b1');
-    component.addGroup();
-    component.groupsForm.get('group').setValue('b2');
-    component.addGroup();
-    fixture.detectChanges();
-    component.internallyNavigate('NEXT');
-    component.internallyNavigate('NEXT');
-    fixture.detectChanges();
-
-    expect(component.betweenIsuFactors.predictors.length).toEqual(2);
-    const stageName = component.stageName;
-    const desc: DebugElement = fixture.debugElement.query(By.css('#relativeGroupSizeForm'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy();
+    expect(component.betweenIsuFactors.predictors.length).toEqual(0);
+    expect(component.groups.length).toEqual(predictor.groups.length)
+    expect(component.predictorForm.value.predictorName).toEqual(predictor.name);
   });
 
   it('should assemble the combinations of > 2 betweenISU groups', () => {

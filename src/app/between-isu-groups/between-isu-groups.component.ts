@@ -4,6 +4,7 @@ import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {BetweenIsuCombinationTable} from '../shared/BetweenIsuCombinationTable';
 import {BetweenISUFactors} from '../shared/BetweenISUFactors';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -18,11 +19,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   private _solveFor: string;
 
   private _tables: BetweenIsuCombinationTable[];
-  private _editing: boolean;
-  private _stages;
-  private _stage: number;
-  private _directionCommand: string;
-  private _navigationSubscription: Subscription;
 
   private _betweenIsuFactorsSubscription: Subscription;
   private _solveForSubscription: Subscription;
@@ -51,7 +47,10 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.solveForSubscription.unsubscribe();
+    this.betweenIsuFactorsSubscription.unsubscribe();
+  }
 
   buildForm() {
     this.groupSizeForm = this.fb.group( {
@@ -68,33 +67,41 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   updateSmallestGroupSize() {
-    this.betweenIsuFactors.smallestGroupSize = this.groupSizeForm.value.smallestGroupSize;
+    if ( this.betweenIsuFactors ) {
+      this.betweenIsuFactors.smallestGroupSize = this.groupSizeForm.value.smallestGroupSize;
+    }
   }
 
   updateCombinations() {
-    this.betweenIsuFactors.combinations.forEach( combination => {
-      const value = this.relativeGroupSizeForm.get(combination.name).value;
-      combination.size = value;
-    });
+    if ( this.betweenIsuFactors ) {
+      this.betweenIsuFactors.combinations.forEach(combination => {
+        const value = this.relativeGroupSizeForm.get(combination.name).value;
+        combination.size = value;
+      });
+    }
 }
   updateGroupsizeFormControls() {
-    this.betweenIsuFactors.generateCombinations();
-    this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
-    this.tables = this.betweenIsuFactors.groupCombinations();
-    const controlDefs = {};
-    this.tables.forEach( table => {
-      const names = table.table.keys();
-      let done = false;
-      let next = names.next();
-      while ( !done ) {
-        const key = next.value;
-        const combination = table.table.get(key);
-        controlDefs[combination.name] = [1];
-        next = names.next();
-        done = next.done;
-      }
-    });
-    this.relativeGroupSizeForm = this.fb.group(controlDefs);
+    if (isNullOrUndefined(this.betweenIsuFactors)) {
+      this.relativeGroupSizeForm = this.fb.group({});
+    } else {
+      this.betweenIsuFactors.generateCombinations();
+      this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
+      this.tables = this.betweenIsuFactors.groupCombinations();
+      const controlDefs = {};
+      this.tables.forEach(table => {
+        const names = table.table.keys();
+        let done = false;
+        let next = names.next();
+        while (!done) {
+          const key = next.value;
+          const combination = table.table.get(key);
+          controlDefs[combination.name] = [1];
+          next = names.next();
+          done = next.done;
+        }
+      });
+      this.relativeGroupSizeForm = this.fb.group(controlDefs);
+    }
   }
 
   get groupSizeForm(): FormGroup {
@@ -135,46 +142,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   set tables(value: BetweenIsuCombinationTable[]) {
     this._tables = value;
-  }
-
-  get editing(): boolean {
-    return this._editing;
-  }
-
-  set editing(value: boolean) {
-    this._editing = value;
-  }
-
-  get stages() {
-    return this._stages;
-  }
-
-  set stages(value) {
-    this._stages = value;
-  }
-
-  get stage(): number {
-    return this._stage;
-  }
-
-  set stage(value: number) {
-    this._stage = value;
-  }
-
-  get directionCommand(): string {
-    return this._directionCommand;
-  }
-
-  set directionCommand(value: string) {
-    this._directionCommand = value;
-  }
-
-  get navigationSubscription(): Subscription {
-    return this._navigationSubscription;
-  }
-
-  set navigationSubscription(value: Subscription) {
-    this._navigationSubscription = value;
   }
 
   get betweenIsuFactorsSubscription(): Subscription {
