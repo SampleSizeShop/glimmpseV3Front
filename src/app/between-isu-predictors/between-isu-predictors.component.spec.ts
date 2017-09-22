@@ -60,6 +60,21 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(el).toBeTruthy();
   });
 
+  it('Should not the add BetweenIsuPredictor Button if we have reached the predictors limit', () => {
+    component.editing = false;
+    component.betweenIsuFactors = new BetweenISUFactors();
+    component.setStage(-1);
+    for ( let i = 0; i < component.maxPredictors; i++ ) {
+      component.betweenIsuFactors.predictors.push(new Predictor());
+    }
+    fixture.detectChanges();
+    const btn: DebugElement = fixture.debugElement.query(By.css('#addbetweenbtn'));
+    expect(!btn);
+    const desc: DebugElement = fixture.debugElement.query(By.css('#maxPredictors'));
+    const el = desc.nativeElement;
+    expect(el).toBeTruthy();
+  });
+
   it('Should show the predictorForm when we click the add BetweenIsuPredictor.', () => {
     component.editing = false;
     component.setStage(-1);

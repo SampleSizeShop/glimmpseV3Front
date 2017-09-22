@@ -224,10 +224,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   nextPredictors(): boolean {
-    if (this.hasPredictors() && this.betweenIsuFactors.predictors.length < this.maxPredictors ) {
-      return true;
+    if (this.hasPredictors() && this.betweenIsuFactors.predictors.length >= this.maxPredictors ) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   get stageName() {

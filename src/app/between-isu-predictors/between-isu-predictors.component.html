@@ -1,4 +1,4 @@
-<div *ngIf="!editing && stage === -1" id="firstPredictor">
+<div *ngIf="!editing && stage === -1 && nextPredictors()" id="firstPredictor">
   <div class="container-fluid">
     <div class="row">
       <div class="col" *ngIf="!hasPredictors()">
@@ -12,6 +12,10 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="!editing && stage === -1 && !nextPredictors()" id="maxPredictors">
+  <h5>Maximum number of BetweenISU predictors for GLIMMPSE added.</h5>
 </div>
 
 <div *ngIf="stages[0] === stageName">

@@ -9,7 +9,6 @@ import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {BetweenISUFactors} from '../shared/BetweenISUFactors';
 import {Predictor} from '../shared/Predictor';
-import {GroupId} from "../shared/BetweenIsuCombination";
 
 describe('BetweenIsuGroupsComponent', () => {
   let component: BetweenIsuGroupsComponent;
