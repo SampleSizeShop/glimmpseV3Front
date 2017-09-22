@@ -146,6 +146,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     predictor.groups = this.groups;
 
     this.betweenIsuFactors.predictors.push(predictor);
+    this.betweenIsuFactors.combinations = null;
     this.editing = false;
   }
 
@@ -153,6 +154,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     const index = this.betweenIsuFactors.predictors.indexOf(predictor);
     if (index > -1) {
       this.betweenIsuFactors.predictors.splice(index, 1);
+      this.betweenIsuFactors.combinations = null;
     }
   }
 
@@ -162,6 +164,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       predictorName: ['', outcomeValidator(this.betweenIsuFactors ? this.betweenIsuFactors.predictorNames : [] )]
     });
     this.includeBetweenIsuFactors(predictor);
+    this.betweenIsuFactors.combinations = null;
   }
 
   getStageStatus(stage: number): string {

@@ -71,6 +71,7 @@ describe('BetweenIsuGroupsComponent', () => {
     predictor.name = 'A';
     predictor.groups = ['a1', 'a2'];
     component.betweenIsuFactors.predictors.push(predictor);
+    component.betweenIsuFactors.generateCombinations();
     component.updateGroupsizeFormControls();
     component.relativeGroupSizeForm.get('a1').setValue('2')
     fixture.detectChanges();

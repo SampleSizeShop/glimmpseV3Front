@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {BetweenIsuCombinationTable} from '../shared/BetweenIsuCombinationTable';
 import {BetweenISUFactors} from '../shared/BetweenISUFactors';
 import {isNullOrUndefined} from 'util';
+import {BetweenIsuCombination} from "../shared/BetweenIsuCombination";
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -45,6 +46,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     if (this.solveFor === 'POWER') {
       this.updateSmallestGroupSize();
     }
+    this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
   }
 
   ngOnDestroy() {
@@ -84,8 +86,10 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     if (isNullOrUndefined(this.betweenIsuFactors)) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
-      this.betweenIsuFactors.generateCombinations();
-      this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
+      if ( !this.betweenIsuFactors.combinations ) {
+        this.betweenIsuFactors.generateCombinations();
+        this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
+      }
       this.tables = this.betweenIsuFactors.groupCombinations();
       const controlDefs = {};
       this.tables.forEach(table => {
@@ -95,7 +99,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
         while (!done) {
           const key = next.value;
           const combination = table.table.get(key);
-          controlDefs[combination.name] = [1];
+          controlDefs[combination.name] = [combination.size];
           next = names.next();
           done = next.done;
         }
