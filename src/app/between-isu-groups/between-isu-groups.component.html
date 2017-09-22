@@ -22,14 +22,16 @@
         <div *ngIf="table.hasCols()">
           <div class="row">
             <div class="col col-md-auto"></div>
-            <div class="col col-md-auto">{{table.colDimension}}</div>
+            <div class="col col-md-auto">
+              <h6>{{table.colDimension}}</h6>
+            </div>
           </div>
         </div>
 
         <div class="row">
           <div class="col col-md-auto">
             <div class="verticaltext">
-              <div class="verticaltext_content">{{table.rowDimension}}</div>
+              <h6 class="verticaltext_content">{{table.rowDimension}}</h6>
             </div>
           </div>
 
