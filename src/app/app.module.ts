@@ -25,6 +25,7 @@ import { WithinIsuRepeatedMeasuresComponent } from './within-isu-repeated-measur
 import { WithinIsuClustersComponent } from './within-isu-clusters/within-isu-clusters.component';
 import { BetweenIsuPredictorsComponent } from './between-isu-predictors/between-isu-predictors.component';
 import { BetweenIsuGroupsComponent } from './between-isu-groups/between-isu-groups.component';
+import { GaussianCovariateComponent } from './gaussian-covariate/gaussian-covariate.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { BetweenIsuGroupsComponent } from './between-isu-groups/between-isu-grou
     WithinIsuRepeatedMeasuresComponent,
     WithinIsuClustersComponent,
     BetweenIsuPredictorsComponent,
-    BetweenIsuGroupsComponent
+    BetweenIsuGroupsComponent,
+    GaussianCovariateComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

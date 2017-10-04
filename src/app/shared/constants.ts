@@ -1,16 +1,17 @@
 export const constants = {
   // Guided mode stages and ordering
   STAGES: {
-    1: 'MODE',
-    2: 'TARGET_EVENT',
-    3: 'SOLVE_FOR',
-    4: 'STATISTICAL_TESTS',
-    5: 'TYPE_ONE_ERROR',
-    6: 'WITHIN_ISU_OUTCOMES',
-    7: 'WITHIN_ISU_REPEATED_MEASURES',
-    8: 'WITHIN_ISU_CLUSTERS',
-    9: 'BETWEEN_ISU_PREDICTORS',
+    1:  'MODE',
+    2:  'TARGET_EVENT',
+    3:  'SOLVE_FOR',
+    4:  'STATISTICAL_TESTS',
+    5:  'TYPE_ONE_ERROR',
+    6:  'WITHIN_ISU_OUTCOMES',
+    7:  'WITHIN_ISU_REPEATED_MEASURES',
+    8:  'WITHIN_ISU_CLUSTERS',
+    9:  'BETWEEN_ISU_PREDICTORS',
     10: 'BETWEEN_ISU_GROUPS',
+    11: 'GAUSSIAN_COVARIATE',
   },
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
