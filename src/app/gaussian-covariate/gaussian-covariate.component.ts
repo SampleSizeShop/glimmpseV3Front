@@ -74,7 +74,7 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
     if (index > -1) {
       this.gaussianCovariates.splice(index, 1);
     }
-    if ( !this.hasGaussianCovariate() ) {
+    if ( this.gaussianCovariates.length === 0 ) {
       this.gaussianCovariates = null;
       this.study_service.updateGaussianCovariates(this.gaussianCovariates);
     }
@@ -89,7 +89,7 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   hasGaussianCovariate() {
-    if ( this.editing === true ) {return true;}
+    if ( this.editing === true ) {return true; }
     if (isNullOrUndefined(this.gaussianCovariates)) {return false;}
     return true;
   }
