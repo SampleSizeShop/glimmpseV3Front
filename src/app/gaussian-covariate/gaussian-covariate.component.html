@@ -24,3 +24,19 @@
     </div>
   </form>
 </div>
+
+<div *ngIf="hasGaussianCovariate() && !editing">
+  <div *ngFor="let covariate of gaussianCovariates" id="gaussianCovariateList">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col col-md-auto">
+          <i class="material-icons" (click)="removeGaussianCovariate(covariate)" style="margin-bottom: 5px" id="removegaussianCovariate">remove</i>
+        </div>
+        <div class="col">
+          Gaussian Covariate Variance:
+        </div>
+        <div class="col">{{covariate.variance}}</div>
+      </div>
+    </div>
+  </div>
+</div>

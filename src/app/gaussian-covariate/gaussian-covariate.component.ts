@@ -69,6 +69,17 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
     this.study_service.updateGaussianCovariates(this.gaussianCovariates);
   }
 
+  removeGaussianCovariate(covatiate: GaussianCovariate) {
+    const index = this.gaussianCovariates.indexOf(covatiate);
+    if (index > -1) {
+      this.gaussianCovariates.splice(index, 1);
+    }
+    if ( !this.hasGaussianCovariate() ) {
+      this.gaussianCovariates = null;
+      this.study_service.updateGaussianCovariates(this.gaussianCovariates);
+    }
+  }
+
   includeGaussianCovariate() {
     this.setStage(0);
     this.editing = true;
