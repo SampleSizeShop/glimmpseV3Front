@@ -1,6 +1,5 @@
 import * as math from 'mathjs';
 import Matrix = mathjs.Matrix;
-import {forEach} from '@angular/router/src/utils/collection';
 
 export class CorrelationMatrix {
   private _values: Matrix;

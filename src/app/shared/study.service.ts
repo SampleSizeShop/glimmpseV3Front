@@ -7,7 +7,8 @@ import {Observable} from 'rxjs/Observable';
 import {constants} from './constants';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
-import {BetweenISUFactors} from "./BetweenISUFactors";
+import {BetweenISUFactors} from './BetweenISUFactors';
+import {GaussianCovariate} from './GaussianCovariate';
 
 @Injectable()
 export class StudyService {
@@ -50,6 +51,9 @@ export class StudyService {
 
   private _betweenIsuFactorsSource = new BehaviorSubject<BetweenISUFactors>(null);
   private _betweenIsuFactors$ = this._betweenIsuFactorsSource.asObservable();
+
+  private _gaussianCovariatesSource = new BehaviorSubject<GaussianCovariate[]>(null);
+  private _gaussianCovariates$ = this._gaussianCovariatesSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -95,6 +99,10 @@ export class StudyService {
 
   updateBetweenIsuFactors(betweenIsuFactors: BetweenISUFactors) {
     this._betweenIsuFactorsSource.next(betweenIsuFactors)
+  }
+
+  updateGaussianCovariates(gaussianCovariates: GaussianCovariate[]) {
+    this._gaussianCovariatesSource.next(gaussianCovariates);
   }
 
   constructor(private  http: Http) {
@@ -236,6 +244,14 @@ export class StudyService {
 
   set betweenIsuFactors$(value: Observable<BetweenISUFactors>) {
     this._betweenIsuFactors$ = value;
+  }
+
+  get gaussianCovariates$(): Observable<GaussianCovariate[]> {
+    return this._gaussianCovariates$;
+  }
+
+  set gaussianCovariates$(value: Observable<GaussianCovariate[]>) {
+    this._gaussianCovariates$ = value;
   }
 }
 

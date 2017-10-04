@@ -88,6 +88,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   ngOnDestroy() {
     this.navigationSubscription.unsubscribe();
+    this.repeatedMeasuresSubscription.unsubscribe();
   }
 
   private updateFormStatus() {

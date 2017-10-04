@@ -1,5 +1,6 @@
 import {WithinISUFactors} from './WithinISUFactors';
 import {BetweenISUFactors} from './BetweenISUFactors';
+import {GaussianCovariate} from "./GaussianCovariate";
 
 export class StudyDesign {
   private _name: string;
@@ -12,6 +13,7 @@ export class StudyDesign {
   private _typeOneErrorRate: number;
   private _withinIsuFactors: WithinISUFactors;
   private _betweenIsuFactors: BetweenISUFactors;
+  private _gaussianCovariates: GaussianCovariate[];
 
   constructor(name?: string,
               guided?: boolean,
@@ -23,7 +25,8 @@ export class StudyDesign {
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
               withinIsuFactors?: WithinISUFactors,
-              betweenIsuFactors?: BetweenISUFactors
+              betweenIsuFactors?: BetweenISUFactors,
+              gaussianCovariates?: GaussianCovariate[],
 ) {
     this.withinIsuFactors = new WithinISUFactors();
   }
@@ -106,5 +109,13 @@ export class StudyDesign {
 
   set betweenIsuFactors(value: BetweenISUFactors) {
     this._betweenIsuFactors = value;
+  }
+
+  get gaussianCovariates(): GaussianCovariate[] {
+    return this._gaussianCovariates;
+  }
+
+  set gaussianCovariates(value: GaussianCovariate[]) {
+    this._gaussianCovariates = value;
   }
 }

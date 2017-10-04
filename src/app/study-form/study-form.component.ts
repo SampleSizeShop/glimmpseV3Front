@@ -32,6 +32,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _withinIsuRepeatedMeasuresSubscription: Subscription;
   private _withinIsuClusterSubscription: Subscription;
   private _betweenIsuFactorsSubscription: Subscription;
+  private _gaussianCovariatesSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -309,6 +310,14 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._betweenIsuFactorsSubscription = value;
   }
 
+  get gaussianCovariatesSubscription(): Subscription {
+    return this._gaussianCovariatesSubscription;
+  }
+
+  set gaussianCovariatesSubscription(value: Subscription) {
+    this._gaussianCovariatesSubscription = value;
+  }
+
   subscribeToStudyService() {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
@@ -384,6 +393,12 @@ export class StudyFormComponent implements OnInit, OnDestroy {
         this.study.betweenIsuFactors = betweenIsuFactors;
       }
     );
+
+    this.gaussianCovariatesSubscription = this.study_service.gaussianCovariates$.subscribe(
+      gaussianCovariates => {
+        this.study.gaussianCovariates = gaussianCovariates;
+      }
+    );
   };
 
   unsubscribeFromStudyService() {
@@ -399,6 +414,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
     this.withinIsuClusterSubscription.unsubscribe();
     this.betweenIsuFactorsSubscription.unsubscribe();
+    this.gaussianCovariatesSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {

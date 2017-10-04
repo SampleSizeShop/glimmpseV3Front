@@ -4,6 +4,11 @@ import { GaussianCovariateComponent } from './gaussian-covariate.component';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {ReactiveFormsModule} from '@angular/forms';
+import {GaussianCovariate} from '../shared/GaussianCovariate';
+import {StudyService} from '../shared/study.service';
+import {Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
+import {NavigationService} from '../shared/navigation.service';
 
 describe('GaussianCovariateComponent', () => {
   let component: GaussianCovariateComponent;
@@ -12,7 +17,8 @@ describe('GaussianCovariateComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [ GaussianCovariateComponent ]
+      declarations: [ GaussianCovariateComponent ],
+      providers: [StudyService, {provide: Http, useClass: MockBackend}, NavigationService]
     })
     .compileComponents();
   }));
@@ -41,5 +47,14 @@ describe('GaussianCovariateComponent', () => {
     const desc: DebugElement = fixture.debugElement.query(By.css('#variance'));
     const el = desc.nativeElement;
     expect(el).toBeTruthy();
+  });
+
+  it('should add a gaussian covariate object to the study design when the user clicks next.', () => {
+    component.editing = true;
+    component.setStage(0);
+    component.gaussianCovariateForm.get('variance').setValue(1);
+    component.internallyNavigate('NEXT');
+    fixture.detectChanges();
+    expect(component.gaussianCovariates.length).toEqual(1);
   });
 });
