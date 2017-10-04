@@ -12,4 +12,10 @@ export class GaussianCovariateComponent implements OnInit {
   ngOnInit() {
   }
 
+  includeGaussianCovariate() {}
+
+  hasGaussianCovariate() {
+    return false;
+  }
+
 }

@@ -1,3 +1,16 @@
-<p>
-  gaussian-covariate works!
-</p>
+<div *ngIf="!hasGaussianCovariate() && !editing" id="firstgaussiancovariate">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h5>Do you have a gaussian covariate in your design?</h5>
+      </div>
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label id="includegaussiancovariatebtn" class="btn btn-primary">
+            <input type="radio" id="includegaussiancovariateradio" (click)="includeGaussianCovariate()">Define Gaussian Covariate
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
