@@ -5,6 +5,7 @@ import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-study-form',
@@ -31,6 +32,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _withinIsuRepeatedMeasuresSubscription: Subscription;
   private _withinIsuClusterSubscription: Subscription;
   private _betweenIsuFactorsSubscription: Subscription;
+  private _gaussianCovariateSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -56,7 +58,13 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     } else {
       const current = this.getStage();
       if ( current < this._noStages &&  this.valid ) {
-        this.setStage( current + 1 );
+        if (current === 9
+          && (isNullOrUndefined(this.study.betweenIsuFactors)
+          || this.study.betweenIsuFactors.predictors.length === 0)) {
+          this.setStage(11)
+        } else {
+          this.setStage( current + 1 );
+        }
         this.setNextBack();
       }
     }
@@ -68,7 +76,13 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     } else {
       const current = this.getStage();
       if (current > 1 && this.guided) {
-        this.setStage(current - 1);
+        if (current === 11
+          && (isNullOrUndefined(this.study.betweenIsuFactors)
+          || this.study.betweenIsuFactors.predictors.length === 0)) {
+          this.setStage(9)
+        } else {
+          this.setStage(current - 1);
+        }
       }
       this.setNextBack();
       this.valid = true;
@@ -296,6 +310,14 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._betweenIsuFactorsSubscription = value;
   }
 
+  get gaussianCovariateSubscription(): Subscription {
+    return this._gaussianCovariateSubscription;
+  }
+
+  set gaussianCovariateSubscription(value: Subscription) {
+    this._gaussianCovariateSubscription = value;
+  }
+
   subscribeToStudyService() {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
@@ -371,6 +393,12 @@ export class StudyFormComponent implements OnInit, OnDestroy {
         this.study.betweenIsuFactors = betweenIsuFactors;
       }
     );
+
+    this.gaussianCovariateSubscription = this.study_service.gaussianCovariate$.subscribe(
+      gaussianCovariate => {
+        this.study.gaussianCovariate = gaussianCovariate;
+      }
+    );
   };
 
   unsubscribeFromStudyService() {
@@ -386,6 +414,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
     this.withinIsuClusterSubscription.unsubscribe();
     this.betweenIsuFactorsSubscription.unsubscribe();
+    this.gaussianCovariateSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {

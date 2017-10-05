@@ -1,5 +1,4 @@
-<script src="../within-isu-repeated-measures/within-isu-repeated-measures.component.ts"></script>
-<div *ngIf="!editing && stage === -1" id="firstPredictor">
+<div *ngIf="!editing && stage === -1 && nextPredictors()" id="firstPredictor">
   <div class="container-fluid">
     <div class="row">
       <div class="col" *ngIf="!hasPredictors()">
@@ -13,6 +12,10 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="!editing && stage === -1 && !nextPredictors()" id="maxPredictors">
+  <h5>Maximum number of BetweenISU predictors for GLIMMPSE added.</h5>
 </div>
 
 <div *ngIf="stages[0] === stageName">
@@ -55,66 +58,6 @@
     </div>
   </form>
 </div>
-
-
-
-<div *ngIf="stages[2] === stageName && solveFor === 'POWER'">
-  <form [formGroup]="groupSizeForm" class="form-horizontal" id="groupSizeForm">
-    <div class="container-fluid">
-      <h5>What size is your smallest group?</h5>
-      <input type="number" class="form-control" id="smallestgroupsize" formControlName="smallestGroupSize" required>
-    </div>
-  </form>
-</div>
-
-<div *ngIf="stages[2] === stageName && solveFor === 'SAMPLESIZE'">
-  <form [formGroup]="relativeGroupSizeForm" id="relativeGroupSizeForm">
-  <div class="container-fluid">
-    <h5>Tell us about the relative sizes of your groups as listed below:</h5>
-
-    <div *ngFor="let table of tables; let i = index;">
-      <br>
-      <div *ngIf="table.groupName !== ''">
-        <h6>{{table.groupName}}</h6>
-        <hr>
-      </div>
-
-      <div *ngIf="table.hasCols()">
-        <div class="row">
-          <div class="col col-md-auto"></div>
-          <div class="col col-md-auto">{{table.colDimension}}</div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col col-md-auto">{{table.rowDimension}}</div>
-        <div class="col col-md-auto">
-          <div class="row">
-            <div class="col col-md-auto"></div>
-            <div class="col" *ngFor="let col of table.cols;">{{col}}</div>
-          </div>
-          <div class="row" *ngFor="let row of table.rows;">
-            <div class="col col-md-auto">{{row}}</div>
-
-            <div class="col col-md-auto" *ngFor="let col of table.cols;">
-              <input type="number" formControlName="{{table.getMember(row, col).name}}">
-            </div>
-
-           <div *ngIf="!table.hasCols()">
-               <input type="number" formControlName="{{table.getMember(row, null).name}}">
-           </div>
-
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  </form>
-</div>
-
-
-
 
 <div *ngIf="hasPredictors()">
   <br>

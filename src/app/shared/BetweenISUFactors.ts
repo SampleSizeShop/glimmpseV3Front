@@ -14,6 +14,9 @@ export class BetweenISUFactors {
     combinationList.forEach( combination => {
       this.combinations.set(combination.id, combination);
     });
+    this.predictors.forEach( predictor => {
+      predictor.child = null;
+    });
   }
 
   groupCombinations() {

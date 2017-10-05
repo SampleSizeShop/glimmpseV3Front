@@ -30,6 +30,12 @@
     <div class="d-flex justify-content-start" *ngIf="stages[9] === getStageName()">
       <app-between-isu></app-between-isu>
     </div>
+    <div class="d-flex justify-content-start" *ngIf="stages[10] === getStageName()">
+      <app-between-isu-groups></app-between-isu-groups>
+    </div>
+    <div class="d-flex justify-content-start" *ngIf="stages[11] === getStageName()">
+      <app-gaussian-covariate></app-gaussian-covariate>
+    </div>
   </div>
 <hr>
 <div class="d-flex justify-content-end" >
@@ -40,6 +46,3 @@
     <button type="submit" class="btn btn-primary" *ngIf="hasNext" (click)="next()" [class.disabled]="!valid">Next</button>
   </div>
 </div>
-<br>
-HELLO!
-{{study | json}}

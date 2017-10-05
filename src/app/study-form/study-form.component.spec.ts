@@ -17,6 +17,10 @@ import {WithinIsuOutcomesComponent} from '../within-isu-outcomes/within-isu-outc
 import {WithinIsuRepeatedMeasuresComponent} from '../within-isu-repeated-measures/within-isu-repeated-measures.component';
 import {WithinIsuClustersComponent} from '../within-isu-clusters/within-isu-clusters.component';
 import {BetweenIsuPredictorsComponent} from "../between-isu-predictors/between-isu-predictors.component";
+import {BetweenIsuGroupsComponent} from "../between-isu-groups/between-isu-groups.component";
+import {BetweenISUFactors} from "../shared/BetweenISUFactors";
+import {Predictor} from "../shared/Predictor";
+import {GaussianCovariateComponent} from "../gaussian-covariate/gaussian-covariate.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -39,6 +43,8 @@ describe('StudyFormComponent', () => {
         WithinIsuRepeatedMeasuresComponent,
         WithinIsuClustersComponent,
         BetweenIsuPredictorsComponent,
+        BetweenIsuGroupsComponent,
+        GaussianCovariateComponent,
         CorrelationMatrixComponent,
         MathJaxDirective],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]

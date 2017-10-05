@@ -7,7 +7,7 @@ import {NavigationService} from '../shared/navigation.service';
 import {Predictor} from '../shared/Predictor';
 import {constants} from '../shared/constants';
 import {outcomeValidator} from '../within-isu-outcomes/outcome.validator';
-import {BetweenIsuCombinationTable} from '../shared/BetweenIsuCombinationTable';
+import {predictorValidator} from './predictor.validator';
 
 @Component({
   selector: 'app-between-isu',
@@ -17,15 +17,10 @@ import {BetweenIsuCombinationTable} from '../shared/BetweenIsuCombinationTable';
 export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy {
   private _predictorForm: FormGroup;
   private _groupsForm: FormGroup;
-  private _groupSizeForm: FormGroup;
-  private _relativeGroupSizeForm: FormGroup;
   private _groups: string[];
   private _maxGroups: number;
   private _maxPredictors: number;
   private _betweenIsuFactors: BetweenISUFactors;
-  private _solveFor: string;
-
-  private _tables: BetweenIsuCombinationTable[];
 
   private _editing: boolean;
   private _stages;
@@ -34,7 +29,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _navigationSubscription: Subscription;
 
   private _betweenIsuFactorsSubscription: Subscription;
-  private _solveForSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService,
@@ -56,10 +50,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.betweenIsuFactorsSubscription = this.study_service.betweenIsuFactors$.subscribe( betweenIsuFactors => {
       this.betweenIsuFactors = betweenIsuFactors;
     });
-
-    this.solveForSubscription = this.study_service.solveForSelected$.subscribe( solveFor => {
-      this.solveFor = solveFor;
-    })
   }
 
   ngOnInit() {
@@ -67,12 +57,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   ngDoCheck() {
-    if (this.stage === 2 && this.solveFor === 'SAMPLESIZE') {
-      this.updateCombinations();
-    }
-    if (this.stage === 2 && this.solveFor === 'POWER') {
-      this.updateSmallestGroupSize();
-    }
     this.updateFormStatus();
   }
 
@@ -83,15 +67,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   buildForm() {
     this.predictorForm = this.fb.group({
-      predictorName: ['']
+      predictorName: ['', predictorValidator(this.betweenIsuFactors ? this.betweenIsuFactors.predictorNames : [] )]
     });
     this.groupsForm = this.fb.group({
       group: ['', outcomeValidator(this.groups)]
     });
-    this.groupSizeForm = this.fb.group( {
-      smallestGroupSize: [1]
-    } );
-    this.relativeGroupSizeForm = this.fb.group( {} )
   }
 
   private updateFormStatus() {
@@ -99,10 +79,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       this.setNextEnabled(this.predictorForm.status);
     }
     if (this.stage === 1) {
-      this.setNextEnabled(this.groupsForm.status);
-    }
-    if (this.stage === 2) {
-      this.setNextEnabled(this.groupSizeForm.status);
+      if (this.groups && this.groups.length >= 2) {
+        this.setNextEnabled(this.groupsForm.status);
+      } else {
+        this.setNextEnabled('INVALID');
+      }
     }
     this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
   }
@@ -137,7 +118,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   includeBetweenIsuFactors(predictor?: Predictor) {
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
-    this.navigation_service.updateNextEnabled(true);
+    this.navigation_service.updateNextEnabled( true );
     this.navigation_service.updateValid(false);
     if (!this.betweenIsuFactors) {
       this.betweenIsuFactors = new BetweenISUFactors();
@@ -145,6 +126,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     if ( predictor ) {
       this.predictorForm.get('predictorName').setValue(predictor.name)
       this.groups = predictor.groups;
+      if ( this.predictorForm.status === 'VALID' ) {
+        this.navigation_service.updateValid( true );
+      }
     }
     this.stage = 0;
   }
@@ -162,6 +146,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     predictor.groups = this.groups;
 
     this.betweenIsuFactors.predictors.push(predictor);
+    this.betweenIsuFactors.combinations = null;
     this.editing = false;
   }
 
@@ -169,16 +154,17 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     const index = this.betweenIsuFactors.predictors.indexOf(predictor);
     if (index > -1) {
       this.betweenIsuFactors.predictors.splice(index, 1);
+      this.betweenIsuFactors.combinations = null;
     }
-
-    this.navigation_service.updateNavigationMode(true);
   }
 
   editPredictor(predictor: Predictor) {
     this.removePredictor(predictor);
+    this.predictorForm = this.fb.group({
+      predictorName: ['', outcomeValidator(this.betweenIsuFactors ? this.betweenIsuFactors.predictorNames : [] )]
+    });
     this.includeBetweenIsuFactors(predictor);
-
-    this.navigation_service.updateNavigationMode(true);
+    this.betweenIsuFactors.combinations = null;
   }
 
   getStageStatus(stage: number): string {
@@ -194,39 +180,24 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   internallyNavigate(direction: string): void {
     let next = this.stage;
     if ( direction === 'BACK' ) {
-      if (this.stage === 2 ) {
-        next = -1;
-        this.resetNavigation();
-      } else {
-        next = this.stage - 1;
-      }
+      next = this.stage - 1;
     }
     if ( direction === 'NEXT' ) {
-      if (this.stage === -1
-        && !this.editing
-        && this.hasPredictors() ) {
-        next = 2;
-        this.updateGroupsizeFormControls();
-      } else if (this.stage === 1
-        && this.editing ) {
-        this.addPredictor();
-        next = -1;
-      } else {
-        next = this.stage + 1;
-      }
+      next = this.stage + 1;
     }
     if ( next < 0) {
       this.resetForms();
+      this.resetNavigation();
     }
     if ( next >= Object.keys(this.stages).length ) {
+      this.addPredictor();
       this.resetForms();
       this.resetNavigation();
     }
-    if (this.stages[next] || next === -1) {
+    if (this.stages[next]) {
       this.setStage(next);
     }
   }
-
 
   setStage(next: number) {
     this.stage = next;
@@ -242,43 +213,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   resetForms() {
+    this.groups = [];
     this.groupsForm.reset();
     this.predictorForm.reset();
-    this.relativeGroupSizeForm.reset();
-    this.groupSizeForm.reset();
-    this.groups = [];
     this.buildForm();
-  }
-
-  updateCombinations() {
-    this.betweenIsuFactors.combinations.forEach( combination => {
-      const value = this.relativeGroupSizeForm.get(combination.name).value;
-      combination.size = value;
-    });
-  }
-
-  updateSmallestGroupSize() {
-    this.betweenIsuFactors.smallestGroupSize = this.groupSizeForm.value.smallestGroupSize;
-  }
-
-  updateGroupsizeFormControls() {
-    this.betweenIsuFactors.generateCombinations();
-    this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
-    this.tables = this.betweenIsuFactors.groupCombinations();
-    const controlDefs = {};
-    this.tables.forEach( table => {
-      const names = table.table.keys();
-      let done = false;
-      let next = names.next();
-      while ( !done ) {
-        const key = next.value;
-        const combination = table.table.get(key);
-        controlDefs[combination.name] = [1];
-        next = names.next();
-        done = next.done;
-      }
-    });
-    this.relativeGroupSizeForm = this.fb.group(controlDefs);
   }
 
   hasPredictors(): boolean {
@@ -289,10 +227,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   nextPredictors(): boolean {
-    if (this.hasPredictors() && this.betweenIsuFactors.predictors.length < this.maxPredictors ) {
-      return true;
+    if (this.hasPredictors() && this.betweenIsuFactors.predictors.length >= this.maxPredictors ) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   get stageName() {
@@ -315,22 +253,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._groupsForm = value;
   }
 
-  get groupSizeForm(): FormGroup {
-    return this._groupSizeForm;
-  }
-
-  set groupSizeForm(value: FormGroup) {
-    this._groupSizeForm = value;
-  }
-
-  get relativeGroupSizeForm(): FormGroup {
-    return this._relativeGroupSizeForm;
-  }
-
-  set relativeGroupSizeForm(value: FormGroup) {
-    this._relativeGroupSizeForm = value;
-  }
-
   get betweenIsuFactors(): BetweenISUFactors {
     return this._betweenIsuFactors;
   }
@@ -345,14 +267,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set betweenIsuFactorsSubscription(value: Subscription) {
     this._betweenIsuFactorsSubscription = value;
-  }
-
-  get solveForSubscription(): Subscription {
-    return this._solveForSubscription;
-  }
-
-  set solveForSubscription(value: Subscription) {
-    this._solveForSubscription = value;
   }
 
   get fb(): FormBuilder {
@@ -411,14 +325,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._editing = value;
   }
 
-  get groups(): string[] {
-    return this._groups;
-  }
-
-  set groups(value: string[]) {
-    this._groups = value;
-  }
-
   get maxGroups(): number {
     return this._maxGroups;
   }
@@ -435,19 +341,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._maxPredictors = value;
   }
 
-  get solveFor(): string {
-    return this._solveFor;
+  get groups(): string[] {
+    return this._groups;
   }
 
-  set solveFor(value: string) {
-    this._solveFor = value;
-  }
-
-  get tables(): BetweenIsuCombinationTable[] {
-    return this._tables;
-  }
-
-  set tables(value: BetweenIsuCombinationTable[]) {
-    this._tables = value;
+  set groups(value: string[]) {
+    this._groups = value;
   }
 }
