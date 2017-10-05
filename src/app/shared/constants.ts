@@ -111,7 +111,4 @@ export const constants = {
   },
   MAX_PREDICTORS: 5,
   MAX_GROUPS: 10,
-  GAUSSIAN_COVARIATE_STAGES: {
-    0: 'VARIANCE',
-  },
 };

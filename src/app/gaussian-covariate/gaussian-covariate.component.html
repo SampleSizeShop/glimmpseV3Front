@@ -1,4 +1,4 @@
-<div *ngIf="!hasGaussianCovariate() && !editing" id="firstgaussiancovariate">
+<div *ngIf="!hasGaussianCovariate()" id="firstgaussiancovariate">
   <div class="container-fluid">
     <div class="row">
       <div class="col">
@@ -15,29 +15,18 @@
   </div>
 </div>
 
-
-<div *ngIf="hasGaussianCovariate() && editing">
+<div *ngIf="hasGaussianCovariate()">
   <form [formGroup]="gaussianCovariateForm">
     <div class="container-fluid">
       <label for="variance">Gaussian Covariate Variance:</label>
       <input type="number" class="form-control" formControlName="variance" id="variance" >
     </div>
   </form>
-</div>
-
-<div *ngIf="hasGaussianCovariate() && !editing">
-  <div *ngFor="let covariate of gaussianCovariates" id="gaussianCovariateList">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col col-md-auto">
-          <i class="material-icons" (click)="removeGaussianCovariate(covariate)" style="margin-bottom: 5px" id="removegaussianCovariate">remove</i>
-        </div>
-        <div class="col">
-          Gaussian Covariate Variance:
-        </div>
-        <div class="col">{{covariate.variance}}</div>
-      </div>
-    </div>
+  <br>
+  <div class="btn-group" data-toggle="buttons">
+    <label id="removegaussiancovariatebtn" class="btn btn-primary">
+      <input type="radio" id="removegaussiancovariateradio" (click)="removeGaussianCovariate()">Remove Gaussian Covariate
+    </label>
   </div>
 </div>
 

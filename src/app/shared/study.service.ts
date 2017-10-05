@@ -52,8 +52,8 @@ export class StudyService {
   private _betweenIsuFactorsSource = new BehaviorSubject<BetweenISUFactors>(null);
   private _betweenIsuFactors$ = this._betweenIsuFactorsSource.asObservable();
 
-  private _gaussianCovariatesSource = new BehaviorSubject<GaussianCovariate[]>(null);
-  private _gaussianCovariates$ = this._gaussianCovariatesSource.asObservable();
+  private _gaussianCovariateSource = new BehaviorSubject<GaussianCovariate>(null);
+  private _gaussianCovariate$ = this._gaussianCovariateSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -101,8 +101,8 @@ export class StudyService {
     this._betweenIsuFactorsSource.next(betweenIsuFactors)
   }
 
-  updateGaussianCovariates(gaussianCovariates: GaussianCovariate[]) {
-    this._gaussianCovariatesSource.next(gaussianCovariates);
+  updateGaussianCovariate(gaussianCovariate: GaussianCovariate) {
+    this._gaussianCovariateSource.next(gaussianCovariate);
   }
 
   constructor(private  http: Http) {
@@ -246,12 +246,12 @@ export class StudyService {
     this._betweenIsuFactors$ = value;
   }
 
-  get gaussianCovariates$(): Observable<GaussianCovariate[]> {
-    return this._gaussianCovariates$;
+  get gaussianCovariate$(): Observable<GaussianCovariate> {
+    return this._gaussianCovariate$;
   }
 
-  set gaussianCovariates$(value: Observable<GaussianCovariate[]>) {
-    this._gaussianCovariates$ = value;
+  set gaussianCovariate$(value: Observable<GaussianCovariate>) {
+    this._gaussianCovariate$ = value;
   }
 }
 

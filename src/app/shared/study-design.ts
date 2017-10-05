@@ -13,7 +13,7 @@ export class StudyDesign {
   private _typeOneErrorRate: number;
   private _withinIsuFactors: WithinISUFactors;
   private _betweenIsuFactors: BetweenISUFactors;
-  private _gaussianCovariates: GaussianCovariate[];
+  private _gaussianCovariate: GaussianCovariate;
 
   constructor(name?: string,
               guided?: boolean,
@@ -26,7 +26,7 @@ export class StudyDesign {
               typeOneErrorRate?: number,
               withinIsuFactors?: WithinISUFactors,
               betweenIsuFactors?: BetweenISUFactors,
-              gaussianCovariates?: GaussianCovariate[],
+              gaussianCovariates?: GaussianCovariate,
 ) {
     this.withinIsuFactors = new WithinISUFactors();
   }
@@ -111,11 +111,11 @@ export class StudyDesign {
     this._betweenIsuFactors = value;
   }
 
-  get gaussianCovariates(): GaussianCovariate[] {
-    return this._gaussianCovariates;
+  get gaussianCovariate(): GaussianCovariate {
+    return this._gaussianCovariate;
   }
 
-  set gaussianCovariates(value: GaussianCovariate[]) {
-    this._gaussianCovariates = value;
+  set gaussianCovariate(value: GaussianCovariate) {
+    this._gaussianCovariate = value;
   }
 }
