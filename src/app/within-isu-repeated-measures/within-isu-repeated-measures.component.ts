@@ -128,9 +128,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       const controlDefs = {};
       for (const name of this.spacingControlNames) {
         if (values && values.length === repeats) {
-          controlDefs[name] = [values[name], minMaxValidator(0.000000000000001, 100000000000000)];
+          controlDefs[name] = [values[name], minMaxValidator(0, 100000000000000)];
         } else {
-          controlDefs[name] = [0, minMaxValidator(0.000000000000001, 100000000000000)];
+          controlDefs[name] = [0, minMaxValidator(0, 100000000000000)];
         }
       }
 
