@@ -57,4 +57,28 @@ describe('HypothesisEffectChoiceComponent', () => {
 
     expect(component.possibleEffects.length).toEqual(15);
   });
+
+  it('should return 7 distinct effects', () => {
+    const A = new HypothesisEffectVariable('A', 'BETWEEN');
+    const B = new HypothesisEffectVariable('B', 'BETWEEN');
+    const C = new HypothesisEffectVariable('C', 'WITHIN');
+    component.variables.push(A, B, C);
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects.length).toEqual(7);
+  });
+
+  it('should return 1 distinct effects', () => {
+    const A = new HypothesisEffectVariable('A', 'BETWEEN');
+    component.variables.push(A);
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects.length).toEqual(1);
+  });
+
+  it('should return 0 distinct effects', () => {
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects.length).toEqual(0);
+  });
 });
