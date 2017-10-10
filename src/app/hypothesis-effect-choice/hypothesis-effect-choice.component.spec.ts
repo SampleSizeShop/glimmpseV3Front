@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisEffectChoiceComponent } from './hypothesis-effect-choice.component';
+import {HypothesisEffectVariable} from '../shared/HypothesisEffectVariable';
+import {HypothesisEffect} from '../shared/HypothesisEffect';
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;
@@ -21,5 +23,38 @@ describe('HypothesisEffectChoiceComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should correctly compare lists of Hypothesis Effect Variables', () => {
+    const A = new HypothesisEffectVariable('A', 'BETWEEN');
+    const B = new HypothesisEffectVariable('B', 'BETWEEN');
+    const C = new HypothesisEffectVariable('C', 'WITHIN');
+    const D = new HypothesisEffectVariable('D', 'WITHIN');
+    const E = new HypothesisEffectVariable('E', 'WITHIN');
+    component.variables.push(A, B, C, D);
+
+    const eff1 = new HypothesisEffect();
+    eff1.variables = [A, B, C, D];
+    const eff2 = new HypothesisEffect();
+    eff2.variables = [B, C, A, D];
+    const comp = eff1.compare(eff2);
+
+    expect(comp).toEqual(true);
+
+    eff2.variables = [B, E, A, D];
+    const compFalse = eff1.compare(eff2);
+
+    expect(compFalse).toEqual(false);
+  });
+
+  it('should return 15 distinct effects', () => {
+    const A = new HypothesisEffectVariable('A', 'BETWEEN');
+    const B = new HypothesisEffectVariable('B', 'BETWEEN');
+    const C = new HypothesisEffectVariable('C', 'WITHIN');
+    const D = new HypothesisEffectVariable('D', 'WITHIN');
+    component.variables.push(A, B, C, D);
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects.length).toEqual(15);
   });
 });
