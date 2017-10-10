@@ -3,6 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HypothesisEffectChoiceComponent } from './hypothesis-effect-choice.component';
 import {HypothesisEffectVariable} from '../shared/HypothesisEffectVariable';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
+import {StudyService} from '../shared/study.service';
+import {ReactiveFormsModule} from '@angular/forms';
+import {Http} from '@angular/http';
+import {MockBackend} from '@angular/http/testing';
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;
@@ -10,7 +14,9 @@ describe('HypothesisEffectChoiceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HypothesisEffectChoiceComponent ]
+      imports: [ReactiveFormsModule],
+      declarations: [ HypothesisEffectChoiceComponent ],
+      providers: [StudyService, { provide: Http, useClass: MockBackend }]
     })
     .compileComponents();
   }));
@@ -72,13 +78,11 @@ describe('HypothesisEffectChoiceComponent', () => {
     const A = new HypothesisEffectVariable('A', 'BETWEEN');
     component.variables.push(A);
     component.determinePossibleEffects();
-
     expect(component.possibleEffects.length).toEqual(1);
   });
 
   it('should return 0 distinct effects', () => {
     component.determinePossibleEffects();
-
     expect(component.possibleEffects.length).toEqual(0);
   });
 });
