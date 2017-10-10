@@ -25,7 +25,7 @@ describe('HypothesisEffectChoiceComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should correctly compare lists of Hypothesis Effect Variables', () => {
+  it('should correctly equals lists of Hypothesis Effect Variables', () => {
     const A = new HypothesisEffectVariable('A', 'BETWEEN');
     const B = new HypothesisEffectVariable('B', 'BETWEEN');
     const C = new HypothesisEffectVariable('C', 'WITHIN');
@@ -37,12 +37,12 @@ describe('HypothesisEffectChoiceComponent', () => {
     eff1.variables = [A, B, C, D];
     const eff2 = new HypothesisEffect();
     eff2.variables = [B, C, A, D];
-    const comp = eff1.compare(eff2);
+    const comp = eff1.equals(eff2);
 
     expect(comp).toEqual(true);
 
     eff2.variables = [B, E, A, D];
-    const compFalse = eff1.compare(eff2);
+    const compFalse = eff1.equals(eff2);
 
     expect(compFalse).toEqual(false);
   });

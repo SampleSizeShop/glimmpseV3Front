@@ -16,7 +16,7 @@ export class HypothesisEffect {
     }
   }
 
-  compare (effect: HypothesisEffect) {
+  equals (effect: HypothesisEffect) {
     if ( isNullOrUndefined(this.variables) || isNullOrUndefined(effect.variables) ) {
       return false;
     }
