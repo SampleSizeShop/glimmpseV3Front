@@ -1,3 +1,7 @@
-<div *ngFor="let effect of possibleEffects">
-  {{effect.variables | json}}
+<div class="container-fluid">
+  <div *ngFor="let effect of possibleEffects; let i = index" class="row" [ngStyle]="{'background-color': rowStyle(i)}">
+      <div class="col"><input type="radio" (click)="selectEffect(effect)" class="form-check-input"></div>
+      <div class="col">{{effect.name}}: {{effect.type}}</div>
+      <div class="col">{{effect.nature}}</div>
+  </div>
 </div>

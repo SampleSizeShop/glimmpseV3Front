@@ -1,13 +1,17 @@
 export class HypothesisEffectVariable {
   name: string;
+  origin: string;
   type: string;
 
-  constructor(name?: string, type?: string) {
+  constructor(name?: string, type?: string, origin?: string) {
     if (name) {
       this.name = name;
     }
     if (type) {
       this.type = type;
+    }
+    if (origin) {
+      this.origin = origin;
     }
   }
 

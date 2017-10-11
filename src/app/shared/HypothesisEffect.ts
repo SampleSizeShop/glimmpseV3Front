@@ -3,6 +3,25 @@ import {isNullOrUndefined} from 'util';
 
 export class HypothesisEffect {
   variables: HypothesisEffectVariable[] = [];
+  type: string;
+
+  get name(): string {
+    let name = '';
+    this.variables.forEach( variable => {
+      name = name.concat(variable.name, ' x ');
+    });
+    name = name.substring(0, name.length - 3 );
+    return name;
+  }
+
+  get nature(): string {
+    let nature = '';
+    this.variables.forEach( variable => {
+      nature = nature.concat(variable.type, ' X ');
+    });
+    nature = nature.substring(0, nature.length - 3);
+    return nature;
+  }
 
   addVariable(variable: HypothesisEffectVariable) {
     let existsInList = false;

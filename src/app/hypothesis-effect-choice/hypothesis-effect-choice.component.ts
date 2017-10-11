@@ -46,23 +46,46 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   ngOnInit() {
     this.populateVariables();
     this.determinePossibleEffects();
+    this.determineEffectTypes();
+  }
+
+  selectEffect(effect: HypothesisEffect) {
+    console.log('selected + ' + effect.name)
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 0 ) {
+      return '#d9edf7';
+    } else {
+      return 'transparent';
+    }
   }
 
   populateVariables() {
     this.outcomes.forEach( outcome => {
-      const variable = new HypothesisEffectVariable(outcome, 'WITHIN');
+      const variable = new HypothesisEffectVariable(outcome, 'WITHIN', 'OUTCOME');
       this.variables.push(variable);
     });
     this.repeatedMeasures.forEach( repeatedMeasure => {
-      const variable = new HypothesisEffectVariable(repeatedMeasure.dimension, 'WITHIN');
+      const variable = new HypothesisEffectVariable(repeatedMeasure.dimension, 'WITHIN', 'REPEATED_MEASURE');
       this.variables.push(variable);
     });
     if (!isNullOrUndefined(this.betweenIsuFactors) && !isNullOrUndefined(this.betweenIsuFactors.predictors)) {
     this.betweenIsuFactors.predictors.forEach( predictor => {
-      const variable = new HypothesisEffectVariable(predictor.name, 'BETWEEN');
+      const variable = new HypothesisEffectVariable(predictor.name, 'BETWEEN', 'PREDICTOR');
       this.variables.push(variable);
     });
     }
+  }
+
+  determineEffectTypes() {
+    this.possibleEffects.forEach( effect => {
+      if ( effect.variables.length > 1 ) {
+        effect.type = 'Interaction';
+      } else {
+        effect.type = 'Main Effect';
+      }
+    });
   }
 
   determinePossibleEffects() {
