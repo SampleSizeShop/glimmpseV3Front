@@ -13,6 +13,8 @@ export const constants = {
     10: 'BETWEEN_ISU_GROUPS',
     11: 'GAUSSIAN_COVARIATE',
     12: 'HYPOTHESIS_EFFECT_CHOICE',
+    13: 'HYPOTHESIS_BETWEEN',
+    14: 'HYPOTHESIS_WITHIN',
   },
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
