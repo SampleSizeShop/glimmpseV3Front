@@ -6,10 +6,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hypothesis-between.component.css']
 })
 export class HypothesisBetweenComponent implements OnInit {
+  private _showAdvancedOptions: boolean;
 
-  constructor() { }
+  constructor() {
+    this.showAdvancedOptions = false;
+  }
 
   ngOnInit() {
   }
 
+  toggleAdvancedOptions() {
+    this.showAdvancedOptions = !this.showAdvancedOptions;
+  }
+
+  get showAdvancedOptions(): boolean {
+    return this._showAdvancedOptions;
+  }
+
+  set showAdvancedOptions(value: boolean) {
+    this._showAdvancedOptions = value;
+  }
 }

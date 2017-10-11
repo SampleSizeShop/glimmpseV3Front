@@ -3,7 +3,32 @@
   <label class="btn btn-primary" style="margin-bottom: 0px;" id="hlt" [class.active]="true">
     <input type="checkbox">Global Trends
   </label>
-  <label class="btn btn-primary" style="margin-bottom: 0px;" id="pb" [class.active]="false">
-    <input type="checkbox">Advanced Options
+</div>
+<br>
+<br>
+<div class="btn-group-vertical btn-block" data-toggle="buttons">
+  <label class="btn btn-secondary" style="margin-bottom: 0px;" id="pb" [class.active]="false" *ngIf="!showAdvancedOptions">
+    <input type="checkbox" (click)="toggleAdvancedOptions()">Show Advanced Options
+  </label>
+  <label class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
+    <input type="checkbox" (click)="toggleAdvancedOptions()">Hide Advanced Options
+  </label>
+</div>
+<br>
+<br>
+<div class="btn-group-vertical btn-block" data-toggle="buttons">  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
+    <input type="checkbox">All Pairwise
+  </label>
+  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
+    <input type="checkbox">Successive Pairs
+  </label>
+  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
+    <input type="checkbox">Identity
+  </label>
+  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
+    <input type="checkbox">Linear, Quadratic, Cubic, 4th, 5th, etc.
+  </label>
+  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
+    <input type="checkbox">User Specified
   </label>
 </div>
