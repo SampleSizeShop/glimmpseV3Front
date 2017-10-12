@@ -1,22 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {constants} from 'app/shared/constants';
+import {StudyService} from '../shared/study.service';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-hypothesis-between',
   templateUrl: './hypothesis-between.component.html',
   styleUrls: ['./hypothesis-between.component.css']
 })
-export class HypothesisBetweenComponent implements OnInit {
+export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
   private _betweenHypothesisNature: string;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_NATURE;
 
-  constructor() {
+  private _betweenHypothesisNatureSubscription: Subscription;
+
+  constructor(private study_service: StudyService) {
     this.showAdvancedOptions = false;
+
+    this.betweenHypothesisNatureSubscription = this.study_service.betweenHypothesisNature$.subscribe(
+      betweenHypothesisNature => {
+        this.betweenHypothesisNature = betweenHypothesisNature;
+      }
+    );
   }
 
   ngOnInit() {
-    this.betweenHypothesisNature = constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS;
+    if (this.betweenHypothesisNature !== this.HYPOTHESIS_NATURE.GLOBAL_TRENDS) {
+      this.showAdvancedOptions = true;
+    }
+  }
+
+  ngOnDestroy() {
+    this.betweenHypothesisNatureSubscription.unsubscribe();
   }
 
   isSelected(hypothesis: string): boolean {
@@ -25,6 +41,7 @@ export class HypothesisBetweenComponent implements OnInit {
 
   selectHypothesisNature(type: string) {
     this.betweenHypothesisNature = type;
+    this.study_service.updateBetweenHypothesisNature(this.betweenHypothesisNature);
   }
 
   toggleAdvancedOptions() {
@@ -53,5 +70,13 @@ export class HypothesisBetweenComponent implements OnInit {
 
   set HYPOTHESIS_NATURE(value) {
     this._HYPOTHESIS_NATURE = value;
+  }
+
+  get betweenHypothesisNatureSubscription(): Subscription {
+    return this._betweenHypothesisNatureSubscription;
+  }
+
+  set betweenHypothesisNatureSubscription(value: Subscription) {
+    this._betweenHypothesisNatureSubscription = value;
   }
 }

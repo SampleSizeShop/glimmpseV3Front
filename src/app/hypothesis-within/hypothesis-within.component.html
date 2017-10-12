@@ -18,8 +18,8 @@
 <br>
 <div class="btn-group-vertical btn-block" data-toggle="buttons">
   <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.ALL_PAIRWISE)" *ngIf="showAdvancedOptions">
-  <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.ALL_PAIRWISE)">All Pairwise
-</label>
+    <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.ALL_PAIRWISE)">All Pairwise
+  </label>
   <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.SUCCESSIVE_PAIRS)" *ngIf="showAdvancedOptions">
     <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.SUCCESSIVE_PAIRS)">Successive Pairs
   </label>

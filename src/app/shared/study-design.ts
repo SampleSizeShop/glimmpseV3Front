@@ -14,6 +14,8 @@ export class StudyDesign {
   private _withinIsuFactors: WithinISUFactors;
   private _betweenIsuFactors: BetweenISUFactors;
   private _gaussianCovariate: GaussianCovariate;
+  private _betweenHypothesisNature: string;
+  private _withinHypothesisNature: string;
 
   constructor(name?: string,
               guided?: boolean,
@@ -27,6 +29,8 @@ export class StudyDesign {
               withinIsuFactors?: WithinISUFactors,
               betweenIsuFactors?: BetweenISUFactors,
               gaussianCovariates?: GaussianCovariate,
+              betweenHypothesisNature?: string,
+              withinHypothesisNature?: string
 ) {
     this.withinIsuFactors = new WithinISUFactors();
   }
@@ -117,5 +121,21 @@ export class StudyDesign {
 
   set gaussianCovariate(value: GaussianCovariate) {
     this._gaussianCovariate = value;
+  }
+
+  get betweenHypothesisNature(): string {
+    return this._betweenHypothesisNature;
+  }
+
+  set betweenHypothesisNature(value: string) {
+    this._betweenHypothesisNature = value;
+  }
+
+  get withinHypothesisNature(): string {
+    return this._withinHypothesisNature;
+  }
+
+  set withinHypothesisNature(value: string) {
+    this._withinHypothesisNature = value;
   }
 }

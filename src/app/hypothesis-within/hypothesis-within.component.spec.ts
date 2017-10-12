@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisWithinComponent } from './hypothesis-within.component';
+import {MockBackend} from '@angular/http/testing';
+import {Http} from '@angular/http';
+import {StudyService} from '../shared/study.service';
 
 describe('HypothesisWithinComponent', () => {
   let component: HypothesisWithinComponent;
@@ -8,7 +11,8 @@ describe('HypothesisWithinComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HypothesisWithinComponent ]
+      declarations: [ HypothesisWithinComponent ],
+      providers: [ StudyService, {provide: Http, useClass: MockBackend} ]
     })
     .compileComponents();
   }));

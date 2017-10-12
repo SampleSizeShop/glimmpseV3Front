@@ -33,6 +33,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _withinIsuClusterSubscription: Subscription;
   private _betweenIsuFactorsSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
+  private _betweenHypothesisNatureSubscription: Subscription;
+  private _withinHypothesisNatureSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -318,6 +320,22 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._gaussianCovariateSubscription = value;
   }
 
+  get betweenHypothesisNatureSubscription(): Subscription {
+    return this._betweenHypothesisNatureSubscription;
+  }
+
+  set betweenHypothesisNatureSubscription(value: Subscription) {
+    this._betweenHypothesisNatureSubscription = value;
+  }
+
+  get withinHypothesisNatureSubscription(): Subscription {
+    return this._withinHypothesisNatureSubscription;
+  }
+
+  set withinHypothesisNatureSubscription(value: Subscription) {
+    this._withinHypothesisNatureSubscription = value;
+  }
+
   subscribeToStudyService() {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
@@ -399,6 +417,18 @@ export class StudyFormComponent implements OnInit, OnDestroy {
         this.study.gaussianCovariate = gaussianCovariate;
       }
     );
+
+    this.withinHypothesisNatureSubscription = this.study_service.withinHypothesisNature$.subscribe(
+      withinHypothesisNature => {
+        this.study.withinHypothesisNature = withinHypothesisNature;
+      }
+    );
+
+    this.betweenHypothesisNatureSubscription = this.study_service.betweenHypothesisNature$.subscribe(
+      betweenHypothesisNature => {
+        this.study.betweenHypothesisNature = betweenHypothesisNature;
+      }
+    );
   };
 
   unsubscribeFromStudyService() {
@@ -415,6 +445,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.withinIsuClusterSubscription.unsubscribe();
     this.betweenIsuFactorsSubscription.unsubscribe();
     this.gaussianCovariateSubscription.unsubscribe();
+    this.betweenHypothesisNatureSubscription.unsubscribe();
+    this.withinHypothesisNatureSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {
