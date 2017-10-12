@@ -8,23 +8,23 @@ import {constants} from 'app/shared/constants';
 })
 export class HypothesisBetweenComponent implements OnInit {
   private _showAdvancedOptions: boolean;
-  private _betweenHypothesisType: string;
-  private _HYPOTHESIS_TYPE = constants.HYPOTHESIS_TYPE;
+  private _betweenHypothesisNature: string;
+  private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_NATURE;
 
   constructor() {
     this.showAdvancedOptions = false;
   }
 
   ngOnInit() {
-    this.betweenHypothesisType = constants.HYPOTHESIS_TYPE.GLOBAL_TRENDS;
+    this.betweenHypothesisNature = constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS;
   }
 
   isSelected(hypothesis: string): boolean {
-    return this.betweenHypothesisType === hypothesis;
+    return this.betweenHypothesisNature === hypothesis;
   }
 
-  selectHypothesisType(type: string) {
-    this.betweenHypothesisType = type;
+  selectHypothesisNature(type: string) {
+    this.betweenHypothesisNature = type;
   }
 
   toggleAdvancedOptions() {
@@ -39,19 +39,19 @@ export class HypothesisBetweenComponent implements OnInit {
     this._showAdvancedOptions = value;
   }
 
-  get betweenHypothesisType(): string {
-    return this._betweenHypothesisType;
+  get betweenHypothesisNature(): string {
+    return this._betweenHypothesisNature;
   }
 
-  set betweenHypothesisType(value: string) {
-    this._betweenHypothesisType = value;
+  set betweenHypothesisNature(value: string) {
+    this._betweenHypothesisNature = value;
   }
 
-  get HYPOTHESIS_TYPE() {
-    return this._HYPOTHESIS_TYPE;
+  get HYPOTHESIS_NATURE() {
+    return this._HYPOTHESIS_NATURE;
   }
 
-  set HYPOTHESIS_TYPE(value) {
-    this._HYPOTHESIS_TYPE = value;
+  set HYPOTHESIS_NATURE(value) {
+    this._HYPOTHESIS_NATURE = value;
   }
 }

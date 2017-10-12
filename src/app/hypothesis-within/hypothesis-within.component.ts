@@ -8,23 +8,23 @@ import {constants} from '../shared/constants';
 })
 export class HypothesisWithinComponent implements OnInit {
   private _showAdvancedOptions: boolean;
-  private _withinHypothesisType: string;
-  private _HYPOTHESIS_TYPE = constants.HYPOTHESIS_TYPE;
+  private _withinHypothesisNature: string;
+  private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_NATURE;
 
   constructor() {
     this.showAdvancedOptions = false;
   }
 
   ngOnInit() {
-    this.withinHypothesisType = constants.HYPOTHESIS_TYPE.GLOBAL_TRENDS;
+    this.withinHypothesisNature = constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS;
   }
 
   isSelected(hypothesis: string): boolean {
-    return this.withinHypothesisType === hypothesis;
+    return this.withinHypothesisNature === hypothesis;
   }
 
-  selectHypothesisType(type: string) {
-    this.withinHypothesisType = type;
+  selectHypothesisNature(type: string) {
+    this.withinHypothesisNature = type;
   }
 
   toggleAdvancedOptions() {
@@ -39,19 +39,19 @@ export class HypothesisWithinComponent implements OnInit {
     this._showAdvancedOptions = value;
   }
 
-  get withinHypothesisType(): string {
-    return this._withinHypothesisType;
+  get withinHypothesisNature(): string {
+    return this._withinHypothesisNature;
   }
 
-  set withinHypothesisType(value: string) {
-    this._withinHypothesisType = value;
+  set withinHypothesisNature(value: string) {
+    this._withinHypothesisNature = value;
   }
 
-  get HYPOTHESIS_TYPE(): { GLOBAL_TRENDS; ALL_PAIRWISE; SUCCESSIVE_PAIRS; IDENTITY; POLYNOMIAL; USER_DEFINED } | any {
-    return this._HYPOTHESIS_TYPE;
+  get HYPOTHESIS_NATURE(): { GLOBAL_TRENDS; ALL_PAIRWISE; SUCCESSIVE_PAIRS; IDENTITY; POLYNOMIAL; USER_DEFINED } | any {
+    return this._HYPOTHESIS_NATURE;
   }
 
-  set HYPOTHESIS_TYPE(value: { GLOBAL_TRENDS; ALL_PAIRWISE; SUCCESSIVE_PAIRS; IDENTITY; POLYNOMIAL; USER_DEFINED } | any) {
-    this._HYPOTHESIS_TYPE = value;
+  set HYPOTHESIS_NATURE(value: { GLOBAL_TRENDS; ALL_PAIRWISE; SUCCESSIVE_PAIRS; IDENTITY; POLYNOMIAL; USER_DEFINED } | any) {
+    this._HYPOTHESIS_NATURE = value;
   }
 }
