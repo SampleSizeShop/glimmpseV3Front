@@ -1,7 +1,7 @@
 <h5>What is the nature of your within hypothesis?</h5>
 <div class="btn-group-vertical btn-block" data-toggle="buttons">
-  <label class="btn btn-primary" style="margin-bottom: 0px;" id="hlt" [class.active]="true">
-    <input type="checkbox">Global Trends
+  <label class="btn btn-primary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(HYPOTHESIS_TYPE.GLOBAL_TRENDS)">
+    <input type="checkbox" (click)="selectHypothesisType(HYPOTHESIS_TYPE.GLOBAL_TRENDS)">Global Trends
   </label>
 </div>
 <br>
@@ -16,19 +16,21 @@
 </div>
 <br>
 <br>
-<div class="btn-group-vertical btn-block" data-toggle="buttons">  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
-  <input type="checkbox">All Pairwise
+<div class="btn-group-vertical btn-block" data-toggle="buttons">
+  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_TYPE.ALL_PAIRWISE)" *ngIf="showAdvancedOptions">
+  <input type="checkbox" (click)="selectHypothesisType(HYPOTHESIS_TYPE.ALL_PAIRWISE)">All Pairwise
 </label>
-  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
-    <input type="checkbox">Successive Pairs
+  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_TYPE.SUCCESSIVE_PAIRS)" *ngIf="showAdvancedOptions">
+    <input type="checkbox" (click)="selectHypothesisType(HYPOTHESIS_TYPE.SUCCESSIVE_PAIRS)">Successive Pairs
   </label>
-  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
-    <input type="checkbox">Identity
+  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_TYPE.IDENTITY)" *ngIf="showAdvancedOptions">
+    <input type="checkbox" (click)="selectHypothesisType(HYPOTHESIS_TYPE.IDENTITY)">Identity
   </label>
-  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
-    <input type="checkbox">Linear, Quadratic, Cubic, 4th, 5th, etc.
+  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_TYPE.POLYNOMIAL)" *ngIf="showAdvancedOptions">
+    <input type="checkbox" (click)="selectHypothesisType(HYPOTHESIS_TYPE.POLYNOMIAL)">Polynomial
   </label>
-  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
-    <input type="checkbox">User Specified
+  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_TYPE.USER_DEFINED)" *ngIf="showAdvancedOptions">
+    <input type="checkbox" (click)="selectHypothesisType(HYPOTHESIS_TYPE.USER_DEFINED)">User Specified
   </label>
 </div>
+{{withinHypothesisType}}
