@@ -1,35 +1,90 @@
 <h5>What is the nature of your within hypothesis?</h5>
-<div class="btn-group-vertical btn-block" data-toggle="buttons">
-  <label class="btn btn-primary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(HYPOTHESIS_NATURE.GLOBAL_TRENDS)">
-    <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.GLOBAL_TRENDS)">Global Trends
-  </label>
-</div>
-<br>
-<br>
-<div class="btn-group-vertical btn-block" data-toggle="buttons">
-  <label class="btn btn-secondary" style="margin-bottom: 0px;" id="pb" [class.active]="false" *ngIf="!showAdvancedOptions">
-    <input type="checkbox" (click)="toggleAdvancedOptions()">Show Advanced Options
-  </label>
-  <label class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
-    <input type="checkbox" (click)="toggleAdvancedOptions()">Hide Advanced Options
-  </label>
-</div>
-<br>
-<br>
-<div class="btn-group-vertical btn-block" data-toggle="buttons">
-  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.ALL_PAIRWISE)" *ngIf="showAdvancedOptions">
-    <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.ALL_PAIRWISE)">All Pairwise
-  </label>
-  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.SUCCESSIVE_PAIRS)" *ngIf="showAdvancedOptions">
-    <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.SUCCESSIVE_PAIRS)">Successive Pairs
-  </label>
-  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.IDENTITY)" *ngIf="showAdvancedOptions">
-    <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)">Identity
-  </label>
-  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="showAdvancedOptions">
-    <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)">Polynomial
-  </label>
-  <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.USER_DEFINED)" *ngIf="showAdvancedOptions">
-    <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED)">User Specified
-  </label>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="btn-group-vertical btn-block" data-toggle="buttons">
+        <label class="btn btn-primary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(HYPOTHESIS_NATURE.GLOBAL_TRENDS)">
+          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.GLOBAL_TRENDS)">Global Trends
+        </label>
+      </div>
+      <br>
+      <br>
+      <div class="btn-group-vertical btn-block" data-toggle="buttons">
+        <label class="btn btn-secondary" style="margin-bottom: 0px;" id="pb" [class.active]="false" *ngIf="!showAdvancedOptions">
+          <input type="checkbox" (click)="toggleAdvancedOptions()">Show Advanced Options
+        </label>
+        <label class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
+          <input type="checkbox" (click)="toggleAdvancedOptions()">Hide Advanced Options
+        </label>
+      </div>
+      <br>
+      <br>
+      <div class="btn-group-vertical btn-block" data-toggle="buttons">
+        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.ALL_PAIRWISE)" *ngIf="showAdvancedOptions">
+          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.ALL_PAIRWISE)">All Pairwise
+        </label>
+        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.SUCCESSIVE_PAIRS)" *ngIf="showAdvancedOptions">
+          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.SUCCESSIVE_PAIRS)">Successive Pairs
+        </label>
+        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.IDENTITY)" *ngIf="showAdvancedOptions">
+          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)">Identity
+        </label>
+        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="showAdvancedOptions">
+          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)">Polynomial
+        </label>
+        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.USER_DEFINED)" *ngIf="showAdvancedOptions">
+          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED)">User Specified
+        </label>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <h3 class="card-header">Global Trends</h3>
+        <div class="card-block">
+          <h5 class="card-title">America</h5>
+          <h6 class="card-subtitle text-muted">Simon and Garfunkle</h6>
+        </div>
+        <div class="card-block">
+          <p class="card-text">"Let us be lovers, we'll marry our fortunes together"
+            "I've got some real estate here in my bag"
+            So we bought a pack of cigarettes and Mrs. Wagner pies
+            And walked off to look for America.
+          </p>
+          <p class="card-text">
+
+            "Kathy," I said as we boarded a Greyhound in Pittsburgh
+            "Michigan seems like a dream to me now"
+            It took me four days to hitchhike from Saginaw
+            I've gone to look for America
+          </p>
+          <p class="card-text">
+
+            Laughing on the bus
+            Playing games with the faces
+            She said the man in the gabardine suit was a spy
+            I said "Be careful his bowtie is really a camera"
+          </p>
+          <p class="card-text">
+
+            "Toss me a cigarette, I think there's one in my raincoat"
+            "We smoked the last one an hour ago"
+            So I looked at the scenery, she read her magazine
+            And the moon rose over an open field
+          </p>
+          <p class="card-text">
+            "Kathy, I'm lost," I said, though I knew she was sleeping
+            I'm empty and aching and I don't know why
+            Counting the cars on the New Jersey Turnpike
+            They've all come to look for America
+            All come to look for America
+            All come to look for America</p>
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+        <div class="card-footer text-muted text-xs-center">
+          1968
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
