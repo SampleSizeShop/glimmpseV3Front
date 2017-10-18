@@ -5,7 +5,8 @@ import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
+import {testDependency, testDependency2} from '../shared/DependencyFunctions';
 
 @Component({
   selector: 'app-study-form',
@@ -336,6 +337,10 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._withinHypothesisNatureSubscription = value;
   }
 
+  checkDependencies(property, val) {
+    return {};
+  }
+
   subscribeToStudyService() {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
@@ -346,6 +351,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
     this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
       targetEvent => {
+        testDependency();
         this.study.targetEvent = targetEvent;
         this.valid = true;
       }
@@ -353,6 +359,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
     this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
       solveFor => {
+        testDependency2()
         this.study.solveFor = solveFor;
         this.valid = true;
       }
