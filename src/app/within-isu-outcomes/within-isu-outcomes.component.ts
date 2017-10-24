@@ -1,13 +1,12 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../shared/constants';
 import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyService} from '../shared/study.service';
-import {Subscription} from "rxjs/Subscription";
-import {forEach} from "@angular/router/src/utils/collection";
-import {hypothesisEffectValidator} from "../shared/hypothesiseffect.validator";
-import {HypothesisEffectVariable} from "../shared/HypothesisEffectVariable";
+import {Subscription} from 'rxjs/Subscription';
+import {HypothesisEffectVariable} from '../shared/HypothesisEffectVariable';
+import {HypothesisEffect} from '../shared/HypothesisEffect';
 
 @Component({
   selector: 'app-within-isu-outcomes',
@@ -21,6 +20,8 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   private _validationMessages;
   private _formErrors;
   private _outcomeSubscription: Subscription;
+  private _hypothesisEffectSubscription: Subscription;
+  private _hypothesisEffect: HypothesisEffect;
 
   constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
@@ -32,6 +33,12 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
         this.outcomes = outcomes;
       }
     );
+
+    this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
+      effect => {
+        this._hypothesisEffect = effect;
+      }
+    );
   }
 
   ngOnInit() {
@@ -40,10 +47,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
 
   buildForm() {
     this.outcomesForm = this.fb.group({
-      outcomes: ['', Validators.compose([
-        outcomeValidator(this.outcomes),
-        hypothesisEffectValidator(null, this.outcomesAsHypothesisEffectVariables())
-      ])]
+      outcomes: ['', outcomeValidator(this.outcomes)]
     });
 
     this.outcomesForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -174,5 +178,13 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
 
   set outcomeSubscription(value: Subscription) {
     this._outcomeSubscription = value;
+  }
+
+  get hypothesisEffectSubscription(): Subscription {
+    return this._hypothesisEffectSubscription;
+  }
+
+  set hypothesisEffectSubscription(value: Subscription) {
+    this._hypothesisEffectSubscription = value;
   }
 }
