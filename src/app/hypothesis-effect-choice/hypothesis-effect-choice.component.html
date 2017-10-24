@@ -8,7 +8,7 @@
       <div class="col-sm-1">
         <div class="form-check" style="margin-bottom: 1px">
           <label class="form-check-label">
-            <input type="radio" (click)="selectEffect(effect)" class="form-check-input">
+            <input type="radio" (click)="selectEffect(effect)" class="form-check-input" [checked]="isSelected(effect)">
           </label>
         </div>
       </div>

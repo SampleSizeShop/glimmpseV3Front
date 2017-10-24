@@ -16,6 +16,7 @@ import {isNull, isNullOrUndefined} from "util";
 export class HypothesisEffectChoiceComponent implements OnInit {
   private _variables: HypothesisEffectVariable[];
   private _possibleEffects: HypothesisEffect[];
+  private _selected: HypothesisEffect;
 
 
   private _outcomes: string[];
@@ -25,6 +26,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   private _outcomeSubscription: Subscription;
   private _repeatedMeasuresSubscription: Subscription;
   private _betweenIsuFactorsSubscription: Subscription;
+  private _hypothesisEffectSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private _study_service: StudyService) {
     this.variables = [];
@@ -41,6 +43,9 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     this.betweenIsuFactorsSubscription = this._study_service.betweenIsuFactors$.subscribe(betweenIsuFactors => {
       this.betweenIsuFactors = betweenIsuFactors;
     });
+    this.hypothesisEffectSubscription = this._study_service.hypothesisEffect$.subscribe( effect => {
+      this._selected = effect;
+    });
   }
 
   ngOnInit() {
@@ -51,7 +56,12 @@ export class HypothesisEffectChoiceComponent implements OnInit {
 
   selectEffect(effect: HypothesisEffect) {
     console.log('selected + ' + effect.name);
+    this._selected = effect;
     this.study_service.updateHypothesisEffect(effect);
+  }
+
+  isSelected(effect: HypothesisEffect): boolean {
+    return effect.equals(this._selected);
   }
 
   rowStyle(index: number) {
@@ -212,6 +222,14 @@ export class HypothesisEffectChoiceComponent implements OnInit {
 
   set betweenIsuFactorsSubscription(value: Subscription) {
     this._betweenIsuFactorsSubscription = value;
+  }
+
+  get hypothesisEffectSubscription(): Subscription {
+    return this._hypothesisEffectSubscription;
+  }
+
+  set hypothesisEffectSubscription(value: Subscription) {
+    this._hypothesisEffectSubscription = value;
   }
 
   get study_service(): StudyService {

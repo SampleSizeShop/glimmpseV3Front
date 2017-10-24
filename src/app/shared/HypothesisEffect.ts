@@ -36,7 +36,7 @@ export class HypothesisEffect {
   }
 
   equals (effect: HypothesisEffect) {
-    if ( isNullOrUndefined(this.variables) || isNullOrUndefined(effect.variables) ) {
+    if ( isNullOrUndefined(this.variables) || isNullOrUndefined(effect) || isNullOrUndefined(effect.variables) ) {
       return false;
     }
     if ( this.variables.length !== effect.variables.length ) {
