@@ -1,11 +1,13 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {constants} from '../shared/constants';
 import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from "rxjs/Subscription";
 import {forEach} from "@angular/router/src/utils/collection";
+import {hypothesisEffectValidator} from "../shared/hypothesiseffect.validator";
+import {HypothesisEffectVariable} from "../shared/HypothesisEffectVariable";
 
 @Component({
   selector: 'app-within-isu-outcomes',
@@ -38,7 +40,10 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
 
   buildForm() {
     this.outcomesForm = this.fb.group({
-      outcomes: ['', outcomeValidator(this.outcomes)]
+      outcomes: ['', Validators.compose([
+        outcomeValidator(this.outcomes),
+        hypothesisEffectValidator(null, this.outcomesAsHypothesisEffectVariables())
+      ])]
     });
 
     this.outcomesForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -100,6 +105,19 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
       return true;
     }
     return false;
+  }
+
+  outcomesAsHypothesisEffectVariables() {
+    const variables = [];
+    this.outcomes.forEach( outcome => {
+      const variable = new HypothesisEffectVariable(outcome, 'WITHIN', 'OUTCOME');
+      variables.push(variable);
+    });
+    if (variables.length === 0) {
+      return null;
+    } else {
+      return variables;
+    };
   }
 
   get outcomes(): string[] {
