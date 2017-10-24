@@ -1,6 +1,6 @@
 import {WithinISUFactors} from './WithinISUFactors';
 import {BetweenISUFactors} from './BetweenISUFactors';
-import {GaussianCovariate} from "./GaussianCovariate";
+import {GaussianCovariate} from './GaussianCovariate';
 
 export class StudyDesign {
   private _name: string;
