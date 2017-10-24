@@ -4,8 +4,9 @@ import {constants} from '../shared/constants';
 import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyService} from '../shared/study.service';
-import {Subscription} from "rxjs/Subscription";
-import {forEach} from "@angular/router/src/utils/collection";
+import {Subscription} from 'rxjs/Subscription';
+import {HypothesisEffectVariable} from '../shared/HypothesisEffectVariable';
+import {HypothesisEffect} from '../shared/HypothesisEffect';
 
 @Component({
   selector: 'app-within-isu-outcomes',
@@ -19,6 +20,8 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   private _validationMessages;
   private _formErrors;
   private _outcomeSubscription: Subscription;
+  private _hypothesisEffectSubscription: Subscription;
+  private _hypothesisEffect: HypothesisEffect;
 
   constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
@@ -28,6 +31,12 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
     this.outcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
       outcomes => {
         this.outcomes = outcomes;
+      }
+    );
+
+    this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
+      effect => {
+        this._hypothesisEffect = effect;
       }
     );
   }
@@ -102,6 +111,19 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
     return false;
   }
 
+  outcomesAsHypothesisEffectVariables() {
+    const variables = [];
+    this.outcomes.forEach( outcome => {
+      const variable = new HypothesisEffectVariable(outcome, 'WITHIN', 'OUTCOME');
+      variables.push(variable);
+    });
+    if (variables.length === 0) {
+      return null;
+    } else {
+      return variables;
+    };
+  }
+
   get outcomes(): string[] {
     return this._outcomes;
   }
@@ -156,5 +178,13 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
 
   set outcomeSubscription(value: Subscription) {
     this._outcomeSubscription = value;
+  }
+
+  get hypothesisEffectSubscription(): Subscription {
+    return this._hypothesisEffectSubscription;
+  }
+
+  set hypothesisEffectSubscription(value: Subscription) {
+    this._hypothesisEffectSubscription = value;
   }
 }

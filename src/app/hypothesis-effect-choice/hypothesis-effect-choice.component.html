@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-6"><h6>Effects Available for Consideration</h6></div>
+    <div class="col-sm-5"><h6>Nature of Variation</h6></div>
+  </div>
+  <div *ngFor="let effect of possibleEffects; let i = index" class="row" [ngStyle]="{'background-color': rowStyle(i)}">
+      <div class="col-sm-1">
+        <div class="form-check" style="margin-bottom: 1px">
+          <label class="form-check-label">
+            <input type="radio" (click)="selectEffect(effect)" class="form-check-input">
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-6">{{effect.name}}: {{effect.type}}</div>
+      <div class="col-sm-5">{{effect.nature}}</div>
+  </div>
+</div>

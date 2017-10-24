@@ -1,6 +1,9 @@
 import {WithinISUFactors} from './WithinISUFactors';
 import {BetweenISUFactors} from './BetweenISUFactors';
-import {GaussianCovariate} from "./GaussianCovariate";
+import {GaussianCovariate} from './GaussianCovariate';
+import {HypothesisEffect} from './HypothesisEffect';
+import {isNullOrUndefined} from "util";
+import {HypothesisEffectVariable} from "./HypothesisEffectVariable";
 
 export class StudyDesign {
   private _name: string;
@@ -14,6 +17,9 @@ export class StudyDesign {
   private _withinIsuFactors: WithinISUFactors;
   private _betweenIsuFactors: BetweenISUFactors;
   private _gaussianCovariate: GaussianCovariate;
+  private _betweenHypothesisNature: string;
+  private _withinHypothesisNature: string;
+  private _hypothesisEffect: HypothesisEffect;
 
   constructor(name?: string,
               guided?: boolean,
@@ -27,8 +33,61 @@ export class StudyDesign {
               withinIsuFactors?: WithinISUFactors,
               betweenIsuFactors?: BetweenISUFactors,
               gaussianCovariates?: GaussianCovariate,
+              betweenHypothesisNature?: string,
+              withinHypothesisNature?: string,
+              hypothesisEffect?: HypothesisEffect
 ) {
     this.withinIsuFactors = new WithinISUFactors();
+  }
+
+  checkDependencies() {
+    if (!isNullOrUndefined(this.hypothesisEffect)) {
+
+      let possibleEffect = true;
+      const variables = this.getVariables();
+      if (!isNullOrUndefined(variables) && !isNullOrUndefined(this.hypothesisEffect.variables)) {
+        this.hypothesisEffect.variables.forEach(variable => {
+          let match = false;
+
+          variables.forEach(
+            value => {
+              if (!match) {
+                match = value.compare(variable);
+              }
+            }
+          );
+
+          if (!match ) {
+            possibleEffect = false;
+          }
+
+        });
+      }
+
+      if (!possibleEffect) {
+        this.hypothesisEffect = null;
+      }
+
+    };
+  }
+
+  getVariables() {
+    const variables = [];
+    this.withinIsuFactors.outcomes.forEach( outcome => {
+      const variable = new HypothesisEffectVariable(outcome, 'WITHIN', 'OUTCOME');
+      variables.push(variable);
+    });
+    this.withinIsuFactors.repeatedMeasures.forEach( repeatedMeasure => {
+      const variable = new HypothesisEffectVariable(repeatedMeasure.dimension, 'WITHIN', 'REPEATED_MEASURE');
+      variables.push(variable);
+    });
+    if (!isNullOrUndefined(this.betweenIsuFactors) && !isNullOrUndefined(this.betweenIsuFactors.predictors)) {
+      this.betweenIsuFactors.predictors.forEach( predictor => {
+        const variable = new HypothesisEffectVariable(predictor.name, 'BETWEEN', 'PREDICTOR');
+        variables.push(variable);
+      });
+    }
+    return variables;
   }
 
   get name(): string {
@@ -117,5 +176,29 @@ export class StudyDesign {
 
   set gaussianCovariate(value: GaussianCovariate) {
     this._gaussianCovariate = value;
+  }
+
+  get betweenHypothesisNature(): string {
+    return this._betweenHypothesisNature;
+  }
+
+  set betweenHypothesisNature(value: string) {
+    this._betweenHypothesisNature = value;
+  }
+
+  get withinHypothesisNature(): string {
+    return this._withinHypothesisNature;
+  }
+
+  set withinHypothesisNature(value: string) {
+    this._withinHypothesisNature = value;
+  }
+
+  get hypothesisEffect(): HypothesisEffect {
+    return this._hypothesisEffect;
+  }
+
+  set hypothesisEffect(value: HypothesisEffect) {
+    this._hypothesisEffect = value;
   }
 }

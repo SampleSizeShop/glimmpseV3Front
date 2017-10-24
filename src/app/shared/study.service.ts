@@ -9,6 +9,7 @@ import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
 import {BetweenISUFactors} from './BetweenISUFactors';
 import {GaussianCovariate} from './GaussianCovariate';
+import {HypothesisEffect} from "./HypothesisEffect";
 
 @Injectable()
 export class StudyService {
@@ -55,6 +56,15 @@ export class StudyService {
   private _gaussianCovariateSource = new BehaviorSubject<GaussianCovariate>(null);
   private _gaussianCovariate$ = this._gaussianCovariateSource.asObservable();
 
+  private _betweenHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
+  private _betweenHypothesisNature$ = this._betweenHypothesisNatureSource.asObservable();
+
+  private _withinHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
+  private _withinHypothesisNature$ = this._withinHypothesisNatureSource.asObservable();
+
+  private _hypothesisEffectSource = new BehaviorSubject<HypothesisEffect>(null);
+  private _hypothesisEffect$ = this._hypothesisEffectSource.asObservable();
+
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
   }
@@ -98,11 +108,23 @@ export class StudyService {
   }
 
   updateBetweenIsuFactors(betweenIsuFactors: BetweenISUFactors) {
-    this._betweenIsuFactorsSource.next(betweenIsuFactors)
+    this._betweenIsuFactorsSource.next(betweenIsuFactors);
   }
 
   updateGaussianCovariate(gaussianCovariate: GaussianCovariate) {
     this._gaussianCovariateSource.next(gaussianCovariate);
+  }
+
+  updateBetweenHypothesisNature(betweenHypothesisNature: string) {
+    this._betweenHypothesisNatureSource.next(betweenHypothesisNature);
+  }
+
+  updateWithinHypothesisNature(withinHypothesisNature: string) {
+    this._withinHypothesisNatureSource.next(withinHypothesisNature);
+  }
+
+  updateHypothesisEffect(hypothesisEffect: HypothesisEffect) {
+    this._hypothesisEffectSource.next(hypothesisEffect);
   }
 
   constructor(private  http: Http) {
@@ -252,6 +274,30 @@ export class StudyService {
 
   set gaussianCovariate$(value: Observable<GaussianCovariate>) {
     this._gaussianCovariate$ = value;
+  }
+
+  get betweenHypothesisNature$(): Observable<string> {
+    return this._betweenHypothesisNature$;
+  }
+
+  set betweenHypothesisNature$(value: Observable<string>) {
+    this._betweenHypothesisNature$ = value;
+  }
+
+  get withinHypothesisNature$(): Observable<string> {
+    return this._withinHypothesisNature$;
+  }
+
+  set withinHypothesisNature$(value: Observable<string>) {
+    this._withinHypothesisNature$ = value;
+  }
+
+  get hypothesisEffect$(): Observable<HypothesisEffect> {
+    return this._hypothesisEffect$;
+  }
+
+  set hypothesisEffect$(value: Observable<HypothesisEffect>) {
+    this._hypothesisEffect$ = value;
   }
 }
 

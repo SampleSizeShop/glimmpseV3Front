@@ -26,6 +26,9 @@ import { WithinIsuClustersComponent } from './within-isu-clusters/within-isu-clu
 import { BetweenIsuPredictorsComponent } from './between-isu-predictors/between-isu-predictors.component';
 import { BetweenIsuGroupsComponent } from './between-isu-groups/between-isu-groups.component';
 import { GaussianCovariateComponent } from './gaussian-covariate/gaussian-covariate.component';
+import { HypothesisEffectChoiceComponent } from './hypothesis-effect-choice/hypothesis-effect-choice.component';
+import { HypothesisBetweenComponent } from './hypothesis-between/hypothesis-between.component';
+import { HypothesisWithinComponent } from './hypothesis-within/hypothesis-within.component';
 
 
 @NgModule({
@@ -45,7 +48,10 @@ import { GaussianCovariateComponent } from './gaussian-covariate/gaussian-covari
     WithinIsuClustersComponent,
     BetweenIsuPredictorsComponent,
     BetweenIsuGroupsComponent,
-    GaussianCovariateComponent
+    GaussianCovariateComponent,
+    HypothesisEffectChoiceComponent,
+    HypothesisBetweenComponent,
+    HypothesisWithinComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

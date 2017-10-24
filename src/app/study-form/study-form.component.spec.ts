@@ -21,6 +21,9 @@ import {BetweenIsuGroupsComponent} from "../between-isu-groups/between-isu-group
 import {BetweenISUFactors} from "../shared/BetweenISUFactors";
 import {Predictor} from "../shared/Predictor";
 import {GaussianCovariateComponent} from "../gaussian-covariate/gaussian-covariate.component";
+import {HypothesisEffectChoiceComponent} from "../hypothesis-effect-choice/hypothesis-effect-choice.component";
+import {HypothesisBetweenComponent} from "../hypothesis-between/hypothesis-between.component";
+import {HypothesisWithinComponent} from "../hypothesis-within/hypothesis-within.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -45,6 +48,9 @@ describe('StudyFormComponent', () => {
         BetweenIsuPredictorsComponent,
         BetweenIsuGroupsComponent,
         GaussianCovariateComponent,
+        HypothesisEffectChoiceComponent,
+        HypothesisBetweenComponent,
+        HypothesisWithinComponent,
         CorrelationMatrixComponent,
         MathJaxDirective],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]

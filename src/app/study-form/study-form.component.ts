@@ -5,7 +5,7 @@ import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-study-form',
@@ -33,6 +33,9 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _withinIsuClusterSubscription: Subscription;
   private _betweenIsuFactorsSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
+  private _betweenHypothesisNatureSubscription: Subscription;
+  private _withinHypothesisNatureSubscription: Subscription;
+  private _hypothesisEffectSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -318,6 +321,30 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._gaussianCovariateSubscription = value;
   }
 
+  get betweenHypothesisNatureSubscription(): Subscription {
+    return this._betweenHypothesisNatureSubscription;
+  }
+
+  set betweenHypothesisNatureSubscription(value: Subscription) {
+    this._betweenHypothesisNatureSubscription = value;
+  }
+
+  get withinHypothesisNatureSubscription(): Subscription {
+    return this._withinHypothesisNatureSubscription;
+  }
+
+  set withinHypothesisNatureSubscription(value: Subscription) {
+    this._withinHypothesisNatureSubscription = value;
+  }
+
+  get hypothesisEffectSubscription(): Subscription {
+    return this._hypothesisEffectSubscription;
+  }
+
+  set hypothesisEffectSubscription(value: Subscription) {
+    this._hypothesisEffectSubscription = value;
+  }
+
   subscribeToStudyService() {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
@@ -373,12 +400,14 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.withinIsuOutcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
       outcomes => {
         this.study.withinIsuFactors.outcomes = outcomes;
+        this.study.checkDependencies();
       }
     );
 
     this.withinIsuRepeatedMeasuresSubscription = this.study_service.withinIsuRepeatedMeasures$.subscribe(
       measures => {
         this.study.withinIsuFactors.repeatedMeasures = measures;
+        this.study.checkDependencies();
       }
     );
 
@@ -391,12 +420,31 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.betweenIsuFactorsSubscription = this.study_service.betweenIsuFactors$.subscribe(
       betweenIsuFactors => {
         this.study.betweenIsuFactors = betweenIsuFactors;
+        this.study.checkDependencies();
       }
     );
 
     this.gaussianCovariateSubscription = this.study_service.gaussianCovariate$.subscribe(
       gaussianCovariate => {
         this.study.gaussianCovariate = gaussianCovariate;
+      }
+    );
+
+    this.withinHypothesisNatureSubscription = this.study_service.withinHypothesisNature$.subscribe(
+      withinHypothesisNature => {
+        this.study.withinHypothesisNature = withinHypothesisNature;
+      }
+    );
+
+    this.betweenHypothesisNatureSubscription = this.study_service.betweenHypothesisNature$.subscribe(
+      betweenHypothesisNature => {
+        this.study.betweenHypothesisNature = betweenHypothesisNature;
+      }
+    );
+
+    this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
+      hypothesisEffect => {
+        this.study.hypothesisEffect = hypothesisEffect;
       }
     );
   };
@@ -415,6 +463,9 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.withinIsuClusterSubscription.unsubscribe();
     this.betweenIsuFactorsSubscription.unsubscribe();
     this.gaussianCovariateSubscription.unsubscribe();
+    this.betweenHypothesisNatureSubscription.unsubscribe();
+    this.withinHypothesisNatureSubscription.unsubscribe();
+    this.hypothesisEffectSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {
