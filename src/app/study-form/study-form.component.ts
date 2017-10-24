@@ -36,6 +36,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _gaussianCovariateSubscription: Subscription;
   private _betweenHypothesisNatureSubscription: Subscription;
   private _withinHypothesisNatureSubscription: Subscription;
+  private _hypothesisEffectSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -337,6 +338,14 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._withinHypothesisNatureSubscription = value;
   }
 
+  get hypothesisEffectSubscription(): Subscription {
+    return this._hypothesisEffectSubscription;
+  }
+
+  set hypothesisEffectSubscription(value: Subscription) {
+    this._hypothesisEffectSubscription = value;
+  }
+
   checkDependencies(property, val) {
     return {};
   }
@@ -436,6 +445,12 @@ export class StudyFormComponent implements OnInit, OnDestroy {
         this.study.betweenHypothesisNature = betweenHypothesisNature;
       }
     );
+
+    this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
+      hypothesisEffect => {
+        this.study.hypothesisEffect = hypothesisEffect;
+      }
+    );
   };
 
   unsubscribeFromStudyService() {
@@ -454,6 +469,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.gaussianCovariateSubscription.unsubscribe();
     this.betweenHypothesisNatureSubscription.unsubscribe();
     this.withinHypothesisNatureSubscription.unsubscribe();
+    this.hypothesisEffectSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {

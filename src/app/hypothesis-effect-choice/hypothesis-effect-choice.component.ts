@@ -50,7 +50,8 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   }
 
   selectEffect(effect: HypothesisEffect) {
-    console.log('selected + ' + effect.name)
+    console.log('selected + ' + effect.name);
+    this.study_service.updateHypothesisEffect(effect);
   }
 
   rowStyle(index: number) {

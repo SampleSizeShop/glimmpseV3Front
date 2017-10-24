@@ -1,6 +1,7 @@
 import {WithinISUFactors} from './WithinISUFactors';
 import {BetweenISUFactors} from './BetweenISUFactors';
 import {GaussianCovariate} from './GaussianCovariate';
+import {HypothesisEffect} from './HypothesisEffect';
 
 export class StudyDesign {
   private _name: string;
@@ -16,6 +17,7 @@ export class StudyDesign {
   private _gaussianCovariate: GaussianCovariate;
   private _betweenHypothesisNature: string;
   private _withinHypothesisNature: string;
+  private _hypothesisEffect: HypothesisEffect;
 
   constructor(name?: string,
               guided?: boolean,
@@ -30,7 +32,8 @@ export class StudyDesign {
               betweenIsuFactors?: BetweenISUFactors,
               gaussianCovariates?: GaussianCovariate,
               betweenHypothesisNature?: string,
-              withinHypothesisNature?: string
+              withinHypothesisNature?: string,
+              hypothesisEffect?: HypothesisEffect
 ) {
     this.withinIsuFactors = new WithinISUFactors();
   }
@@ -137,5 +140,13 @@ export class StudyDesign {
 
   set withinHypothesisNature(value: string) {
     this._withinHypothesisNature = value;
+  }
+
+  get hypothesisEffect(): HypothesisEffect {
+    return this._hypothesisEffect;
+  }
+
+  set hypothesisEffect(value: HypothesisEffect) {
+    this._hypothesisEffect = value;
   }
 }

@@ -9,6 +9,7 @@ import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
 import {BetweenISUFactors} from './BetweenISUFactors';
 import {GaussianCovariate} from './GaussianCovariate';
+import {HypothesisEffect} from "./HypothesisEffect";
 
 @Injectable()
 export class StudyService {
@@ -60,6 +61,9 @@ export class StudyService {
 
   private _withinHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
   private _withinHypothesisNature$ = this._withinHypothesisNatureSource.asObservable();
+
+  private _hypothesisEffectSource = new BehaviorSubject<HypothesisEffect>(null);
+  private _hypothesisEffect$ = this._hypothesisEffectSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -117,6 +121,10 @@ export class StudyService {
 
   updateWithinHypothesisNature(withinHypothesisNature: string) {
     this._withinHypothesisNatureSource.next(withinHypothesisNature);
+  }
+
+  updateHypothesisEffect(hypothesisEffect: HypothesisEffect) {
+    this._hypothesisEffectSource.next(hypothesisEffect);
   }
 
   constructor(private  http: Http) {
@@ -282,6 +290,14 @@ export class StudyService {
 
   set withinHypothesisNature$(value: Observable<string>) {
     this._withinHypothesisNature$ = value;
+  }
+
+  get hypothesisEffect$(): Observable<HypothesisEffect> {
+    return this._hypothesisEffect$;
+  }
+
+  set hypothesisEffect$(value: Observable<HypothesisEffect>) {
+    this._hypothesisEffect$ = value;
   }
 }
 
