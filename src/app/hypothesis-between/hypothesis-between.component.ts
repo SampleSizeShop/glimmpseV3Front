@@ -22,6 +22,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _betweenHypothesisNatureSubscription: Subscription;
   private _betweenISUFactorsSubscription: Subscription;
   private _hypothesisEffectSubscription: Subscription;
+  texString = '';
 
   constructor(private study_service: StudyService) {
     this.showAdvancedOptions = false;
@@ -89,6 +90,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       marginalMatrices.forEach( matrix => {
         cMatrix.values = cMatrix.kronecker(matrix);
       });
+      if (!isNullOrUndefined(cMatrix) && !isNullOrUndefined(cMatrix.values)) {this.texString = cMatrix.toTeX();}
     };
   }
 
