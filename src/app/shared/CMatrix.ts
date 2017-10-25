@@ -1,5 +1,6 @@
 import * as math from 'mathjs';
 import Matrix = mathjs.Matrix;
+import {constants} from './constants';
 
 export class CMatrix {
   private _values: Matrix;
@@ -22,6 +23,26 @@ export class CMatrix {
       const vec  = math.ones([noGroups - 1, 1]);
       this.values = math.matrix(math.concat(vec, ident));
       console.log(this.values);
+    }
+  }
+
+  populatePolynomialEvenSpacing(noGroups: number) {
+    if (!Number.isInteger(noGroups)) {
+      throw new Error('You have a fractional number of groups in your main effect. This is not a valid.');
+    } else if (noGroups < 2) {
+      throw Error('You have less than 2 groups in your main effect. This is not a valid.');
+    } else if (noGroups === 2) {
+      this.values = math.matrix( constants.LINEAR_POLYNOMIAL_CMATRIX);
+    } else if (noGroups === 3) {
+      this.values = math.matrix( constants.QUADRATIC_POLYNOMIAL_CMATRIX);
+    } else if (noGroups === 4) {
+      this.values = math.matrix( constants.CUBIC_POLYNOMIAL_CMATRIX);
+    } else if (noGroups === 5) {
+      this.values = math.matrix( constants.QUINTIC_POLYNOMIAL_CMATRIX);
+    } else if (noGroups === 6) {
+      this.values = math.matrix( constants.SEXTIC_POLYNOMIAL_CMATRIX);
+    } else {
+      throw Error('You have more than 6 groups in your main effect. We dont currently handle this.');
     }
   }
 
