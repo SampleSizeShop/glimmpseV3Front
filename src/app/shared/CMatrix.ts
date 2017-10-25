@@ -54,6 +54,14 @@ export class CMatrix {
     }
   }
 
+  populateIdentityMatrix(noGroups: number) {
+    if (!Number.isInteger(noGroups)) {
+      throw new Error('You have a fractional number of groups in your main effect. This is not a valid.');
+    } else {
+      this.values = math.diag(Array(noGroups).fill(1), 'dense');
+    }
+  }
+
   toTeX(): string {
     let texString = '$\\begin{bmatrix}';
     let row = 0;

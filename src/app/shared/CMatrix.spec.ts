@@ -140,4 +140,27 @@ describe('CMatrix', () => {
     expect(component.values.get([0, 2])).toEqual( 1 / 3);
   });
 
+  it('Should be a 4x4 identity matrix.', () => {
+    component.populateIdentityMatrix(4);
+    expect(component.values.get([0, 0])).toEqual( 1);
+    expect(component.values.get([0, 1])).toEqual( 0);
+    expect(component.values.get([0, 2])).toEqual( 0);
+    expect(component.values.get([0, 3])).toEqual( 0);
+
+    expect(component.values.get([1, 0])).toEqual( 0);
+    expect(component.values.get([1, 1])).toEqual( 1);
+    expect(component.values.get([1, 2])).toEqual( 0);
+    expect(component.values.get([1, 3])).toEqual( 0);
+
+    expect(component.values.get([2, 0])).toEqual( 0);
+    expect(component.values.get([2, 1])).toEqual( 0);
+    expect(component.values.get([2, 2])).toEqual( 1);
+    expect(component.values.get([2, 3])).toEqual( 0);
+
+    expect(component.values.get([3, 0])).toEqual( 0);
+    expect(component.values.get([3, 1])).toEqual( 0);
+    expect(component.values.get([3, 2])).toEqual( 0);
+    expect(component.values.get([3, 3])).toEqual( 1);
+  });
+
 });
