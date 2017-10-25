@@ -1,3 +1,5 @@
+import {CorrelationMatrix} from "./CorrelationMatrix";
+
 export const constants = {
   // Guided mode stages and ordering
   STAGES: {
@@ -121,5 +123,12 @@ export const constants = {
     IDENTITY: 'IDENTITY',
     POLYNOMIAL: 'POLYNOMIAL',
     USER_DEFINED: 'USER_DEFINED',
+  },
+  C_MATRIX_TYPE: {
+    0: 'CMATRIX',
+    1: 'MAIN_EFFECT',
+    2: 'POLYNOMIAL',
+    3: 'AVERAGE',
+    4: 'IDENTITY'
   },
 };
