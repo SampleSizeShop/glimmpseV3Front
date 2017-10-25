@@ -15,6 +15,11 @@ describe('CMatrix', () => {
     expect(component.values.get([0, 1])).toEqual(-1);
   });
 
+  it('Should return a TeX formatted string', () => {
+    component.populateMainEffect(2);
+    expect(component.toTeX()).toEqual('$\\begin{bmatrix}1 & -1 \\end{bmatrix}$')
+  });
+
   it('Should be matrix with three rows and four columns', () => {
     component.populateMainEffect(4);
     expect(component.values.get([0, 0])).toEqual(1);
