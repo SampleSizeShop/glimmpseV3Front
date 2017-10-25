@@ -17,7 +17,12 @@ describe('CMatrix', () => {
 
   it('Should return a TeX formatted string', () => {
     component.populateMainEffect(2);
-    expect(component.toTeX()).toEqual('$\\begin{bmatrix}1 & -1 \\end{bmatrix}$')
+    expect(component.toTeX()).toEqual('$\\begin{bmatrix}1 & -1 \\end{bmatrix}$');
+  });
+
+  it('Should return a TeX formatted string', () => {
+    component.populateMainEffect(3);
+    expect(component.toTeX()).toEqual('$\\begin{bmatrix}1 & -1 & 0 \\\\1 & 0 & -1 \\end{bmatrix}$');
   });
 
   it('Should be matrix with three rows and four columns', () => {
