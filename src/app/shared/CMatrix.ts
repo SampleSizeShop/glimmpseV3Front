@@ -46,6 +46,14 @@ export class CMatrix {
     }
   }
 
+  poopulateAverageMatrix(noGroups: number) {
+    if (!Number.isInteger(noGroups)) {
+      throw new Error('You have a fractional number of groups in your main effect. This is not a valid.');
+    } else {
+      this.values = math.matrix([Array(noGroups).fill( 1 / noGroups )] );
+    }
+  }
+
   toTeX(): string {
     let texString = '$\\begin{bmatrix}';
     let row = 0;

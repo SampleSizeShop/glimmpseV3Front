@@ -133,4 +133,11 @@ describe('CMatrix', () => {
     expect(component.values.get([4, 5])).toEqual(1);
   });
 
+  it('Should be av average matrix with one row and three columns', () => {
+    component.poopulateAverageMatrix(3);
+    expect(component.values.get([0, 0])).toEqual( 1 / 3);
+    expect(component.values.get([0, 1])).toEqual( 1 / 3);
+    expect(component.values.get([0, 2])).toEqual( 1 / 3);
+  });
+
 });
