@@ -125,11 +125,11 @@ export const constants = {
     USER_DEFINED: 'USER_DEFINED',
   },
   C_MATRIX_TYPE: {
-    0: 'CMATRIX',
-    1: 'MAIN_EFFECT',
-    2: 'POLYNOMIAL',
-    3: 'AVERAGE',
-    4: 'IDENTITY'
+    CMATRIX: 'CMATRIX',
+    MAIN_EFFECT: 'MAIN_EFFECT',
+    POLYNOMIAL: 'POLYNOMIAL',
+    AVERAGE: 'AVERAGE',
+    IDENTITY: 'IDENTITY'
   },
   LINEAR_POLYNOMIAL_CMATRIX:
     [[-1, 1]],

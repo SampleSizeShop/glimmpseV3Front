@@ -42,7 +42,7 @@ export class CMatrix {
     } else if (noGroups === 6) {
       this.values = math.matrix( constants.SEXTIC_POLYNOMIAL_CMATRIX);
     } else {
-      throw Error('You have more than 6 groups in your main effect. We dont currently handle this.');
+      throw Error('You have more than 6 groups in your main effect. We don\'t currently handle this.');
     }
   }
 
@@ -60,6 +60,10 @@ export class CMatrix {
     } else {
       this.values = math.diag(Array(noGroups).fill(1), 'dense');
     }
+  }
+
+  kronecker (next: CMatrix): Matrix {
+    return math.kron(this.values, next.values);
   }
 
   toTeX(): string {
