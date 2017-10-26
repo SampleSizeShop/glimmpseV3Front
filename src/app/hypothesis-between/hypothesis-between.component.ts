@@ -19,6 +19,8 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_NATURE;
   private _hypothesisEffect: HypothesisEffect;
   private _betweenISUFactors: BetweenISUFactors;
+  private _marginalsIn: Array<CMatrix>;
+  private _marginalsOut: Array<CMatrix>;
 
   private _betweenHypothesisNatureSubscription: Subscription;
   private _betweenISUFactorsSubscription: Subscription;
@@ -26,6 +28,8 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   texString = '';
 
   constructor(private study_service: StudyService) {
+    this.marginalsIn = [];
+    this.marginalsOut = [];
     this.showAdvancedOptions = false;
 
     this.betweenHypothesisNatureSubscription = this.study_service.betweenHypothesisNature$.subscribe(
@@ -71,6 +75,8 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   calculateCMatrix() {
     if (!isNullOrUndefined( this._betweenISUFactors ) && !isNullOrUndefined(this._hypothesisEffect)) {
+      this.marginalsIn = [];
+      this.marginalsOut = [];
       // work out which between factors are in the hypothesis
       const marginalMatrices = [];
       const betweenFactorsInHypothesis = [];
@@ -96,6 +102,8 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
           const marginalMatrix = new CMatrix(constants.C_MATRIX_TYPE.AVERAGE);
           marginalMatrix.poopulateAverageMatrix(value.groups.length);
           marginalMatrices.push(marginalMatrix);
+          marginalMatrix.name = name;
+          this.marginalsOut.push(marginalMatrix);
         }
       });
     });
@@ -105,8 +113,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     betweenFactorsInHypothesis.forEach(name => {
       this._betweenISUFactors.predictors.forEach(value => {
         if (value.name === name) {
-          const marginalMatrix = this.getMarginalCMatrix(value.groups.length)
+          const marginalMatrix = this.getMarginalCMatrix(value.groups.length);
           marginalMatrices.push(marginalMatrix);
+          marginalMatrix.name = name;
+          this.marginalsIn.push(marginalMatrix);
         }
       });
     });
@@ -193,5 +203,21 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set hypothesisEffectSubscription(value: Subscription) {
     this._hypothesisEffectSubscription = value;
+  }
+
+  get marginalsIn(): Array<CMatrix> {
+    return this._marginalsIn;
+  }
+
+  set marginalsIn(value: Array<CMatrix>) {
+    this._marginalsIn = value;
+  }
+
+  get marginalsOut(): Array<CMatrix> {
+    return this._marginalsOut;
+  }
+
+  set marginalsOut(value: Array<CMatrix>) {
+    this._marginalsOut = value;
   }
 }

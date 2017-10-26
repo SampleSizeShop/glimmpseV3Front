@@ -5,6 +5,7 @@ import {constants} from './constants';
 export class CMatrix {
   private _values: Matrix;
   private _type: string;
+  name = '';
 
   constructor(type?: string) {
     this.values = math.matrix();
