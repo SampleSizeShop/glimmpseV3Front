@@ -61,7 +61,7 @@ describe('HypothesisEffectChoiceComponent', () => {
     component.variables.push(A, B, C, D);
     component.determinePossibleEffects();
 
-    expect(component.possibleEffects.length).toEqual(15);
+    expect(component.possibleEffects.length).toEqual(16);
   });
 
   it('should return 7 distinct effects', () => {
@@ -71,18 +71,18 @@ describe('HypothesisEffectChoiceComponent', () => {
     component.variables.push(A, B, C);
     component.determinePossibleEffects();
 
-    expect(component.possibleEffects.length).toEqual(7);
+    expect(component.possibleEffects.length).toEqual(8);
   });
 
   it('should return 1 distinct effects', () => {
     const A = new HypothesisEffectVariable('A', 'BETWEEN');
     component.variables.push(A);
     component.determinePossibleEffects();
-    expect(component.possibleEffects.length).toEqual(1);
+    expect(component.possibleEffects.length).toEqual(2);
   });
 
   it('should return 0 distinct effects', () => {
     component.determinePossibleEffects();
-    expect(component.possibleEffects.length).toEqual(0);
+    expect(component.possibleEffects.length).toEqual(1);
   });
 });
