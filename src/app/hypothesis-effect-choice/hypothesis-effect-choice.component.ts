@@ -52,6 +52,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     this.populateVariables();
     this.determinePossibleEffects();
     this.determineEffectTypes();
+    if ( isNullOrUndefined(this._selected) ) { this.selectEffect(this.possibleEffects[0]); }
   }
 
   selectEffect(effect: HypothesisEffect) {
