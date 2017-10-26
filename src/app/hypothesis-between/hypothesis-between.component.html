@@ -30,6 +30,25 @@
           <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED)" [disabled]="true">User Specified
         </label>
       </div>
+
+      <br>
+      <br>
+      <h6>Marginals in effect:</h6>
+      <div *ngFor="let m of marginalsIn">
+        <div>Predictor Name: {{m.name}}</div>
+        <div [mathJaxExpr]="m.toTeX()"></div>
+      </div>
+      <hr>
+      <h6>Marginals for factors not in chosen effect:</h6>
+      <div *ngFor="let m of marginalsOut">
+        <div>Predictor Name: {{m.name}}</div>
+        <div [mathJaxExpr]="m.toTeX()"></div>
+      </div>
+      <hr>
+      <h6>C Matrix</h6>
+      <div [mathJaxExpr]="texString" style="padding-top: 10px"></div>
+
+
     </div>
 
     <div class="col">
@@ -72,16 +91,3 @@
     </div>
   </div>
 </div>
-<h3>TEST: YOUR CMATRIX LOOKS LIKE THIS:</h3>
-<h6>Marginals in effect</h6>
-<div *ngFor="let m of marginalsIn">
-  <div>Predictor Name: {{m.name}}</div>
-  <div [mathJaxExpr]="m.toTeX()"></div>
-</div>
-<h6>Marginals for factors not in chosen effect</h6>
-<div *ngFor="let m of marginalsOut">
-  <div>Predictor Name: {{m.name}}</div>
-  <div [mathJaxExpr]="m.toTeX()"></div>
-</div>
-<h6>Final product</h6>
-<div [mathJaxExpr]="texString" style="padding-top: 10px"></div>
