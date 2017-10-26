@@ -20,6 +20,7 @@ export class HypothesisEffect {
       nature = nature.concat(variable.type, ' X ');
     });
     nature = nature.substring(0, nature.length - 3);
+    if (this.variables.length === 0) { nature = 'BETWEEN'; }
     return nature;
   }
 

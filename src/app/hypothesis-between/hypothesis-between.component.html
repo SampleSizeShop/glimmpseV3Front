@@ -75,12 +75,12 @@
 <h3>TEST: YOUR CMATRIX LOOKS LIKE THIS:</h3>
 <h6>Marginals in effect</h6>
 <div *ngFor="let m of marginalsIn">
-  <div>{{m.name}}</div>
+  <div>Predictor Name: {{m.name}}</div>
   <div [mathJaxExpr]="m.toTeX()"></div>
 </div>
 <h6>Marginals for factors not in chosen effect</h6>
 <div *ngFor="let m of marginalsOut">
-  <div>{{m.name}}</div>
+  <div>Predictor Name: {{m.name}}</div>
   <div [mathJaxExpr]="m.toTeX()"></div>
 </div>
 <h6>Final product</h6>
