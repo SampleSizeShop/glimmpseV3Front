@@ -6,6 +6,7 @@ import {BetweenISUFactors} from "../shared/BetweenISUFactors";
 import {isNullOrUndefined} from "util";
 import {HypothesisEffect} from "../shared/HypothesisEffect";
 import {CMatrix} from "../shared/CMatrix";
+import Matrix = mathjs.Matrix;
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -70,28 +71,80 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   calculateCMatrix() {
     if (!isNullOrUndefined( this._betweenISUFactors ) && !isNullOrUndefined(this._hypothesisEffect)) {
+      // work out which between factors are in the hypothesis
       const marginalMatrices = [];
-      if (this.betweenHypothesisNature === constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS) {
-        this._hypothesisEffect.variables.forEach( variable => {
-          if (variable.type === 'BETWEEN') {
-            this._betweenISUFactors.predictors.forEach( value => {
-              if (value.name === variable.name) {
-                const marginalMatrix = new CMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
-                marginalMatrix.populateMainEffect(value.groups.length);
-                marginalMatrices.push(marginalMatrix);
-              }
-            });
-          }
-        });
-      }
+      const betweenFactorsInHypothesis = [];
+      const betweenFactorsNotInHypothesis = [];
+      this.determineBetweenFactorsinHypothesis(betweenFactorsInHypothesis, betweenFactorsNotInHypothesis);
+      this.populateMarginalMatrices(betweenFactorsInHypothesis, marginalMatrices);
+      this.populateAverageMatrices(betweenFactorsNotInHypothesis, marginalMatrices);
+
       const cMatrix = new CMatrix(constants.C_MATRIX_TYPE.CMATRIX);
       const first = marginalMatrices.pop();
       cMatrix.values = first.values;
       marginalMatrices.forEach( matrix => {
         cMatrix.values = cMatrix.kronecker(matrix);
       });
-      if (!isNullOrUndefined(cMatrix) && !isNullOrUndefined(cMatrix.values)) {this.texString = cMatrix.toTeX();}
+      if (!isNullOrUndefined(cMatrix) && !isNullOrUndefined(cMatrix.values)) {this.texString = cMatrix.toTeX(); }
     };
+  }
+
+  private populateAverageMatrices(betweenFactorsNotInHypothesis: Array<string>, marginalMatrices: Array<CMatrix>) {
+    betweenFactorsNotInHypothesis.forEach(name => {
+      this._betweenISUFactors.predictors.forEach(value => {
+        if (value.name === name) {
+          const marginalMatrix = new CMatrix(constants.C_MATRIX_TYPE.AVERAGE);
+          marginalMatrix.poopulateAverageMatrix(value.groups.length);
+          marginalMatrices.push(marginalMatrix);
+        }
+      });
+    });
+  }
+
+  private populateMarginalMatrices(betweenFactorsInHypothesis: Array<string>, marginalMatrices: Array<CMatrix>) {
+    betweenFactorsInHypothesis.forEach(name => {
+      this._betweenISUFactors.predictors.forEach(value => {
+        if (value.name === name) {
+          const marginalMatrix = this.getMarginalCMatrix(value.groups.length)
+          marginalMatrices.push(marginalMatrix);
+        }
+      });
+    });
+  }
+
+  private determineBetweenFactorsinHypothesis( inHypothesis: Array<string>, outOfHypothesis: Array<string> ) {
+    const betweenFactorNames = [];
+    const hypothesisBetweenVariableNames = [];
+    this._betweenISUFactors.predictors.forEach( predictor => {
+      betweenFactorNames.push(predictor.name);
+    });
+    this._hypothesisEffect.variables.forEach(variable => {
+      if (variable.type === 'BETWEEN') {
+        hypothesisBetweenVariableNames.push(variable.name);
+      }
+    });
+    betweenFactorNames.forEach( name => {
+      if (hypothesisBetweenVariableNames.indexOf(name) !== -1) {
+        inHypothesis.push(name);
+      } else {
+        outOfHypothesis.push(name);
+      }
+    });
+  }
+
+  getMarginalCMatrix (noGroups: number): CMatrix {
+    const marginalMatrix = new CMatrix()
+      if (this.betweenHypothesisNature === constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS) {
+        marginalMatrix.type = constants.C_MATRIX_TYPE.MAIN_EFFECT;
+        marginalMatrix.populateMainEffect(noGroups);
+      } else if (this.betweenHypothesisNature === constants.HYPOTHESIS_NATURE.POLYNOMIAL) {
+        marginalMatrix.type = constants.C_MATRIX_TYPE.POLYNOMIAL;
+        marginalMatrix.populatePolynomialEvenSpacing(noGroups);
+      } else if (this.betweenHypothesisNature === constants.HYPOTHESIS_NATURE.IDENTITY) {
+        marginalMatrix.type = constants.C_MATRIX_TYPE.IDENTITY;
+        marginalMatrix.populateIdentityMatrix(noGroups);
+      }
+    return marginalMatrix;
   }
 
   get showAdvancedOptions(): boolean {
