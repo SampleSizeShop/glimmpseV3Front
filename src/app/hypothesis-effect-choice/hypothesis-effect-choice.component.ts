@@ -5,8 +5,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {BetweenISUFactors} from '../shared/BetweenISUFactors';
 import {StudyService} from '../shared/study.service';
-import {FormBuilder} from "@angular/forms";
-import {isNull, isNullOrUndefined} from "util";
+import {FormBuilder} from '@angular/forms';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-hypothesis-effect-choice',

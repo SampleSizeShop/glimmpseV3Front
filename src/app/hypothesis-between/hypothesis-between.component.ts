@@ -2,11 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {constants} from 'app/shared/constants';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {BetweenISUFactors} from "../shared/BetweenISUFactors";
-import {isNullOrUndefined} from "util";
-import {HypothesisEffect} from "../shared/HypothesisEffect";
-import {CMatrix} from "../shared/CMatrix";
-import Matrix = mathjs.Matrix;
+import {BetweenISUFactors} from '../shared/BetweenISUFactors';
+import {isNullOrUndefined} from 'util';
+import {HypothesisEffect} from '../shared/HypothesisEffect';
+import {CMatrix} from '../shared/CMatrix';
 
 @Component({
   selector: 'app-hypothesis-between',
