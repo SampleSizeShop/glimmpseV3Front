@@ -6,8 +6,7 @@ import {constants} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
-import {Router} from "@angular/router";
-import {current} from "codelyzer/util/syntaxKind";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-study-form',

@@ -1,23 +1,21 @@
-import {CorrelationMatrix} from "./CorrelationMatrix";
-
 export const constants = {
   // Guided mode stages and ordering
   STAGES: {
-    1:  'MODE',
-    2:  'TARGET_EVENT',
-    3:  'SOLVE_FOR',
-    4:  'STATISTICAL_TESTS',
-    5:  'TYPE_ONE_ERROR',
-    6:  'WITHIN_ISU_OUTCOMES',
-    7:  'WITHIN_ISU_REPEATED_MEASURES',
-    8:  'WITHIN_ISU_CLUSTERS',
-    9:  'BETWEEN_ISU_PREDICTORS',
-    10: 'BETWEEN_ISU_GROUPS',
-    11: 'GAUSSIAN_COVARIATE',
-    12: 'HYPOTHESIS_EFFECT_CHOICE',
-    13: 'HYPOTHESIS_BETWEEN',
-    14: 'HYPOTHESIS_WITHIN',
-    15: 'PARAMETERS_MARGINAL_MEANS'
+    '1':  'MODE',
+    '2':  'TARGET_EVENT',
+    '3':  'SOLVE_FOR',
+    '4':  'STATISTICAL_TESTS',
+    '5':  'TYPE_ONE_ERROR',
+    '6':  'WITHIN_ISU_OUTCOMES',
+    '7':  'WITHIN_ISU_REPEATED_MEASURES',
+    '8':  'WITHIN_ISU_CLUSTERS',
+    '9':  'BETWEEN_ISU_PREDICTORS',
+    '10': 'BETWEEN_ISU_GROUPS',
+    '11': 'GAUSSIAN_COVARIATE',
+    '12': 'HYPOTHESIS_EFFECT_CHOICE',
+    '13': 'HYPOTHESIS_BETWEEN',
+    '14': 'HYPOTHESIS_WITHIN',
+    '15': 'PARAMETERS_MARGINAL_MEANS'
   },
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
@@ -87,10 +85,10 @@ export const constants = {
   },
   MAX_REPEATED_MEASURES: 5,
   REPEATED_MEASURE_STAGES: {
-    0: 'DIMENSIONS',
-    1: 'TYPE',
-    2: 'REPEATS',
-    3: 'SPACING'
+    '0': 'DIMENSIONS',
+    '1': 'TYPE',
+    '2': 'REPEATS',
+    '3': 'SPACING'
   },
   REPEATED_MEASURE_TYPES: ['Numeric', 'Categorical', 'Ordinal'],
   REPEATED_MEASURE_FORM_ERRORS: {},
@@ -108,12 +106,12 @@ export const constants = {
     }
   },
   CLUSTER_STAGES: {
-    0: 'ELEMENT_NAME',
-    1: 'LEVELS',
+    '0': 'ELEMENT_NAME',
+    '1': 'LEVELS',
   },
   BETWEEN_ISU_STAGES: {
-    0: 'PREDICTOR',
-    1: 'GROUPS',
+    '0': 'PREDICTOR',
+    '1': 'GROUPS',
   },
   MAX_PREDICTORS: 5,
   MAX_GROUPS: 10,

@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParametersMarginalMeansComponent } from './parameters-marginal-means.component';
+import {FormBuilder} from "@angular/forms";
+import {StudyService} from "../shared/study.service";
+import {Http} from "@angular/http";
+import {MockBackend} from "@angular/http/testing";
 
 describe('ParametersMarginalMeansComponent', () => {
   let component: ParametersMarginalMeansComponent;
@@ -8,7 +12,8 @@ describe('ParametersMarginalMeansComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ParametersMarginalMeansComponent ]
+      declarations: [ ParametersMarginalMeansComponent ],
+      providers: [FormBuilder, StudyService, { provide: Http, useClass: MockBackend }]
     })
     .compileComponents();
   }));
