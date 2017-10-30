@@ -53,6 +53,9 @@
         <div class="d-flex justify-content-centre" *ngIf="stages[14] === getStageName()">
           <app-hypothesis-within></app-hypothesis-within>
         </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[15] === getStageName()">
+          <app-parameters-marginal-means></app-parameters-marginal-means>
+        </div>
       </div>
       <div class="col-2 justify-content-end">
         <i class="material-icons" *ngIf="hasNext" (click)="next()" (keyup.ArrowRight)="next()" style="font-size: 192px; opacity: 0.4;" id="navigate_next" [class.disabled]="!valid">navigate_next</i>

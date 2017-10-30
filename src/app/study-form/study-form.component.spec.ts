@@ -22,6 +22,7 @@ import {GaussianCovariateComponent} from '../gaussian-covariate/gaussian-covaria
 import {HypothesisEffectChoiceComponent} from '../hypothesis-effect-choice/hypothesis-effect-choice.component';
 import {HypothesisBetweenComponent} from '../hypothesis-between/hypothesis-between.component';
 import {HypothesisWithinComponent} from '../hypothesis-within/hypothesis-within.component';
+import {ParametersMarginalMeansComponent} from "../parameters-marginal-means/parameters-marginal-means.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -49,6 +50,7 @@ describe('StudyFormComponent', () => {
         HypothesisEffectChoiceComponent,
         HypothesisBetweenComponent,
         HypothesisWithinComponent,
+        ParametersMarginalMeansComponent,
         CorrelationMatrixComponent,
         MathJaxDirective],
       providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
