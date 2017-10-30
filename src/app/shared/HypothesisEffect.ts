@@ -20,6 +20,7 @@ export class HypothesisEffect {
       nature = nature.concat(variable.type, ' X ');
     });
     nature = nature.substring(0, nature.length - 3);
+    if (this.variables.length === 0) { nature = 'BETWEEN'; }
     return nature;
   }
 
@@ -36,7 +37,7 @@ export class HypothesisEffect {
   }
 
   equals (effect: HypothesisEffect) {
-    if ( isNullOrUndefined(this.variables) || isNullOrUndefined(effect.variables) ) {
+    if ( isNullOrUndefined(this.variables) || isNullOrUndefined(effect) || isNullOrUndefined(effect.variables) ) {
       return false;
     }
     if ( this.variables.length !== effect.variables.length ) {

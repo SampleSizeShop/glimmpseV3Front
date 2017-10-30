@@ -5,8 +5,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {BetweenISUFactors} from '../shared/BetweenISUFactors';
 import {StudyService} from '../shared/study.service';
-import {FormBuilder} from "@angular/forms";
-import {isNull, isNullOrUndefined} from "util";
+import {FormBuilder} from '@angular/forms';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-hypothesis-effect-choice',
@@ -16,6 +16,7 @@ import {isNull, isNullOrUndefined} from "util";
 export class HypothesisEffectChoiceComponent implements OnInit {
   private _variables: HypothesisEffectVariable[];
   private _possibleEffects: HypothesisEffect[];
+  private _selected: HypothesisEffect;
 
 
   private _outcomes: string[];
@@ -25,6 +26,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   private _outcomeSubscription: Subscription;
   private _repeatedMeasuresSubscription: Subscription;
   private _betweenIsuFactorsSubscription: Subscription;
+  private _hypothesisEffectSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private _study_service: StudyService) {
     this.variables = [];
@@ -41,17 +43,26 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     this.betweenIsuFactorsSubscription = this._study_service.betweenIsuFactors$.subscribe(betweenIsuFactors => {
       this.betweenIsuFactors = betweenIsuFactors;
     });
+    this.hypothesisEffectSubscription = this._study_service.hypothesisEffect$.subscribe( effect => {
+      this._selected = effect;
+    });
   }
 
   ngOnInit() {
     this.populateVariables();
     this.determinePossibleEffects();
     this.determineEffectTypes();
+    if ( isNullOrUndefined(this._selected) ) { this.selectEffect(this.possibleEffects[0]); }
   }
 
   selectEffect(effect: HypothesisEffect) {
     console.log('selected + ' + effect.name);
+    this._selected = effect;
     this.study_service.updateHypothesisEffect(effect);
+  }
+
+  isSelected(effect: HypothesisEffect): boolean {
+    return effect.equals(this._selected);
   }
 
   rowStyle(index: number) {
@@ -81,7 +92,9 @@ export class HypothesisEffectChoiceComponent implements OnInit {
 
   determineEffectTypes() {
     this.possibleEffects.forEach( effect => {
-      if ( effect.variables.length > 1 ) {
+      if (isNullOrUndefined(effect.variables) || effect.variables.length === 0) {
+        effect.type = 'Grand Mean';
+      } else if ( effect.variables.length > 1 ) {
         effect.type = 'Interaction';
       } else {
         effect.type = 'Main Effect';
@@ -90,6 +103,9 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   }
 
   determinePossibleEffects() {
+    const grandMean = new HypothesisEffect();
+    grandMean.type = 'Grand Mean';
+    this.addEffectToList(grandMean);
     this.variables.forEach( variable =>  {
       const vars = this.deepCopyList(this.variables);
       const effect = new HypothesisEffect();
@@ -148,6 +164,10 @@ export class HypothesisEffectChoiceComponent implements OnInit {
       newEffect.addVariable(val);
     })
     return newEffect;
+  }
+
+  isGrandMean(effect: HypothesisEffect): boolean {
+    return effect.type === 'Grand Mean' ? true : false;
   }
 
   get variables(): HypothesisEffectVariable[] {
@@ -212,6 +232,14 @@ export class HypothesisEffectChoiceComponent implements OnInit {
 
   set betweenIsuFactorsSubscription(value: Subscription) {
     this._betweenIsuFactorsSubscription = value;
+  }
+
+  get hypothesisEffectSubscription(): Subscription {
+    return this._hypothesisEffectSubscription;
+  }
+
+  set hypothesisEffectSubscription(value: Subscription) {
+    this._hypothesisEffectSubscription = value;
   }
 
   get study_service(): StudyService {

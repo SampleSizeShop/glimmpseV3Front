@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {MathJaxService} from './mathjax.service';
 import 'rxjs/add/operator/map';
-import {FormGroup, FormControl} from '@angular/forms';
+import {FormControl} from '@angular/forms';
 @Component({
   selector: 'app-mathjax-component',
   styleUrls: ['../app.component.css'],

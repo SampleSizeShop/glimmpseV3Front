@@ -8,11 +8,12 @@
       <div class="col-sm-1">
         <div class="form-check" style="margin-bottom: 1px">
           <label class="form-check-label">
-            <input type="radio" (click)="selectEffect(effect)" class="form-check-input">
+            <input type="radio" (click)="selectEffect(effect)" class="form-check-input" [checked]="isSelected(effect)">
           </label>
         </div>
       </div>
-      <div class="col-sm-6">{{effect.name}}: {{effect.type}}</div>
+      <div class="col-sm-6" *ngIf="isGrandMean(effect)">{{effect.type}}</div>
+    <div class="col-sm-6" *ngIf="!isGrandMean(effect)">{{effect.name}}: {{effect.type}}</div>
       <div class="col-sm-5">{{effect.nature}}</div>
   </div>
 </div>

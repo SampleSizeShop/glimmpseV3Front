@@ -2,57 +2,62 @@
   <h4>New Study</h4>
   <hr>
 </div>
-  <div class="container">
-    <div class="d-flex justify-content-start" *ngIf="stages[1] === getStageName()">
-      <app-user-mode></app-user-mode>
+
+
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-2 justify-content-start">
+        <i class="material-icons" *ngIf="hasBack" (click)="back()" (keyup.ArrowLeft)="back()" style="font-size: 192px; opacity: 0.4;" id="navigate_before">navigate_before</i>
+      </div>
+      <div class="col-8">
+        <div class="d-flex justify-content-centre" *ngIf="stages[1] === getStageName()">
+          <app-user-mode></app-user-mode>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[2] === getStageName()">
+          <app-target-event></app-target-event>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[3] === getStageName()">
+          <app-solve-for></app-solve-for>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[4] === getStageName()">
+          <app-statistical-tests></app-statistical-tests>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[5] === getStageName()">
+          <app-type-one-error></app-type-one-error>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[6] === getStageName()">
+          <app-within-isu-outcomes></app-within-isu-outcomes>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[7] === getStageName()">
+          <app-within-isu-repeated-measures></app-within-isu-repeated-measures>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[8] === getStageName()">
+          <app-within-isu-clusters></app-within-isu-clusters>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[9] === getStageName()">
+          <app-between-isu></app-between-isu>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[10] === getStageName()">
+          <app-between-isu-groups></app-between-isu-groups>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[11] === getStageName()">
+          <app-gaussian-covariate></app-gaussian-covariate>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[12] === getStageName()">
+          <app-hypothesis-effect-choice></app-hypothesis-effect-choice>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[13] === getStageName()">
+          <app-hypothesis-between></app-hypothesis-between>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[14] === getStageName()">
+          <app-hypothesis-within></app-hypothesis-within>
+        </div>
+      </div>
+      <div class="col-2 justify-content-end">
+        <i class="material-icons" *ngIf="hasNext" (click)="next()" (keyup.ArrowRight)="next()" style="font-size: 192px; opacity: 0.4;" id="navigate_next" [class.disabled]="!valid">navigate_next</i>
+      </div>
     </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[2] === getStageName()">
-      <app-target-event></app-target-event>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[3] === getStageName()">
-      <app-solve-for></app-solve-for>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[4] === getStageName()">
-      <app-statistical-tests></app-statistical-tests>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[5] === getStageName()">
-      <app-type-one-error></app-type-one-error>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[6] === getStageName()">
-      <app-within-isu-outcomes></app-within-isu-outcomes>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[7] === getStageName()">
-      <app-within-isu-repeated-measures></app-within-isu-repeated-measures>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[8] === getStageName()">
-      <app-within-isu-clusters></app-within-isu-clusters>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[9] === getStageName()">
-      <app-between-isu></app-between-isu>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[10] === getStageName()">
-      <app-between-isu-groups></app-between-isu-groups>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[11] === getStageName()">
-      <app-gaussian-covariate></app-gaussian-covariate>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[12] === getStageName()">
-      <app-hypothesis-effect-choice></app-hypothesis-effect-choice>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[13] === getStageName()">
-      <app-hypothesis-between></app-hypothesis-between>
-    </div>
-    <div class="d-flex justify-content-start" *ngIf="stages[14] === getStageName()">
-      <app-hypothesis-within></app-hypothesis-within>
-    </div>
+
   </div>
 <hr>
-<div class="d-flex justify-content-end" >
-  <div class="mr-auto p-2">
-    <button type="submit" class="btn btn-primary" *ngIf="hasBack" (click)="back()">Back</button>
-  </div>
-  <div class="p-2">
-    <button type="submit" class="btn btn-primary" *ngIf="hasNext" (click)="next()" [class.disabled]="!valid">Next</button>
-  </div>
-</div>
-{{study | json}}

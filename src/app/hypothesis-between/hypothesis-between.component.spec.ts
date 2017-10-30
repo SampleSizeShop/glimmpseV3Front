@@ -4,6 +4,8 @@ import { HypothesisBetweenComponent } from './hypothesis-between.component';
 import {MockBackend} from '@angular/http/testing';
 import {Http} from '@angular/http';
 import {StudyService} from '../shared/study.service';
+import {MathJaxDirective} from '../mathjax/mathjax.directive';
+import {ReactiveFormsModule} from '@angular/forms';
 
 describe('HypothesisBetweenComponent', () => {
   let component: HypothesisBetweenComponent;
@@ -11,8 +13,14 @@ describe('HypothesisBetweenComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HypothesisBetweenComponent ],
-      providers: [ StudyService, {provide: Http, useClass: MockBackend} ]
+      imports: [
+        ReactiveFormsModule
+      ],
+      declarations: [
+        MathJaxDirective,
+        HypothesisBetweenComponent
+         ],
+      providers: [ StudyService, {provide: Http, useClass: MockBackend}]
     })
     .compileComponents();
   }));

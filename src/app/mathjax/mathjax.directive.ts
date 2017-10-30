@@ -1,19 +1,19 @@
-import {Directive, ElementRef, Input, OnChanges, OnInit} from "@angular/core";
+import {Directive, ElementRef, Input, OnChanges, OnInit} from '@angular/core';
 
 @Directive({
   selector: '[mathJaxExpr]'})
 export class MathJaxDirective implements OnInit, OnChanges {
-  @Input("mathJaxExpr") private value: string = "";
+  @Input('mathJaxExpr') private value: string = '';
   constructor(private element: ElementRef){
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.element.nativeElement.innerHTML = this.value;
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.element.nativeElement]);
+    MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.element.nativeElement]);
   }
 
-  ngOnChanges(){
+  ngOnChanges() {
     this.element.nativeElement.innerHTML = this.value;
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, this.element.nativeElement]);
+    MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.element.nativeElement]);
   }
 }
