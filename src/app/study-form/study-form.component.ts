@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {NGXLogger} from 'ngx-logger';
@@ -6,6 +6,8 @@ import {constants} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
+import {Router} from "@angular/router";
+import {current} from "codelyzer/util/syntaxKind";
 
 @Component({
   selector: 'app-study-form',
@@ -13,7 +15,7 @@ import {isNullOrUndefined} from 'util';
   styleUrls: ['./study-form.component.scss'],
   providers: [StudyService, NGXLogger, NavigationService]
 })
-export class StudyFormComponent implements OnInit, OnDestroy {
+export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _valid = false;
   private _hasNext: boolean;
   private _hasBack: boolean;
@@ -48,7 +50,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   constructor(
     private study_service: StudyService,
     private logger: NGXLogger,
-    private navigation_service: NavigationService
+    private navigation_service: NavigationService,
+    private router: Router
   ) {
     this.study = new StudyDesign();
     this.subscribeToStudyService();
@@ -68,6 +71,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
         } else {
           this.setStage( current + 1 );
         }
+        this.router.navigateByUrl('/design/' + constants.STAGES[this.study_service.stage]);
         this.setNextBack();
       }
     }
@@ -87,6 +91,7 @@ export class StudyFormComponent implements OnInit, OnDestroy {
           this.setStage(current - 1);
         }
       }
+      this.router.navigateByUrl('/design/' + constants.STAGES[this.study_service.stage]);
       this.setNextBack();
       this.valid = true;
     }
@@ -111,6 +116,16 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._noStages = Object.keys(this._stages).length;
     this.hasNext = true;
     this.hasBack = false;
+  }
+
+  ngDoCheck() {
+    const name = this.router.url.replace('/design/', '');
+    if (name !== this.getStageName()) {
+      const stage = this.study_service.getStageFromName(name);
+      if (stage !== -1 && stage !== this.study_service.stage) {
+        this.setStage(stage);
+      }
+    }
   }
 
   ngOnDestroy() {

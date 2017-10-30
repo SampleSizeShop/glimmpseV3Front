@@ -136,6 +136,16 @@ export class StudyService {
     return this._stage;
   }
 
+  getStageFromName(name: string): number {
+    let stageNo = -1;
+    Object.keys(this._stages).forEach( key => {
+      if (name === this._stages[key]) {
+        stageNo = Number.parseInt(key);
+      }
+    });
+    return stageNo;
+  }
+
   set stage(value: number) {
     this._stage = value;
   }

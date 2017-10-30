@@ -5,7 +5,6 @@ import {Subscription} from 'rxjs/Subscription';
 import {BetweenIsuCombinationTable} from '../shared/BetweenIsuCombinationTable';
 import {BetweenISUFactors} from '../shared/BetweenISUFactors';
 import {isNullOrUndefined} from 'util';
-import {BetweenIsuCombination} from "../shared/BetweenIsuCombination";
 
 @Component({
   selector: 'app-between-isu-groups',
