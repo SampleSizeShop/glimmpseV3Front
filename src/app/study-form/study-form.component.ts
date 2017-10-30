@@ -70,10 +70,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         } else {
           this.setStage( current + 1 );
         }
-        this.router.navigateByUrl('/design/' + constants.STAGES[this.study_service.stage]);
+        this.navigate(this.study_service.stage);
         this.setNextBack();
       }
     }
+  }
+
+  private navigate(stage: number) {
+    this.router.navigateByUrl('/design/' + constants.STAGES[stage]);
   }
 
   back(): void {
@@ -90,7 +94,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.setStage(current - 1);
         }
       }
-      this.router.navigateByUrl('/design/' + constants.STAGES[this.study_service.stage]);
+      this.navigate(this.study_service.stage);
       this.setNextBack();
       this.valid = true;
     }
@@ -120,11 +124,17 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   ngDoCheck() {
     const name = this.router.url.replace('/design/', '');
     if (name !== this.getStageName()) {
-      const stage = this.study_service.getStageFromName(name);
-      if (stage !== -1 && stage !== this.study_service.stage) {
-        this.setStage(stage);
+      if (isNullOrUndefined(name) || name === '/design') {
+        this.setStage(1);
+      } else {
+        const stage = this.study_service.getStageFromName(name);
+        if (stage !== -1 && stage !== this.study_service.stage) {
+          this.setStage(stage);
+        }
       }
+      this.childComponentNav = false;
     }
+    this.setNextBack();
   }
 
   ngOnDestroy() {
