@@ -57,7 +57,7 @@ export class ParametersScaleFactorComponent implements DoCheck {
   }
 
   ngDoCheck() {
-    this.study_service.updateTypeOneErrorRate(this.scaleFactorForm.get('scalefactor').value);
+    this.study_service.updateScaleFactor(this.scaleFactorForm.get('scalefactor').value);
   }
 
   get scaleFactor(): number {
