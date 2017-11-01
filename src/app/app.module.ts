@@ -30,6 +30,7 @@ import { HypothesisEffectChoiceComponent } from './hypothesis-effect-choice/hypo
 import { HypothesisBetweenComponent } from './hypothesis-between/hypothesis-between.component';
 import { HypothesisWithinComponent } from './hypothesis-within/hypothesis-within.component';
 import { ParametersMarginalMeansComponent } from './parameters-marginal-means/parameters-marginal-means.component';
+import { ParametersScaleFactorComponent } from './parameters-scale-factor/parameters-scale-factor.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { ParametersMarginalMeansComponent } from './parameters-marginal-means/pa
     HypothesisEffectChoiceComponent,
     HypothesisBetweenComponent,
     HypothesisWithinComponent,
-    ParametersMarginalMeansComponent
+    ParametersMarginalMeansComponent,
+    ParametersScaleFactorComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

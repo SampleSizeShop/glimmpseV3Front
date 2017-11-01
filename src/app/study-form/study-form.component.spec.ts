@@ -24,6 +24,7 @@ import {HypothesisBetweenComponent} from '../hypothesis-between/hypothesis-betwe
 import {HypothesisWithinComponent} from '../hypothesis-within/hypothesis-within.component';
 import {ParametersMarginalMeansComponent} from '../parameters-marginal-means/parameters-marginal-means.component';
 import {RouterTestingModule} from '@angular/router/testing';
+import {ParametersScaleFactorComponent} from "../parameters-scale-factor/parameters-scale-factor.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -53,9 +54,13 @@ describe('StudyFormComponent', () => {
         HypothesisBetweenComponent,
         HypothesisWithinComponent,
         ParametersMarginalMeansComponent,
+        ParametersScaleFactorComponent,
         CorrelationMatrixComponent,
         MathJaxDirective],
-      providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock}, RouterTestingModule ]
+      providers: [ StudyService,
+        { provide: Http, useClass: MockBackend },
+        {provide: NGXLogger, useClass: NGXLoggerMock},
+        RouterTestingModule ]
     })
     .compileComponents();
 

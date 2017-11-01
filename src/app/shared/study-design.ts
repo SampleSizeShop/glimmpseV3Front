@@ -21,6 +21,7 @@ export class StudyDesign {
   private _betweenHypothesisNature: string;
   private _withinHypothesisNature: string;
   private _hypothesisEffect: HypothesisEffect;
+  private _scaleFactor: number;
 
   constructor(name?: string,
               guided?: boolean,
@@ -36,7 +37,8 @@ export class StudyDesign {
               gaussianCovariates?: GaussianCovariate,
               betweenHypothesisNature?: string,
               withinHypothesisNature?: string,
-              hypothesisEffect?: HypothesisEffect
+              hypothesisEffect?: HypothesisEffect,
+              scaleFactor?: number,
 ) {
     this.withinIsuFactors = new WithinISUFactors();
   }
@@ -210,5 +212,13 @@ export class StudyDesign {
 
   set hypothesisEffect(value: HypothesisEffect) {
     this._hypothesisEffect = value;
+  }
+
+  get scaleFactor(): number {
+    return this._scaleFactor;
+  }
+
+  set scaleFactor(value: number) {
+    this._scaleFactor = value;
   }
 }

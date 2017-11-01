@@ -69,6 +69,9 @@ export class StudyService {
   private _hypothesisEffectSource = new BehaviorSubject<HypothesisEffect>(null);
   private _hypothesisEffect$ = this._hypothesisEffectSource.asObservable();
 
+  private _scaleFactorSource = new BehaviorSubject<number>(1);
+  private _scaleFactor$ = this._scaleFactorSource.asObservable();
+
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
   }
@@ -133,6 +136,10 @@ export class StudyService {
 
   updateHypothesisEffect(hypothesisEffect: HypothesisEffect) {
     this._hypothesisEffectSource.next(hypothesisEffect);
+  }
+
+  updateScaleFactor(scaleFactor: number) {
+    this._scaleFactorSource.next(scaleFactor);
   }
 
   constructor(private  http: Http) {
@@ -316,6 +323,14 @@ export class StudyService {
 
   set hypothesisEffect$(value: Observable<HypothesisEffect>) {
     this._hypothesisEffect$ = value;
+  }
+
+  get scaleFactor$(): Observable<number> {
+    return this._scaleFactor$;
+  }
+
+  set scaleFactor$(value: Observable<number>) {
+    this._scaleFactor$ = value;
   }
 }
 
