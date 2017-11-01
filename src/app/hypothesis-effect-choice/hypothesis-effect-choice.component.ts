@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {HypothesisEffectVariable} from '../shared/HypothesisEffectVariable';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
 import {Subscription} from 'rxjs/Subscription';
@@ -7,6 +7,7 @@ import {BetweenISUFactors} from '../shared/BetweenISUFactors';
 import {StudyService} from '../shared/study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
+import {constants} from "../shared/constants";
 
 @Component({
   selector: 'app-hypothesis-effect-choice',
@@ -14,7 +15,7 @@ import {isNullOrUndefined} from 'util';
   styleUrls: ['./hypothesis-effect-choice.component.css']
 })
 export class HypothesisEffectChoiceComponent implements OnInit {
-  private _variables: HypothesisEffectVariable[];
+  @Input() variables;
   private _possibleEffects: HypothesisEffect[];
   private _selected: HypothesisEffect;
 
@@ -23,33 +24,17 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   private _repeatedMeasures: RepeatedMeasure[];
   private _betweenIsuFactors: BetweenISUFactors;
 
-  private _outcomeSubscription: Subscription;
-  private _repeatedMeasuresSubscription: Subscription;
-  private _betweenIsuFactorsSubscription: Subscription;
   private _hypothesisEffectSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private _study_service: StudyService) {
-    this.variables = [];
     this.possibleEffects = [];
 
-    this.outcomeSubscription = this._study_service.withinIsuOutcomes$.subscribe(
-      outcomes => {
-        this.outcomes = outcomes;
-      }
-    );
-    this.repeatedMeasuresSubscription = this._study_service.withinIsuRepeatedMeasures$.subscribe(repeatedMeasures => {
-      this.repeatedMeasures = repeatedMeasures;
-    });
-    this.betweenIsuFactorsSubscription = this._study_service.betweenIsuFactors$.subscribe(betweenIsuFactors => {
-      this.betweenIsuFactors = betweenIsuFactors;
-    });
     this.hypothesisEffectSubscription = this._study_service.hypothesisEffect$.subscribe( effect => {
       this._selected = effect;
     });
   }
 
   ngOnInit() {
-    this.populateVariables();
     this.determinePossibleEffects();
     this.determineEffectTypes();
     if ( isNullOrUndefined(this._selected) ) { this.selectEffect(this.possibleEffects[0]); }
@@ -70,23 +55,6 @@ export class HypothesisEffectChoiceComponent implements OnInit {
       return '#d9edf7';
     } else {
       return 'transparent';
-    }
-  }
-
-  populateVariables() {
-    this.outcomes.forEach( outcome => {
-      const variable = new HypothesisEffectVariable(outcome, 'WITHIN', 'OUTCOME');
-      this.variables.push(variable);
-    });
-    this.repeatedMeasures.forEach( repeatedMeasure => {
-      const variable = new HypothesisEffectVariable(repeatedMeasure.dimension, 'WITHIN', 'REPEATED_MEASURE');
-      this.variables.push(variable);
-    });
-    if (!isNullOrUndefined(this.betweenIsuFactors) && !isNullOrUndefined(this.betweenIsuFactors.predictors)) {
-    this.betweenIsuFactors.predictors.forEach( predictor => {
-      const variable = new HypothesisEffectVariable(predictor.name, 'BETWEEN', 'PREDICTOR');
-      this.variables.push(variable);
-    });
     }
   }
 
@@ -170,14 +138,6 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     return effect.type === 'Grand Mean' ? true : false;
   }
 
-  get variables(): HypothesisEffectVariable[] {
-    return this._variables;
-  }
-
-  set variables(value: HypothesisEffectVariable[]) {
-    this._variables = value;
-  }
-
   get possibleEffects(): HypothesisEffect[] {
     return this._possibleEffects;
   }
@@ -208,34 +168,6 @@ export class HypothesisEffectChoiceComponent implements OnInit {
 
   set betweenIsuFactors(value: BetweenISUFactors) {
     this._betweenIsuFactors = value;
-  }
-
-  get outcomeSubscription(): Subscription {
-    return this._outcomeSubscription;
-  }
-
-  set outcomeSubscription(value: Subscription) {
-    this._outcomeSubscription = value;
-  }
-
-  get repeatedMeasuresSubscription(): Subscription {
-    return this._repeatedMeasuresSubscription;
-  }
-
-  set repeatedMeasuresSubscription(value: Subscription) {
-    this._repeatedMeasuresSubscription = value;
-  }
-
-  get betweenIsuFactorsSubscription(): Subscription {
-    return this._betweenIsuFactorsSubscription;
-  }
-
-  set betweenIsuFactorsSubscription(value: Subscription) {
-    this._betweenIsuFactorsSubscription = value;
-  }
-
-  get hypothesisEffectSubscription(): Subscription {
-    return this._hypothesisEffectSubscription;
   }
 
   set hypothesisEffectSubscription(value: Subscription) {

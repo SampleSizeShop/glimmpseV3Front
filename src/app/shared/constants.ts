@@ -116,10 +116,19 @@ export const constants = {
   MAX_PREDICTORS: 5,
   MAX_GROUPS: 10,
   HYPOTHESIS_NATURE: {
+    WITHIN: 'Within',
+    BETWEEN: 'Between'
+  },
+  HYPOTHESIS_BETWEEN_NATURE: {
     GLOBAL_TRENDS: 'GLOBAL_TRENDS',
     IDENTITY: 'IDENTITY',
     POLYNOMIAL: 'POLYNOMIAL',
     USER_DEFINED: 'USER_DEFINED',
+  },
+  HYPOTHESIS_ORIGIN: {
+    OUTCOME: 'Outcome',
+    REPEATED_MEASURE: 'Repeated Measure',
+    BETWEEN_PREDICTOR: 'Between ISU Predictor'
   },
   C_MATRIX_TYPE: {
     CMATRIX: 'CMATRIX',

@@ -11,7 +11,7 @@ import {StudyService} from '../shared/study.service';
 export class HypothesisWithinComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
   private _withinHypothesisNature: string;
-  private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_NATURE;
+  private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _withinHypothesisNatureSubscription: Subscription;
 
   constructor(private study_service: StudyService) {

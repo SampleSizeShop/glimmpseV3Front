@@ -10,6 +10,7 @@ import {Cluster} from './Cluster';
 import {BetweenISUFactors} from './BetweenISUFactors';
 import {GaussianCovariate} from './GaussianCovariate';
 import {HypothesisEffect} from "./HypothesisEffect";
+import {HypothesisEffectVariable} from "./HypothesisEffectVariable";
 
 @Injectable()
 export class StudyService {
@@ -56,10 +57,13 @@ export class StudyService {
   private _gaussianCovariateSource = new BehaviorSubject<GaussianCovariate>(null);
   private _gaussianCovariate$ = this._gaussianCovariateSource.asObservable();
 
-  private _betweenHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
+  private _hypothesisEffectVariablesSource = new BehaviorSubject<Array<HypothesisEffectVariable>>(null);
+  private _hypothesisEffectVariables$ = this._hypothesisEffectVariablesSource.asObservable();
+
+  private _betweenHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS);
   private _betweenHypothesisNature$ = this._betweenHypothesisNatureSource.asObservable();
 
-  private _withinHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
+  private _withinHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS);
   private _withinHypothesisNature$ = this._withinHypothesisNatureSource.asObservable();
 
   private _hypothesisEffectSource = new BehaviorSubject<HypothesisEffect>(null);
@@ -113,6 +117,10 @@ export class StudyService {
 
   updateGaussianCovariate(gaussianCovariate: GaussianCovariate) {
     this._gaussianCovariateSource.next(gaussianCovariate);
+  }
+
+  updateHypothesisEffectVariables(variables: Array<HypothesisEffectVariable>) {
+    this._hypothesisEffectVariablesSource.next(variables);
   }
 
   updateBetweenHypothesisNature(betweenHypothesisNature: string) {

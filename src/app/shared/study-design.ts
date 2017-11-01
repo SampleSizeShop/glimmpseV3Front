@@ -4,6 +4,7 @@ import {GaussianCovariate} from './GaussianCovariate';
 import {HypothesisEffect} from './HypothesisEffect';
 import {isNullOrUndefined} from "util";
 import {HypothesisEffectVariable} from "./HypothesisEffectVariable";
+import {constants} from "./constants";
 
 export class StudyDesign {
   private _name: string;
@@ -44,7 +45,7 @@ export class StudyDesign {
     if (!isNullOrUndefined(this.hypothesisEffect)) {
 
       let possibleEffect = true;
-      const variables = this.getVariables();
+      const variables = this.variables;
       if (!isNullOrUndefined(variables) && !isNullOrUndefined(this.hypothesisEffect.variables)) {
         this.hypothesisEffect.variables.forEach(variable => {
           let match = false;
@@ -71,19 +72,28 @@ export class StudyDesign {
     };
   }
 
-  getVariables() {
+  get variables() {
     const variables = [];
     this.withinIsuFactors.outcomes.forEach( outcome => {
-      const variable = new HypothesisEffectVariable(outcome, 'WITHIN', 'OUTCOME');
+      const variable = new HypothesisEffectVariable(
+        outcome,
+        constants.HYPOTHESIS_NATURE.WITHIN,
+        constants.HYPOTHESIS_ORIGIN.OUTCOME);
       variables.push(variable);
     });
     this.withinIsuFactors.repeatedMeasures.forEach( repeatedMeasure => {
-      const variable = new HypothesisEffectVariable(repeatedMeasure.dimension, 'WITHIN', 'REPEATED_MEASURE');
+      const variable = new HypothesisEffectVariable(
+        repeatedMeasure.dimension,
+        constants.HYPOTHESIS_NATURE.WITHIN,
+        constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE);
       variables.push(variable);
     });
     if (!isNullOrUndefined(this.betweenIsuFactors) && !isNullOrUndefined(this.betweenIsuFactors.predictors)) {
       this.betweenIsuFactors.predictors.forEach( predictor => {
-        const variable = new HypothesisEffectVariable(predictor.name, 'BETWEEN', 'PREDICTOR');
+        const variable = new HypothesisEffectVariable(
+          predictor.name,
+          constants.HYPOTHESIS_NATURE.BETWEEN,
+          constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR);
         variables.push(variable);
       });
     }

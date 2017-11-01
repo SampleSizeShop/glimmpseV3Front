@@ -20,7 +20,7 @@ export class GroupId {
   predictor: string;
   name: string;
 
-  constructor(predictor: string, name: string) {
+  constructor(predictor?: string, name?: string) {
     this.predictor = predictor;
     this.name = name;
   }

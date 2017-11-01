@@ -114,7 +114,10 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   outcomesAsHypothesisEffectVariables() {
     const variables = [];
     this.outcomes.forEach( outcome => {
-      const variable = new HypothesisEffectVariable(outcome, 'WITHIN', 'OUTCOME');
+      const variable = new HypothesisEffectVariable(
+        outcome,
+        constants.HYPOTHESIS_NATURE.WITHIN,
+        constants.HYPOTHESIS_ORIGIN.OUTCOME);
       variables.push(variable);
     });
     if (variables.length === 0) {

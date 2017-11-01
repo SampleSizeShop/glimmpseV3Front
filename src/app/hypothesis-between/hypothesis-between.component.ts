@@ -15,7 +15,7 @@ import {CMatrix} from '../shared/CMatrix';
 export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
   private _betweenHypothesisNature: string;
-  private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_NATURE;
+  private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _hypothesisEffect: HypothesisEffect;
   private _betweenISUFactors: BetweenISUFactors;
   private _marginalsIn: Array<CMatrix>;
@@ -86,6 +86,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
       const cMatrix = new CMatrix(constants.C_MATRIX_TYPE.CMATRIX);
       const first = marginalMatrices.pop();
+      // TODO: what if cmatrix is undefined???
       cMatrix.values = first.values;
       marginalMatrices.forEach( matrix => {
         cMatrix.values = cMatrix.kronecker(matrix);
@@ -143,13 +144,13 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   getMarginalCMatrix (noGroups: number): CMatrix {
     const marginalMatrix = new CMatrix()
-      if (this.betweenHypothesisNature === constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS) {
+      if (this.betweenHypothesisNature === constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS) {
         marginalMatrix.type = constants.C_MATRIX_TYPE.MAIN_EFFECT;
         marginalMatrix.populateMainEffect(noGroups);
-      } else if (this.betweenHypothesisNature === constants.HYPOTHESIS_NATURE.POLYNOMIAL) {
+      } else if (this.betweenHypothesisNature === constants.HYPOTHESIS_BETWEEN_NATURE.POLYNOMIAL) {
         marginalMatrix.type = constants.C_MATRIX_TYPE.POLYNOMIAL;
         marginalMatrix.populatePolynomialEvenSpacing(noGroups);
-      } else if (this.betweenHypothesisNature === constants.HYPOTHESIS_NATURE.IDENTITY) {
+      } else if (this.betweenHypothesisNature === constants.HYPOTHESIS_BETWEEN_NATURE.IDENTITY) {
         marginalMatrix.type = constants.C_MATRIX_TYPE.IDENTITY;
         marginalMatrix.populateIdentityMatrix(noGroups);
       }

@@ -1,9 +1,12 @@
 import {HypothesisEffectVariable} from './HypothesisEffectVariable';
 import {isNullOrUndefined} from 'util';
+import {MarginalMeansCombination} from "./MarginalMeansCombination";
+import {constants} from "./constants";
 
 export class HypothesisEffect {
   variables: HypothesisEffectVariable[] = [];
   type: string;
+  marginalMeans: MarginalMeansCombination[] = [];
 
   get name(): string {
     let name = '';
@@ -34,6 +37,18 @@ export class HypothesisEffect {
     if (!existsInList) {
       this.variables.push(variable);
     }
+  }
+
+  generateCombinations() {
+    const names = '';
+  }
+
+  get variableNames(): Array<string> {
+    const names = Array<string>();
+    this.variables.forEach( variable => {
+       if ( variable.origin === '') {}
+    });
+    return names;
   }
 
   equals (effect: HypothesisEffect) {

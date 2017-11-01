@@ -7,6 +7,7 @@ import {StudyService} from '../shared/study.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
+import {constants} from "../shared/constants";
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;
@@ -32,11 +33,11 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should correctly equals lists of Hypothesis Effect Variables', () => {
-    const A = new HypothesisEffectVariable('A', 'BETWEEN');
-    const B = new HypothesisEffectVariable('B', 'BETWEEN');
-    const C = new HypothesisEffectVariable('C', 'WITHIN');
-    const D = new HypothesisEffectVariable('D', 'WITHIN');
-    const E = new HypothesisEffectVariable('E', 'WITHIN');
+    const A = new HypothesisEffectVariable('A', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const B = new HypothesisEffectVariable('B', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const C = new HypothesisEffectVariable('C', constants.HYPOTHESIS_NATURE.WITHIN);
+    const D = new HypothesisEffectVariable('D', constants.HYPOTHESIS_NATURE.WITHIN);
+    const E = new HypothesisEffectVariable('E', constants.HYPOTHESIS_NATURE.WITHIN);
     component.variables.push(A, B, C, D);
 
     const eff1 = new HypothesisEffect();
@@ -54,10 +55,10 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should return 15 distinct effects', () => {
-    const A = new HypothesisEffectVariable('A', 'BETWEEN');
-    const B = new HypothesisEffectVariable('B', 'BETWEEN');
-    const C = new HypothesisEffectVariable('C', 'WITHIN');
-    const D = new HypothesisEffectVariable('D', 'WITHIN');
+    const A = new HypothesisEffectVariable('A', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const B = new HypothesisEffectVariable('B', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const C = new HypothesisEffectVariable('C', constants.HYPOTHESIS_NATURE.WITHIN);
+    const D = new HypothesisEffectVariable('D', constants.HYPOTHESIS_NATURE.WITHIN);
     component.variables.push(A, B, C, D);
     component.determinePossibleEffects();
 
@@ -65,9 +66,9 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should return 7 distinct effects', () => {
-    const A = new HypothesisEffectVariable('A', 'BETWEEN');
-    const B = new HypothesisEffectVariable('B', 'BETWEEN');
-    const C = new HypothesisEffectVariable('C', 'WITHIN');
+    const A = new HypothesisEffectVariable('A', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const B = new HypothesisEffectVariable('B', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const C = new HypothesisEffectVariable('C', constants.HYPOTHESIS_NATURE.WITHIN);
     component.variables.push(A, B, C);
     component.determinePossibleEffects();
 
@@ -75,7 +76,7 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should return 1 distinct effects', () => {
-    const A = new HypothesisEffectVariable('A', 'BETWEEN');
+    const A = new HypothesisEffectVariable('A', constants.HYPOTHESIS_NATURE.BETWEEN);
     component.variables.push(A);
     component.determinePossibleEffects();
     expect(component.possibleEffects.length).toEqual(2);
