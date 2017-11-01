@@ -8,23 +8,32 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {constants} from "../shared/constants";
+import {Component} from "@angular/core";
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;
-  let fixture: ComponentFixture<HypothesisEffectChoiceComponent>;
+  let fixture: ComponentFixture<TestWrapperComponent>;
+
+  @Component({
+    selector: 'app-test-component-wrapper',
+    template: '<app-hypothesis-effect-choice [variables]="variables"></app-hypothesis-effect-choice>'
+  })
+  class TestWrapperComponent {
+    variables = [];
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [ HypothesisEffectChoiceComponent ],
+      declarations: [ TestWrapperComponent, HypothesisEffectChoiceComponent ],
       providers: [StudyService, { provide: Http, useClass: MockBackend }]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HypothesisEffectChoiceComponent);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(TestWrapperComponent);
+    component = fixture.debugElement.children[0].componentInstance;
     fixture.detectChanges();
   });
 
