@@ -1,9 +1,17 @@
 import {BetweenIsuCombination, GroupId} from './BetweenIsuCombination';
+import {HypothesisEffectVariable} from './HypothesisEffectVariable';
+import {constants} from './constants';
 
-export class Predictor {
+export class Predictor extends HypothesisEffectVariable {
   name = '';
   groups: string[] = [];
   child: Predictor;
+
+  constructor() {
+    super();
+    this.nature = constants.HYPOTHESIS_NATURE.BETWEEN;
+    this.origin = constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR;
+  }
 
   mapCombinations() {
     let combinations = [] ;

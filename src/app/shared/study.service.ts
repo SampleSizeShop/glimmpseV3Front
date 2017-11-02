@@ -11,6 +11,7 @@ import {BetweenISUFactors} from './BetweenISUFactors';
 import {GaussianCovariate} from './GaussianCovariate';
 import {HypothesisEffect} from "./HypothesisEffect";
 import {HypothesisEffectVariable} from "./HypothesisEffectVariable";
+import {Outcome} from "./Outcome";
 
 @Injectable()
 export class StudyService {
@@ -42,7 +43,7 @@ export class StudyService {
   private _typeOneErrorRateSource = new BehaviorSubject<number>(0.05);
   private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
 
-  private _withinIsuOutcomesSource = new BehaviorSubject<string[]>([]);
+  private _withinIsuOutcomesSource = new BehaviorSubject<Outcome[]>([]);
   private _withinIsuOutcomes$ = this._withinIsuOutcomesSource.asObservable();
 
   private _withinIsuRepeatedMeasuresSource = new BehaviorSubject<RepeatedMeasure[]>([]);
@@ -102,7 +103,7 @@ export class StudyService {
     this._typeOneErrorRateSource.next(rate);
   }
 
-  updateWthinIsuOutcomes(outcomes: string[]) {
+  updateWthinIsuOutcomes(outcomes: Outcome[]) {
     this._withinIsuOutcomesSource.next(outcomes);
   }
 
@@ -261,11 +262,11 @@ export class StudyService {
     this._typeOneErrorRate$ = value;
   }
 
-  get withinIsuOutcomes$(): Observable<string[]> {
+  get withinIsuOutcomes$(): Observable<Outcome[]> {
     return this._withinIsuOutcomes$;
   }
 
-  set withinIsuOutcomes$(value: Observable<string[]>) {
+  set withinIsuOutcomes$(value: Observable<Outcome[]>) {
     this._withinIsuOutcomes$ = value;
   }
 
@@ -324,6 +325,7 @@ export class StudyService {
   set hypothesisEffect$(value: Observable<HypothesisEffect>) {
     this._hypothesisEffect$ = value;
   }
+
 
   get scaleFactor$(): Observable<number> {
     return this._scaleFactor$;

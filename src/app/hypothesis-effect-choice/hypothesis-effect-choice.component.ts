@@ -7,6 +7,7 @@ import {BetweenISUFactors} from '../shared/BetweenISUFactors';
 import {StudyService} from '../shared/study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
+import {constants} from "../shared/constants";
 
 @Component({
   selector: 'app-hypothesis-effect-choice',

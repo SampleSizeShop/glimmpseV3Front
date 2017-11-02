@@ -75,12 +75,13 @@ export class StudyDesign {
   }
 
   get variables() {
+    // TODO: get rid of this.
     const variables = [];
     this.withinIsuFactors.outcomes.forEach( outcome => {
       const variable = new HypothesisEffectVariable(
-        outcome,
-        constants.HYPOTHESIS_NATURE.WITHIN,
-        constants.HYPOTHESIS_ORIGIN.OUTCOME);
+        outcome.name,
+        outcome.nature,
+        outcome.origin);
       variables.push(variable);
     });
     this.withinIsuFactors.repeatedMeasures.forEach( repeatedMeasure => {

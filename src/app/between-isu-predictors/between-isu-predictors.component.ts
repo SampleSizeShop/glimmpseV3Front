@@ -8,6 +8,7 @@ import {Predictor} from '../shared/Predictor';
 import {constants} from '../shared/constants';
 import {outcomeValidator} from '../within-isu-outcomes/outcome.validator';
 import {predictorValidator} from './predictor.validator';
+import {groupValidator} from "./group.validator";
 
 @Component({
   selector: 'app-between-isu',
@@ -70,7 +71,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       predictorName: ['', predictorValidator(this.betweenIsuFactors ? this.betweenIsuFactors.predictorNames : [] )]
     });
     this.groupsForm = this.fb.group({
-      group: ['', outcomeValidator(this.groups)]
+      group: ['', groupValidator(this.groups)]
     });
   }
 

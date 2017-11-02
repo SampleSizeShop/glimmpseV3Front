@@ -3,16 +3,16 @@ import {MarginalMeansCombination, MarginalMeansCombinationId} from './MarginalMe
 export class HypothesisEffectVariable {
   name: string;
   origin: string;
-  type: string;
+  nature: string;
   valueNames: string[] = [];
   _child: HypothesisEffectVariable;
 
-  constructor(name?: string, type?: string, origin?: string) {
+  constructor(name?: string, nature?: string, origin?: string) {
     if (name) {
       this.name = name;
     }
-    if (type) {
-      this.type = type;
+    if (nature) {
+      this.nature = nature;
     }
     if (origin) {
       this.origin = origin;
@@ -56,7 +56,7 @@ export class HypothesisEffectVariable {
   }
 
   compare(variable: HypothesisEffectVariable) {
-    if (variable.type === this.type && variable.name === this.name) {
+    if (variable.nature === this.nature && variable.name === this.name) {
       return true;
     }
     return false;

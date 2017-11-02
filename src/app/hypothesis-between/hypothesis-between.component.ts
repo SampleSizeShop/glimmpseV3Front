@@ -129,7 +129,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       betweenFactorNames.push(predictor.name);
     });
     this._hypothesisEffect.variables.forEach(variable => {
-      if (variable.type === 'BETWEEN') {
+      if (variable.nature === constants.HYPOTHESIS_NATURE.BETWEEN) {
         hypothesisBetweenVariableNames.push(variable.name);
       }
     });

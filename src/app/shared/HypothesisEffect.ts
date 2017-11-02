@@ -1,6 +1,7 @@
 import {HypothesisEffectVariable} from './HypothesisEffectVariable';
 import {isNullOrUndefined} from 'util';
 import {MarginalMean} from './MarginalMean';
+import {constants} from './constants';
 
 export class HypothesisEffect {
   variables: HypothesisEffectVariable[] = [];
@@ -20,10 +21,10 @@ export class HypothesisEffect {
   get nature(): string {
     let nature = '';
     this.variables.forEach( variable => {
-      nature = nature.concat(variable.type, ' X ');
+      nature = nature.concat(variable.nature, ' x ');
     });
     nature = nature.substring(0, nature.length - 3);
-    if (this.variables.length === 0) { nature = 'BETWEEN'; }
+    if (this.variables.length === 0) { nature = constants.HYPOTHESIS_NATURE.BETWEEN; }
     return nature;
   }
 
@@ -79,7 +80,7 @@ export class HypothesisEffect {
     this.variables.forEach( variable1 => {
       let found = false;
       effect.variables.forEach( variable2 => {
-        if (variable1.name === variable2.name && variable1.type === variable2.type ) {
+        if (variable1.name === variable2.name && variable1.nature === variable2.nature ) {
           found = true;
         }
       });
