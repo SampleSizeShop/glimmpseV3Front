@@ -7,7 +7,7 @@ import {Observable} from 'rxjs/Observable';
 import {constants} from './constants';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
-import {BetweenISUFactors} from './BetweenISUFactors';
+import {ISUFactors} from './ISUFactors';
 import {GaussianCovariate} from './GaussianCovariate';
 import {HypothesisEffect} from "./HypothesisEffect";
 import {HypothesisEffectVariable} from "./HypothesisEffectVariable";
@@ -52,7 +52,7 @@ export class StudyService {
   private _withinIsuClusterSource = new BehaviorSubject<Cluster>(null);
   private _withinIsuCluster$ = this._withinIsuClusterSource.asObservable();
 
-  private _betweenIsuFactorsSource = new BehaviorSubject<BetweenISUFactors>(null);
+  private _betweenIsuFactorsSource = new BehaviorSubject<ISUFactors>(new ISUFactors());
   private _betweenIsuFactors$ = this._betweenIsuFactorsSource.asObservable();
 
   private _gaussianCovariateSource = new BehaviorSubject<GaussianCovariate>(null);
@@ -115,7 +115,7 @@ export class StudyService {
     this._withinIsuClusterSource.next(cluster);
   }
 
-  updateBetweenIsuFactors(betweenIsuFactors: BetweenISUFactors) {
+  updateBetweenIsuFactors(betweenIsuFactors: ISUFactors) {
     this._betweenIsuFactorsSource.next(betweenIsuFactors);
   }
 
@@ -286,11 +286,11 @@ export class StudyService {
     this._withinIsuCluster$ = value;
   }
 
-  get betweenIsuFactors$(): Observable<BetweenISUFactors> {
+  get betweenIsuFactors$(): Observable<ISUFactors> {
     return this._betweenIsuFactors$;
   }
 
-  set betweenIsuFactors$(value: Observable<BetweenISUFactors>) {
+  set betweenIsuFactors$(value: Observable<ISUFactors>) {
     this._betweenIsuFactors$ = value;
   }
 

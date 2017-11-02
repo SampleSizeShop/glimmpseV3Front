@@ -7,7 +7,7 @@ import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {BetweenISUFactors} from '../shared/BetweenISUFactors';
+import {ISUFactors} from '../shared/ISUFactors';
 import {Predictor} from '../shared/Predictor';
 
 describe('BetweenIsuGroupsComponent', () => {
@@ -35,7 +35,7 @@ describe('BetweenIsuGroupsComponent', () => {
 
   it('Should show the group size form if we are solving for power and have predictors', () => {
     component.solveFor = 'POWER';
-    component.betweenIsuFactors = new BetweenISUFactors();
+    component.betweenIsuFactors = new ISUFactors();
     component.betweenIsuFactors.predictors.push(new Predictor());
     fixture.detectChanges();
     expect(component.betweenIsuFactors.predictors.length).toEqual(1);
@@ -45,7 +45,7 @@ describe('BetweenIsuGroupsComponent', () => {
   });
 
   it('Should show the relative group size form if we are solving for power and we have defined all of our predictors', () => {
-    component.betweenIsuFactors = new BetweenISUFactors();
+    component.betweenIsuFactors = new ISUFactors();
     component.solveFor = 'SAMPLESIZE';
     component.betweenIsuFactors.predictors.push(new Predictor());
     fixture.detectChanges();
@@ -57,7 +57,7 @@ describe('BetweenIsuGroupsComponent', () => {
 
   it('Should update the smallest group size', () => {
     component.solveFor = 'POWER';
-    component.betweenIsuFactors = new BetweenISUFactors();
+    component.betweenIsuFactors = new ISUFactors();
     component.betweenIsuFactors.predictors.push(new Predictor());
     component.groupSizeForm.get('smallestGroupSize').setValue('2');
     fixture.detectChanges();
@@ -65,7 +65,7 @@ describe('BetweenIsuGroupsComponent', () => {
   });
 
   it('Should update the relative group size form.', () => {
-    component.betweenIsuFactors = new BetweenISUFactors();
+    component.betweenIsuFactors = new ISUFactors();
     component.solveFor = 'SAMPLESIZE';
     const predictor = new Predictor();
     predictor.name = 'A';

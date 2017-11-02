@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {constants} from 'app/shared/constants';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {BetweenISUFactors} from '../shared/BetweenISUFactors';
+import {ISUFactors} from '../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
 import {CMatrix} from '../shared/CMatrix';
@@ -17,7 +17,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _betweenHypothesisNature: string;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _hypothesisEffect: HypothesisEffect;
-  private _betweenISUFactors: BetweenISUFactors;
+  private _betweenISUFactors: ISUFactors;
   private _marginalsIn: Array<CMatrix>;
   private _marginalsOut: Array<CMatrix>;
 
@@ -73,7 +73,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   calculateCMatrix() {
-    if (!isNullOrUndefined( this._betweenISUFactors ) && !isNullOrUndefined(this._hypothesisEffect)) {
+    if (!isNullOrUndefined( this._betweenISUFactors ) &&
+      !isNullOrUndefined( this._betweenISUFactors.predictors ) &&
+      this._betweenISUFactors.predictors.length > 0 &&
+      !isNullOrUndefined(this._hypothesisEffect)) {
       this.marginalsIn = [];
       this.marginalsOut = [];
       // work out which between factors are in the hypothesis

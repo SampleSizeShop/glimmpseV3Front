@@ -1,8 +1,14 @@
 import {Predictor} from './Predictor';
 import {BetweenIsuCombination} from './BetweenIsuCombination';
 import {BetweenIsuCombinationTable} from './BetweenIsuCombinationTable';
+import {Outcome} from "./Outcome";
+import {RepeatedMeasure} from "./RepeatedMeasure";
+import {Cluster} from "./Cluster";
 
-export class BetweenISUFactors {
+export class ISUFactors {
+  outcomes: Outcome[] = [];
+  repeatedMeasures: RepeatedMeasure[] = null;
+  cluster: Cluster = null;
   predictors: Predictor[] = [];
   combinations = new Map();
   smallestGroupSize: number[] = [];

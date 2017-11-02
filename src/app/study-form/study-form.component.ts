@@ -423,21 +423,21 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
     this.withinIsuOutcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
       outcomes => {
-        this.study.withinIsuFactors.outcomes = outcomes;
+        this.study.betweenIsuFactors.outcomes = outcomes;
         this.study.checkDependencies();
       }
     );
 
     this.withinIsuRepeatedMeasuresSubscription = this.study_service.withinIsuRepeatedMeasures$.subscribe(
       measures => {
-        this.study.withinIsuFactors.repeatedMeasures = measures;
+        this.study.betweenIsuFactors.repeatedMeasures = measures;
         this.study.checkDependencies();
       }
     );
 
     this.withinIsuClusterSubscription = this.study_service.withinIsuCluster$.subscribe(
       cluster => {
-        this.study.withinIsuFactors.cluster = cluster;
+        this.study.betweenIsuFactors.cluster = cluster;
       }
     );
 

@@ -1,6 +1,6 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {BetweenISUFactors} from '../shared/BetweenISUFactors';
+import {ISUFactors} from '../shared/ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../shared/study.service';
 import {NavigationService} from '../shared/navigation.service';
@@ -21,7 +21,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _groups: string[];
   private _maxGroups: number;
   private _maxPredictors: number;
-  private _betweenIsuFactors: BetweenISUFactors;
+  private _betweenIsuFactors: ISUFactors;
 
   private _editing: boolean;
   private _stages;
@@ -122,7 +122,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.navigation_service.updateNextEnabled( true );
     this.navigation_service.updateValid(false);
     if (!this.betweenIsuFactors) {
-      this.betweenIsuFactors = new BetweenISUFactors();
+      this.betweenIsuFactors = new ISUFactors();
     }
     if ( predictor ) {
       this.predictorForm.get('predictorName').setValue(predictor.name)
@@ -254,11 +254,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._groupsForm = value;
   }
 
-  get betweenIsuFactors(): BetweenISUFactors {
+  get betweenIsuFactors(): ISUFactors {
     return this._betweenIsuFactors;
   }
 
-  set betweenIsuFactors(value: BetweenISUFactors) {
+  set betweenIsuFactors(value: ISUFactors) {
     this._betweenIsuFactors = value;
   }
 

@@ -3,7 +3,7 @@ import {HypothesisEffectVariable} from '../shared/HypothesisEffectVariable';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
 import {Subscription} from 'rxjs/Subscription';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
-import {BetweenISUFactors} from '../shared/BetweenISUFactors';
+import {ISUFactors} from '../shared/ISUFactors';
 import {StudyService} from '../shared/study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
@@ -22,7 +22,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
 
   private _outcomes: string[];
   private _repeatedMeasures: RepeatedMeasure[];
-  private _betweenIsuFactors: BetweenISUFactors;
+  private _betweenIsuFactors: ISUFactors;
 
   private _hypothesisEffectSubscription: Subscription;
 
@@ -162,11 +162,11 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     this._repeatedMeasures = value;
   }
 
-  get betweenIsuFactors(): BetweenISUFactors {
+  get betweenIsuFactors(): ISUFactors {
     return this._betweenIsuFactors;
   }
 
-  set betweenIsuFactors(value: BetweenISUFactors) {
+  set betweenIsuFactors(value: ISUFactors) {
     this._betweenIsuFactors = value;
   }
 

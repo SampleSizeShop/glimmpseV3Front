@@ -5,7 +5,7 @@ import {StudyService} from '../shared/study.service';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
-import {BetweenISUFactors} from '../shared/BetweenISUFactors';
+import {ISUFactors} from '../shared/ISUFactors';
 import {Predictor} from '../shared/Predictor';
 import {NavigationService} from '../shared/navigation.service';
 import {DebugElement} from '@angular/core';
@@ -62,7 +62,7 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   it('Should not the add BetweenIsuPredictor Button if we have reached the predictors limit', () => {
     component.editing = false;
-    component.betweenIsuFactors = new BetweenISUFactors();
+    component.betweenIsuFactors = new ISUFactors();
     component.setStage(-1);
     for ( let i = 0; i < component.maxPredictors; i++ ) {
       component.betweenIsuFactors.predictors.push(new Predictor());
@@ -180,7 +180,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('should assemble the combinations of > 2 betweenISU groups', () => {
-    const x = new BetweenISUFactors();
+    const x = new ISUFactors();
     x.predictors.push(gender);
     x.predictors.push(dose);
     x.predictors.push(three);
@@ -193,7 +193,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('should assemble the combinations of 2 betweenISU groups', () => {
-    const x = new BetweenISUFactors();
+    const x = new ISUFactors();
     x.predictors.push(gender);
     x.predictors.push(dose);
     x.generateCombinations();
@@ -204,7 +204,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('should assemble the combinations of 1 betweenISU groups', () => {
-    const x = new BetweenISUFactors();
+    const x = new ISUFactors();
     x.predictors.push(gender);
     x.generateCombinations();
     x.combinations.forEach( combination => {
@@ -214,7 +214,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should get the correct BetweenIsuCombination from a map', () => {
-    const x = new BetweenISUFactors();
+    const x = new ISUFactors();
     x.predictors.push(gender);
 
     x.generateCombinations();
@@ -224,7 +224,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should return the expected group name for the special case - one predictor', () => {
-    const x = new BetweenISUFactors();
+    const x = new ISUFactors();
     x.predictors.push(gender);
 
     x.generateCombinations();
@@ -234,7 +234,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should return the expected group name for special case - two predictors', () => {
-    const x = new BetweenISUFactors();
+    const x = new ISUFactors();
     x.predictors.push(gender);
     x.predictors.push(dose);
 
@@ -245,7 +245,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should return the expected group names for > 2 predictors', () => {
-    const x = new BetweenISUFactors();
+    const x = new ISUFactors();
     x.predictors.push(gender);
     x.predictors.push(dose);
     x.predictors.push(three);
