@@ -469,6 +469,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
       hypothesisEffect => {
         this.study.hypothesisEffect = hypothesisEffect;
+        this.study.hypothesisEffect;
       }
     );
   };

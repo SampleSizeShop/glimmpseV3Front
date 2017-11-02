@@ -31,6 +31,7 @@ import { HypothesisBetweenComponent } from './hypothesis-between/hypothesis-betw
 import { HypothesisWithinComponent } from './hypothesis-within/hypothesis-within.component';
 import { ParametersMarginalMeansComponent } from './parameters-marginal-means/parameters-marginal-means.component';
 import { ParametersScaleFactorComponent } from './parameters-scale-factor/parameters-scale-factor.component';
+import { ParametersStandardDeviationComponent } from './parameters-standard-deviation/parameters-standard-deviation.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { ParametersScaleFactorComponent } from './parameters-scale-factor/parame
     HypothesisBetweenComponent,
     HypothesisWithinComponent,
     ParametersMarginalMeansComponent,
-    ParametersScaleFactorComponent
+    ParametersScaleFactorComponent,
+    ParametersStandardDeviationComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),
