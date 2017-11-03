@@ -5,7 +5,7 @@ import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {IsuFactor} from '../shared/HypothesisEffectVariable';
+import {ISUFactor} from '../shared/ISUFactor';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
 import {Outcome} from '../shared/Outcome';
 

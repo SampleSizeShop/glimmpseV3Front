@@ -1,10 +1,10 @@
-import {IsuFactor} from './HypothesisEffectVariable';
+import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
 import {MarginalMean} from './MarginalMean';
 import {constants} from './constants';
 
 export class HypothesisEffect {
-  variables: IsuFactor[] = [];
+  variables: ISUFactor[] = [];
   type: string;
   marginalMeans: Array<MarginalMean>;
   combinations = new Map();
@@ -28,7 +28,7 @@ export class HypothesisEffect {
     return nature;
   }
 
-  addVariable(variable: IsuFactor) {
+  addVariable(variable: ISUFactor) {
     let existsInList = false;
     this.variables.forEach( value => {
       if (value.compare(variable)) {
@@ -52,8 +52,8 @@ export class HypothesisEffect {
     });
   }
 
-  assignChildren(variableList: IsuFactor[]) {
-    const variablesithChildrenAssigned = Array<IsuFactor>();
+  assignChildren(variableList: ISUFactor[]) {
+    const variablesithChildrenAssigned = Array<ISUFactor>();
     variableList.forEach( variable => {
       variable._child = null;
     })

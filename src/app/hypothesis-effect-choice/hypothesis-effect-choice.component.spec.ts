@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisEffectChoiceComponent } from './hypothesis-effect-choice.component';
-import {IsuFactor} from '../shared/HypothesisEffectVariable';
+import {ISUFactor} from '../shared/ISUFactor';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
 import {StudyService} from '../shared/study.service';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -42,11 +42,11 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should correctly equals lists of Hypothesis Effect Variables', () => {
-    const A = new IsuFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
-    const B = new IsuFactor('B', constants.HYPOTHESIS_NATURE.BETWEEN);
-    const C = new IsuFactor('C', constants.HYPOTHESIS_NATURE.WITHIN);
-    const D = new IsuFactor('D', constants.HYPOTHESIS_NATURE.WITHIN);
-    const E = new IsuFactor('E', constants.HYPOTHESIS_NATURE.WITHIN);
+    const A = new ISUFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const B = new ISUFactor('B', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const C = new ISUFactor('C', constants.HYPOTHESIS_NATURE.WITHIN);
+    const D = new ISUFactor('D', constants.HYPOTHESIS_NATURE.WITHIN);
+    const E = new ISUFactor('E', constants.HYPOTHESIS_NATURE.WITHIN);
     component.variables.push(A, B, C, D);
 
     const eff1 = new HypothesisEffect();
@@ -64,10 +64,10 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should return 15 distinct effects', () => {
-    const A = new IsuFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
-    const B = new IsuFactor('B', constants.HYPOTHESIS_NATURE.BETWEEN);
-    const C = new IsuFactor('C', constants.HYPOTHESIS_NATURE.WITHIN);
-    const D = new IsuFactor('D', constants.HYPOTHESIS_NATURE.WITHIN);
+    const A = new ISUFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const B = new ISUFactor('B', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const C = new ISUFactor('C', constants.HYPOTHESIS_NATURE.WITHIN);
+    const D = new ISUFactor('D', constants.HYPOTHESIS_NATURE.WITHIN);
     component.variables.push(A, B, C, D);
     component.determinePossibleEffects();
 
@@ -75,9 +75,9 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should return 7 distinct effects', () => {
-    const A = new IsuFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
-    const B = new IsuFactor('B', constants.HYPOTHESIS_NATURE.BETWEEN);
-    const C = new IsuFactor('C', constants.HYPOTHESIS_NATURE.WITHIN);
+    const A = new ISUFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const B = new ISUFactor('B', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const C = new ISUFactor('C', constants.HYPOTHESIS_NATURE.WITHIN);
     component.variables.push(A, B, C);
     component.determinePossibleEffects();
 
@@ -85,7 +85,7 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should return 1 distinct effects', () => {
-    const A = new IsuFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const A = new ISUFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
     component.variables.push(A);
     component.determinePossibleEffects();
     expect(component.possibleEffects.length).toEqual(2);

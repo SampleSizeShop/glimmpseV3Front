@@ -1,7 +1,7 @@
-import {IsuFactor} from './HypothesisEffectVariable';
+import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 
-export class RepeatedMeasure extends IsuFactor {
+export class RepeatedMeasure extends ISUFactor {
   dimension: string;
   units: string;
   type: string;

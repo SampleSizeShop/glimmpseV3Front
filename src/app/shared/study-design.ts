@@ -2,7 +2,7 @@ import {ISUFactors} from './ISUFactors';
 import {GaussianCovariate} from './GaussianCovariate';
 import {HypothesisEffect} from './HypothesisEffect';
 import {isNullOrUndefined} from 'util';
-import {IsuFactor} from './HypothesisEffectVariable';
+import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 
 export class StudyDesign {
@@ -75,14 +75,14 @@ export class StudyDesign {
     // TODO: get rid of this.
     const variables = [];
     this.isuFactors.outcomes.forEach(outcome => {
-      const variable = new IsuFactor(
+      const variable = new ISUFactor(
         outcome.name,
         outcome.nature,
         outcome.origin);
       variables.push(variable);
     });
     this.isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
-      const variable = new IsuFactor(
+      const variable = new ISUFactor(
         repeatedMeasure.dimension,
         constants.HYPOTHESIS_NATURE.WITHIN,
         constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE);
@@ -90,7 +90,7 @@ export class StudyDesign {
     });
     if (!isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this.isuFactors.predictors)) {
       this.isuFactors.predictors.forEach(predictor => {
-        const variable = new IsuFactor(
+        const variable = new ISUFactor(
           predictor.name,
           constants.HYPOTHESIS_NATURE.BETWEEN,
           constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR);

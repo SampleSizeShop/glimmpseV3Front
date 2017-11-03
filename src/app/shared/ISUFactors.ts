@@ -5,11 +5,11 @@ import {Outcome} from './Outcome';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
 import {constants} from './constants';
-import {IsuFactor} from './HypothesisEffectVariable';
+import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from "util";
 
 export class ISUFactors {
-  variables = new Array<IsuFactor>();
+  variables = new Array<ISUFactor>();
   combinations = new Map();
   smallestGroupSize: number[] = [];
 

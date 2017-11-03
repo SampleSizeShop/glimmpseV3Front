@@ -1,7 +1,7 @@
 import {ClusterLevel} from './ClusterLevel';
-import {IsuFactor} from './HypothesisEffectVariable';
+import {ISUFactor} from './ISUFactor';
 
-export class Cluster extends IsuFactor {
+export class Cluster extends ISUFactor {
   elementName = '';
   levels: ClusterLevel[] = [];
 }

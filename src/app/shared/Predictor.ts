@@ -1,8 +1,8 @@
 import {BetweenIsuCombination, GroupId} from './BetweenIsuCombination';
-import {IsuFactor} from './HypothesisEffectVariable';
+import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 
-export class Predictor extends IsuFactor {
+export class Predictor extends ISUFactor {
   name = '';
   groups: string[] = [];
   child: Predictor;
