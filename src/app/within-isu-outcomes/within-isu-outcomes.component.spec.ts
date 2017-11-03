@@ -8,6 +8,7 @@ import {NavigationService} from '../shared/navigation.service';
 import {StudyService} from '../shared/study.service';
 import {MockBackend} from '@angular/http/testing';
 import {Http} from '@angular/http';
+import {Outcome} from "../shared/Outcome";
 
 describe('WithinIsuOutcomesComponent', () => {
   let component: WithinIsuOutcomesComponent;
@@ -42,8 +43,9 @@ describe('WithinIsuOutcomesComponent', () => {
 
   it('should remove the selected value of the form to the list of outcomes.', () => {
     const val = 'ABC';
-    component.outcomes.push(val);
-    component.removeOutcome(val);
+    const outcome = new Outcome(val);
+    component.outcomes.push(outcome);
+    component.removeOutcome(outcome);
     expect(component.outcomes.length).toEqual(0);
   });
 
@@ -62,7 +64,7 @@ describe('WithinIsuOutcomesComponent', () => {
   });
 
   it('should show the appropriate message if we have outcomes stored and can still add more', () => {
-    component.outcomes.push('ABC');
+    component.outcomes.push(new Outcome('ABC'));
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#nextoutcome'));
     const el = desc.nativeElement;
@@ -71,7 +73,7 @@ describe('WithinIsuOutcomesComponent', () => {
 
   it('should show the appropriate message if we have reached the outcome limit', () => {
     for (let i = 0; i < component.max; i++) {
-      component.outcomes.push('A')
+      component.outcomes.push(new Outcome('A'))
     }
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#outcomesfull'));

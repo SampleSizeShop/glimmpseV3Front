@@ -39,7 +39,7 @@
           <app-between-isu></app-between-isu>
         </div>
         <div class="d-flex justify-content-centre" *ngIf="stages[10] === getStageName()">
-          <app-between-isu-groups></app-between-isu-groups>
+          <app-between-isu-groups [_isuFactors]="study.isuFactors"></app-between-isu-groups>
         </div>
         <div class="d-flex justify-content-centre" *ngIf="stages[11] === getStageName()">
           <app-gaussian-covariate></app-gaussian-covariate>
@@ -67,7 +67,4 @@
 
   </div>
 <hr>
-study
-{{study | json}}
-btwn factors
-{{study.betweenIsuFactors | json}}
+{{study.isuFactors | json}}

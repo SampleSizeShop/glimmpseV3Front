@@ -8,7 +8,7 @@
         <h5>Would you like to add another Predictor?</h5>
       </div>
       <div class="col">
-        <button id="addbetweenbtn" (click)="includeBetweenIsuFactors()" class="btn btn-primary">Define Between ISU Factors</button>
+        <button id="addbetweenbtn" (click)="includePredictors()" class="btn btn-primary">Define Between ISU Factors</button>
       </div>
     </div>
   </div>
@@ -62,7 +62,7 @@
 <div *ngIf="hasPredictors()">
   <br>
   <small>Between ISU Predictors:</small>
-  <div *ngFor="let predictor of betweenIsuFactors.predictors; let i = index">
+  <div *ngFor="let predictor of betweenIsuPredictors; let i = index">
     <div class="container-fluid">
       <div class="row">
         <div class="col col-md-auto">

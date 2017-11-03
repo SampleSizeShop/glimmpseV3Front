@@ -17,12 +17,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _betweenHypothesisNature: string;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _hypothesisEffect: HypothesisEffect;
-  private _betweenISUFactors: ISUFactors;
+  private _isuFactors: ISUFactors;
   private _marginalsIn: Array<CMatrix>;
   private _marginalsOut: Array<CMatrix>;
 
   private _betweenHypothesisNatureSubscription: Subscription;
-  private _betweenISUFactorsSubscription: Subscription;
+  private _isuFactorsSubscription: Subscription;
   private _hypothesisEffectSubscription: Subscription;
   texString = '';
 
@@ -40,9 +40,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       hypothesisEffect => {
       this._hypothesisEffect = hypothesisEffect;
     })
-    this.betweenISUFactorsSubscription = this.study_service.betweenIsuFactors$.subscribe(
-      betweenISUFactors => {
-        this._betweenISUFactors = betweenISUFactors;
+    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe(
+      isuFactors => {
+        this._isuFactors = isuFactors;
       }
     );
   }
@@ -73,9 +73,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   calculateCMatrix() {
-    if (!isNullOrUndefined( this._betweenISUFactors ) &&
-      !isNullOrUndefined( this._betweenISUFactors.predictors ) &&
-      this._betweenISUFactors.predictors.length > 0 &&
+    if (!isNullOrUndefined( this._isuFactors ) &&
+      !isNullOrUndefined( this._isuFactors.predictors ) &&
+      this._isuFactors.predictors.length > 0 &&
       !isNullOrUndefined(this._hypothesisEffect)) {
       this.marginalsIn = [];
       this.marginalsOut = [];
@@ -100,7 +100,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   private populateAverageMatrices(betweenFactorsNotInHypothesis: Array<string>, marginalMatrices: Array<CMatrix>) {
     betweenFactorsNotInHypothesis.forEach(name => {
-      this._betweenISUFactors.predictors.forEach(value => {
+      this._isuFactors.predictors.forEach(value => {
         if (value.name === name) {
           const marginalMatrix = new CMatrix(constants.C_MATRIX_TYPE.AVERAGE);
           marginalMatrix.poopulateAverageMatrix(value.groups.length);
@@ -114,7 +114,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   private populateMarginalMatrices(betweenFactorsInHypothesis: Array<string>, marginalMatrices: Array<CMatrix>) {
     betweenFactorsInHypothesis.forEach(name => {
-      this._betweenISUFactors.predictors.forEach(value => {
+      this._isuFactors.predictors.forEach(value => {
         if (value.name === name) {
           const marginalMatrix = this.getMarginalCMatrix(value.groups.length);
           marginalMatrices.push(marginalMatrix);
@@ -128,7 +128,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private determineBetweenFactorsinHypothesis( inHypothesis: Array<string>, outOfHypothesis: Array<string> ) {
     const betweenFactorNames = [];
     const hypothesisBetweenVariableNames = [];
-    this._betweenISUFactors.predictors.forEach( predictor => {
+    this._isuFactors.predictors.forEach( predictor => {
       betweenFactorNames.push(predictor.name);
     });
     this._hypothesisEffect.variables.forEach(variable => {
@@ -192,12 +192,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._betweenHypothesisNatureSubscription = value;
   }
 
-  get betweenISUFactorsSubscription(): Subscription {
-    return this._betweenISUFactorsSubscription;
+  get isuFactorsSubscription(): Subscription {
+    return this._isuFactorsSubscription;
   }
 
-  set betweenISUFactorsSubscription(value: Subscription) {
-    this._betweenISUFactorsSubscription = value;
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
   }
 
   get hypothesisEffectSubscription(): Subscription {

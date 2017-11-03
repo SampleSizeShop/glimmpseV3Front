@@ -1,27 +1,152 @@
 import {Predictor} from './Predictor';
 import {BetweenIsuCombination} from './BetweenIsuCombination';
 import {BetweenIsuCombinationTable} from './BetweenIsuCombinationTable';
-import {Outcome} from "./Outcome";
-import {RepeatedMeasure} from "./RepeatedMeasure";
-import {Cluster} from "./Cluster";
+import {Outcome} from './Outcome';
+import {RepeatedMeasure} from './RepeatedMeasure';
+import {Cluster} from './Cluster';
+import {constants} from './constants';
+import {HypothesisEffectVariable} from './HypothesisEffectVariable';
+import {isNullOrUndefined} from "util";
 
 export class ISUFactors {
-  outcomes: Outcome[] = [];
-  repeatedMeasures: RepeatedMeasure[] = null;
-  cluster: Cluster = null;
-  predictors: Predictor[] = [];
+  variables = new Array<HypothesisEffectVariable>();
   combinations = new Map();
   smallestGroupSize: number[] = [];
 
+  get hypothesisName(): string {
+    let name = '';
+    this.variables.forEach( variable => {
+      name = name.concat(variable.name, ' x ');
+    });
+    name = name.substring(0, name.length - 3 );
+    return name;
+  }
+
+  get hypothesisNature(): string {
+    let nature = '';
+    this.variables.forEach( variable => {
+      nature = nature.concat(variable.nature, ' x ');
+    });
+    nature = nature.substring(0, nature.length - 3);
+    if (this.variables.length === 0) { nature = constants.HYPOTHESIS_NATURE.BETWEEN; }
+    return nature;
+  }
+
+  get outcomes(): Array<Outcome> {
+    const outcomes = new Array<Outcome>();
+    this.variables.forEach( variable => {
+      if (variable instanceof Outcome) {
+        outcomes.push(variable);
+      }
+    });
+    return outcomes;
+  }
+
+  updateOutcomes(newOutcomes: Array<Outcome>) {
+    const toDelete = [];
+    this.variables.forEach(variable => {
+      if (variable instanceof Outcome || isNullOrUndefined(variable)) {
+        const index = this.variables.indexOf(variable);
+        if (index !== -1 || isNullOrUndefined(variable)) {
+          toDelete.push(index);
+        }
+      }
+    });
+    toDelete.reverse();
+    toDelete.forEach( index => {
+      this.variables.splice(index, 1);
+    });
+    this.variables = this.variables.concat(newOutcomes);
+  }
+
+  get repeatedMeasures(): Array<RepeatedMeasure> {
+    const outcomes = new Array<RepeatedMeasure>();
+    this.variables.forEach( variable => {
+      if (variable instanceof RepeatedMeasure) {
+        outcomes.push(variable);
+      }
+    });
+    return outcomes;
+  }
+
+  updateRepeatedMeasures(newRepeatedMeasures: Array<RepeatedMeasure>) {
+    const toDelete = [];
+    this.variables.forEach(variable => {
+      if (variable instanceof RepeatedMeasure || isNullOrUndefined(variable)) {
+        const index = this.variables.indexOf(variable);
+        if (index !== -1 || isNullOrUndefined(variable)) {
+          toDelete.push(index);
+        }
+      }
+    });
+    toDelete.reverse();
+    toDelete.forEach( index => {
+      this.variables.splice(index, 1);
+    });
+    this.variables = this.variables.concat(newRepeatedMeasures);
+  }
+
+  get cluster(): Cluster {
+    let cluster = null;
+    this.variables.forEach( variable => {
+      if (variable instanceof Cluster) {
+        cluster = variable;
+      }
+    });
+    return cluster;
+  }
+
+  updateCluster(newCluster: Cluster) {
+    const toDelete = [];
+    this.variables.forEach(variable => {
+      if (variable instanceof Cluster || isNullOrUndefined(variable)) {
+        const index = this.variables.indexOf(variable);
+        if (index !== -1 || isNullOrUndefined(variable)) {
+          toDelete.push(index);
+        }
+      }
+    });
+    toDelete.reverse();
+    toDelete.forEach( index => {
+      this.variables.splice(index, 1);
+    });
+    this.variables = this.variables.concat([newCluster]);
+  }
+
+  get predictors(): Array<Predictor> {
+    const predictors = new Array<Predictor>();
+    this.variables.forEach( variable => {
+      if (variable instanceof Predictor) {
+        predictors.push(variable);
+      }
+    });
+    return predictors;
+  }
+
+  updatePredictors(newPredictors: Array<Predictor>) {
+    const toDelete = [];
+    this.variables.forEach(variable => {
+      if (variable instanceof Predictor || isNullOrUndefined(variable)) {
+        const index = this.variables.indexOf(variable);
+        if (index !== -1 || isNullOrUndefined(variable)) {
+          toDelete.push(index);
+        }
+      }
+    });
+    toDelete.reverse();
+    toDelete.forEach( index => {
+      this.variables.splice(index, 1);
+    });
+    this.variables = this.variables.concat(newPredictors);
+  }
+
   generateCombinations() {
     this.combinations = new Map();
-    this.predictors = this.assignChildren(this.predictors);
-    const combinationList = this.predictors[0].mapCombinations();
+    let predictors = this.predictors;
+    predictors = this.assignChildren(predictors);
+    const combinationList = predictors[0].mapCombinations();
     combinationList.forEach( combination => {
       this.combinations.set(combination.id, combination);
-    });
-    this.predictors.forEach( predictor => {
-      predictor.child = null;
     });
   }
 

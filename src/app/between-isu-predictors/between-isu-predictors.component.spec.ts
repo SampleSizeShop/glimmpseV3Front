@@ -62,10 +62,10 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   it('Should not the add BetweenIsuPredictor Button if we have reached the predictors limit', () => {
     component.editing = false;
-    component.betweenIsuFactors = new ISUFactors();
+    component.betweenIsuPredictors = new Array<Predictor>();
     component.setStage(-1);
     for ( let i = 0; i < component.maxPredictors; i++ ) {
-      component.betweenIsuFactors.predictors.push(new Predictor());
+      component.betweenIsuPredictors.push(new Predictor());
     }
     fixture.detectChanges();
     const btn: DebugElement = fixture.debugElement.query(By.css('#addbetweenbtn'));
@@ -78,7 +78,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   it('Should show the predictorForm when we click the add BetweenIsuPredictor.', () => {
     component.editing = false;
     component.setStage(-1);
-    component.includeBetweenIsuFactors();
+    component.includePredictors();
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#predictorForm'));
     const el = desc.nativeElement;
@@ -88,7 +88,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   it('Should show the groupsForm when we click the next after adding a predictor name', () => {
     component.editing = false;
     component.setStage(-1);
-    component.includeBetweenIsuFactors();
+    component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
     component.internallyNavigate('NEXT');
     fixture.detectChanges();
@@ -100,7 +100,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   it('Should add a group when we click add group', () => {
     component.editing = false;
     component.setStage(-1);
-    component.includeBetweenIsuFactors();
+    component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
     component.internallyNavigate('NEXT');
     component.groupsForm.get('group').setValue('a1');
@@ -112,7 +112,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   it('Should add a group when we click add group', () => {
     component.editing = false;
     component.setStage(-1);
-    component.includeBetweenIsuFactors();
+    component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
     component.internallyNavigate('NEXT');
     component.groupsForm.get('group').setValue('a1');
@@ -126,7 +126,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     ' once we have added groups and clicked next', () => {
     component.editing = false;
     component.setStage(-1);
-    component.includeBetweenIsuFactors();
+    component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
     component.internallyNavigate('NEXT');
     component.groupsForm.get('group').setValue('a1');
@@ -136,7 +136,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     fixture.detectChanges();
     component.internallyNavigate('NEXT');
     fixture.detectChanges();
-    expect(component.betweenIsuFactors.predictors.length).toEqual(1);
+    expect(component.betweenIsuPredictors.length).toEqual(1);
     const desc: DebugElement = fixture.debugElement.query(By.css('#addbetweenbtn'));
     const el = desc.nativeElement;
     expect(el).toBeTruthy();
@@ -145,7 +145,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   it('Should remove a BetweenIsuPredictor when we click the remove button', () => {
     component.editing = false;
     component.setStage(-1);
-    component.includeBetweenIsuFactors();
+    component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
     component.internallyNavigate('NEXT');
     component.groupsForm.get('group').setValue('a1');
@@ -155,14 +155,14 @@ describe('BetweenIsuPredictorsComponent', () => {
     fixture.detectChanges();
     component.internallyNavigate('NEXT');
     fixture.detectChanges();
-    component.removePredictor(component.betweenIsuFactors.predictors[0]);
-    expect(component.betweenIsuFactors.predictors.length).toEqual(0);
+    component.removePredictor(component.betweenIsuPredictors[0]);
+    expect(component.betweenIsuPredictors.length).toEqual(0);
   });
 
   it('Should allow us to edit a BetweenIsuPredictor when we click the edit button', () => {
     component.editing = false;
     component.setStage(-1);
-    component.includeBetweenIsuFactors();
+    component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
     component.internallyNavigate('NEXT');
     component.groupsForm.get('group').setValue('a1');
@@ -171,10 +171,10 @@ describe('BetweenIsuPredictorsComponent', () => {
     component.addGroup();
     fixture.detectChanges();
     component.internallyNavigate('NEXT');
-    const predictor = component.betweenIsuFactors.predictors[0];
+    const predictor = component.betweenIsuPredictors[0];
     component.editPredictor(predictor);
     fixture.detectChanges();
-    expect(component.betweenIsuFactors.predictors.length).toEqual(0);
+    expect(component.betweenIsuPredictors.length).toEqual(0);
     expect(component.groups.length).toEqual(predictor.groups.length)
     expect(component.predictorForm.value.predictorName).toEqual(predictor.name);
   });

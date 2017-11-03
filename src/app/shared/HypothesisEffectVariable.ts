@@ -6,6 +6,7 @@ export class HypothesisEffectVariable {
   nature: string;
   valueNames: string[] = [];
   _child: HypothesisEffectVariable;
+  inHypothesis: boolean;
 
   constructor(name?: string, nature?: string, origin?: string) {
     if (name) {
@@ -17,6 +18,7 @@ export class HypothesisEffectVariable {
     if (origin) {
       this.origin = origin;
     }
+    this.inHypothesis = false;
   }
 
   mapCombinations() {

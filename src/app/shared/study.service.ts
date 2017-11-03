@@ -7,11 +7,12 @@ import {Observable} from 'rxjs/Observable';
 import {constants} from './constants';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
-import {ISUFactors} from './ISUFactors';
 import {GaussianCovariate} from './GaussianCovariate';
-import {HypothesisEffect} from "./HypothesisEffect";
-import {HypothesisEffectVariable} from "./HypothesisEffectVariable";
-import {Outcome} from "./Outcome";
+import {HypothesisEffect} from './HypothesisEffect';
+import {HypothesisEffectVariable} from './HypothesisEffectVariable';
+import {Outcome} from './Outcome';
+import {Predictor} from './Predictor';
+import {ISUFactors} from "./ISUFactors";
 
 @Injectable()
 export class StudyService {
@@ -52,8 +53,11 @@ export class StudyService {
   private _withinIsuClusterSource = new BehaviorSubject<Cluster>(null);
   private _withinIsuCluster$ = this._withinIsuClusterSource.asObservable();
 
-  private _betweenIsuFactorsSource = new BehaviorSubject<ISUFactors>(new ISUFactors());
-  private _betweenIsuFactors$ = this._betweenIsuFactorsSource.asObservable();
+  private _betweenIsuPredictorSource = new BehaviorSubject<Array<Predictor>>([]);
+  private _betweenIsuPredictors$ = this._betweenIsuPredictorSource.asObservable();
+
+  private _isuFactorsSource = new BehaviorSubject<ISUFactors>(null);
+  private _isuFactors$ = this._isuFactorsSource.asObservable();
 
   private _gaussianCovariateSource = new BehaviorSubject<GaussianCovariate>(null);
   private _gaussianCovariate$ = this._gaussianCovariateSource.asObservable();
@@ -115,8 +119,12 @@ export class StudyService {
     this._withinIsuClusterSource.next(cluster);
   }
 
-  updateBetweenIsuFactors(betweenIsuFactors: ISUFactors) {
-    this._betweenIsuFactorsSource.next(betweenIsuFactors);
+  updateBetweenIsuPredictors(betweenIsuPredictors: Array<Predictor>) {
+    this._betweenIsuPredictorSource.next(betweenIsuPredictors);
+  }
+
+  updateIsuFactors(isuFactors: ISUFactors) {
+    this._isuFactorsSource.next(isuFactors);
   }
 
   updateGaussianCovariate(gaussianCovariate: GaussianCovariate) {
@@ -286,12 +294,20 @@ export class StudyService {
     this._withinIsuCluster$ = value;
   }
 
-  get betweenIsuFactors$(): Observable<ISUFactors> {
-    return this._betweenIsuFactors$;
+  get betweenIsuPredictors$(): Observable<Array<Predictor>> {
+    return this._betweenIsuPredictors$;
   }
 
-  set betweenIsuFactors$(value: Observable<ISUFactors>) {
-    this._betweenIsuFactors$ = value;
+  set betweenIsuPredictors$(value: Observable<Array<Predictor>>) {
+    this._betweenIsuPredictors$ = value;
+  }
+
+  get isuFactors$(): Observable<ISUFactors> {
+    return this._isuFactors$;
+  }
+
+  set isuFactors$(value: Observable<ISUFactors>) {
+    this._isuFactors$ = value;
   }
 
   get gaussianCovariate$(): Observable<GaussianCovariate> {

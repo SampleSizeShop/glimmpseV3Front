@@ -14,7 +14,7 @@ export class StudyDesign {
   private _ciwidth: number;
   private _selectedTests: string[];
   private _typeOneErrorRate: number;
-  private _betweenIsuFactors: ISUFactors;
+  private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
   private _betweenHypothesisNature: string;
   private _withinHypothesisNature: string;
@@ -30,14 +30,14 @@ export class StudyDesign {
               ciwidth?: number,
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
-              betweenIsuFactors?: ISUFactors,
+              isuFactors?: ISUFactors,
               gaussianCovariates?: GaussianCovariate,
               betweenHypothesisNature?: string,
               withinHypothesisNature?: string,
               hypothesisEffect?: HypothesisEffect,
               scaleFactor?: number,
 ) {
-    this.betweenIsuFactors = new ISUFactors();
+    this.isuFactors = new ISUFactors();
   }
 
   checkDependencies() {
@@ -74,22 +74,22 @@ export class StudyDesign {
   get variables() {
     // TODO: get rid of this.
     const variables = [];
-    this.betweenIsuFactors.outcomes.forEach( outcome => {
+    this.isuFactors.outcomes.forEach(outcome => {
       const variable = new HypothesisEffectVariable(
         outcome.name,
         outcome.nature,
         outcome.origin);
       variables.push(variable);
     });
-    this.betweenIsuFactors.repeatedMeasures.forEach( repeatedMeasure => {
+    this.isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
       const variable = new HypothesisEffectVariable(
         repeatedMeasure.dimension,
         constants.HYPOTHESIS_NATURE.WITHIN,
         constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE);
       variables.push(variable);
     });
-    if (!isNullOrUndefined(this.betweenIsuFactors) && !isNullOrUndefined(this.betweenIsuFactors.predictors)) {
-      this.betweenIsuFactors.predictors.forEach( predictor => {
+    if (!isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this.isuFactors.predictors)) {
+      this.isuFactors.predictors.forEach(predictor => {
         const variable = new HypothesisEffectVariable(
           predictor.name,
           constants.HYPOTHESIS_NATURE.BETWEEN,
@@ -164,12 +164,12 @@ export class StudyDesign {
     this._typeOneErrorRate = value;
   }
 
-  get betweenIsuFactors(): ISUFactors {
-    return this._betweenIsuFactors;
+  get isuFactors(): ISUFactors {
+    return this._isuFactors;
   }
 
-  set betweenIsuFactors(value: ISUFactors) {
-    this._betweenIsuFactors = value;
+  set isuFactors(value: ISUFactors) {
+    this._isuFactors = value;
   }
 
   get gaussianCovariate(): GaussianCovariate {

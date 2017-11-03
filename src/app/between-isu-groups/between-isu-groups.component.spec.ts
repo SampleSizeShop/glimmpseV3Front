@@ -35,21 +35,21 @@ describe('BetweenIsuGroupsComponent', () => {
 
   it('Should show the group size form if we are solving for power and have predictors', () => {
     component.solveFor = 'POWER';
-    component.betweenIsuFactors = new ISUFactors();
-    component.betweenIsuFactors.predictors.push(new Predictor());
+    component.isuFactors = new ISUFactors();
+    component.isuFactors.predictors.push(new Predictor());
     fixture.detectChanges();
-    expect(component.betweenIsuFactors.predictors.length).toEqual(1);
+    expect(component.isuFactors.predictors.length).toEqual(1);
     const desc: DebugElement = fixture.debugElement.query(By.css('#groupSizeForm'));
     const el = desc.nativeElement;
     expect(el).toBeTruthy();
   });
 
   it('Should show the relative group size form if we are solving for power and we have defined all of our predictors', () => {
-    component.betweenIsuFactors = new ISUFactors();
+    component.isuFactors = new ISUFactors();
     component.solveFor = 'SAMPLESIZE';
-    component.betweenIsuFactors.predictors.push(new Predictor());
+    component.isuFactors.predictors.push(new Predictor());
     fixture.detectChanges();
-    expect(component.betweenIsuFactors.predictors.length).toEqual(1);
+    expect(component.isuFactors.predictors.length).toEqual(1);
     const desc: DebugElement = fixture.debugElement.query(By.css('#relativeGroupSizeForm'));
     const el = desc.nativeElement;
     expect(el).toBeTruthy();
@@ -57,24 +57,24 @@ describe('BetweenIsuGroupsComponent', () => {
 
   it('Should update the smallest group size', () => {
     component.solveFor = 'POWER';
-    component.betweenIsuFactors = new ISUFactors();
-    component.betweenIsuFactors.predictors.push(new Predictor());
+    component.isuFactors = new ISUFactors();
+    component.isuFactors.predictors.push(new Predictor());
     component.groupSizeForm.get('smallestGroupSize').setValue('2');
     fixture.detectChanges();
-    expect(component.betweenIsuFactors.smallestGroupSize).toEqual('2');
+    expect(component.isuFactors.smallestGroupSize).toEqual('2');
   });
 
   it('Should update the relative group size form.', () => {
-    component.betweenIsuFactors = new ISUFactors();
+    component.isuFactors = new ISUFactors();
     component.solveFor = 'SAMPLESIZE';
     const predictor = new Predictor();
     predictor.name = 'A';
     predictor.groups = ['a1', 'a2'];
-    component.betweenIsuFactors.predictors.push(predictor);
-    component.betweenIsuFactors.generateCombinations();
+    component.isuFactors.predictors.push(predictor);
+    component.isuFactors.generateCombinations();
     component.updateGroupsizeFormControls();
     component.relativeGroupSizeForm.get('a1').setValue('2')
     fixture.detectChanges();
-    expect(component.betweenIsuFactors.combinations.size).toEqual(2);
+    expect(component.isuFactors.combinations.size).toEqual(2);
   });
 });

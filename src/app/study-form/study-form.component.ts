@@ -32,7 +32,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _withinIsuOutcomeSubscription: Subscription;
   private _withinIsuRepeatedMeasuresSubscription: Subscription;
   private _withinIsuClusterSubscription: Subscription;
-  private _betweenIsuFactorsSubscription: Subscription;
+  private _betweenIsuPredictorsSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
   private _betweenHypothesisNatureSubscription: Subscription;
   private _withinHypothesisNatureSubscription: Subscription;
@@ -64,8 +64,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       const current = this.getStage();
       if ( current < this._noStages &&  this.valid ) {
         if (current === 9
-          && (isNullOrUndefined(this.study.betweenIsuFactors)
-          || this.study.betweenIsuFactors.predictors.length === 0)) {
+          && (isNullOrUndefined(this.study.isuFactors)
+          || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(11)
         } else {
           this.setStage( current + 1 );
@@ -87,8 +87,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       const current = this.getStage();
       if (current > 1 && this.guided) {
         if (current === 11
-          && (isNullOrUndefined(this.study.betweenIsuFactors)
-          || this.study.betweenIsuFactors.predictors.length === 0)) {
+          && (isNullOrUndefined(this.study.isuFactors)
+          || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(9)
         } else {
           this.setStage(current - 1);
@@ -329,12 +329,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._withinIsuClusterSubscription = value;
   }
 
-  get betweenIsuFactorsSubscription(): Subscription {
-    return this._betweenIsuFactorsSubscription;
+  get betweenIsuPredictorsSubscription(): Subscription {
+    return this._betweenIsuPredictorsSubscription;
   }
 
-  set betweenIsuFactorsSubscription(value: Subscription) {
-    this._betweenIsuFactorsSubscription = value;
+  set betweenIsuPredictorsSubscription(value: Subscription) {
+    this._betweenIsuPredictorsSubscription = value;
   }
 
   get gaussianCovariateSubscription(): Subscription {
@@ -423,27 +423,27 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
     this.withinIsuOutcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
       outcomes => {
-        this.study.betweenIsuFactors.outcomes = outcomes;
+        this.study.isuFactors.updateOutcomes(outcomes);
         this.study.checkDependencies();
       }
     );
 
     this.withinIsuRepeatedMeasuresSubscription = this.study_service.withinIsuRepeatedMeasures$.subscribe(
       measures => {
-        this.study.betweenIsuFactors.repeatedMeasures = measures;
+        this.study.isuFactors.updateRepeatedMeasures(measures);
         this.study.checkDependencies();
       }
     );
 
     this.withinIsuClusterSubscription = this.study_service.withinIsuCluster$.subscribe(
       cluster => {
-        this.study.betweenIsuFactors.cluster = cluster;
+        this.study.isuFactors.updateCluster(cluster);
       }
     );
 
-    this.betweenIsuFactorsSubscription = this.study_service.betweenIsuFactors$.subscribe(
-      betweenIsuFactors => {
-        this.study.betweenIsuFactors = betweenIsuFactors;
+    this.betweenIsuPredictorsSubscription = this.study_service.betweenIsuPredictors$.subscribe(
+      predictors => {
+        this.study.isuFactors.updatePredictors(predictors);
         this.study.checkDependencies();
       }
     );
@@ -485,7 +485,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.withinIsuOutcomeSubscription.unsubscribe();
     this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
     this.withinIsuClusterSubscription.unsubscribe();
-    this.betweenIsuFactorsSubscription.unsubscribe();
+    this.betweenIsuPredictorsSubscription.unsubscribe();
     this.gaussianCovariateSubscription.unsubscribe();
     this.betweenHypothesisNatureSubscription.unsubscribe();
     this.withinHypothesisNatureSubscription.unsubscribe();
