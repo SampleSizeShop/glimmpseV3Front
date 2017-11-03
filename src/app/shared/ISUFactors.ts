@@ -6,7 +6,7 @@ import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
 import {constants} from './constants';
 import {ISUFactor} from './ISUFactor';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
@@ -140,8 +140,8 @@ export class ISUFactors {
     this.variables = this.variables.concat(newPredictors);
   }
 
-  generateCombinations(factorList: Array<ISUFactor>): Map<FactorCombinationId, Array<ISUFactorCombination>> {
-    const combinations = new Map<FactorCombinationId, Array<ISUFactorCombination>>();
+  generateCombinations(factorList: Array<ISUFactor>): Map<FactorCombinationId, ISUFactorCombination> {
+    const combinations = new Map<FactorCombinationId, ISUFactorCombination>();
     let factors = new Array<ISUFactor>();
     factors = factors.concat(factorList);
     factors = this.assignChildren(factors);
