@@ -103,7 +103,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       this._isuFactors.predictors.forEach(value => {
         if (value.name === name) {
           const marginalMatrix = new CMatrix(constants.C_MATRIX_TYPE.AVERAGE);
-          marginalMatrix.poopulateAverageMatrix(value.groups.length);
+          marginalMatrix.poopulateAverageMatrix(value.valueNames.length);
           marginalMatrices.push(marginalMatrix);
           marginalMatrix.name = name;
           this.marginalsOut.push(marginalMatrix);
@@ -116,7 +116,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     betweenFactorsInHypothesis.forEach(name => {
       this._isuFactors.predictors.forEach(value => {
         if (value.name === name) {
-          const marginalMatrix = this.getMarginalCMatrix(value.groups.length);
+          const marginalMatrix = this.getMarginalCMatrix(value.valueNames.length);
           marginalMatrices.push(marginalMatrix);
           marginalMatrix.name = name;
           this.marginalsIn.push(marginalMatrix);

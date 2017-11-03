@@ -1,8 +1,8 @@
-export class BetweenIsuCombination {
-  id: GroupId[] = [];
+export class ISUFactorCombination {
+  id: FactorCombinationId[] = [];
   size: number;
 
-  constructor( id?: GroupId[], size?: number) {
+  constructor(id?: FactorCombinationId[], size?: number) {
     if (id) { this.id = id; }
     if (size) { this.size = size; }
   }
@@ -16,7 +16,7 @@ export class BetweenIsuCombination {
   }
 }
 
-export class GroupId {
+export class FactorCombinationId {
   predictor: string;
   name: string;
 

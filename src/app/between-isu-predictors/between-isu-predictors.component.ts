@@ -123,7 +123,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     }
     if ( predictor ) {
       this.predictorForm.get('predictorName').setValue(predictor.name)
-      this.groups = predictor.groups;
+      this.groups = predictor.valueNames;
       if ( this.predictorForm.status === 'VALID' ) {
         this.navigation_service.updateValid( true );
       }
@@ -141,7 +141,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   addPredictor() {
     const predictor = new Predictor();
     predictor.name = this.predictorForm.value.predictorName;
-    predictor.groups = this.groups;
+    predictor.valueNames = this.groups;
 
     this.betweenIsuPredictors.push(predictor);
     // TODO: make sure line below still happens, but I don't think it belongs here anymore

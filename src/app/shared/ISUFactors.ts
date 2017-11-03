@@ -1,6 +1,6 @@
 import {Predictor} from './Predictor';
-import {BetweenIsuCombination} from './BetweenIsuCombination';
-import {BetweenIsuCombinationTable} from './BetweenIsuCombinationTable';
+import {ISUFactorCombination} from './ISUFactorCombination';
+import {ISUFactorCombinationTable} from './ISUFactorCombinationTable';
 import {Outcome} from './Outcome';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
@@ -142,9 +142,10 @@ export class ISUFactors {
 
   generateCombinations() {
     this.combinations = new Map();
-    let predictors = this.predictors;
-    predictors = this.assignChildren(predictors);
-    const combinationList = predictors[0].mapCombinations();
+    let factors = new Array<ISUFactor>();
+    factors = factors.concat(this.predictors);
+    factors = this.assignChildren(factors);
+    const combinationList = factors[0].mapCombinations();
     combinationList.forEach( combination => {
       this.combinations.set(combination.id, combination);
     });
@@ -179,7 +180,7 @@ export class ISUFactors {
       });
 
       subGroups.forEach(subGroup => {
-        const table = new BetweenIsuCombinationTable(subGroup[1], tableDimensions, subGroup[0].id);
+        const table = new ISUFactorCombinationTable(subGroup[1], tableDimensions, subGroup[0].id);
         tables.push(table);
       });
     } else {
@@ -187,14 +188,14 @@ export class ISUFactors {
       this.combinations.forEach( combination => {
         combinations.push( combination );
       } );
-      const table = new BetweenIsuCombinationTable(combinations, tableDimensions, []);
+      const table = new ISUFactorCombinationTable(combinations, tableDimensions, []);
       tables.push(table);
     }
 
     return tables;
   }
 
-  isElementinSubGroup(combination: BetweenIsuCombination, subGroup: BetweenIsuCombination) {
+  isElementinSubGroup(combination: ISUFactorCombination, subGroup: ISUFactorCombination) {
     let include = true;
     combination.id.forEach(value => {
       subGroup.id.forEach( element => {
@@ -206,7 +207,7 @@ export class ISUFactors {
     return include;
   }
 
-  getSubGroupCombinations(names: string[]): BetweenIsuCombination[] {
+  getSubGroupCombinations(names: string[]): ISUFactorCombination[] {
     let groups = [];
     names.forEach( name => {
       this.predictors.forEach( predictor => {
@@ -223,21 +224,21 @@ export class ISUFactors {
     return subgroups;
   }
 
-  assignChildren(predictorList: Predictor[]) {
+  assignChildren(factorList: ISUFactor[]) {
     const predictorsWithChildrenAssigned = [];
-    predictorList.forEach( predictor => {
-      predictor.child = null;
+    factorList.forEach( factor => {
+      factor._child = null;
     })
-    let parent = predictorList.pop();
-    while (predictorList.length > 0) {
-      const child = predictorList.pop();
-      parent.child = child
+    let parent = factorList.pop();
+    while (factorList.length > 0) {
+      const child = factorList.pop();
+      parent._child = child
       predictorsWithChildrenAssigned.push(parent);
       parent = child;
     }
     predictorsWithChildrenAssigned.push(parent);
-    predictorList = predictorsWithChildrenAssigned;
-    return predictorList;
+    factorList = predictorsWithChildrenAssigned;
+    return factorList;
   }
 
   get predictorNames() {

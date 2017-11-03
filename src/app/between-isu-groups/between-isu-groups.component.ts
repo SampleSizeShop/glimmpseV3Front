@@ -2,7 +2,7 @@ import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {BetweenIsuCombinationTable} from '../shared/BetweenIsuCombinationTable';
+import {ISUFactorCombinationTable} from '../shared/ISUFactorCombinationTable';
 import {ISUFactors} from '../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 
@@ -18,7 +18,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   private _relativeGroupSizeForm: FormGroup;
   private _solveFor: string;
 
-  private _tables: BetweenIsuCombinationTable[];
+  private _tables: ISUFactorCombinationTable[];
 
   private _betweenIsuGroupsSubscription: Subscription;
   private _solveForSubscription: Subscription;
@@ -132,11 +132,11 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this._solveFor = value;
   }
 
-  get tables(): BetweenIsuCombinationTable[] {
+  get tables(): ISUFactorCombinationTable[] {
     return this._tables;
   }
 
-  set tables(value: BetweenIsuCombinationTable[]) {
+  set tables(value: ISUFactorCombinationTable[]) {
     this._tables = value;
   }
 

@@ -18,19 +18,19 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   const gender = new Predictor();
   gender.name = 'Gender';
-  gender.groups = ['m', 'f'];
+  gender.valueNames = ['m', 'f'];
 
   const dose = new Predictor();
   dose.name = 'Dose';
-  dose.groups = ['a', 'b', 'c'];
+  dose.valueNames = ['a', 'b', 'c'];
 
   const three = new Predictor();
   three.name = 'Three';
-  three.groups = ['x', 'y', 'z'];
+  three.valueNames = ['x', 'y', 'z'];
 
   const five = new Predictor();
   five.name = 'Five';
-  five.groups = ['1', '2', '3', '4'];
+  five.valueNames = ['1', '2', '3', '4'];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -123,7 +123,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should add a BetweenIsuPredictor to the study design and give the option to add another,' +
-    ' once we have added groups and clicked next', () => {
+    ' once we have added valueNames and clicked next', () => {
     component.editing = false;
     component.setStage(-1);
     component.includePredictors();
@@ -175,11 +175,11 @@ describe('BetweenIsuPredictorsComponent', () => {
     component.editPredictor(predictor);
     fixture.detectChanges();
     expect(component.betweenIsuPredictors.length).toEqual(0);
-    expect(component.groups.length).toEqual(predictor.groups.length)
+    expect(component.groups.length).toEqual(predictor.valueNames.length)
     expect(component.predictorForm.value.predictorName).toEqual(predictor.name);
   });
 
-  it('should assemble the combinations of > 2 betweenISU groups', () => {
+  it('should assemble the combinations of > 2 betweenISU valueNames', () => {
     const x = new ISUFactors();
     x.predictors.push(gender);
     x.predictors.push(dose);
@@ -192,7 +192,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(x.combinations.size).toEqual(72);
   });
 
-  it('should assemble the combinations of 2 betweenISU groups', () => {
+  it('should assemble the combinations of 2 betweenISU valueNames', () => {
     const x = new ISUFactors();
     x.predictors.push(gender);
     x.predictors.push(dose);
@@ -203,7 +203,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(x.combinations.size).toEqual(6);
   });
 
-  it('should assemble the combinations of 1 betweenISU groups', () => {
+  it('should assemble the combinations of 1 betweenISU valueNames', () => {
     const x = new ISUFactors();
     x.predictors.push(gender);
     x.generateCombinations();
@@ -213,7 +213,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(x.combinations.size).toEqual(2);
   });
 
-  it('Should get the correct BetweenIsuCombination from a map', () => {
+  it('Should get the correct ISUFactorCombination from a map', () => {
     const x = new ISUFactors();
     x.predictors.push(gender);
 

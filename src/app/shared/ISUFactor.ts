@@ -1,4 +1,4 @@
-import {MarginalMeansCombination, MarginalMeansCombinationId} from './MarginalMeansCombination';
+import {ISUFactorCombination, FactorCombinationId} from './ISUFactorCombination';
 
 export class ISUFactor {
   name: string;
@@ -22,10 +22,10 @@ export class ISUFactor {
   }
 
   mapCombinations() {
-    // TODO: need to define 'groups' here
+    // TODO: need to define 'valueNames' here
     let combinations = [] ;
     this.valueIds.forEach( value => {
-      combinations.push(new MarginalMeansCombination( [value] , 1));
+      combinations.push(new ISUFactorCombination( [value] , 1));
     });
 
     if (!this._child) {
@@ -42,17 +42,17 @@ export class ISUFactor {
     combinations.forEach( combination => {
         childCombinations.forEach( childCombination => {
           const id = combination.id.concat(childCombination.id);
-          newCombinations.push(new MarginalMeansCombination(id, 1));
+          newCombinations.push(new ISUFactorCombination(id, 1));
         });
       }
     );
     return newCombinations;
   }
 
-  get valueIds(): MarginalMeansCombinationId[] {
-    const  nameValuePairs = [];
+  get valueIds(): FactorCombinationId[] {
+    const nameValuePairs = [];
     for ( const valueName of this.valueNames ) {
-      nameValuePairs.push( new MarginalMeansCombinationId(this.name, valueName));
+      nameValuePairs.push( new FactorCombinationId(this.name, valueName));
     }
     return nameValuePairs;
   }

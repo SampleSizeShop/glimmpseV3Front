@@ -69,7 +69,7 @@ describe('BetweenIsuGroupsComponent', () => {
     component.solveFor = 'SAMPLESIZE';
     const predictor = new Predictor();
     predictor.name = 'A';
-    predictor.groups = ['a1', 'a2'];
+    predictor.valueNames = ['a1', 'a2'];
     component.isuFactors.predictors.push(predictor);
     component.isuFactors.generateCombinations();
     component.updateGroupsizeFormControls();

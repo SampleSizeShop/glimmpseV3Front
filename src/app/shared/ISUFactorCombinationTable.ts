@@ -1,15 +1,15 @@
-import {BetweenIsuCombination, GroupId} from './BetweenIsuCombination';
+import {ISUFactorCombination, FactorCombinationId} from './ISUFactorCombination';
 import {isNullOrUndefined} from 'util';
 
-export class BetweenIsuCombinationTable {
-  private _table: Map<string, BetweenIsuCombination>;
+export class ISUFactorCombinationTable {
+  private _table: Map<string, ISUFactorCombination>;
   private _rows: string[];
   private _cols: string[];
   private _rowDimension: string;
   private _colDimension: string;
-  private _groupIdentifier: GroupId[];
+  private _groupIdentifier: FactorCombinationId[];
 
-  constructor(members: BetweenIsuCombination[], tableDimensions: string[], groupName: GroupId[]) {
+  constructor(members: ISUFactorCombination[], tableDimensions: string[], groupName: FactorCombinationId[]) {
     this.groupIdentifier = groupName
     this.populateTableDimensions(tableDimensions);
     this.populateTableandRowsAndColumns(members);
@@ -20,8 +20,8 @@ export class BetweenIsuCombinationTable {
     this.colDimension = tableDimensions[1];
   }
 
-  populateTableandRowsAndColumns(members: BetweenIsuCombination[]) {
-    this.table = new Map<string, BetweenIsuCombination>();
+  populateTableandRowsAndColumns(members: ISUFactorCombination[]) {
+    this.table = new Map<string, ISUFactorCombination>();
     this.rows = [];
     this.cols = [];
 
@@ -56,8 +56,8 @@ export class BetweenIsuCombinationTable {
 
   getMember(row: string, col: string) {
     const key = new TableKey(
-      new GroupId( this.rowDimension, row ),
-      new GroupId(this.colDimension, col)
+      new FactorCombinationId( this.rowDimension, row ),
+      new FactorCombinationId(this.colDimension, col)
     );
     return this.table.get(key.toString());
   }
@@ -78,11 +78,11 @@ export class BetweenIsuCombinationTable {
     return true;
   }
 
-  get table(): Map<string, BetweenIsuCombination> {
+  get table(): Map<string, ISUFactorCombination> {
     return this._table;
   }
 
-  set table(value: Map<string, BetweenIsuCombination>) {
+  set table(value: Map<string, ISUFactorCombination>) {
     this._table = value;
   }
 
@@ -118,18 +118,18 @@ export class BetweenIsuCombinationTable {
     this._colDimension = value;
   }
 
-  get groupIdentifier(): GroupId[] {
+  get groupIdentifier(): FactorCombinationId[] {
     return this._groupIdentifier;
   }
 
-  set groupIdentifier(value: GroupId[]) {
+  set groupIdentifier(value: FactorCombinationId[]) {
     this._groupIdentifier = value;
   }
 }
 
 class TableKey {
-  row: GroupId;
-  col: GroupId;
+  row: FactorCombinationId;
+  col: FactorCombinationId;
 
   toString() {
     let name = '';
@@ -140,7 +140,7 @@ class TableKey {
     return name;
   }
 
-  constructor(row: GroupId, col: GroupId) {
+  constructor(row: FactorCombinationId, col: FactorCombinationId) {
     this.row = row;
     this.col = col;
   }
