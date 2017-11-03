@@ -4,7 +4,7 @@ import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {ISUFactorCombinationTable} from '../shared/ISUFactorCombinationTable';
 import {ISUFactors} from '../shared/ISUFactors';
-import {isNullOrUndefined} from 'util';
+import {isNull, isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -77,12 +77,15 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     }
 }
   updateGroupsizeFormControls() {
-    if (isNullOrUndefined(this.isuFactors)) {
+    if (isNullOrUndefined(this.isuFactors) || isNullOrUndefined(this.isuFactors.predictors)) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
       this.isuFactors.betweenIsuRelativeGroupSizes = this.isuFactors.generateCombinations(this.isuFactors.predictors);
       this.study_service.updateIsuFactors(this.isuFactors);
-      this.tables = this.isuFactors.groupCombinations();
+
+      this.tables = this.isuFactors.groupCombinations(
+        this.isuFactors.betweenIsuRelativeGroupSizes,
+        this.isuFactors.predictors);
       const controlDefs = {};
       this.tables.forEach(table => {
         const names = table.table.keys();

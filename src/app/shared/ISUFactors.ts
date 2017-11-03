@@ -152,18 +152,17 @@ export class ISUFactors {
     return combinations
   }
 
-  groupCombinations() {
-    const names = this.predictorNames;
+  groupCombinations(combinationMap: Map<FactorCombinationId, ISUFactorCombination>, factors: Array<ISUFactor>) {
+    const names = [];
     const tableDimensions = [];
-    if ( !this.predictors ) {
-      // TODO: log error and navigate to some sort of error page???
-      return null;
-    }
 
+    factors.forEach( predictor => {
+      names.push(predictor.name);
+    });
     if ( names.length > 0 ) { tableDimensions.push(names.pop()); }
     if ( names.length > 0 ) { tableDimensions.push(names.pop()); }
 
-    const subGroupCombinations = this.getSubGroupCombinations(names);
+    const subGroupCombinations = this.getSubGroupCombinations(names, factors);
     const subGroups = [];
     const tables = [];
 
@@ -171,7 +170,7 @@ export class ISUFactors {
       subGroupCombinations.forEach(subGroup => {
         const group = [];
 
-        this.betweenIsuRelativeGroupSizes.forEach(combination => {
+        combinationMap.forEach(combination => {
           if (this.isElementinSubGroup(combination, subGroup)) {
             group.push(combination);
           }
@@ -186,7 +185,7 @@ export class ISUFactors {
       });
     } else {
       const combinations = [];
-      this.betweenIsuRelativeGroupSizes.forEach(combination => {
+      combinationMap.forEach(combination => {
         combinations.push( combination );
       } );
       const table = new ISUFactorCombinationTable(combinations, tableDimensions, []);
@@ -208,10 +207,10 @@ export class ISUFactors {
     return include;
   }
 
-  getSubGroupCombinations(names: string[]): ISUFactorCombination[] {
+  getSubGroupCombinations(names: string[], factors: Array<ISUFactor>): ISUFactorCombination[] {
     let groups = [];
     names.forEach( name => {
-      this.predictors.forEach( predictor => {
+      factors.forEach( predictor => {
         if (predictor.name === name) {
           groups.push(predictor);
         }
@@ -240,13 +239,5 @@ export class ISUFactors {
     predictorsWithChildrenAssigned.push(parent);
     factorList = predictorsWithChildrenAssigned;
     return factorList;
-  }
-
-  get predictorNames() {
-    const names = [];
-    this.predictors.forEach( predictor => {
-      names.push(predictor.name);
-    });
-    return names;
   }
 }
