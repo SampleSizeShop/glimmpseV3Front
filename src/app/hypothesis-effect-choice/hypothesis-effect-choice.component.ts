@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {HypothesisEffectVariable} from '../shared/HypothesisEffectVariable';
+import {IsuFactor} from '../shared/HypothesisEffectVariable';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
 import {Subscription} from 'rxjs/Subscription';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
@@ -110,7 +110,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     return effectInList;
   }
 
-  removeExistingVariables(effect: HypothesisEffect, variables: HypothesisEffectVariable[]) {
+  removeExistingVariables(effect: HypothesisEffect, variables: IsuFactor[]) {
     effect.variables.forEach( val => {
       const index = variables.indexOf(val);
       if (index !== -1) {

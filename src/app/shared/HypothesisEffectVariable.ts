@@ -1,11 +1,11 @@
 import {MarginalMeansCombination, MarginalMeansCombinationId} from './MarginalMeansCombination';
 
-export class HypothesisEffectVariable {
+export class IsuFactor {
   name: string;
   origin: string;
   nature: string;
   valueNames: string[] = [];
-  _child: HypothesisEffectVariable;
+  _child: IsuFactor;
   inHypothesis: boolean;
 
   constructor(name?: string, nature?: string, origin?: string) {
@@ -57,7 +57,7 @@ export class HypothesisEffectVariable {
     return nameValuePairs;
   }
 
-  compare(variable: HypothesisEffectVariable) {
+  compare(variable: IsuFactor) {
     if (variable.nature === this.nature && variable.name === this.name) {
       return true;
     }

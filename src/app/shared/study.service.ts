@@ -9,7 +9,7 @@ import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
 import {GaussianCovariate} from './GaussianCovariate';
 import {HypothesisEffect} from './HypothesisEffect';
-import {HypothesisEffectVariable} from './HypothesisEffectVariable';
+import {IsuFactor} from './HypothesisEffectVariable';
 import {Outcome} from './Outcome';
 import {Predictor} from './Predictor';
 import {ISUFactors} from "./ISUFactors";
@@ -62,7 +62,7 @@ export class StudyService {
   private _gaussianCovariateSource = new BehaviorSubject<GaussianCovariate>(null);
   private _gaussianCovariate$ = this._gaussianCovariateSource.asObservable();
 
-  private _hypothesisEffectVariablesSource = new BehaviorSubject<Array<HypothesisEffectVariable>>(null);
+  private _hypothesisEffectVariablesSource = new BehaviorSubject<Array<IsuFactor>>(null);
   private _hypothesisEffectVariables$ = this._hypothesisEffectVariablesSource.asObservable();
 
   private _betweenHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS);
@@ -131,7 +131,7 @@ export class StudyService {
     this._gaussianCovariateSource.next(gaussianCovariate);
   }
 
-  updateHypothesisEffectVariables(variables: Array<HypothesisEffectVariable>) {
+  updateHypothesisEffectVariables(variables: Array<IsuFactor>) {
     this._hypothesisEffectVariablesSource.next(variables);
   }
 
