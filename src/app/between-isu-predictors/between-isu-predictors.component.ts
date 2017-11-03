@@ -145,7 +145,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
     this.betweenIsuPredictors.push(predictor);
     // TODO: make sure line below still happens, but I don't think it belongs here anymore
-    // this.betweenIsuPredictors.combinations = null;
+    // this.betweenIsuPredictors.betweenIsuRelativeGroupSizes = null;
     this.editing = false;
   }
 
@@ -154,7 +154,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     if (index > -1) {
       this.betweenIsuPredictors.splice(index, 1);
       // TODO: make sure line below still happens, but I don't think it belongs here anymore
-      // this.betweenIsuPredictors.combinations = null;
+      // this.betweenIsuPredictors.betweenIsuRelativeGroupSizes = null;
     }
   }
 
@@ -165,7 +165,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     });
     this.includePredictors(predictor);
     // TODO: make sure line below still happens, but I don't think it belongs here anymore
-    // this.betweenIsuPredictors.combinations = null;
+    // this.betweenIsuPredictors.betweenIsuRelativeGroupSizes = null;
   }
 
   getStageStatus(stage: number): string {

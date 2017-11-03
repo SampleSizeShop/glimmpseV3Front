@@ -179,38 +179,38 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(component.predictorForm.value.predictorName).toEqual(predictor.name);
   });
 
-  it('should assemble the combinations of > 2 betweenISU valueNames', () => {
+  it('should assemble the betweenIsuRelativeGroupSizes of > 2 betweenISU valueNames', () => {
     const x = new ISUFactors();
     x.predictors.push(gender);
     x.predictors.push(dose);
     x.predictors.push(three);
     x.predictors.push(five);
     x.generateCombinations();
-    x.combinations.forEach( combination => {
+    x.betweenIsuRelativeGroupSizes.forEach(combination => {
       expect(combination.id.length).toEqual(x.predictors.length);
     });
-    expect(x.combinations.size).toEqual(72);
+    expect(x.betweenIsuRelativeGroupSizes.size).toEqual(72);
   });
 
-  it('should assemble the combinations of 2 betweenISU valueNames', () => {
+  it('should assemble the betweenIsuRelativeGroupSizes of 2 betweenISU valueNames', () => {
     const x = new ISUFactors();
     x.predictors.push(gender);
     x.predictors.push(dose);
     x.generateCombinations();
-    x.combinations.forEach( combination => {
+    x.betweenIsuRelativeGroupSizes.forEach(combination => {
       expect(combination.id.length).toEqual(x.predictors.length);
     });
-    expect(x.combinations.size).toEqual(6);
+    expect(x.betweenIsuRelativeGroupSizes.size).toEqual(6);
   });
 
-  it('should assemble the combinations of 1 betweenISU valueNames', () => {
+  it('should assemble the betweenIsuRelativeGroupSizes of 1 betweenISU valueNames', () => {
     const x = new ISUFactors();
     x.predictors.push(gender);
     x.generateCombinations();
-    x.combinations.forEach( combination => {
+    x.betweenIsuRelativeGroupSizes.forEach(combination => {
       expect(combination.id.length).toEqual(x.predictors.length);
     });
-    expect(x.combinations.size).toEqual(2);
+    expect(x.betweenIsuRelativeGroupSizes.size).toEqual(2);
   });
 
   it('Should get the correct ISUFactorCombination from a map', () => {

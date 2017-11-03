@@ -1,5 +1,5 @@
 import {Predictor} from './Predictor';
-import {ISUFactorCombination} from './ISUFactorCombination';
+import {FactorCombinationId, ISUFactorCombination} from './ISUFactorCombination';
 import {ISUFactorCombinationTable} from './ISUFactorCombinationTable';
 import {Outcome} from './Outcome';
 import {RepeatedMeasure} from './RepeatedMeasure';
@@ -10,7 +10,7 @@ import {isNullOrUndefined} from "util";
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
-  combinations = new Map();
+  betweenIsuRelativeGroupSizes = new Map();
   smallestGroupSize: number[] = [];
 
   get hypothesisName(): string {
@@ -140,15 +140,16 @@ export class ISUFactors {
     this.variables = this.variables.concat(newPredictors);
   }
 
-  generateCombinations() {
-    this.combinations = new Map();
+  generateCombinations(factorList: Array<ISUFactor>): Map<FactorCombinationId, Array<ISUFactorCombination>> {
+    const combinations = new Map<FactorCombinationId, Array<ISUFactorCombination>>();
     let factors = new Array<ISUFactor>();
-    factors = factors.concat(this.predictors);
+    factors = factors.concat(factorList);
     factors = this.assignChildren(factors);
     const combinationList = factors[0].mapCombinations();
     combinationList.forEach( combination => {
-      this.combinations.set(combination.id, combination);
+      combinations.set(combination.id, combination);
     });
+    return combinations
   }
 
   groupCombinations() {
@@ -170,7 +171,7 @@ export class ISUFactors {
       subGroupCombinations.forEach(subGroup => {
         const group = [];
 
-        this.combinations.forEach(combination => {
+        this.betweenIsuRelativeGroupSizes.forEach(combination => {
           if (this.isElementinSubGroup(combination, subGroup)) {
             group.push(combination);
           }
@@ -185,7 +186,7 @@ export class ISUFactors {
       });
     } else {
       const combinations = [];
-      this.combinations.forEach( combination => {
+      this.betweenIsuRelativeGroupSizes.forEach(combination => {
         combinations.push( combination );
       } );
       const table = new ISUFactorCombinationTable(combinations, tableDimensions, []);

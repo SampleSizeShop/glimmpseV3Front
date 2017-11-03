@@ -70,7 +70,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   updateCombinations() {
     if ( this.isuFactors ) {
-      this.isuFactors.combinations.forEach(combination => {
+      this.isuFactors.betweenIsuRelativeGroupSizes.forEach(combination => {
         const value = this.relativeGroupSizeForm.get(combination.name).value;
         combination.size = value;
       });
@@ -80,7 +80,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     if (isNullOrUndefined(this.isuFactors)) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
-      this.isuFactors.generateCombinations();
+      this.isuFactors.betweenIsuRelativeGroupSizes = this.isuFactors.generateCombinations(this.isuFactors.predictors);
       this.study_service.updateIsuFactors(this.isuFactors);
       this.tables = this.isuFactors.groupCombinations();
       const controlDefs = {};

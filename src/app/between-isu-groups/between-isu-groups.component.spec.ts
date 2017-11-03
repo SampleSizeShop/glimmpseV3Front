@@ -75,6 +75,6 @@ describe('BetweenIsuGroupsComponent', () => {
     component.updateGroupsizeFormControls();
     component.relativeGroupSizeForm.get('a1').setValue('2')
     fixture.detectChanges();
-    expect(component.isuFactors.combinations.size).toEqual(2);
+    expect(component.isuFactors.betweenIsuRelativeGroupSizes.size).toEqual(2);
   });
 });
