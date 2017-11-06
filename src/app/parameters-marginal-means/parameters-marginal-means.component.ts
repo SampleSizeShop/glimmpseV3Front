@@ -20,7 +20,7 @@ export class ParametersMarginalMeansComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._selected.generateCombinations();
+    // this._selected.generateCombinations();
   }
 
   get selected(): HypothesisEffect {

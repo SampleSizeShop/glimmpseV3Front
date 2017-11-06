@@ -24,7 +24,7 @@ import {HypothesisBetweenComponent} from '../hypothesis-between/hypothesis-betwe
 import {HypothesisWithinComponent} from '../hypothesis-within/hypothesis-within.component';
 import {ParametersMarginalMeansComponent} from '../parameters-marginal-means/parameters-marginal-means.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {ParametersScaleFactorComponent} from "../parameters-scale-factor/parameters-scale-factor.component";
+import {ParametersScaleFactorComponent} from '../parameters-scale-factor/parameters-scale-factor.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -35,7 +35,9 @@ describe('StudyFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: 'design/MODE', component: UserModeComponent}
+        ]),
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'}) ],
       declarations: [
         StudyFormComponent,

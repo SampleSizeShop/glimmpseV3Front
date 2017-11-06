@@ -38,7 +38,7 @@ describe('WithinIsuOutcomesComponent', () => {
     component.outcomesForm.value.outcomes = val;
     component.addOutcome();
     expect(component.outcomes.length).toEqual(1);
-    expect(component.outcomes[0]).toEqual(val);
+    expect(component.outcomes[0].name).toEqual(val);
   });
 
   it('should remove the selected value of the form to the list of outcomes.', () => {

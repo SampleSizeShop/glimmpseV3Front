@@ -181,11 +181,11 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   it('should assemble the betweenIsuRelativeGroupSizes of > 2 betweenISU valueNames', () => {
     const x = new ISUFactors();
-    x.predictors.push(gender);
-    x.predictors.push(dose);
-    x.predictors.push(three);
-    x.predictors.push(five);
-    x.generateCombinations();
+    x.variables.push(gender);
+    x.variables.push(dose);
+    x.variables.push(three);
+    x.variables.push(five);
+    x.betweenIsuRelativeGroupSizes = x.generateCombinations(x.predictors);
     x.betweenIsuRelativeGroupSizes.forEach(combination => {
       expect(combination.id.length).toEqual(x.predictors.length);
     });
@@ -194,9 +194,9 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   it('should assemble the betweenIsuRelativeGroupSizes of 2 betweenISU valueNames', () => {
     const x = new ISUFactors();
-    x.predictors.push(gender);
-    x.predictors.push(dose);
-    x.generateCombinations();
+    x.variables.push(gender);
+    x.variables.push(dose);
+    x.betweenIsuRelativeGroupSizes = x.generateCombinations(x.predictors);
     x.betweenIsuRelativeGroupSizes.forEach(combination => {
       expect(combination.id.length).toEqual(x.predictors.length);
     });
@@ -205,8 +205,8 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   it('should assemble the betweenIsuRelativeGroupSizes of 1 betweenISU valueNames', () => {
     const x = new ISUFactors();
-    x.predictors.push(gender);
-    x.generateCombinations();
+    x.variables.push(gender);
+    x.betweenIsuRelativeGroupSizes = x.generateCombinations(x.predictors);
     x.betweenIsuRelativeGroupSizes.forEach(combination => {
       expect(combination.id.length).toEqual(x.predictors.length);
     });
@@ -215,44 +215,36 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   it('Should get the correct ISUFactorCombination from a map', () => {
     const x = new ISUFactors();
-    x.predictors.push(gender);
-
-    x.generateCombinations();
-    const tables = x.groupCombinations();
+    x.variables.push(gender);
+    const tables = x.groupCombinations(x.generateCombinations(x.predictors), x.predictors);
     const member = tables[0].getMember('m', null).name;
     expect(member).toEqual('m');
   });
 
   it('Should return the expected group name for the special case - one predictor', () => {
     const x = new ISUFactors();
-    x.predictors.push(gender);
-
-    x.generateCombinations();
-    const tables = x.groupCombinations();
+    x.variables.push(gender);
+    const tables = x.groupCombinations(x.generateCombinations(x.predictors), x.predictors);
     const groupName = tables[0].groupName;
     expect(groupName).toEqual('' );
   });
 
   it('Should return the expected group name for special case - two predictors', () => {
     const x = new ISUFactors();
-    x.predictors.push(gender);
-    x.predictors.push(dose);
-
-    x.generateCombinations();
-    const tables = x.groupCombinations();
+    x.variables.push(gender);
+    x.variables.push(dose);
+    const tables = x.groupCombinations(x.generateCombinations(x.predictors), x.predictors);
     const groupNmae = tables[0].groupName;
     expect(groupNmae).toEqual('');
   });
 
   it('Should return the expected group names for > 2 predictors', () => {
     const x = new ISUFactors();
-    x.predictors.push(gender);
-    x.predictors.push(dose);
-    x.predictors.push(three);
-
-    x.generateCombinations();
-    const tables = x.groupCombinations();
+    x.variables.push(gender);
+    x.variables.push(dose);
+    x.variables.push(three);
+    const tables = x.groupCombinations(x.generateCombinations(x.predictors), x.predictors);
     const groupNmae = tables[0].groupName;
-    expect(groupNmae).toEqual('Three:x');
+    expect(groupNmae).toEqual('Gender:m');
   });
 });

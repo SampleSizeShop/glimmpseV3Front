@@ -36,7 +36,7 @@ describe('BetweenIsuGroupsComponent', () => {
   it('Should show the group size form if we are solving for power and have predictors', () => {
     component.solveFor = 'POWER';
     component.isuFactors = new ISUFactors();
-    component.isuFactors.predictors.push(new Predictor());
+    component.isuFactors.variables.push(new Predictor());
     fixture.detectChanges();
     expect(component.isuFactors.predictors.length).toEqual(1);
     const desc: DebugElement = fixture.debugElement.query(By.css('#groupSizeForm'));
@@ -47,7 +47,7 @@ describe('BetweenIsuGroupsComponent', () => {
   it('Should show the relative group size form if we are solving for power and we have defined all of our predictors', () => {
     component.isuFactors = new ISUFactors();
     component.solveFor = 'SAMPLESIZE';
-    component.isuFactors.predictors.push(new Predictor());
+    component.isuFactors.variables.push(new Predictor());
     fixture.detectChanges();
     expect(component.isuFactors.predictors.length).toEqual(1);
     const desc: DebugElement = fixture.debugElement.query(By.css('#relativeGroupSizeForm'));
@@ -70,8 +70,8 @@ describe('BetweenIsuGroupsComponent', () => {
     const predictor = new Predictor();
     predictor.name = 'A';
     predictor.valueNames = ['a1', 'a2'];
-    component.isuFactors.predictors.push(predictor);
-    component.isuFactors.generateCombinations();
+    component.isuFactors.variables.push(predictor);
+    component.isuFactors.generateCombinations(component.isuFactors.predictors);
     component.updateGroupsizeFormControls();
     component.relativeGroupSizeForm.get('a1').setValue('2')
     fixture.detectChanges();
