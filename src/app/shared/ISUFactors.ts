@@ -140,6 +140,16 @@ export class ISUFactors {
     this.variables = this.variables.concat(newPredictors);
   }
 
+  get hypothesis(): Array<ISUFactor> {
+    const hypothesis = new Array<ISUFactor>();
+    this.variables.forEach( variable => {
+      if (variable.inHypothesis) {
+        hypothesis.push(variable);
+      }
+    });
+    return hypothesis;
+  }
+
   generateCombinations(factorList: Array<ISUFactor>): Map<string, ISUFactorCombination> {
     const combinations = new Map<string, ISUFactorCombination>();
 
