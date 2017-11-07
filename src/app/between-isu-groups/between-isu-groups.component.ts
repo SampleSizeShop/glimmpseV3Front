@@ -4,7 +4,7 @@ import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {ISUFactorCombinationTable} from '../shared/ISUFactorCombinationTable';
 import {ISUFactors} from '../shared/ISUFactors';
-import {isNull, isNullOrUndefined} from 'util';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -18,7 +18,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   private _relativeGroupSizeForm: FormGroup;
   private _solveFor: string;
 
-  private _tables: ISUFactorCombinationTable[];
+  private _tables: Array<ISUFactorCombinationTable>;
 
   private _betweenIsuGroupsSubscription: Subscription;
   private _solveForSubscription: Subscription;
@@ -80,7 +80,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     if (isNullOrUndefined(this.isuFactors) || isNullOrUndefined(this.isuFactors.predictors)) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
-      this.isuFactors.betweenIsuRelativeGroupSizes = this.isuFactors.generateCombinations(this.isuFactors.predictors);
       this.study_service.updateIsuFactors(this.isuFactors);
 
       this.tables = this.isuFactors.groupCombinations(

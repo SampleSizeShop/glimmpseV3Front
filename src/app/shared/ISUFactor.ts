@@ -21,9 +21,9 @@ export class ISUFactor {
     this.inHypothesis = false;
   }
 
-  mapCombinations() {
+  mapCombinations(): Array<ISUFactorCombination> {
     // TODO: need to define 'valueNames' here
-    let combinations = [] ;
+    let combinations = new Array<ISUFactorCombination>();
     this.valueIds.forEach( value => {
       combinations.push(new ISUFactorCombination( [value] , 1));
     });
@@ -49,7 +49,7 @@ export class ISUFactor {
     return newCombinations;
   }
 
-  get valueIds(): CombinationId[] {
+  get valueIds(): Array<CombinationId> {
     const nameValuePairs = [];
     for ( const valueName of this.valueNames ) {
       nameValuePairs.push( new CombinationId(this.name, valueName));

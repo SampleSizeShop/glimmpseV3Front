@@ -10,7 +10,7 @@ import {isNullOrUndefined} from 'util';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
-  betweenIsuRelativeGroupSizes = new Map<Array<CombinationId>, ISUFactorCombination>();
+  betweenIsuRelativeGroupSizes = new Map<string, ISUFactorCombination>();
   smallestGroupSize: number[] = [];
 
   get hypothesisName(): string {
@@ -140,8 +140,8 @@ export class ISUFactors {
     this.variables = this.variables.concat(newPredictors);
   }
 
-  generateCombinations(factorList: Array<ISUFactor>): Map<Array<CombinationId>, ISUFactorCombination> {
-    const combinations = new Map<Array<CombinationId>, ISUFactorCombination>();
+  generateCombinations(factorList: Array<ISUFactor>): Map<string, ISUFactorCombination> {
+    const combinations = new Map<string, ISUFactorCombination>();
 
     if (!isNullOrUndefined(factorList) && factorList.length > 0) {
       let factors = new Array<ISUFactor>();
@@ -149,13 +149,13 @@ export class ISUFactors {
       factors = this.assignChildren(factors);
       const combinationList = factors[0].mapCombinations();
       combinationList.forEach(combination => {
-        combinations.set(combination.id, combination);
+        combinations.set(combination.name, combination);
       });
     }
     return combinations
   }
 
-  groupCombinations(combinationMap: Map<Array<CombinationId>, ISUFactorCombination>, factors: Array<ISUFactor>) {
+  groupCombinations(combinationMap: Map<string, ISUFactorCombination>, factors: Array<ISUFactor>): Array<ISUFactorCombinationTable> {
     const names = [];
     const tableDimensions = [];
 

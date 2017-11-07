@@ -52,8 +52,7 @@ export class StudyDesign {
           this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
         }
         groups.forEach(key => {
-          if (combinations.has(key.id) !== false ) {
-            console.log( key.name + ' not found' );
+          if (!combinations.has(key.name) ) {
             this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
           }
         });
