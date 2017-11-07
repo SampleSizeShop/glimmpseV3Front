@@ -4,10 +4,19 @@ import {MarginalMean} from './MarginalMean';
 import {constants} from './constants';
 
 export class HypothesisEffect {
-  variables: ISUFactor[] = [];
-  type: string;
-  marginalMeans: Array<MarginalMean>;
-  combinations = new Map();
+  variables: Array<ISUFactor> = [];
+
+  get type(): string {
+    let type = '';
+    if (isNullOrUndefined(this.variables) || this.variables.length === 0) {
+      type = constants.HYPOTHESIS_EFFECT_TYPE.GRAND_MAEN;
+    } else if ( this.variables.length > 1 ) {
+      type = constants.HYPOTHESIS_EFFECT_TYPE.INTERACTION;
+    } else {
+      type = constants.HYPOTHESIS_EFFECT_TYPE.MAIN_EFFECT;
+    }
+    return type;
+  }
 
   get name(): string {
     let name = '';
@@ -38,35 +47,6 @@ export class HypothesisEffect {
     if (!existsInList) {
       this.variables.push(variable);
     }
-  }
-
-  generateCombinations() {
-    this.combinations = new Map();
-    this.variables = this.assignChildren(this.variables);
-    const combinationList = this.variables[0].mapCombinations();
-    combinationList.forEach( combination => {
-      this.combinations.set(combination.id, combination);
-    });
-    this.variables.forEach( variable => {
-      variable._child = null;
-    });
-  }
-
-  assignChildren(variableList: ISUFactor[]) {
-    const variablesithChildrenAssigned = Array<ISUFactor>();
-    variableList.forEach( variable => {
-      variable._child = null;
-    })
-    let parent = variableList.pop();
-    while (variableList.length > 0) {
-      const child = variableList.pop();
-      parent._child = child
-      variablesithChildrenAssigned.push(parent);
-      parent = child;
-    }
-    variablesithChildrenAssigned.push(parent);
-    variableList = variablesithChildrenAssigned;
-    return variableList;
   }
 
   equals (effect: HypothesisEffect) {

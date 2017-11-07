@@ -36,7 +36,6 @@ export class HypothesisEffectChoiceComponent implements OnInit {
 
   ngOnInit() {
     this.determinePossibleEffects();
-    this.determineEffectTypes();
     if ( isNullOrUndefined(this._selected) ) { this.selectEffect(this.possibleEffects[0]); }
   }
 
@@ -58,21 +57,8 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     }
   }
 
-  determineEffectTypes() {
-    this.possibleEffects.forEach( effect => {
-      if (isNullOrUndefined(effect.variables) || effect.variables.length === 0) {
-        effect.type = 'Grand Mean';
-      } else if ( effect.variables.length > 1 ) {
-        effect.type = 'Interaction';
-      } else {
-        effect.type = 'Main Effect';
-      }
-    });
-  }
-
   determinePossibleEffects() {
     const grandMean = new HypothesisEffect();
-    grandMean.type = 'Grand Mean';
     this.addEffectToList(grandMean);
     this.variables.forEach( variable =>  {
       const vars = this.deepCopyList(this.variables);
@@ -135,7 +121,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   }
 
   isGrandMean(effect: HypothesisEffect): boolean {
-    return effect.type === 'Grand Mean' ? true : false;
+    return effect.type === constants.HYPOTHESIS_EFFECT_TYPE.GRAND_MAEN ? true : false;
   }
 
   get possibleEffects(): HypothesisEffect[] {

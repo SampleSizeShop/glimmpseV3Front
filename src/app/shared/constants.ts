@@ -131,6 +131,11 @@ export const constants = {
     REPEATED_MEASURE: 'Repeated Measure',
     BETWEEN_PREDICTOR: 'Between ISU Predictor'
   },
+  HYPOTHESIS_EFFECT_TYPE: {
+    GRAND_MAEN: 'Grand Mean',
+    INTERACTION: 'Interaction',
+    MAIN_EFFECT: 'Main Effect'
+  },
   C_MATRIX_TYPE: {
     CMATRIX: 'CMATRIX',
     MAIN_EFFECT: 'MAIN_EFFECT',
