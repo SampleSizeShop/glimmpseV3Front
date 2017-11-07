@@ -19,7 +19,6 @@ export class StudyDesign {
   private _gaussianCovariate: GaussianCovariate;
   private _betweenHypothesisNature: string;
   private _withinHypothesisNature: string;
-  private _hypothesisEffect: HypothesisEffect;
   private _scaleFactor: number;
 
   constructor(name?: string,
@@ -60,12 +59,12 @@ export class StudyDesign {
     }
 
     // is our hypothesis effect made up of isuFactors we have defined
-    if (!isNullOrUndefined(this.hypothesisEffect)) {
+    if (!isNullOrUndefined(this.isuFactors.hypothesis)) {
 
       let possibleEffect = true;
       const variables = this.variables;
-      if (!isNullOrUndefined(variables) && !isNullOrUndefined(this.hypothesisEffect.variables)) {
-        this.hypothesisEffect.variables.forEach(variable => {
+      if (!isNullOrUndefined(variables) && !isNullOrUndefined(this.isuFactors.hypothesis)) {
+        this.isuFactors.hypothesis.forEach(variable => {
           let match = false;
 
           variables.forEach(
@@ -84,7 +83,7 @@ export class StudyDesign {
       }
 
       if (!possibleEffect) {
-        this.hypothesisEffect = null;
+        this.isuFactors.clearHypothesis();
       }
 
     };
@@ -213,14 +212,6 @@ export class StudyDesign {
 
   set withinHypothesisNature(value: string) {
     this._withinHypothesisNature = value;
-  }
-
-  get hypothesisEffect(): HypothesisEffect {
-    return this._hypothesisEffect;
-  }
-
-  set hypothesisEffect(value: HypothesisEffect) {
-    this._hypothesisEffect = value;
   }
 
   get scaleFactor(): number {

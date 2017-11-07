@@ -7,6 +7,7 @@ import {Cluster} from './Cluster';
 import {constants} from './constants';
 import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
+import {HypothesisEffect} from "./HypothesisEffect";
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
@@ -148,6 +149,23 @@ export class ISUFactors {
       }
     });
     return hypothesis;
+  }
+
+  clearHypothesis() {
+    this.variables.forEach(variable => {
+      variable.inHypothesis = false;
+    });
+  }
+
+  updateHypothesis(effect: HypothesisEffect) {
+    this.clearHypothesis();
+    this.variables.forEach( variable => {
+      effect.variables.forEach( eff => {
+        if (eff.compare(variable)) {
+          variable.inHypothesis = true;
+        }
+      });
+    });
   }
 
   generateCombinations(factorList: Array<ISUFactor>): Map<string, ISUFactorCombination> {
