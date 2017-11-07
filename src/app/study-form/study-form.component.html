@@ -48,7 +48,7 @@
           <app-hypothesis-effect-choice [variables]="study.variables"></app-hypothesis-effect-choice>
         </div>
         <div class="d-flex justify-content-centre" *ngIf="stages[13] === getStageName()">
-          <app-hypothesis-between></app-hypothesis-between>
+          <app-hypothesis-between [_isuFactors]="study.isuFactors"></app-hypothesis-between>
         </div>
         <div class="d-flex justify-content-centre" *ngIf="stages[14] === getStageName()">
           <app-hypothesis-within></app-hypothesis-within>

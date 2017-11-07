@@ -16,7 +16,7 @@ export class ISUFactors {
 
   get hypothesisName(): string {
     let name = '';
-    this.variables.forEach( variable => {
+    this.hypothesis.forEach( variable => {
       name = name.concat(variable.name, ' x ');
     });
     name = name.substring(0, name.length - 3 );
@@ -25,11 +25,11 @@ export class ISUFactors {
 
   get hypothesisNature(): string {
     let nature = '';
-    this.variables.forEach( variable => {
+    this.hypothesis.forEach( variable => {
       nature = nature.concat(variable.nature, ' x ');
     });
     nature = nature.substring(0, nature.length - 3);
-    if (this.variables.length === 0) { nature = constants.HYPOTHESIS_NATURE.BETWEEN; }
+    if (this.hypothesis.length === 0) { nature = constants.HYPOTHESIS_NATURE.BETWEEN; }
     return nature;
   }
 

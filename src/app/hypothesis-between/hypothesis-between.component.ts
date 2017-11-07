@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {constants} from 'app/shared/constants';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
@@ -16,14 +16,11 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
   private _betweenHypothesisNature: string;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
-  private _hypothesisEffect: HypothesisEffect;
-  private _isuFactors: ISUFactors;
+  @Input() private _isuFactors: ISUFactors;
   private _marginalsIn: Array<CMatrix>;
   private _marginalsOut: Array<CMatrix>;
 
   private _betweenHypothesisNatureSubscription: Subscription;
-  private _isuFactorsSubscription: Subscription;
-  private _hypothesisEffectSubscription: Subscription;
   texString = '';
 
   constructor(private study_service: StudyService) {
@@ -34,15 +31,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.betweenHypothesisNatureSubscription = this.study_service.betweenHypothesisNature$.subscribe(
       betweenHypothesisNature => {
         this.betweenHypothesisNature = betweenHypothesisNature;
-      }
-    );
-    this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
-      hypothesisEffect => {
-      this._hypothesisEffect = hypothesisEffect;
-    })
-    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe(
-      isuFactors => {
-        this._isuFactors = isuFactors;
       }
     );
   }
@@ -74,9 +62,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   calculateCMatrix() {
     if (!isNullOrUndefined( this._isuFactors ) &&
-      !isNullOrUndefined( this._isuFactors.predictors ) &&
-      this._isuFactors.predictors.length > 0 &&
-      !isNullOrUndefined(this._hypothesisEffect)) {
+        this._isuFactors.hypothesis.length > 0 ) {
       this.marginalsIn = [];
       this.marginalsOut = [];
       // work out which between factors are in the hypothesis
@@ -126,21 +112,16 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   private determineBetweenFactorsinHypothesis( inHypothesis: Array<string>, outOfHypothesis: Array<string> ) {
-    const betweenFactorNames = [];
-    const hypothesisBetweenVariableNames = [];
-    this._isuFactors.predictors.forEach( predictor => {
-      betweenFactorNames.push(predictor.name);
-    });
-    this._hypothesisEffect.variables.forEach(variable => {
-      if (variable.nature === constants.HYPOTHESIS_NATURE.BETWEEN) {
-        hypothesisBetweenVariableNames.push(variable.name);
-      }
-    });
-    betweenFactorNames.forEach( name => {
-      if (hypothesisBetweenVariableNames.indexOf(name) !== -1) {
-        inHypothesis.push(name);
-      } else {
-        outOfHypothesis.push(name);
+    this._isuFactors.predictors.forEach(predictor => {
+      let inEffect = false;
+      this._isuFactors.hypothesis.forEach(variable => {
+        if ( predictor.compare(variable) ) {
+          inHypothesis.push(predictor.name);
+          inEffect = true;
+        }
+      });
+      if (inEffect === false) {
+        outOfHypothesis.push(predictor.name);
       }
     });
   }
@@ -190,22 +171,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set betweenHypothesisNatureSubscription(value: Subscription) {
     this._betweenHypothesisNatureSubscription = value;
-  }
-
-  get isuFactorsSubscription(): Subscription {
-    return this._isuFactorsSubscription;
-  }
-
-  set isuFactorsSubscription(value: Subscription) {
-    this._isuFactorsSubscription = value;
-  }
-
-  get hypothesisEffectSubscription(): Subscription {
-    return this._hypothesisEffectSubscription;
-  }
-
-  set hypothesisEffectSubscription(value: Subscription) {
-    this._hypothesisEffectSubscription = value;
   }
 
   get marginalsIn(): Array<CMatrix> {
