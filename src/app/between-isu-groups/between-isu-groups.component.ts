@@ -5,6 +5,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {ISUFactorCombinationTable} from '../shared/ISUFactorCombinationTable';
 import {ISUFactors} from '../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
+import {constants} from "../shared/constants";
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -53,7 +54,9 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
       smallestGroupSize: [1]
     } );
     this.relativeGroupSizeForm = this.fb.group( {} );
-    this.updateGroupsizeFormControls();
+    if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE) {
+      this.updateGroupsizeFormControls();
+    }
   }
 
   resetForms() {
