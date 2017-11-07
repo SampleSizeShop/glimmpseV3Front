@@ -36,7 +36,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   ngDoCheck() {
     if (this.solveFor === 'SAMPLESIZE') {
-      // this.updateCombinations();
+      this.updateCombinations();
     }
     if (this.solveFor === 'POWER') {
       this.updateSmallestGroupSize();

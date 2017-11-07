@@ -1,8 +1,8 @@
 export class ISUFactorCombination {
-  id: FactorCombinationId[] = [];
+  id: Array<CombinationId>;
   size: number;
 
-  constructor(id?: FactorCombinationId[], size?: number) {
+  constructor(id?: Array<CombinationId>, size?: number) {
     if (id) { this.id = id; }
     if (size) { this.size = size; }
   }
@@ -10,18 +10,18 @@ export class ISUFactorCombination {
   get name(): string {
     let name = '';
     this.id.forEach( groupId => {
-      name = name + groupId.name;
+      name = name + groupId.value;
     })
     return name;
   }
 }
 
-export class FactorCombinationId {
-  predictor: string;
-  name: string;
+export class CombinationId {
+  id: string;
+  value: string;
 
-  constructor(predictor?: string, name?: string) {
-    this.predictor = predictor;
-    this.name = name;
+  constructor(id?: string, value?: string) {
+    this.id = id;
+    this.value = value;
   }
 }

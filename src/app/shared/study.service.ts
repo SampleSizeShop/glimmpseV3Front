@@ -56,7 +56,7 @@ export class StudyService {
   private _betweenIsuPredictorSource = new BehaviorSubject<Array<Predictor>>([]);
   private _betweenIsuPredictors$ = this._betweenIsuPredictorSource.asObservable();
 
-  private _isuFactorsSource = new BehaviorSubject<ISUFactors>(null);
+  private _isuFactorsSource = new Subject<ISUFactors>();
   private _isuFactors$ = this._isuFactorsSource.asObservable();
 
   private _gaussianCovariateSource = new BehaviorSubject<GaussianCovariate>(null);

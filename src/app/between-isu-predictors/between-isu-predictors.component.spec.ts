@@ -51,7 +51,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Should show the add BetweenIsuPredictor Button if we are not currently editing a predictor', () => {
+  it('Should show the add BetweenIsuPredictor Button if we are not currently editing a id', () => {
     component.editing = false;
     component.setStage(-1);
     fixture.detectChanges();
@@ -85,7 +85,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  it('Should show the groupsForm when we click the next after adding a predictor name', () => {
+  it('Should show the groupsForm when we click the next after adding a id value', () => {
     component.editing = false;
     component.setStage(-1);
     component.includePredictors();
@@ -221,7 +221,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(member).toEqual('m');
   });
 
-  it('Should return the expected group name for the special case - one predictor', () => {
+  it('Should return the expected group value for the special case - one id', () => {
     const x = new ISUFactors();
     x.variables.push(gender);
     const tables = x.groupCombinations(x.generateCombinations(x.predictors), x.predictors);
@@ -229,7 +229,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(groupName).toEqual('' );
   });
 
-  it('Should return the expected group name for special case - two predictors', () => {
+  it('Should return the expected group value for special case - two predictors', () => {
     const x = new ISUFactors();
     x.variables.push(gender);
     x.variables.push(dose);

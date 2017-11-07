@@ -1,5 +1,5 @@
 import {Predictor} from './Predictor';
-import {FactorCombinationId, ISUFactorCombination} from './ISUFactorCombination';
+import {CombinationId, ISUFactorCombination} from './ISUFactorCombination';
 import {ISUFactorCombinationTable} from './ISUFactorCombinationTable';
 import {Outcome} from './Outcome';
 import {RepeatedMeasure} from './RepeatedMeasure';
@@ -10,7 +10,7 @@ import {isNullOrUndefined} from 'util';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
-  betweenIsuRelativeGroupSizes = new Map();
+  betweenIsuRelativeGroupSizes = new Map<Array<CombinationId>, ISUFactorCombination>();
   smallestGroupSize: number[] = [];
 
   get hypothesisName(): string {
@@ -140,19 +140,22 @@ export class ISUFactors {
     this.variables = this.variables.concat(newPredictors);
   }
 
-  generateCombinations(factorList: Array<ISUFactor>): Map<FactorCombinationId, ISUFactorCombination> {
-    const combinations = new Map<FactorCombinationId, ISUFactorCombination>();
-    let factors = new Array<ISUFactor>();
-    factors = factors.concat(factorList);
-    factors = this.assignChildren(factors);
-    const combinationList = factors[0].mapCombinations();
-    combinationList.forEach( combination => {
-      combinations.set(combination.id, combination);
-    });
+  generateCombinations(factorList: Array<ISUFactor>): Map<Array<CombinationId>, ISUFactorCombination> {
+    const combinations = new Map<Array<CombinationId>, ISUFactorCombination>();
+
+    if (!isNullOrUndefined(factorList) && factorList.length > 0) {
+      let factors = new Array<ISUFactor>();
+      factors = factors.concat(factorList);
+      factors = this.assignChildren(factors);
+      const combinationList = factors[0].mapCombinations();
+      combinationList.forEach(combination => {
+        combinations.set(combination.id, combination);
+      });
+    }
     return combinations
   }
 
-  groupCombinations(combinationMap: Map<FactorCombinationId, ISUFactorCombination>, factors: Array<ISUFactor>) {
+  groupCombinations(combinationMap: Map<Array<CombinationId>, ISUFactorCombination>, factors: Array<ISUFactor>) {
     const names = [];
     const tableDimensions = [];
 
@@ -199,7 +202,7 @@ export class ISUFactors {
     let include = true;
     combination.id.forEach(value => {
       subGroup.id.forEach( element => {
-        if ( value.predictor === element.predictor && value.name !== element.name ) {
+        if ( value.id === element.id && value.value !== element.value ) {
           include = false;
         }
       });

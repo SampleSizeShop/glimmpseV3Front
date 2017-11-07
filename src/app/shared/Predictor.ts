@@ -1,4 +1,4 @@
-import {ISUFactorCombination, FactorCombinationId} from './ISUFactorCombination';
+import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 
@@ -23,10 +23,10 @@ export class Predictor extends ISUFactor {
     return newCombinations;
   }
 
-  get groupIds(): FactorCombinationId[] {
+  get groupIds(): CombinationId[] {
     const  nameGroupPairs = [];
     for ( const group of this.valueNames ) {
-      nameGroupPairs.push( new FactorCombinationId(this.name, group));
+      nameGroupPairs.push( new CombinationId(this.name, group));
     }
     return nameGroupPairs;
   }

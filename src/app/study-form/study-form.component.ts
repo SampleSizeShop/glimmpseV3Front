@@ -33,6 +33,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _withinIsuRepeatedMeasuresSubscription: Subscription;
   private _withinIsuClusterSubscription: Subscription;
   private _betweenIsuPredictorsSubscription: Subscription;
+  private _isuFactorsSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
   private _betweenHypothesisNatureSubscription: Subscription;
   private _withinHypothesisNatureSubscription: Subscription;
@@ -337,6 +338,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._betweenIsuPredictorsSubscription = value;
   }
 
+  get isuFactorsSubscription(): Subscription {
+    return this._isuFactorsSubscription;
+  }
+
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
+  }
+
   get gaussianCovariateSubscription(): Subscription {
     return this._gaussianCovariateSubscription;
   }
@@ -448,6 +457,13 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       }
     );
 
+    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe(
+      factors => {
+        this.study.isuFactors = factors;
+        this.study.checkDependencies();
+      }
+    );
+
     this.gaussianCovariateSubscription = this.study_service.gaussianCovariate$.subscribe(
       gaussianCovariate => {
         this.study.gaussianCovariate = gaussianCovariate;
@@ -486,6 +502,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
     this.withinIsuClusterSubscription.unsubscribe();
     this.betweenIsuPredictorsSubscription.unsubscribe();
+    this.isuFactorsSubscription.unsubscribe();
     this.gaussianCovariateSubscription.unsubscribe();
     this.betweenHypothesisNatureSubscription.unsubscribe();
     this.withinHypothesisNatureSubscription.unsubscribe();

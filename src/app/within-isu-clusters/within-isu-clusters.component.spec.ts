@@ -60,7 +60,7 @@ describe('WithinIsuClustersComponent', () => {
     expect(el).toBeTruthy();
   })
 
-  it('should add a level when a user clicks the add button if name and noElements are both supplied', () => {
+  it('should add a level when a user clicks the add button if value and noElements are both supplied', () => {
     component.includeClusters();
     component.elementForm.get('elementName').setValue('Name')
     component.internallyNavigate('NEXT');
@@ -71,7 +71,7 @@ describe('WithinIsuClustersComponent', () => {
     expect(component.levels.length).toBe(1);
   });
 
-  it('should not add a level when a user clicks the add button if name is not supplied', () => {
+  it('should not add a level when a user clicks the add button if value is not supplied', () => {
     component.includeClusters();
     component.elementForm.get('elementName').setValue('Name')
     component.internallyNavigate('NEXT');

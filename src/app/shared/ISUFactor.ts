@@ -1,4 +1,4 @@
-import {ISUFactorCombination, FactorCombinationId} from './ISUFactorCombination';
+import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
 
 export class ISUFactor {
   name: string;
@@ -30,11 +30,11 @@ export class ISUFactor {
 
     if (!this._child) {
       return combinations;
+    } else {
+      const childCombinations = this._child.mapCombinations();
+      combinations = this.combineLists(combinations, childCombinations);
+      return combinations;
     }
-
-    const childCombinations = this._child.mapCombinations();
-    combinations = this.combineLists(combinations, childCombinations);
-    return combinations;
   }
 
   combineLists(combinations, childCombinations) {
@@ -49,10 +49,10 @@ export class ISUFactor {
     return newCombinations;
   }
 
-  get valueIds(): FactorCombinationId[] {
+  get valueIds(): CombinationId[] {
     const nameValuePairs = [];
     for ( const valueName of this.valueNames ) {
-      nameValuePairs.push( new FactorCombinationId(this.name, valueName));
+      nameValuePairs.push( new CombinationId(this.name, valueName));
     }
     return nameValuePairs;
   }

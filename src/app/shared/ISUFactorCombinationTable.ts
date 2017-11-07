@@ -1,4 +1,4 @@
-import {ISUFactorCombination, FactorCombinationId} from './ISUFactorCombination';
+import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
 import {isNullOrUndefined} from 'util';
 
 export class ISUFactorCombinationTable {
@@ -7,9 +7,9 @@ export class ISUFactorCombinationTable {
   private _cols: string[];
   private _rowDimension: string;
   private _colDimension: string;
-  private _groupIdentifier: FactorCombinationId[];
+  private _groupIdentifier: Array<CombinationId>;
 
-  constructor(members: ISUFactorCombination[], tableDimensions: string[], groupName: FactorCombinationId[]) {
+  constructor(members: ISUFactorCombination[], tableDimensions: string[], groupName: CombinationId[]) {
     this.groupIdentifier = groupName
     this.populateTableDimensions(tableDimensions);
     this.populateTableandRowsAndColumns(members);
@@ -32,18 +32,18 @@ export class ISUFactorCombinationTable {
       let col = null;
 
       member.id.forEach( groupId => {
-        if (groupId.predictor === this.rowDimension) {
+        if (groupId.id === this.rowDimension) {
           row = groupId
         }
-        if ( groupId.predictor === this.colDimension ) {
+        if ( groupId.id === this.colDimension ) {
           col = groupId
         }
       } );
 
       const key = new TableKey(row, col);
       this.table.set(key.toString(), member);
-      if (row ) {rowSet.add( row.name ); }
-      if (col) {colSet.add( col.name ); }
+      if (row ) {rowSet.add( row.value ); }
+      if (col) {colSet.add( col.value); }
     } );
 
     rowSet.forEach( val => {
@@ -54,10 +54,10 @@ export class ISUFactorCombinationTable {
     } )
   }
 
-  getMember(row: string, col: string) {
+  getMember(row: string, col: string): ISUFactorCombination {
     const key = new TableKey(
-      new FactorCombinationId( this.rowDimension, row ),
-      new FactorCombinationId(this.colDimension, col)
+      new CombinationId( this.rowDimension, row ),
+      new CombinationId(this.colDimension, col)
     );
     return this.table.get(key.toString());
   }
@@ -65,7 +65,7 @@ export class ISUFactorCombinationTable {
   get groupName() {
     let name = '';
     this.groupIdentifier.forEach( id => {
-      name = name + ' ' + id.predictor + ':' + id.name;
+      name = name + ' ' + id.id + ':' + id.value;
     } );
     name = name.trim();
     return name;
@@ -118,29 +118,29 @@ export class ISUFactorCombinationTable {
     this._colDimension = value;
   }
 
-  get groupIdentifier(): FactorCombinationId[] {
+  get groupIdentifier(): CombinationId[] {
     return this._groupIdentifier;
   }
 
-  set groupIdentifier(value: FactorCombinationId[]) {
+  set groupIdentifier(value: CombinationId[]) {
     this._groupIdentifier = value;
   }
 }
 
 class TableKey {
-  row: FactorCombinationId;
-  col: FactorCombinationId;
+  row: CombinationId;
+  col: CombinationId;
 
   toString() {
     let name = '';
-    if (this.row) { name = name + this.row.predictor + this.row.name; }
+    if (this.row) { name = name + this.row.id + this.row.value; }
     if ( !isNullOrUndefined(this.col)
-      && !isNullOrUndefined(this.col.predictor)
-      && !isNullOrUndefined(this.col.name)) { name = name + this.col.predictor + this.col.name; }
+      && !isNullOrUndefined(this.col.id)
+      && !isNullOrUndefined(this.col.value)) { name = name + this.col.id + this.col.value; }
     return name;
   }
 
-  constructor(row: FactorCombinationId, col: FactorCombinationId) {
+  constructor(row: CombinationId, col: CombinationId) {
     this.row = row;
     this.col = col;
   }

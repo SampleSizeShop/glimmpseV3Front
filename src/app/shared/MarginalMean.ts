@@ -1,4 +1,4 @@
-import {ISUFactorCombination, FactorCombinationId} from './ISUFactorCombination';
+import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
 
 export class MarginalMean {
   name = '';
@@ -32,10 +32,10 @@ export class MarginalMean {
     return newCombinations;
   }
 
-  get groupIds(): FactorCombinationId[] {
+  get groupIds(): CombinationId[] {
     const  nameGroupPairs = [];
     for ( const group of this.groups ) {
-      nameGroupPairs.push( new FactorCombinationId(this.name, group));
+      nameGroupPairs.push( new CombinationId(this.name, group));
     }
     return nameGroupPairs;
   }

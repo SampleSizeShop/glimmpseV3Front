@@ -4,6 +4,7 @@ import {HypothesisEffect} from './HypothesisEffect';
 import {isNullOrUndefined} from 'util';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
+import {CombinationId, ISUFactorCombination} from "./ISUFactorCombination";
 
 export class StudyDesign {
   private _name: string;
@@ -41,6 +42,25 @@ export class StudyDesign {
   }
 
   checkDependencies() {
+    // Are id groups made up of predictors we have defined
+    if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE &&
+      !isNullOrUndefined(this.isuFactors.predictors) &&
+      this.isuFactors.predictors.length > 0) {
+        const groups = this.isuFactors.betweenIsuRelativeGroupSizes
+        const combinations = this.isuFactors.generateCombinations(this.isuFactors.predictors);
+        if (groups.size !== combinations.size) {
+          this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
+        }
+        groups.forEach(key => {
+          if (combinations.has(key.id) !== false ) {
+            console.log( key.name + ' not found' );
+            this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
+          }
+        });
+        const a = 1;
+    }
+
+    // is our hypothesis effect made up of isuFactors we have defined
     if (!isNullOrUndefined(this.hypothesisEffect)) {
 
       let possibleEffect = true;
