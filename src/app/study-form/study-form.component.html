@@ -39,7 +39,7 @@
           <app-between-isu></app-between-isu>
         </div>
         <div class="d-flex justify-content-centre" *ngIf="stages[10] === getStageName()">
-          <app-between-isu-groups [_isuFactors]="study.isuFactors"></app-between-isu-groups>
+          <app-between-isu-groups [isuFactors]="study.isuFactors"></app-between-isu-groups>
         </div>
         <div class="d-flex justify-content-centre" *ngIf="stages[11] === getStageName()">
           <app-gaussian-covariate></app-gaussian-covariate>
@@ -48,7 +48,7 @@
           <app-hypothesis-effect-choice [variables]="study.variables"></app-hypothesis-effect-choice>
         </div>
         <div class="d-flex justify-content-centre" *ngIf="stages[13] === getStageName()">
-          <app-hypothesis-between [_isuFactors]="study.isuFactors"></app-hypothesis-between>
+          <app-hypothesis-between [isuFactors]="study.isuFactors"></app-hypothesis-between>
         </div>
         <div class="d-flex justify-content-centre" *ngIf="stages[14] === getStageName()">
           <app-hypothesis-within></app-hypothesis-within>

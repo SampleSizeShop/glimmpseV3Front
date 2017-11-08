@@ -16,7 +16,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
   private _betweenHypothesisNature: string;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
-  @Input() private _isuFactors: ISUFactors;
+  private _isuFactors: ISUFactors;
   private _marginalsIn: Array<CMatrix>;
   private _marginalsOut: Array<CMatrix>;
 
@@ -187,5 +187,13 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set marginalsOut(value: Array<CMatrix>) {
     this._marginalsOut = value;
+  }
+
+  get isuFactors(): ISUFactors {
+    return this._isuFactors;
+  }
+
+  @Input() set isuFactors(value: ISUFactors) {
+    this._isuFactors = value;
   }
 }

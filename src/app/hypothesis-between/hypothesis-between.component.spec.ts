@@ -17,7 +17,7 @@ describe('HypothesisBetweenComponent no factors', () => {
 
   @Component({
     selector: 'app-test-component-wrapper',
-    template: '<app-hypothesis-between [_isuFactors]="isuFactors"></app-hypothesis-between>'
+    template: '<app-hypothesis-between [isuFactors]="isuFactors"></app-hypothesis-between>'
   })
   class TestWrapperComponent {
     isuFactors = new ISUFactors();
@@ -78,7 +78,7 @@ describe('HypothesisBetweenComponent with Factors', () => {
 
   @Component({
     selector: 'app-test-component-wrapper',
-    template: '<app-hypothesis-between [_isuFactors]="isuFactors"></app-hypothesis-between>'
+    template: '<app-hypothesis-between [isuFactors]="isuFactors"></app-hypothesis-between>'
   })
   class TestWrapperComponent {
     isuFactors: ISUFactors;

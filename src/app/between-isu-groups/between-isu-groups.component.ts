@@ -14,7 +14,7 @@ import {constants} from "../shared/constants";
 })
 export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
-  @Input() _isuFactors: ISUFactors;
+  private _isuFactors: ISUFactors;
   private _groupSizeForm: FormGroup;
   private _relativeGroupSizeForm: FormGroup;
   private _solveFor: string;
@@ -125,7 +125,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     return this._isuFactors;
   }
 
-  set isuFactors(value: ISUFactors) {
+  @Input() set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
   }
 
