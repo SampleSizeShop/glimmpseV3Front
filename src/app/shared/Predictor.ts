@@ -1,12 +1,17 @@
 import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
+import {isNullOrUndefined} from "util";
 
 export class Predictor extends ISUFactor {
   child: Predictor;
 
-  constructor() {
-    super();
+  constructor(name?: string) {
+    if (name) {
+      super(name);
+    } else {
+      super();
+    }
     this.nature = constants.HYPOTHESIS_NATURE.BETWEEN;
     this.origin = constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR;
   }

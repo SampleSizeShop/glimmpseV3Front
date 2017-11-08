@@ -7,8 +7,8 @@ import {StudyService} from '../shared/study.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {constants} from "../shared/constants";
-import {Component} from "@angular/core";
+import {constants} from '../shared/constants';
+import {Component} from '@angular/core';
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;

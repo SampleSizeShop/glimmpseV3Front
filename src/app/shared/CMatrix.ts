@@ -18,7 +18,7 @@ export class CMatrix {
     if (!Number.isInteger(noGroups)) {
       throw new Error('You have a fractional number of valueNames in your main effect. This is not a valid.');
     } else if (noGroups < 2) {
-      throw Error('You have less than 2 valueNames in your main effect. This is not a valid.');
+      throw Error('You have less than 2 valueNames in your main effect. This is not valid.');
     } else {
       const ident = math.diag(Array(noGroups - 1).fill(-1), 'dense');
       const vec  = math.ones([noGroups - 1, 1]);
@@ -31,7 +31,7 @@ export class CMatrix {
     if (!Number.isInteger(noGroups)) {
       throw new Error('You have a fractional number of valueNames in your main effect. This is not a valid.');
     } else if (noGroups < 2) {
-      throw Error('You have less than 2 valueNames in your main effect. This is not a valid.');
+      throw Error('You have less than 2 valueNames in your main effect. This is not valid.');
     } else if (noGroups === 2) {
       this.values = math.matrix( constants.LINEAR_POLYNOMIAL_CMATRIX);
     } else if (noGroups === 3) {
