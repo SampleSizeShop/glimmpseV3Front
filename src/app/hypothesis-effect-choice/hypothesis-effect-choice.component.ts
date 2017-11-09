@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactor} from '../shared/ISUFactor';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
 import {Subscription} from 'rxjs/Subscription';
+import {ISUFactors} from '../shared/ISUFactors';
 import {StudyService} from '../shared/study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
@@ -16,6 +17,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   @Input() variables;
   private _possibleEffects: HypothesisEffect[];
   private _selected: HypothesisEffect;
+
   private _hypothesisEffectSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private _study_service: StudyService) {
@@ -53,12 +55,29 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     const grandMean = new HypothesisEffect();
     this.addEffectToList(grandMean);
     this.variables.forEach( variable =>  {
-      const vars = this.deepCopyList(this.variables);
-      const effect = new HypothesisEffect();
-      effect.addVariable(variable);
-      this.generateCombinations(effect, vars);
+      if (variable.origin !== constants.HYPOTHESIS_ORIGIN.OUTCOME) {
+        let vars = this.deepCopyList(this.variables);
+        vars = this.removeOutcomes(vars);
+        const effect = new HypothesisEffect();
+        effect.addVariable(variable);
+        this.generateCombinations(effect, vars);
+      }
     });
     this.possibleEffects.sort(this.compare);
+  }
+
+  removeOutcomes(vars: Array<ISUFactor>) {
+    const toDelete = [];
+    vars.forEach(v => {
+      if (v.origin === constants.HYPOTHESIS_ORIGIN.OUTCOME) {
+        toDelete.push(this.variables.indexOf(v));
+      }
+    });
+    toDelete.reverse();
+    toDelete.forEach(index => {
+      vars.splice(index, 1);
+    });
+    return vars;
   }
 
   generateCombinations(effect: HypothesisEffect, variables) {
