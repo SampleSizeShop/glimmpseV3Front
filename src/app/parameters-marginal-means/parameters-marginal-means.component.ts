@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {HypothesisEffect} from "../shared/HypothesisEffect";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {ISUFactors} from "../shared/ISUFactors";
+import {ISUFactorCombinationTable} from "../shared/ISUFactorCombinationTable";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-parameters-marginal-means',
@@ -10,32 +13,38 @@ import {FormBuilder} from "@angular/forms";
   styleUrls: ['./parameters-marginal-means.component.css']
 })
 export class ParametersMarginalMeansComponent implements OnInit {
-  private _selected: HypothesisEffect;
-  private _hypothesisEffectSubscription: Subscription;
-
-  constructor(private _fb: FormBuilder, private _study_service: StudyService) {
-    this.hypothesisEffectSubscription = this._study_service.hypothesisEffect$.subscribe( effect => {
-      this._selected = effect;
-    });
-  }
+  private _isuFactors: ISUFactors;
+  private _tables: Array<ISUFactorCombinationTable>;
+  private _marginalMeansForm: FormGroup;
 
   ngOnInit() {
-    // this._selected.generateCombinations();
+    this._isuFactors.marginalMeans = this._isuFactors.generateCombinations(this._isuFactors.hypothesis);
+    this.tables = this.isuFactors.groupCombinations(
+      this.isuFactors.marginalMeans,
+      this.isuFactors.hypothesis);
   }
 
-  get selected(): HypothesisEffect {
-    return this._selected;
+  get isuFactors(): ISUFactors {
+    return this._isuFactors;
   }
 
-  set selected(value: HypothesisEffect) {
-    this._selected = value;
+  @Input() set isuFactors(value: ISUFactors) {
+    this._isuFactors = value;
   }
 
-  get hypothesisEffectSubscription(): Subscription {
-    return this._hypothesisEffectSubscription;
+  get tables(): Array<ISUFactorCombinationTable> {
+    return this._tables;
   }
 
-  set hypothesisEffectSubscription(value: Subscription) {
-    this._hypothesisEffectSubscription = value;
+  set tables(value: Array<ISUFactorCombinationTable>) {
+    this._tables = value;
+  }
+
+  get marginalMeansForm(): FormGroup {
+    return this._marginalMeansForm;
+  }
+
+  set marginalMeansForm(value: FormGroup) {
+    this._marginalMeansForm = value;
   }
 }

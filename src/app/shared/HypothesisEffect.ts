@@ -60,7 +60,7 @@ export class HypothesisEffect {
     this.variables.forEach( variable1 => {
       let found = false;
       effect.variables.forEach( variable2 => {
-        if (variable1.name === variable2.name && variable1.nature === variable2.nature ) {
+        if (variable1.name === variable2.name && variable1.origin === variable2.origin ) {
           found = true;
         }
       });

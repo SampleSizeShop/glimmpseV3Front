@@ -54,7 +54,7 @@
           <app-hypothesis-within></app-hypothesis-within>
         </div>
         <div class="d-flex justify-content-centre" *ngIf="stages[15] === getStageName()">
-          <app-parameters-marginal-means></app-parameters-marginal-means>
+          <app-parameters-marginal-means [isuFactors]="study.isuFactors"></app-parameters-marginal-means>
         </div>
         <div class="d-flex justify-content-centre" *ngIf="stages[16] === getStageName()">
           <app-parameters-scale-factor></app-parameters-scale-factor>
@@ -67,7 +67,3 @@
 
   </div>
 <hr>
-{{study.isuFactors | json}}
-<br>
-<br>
-{{study.isuFactors.betweenIsuRelativeGroupSizes.size}}

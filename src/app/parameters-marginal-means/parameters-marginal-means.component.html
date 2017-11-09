@@ -1,5 +1,50 @@
 <p>
   parameters-marginal-means works!
-  {{selected === null}}
-  {{selected.combinations | json}}
 </p>
+<div *ngFor="let table of tables; let i = index;">
+  <br>
+  <div *ngIf="table.groupName !== ''">
+    <h6>{{table.groupName}}</h6>
+    <hr>
+  </div>
+
+  <div *ngIf="table.hasCols()">
+    <div class="row">
+      <div class="col col-md-auto"></div>
+      <div class="col col-md-auto">
+        <h6>{{table.colDimension}}</h6>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col col-md-auto">
+      <div class="verticaltext">
+        <h6 class="verticaltext_content">{{table.rowDimension}}</h6>
+      </div>
+    </div>
+
+    <div class="col col-md-auto">
+      <table>
+        <thead>
+        <tr>
+          <th></th>
+          <th *ngFor="let col of table.cols;">{{col}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let row of table.rows;">
+          <td>{{row}}</td>
+          <td *ngFor="let col of table.cols;">
+            {{table.getMember(row, col).name}}
+          </td>
+          <td *ngIf="!table.hasCols()">
+            {{table.getMember(row, null).name}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{{isuFactors.hypothesis | json}}

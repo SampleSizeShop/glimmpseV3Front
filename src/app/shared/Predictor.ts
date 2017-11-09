@@ -4,7 +4,6 @@ import {constants} from './constants';
 import {isNullOrUndefined} from "util";
 
 export class Predictor extends ISUFactor {
-  child: Predictor;
 
   constructor(name?: string) {
     if (name) {

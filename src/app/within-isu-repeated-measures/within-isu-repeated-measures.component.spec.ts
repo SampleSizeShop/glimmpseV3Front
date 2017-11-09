@@ -40,7 +40,7 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  it('Should show the type form when the user clicks next after defining the dimension', () => {
+  it('Should show the type form when the user clicks next after defining the name', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.internallyNavigate('NEXT');
@@ -62,7 +62,7 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  it('Should show the spacing form when the user clicks next after defining the number of repeats', () => {
+  it('Should show the valueNames form when the user clicks next after defining the number of repeats', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
@@ -74,11 +74,11 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  it('Should add a repeated measure to the study when the user clicks next after defining the spacing', () => {
+  it('Should add a repeated measure to the study when the user clicks next after defining the valueNames', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
-    component.spacingValues.push(1);
+    component.spacingValues.push('1');
     component.setStage(3);
     component.internallyNavigate('NEXT');
     fixture.detectChanges();
@@ -92,7 +92,7 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
-    component.spacingValues.push(1);
+    component.spacingValues.push('1');
     component.setStage(3);
     component.internallyNavigate('NEXT');
     fixture.detectChanges();

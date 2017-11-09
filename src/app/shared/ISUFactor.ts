@@ -5,7 +5,7 @@ export class ISUFactor {
   origin: string;
   nature: string;
   valueNames: string[] = [];
-  _child: ISUFactor;
+  child: ISUFactor;
   inHypothesis: boolean;
 
   constructor(name?: string, nature?: string, origin?: string) {
@@ -28,10 +28,10 @@ export class ISUFactor {
       combinations.push(new ISUFactorCombination( [value] , 1));
     });
 
-    if (!this._child) {
+    if (!this.child) {
       return combinations;
     } else {
-      const childCombinations = this._child.mapCombinations();
+      const childCombinations = this.child.mapCombinations();
       combinations = this.combineLists(combinations, childCombinations);
       return combinations;
     }
@@ -58,7 +58,7 @@ export class ISUFactor {
   }
 
   compare(variable: ISUFactor) {
-    if (variable.nature === this.nature && variable.name === this.name) {
+    if (variable.origin === this.origin && variable.name === this.name) {
       return true;
     }
     return false;

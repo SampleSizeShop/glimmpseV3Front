@@ -2,12 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactor} from '../shared/ISUFactor';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
 import {Subscription} from 'rxjs/Subscription';
-import {RepeatedMeasure} from '../shared/RepeatedMeasure';
-import {ISUFactors} from '../shared/ISUFactors';
 import {StudyService} from '../shared/study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
-import {constants} from "../shared/constants";
+import {constants} from '../shared/constants';
 
 @Component({
   selector: 'app-hypothesis-effect-choice',
@@ -18,12 +16,6 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   @Input() variables;
   private _possibleEffects: HypothesisEffect[];
   private _selected: HypothesisEffect;
-
-
-  private _outcomes: string[];
-  private _repeatedMeasures: RepeatedMeasure[];
-  private _betweenIsuFactors: ISUFactors;
-
   private _hypothesisEffectSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private _study_service: StudyService) {
@@ -130,30 +122,6 @@ export class HypothesisEffectChoiceComponent implements OnInit {
 
   set possibleEffects(value: HypothesisEffect[]) {
     this._possibleEffects = value;
-  }
-
-  get outcomes(): string[] {
-    return this._outcomes;
-  }
-
-  set outcomes(value: string[]) {
-    this._outcomes = value;
-  }
-
-  get repeatedMeasures(): RepeatedMeasure[] {
-    return this._repeatedMeasures;
-  }
-
-  set repeatedMeasures(value: RepeatedMeasure[]) {
-    this._repeatedMeasures = value;
-  }
-
-  get betweenIsuFactors(): ISUFactors {
-    return this._betweenIsuFactors;
-  }
-
-  set betweenIsuFactors(value: ISUFactors) {
-    this._betweenIsuFactors = value;
   }
 
   set hypothesisEffectSubscription(value: Subscription) {

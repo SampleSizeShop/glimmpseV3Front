@@ -29,7 +29,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
   private _types: string[];
   private _type: string;
   private _repeats: number;
-  private _spacingValues: number[];
+  private _spacingValues: string[];
 
   private _directionCommand: string;
   private _navigationSubscription: Subscription;
@@ -45,7 +45,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.spacingControlNames = [0, 1];
     this.editing = false;
     this.types = constants.REPEATED_MEASURE_TYPES;
-    this.spacingValues = [];
+    this.spacingValues = new Array<string>();
 
     this.navigationSubscription = this.navigation_service.navigation$.subscribe(
       direction => {
@@ -122,7 +122,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     }
   }
 
-  updateSpacingFormControls(repeats: number, values?: number[] ) {
+  updateSpacingFormControls(repeats: number, values?: string[] ) {
     if (this.repeatsForm.status === 'VALID') {
       this.spacingControlNames = Array.from(Array(repeats).keys())
       const controlDefs = {};
@@ -151,14 +151,14 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
 
   addRepeatedMeasure() {
     const measure = new RepeatedMeasure();
-    measure.dimension = this.dimensionForm.value.dimension;
+    measure.name = this.dimensionForm.value.dimension;
     measure.units = this.dimensionForm.value.units;
     measure.noRepeats = this.repeatsForm.value.repeats;
     measure.type = this.typeForm.value.type;
     for (const name of this.spacingControlNames) {
       this.spacingValues.push(this.spacingForm.get(name.toString()).value);
     }
-    measure.spacing = this.spacingValues;
+    measure.valueNames = this.spacingValues;
 
     this.repeatedMeasures.push(measure);
   }
@@ -169,9 +169,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this.repMeasure = measure;
     this.type = measure.type;
     this.repeats = measure.noRepeats;
-    this.spacingValues = measure.spacing;
+    this.spacingValues = measure.valueNames;
 
-    this.dimensionForm.get('dimension').setValue(measure.dimension);
+    this.dimensionForm.get('dimension').setValue(measure.name);
     this.typeForm.get('type').setValue(measure.type);
     this.repeatsForm.get('repeats').setValue(measure.noRepeats);
 
@@ -421,11 +421,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
     this._spacingControlNames = value;
   }
 
-  get spacingValues(): number[] {
+  get spacingValues(): string[] {
     return this._spacingValues;
   }
 
-  set spacingValues(value: number[]) {
+  set spacingValues(value: string[]) {
     this._spacingValues = value;
   }
 

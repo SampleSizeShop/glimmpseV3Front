@@ -5,7 +5,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {ISUFactorCombinationTable} from '../shared/ISUFactorCombinationTable';
 import {ISUFactors} from '../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
-import {constants} from "../shared/constants";
+import {constants} from '../shared/constants';
 
 @Component({
   selector: 'app-between-isu-groups',

@@ -54,7 +54,7 @@ describe('CorrelationMatrixComponent', () => {
     expect(Object.keys(component.controlDefs).length).toEqual(4);
   } )
 
-  it('Should create the array of values corresponding to controls, addressed by dimension to each matrix element', () => {
+  it('Should create the array of values corresponding to controls, addressed by name to each matrix element', () => {
     component.size = 2;
     component._initializeProperties();
     component._defineFormControls();

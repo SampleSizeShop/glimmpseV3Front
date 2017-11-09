@@ -101,7 +101,7 @@ export class StudyDesign {
     });
     this.isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
       const variable = new ISUFactor(
-        repeatedMeasure.dimension,
+        repeatedMeasure.name,
         constants.HYPOTHESIS_NATURE.WITHIN,
         constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE);
       variables.push(variable);

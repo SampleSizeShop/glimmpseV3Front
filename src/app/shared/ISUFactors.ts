@@ -12,6 +12,7 @@ import {HypothesisEffect} from "./HypothesisEffect";
 export class ISUFactors {
   variables = new Array<ISUFactor>();
   betweenIsuRelativeGroupSizes = new Map<string, ISUFactorCombination>();
+  marginalMeans = new Map<string, ISUFactorCombination>();
   smallestGroupSize: number[] = [];
 
   get hypothesisName(): string {
@@ -187,8 +188,8 @@ export class ISUFactors {
     const names = [];
     const tableDimensions = [];
 
-    factors.forEach( predictor => {
-      names.push(predictor.name);
+    factors.forEach( factor => {
+      names.push(factor.name);
     });
     if ( names.length > 0 ) { tableDimensions.push(names.pop()); }
     if ( names.length > 0 ) { tableDimensions.push(names.pop()); }
@@ -241,9 +242,9 @@ export class ISUFactors {
   getSubGroupCombinations(names: string[], factors: Array<ISUFactor>): ISUFactorCombination[] {
     let groups = [];
     names.forEach( name => {
-      factors.forEach( predictor => {
-        if (predictor.name === name) {
-          groups.push(predictor);
+      factors.forEach( factor => {
+        if (factor.name === name) {
+          groups.push(factor);
         }
       })
     });
@@ -256,19 +257,19 @@ export class ISUFactors {
   }
 
   assignChildren(factorList: ISUFactor[]) {
-    const predictorsWithChildrenAssigned = [];
+    const factorsWithChildrenAssigned = [];
     factorList.forEach( factor => {
-      factor._child = null;
+      factor.child = null;
     })
     let parent = factorList.pop();
     while (factorList.length > 0) {
       const child = factorList.pop();
-      parent._child = child
-      predictorsWithChildrenAssigned.push(parent);
+      parent.child = child
+      factorsWithChildrenAssigned.push(parent);
       parent = child;
     }
-    predictorsWithChildrenAssigned.push(parent);
-    factorList = predictorsWithChildrenAssigned;
+    factorsWithChildrenAssigned.push(parent);
+    factorList = factorsWithChildrenAssigned;
     return factorList;
   }
 }
