@@ -4,7 +4,7 @@ import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {ISUFactors} from '../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
-import {HypothesisEffect} from '../shared/HypothesisEffect';
+import * as math from 'mathjs';
 import {CMatrix} from '../shared/CMatrix';
 
 @Component({
@@ -74,13 +74,18 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       this.populateAverageMatrices(betweenFactorsNotInHypothesis, marginalMatrices);
 
       const cMatrix = new CMatrix(constants.C_MATRIX_TYPE.CMATRIX);
-      const first = marginalMatrices.pop();
-      // TODO: what if cmatrix is undefined???
+      let first = marginalMatrices.pop();
+      if (isNullOrUndefined(first) || isNullOrUndefined(first.values)) {
+        first = new CMatrix(constants.C_MATRIX_TYPE.AVERAGE);
+        first.values = math.matrix([[1]]);
+      }
       cMatrix.values = first.values;
-      marginalMatrices.forEach( matrix => {
-        cMatrix.values = cMatrix.kronecker(matrix);
-      });
-      if (!isNullOrUndefined(cMatrix) && !isNullOrUndefined(cMatrix.values)) {this.texString = cMatrix.toTeX(); }
+      if (!isNullOrUndefined(marginalMatrices) && marginalMatrices.length > 0) {
+        marginalMatrices.forEach( matrix => {
+          cMatrix.values = cMatrix.kronecker(matrix);
+        });
+      }
+      this.texString = cMatrix.toTeX();
     };
   }
 
