@@ -35,100 +35,57 @@ export class ISUFactors {
   }
 
   get outcomes(): Array<Outcome> {
-    const outcomes = new Array<Outcome>();
-    this.variables.forEach( variable => {
-      if (variable instanceof Outcome) {
-        outcomes.push(variable);
-      }
-    });
-    return outcomes;
+    return this.getFactorsByType(Outcome);
   }
 
   updateOutcomes(newOutcomes: Array<Outcome>) {
-    const toDelete = [];
-    this.variables.forEach(variable => {
-      if (variable instanceof Outcome || isNullOrUndefined(variable)) {
-        const index = this.variables.indexOf(variable);
-        if (index !== -1 || isNullOrUndefined(variable)) {
-          toDelete.push(index);
-        }
-      }
-    });
-    toDelete.reverse();
-    toDelete.forEach( index => {
-      this.variables.splice(index, 1);
-    });
-    this.variables = this.variables.concat(newOutcomes);
+    this.variables = this._updateListOfISUFactors(newOutcomes);
   }
 
   get repeatedMeasures(): Array<RepeatedMeasure> {
-    const outcomes = new Array<RepeatedMeasure>();
-    this.variables.forEach( variable => {
-      if (variable instanceof RepeatedMeasure) {
-        outcomes.push(variable);
-      }
-    });
-    return outcomes;
+    return this.getFactorsByType(RepeatedMeasure);
   }
 
   updateRepeatedMeasures(newRepeatedMeasures: Array<RepeatedMeasure>) {
-    const toDelete = [];
-    this.variables.forEach(variable => {
-      if (variable instanceof RepeatedMeasure || isNullOrUndefined(variable)) {
-        const index = this.variables.indexOf(variable);
-        if (index !== -1 || isNullOrUndefined(variable)) {
-          toDelete.push(index);
-        }
-      }
-    });
-    toDelete.reverse();
-    toDelete.forEach( index => {
-      this.variables.splice(index, 1);
-    });
-    this.variables = this.variables.concat(newRepeatedMeasures);
+    this.variables = this._updateListOfISUFactors(newRepeatedMeasures);
   }
 
   get cluster(): Cluster {
-    let cluster = null;
-    this.variables.forEach( variable => {
-      if (variable instanceof Cluster) {
-        cluster = variable;
-      }
-    });
-    return cluster;
+    const clusterArray = this.getFactorsByType(Cluster);
+    if (!isNullOrUndefined(clusterArray) && clusterArray.length === 1) {
+      return clusterArray[0];
+    } else {
+      return null;
+    }
   }
 
   updateCluster(newCluster: Cluster) {
-    const toDelete = [];
-    this.variables.forEach(variable => {
-      if (variable instanceof Cluster || isNullOrUndefined(variable)) {
-        const index = this.variables.indexOf(variable);
-        if (index !== -1 || isNullOrUndefined(variable)) {
-          toDelete.push(index);
-        }
-      }
-    });
-    toDelete.reverse();
-    toDelete.forEach( index => {
-      this.variables.splice(index, 1);
-    });
-    this.variables = this.variables.concat([newCluster]);
+    this.variables = this._updateListOfISUFactors([newCluster]);
   }
 
   get predictors(): Array<Predictor> {
-    const predictors = new Array<Predictor>();
-    this.variables.forEach( variable => {
-      if (variable instanceof Predictor) {
-        predictors.push(variable);
-      }
-    });
-    return predictors;
+    return this.getFactorsByType(Predictor);
   }
 
   updatePredictors(newPredictors: Array<Predictor>) {
+    this.variables = this._updateListOfISUFactors(newPredictors);
+  }
+
+  getFactorsByType( type ) {
+    const array = new Array();
+    this.variables.forEach( variable => {
+      if (variable.constructor.name === type.name) {
+        array.push(variable);
+      }
+    });
+    return array;
+  }
+
+  _updateListOfISUFactors<K extends ISUFactor>(newFactors: Array<K>): Array<ISUFactor> {
     const toDelete = [];
     this.variables.forEach(variable => {
-      if (variable instanceof Predictor || isNullOrUndefined(variable)) {
+      if (isNullOrUndefined(variable) ||
+        (!isNullOrUndefined(newFactors[0]) && variable.constructor.name === newFactors[0].constructor.name)) {
         const index = this.variables.indexOf(variable);
         if (index !== -1 || isNullOrUndefined(variable)) {
           toDelete.push(index);
@@ -139,7 +96,7 @@ export class ISUFactors {
     toDelete.forEach( index => {
       this.variables.splice(index, 1);
     });
-    this.variables = this.variables.concat(newPredictors);
+    return this.variables.concat(newFactors);
   }
 
   get hypothesis(): Array<ISUFactor> {
