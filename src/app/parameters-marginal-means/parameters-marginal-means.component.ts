@@ -58,7 +58,6 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
       }
     });
     this.marginalMeansForm = this.fb.group(controlDefs);
-    this.updateMarginalMeans();
   }
 
   get isuFactors(): ISUFactors {

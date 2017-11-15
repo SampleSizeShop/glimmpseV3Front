@@ -55,18 +55,15 @@ export class StudyDesign {
             this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
           }
         });
-        const a = 1;
     }
 
     // is our hypothesis effect made up of isuFactors we have defined
     if (!isNullOrUndefined(this.isuFactors.hypothesis)) {
-
       let possibleEffect = true;
       const variables = this.variables;
       if (!isNullOrUndefined(variables) && !isNullOrUndefined(this.isuFactors.hypothesis)) {
         this.isuFactors.hypothesis.forEach(variable => {
           let match = false;
-
           variables.forEach(
             value => {
               if (!match) {
@@ -74,19 +71,30 @@ export class StudyDesign {
               }
             }
           );
-
           if (!match ) {
             possibleEffect = false;
           }
-
         });
       }
-
       if (!possibleEffect) {
         this.isuFactors.clearHypothesis();
       }
-
     };
+
+    // Are marginal means id groups made up of hypothesis we have chosen
+    if (!isNullOrUndefined(this.isuFactors.hypothesis) &&
+      this.isuFactors.hypothesis.length > 0) {
+      const groups = this.isuFactors.marginalMeans
+      const combinations = this.isuFactors.generateCombinations(this.isuFactors.hypothesis);
+      if (groups.size !== combinations.size) {
+        this.isuFactors.marginalMeans = combinations;
+      }
+      groups.forEach(key => {
+        if (!combinations.has(key.name) ) {
+          this.isuFactors.marginalMeans = combinations;
+        }
+      });
+    }
   }
 
   get variables() {
