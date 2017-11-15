@@ -52,7 +52,9 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
       while (!done) {
         const key = next.value;
         const combination = table.table.get(key);
-        controlDefs[combination.name] = [combination.size];
+        if (!isNullOrUndefined(combination)) {
+          controlDefs[combination.name] = [combination.size];
+        }
         next = names.next();
         done = next.done;
       }
