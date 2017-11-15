@@ -1,9 +1,22 @@
-import {HypothesisEffectVariable} from './HypothesisEffectVariable';
+import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
+import {MarginalMean} from './MarginalMean';
+import {constants} from './constants';
 
 export class HypothesisEffect {
-  variables: HypothesisEffectVariable[] = [];
-  type: string;
+  variables: Array<ISUFactor> = [];
+
+  get type(): string {
+    let type = '';
+    if (isNullOrUndefined(this.variables) || this.variables.length === 0) {
+      type = constants.HYPOTHESIS_EFFECT_TYPE.GRAND_MAEN;
+    } else if ( this.variables.length > 1 ) {
+      type = constants.HYPOTHESIS_EFFECT_TYPE.INTERACTION;
+    } else {
+      type = constants.HYPOTHESIS_EFFECT_TYPE.MAIN_EFFECT;
+    }
+    return type;
+  }
 
   get name(): string {
     let name = '';
@@ -17,14 +30,14 @@ export class HypothesisEffect {
   get nature(): string {
     let nature = '';
     this.variables.forEach( variable => {
-      nature = nature.concat(variable.type, ' X ');
+      nature = nature.concat(variable.nature, ' x ');
     });
     nature = nature.substring(0, nature.length - 3);
-    if (this.variables.length === 0) { nature = 'BETWEEN'; }
+    if (this.variables.length === 0) { nature = constants.HYPOTHESIS_NATURE.BETWEEN; }
     return nature;
   }
 
-  addVariable(variable: HypothesisEffectVariable) {
+  addVariable(variable: ISUFactor) {
     let existsInList = false;
     this.variables.forEach( value => {
       if (value.compare(variable)) {
@@ -47,7 +60,7 @@ export class HypothesisEffect {
     this.variables.forEach( variable1 => {
       let found = false;
       effect.variables.forEach( variable2 => {
-        if (variable1.name === variable2.name && variable1.type === variable2.type ) {
+        if (variable1.name === variable2.name && variable1.origin === variable2.origin ) {
           found = true;
         }
       });

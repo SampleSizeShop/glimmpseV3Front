@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {NGXLogger} from 'ngx-logger';
@@ -6,6 +6,7 @@ import {constants} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-study-form',
@@ -13,7 +14,7 @@ import {isNullOrUndefined} from 'util';
   styleUrls: ['./study-form.component.scss'],
   providers: [StudyService, NGXLogger, NavigationService]
 })
-export class StudyFormComponent implements OnInit, OnDestroy {
+export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _valid = false;
   private _hasNext: boolean;
   private _hasBack: boolean;
@@ -31,7 +32,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   private _withinIsuOutcomeSubscription: Subscription;
   private _withinIsuRepeatedMeasuresSubscription: Subscription;
   private _withinIsuClusterSubscription: Subscription;
-  private _betweenIsuFactorsSubscription: Subscription;
+  private _betweenIsuPredictorsSubscription: Subscription;
+  private _isuFactorsSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
   private _betweenHypothesisNatureSubscription: Subscription;
   private _withinHypothesisNatureSubscription: Subscription;
@@ -48,7 +50,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
   constructor(
     private study_service: StudyService,
     private logger: NGXLogger,
-    private navigation_service: NavigationService
+    private navigation_service: NavigationService,
+    private router: Router
   ) {
     this.study = new StudyDesign();
     this.subscribeToStudyService();
@@ -62,15 +65,20 @@ export class StudyFormComponent implements OnInit, OnDestroy {
       const current = this.getStage();
       if ( current < this._noStages &&  this.valid ) {
         if (current === 9
-          && (isNullOrUndefined(this.study.betweenIsuFactors)
-          || this.study.betweenIsuFactors.predictors.length === 0)) {
+          && (isNullOrUndefined(this.study.isuFactors)
+          || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(11)
         } else {
           this.setStage( current + 1 );
         }
+        this.navigate(this.study_service.stage);
         this.setNextBack();
       }
     }
+  }
+
+  private navigate(stage: number) {
+    this.router.navigateByUrl('/design/' + constants.STAGES[stage]);
   }
 
   back(): void {
@@ -80,13 +88,14 @@ export class StudyFormComponent implements OnInit, OnDestroy {
       const current = this.getStage();
       if (current > 1 && this.guided) {
         if (current === 11
-          && (isNullOrUndefined(this.study.betweenIsuFactors)
-          || this.study.betweenIsuFactors.predictors.length === 0)) {
+          && (isNullOrUndefined(this.study.isuFactors)
+          || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(9)
         } else {
           this.setStage(current - 1);
         }
       }
+      this.navigate(this.study_service.stage);
       this.setNextBack();
       this.valid = true;
     }
@@ -111,6 +120,22 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._noStages = Object.keys(this._stages).length;
     this.hasNext = true;
     this.hasBack = false;
+  }
+
+  ngDoCheck() {
+    const name = this.router.url.replace('/design/', '');
+    if (name !== this.getStageName()) {
+      if (isNullOrUndefined(name) || name === '/design') {
+        this.setStage(1);
+      } else {
+        const stage = this.study_service.getStageFromName(name);
+        if (stage !== -1 && stage !== this.study_service.stage) {
+          this.setStage(stage);
+        }
+      }
+      this.childComponentNav = false;
+    }
+    this.setNextBack();
   }
 
   ngOnDestroy() {
@@ -305,12 +330,20 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this._withinIsuClusterSubscription = value;
   }
 
-  get betweenIsuFactorsSubscription(): Subscription {
-    return this._betweenIsuFactorsSubscription;
+  get betweenIsuPredictorsSubscription(): Subscription {
+    return this._betweenIsuPredictorsSubscription;
   }
 
-  set betweenIsuFactorsSubscription(value: Subscription) {
-    this._betweenIsuFactorsSubscription = value;
+  set betweenIsuPredictorsSubscription(value: Subscription) {
+    this._betweenIsuPredictorsSubscription = value;
+  }
+
+  get isuFactorsSubscription(): Subscription {
+    return this._isuFactorsSubscription;
+  }
+
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
   }
 
   get gaussianCovariateSubscription(): Subscription {
@@ -399,27 +432,34 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
     this.withinIsuOutcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
       outcomes => {
-        this.study.withinIsuFactors.outcomes = outcomes;
+        this.study.isuFactors.updateOutcomes(outcomes);
         this.study.checkDependencies();
       }
     );
 
     this.withinIsuRepeatedMeasuresSubscription = this.study_service.withinIsuRepeatedMeasures$.subscribe(
       measures => {
-        this.study.withinIsuFactors.repeatedMeasures = measures;
+        this.study.isuFactors.updateRepeatedMeasures(measures);
         this.study.checkDependencies();
       }
     );
 
     this.withinIsuClusterSubscription = this.study_service.withinIsuCluster$.subscribe(
       cluster => {
-        this.study.withinIsuFactors.cluster = cluster;
+        this.study.isuFactors.updateCluster(cluster);
       }
     );
 
-    this.betweenIsuFactorsSubscription = this.study_service.betweenIsuFactors$.subscribe(
-      betweenIsuFactors => {
-        this.study.betweenIsuFactors = betweenIsuFactors;
+    this.betweenIsuPredictorsSubscription = this.study_service.betweenIsuPredictors$.subscribe(
+      predictors => {
+        this.study.isuFactors.updatePredictors(predictors);
+        this.study.checkDependencies();
+      }
+    );
+
+    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe(
+      factors => {
+        this.study.isuFactors = factors;
         this.study.checkDependencies();
       }
     );
@@ -444,7 +484,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
 
     this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
       hypothesisEffect => {
-        this.study.hypothesisEffect = hypothesisEffect;
+        this.study.isuFactors.updateHypothesis(hypothesisEffect);
+        this.study.checkDependencies();
       }
     );
   };
@@ -461,7 +502,8 @@ export class StudyFormComponent implements OnInit, OnDestroy {
     this.withinIsuOutcomeSubscription.unsubscribe();
     this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
     this.withinIsuClusterSubscription.unsubscribe();
-    this.betweenIsuFactorsSubscription.unsubscribe();
+    this.betweenIsuPredictorsSubscription.unsubscribe();
+    this.isuFactorsSubscription.unsubscribe();
     this.gaussianCovariateSubscription.unsubscribe();
     this.betweenHypothesisNatureSubscription.unsubscribe();
     this.withinHypothesisNatureSubscription.unsubscribe();

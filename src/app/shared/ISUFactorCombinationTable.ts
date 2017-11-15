@@ -1,15 +1,15 @@
-import {BetweenIsuCombination, GroupId} from './BetweenIsuCombination';
+import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
 import {isNullOrUndefined} from 'util';
 
-export class BetweenIsuCombinationTable {
-  private _table: Map<string, BetweenIsuCombination>;
+export class ISUFactorCombinationTable {
+  private _table: Map<string, ISUFactorCombination>;
   private _rows: string[];
   private _cols: string[];
   private _rowDimension: string;
   private _colDimension: string;
-  private _groupIdentifier: GroupId[];
+  private _groupIdentifier: Array<CombinationId>;
 
-  constructor(members: BetweenIsuCombination[], tableDimensions: string[], groupName: GroupId[]) {
+  constructor(members: ISUFactorCombination[], tableDimensions: string[], groupName: CombinationId[]) {
     this.groupIdentifier = groupName
     this.populateTableDimensions(tableDimensions);
     this.populateTableandRowsAndColumns(members);
@@ -20,8 +20,8 @@ export class BetweenIsuCombinationTable {
     this.colDimension = tableDimensions[1];
   }
 
-  populateTableandRowsAndColumns(members: BetweenIsuCombination[]) {
-    this.table = new Map<string, BetweenIsuCombination>();
+  populateTableandRowsAndColumns(members: ISUFactorCombination[]) {
+    this.table = new Map<string, ISUFactorCombination>();
     this.rows = [];
     this.cols = [];
 
@@ -32,18 +32,18 @@ export class BetweenIsuCombinationTable {
       let col = null;
 
       member.id.forEach( groupId => {
-        if (groupId.predictor === this.rowDimension) {
+        if (groupId.id === this.rowDimension) {
           row = groupId
         }
-        if ( groupId.predictor === this.colDimension ) {
+        if ( groupId.id === this.colDimension ) {
           col = groupId
         }
       } );
 
       const key = new TableKey(row, col);
       this.table.set(key.toString(), member);
-      if (row ) {rowSet.add( row.name ); }
-      if (col) {colSet.add( col.name ); }
+      if (row ) {rowSet.add( row.value ); }
+      if (col) {colSet.add( col.value); }
     } );
 
     rowSet.forEach( val => {
@@ -54,10 +54,10 @@ export class BetweenIsuCombinationTable {
     } )
   }
 
-  getMember(row: string, col: string) {
+  getMember(row: string, col: string): ISUFactorCombination {
     const key = new TableKey(
-      new GroupId( this.rowDimension, row ),
-      new GroupId(this.colDimension, col)
+      new CombinationId( this.rowDimension, row ),
+      new CombinationId(this.colDimension, col)
     );
     return this.table.get(key.toString());
   }
@@ -65,7 +65,7 @@ export class BetweenIsuCombinationTable {
   get groupName() {
     let name = '';
     this.groupIdentifier.forEach( id => {
-      name = name + ' ' + id.predictor + ':' + id.name;
+      name = name + ' ' + id.id + ':' + id.value;
     } );
     name = name.trim();
     return name;
@@ -78,11 +78,11 @@ export class BetweenIsuCombinationTable {
     return true;
   }
 
-  get table(): Map<string, BetweenIsuCombination> {
+  get table(): Map<string, ISUFactorCombination> {
     return this._table;
   }
 
-  set table(value: Map<string, BetweenIsuCombination>) {
+  set table(value: Map<string, ISUFactorCombination>) {
     this._table = value;
   }
 
@@ -118,29 +118,29 @@ export class BetweenIsuCombinationTable {
     this._colDimension = value;
   }
 
-  get groupIdentifier(): GroupId[] {
+  get groupIdentifier(): CombinationId[] {
     return this._groupIdentifier;
   }
 
-  set groupIdentifier(value: GroupId[]) {
+  set groupIdentifier(value: CombinationId[]) {
     this._groupIdentifier = value;
   }
 }
 
 class TableKey {
-  row: GroupId;
-  col: GroupId;
+  row: CombinationId;
+  col: CombinationId;
 
   toString() {
     let name = '';
-    if (this.row) { name = name + this.row.predictor + this.row.name; }
+    if (this.row) { name = name + this.row.id + this.row.value; }
     if ( !isNullOrUndefined(this.col)
-      && !isNullOrUndefined(this.col.predictor)
-      && !isNullOrUndefined(this.col.name)) { name = name + this.col.predictor + this.col.name; }
+      && !isNullOrUndefined(this.col.id)
+      && !isNullOrUndefined(this.col.value)) { name = name + this.col.id + this.col.value; }
     return name;
   }
 
-  constructor(row: GroupId, col: GroupId) {
+  constructor(row: CombinationId, col: CombinationId) {
     this.row = row;
     this.col = col;
   }

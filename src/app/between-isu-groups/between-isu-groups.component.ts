@@ -1,11 +1,11 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {BetweenIsuCombinationTable} from '../shared/BetweenIsuCombinationTable';
-import {BetweenISUFactors} from '../shared/BetweenISUFactors';
+import {ISUFactorCombinationTable} from '../shared/ISUFactorCombinationTable';
+import {ISUFactors} from '../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
-import {BetweenIsuCombination} from "../shared/BetweenIsuCombination";
+import {constants} from '../shared/constants';
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -14,22 +14,18 @@ import {BetweenIsuCombination} from "../shared/BetweenIsuCombination";
 })
 export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
+  private _isuFactors: ISUFactors;
   private _groupSizeForm: FormGroup;
   private _relativeGroupSizeForm: FormGroup;
-  private _betweenIsuFactors: BetweenISUFactors;
   private _solveFor: string;
 
-  private _tables: BetweenIsuCombinationTable[];
+  private _tables: Array<ISUFactorCombinationTable>;
 
-  private _betweenIsuFactorsSubscription: Subscription;
+  private _betweenIsuGroupsSubscription: Subscription;
   private _solveForSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService) {
-
-    this.betweenIsuFactorsSubscription = this.study_service.betweenIsuFactors$.subscribe( betweenIsuFactors => {
-      this.betweenIsuFactors = betweenIsuFactors;
-    });
 
     this.solveForSubscription = this.study_service.solveForSelected$.subscribe( solveFor => {
       this.solveFor = solveFor;
@@ -46,12 +42,11 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     if (this.solveFor === 'POWER') {
       this.updateSmallestGroupSize();
     }
-    this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
+    this.study_service.updateIsuFactors(this.isuFactors);
   }
 
   ngOnDestroy() {
     this.solveForSubscription.unsubscribe();
-    this.betweenIsuFactorsSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -59,7 +54,9 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
       smallestGroupSize: [1]
     } );
     this.relativeGroupSizeForm = this.fb.group( {} );
-    this.updateGroupsizeFormControls();
+    if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE) {
+      this.updateGroupsizeFormControls();
+    }
   }
 
   resetForms() {
@@ -69,28 +66,29 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   updateSmallestGroupSize() {
-    if ( this.betweenIsuFactors ) {
-      this.betweenIsuFactors.smallestGroupSize = this.groupSizeForm.value.smallestGroupSize;
+    if ( this.isuFactors ) {
+      this.isuFactors.smallestGroupSize = this.groupSizeForm.value.smallestGroupSize;
     }
   }
 
   updateCombinations() {
-    if ( this.betweenIsuFactors ) {
-      this.betweenIsuFactors.combinations.forEach(combination => {
+    if ( this.isuFactors ) {
+      this.isuFactors.betweenIsuRelativeGroupSizes.forEach(combination => {
         const value = this.relativeGroupSizeForm.get(combination.name).value;
         combination.size = value;
       });
     }
-}
+  }
+
   updateGroupsizeFormControls() {
-    if (isNullOrUndefined(this.betweenIsuFactors)) {
+    if (isNullOrUndefined(this.isuFactors) || isNullOrUndefined(this.isuFactors.predictors)) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
-      if ( !this.betweenIsuFactors.combinations ) {
-        this.betweenIsuFactors.generateCombinations();
-        this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
-      }
-      this.tables = this.betweenIsuFactors.groupCombinations();
+      this.study_service.updateIsuFactors(this.isuFactors);
+
+      this.tables = this.isuFactors.groupCombinations(
+        this.isuFactors.betweenIsuRelativeGroupSizes,
+        this.isuFactors.predictors);
       const controlDefs = {};
       this.tables.forEach(table => {
         const names = table.table.keys();
@@ -124,12 +122,12 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this._relativeGroupSizeForm = value;
   }
 
-  get betweenIsuFactors(): BetweenISUFactors {
-    return this._betweenIsuFactors;
+  get isuFactors(): ISUFactors {
+    return this._isuFactors;
   }
 
-  set betweenIsuFactors(value: BetweenISUFactors) {
-    this._betweenIsuFactors = value;
+  @Input() set isuFactors(value: ISUFactors) {
+    this._isuFactors = value;
   }
 
   get solveFor(): string {
@@ -140,20 +138,20 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this._solveFor = value;
   }
 
-  get tables(): BetweenIsuCombinationTable[] {
+  get tables(): ISUFactorCombinationTable[] {
     return this._tables;
   }
 
-  set tables(value: BetweenIsuCombinationTable[]) {
+  set tables(value: ISUFactorCombinationTable[]) {
     this._tables = value;
   }
 
-  get betweenIsuFactorsSubscription(): Subscription {
-    return this._betweenIsuFactorsSubscription;
+  get betweenIsuGroupsSubscription(): Subscription {
+    return this._betweenIsuGroupsSubscription;
   }
 
-  set betweenIsuFactorsSubscription(value: Subscription) {
-    this._betweenIsuFactorsSubscription = value;
+  set betweenIsuGroupsSubscription(value: Subscription) {
+    this._betweenIsuGroupsSubscription = value;
   }
 
   get solveForSubscription(): Subscription {

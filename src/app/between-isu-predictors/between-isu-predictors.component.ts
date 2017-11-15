@@ -1,13 +1,12 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {BetweenISUFactors} from '../shared/BetweenISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../shared/study.service';
 import {NavigationService} from '../shared/navigation.service';
 import {Predictor} from '../shared/Predictor';
 import {constants} from '../shared/constants';
-import {outcomeValidator} from '../within-isu-outcomes/outcome.validator';
 import {predictorValidator} from './predictor.validator';
+import {groupValidator} from './group.validator';
 
 @Component({
   selector: 'app-between-isu',
@@ -20,7 +19,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _groups: string[];
   private _maxGroups: number;
   private _maxPredictors: number;
-  private _betweenIsuFactors: BetweenISUFactors;
+  private _betweenIsuPredictors: Array<Predictor>;
 
   private _editing: boolean;
   private _stages;
@@ -28,7 +27,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _directionCommand: string;
   private _navigationSubscription: Subscription;
 
-  private _betweenIsuFactorsSubscription: Subscription;
+  private _betweenIsuPredictorsSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService,
@@ -47,8 +46,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       }
     );
 
-    this.betweenIsuFactorsSubscription = this.study_service.betweenIsuFactors$.subscribe( betweenIsuFactors => {
-      this.betweenIsuFactors = betweenIsuFactors;
+    this.betweenIsuPredictorsSubscription = this.study_service.betweenIsuPredictors$.subscribe(betweenIsuFactors => {
+      this.betweenIsuPredictors = betweenIsuFactors;
     });
   }
 
@@ -62,15 +61,14 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   ngOnDestroy() {
     this.navigationSubscription.unsubscribe();
-    this.betweenIsuFactorsSubscription.unsubscribe();
   }
 
   buildForm() {
     this.predictorForm = this.fb.group({
-      predictorName: ['', predictorValidator(this.betweenIsuFactors ? this.betweenIsuFactors.predictorNames : [] )]
+      predictorName: ['', predictorValidator(this.betweenIsuPredictors)]
     });
     this.groupsForm = this.fb.group({
-      group: ['', outcomeValidator(this.groups)]
+      group: ['', groupValidator(this.groups)]
     });
   }
 
@@ -85,7 +83,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
         this.setNextEnabled('INVALID');
       }
     }
-    this.study_service.updateBetweenIsuFactors(this.betweenIsuFactors);
+    this.study_service.updateBetweenIsuPredictors(this.betweenIsuPredictors);
   }
 
 
@@ -115,17 +113,17 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.groupsForm.reset();
   }
 
-  includeBetweenIsuFactors(predictor?: Predictor) {
+  includePredictors(predictor?: Predictor) {
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
     this.navigation_service.updateNextEnabled( true );
     this.navigation_service.updateValid(false);
-    if (!this.betweenIsuFactors) {
-      this.betweenIsuFactors = new BetweenISUFactors();
+    if (!this.betweenIsuPredictors) {
+      this.betweenIsuPredictors = new Array<Predictor>();
     }
     if ( predictor ) {
       this.predictorForm.get('predictorName').setValue(predictor.name)
-      this.groups = predictor.groups;
+      this.groups = predictor.valueNames;
       if ( this.predictorForm.status === 'VALID' ) {
         this.navigation_service.updateValid( true );
       }
@@ -143,28 +141,25 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   addPredictor() {
     const predictor = new Predictor();
     predictor.name = this.predictorForm.value.predictorName;
-    predictor.groups = this.groups;
+    predictor.valueNames = this.groups;
 
-    this.betweenIsuFactors.predictors.push(predictor);
-    this.betweenIsuFactors.combinations = null;
+    this.betweenIsuPredictors.push(predictor);
     this.editing = false;
   }
 
   removePredictor(predictor: Predictor) {
-    const index = this.betweenIsuFactors.predictors.indexOf(predictor);
+    const index = this.betweenIsuPredictors.indexOf(predictor);
     if (index > -1) {
-      this.betweenIsuFactors.predictors.splice(index, 1);
-      this.betweenIsuFactors.combinations = null;
+      this.betweenIsuPredictors.splice(index, 1);
     }
   }
 
   editPredictor(predictor: Predictor) {
     this.removePredictor(predictor);
     this.predictorForm = this.fb.group({
-      predictorName: ['', outcomeValidator(this.betweenIsuFactors ? this.betweenIsuFactors.predictorNames : [] )]
+      predictorName: ['', predictorValidator(this.betweenIsuPredictors)]
     });
-    this.includeBetweenIsuFactors(predictor);
-    this.betweenIsuFactors.combinations = null;
+    this.includePredictors(predictor);
   }
 
   getStageStatus(stage: number): string {
@@ -220,14 +215,14 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   hasPredictors(): boolean {
-    if (this.betweenIsuFactors) {
-      return this.betweenIsuFactors.predictors.length > 0;
+    if (this.betweenIsuPredictors) {
+      return this.betweenIsuPredictors.length > 0;
     }
     return false;
   }
 
   nextPredictors(): boolean {
-    if (this.hasPredictors() && this.betweenIsuFactors.predictors.length >= this.maxPredictors ) {
+    if (this.hasPredictors() && this.betweenIsuPredictors.length >= this.maxPredictors ) {
       return false;
     }
     return true;
@@ -253,20 +248,20 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._groupsForm = value;
   }
 
-  get betweenIsuFactors(): BetweenISUFactors {
-    return this._betweenIsuFactors;
+  get betweenIsuPredictors(): Array<Predictor> {
+    return this._betweenIsuPredictors;
   }
 
-  set betweenIsuFactors(value: BetweenISUFactors) {
-    this._betweenIsuFactors = value;
+  set betweenIsuPredictors(value: Array<Predictor>) {
+    this._betweenIsuPredictors = value;
   }
 
-  get betweenIsuFactorsSubscription(): Subscription {
-    return this._betweenIsuFactorsSubscription;
+  get betweenIsuPredictorsSubscription(): Subscription {
+    return this._betweenIsuPredictorsSubscription;
   }
 
-  set betweenIsuFactorsSubscription(value: Subscription) {
-    this._betweenIsuFactorsSubscription = value;
+  set betweenIsuPredictorsSubscription(value: Subscription) {
+    this._betweenIsuPredictorsSubscription = value;
   }
 
   get fb(): FormBuilder {

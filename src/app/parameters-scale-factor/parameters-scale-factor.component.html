@@ -1,0 +1,25 @@
+<form [formGroup]="scaleFactorForm" novalidate>
+  <h5>Specify the scale factor for the marginal means:</h5>
+  <fieldset>
+    <div>
+      <div id="scalefactordesc">
+        <p>
+          Here lives a  useful description of scale factors and how you'd pick one:
+        </p>
+      </div>
+      <div class="form-group" id="scalefactorinput">
+        <label for="scalefactor">Enter your desired scale factor:</label>
+        <input type="number"
+               class="form-control" id="scalefactor"
+               aria-describedby="scalefactorhelp"
+               placeholder="Choose a number 0 > x > 1"
+               formControlName="scalefactor"
+               required>
+        <div *ngIf="formErrors.scalefactor" class="form-group has-danger">
+          <div class="form-control-feedback">{{formErrors.scalefactor}}</div>
+        </div>
+        <small id="scalefactorhelp" class="form-text text-muted">Scale factor must be an integer? Not sure</small>
+      </div>
+    </div>
+  </fieldset>
+</form>

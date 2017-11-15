@@ -16,9 +16,9 @@ export class CMatrix {
 
   populateMainEffect(noGroups: number) {
     if (!Number.isInteger(noGroups)) {
-      throw new Error('You have a fractional number of groups in your main effect. This is not a valid.');
+      throw new Error('You have a fractional number of valueNames in your main effect. This is not a valid.');
     } else if (noGroups < 2) {
-      throw Error('You have less than 2 groups in your main effect. This is not a valid.');
+      throw Error('You have less than 2 valueNames in your main effect. This is not valid.');
     } else {
       const ident = math.diag(Array(noGroups - 1).fill(-1), 'dense');
       const vec  = math.ones([noGroups - 1, 1]);
@@ -29,9 +29,9 @@ export class CMatrix {
 
   populatePolynomialEvenSpacing(noGroups: number) {
     if (!Number.isInteger(noGroups)) {
-      throw new Error('You have a fractional number of groups in your main effect. This is not a valid.');
+      throw new Error('You have a fractional number of valueNames in your main effect. This is not a valid.');
     } else if (noGroups < 2) {
-      throw Error('You have less than 2 groups in your main effect. This is not a valid.');
+      throw Error('You have less than 2 valueNames in your main effect. This is not valid.');
     } else if (noGroups === 2) {
       this.values = math.matrix( constants.LINEAR_POLYNOMIAL_CMATRIX);
     } else if (noGroups === 3) {
@@ -43,13 +43,13 @@ export class CMatrix {
     } else if (noGroups === 6) {
       this.values = math.matrix( constants.SEXTIC_POLYNOMIAL_CMATRIX);
     } else {
-      throw Error('You have more than 6 groups in your main effect. We don\'t currently handle this.');
+      throw Error('You have more than 6 valueNames in your main effect. We don\'t currently handle this.');
     }
   }
 
   poopulateAverageMatrix(noGroups: number) {
     if (!Number.isInteger(noGroups)) {
-      throw new Error('You have a fractional number of groups in your main effect. This is not a valid.');
+      throw new Error('You have a fractional number of valueNames in your main effect. This is not a valid.');
     } else {
       this.values = math.matrix([Array(noGroups).fill( 1 / noGroups )] );
     }
@@ -57,14 +57,15 @@ export class CMatrix {
 
   populateIdentityMatrix(noGroups: number) {
     if (!Number.isInteger(noGroups)) {
-      throw new Error('You have a fractional number of groups in your main effect. This is not a valid.');
+      throw new Error('You have a fractional number of valueNames in your main effect. This is not a valid.');
     } else {
       this.values = math.diag(Array(noGroups).fill(1), 'dense');
     }
   }
 
   kronecker (next: CMatrix): Matrix {
-    return math.kron(this.values, next.values);
+    // return math.kron(this.values, next.values);
+    return math.matrix([0]);
   }
 
   toTeX(): string {

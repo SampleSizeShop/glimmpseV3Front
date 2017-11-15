@@ -7,9 +7,12 @@ import {Observable} from 'rxjs/Observable';
 import {constants} from './constants';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
-import {BetweenISUFactors} from './BetweenISUFactors';
 import {GaussianCovariate} from './GaussianCovariate';
-import {HypothesisEffect} from "./HypothesisEffect";
+import {HypothesisEffect} from './HypothesisEffect';
+import {ISUFactor} from './ISUFactor';
+import {Outcome} from './Outcome';
+import {Predictor} from './Predictor';
+import {ISUFactors} from "./ISUFactors";
 
 @Injectable()
 export class StudyService {
@@ -41,7 +44,7 @@ export class StudyService {
   private _typeOneErrorRateSource = new BehaviorSubject<number>(0.05);
   private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
 
-  private _withinIsuOutcomesSource = new BehaviorSubject<string[]>([]);
+  private _withinIsuOutcomesSource = new BehaviorSubject<Outcome[]>([]);
   private _withinIsuOutcomes$ = this._withinIsuOutcomesSource.asObservable();
 
   private _withinIsuRepeatedMeasuresSource = new BehaviorSubject<RepeatedMeasure[]>([]);
@@ -50,20 +53,29 @@ export class StudyService {
   private _withinIsuClusterSource = new BehaviorSubject<Cluster>(null);
   private _withinIsuCluster$ = this._withinIsuClusterSource.asObservable();
 
-  private _betweenIsuFactorsSource = new BehaviorSubject<BetweenISUFactors>(null);
-  private _betweenIsuFactors$ = this._betweenIsuFactorsSource.asObservable();
+  private _betweenIsuPredictorSource = new BehaviorSubject<Array<Predictor>>([]);
+  private _betweenIsuPredictors$ = this._betweenIsuPredictorSource.asObservable();
+
+  private _isuFactorsSource = new Subject<ISUFactors>();
+  private _isuFactors$ = this._isuFactorsSource.asObservable();
 
   private _gaussianCovariateSource = new BehaviorSubject<GaussianCovariate>(null);
   private _gaussianCovariate$ = this._gaussianCovariateSource.asObservable();
 
-  private _betweenHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
+  private _hypothesisEffectVariablesSource = new BehaviorSubject<Array<ISUFactor>>(null);
+  private _hypothesisEffectVariables$ = this._hypothesisEffectVariablesSource.asObservable();
+
+  private _betweenHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS);
   private _betweenHypothesisNature$ = this._betweenHypothesisNatureSource.asObservable();
 
-  private _withinHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
+  private _withinHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS);
   private _withinHypothesisNature$ = this._withinHypothesisNatureSource.asObservable();
 
   private _hypothesisEffectSource = new BehaviorSubject<HypothesisEffect>(null);
   private _hypothesisEffect$ = this._hypothesisEffectSource.asObservable();
+
+  private _scaleFactorSource = new BehaviorSubject<number>(1);
+  private _scaleFactor$ = this._scaleFactorSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -95,7 +107,7 @@ export class StudyService {
     this._typeOneErrorRateSource.next(rate);
   }
 
-  updateWthinIsuOutcomes(outcomes: string[]) {
+  updateWthinIsuOutcomes(outcomes: Outcome[]) {
     this._withinIsuOutcomesSource.next(outcomes);
   }
 
@@ -107,12 +119,20 @@ export class StudyService {
     this._withinIsuClusterSource.next(cluster);
   }
 
-  updateBetweenIsuFactors(betweenIsuFactors: BetweenISUFactors) {
-    this._betweenIsuFactorsSource.next(betweenIsuFactors);
+  updateBetweenIsuPredictors(betweenIsuPredictors: Array<Predictor>) {
+    this._betweenIsuPredictorSource.next(betweenIsuPredictors);
+  }
+
+  updateIsuFactors(isuFactors: ISUFactors) {
+    this._isuFactorsSource.next(isuFactors);
   }
 
   updateGaussianCovariate(gaussianCovariate: GaussianCovariate) {
     this._gaussianCovariateSource.next(gaussianCovariate);
+  }
+
+  updateHypothesisEffectVariables(variables: Array<ISUFactor>) {
+    this._hypothesisEffectVariablesSource.next(variables);
   }
 
   updateBetweenHypothesisNature(betweenHypothesisNature: string) {
@@ -127,6 +147,10 @@ export class StudyService {
     this._hypothesisEffectSource.next(hypothesisEffect);
   }
 
+  updateScaleFactor(scaleFactor: number) {
+    this._scaleFactorSource.next(scaleFactor);
+  }
+
   constructor(private  http: Http) {
     this._stages = constants.STAGES;
     this._stage = 1;
@@ -134,6 +158,16 @@ export class StudyService {
 
   get stage(): number {
     return this._stage;
+  }
+
+  getStageFromName(name: string): number {
+    let stageNo = -1;
+    Object.keys(this._stages).forEach( key => {
+      if (name === this._stages[key]) {
+        stageNo = Number.parseInt(key);
+      }
+    });
+    return stageNo;
   }
 
   set stage(value: number) {
@@ -236,11 +270,11 @@ export class StudyService {
     this._typeOneErrorRate$ = value;
   }
 
-  get withinIsuOutcomes$(): Observable<string[]> {
+  get withinIsuOutcomes$(): Observable<Outcome[]> {
     return this._withinIsuOutcomes$;
   }
 
-  set withinIsuOutcomes$(value: Observable<string[]>) {
+  set withinIsuOutcomes$(value: Observable<Outcome[]>) {
     this._withinIsuOutcomes$ = value;
   }
 
@@ -260,12 +294,20 @@ export class StudyService {
     this._withinIsuCluster$ = value;
   }
 
-  get betweenIsuFactors$(): Observable<BetweenISUFactors> {
-    return this._betweenIsuFactors$;
+  get betweenIsuPredictors$(): Observable<Array<Predictor>> {
+    return this._betweenIsuPredictors$;
   }
 
-  set betweenIsuFactors$(value: Observable<BetweenISUFactors>) {
-    this._betweenIsuFactors$ = value;
+  set betweenIsuPredictors$(value: Observable<Array<Predictor>>) {
+    this._betweenIsuPredictors$ = value;
+  }
+
+  get isuFactors$(): Observable<ISUFactors> {
+    return this._isuFactors$;
+  }
+
+  set isuFactors$(value: Observable<ISUFactors>) {
+    this._isuFactors$ = value;
   }
 
   get gaussianCovariate$(): Observable<GaussianCovariate> {
@@ -298,6 +340,15 @@ export class StudyService {
 
   set hypothesisEffect$(value: Observable<HypothesisEffect>) {
     this._hypothesisEffect$ = value;
+  }
+
+
+  get scaleFactor$(): Observable<number> {
+    return this._scaleFactor$;
+  }
+
+  set scaleFactor$(value: Observable<number>) {
+    this._scaleFactor$ = value;
   }
 }
 

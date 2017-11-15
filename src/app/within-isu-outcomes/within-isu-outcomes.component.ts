@@ -5,8 +5,9 @@ import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyService} from '../shared/study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {HypothesisEffectVariable} from '../shared/HypothesisEffectVariable';
+import {ISUFactor} from '../shared/ISUFactor';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
+import {Outcome} from '../shared/Outcome';
 
 @Component({
   selector: 'app-within-isu-outcomes',
@@ -15,7 +16,7 @@ import {HypothesisEffect} from '../shared/HypothesisEffect';
 })
 export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   private _outcomesForm: FormGroup;
-  private _outcomes: string[];
+  private _outcomes: Outcome[];
   private _max: number;
   private _validationMessages;
   private _formErrors;
@@ -87,12 +88,13 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
 
   addOutcome() {
     if (this.outcomesForm.status === 'VALID' && this.outcomesForm.value.outcomes && this.outcomesForm.value.outcomes.trim() !== '' ) {
-      this.outcomes.push(this.outcomesForm.value.outcomes.trim());
+      const outcome = new Outcome(this.outcomesForm.value.outcomes.trim())
+      this.outcomes.push(outcome);
       this.outcomesForm.reset();
     }
   }
 
-  removeOutcome(value: string) {
+  removeOutcome(value: Outcome) {
     const index = this.outcomes.indexOf(value);
     if (index > -1) {
       this.outcomes.splice(index, 1);
@@ -111,24 +113,11 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
     return false;
   }
 
-  outcomesAsHypothesisEffectVariables() {
-    const variables = [];
-    this.outcomes.forEach( outcome => {
-      const variable = new HypothesisEffectVariable(outcome, 'WITHIN', 'OUTCOME');
-      variables.push(variable);
-    });
-    if (variables.length === 0) {
-      return null;
-    } else {
-      return variables;
-    };
-  }
-
-  get outcomes(): string[] {
+  get outcomes(): Outcome[] {
     return this._outcomes;
   }
 
-  set outcomes(value: string[]) {
+  set outcomes(value: Outcome[]) {
     this._outcomes = value;
   }
 

@@ -5,7 +5,6 @@ import {MathJaxComponent} from './mathjax/mathjax.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MathJaxDirective} from './mathjax/mathjax.directive';
 import {RouterTestingModule} from '@angular/router/testing';
-import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {

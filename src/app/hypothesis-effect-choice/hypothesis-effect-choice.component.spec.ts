@@ -1,29 +1,39 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisEffectChoiceComponent } from './hypothesis-effect-choice.component';
-import {HypothesisEffectVariable} from '../shared/HypothesisEffectVariable';
+import {ISUFactor} from '../shared/ISUFactor';
 import {HypothesisEffect} from '../shared/HypothesisEffect';
 import {StudyService} from '../shared/study.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
+import {constants} from '../shared/constants';
+import {Component} from '@angular/core';
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;
-  let fixture: ComponentFixture<HypothesisEffectChoiceComponent>;
+  let fixture: ComponentFixture<TestWrapperComponent>;
+
+  @Component({
+    selector: 'app-test-component-wrapper',
+    template: '<app-hypothesis-effect-choice [variables]="variables"></app-hypothesis-effect-choice>'
+  })
+  class TestWrapperComponent {
+    variables = [];
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [ HypothesisEffectChoiceComponent ],
+      declarations: [ TestWrapperComponent, HypothesisEffectChoiceComponent ],
       providers: [StudyService, { provide: Http, useClass: MockBackend }]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HypothesisEffectChoiceComponent);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(TestWrapperComponent);
+    component = fixture.debugElement.children[0].componentInstance;
     fixture.detectChanges();
   });
 
@@ -32,11 +42,11 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should correctly equals lists of Hypothesis Effect Variables', () => {
-    const A = new HypothesisEffectVariable('A', 'BETWEEN');
-    const B = new HypothesisEffectVariable('B', 'BETWEEN');
-    const C = new HypothesisEffectVariable('C', 'WITHIN');
-    const D = new HypothesisEffectVariable('D', 'WITHIN');
-    const E = new HypothesisEffectVariable('E', 'WITHIN');
+    const A = new ISUFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const B = new ISUFactor('B', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const C = new ISUFactor('C', constants.HYPOTHESIS_NATURE.WITHIN);
+    const D = new ISUFactor('D', constants.HYPOTHESIS_NATURE.WITHIN);
+    const E = new ISUFactor('E', constants.HYPOTHESIS_NATURE.WITHIN);
     component.variables.push(A, B, C, D);
 
     const eff1 = new HypothesisEffect();
@@ -54,10 +64,10 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should return 15 distinct effects', () => {
-    const A = new HypothesisEffectVariable('A', 'BETWEEN');
-    const B = new HypothesisEffectVariable('B', 'BETWEEN');
-    const C = new HypothesisEffectVariable('C', 'WITHIN');
-    const D = new HypothesisEffectVariable('D', 'WITHIN');
+    const A = new ISUFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const B = new ISUFactor('B', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const C = new ISUFactor('C', constants.HYPOTHESIS_NATURE.WITHIN);
+    const D = new ISUFactor('D', constants.HYPOTHESIS_NATURE.WITHIN);
     component.variables.push(A, B, C, D);
     component.determinePossibleEffects();
 
@@ -65,9 +75,9 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should return 7 distinct effects', () => {
-    const A = new HypothesisEffectVariable('A', 'BETWEEN');
-    const B = new HypothesisEffectVariable('B', 'BETWEEN');
-    const C = new HypothesisEffectVariable('C', 'WITHIN');
+    const A = new ISUFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const B = new ISUFactor('B', constants.HYPOTHESIS_NATURE.BETWEEN);
+    const C = new ISUFactor('C', constants.HYPOTHESIS_NATURE.WITHIN);
     component.variables.push(A, B, C);
     component.determinePossibleEffects();
 
@@ -75,7 +85,7 @@ describe('HypothesisEffectChoiceComponent', () => {
   });
 
   it('should return 1 distinct effects', () => {
-    const A = new HypothesisEffectVariable('A', 'BETWEEN');
+    const A = new ISUFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
     component.variables.push(A);
     component.determinePossibleEffects();
     expect(component.possibleEffects.length).toEqual(2);

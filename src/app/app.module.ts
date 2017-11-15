@@ -29,6 +29,9 @@ import { GaussianCovariateComponent } from './gaussian-covariate/gaussian-covari
 import { HypothesisEffectChoiceComponent } from './hypothesis-effect-choice/hypothesis-effect-choice.component';
 import { HypothesisBetweenComponent } from './hypothesis-between/hypothesis-between.component';
 import { HypothesisWithinComponent } from './hypothesis-within/hypothesis-within.component';
+import { ParametersMarginalMeansComponent } from './parameters-marginal-means/parameters-marginal-means.component';
+import { ParametersScaleFactorComponent } from './parameters-scale-factor/parameters-scale-factor.component';
+import { ParametersStandardDeviationComponent } from './parameters-standard-deviation/parameters-standard-deviation.component';
 
 
 @NgModule({
@@ -51,7 +54,10 @@ import { HypothesisWithinComponent } from './hypothesis-within/hypothesis-within
     GaussianCovariateComponent,
     HypothesisEffectChoiceComponent,
     HypothesisBetweenComponent,
-    HypothesisWithinComponent
+    HypothesisWithinComponent,
+    ParametersMarginalMeansComponent,
+    ParametersScaleFactorComponent,
+    ParametersStandardDeviationComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

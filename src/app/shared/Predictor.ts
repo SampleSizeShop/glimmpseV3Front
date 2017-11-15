@@ -1,23 +1,18 @@
-import {BetweenIsuCombination, GroupId} from './BetweenIsuCombination';
+import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
+import {ISUFactor} from './ISUFactor';
+import {constants} from './constants';
+import {isNullOrUndefined} from "util";
 
-export class Predictor {
-  name = '';
-  groups: string[] = [];
-  child: Predictor;
+export class Predictor extends ISUFactor {
 
-  mapCombinations() {
-    let combinations = [] ;
-    this.groupIds.forEach( group => {
-      combinations.push(new BetweenIsuCombination( [group] , 1));
-    });
-
-    if (!this.child) {
-      return combinations;
+  constructor(name?: string) {
+    if (name) {
+      super(name);
+    } else {
+      super();
     }
-
-    const childCombinations = this.child.mapCombinations();
-    combinations = this.combineLists(combinations, childCombinations);
-    return combinations;
+    this.nature = constants.HYPOTHESIS_NATURE.BETWEEN;
+    this.origin = constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR;
   }
 
   combineLists(combinations, childCombinations) {
@@ -25,17 +20,17 @@ export class Predictor {
     combinations.forEach( combination => {
       childCombinations.forEach( childCombination => {
           const id = combination.id.concat(childCombination.id);
-          newCombinations.push(new BetweenIsuCombination(id, 1));
+          newCombinations.push(new ISUFactorCombination(id, 1));
       });
       }
     );
     return newCombinations;
   }
 
-  get groupIds(): GroupId[] {
+  get groupIds(): CombinationId[] {
     const  nameGroupPairs = [];
-    for ( const group of this.groups ) {
-      nameGroupPairs.push( new GroupId(this.name, group));
+    for ( const group of this.valueNames ) {
+      nameGroupPairs.push( new CombinationId(this.name, group));
     }
     return nameGroupPairs;
   }

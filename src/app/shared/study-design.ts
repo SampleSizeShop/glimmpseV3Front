@@ -1,9 +1,10 @@
-import {WithinISUFactors} from './WithinISUFactors';
-import {BetweenISUFactors} from './BetweenISUFactors';
+import {ISUFactors} from './ISUFactors';
 import {GaussianCovariate} from './GaussianCovariate';
 import {HypothesisEffect} from './HypothesisEffect';
-import {isNullOrUndefined} from "util";
-import {HypothesisEffectVariable} from "./HypothesisEffectVariable";
+import {isNullOrUndefined} from 'util';
+import {ISUFactor} from './ISUFactor';
+import {constants} from './constants';
+import {CombinationId, ISUFactorCombination} from "./ISUFactorCombination";
 
 export class StudyDesign {
   private _name: string;
@@ -14,12 +15,11 @@ export class StudyDesign {
   private _ciwidth: number;
   private _selectedTests: string[];
   private _typeOneErrorRate: number;
-  private _withinIsuFactors: WithinISUFactors;
-  private _betweenIsuFactors: BetweenISUFactors;
+  private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
   private _betweenHypothesisNature: string;
   private _withinHypothesisNature: string;
-  private _hypothesisEffect: HypothesisEffect;
+  private _scaleFactor: number;
 
   constructor(name?: string,
               guided?: boolean,
@@ -30,25 +30,40 @@ export class StudyDesign {
               ciwidth?: number,
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
-              withinIsuFactors?: WithinISUFactors,
-              betweenIsuFactors?: BetweenISUFactors,
+              isuFactors?: ISUFactors,
               gaussianCovariates?: GaussianCovariate,
               betweenHypothesisNature?: string,
               withinHypothesisNature?: string,
-              hypothesisEffect?: HypothesisEffect
+              hypothesisEffect?: HypothesisEffect,
+              scaleFactor?: number,
 ) {
-    this.withinIsuFactors = new WithinISUFactors();
+    this.isuFactors = new ISUFactors();
   }
 
   checkDependencies() {
-    if (!isNullOrUndefined(this.hypothesisEffect)) {
+    // Are id groups made up of predictors we have defined
+    if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE &&
+      !isNullOrUndefined(this.isuFactors.predictors) &&
+      this.isuFactors.predictors.length > 0) {
+        const groups = this.isuFactors.betweenIsuRelativeGroupSizes
+        const combinations = this.isuFactors.generateCombinations(this.isuFactors.predictors);
+        if (groups.size !== combinations.size) {
+          this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
+        }
+        groups.forEach(key => {
+          if (!combinations.has(key.name) ) {
+            this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
+          }
+        });
+    }
 
+    // is our hypothesis effect made up of isuFactors we have defined
+    if (!isNullOrUndefined(this.isuFactors.hypothesis)) {
       let possibleEffect = true;
-      const variables = this.getVariables();
-      if (!isNullOrUndefined(variables) && !isNullOrUndefined(this.hypothesisEffect.variables)) {
-        this.hypothesisEffect.variables.forEach(variable => {
+      const variables = this.variables;
+      if (!isNullOrUndefined(variables) && !isNullOrUndefined(this.isuFactors.hypothesis)) {
+        this.isuFactors.hypothesis.forEach(variable => {
           let match = false;
-
           variables.forEach(
             value => {
               if (!match) {
@@ -56,34 +71,54 @@ export class StudyDesign {
               }
             }
           );
-
           if (!match ) {
             possibleEffect = false;
           }
-
         });
       }
-
       if (!possibleEffect) {
-        this.hypothesisEffect = null;
+        this.isuFactors.clearHypothesis();
       }
-
     };
+
+    // Are marginal means id groups made up of hypothesis we have chosen
+    if (!isNullOrUndefined(this.isuFactors.hypothesis) &&
+      this.isuFactors.hypothesis.length > 0) {
+      const groups = this.isuFactors.marginalMeans
+      const combinations = this.isuFactors.generateCombinations(this.isuFactors.hypothesis);
+      if (groups.size !== combinations.size) {
+        this.isuFactors.marginalMeans = combinations;
+      }
+      groups.forEach(key => {
+        if (!combinations.has(key.name) ) {
+          this.isuFactors.marginalMeans = combinations;
+        }
+      });
+    }
   }
 
-  getVariables() {
+  get variables() {
     const variables = [];
-    this.withinIsuFactors.outcomes.forEach( outcome => {
-      const variable = new HypothesisEffectVariable(outcome, 'WITHIN', 'OUTCOME');
+    this.isuFactors.outcomes.forEach(outcome => {
+      const variable = new ISUFactor(
+        outcome.name,
+        outcome.nature,
+        outcome.origin);
       variables.push(variable);
     });
-    this.withinIsuFactors.repeatedMeasures.forEach( repeatedMeasure => {
-      const variable = new HypothesisEffectVariable(repeatedMeasure.dimension, 'WITHIN', 'REPEATED_MEASURE');
+    this.isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
+      const variable = new ISUFactor(
+        repeatedMeasure.name,
+        constants.HYPOTHESIS_NATURE.WITHIN,
+        constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE);
       variables.push(variable);
     });
-    if (!isNullOrUndefined(this.betweenIsuFactors) && !isNullOrUndefined(this.betweenIsuFactors.predictors)) {
-      this.betweenIsuFactors.predictors.forEach( predictor => {
-        const variable = new HypothesisEffectVariable(predictor.name, 'BETWEEN', 'PREDICTOR');
+    if (!isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this.isuFactors.predictors)) {
+      this.isuFactors.predictors.forEach(predictor => {
+        const variable = new ISUFactor(
+          predictor.name,
+          constants.HYPOTHESIS_NATURE.BETWEEN,
+          constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR);
         variables.push(variable);
       });
     }
@@ -154,20 +189,12 @@ export class StudyDesign {
     this._typeOneErrorRate = value;
   }
 
-  get withinIsuFactors(): WithinISUFactors {
-    return this._withinIsuFactors;
+  get isuFactors(): ISUFactors {
+    return this._isuFactors;
   }
 
-  set withinIsuFactors(value: WithinISUFactors) {
-    this._withinIsuFactors = value;
-  }
-
-  get betweenIsuFactors(): BetweenISUFactors {
-    return this._betweenIsuFactors;
-  }
-
-  set betweenIsuFactors(value: BetweenISUFactors) {
-    this._betweenIsuFactors = value;
+  set isuFactors(value: ISUFactors) {
+    this._isuFactors = value;
   }
 
   get gaussianCovariate(): GaussianCovariate {
@@ -194,11 +221,11 @@ export class StudyDesign {
     this._withinHypothesisNature = value;
   }
 
-  get hypothesisEffect(): HypothesisEffect {
-    return this._hypothesisEffect;
+  get scaleFactor(): number {
+    return this._scaleFactor;
   }
 
-  set hypothesisEffect(value: HypothesisEffect) {
-    this._hypothesisEffect = value;
+  set scaleFactor(value: number) {
+    this._scaleFactor = value;
   }
 }

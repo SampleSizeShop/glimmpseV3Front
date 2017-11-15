@@ -22,6 +22,9 @@ import {GaussianCovariateComponent} from '../gaussian-covariate/gaussian-covaria
 import {HypothesisEffectChoiceComponent} from '../hypothesis-effect-choice/hypothesis-effect-choice.component';
 import {HypothesisBetweenComponent} from '../hypothesis-between/hypothesis-between.component';
 import {HypothesisWithinComponent} from '../hypothesis-within/hypothesis-within.component';
+import {ParametersMarginalMeansComponent} from '../parameters-marginal-means/parameters-marginal-means.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {ParametersScaleFactorComponent} from '../parameters-scale-factor/parameters-scale-factor.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -32,6 +35,9 @@ describe('StudyFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
+        RouterTestingModule.withRoutes([
+          { path: 'design/MODE', component: UserModeComponent}
+        ]),
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'}) ],
       declarations: [
         StudyFormComponent,
@@ -49,9 +55,14 @@ describe('StudyFormComponent', () => {
         HypothesisEffectChoiceComponent,
         HypothesisBetweenComponent,
         HypothesisWithinComponent,
+        ParametersMarginalMeansComponent,
+        ParametersScaleFactorComponent,
         CorrelationMatrixComponent,
         MathJaxDirective],
-      providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
+      providers: [ StudyService,
+        { provide: Http, useClass: MockBackend },
+        {provide: NGXLogger, useClass: NGXLoggerMock},
+        RouterTestingModule ]
     })
     .compileComponents();
 

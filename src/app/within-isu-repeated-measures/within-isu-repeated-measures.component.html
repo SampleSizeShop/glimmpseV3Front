@@ -48,8 +48,8 @@
       <div class="form-group">
         <label for="dimension">Dimension:</label>
         <input class="form-control" formControlName="dimension" id="dimension" required>
-        <div *ngIf="formErrors.dimension" class="form-group has-danger">
-          <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimension}}</div>
+        <div *ngIf="formErrors.name" class="form-group has-danger">
+          <div class="form-control-feedback" id="outcomeserr">{{formErrors.name}}</div>
         </div>
       </div>
       <div class="form-group">
@@ -62,7 +62,7 @@
 
 <div *ngIf="stages[1] === stageName">
   <div id="typeheader">
-    <h5>What type of data is {{dimensionForm.value.dimension}}?</h5>
+    <h5>What type of data is {{dimensionForm.value.name}}?</h5>
     <form [formGroup]="typeForm">
       <div class="form-group">
         <select class="form-control" id="type" formControlName="type">
@@ -75,7 +75,7 @@
 
 <div *ngIf="stages[2] === stageName">
   <div id="repeatesheader">
-    <h5>How many times are you measuring {{dimensionForm.value.dimension}}?</h5>
+    <h5>How many times are you measuring {{dimensionForm.value.name}}?</h5>
     <form [formGroup]="repeatsForm">
       <div class="form-group" id="repeatsinput">
         <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
@@ -90,7 +90,7 @@
 
 <div *ngIf="stages[3] === stageName">
   <div id="spacingheader">
-    <h5>At which values of {{dimensionForm.value.dimension}} will you be taking measurements?</h5>
+    <h5>At which values of {{dimensionForm.value.name}} will you be taking measurements?</h5>
     <form [formGroup]="spacingForm">
       <div class="container-fluid">
         <div class="row">
@@ -104,8 +104,8 @@
                   </div>
                   <div class="col">
                     <input type="number" class="form-control" id="spacing" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
-                    <div *ngIf="formErrors.spacing" class="form-group has-danger">
-                      <div class="form-control-feedback">{{formErrors.spacing}}</div>
+                    <div *ngIf="formErrors.valueNames" class="form-group has-danger">
+                      <div class="form-control-feedback">{{formErrors.valueNames}}</div>
                     </div>
                   </div>
                   <div class="col">
