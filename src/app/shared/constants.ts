@@ -16,7 +16,8 @@ export const constants = {
     '13': 'HYPOTHESIS_BETWEEN',
     '14': 'HYPOTHESIS_WITHIN',
     '15': 'PARAMETERS_MARGINAL_MEANS',
-    '16': 'PARAMETERS_SCALE_FACTOR'
+    '16': 'PARAMETERS_SCALE_FACTOR',
+    '17': 'PARAMETERS_STANDARD_DEVIATION'
   },
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {

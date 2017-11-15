@@ -1,3 +1,12 @@
-<p>
-  parameters-standard-deviation works!
-</p>
+<h5>Define the standard deviations for your outcomes:</h5>
+<div class="container">
+  <div *ngFor="let outcome of isuFactors.outcomes" class="row">
+    <div class="col-1" >
+      {{outcome.name}}:
+    </div>
+    <div class="col-9 justify-content-start">
+      <input type="number" value="{{outcome.standardDeviation}}">
+    </div>
+  </div>
+</div>
+

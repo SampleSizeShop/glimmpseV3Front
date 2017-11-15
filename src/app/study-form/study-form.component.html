@@ -59,6 +59,9 @@
         <div class="d-flex justify-content-centre" *ngIf="stages[16] === getStageName()">
           <app-parameters-scale-factor></app-parameters-scale-factor>
         </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[17] === getStageName()">
+          <app-parameters-standard-deviation [isuFactors]="study.isuFactors"></app-parameters-standard-deviation>
+        </div>
       </div>
       <div class="col-2 justify-content-end">
         <i class="material-icons" *ngIf="hasNext" (click)="next()" (keyup.ArrowRight)="next()" style="font-size: 192px; opacity: 0.4;" id="navigate_next" [class.disabled]="!valid">navigate_next</i>

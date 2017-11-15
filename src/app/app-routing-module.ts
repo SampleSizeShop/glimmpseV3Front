@@ -19,6 +19,7 @@ import {HypothesisEffectChoiceComponent} from './hypothesis-effect-choice/hypoth
 import {HypothesisWithinComponent} from './hypothesis-within/hypothesis-within.component';
 import {HypothesisBetweenComponent} from './hypothesis-between/hypothesis-between.component';
 import {ParametersScaleFactorComponent} from './parameters-scale-factor/parameters-scale-factor.component';
+import {ParametersStandardDeviationComponent} from "./parameters-standard-deviation/parameters-standard-deviation.component";
 
 const routes: Routes = [
   {path: 'mathjax', component: MathJaxComponent},
@@ -39,7 +40,8 @@ const routes: Routes = [
       {path: constants.STAGES[13], component: HypothesisBetweenComponent},
       {path: constants.STAGES[14], component: HypothesisWithinComponent},
       {path: constants.STAGES[15], component: ParametersMarginalMeansComponent},
-      {path: constants.STAGES[16], component: ParametersScaleFactorComponent}
+      {path: constants.STAGES[16], component: ParametersScaleFactorComponent},
+      {path: constants.STAGES[17], component: ParametersStandardDeviationComponent}
     ]
   }
 
