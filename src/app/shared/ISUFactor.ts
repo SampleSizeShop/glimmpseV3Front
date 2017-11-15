@@ -22,7 +22,6 @@ export class ISUFactor {
   }
 
   mapCombinations(): Array<ISUFactorCombination> {
-    // TODO: need to define 'valueNames' here
     let combinations = new Array<ISUFactorCombination>();
     this.valueIds.forEach( value => {
       combinations.push(new ISUFactorCombination( [value] , 1));

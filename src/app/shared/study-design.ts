@@ -98,7 +98,6 @@ export class StudyDesign {
   }
 
   get variables() {
-    // TODO: get rid of this.
     const variables = [];
     this.isuFactors.outcomes.forEach(outcome => {
       const variable = new ISUFactor(
