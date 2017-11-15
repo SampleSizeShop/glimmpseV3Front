@@ -78,7 +78,8 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
         combination.size = value;
       });
     }
-}
+  }
+
   updateGroupsizeFormControls() {
     if (isNullOrUndefined(this.isuFactors) || isNullOrUndefined(this.isuFactors.predictors)) {
       this.relativeGroupSizeForm = this.fb.group({});
