@@ -2,8 +2,8 @@ import {Component, DoCheck, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ISUFactors} from '../shared/ISUFactors';
 import {ISUFactorCombinationTable} from '../shared/ISUFactorCombinationTable';
-import {StudyService} from "../shared/study.service";
-import {isNullOrUndefined} from "util";
+import {StudyService} from '../shared/study.service';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-parameters-marginal-means',

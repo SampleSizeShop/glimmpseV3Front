@@ -13,11 +13,24 @@ export class ParametersOutcomeCorrelationsComponent implements OnInit {
   private _isuFactors: ISUFactors;
   size: number;
   title = 'outcome';
+  names = [];
 
   constructor() { }
 
   ngOnInit() {
     this.setSize();
+    this.setNames();
+  }
+
+  setNames() {
+    if (!isNullOrUndefined(this.isuFactors.outcomes
+      && this.isuFactors.outcomes.length > 0)) {
+      this.isuFactors.outcomes.forEach( outcome => {
+        this.names.push(outcome.name)
+      })
+    } else {
+      this.names = ['']
+    }
   }
 
   setSize() {

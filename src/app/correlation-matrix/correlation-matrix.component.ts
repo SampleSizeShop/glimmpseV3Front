@@ -19,6 +19,7 @@ export class CorrelationMatrixComponent implements  OnInit, OnDestroy {
 
   private _size: number;
   private _title: string;
+  private _labels: string[];
   private _sizeArray: number[];
   private _controlDefs: {};
   private _controls: {};
@@ -230,6 +231,14 @@ export class CorrelationMatrixComponent implements  OnInit, OnDestroy {
 
   @Input() set title(value: string) {
     this._title = value + ' ';
+  }
+
+  get labels(): string[] {
+    return this._labels;
+  }
+
+  @Input() set labels(value: string[]) {
+    this._labels = value;
   }
 
   get controlDefs(): {} {

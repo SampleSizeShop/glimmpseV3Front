@@ -3,8 +3,9 @@
   <h5 style="padding: 0">Define your {{title}}correlation matrix:</h5>
   <div style="padding: 15px">
     <form [formGroup]="correlationMatrixForm">
-      <div *ngFor="let r of sizeArray; let a=index" class="row">
+      <div *ngFor="let r of sizeArray; let a=index" class="row">{{labels[a]}}
         <div *ngFor="let c of sizeArray; let b=index" class="col" style="padding: 0">
+          <div *ngIf="a === 0">{{labels[b]}}</div>
           <input type="number" class="form-control" [style.background-color]="getStyle(r, c)" formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}" step="0.01" min={{min}} max="{{max}}">
         </div>
       </div>
