@@ -46,6 +46,10 @@ export class ISUFactors {
     return this.getFactorsByType(RepeatedMeasure);
   }
 
+  get repeatedMeasuresInHypothesis(): Array<Predictor> {
+    return this.getFactorsinHypothesisByType(RepeatedMeasure);
+  }
+
   updateRepeatedMeasures(newRepeatedMeasures: Array<RepeatedMeasure>) {
     this.variables = this._updateListOfISUFactors(newRepeatedMeasures);
   }
@@ -74,6 +78,16 @@ export class ISUFactors {
   getFactorsByType( type ) {
     const array = new Array();
     this.variables.forEach( variable => {
+      if (variable.constructor.name === type.name) {
+        array.push(variable);
+      }
+    });
+    return array;
+  }
+
+  getFactorsinHypothesisByType( type ) {
+    const array = new Array();
+    this.hypothesis.forEach( variable => {
       if (variable.constructor.name === type.name) {
         array.push(variable);
       }

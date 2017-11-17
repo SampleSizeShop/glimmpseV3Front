@@ -23,9 +23,9 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
   }
 
   setNames() {
-    if (!isNullOrUndefined(this.isuFactors.repeatedMeasures
-        && this.isuFactors.repeatedMeasures.length > 0)) {
-      this.isuFactors.repeatedMeasures.forEach( measure => {
+    if (!isNullOrUndefined(this.isuFactors.repeatedMeasuresInHypothesis
+        && this.isuFactors.repeatedMeasuresInHypothesis.length > 0)) {
+      this.isuFactors.repeatedMeasuresInHypothesis.forEach( measure => {
         this.names.push(measure.name)
       })
     } else {
@@ -34,9 +34,9 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
   }
 
   setSize() {
-    if (!isNullOrUndefined(this.isuFactors.repeatedMeasures)
-      && this.isuFactors.repeatedMeasures.length > 0) {
-      this.size = this.isuFactors.repeatedMeasures.length;
+    if (!isNullOrUndefined(this.isuFactors.repeatedMeasuresInHypothesis)
+      && this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
+      this.size = this.isuFactors.repeatedMeasuresInHypothesis.length;
     } else {
       this.size = 1;
     }
