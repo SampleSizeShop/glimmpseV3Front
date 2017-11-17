@@ -4,6 +4,7 @@ import {ISUFactor} from '../shared/ISUFactor';
 import {Outcome} from "../shared/Outcome";
 import {RepeatedMeasure} from "../shared/RepeatedMeasure";
 import {ISUFactorCombination} from "../shared/ISUFactorCombination";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-parameters-repeated-measure-outcome-correlations',
@@ -14,7 +15,9 @@ export class ParametersRepeatedMeasureOutcomeCorrelationsComponent implements On
   private _isuFactors: ISUFactors;
   private _combinations: Map<ISUFactor, Array<ISUFactor>>;
   private map: Map<string, string[]>;
-  constructor() { }
+  selected: string;
+  constructor() {
+  }
 
   ngOnInit() {
     this.setMap();
@@ -22,12 +25,31 @@ export class ParametersRepeatedMeasureOutcomeCorrelationsComponent implements On
 
   setMap() {
     this.map = new Map<string, string[]>();
+    let last = ''
     this.isuFactors.outcomes.forEach(outcome => {
       this.isuFactors.repeatedMeasures.forEach(measure => {
         const vals = new Array<string>(measure.valueNames.length).fill('1');
         this.map.set(outcome.name + ':' + measure.name, vals);
+        last = outcome.name + ':' + measure.name;
       })
     })
+    this.selected = last;
+  }
+
+  get outcomes() {
+    if(!isNullOrUndefined(this.map.keys()) && this.map.size > 0) {
+      const outcomes = [];
+      for (let obj in this.map.keys()) {
+        const spl = obj.split(':');
+        if (outcomes.indexOf(spl[0]) === -1) {
+          outcomes.push(spl[0]);
+        }
+      }
+      return outcomes;
+    } else {
+      console.log('oops')
+      return [];
+    }
   }
 
   get isuFactors(): ISUFactors {
