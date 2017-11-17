@@ -26,6 +26,8 @@ import {ParametersMarginalMeansComponent} from '../parameters-marginal-means/par
 import {RouterTestingModule} from '@angular/router/testing';
 import {ParametersScaleFactorComponent} from '../parameters-scale-factor/parameters-scale-factor.component';
 import {ParametersOutcomeCorrelationsComponent} from "../parameters-outcome-correlations/parameters-outcome-correlations.component";
+import {ParametersRepeatedMeasureOutcomeCorrelationsComponent} from "../parameters-repeated-measure-outcome-correlations/parameters-repeated-measure-outcome-correlations.component";
+import {ParametersRepeatedMeasureCorrelationsComponent} from "../parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -60,6 +62,8 @@ describe('StudyFormComponent', () => {
         ParametersScaleFactorComponent,
         CorrelationMatrixComponent,
         ParametersOutcomeCorrelationsComponent,
+        ParametersRepeatedMeasureOutcomeCorrelationsComponent,
+        ParametersRepeatedMeasureCorrelationsComponent,
         MathJaxDirective],
       providers: [ StudyService,
         { provide: Http, useClass: MockBackend },

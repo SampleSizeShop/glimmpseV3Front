@@ -65,6 +65,12 @@
         <div class="d-flex justify-content-centre" *ngIf="stages[18] === getStageName()">
           <app-parameters-outcome-correlations [isuFactors]="study.isuFactors"></app-parameters-outcome-correlations>
         </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[19] === getStageName()">
+          <app-parameters-repeated-measure-outcome-correlations [isuFactors]="study.isuFactors"></app-parameters-repeated-measure-outcome-correlations>
+        </div>
+        <div class="d-flex justify-content-centre" *ngIf="stages[20] === getStageName()">
+          <app-parameters-repeated-measure-correlations [isuFactors]="study.isuFactors"></app-parameters-repeated-measure-correlations>
+        </div>
       </div>
       <div class="col-2 justify-content-end">
         <i class="material-icons" *ngIf="hasNext" (click)="next()" (keyup.ArrowRight)="next()" style="font-size: 192px; opacity: 0.4;" id="navigate_next" [class.disabled]="!valid">navigate_next</i>

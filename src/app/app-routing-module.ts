@@ -21,6 +21,8 @@ import {HypothesisBetweenComponent} from './hypothesis-between/hypothesis-betwee
 import {ParametersScaleFactorComponent} from './parameters-scale-factor/parameters-scale-factor.component';
 import {ParametersStandardDeviationComponent} from './parameters-standard-deviation/parameters-standard-deviation.component';
 import {ParametersOutcomeCorrelationsComponent} from "./parameters-outcome-correlations/parameters-outcome-correlations.component";
+import {ParametersRepeatedMeasureOutcomeCorrelationsComponent} from "./parameters-repeated-measure-outcome-correlations/parameters-repeated-measure-outcome-correlations.component";
+import {ParametersRepeatedMeasureCorrelationsComponent} from "./parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component";
 
 const routes: Routes = [
   {path: 'mathjax', component: MathJaxComponent},
@@ -43,7 +45,9 @@ const routes: Routes = [
       {path: constants.STAGES[15], component: ParametersMarginalMeansComponent},
       {path: constants.STAGES[16], component: ParametersScaleFactorComponent},
       {path: constants.STAGES[17], component: ParametersStandardDeviationComponent},
-      {path: constants.STAGES[18], component: ParametersOutcomeCorrelationsComponent}
+      {path: constants.STAGES[18], component: ParametersOutcomeCorrelationsComponent},
+      {path: constants.STAGES[19], component: ParametersRepeatedMeasureOutcomeCorrelationsComponent},
+      {path: constants.STAGES[20], component: ParametersRepeatedMeasureCorrelationsComponent}
     ]
   }
 

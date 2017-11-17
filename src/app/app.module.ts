@@ -33,6 +33,8 @@ import { ParametersMarginalMeansComponent } from './parameters-marginal-means/pa
 import { ParametersScaleFactorComponent } from './parameters-scale-factor/parameters-scale-factor.component';
 import { ParametersStandardDeviationComponent } from './parameters-standard-deviation/parameters-standard-deviation.component';
 import { ParametersOutcomeCorrelationsComponent } from './parameters-outcome-correlations/parameters-outcome-correlations.component';
+import { ParametersRepeatedMeasureOutcomeCorrelationsComponent } from './parameters-repeated-measure-outcome-correlations/parameters-repeated-measure-outcome-correlations.component';
+import { ParametersRepeatedMeasureCorrelationsComponent } from './parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component';
 
 
 @NgModule({
@@ -59,7 +61,9 @@ import { ParametersOutcomeCorrelationsComponent } from './parameters-outcome-cor
     ParametersMarginalMeansComponent,
     ParametersScaleFactorComponent,
     ParametersStandardDeviationComponent,
-    ParametersOutcomeCorrelationsComponent
+    ParametersOutcomeCorrelationsComponent,
+    ParametersRepeatedMeasureOutcomeCorrelationsComponent,
+    ParametersRepeatedMeasureCorrelationsComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),
