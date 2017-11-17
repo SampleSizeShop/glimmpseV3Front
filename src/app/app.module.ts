@@ -32,6 +32,7 @@ import { HypothesisWithinComponent } from './hypothesis-within/hypothesis-within
 import { ParametersMarginalMeansComponent } from './parameters-marginal-means/parameters-marginal-means.component';
 import { ParametersScaleFactorComponent } from './parameters-scale-factor/parameters-scale-factor.component';
 import { ParametersStandardDeviationComponent } from './parameters-standard-deviation/parameters-standard-deviation.component';
+import { ParametersOutcomeCorrelationsComponent } from './parameters-outcome-correlations/parameters-outcome-correlations.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { ParametersStandardDeviationComponent } from './parameters-standard-devi
     HypothesisWithinComponent,
     ParametersMarginalMeansComponent,
     ParametersScaleFactorComponent,
-    ParametersStandardDeviationComponent
+    ParametersStandardDeviationComponent,
+    ParametersOutcomeCorrelationsComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

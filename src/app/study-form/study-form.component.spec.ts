@@ -25,6 +25,7 @@ import {HypothesisWithinComponent} from '../hypothesis-within/hypothesis-within.
 import {ParametersMarginalMeansComponent} from '../parameters-marginal-means/parameters-marginal-means.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ParametersScaleFactorComponent} from '../parameters-scale-factor/parameters-scale-factor.component';
+import {ParametersOutcomeCorrelationsComponent} from "../parameters-outcome-correlations/parameters-outcome-correlations.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -58,6 +59,7 @@ describe('StudyFormComponent', () => {
         ParametersMarginalMeansComponent,
         ParametersScaleFactorComponent,
         CorrelationMatrixComponent,
+        ParametersOutcomeCorrelationsComponent,
         MathJaxDirective],
       providers: [ StudyService,
         { provide: Http, useClass: MockBackend },

@@ -7,6 +7,7 @@ import {CorrelationMatrix} from '../shared/CorrelationMatrix';
 import * as math from 'mathjs';
 import {minMaxValidator} from "app/shared/minmax.validator";
 import {NGXLogger} from 'ngx-logger';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-correlation-matrix',
@@ -17,6 +18,7 @@ import {NGXLogger} from 'ngx-logger';
 export class CorrelationMatrixComponent implements  OnInit, OnDestroy {
 
   private _size: number;
+  private _title: string;
   private _sizeArray: number[];
   private _controlDefs: {};
   private _controls: {};
@@ -217,9 +219,17 @@ export class CorrelationMatrixComponent implements  OnInit, OnDestroy {
     return this._size;
   }
 
-  @Input()
-  set size(value: number) {
+  @Input() set size(value: number) {
     this._size = value;
+  }
+
+  get title(): string {
+    if (isNullOrUndefined(this._title)) { this._title = ''; }
+    return this._title;
+  }
+
+  @Input() set title(value: string) {
+    this._title = value + ' ';
   }
 
   get controlDefs(): {} {

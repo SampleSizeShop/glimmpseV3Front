@@ -4,7 +4,6 @@ import {HypothesisEffect} from './HypothesisEffect';
 import {isNullOrUndefined} from 'util';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
-import {CombinationId, ISUFactorCombination} from "./ISUFactorCombination";
 
 export class StudyDesign {
   private _name: string;
