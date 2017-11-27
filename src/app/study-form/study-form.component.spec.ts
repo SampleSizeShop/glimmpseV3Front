@@ -28,6 +28,7 @@ import {ParametersScaleFactorComponent} from '../parameters-scale-factor/paramet
 import {ParametersOutcomeCorrelationsComponent} from "../parameters-outcome-correlations/parameters-outcome-correlations.component";
 import {ParametersRepeatedMeasureOutcomeCorrelationsComponent} from "../parameters-repeated-measure-outcome-correlations/parameters-repeated-measure-outcome-correlations.component";
 import {ParametersRepeatedMeasureCorrelationsComponent} from "../parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component";
+import {ParametersStandardDeviationComponent} from "../parameters-standard-deviation/parameters-standard-deviation.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -64,6 +65,7 @@ describe('StudyFormComponent', () => {
         ParametersOutcomeCorrelationsComponent,
         ParametersRepeatedMeasureOutcomeCorrelationsComponent,
         ParametersRepeatedMeasureCorrelationsComponent,
+        ParametersStandardDeviationComponent,
         MathJaxDirective],
       providers: [ StudyService,
         { provide: Http, useClass: MockBackend },

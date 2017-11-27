@@ -1,10 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactors} from '../shared/ISUFactors';
 import {ISUFactor} from '../shared/ISUFactor';
-import {Outcome} from "../shared/Outcome";
-import {RepeatedMeasure} from "../shared/RepeatedMeasure";
-import {ISUFactorCombination} from "../shared/ISUFactorCombination";
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-parameters-repeated-measure-outcome-correlations',

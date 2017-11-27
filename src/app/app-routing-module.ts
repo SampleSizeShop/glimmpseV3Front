@@ -47,6 +47,7 @@ const routes: Routes = [
       {path: constants.STAGES[17], component: ParametersStandardDeviationComponent},
       {path: constants.STAGES[18], component: ParametersOutcomeCorrelationsComponent},
       {path: constants.STAGES[19], component: ParametersRepeatedMeasureOutcomeCorrelationsComponent},
+      {path: constants.STAGES[20] + '/:meas', component: ParametersRepeatedMeasureCorrelationsComponent},
       {path: constants.STAGES[20], component: ParametersRepeatedMeasureCorrelationsComponent}
     ]
   }
