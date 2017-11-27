@@ -35,6 +35,7 @@ import { ParametersStandardDeviationComponent } from './parameters-standard-devi
 import { ParametersOutcomeCorrelationsComponent } from './parameters-outcome-correlations/parameters-outcome-correlations.component';
 import { ParametersRepeatedMeasureOutcomeCorrelationsComponent } from './parameters-repeated-measure-outcome-correlations/parameters-repeated-measure-outcome-correlations.component';
 import { ParametersRepeatedMeasureCorrelationsComponent } from './parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component';
+import {StudyFormRoutingModule} from "./study-form/study-form-routing.module";
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { ParametersRepeatedMeasureCorrelationsComponent } from './parameters-rep
     ReactiveFormsModule,
     HttpModule,
     BrowserAnimationsModule,
+    StudyFormRoutingModule,
     AppRoutingModule
   ],
   providers: [MathJaxService],
