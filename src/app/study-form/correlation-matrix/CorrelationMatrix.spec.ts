@@ -1,4 +1,4 @@
-import {CorrelationMatrix} from './CorrelationMatrix';
+import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
 
 describe('CorrelationMatrix', () => {
   let component: CorrelationMatrix;

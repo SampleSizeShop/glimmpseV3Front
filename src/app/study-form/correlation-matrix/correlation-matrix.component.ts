@@ -1,13 +1,13 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup} from '@angular/forms';
-import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
+import {CorrelationMatrixService} from './correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
-import {constants} from '../shared/constants';
-import {CorrelationMatrix} from '../shared/CorrelationMatrix';
+import {constants} from '../../shared/constants';
+import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
 import * as math from 'mathjs';
-import {minMaxValidator} from "app/shared/minmax.validator";
+import {minMaxValidator} from 'app/shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-correlation-matrix',

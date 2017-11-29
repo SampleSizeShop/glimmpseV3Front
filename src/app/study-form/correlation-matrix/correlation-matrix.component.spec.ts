@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CorrelationMatrixComponent } from './correlation-matrix.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
+import {CorrelationMatrixService} from './correlationMatrix.service';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';

@@ -19,7 +19,7 @@ import {LoggerModule} from 'ngx-logger';
 import {environment} from '../environments/environment';
 import { StatisticalTestsComponent } from './study-form/statistical-tests/statistical-tests.component';
 import { TypeOneErrorComponent } from './study-form/type-one-error/type-one-error.component';
-import { CorrelationMatrixComponent } from './correlation-matrix/correlation-matrix.component';
+import { CorrelationMatrixComponent } from './study-form/correlation-matrix/correlation-matrix.component';
 import { WithinIsuOutcomesComponent } from './study-form/within-isu-outcomes/within-isu-outcomes.component';
 import { WithinIsuRepeatedMeasuresComponent } from './study-form/within-isu-repeated-measures/within-isu-repeated-measures.component';
 import { WithinIsuClustersComponent } from './study-form/within-isu-clusters/within-isu-clusters.component';

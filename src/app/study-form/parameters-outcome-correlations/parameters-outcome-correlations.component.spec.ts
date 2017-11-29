@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ParametersOutcomeCorrelationsComponent } from './parameters-outcome-correlations.component';
 import {Component} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
-import {CorrelationMatrixComponent} from '../../correlation-matrix/correlation-matrix.component';
+import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MockBackend} from '@angular/http/testing';
 import {Http} from '@angular/http';

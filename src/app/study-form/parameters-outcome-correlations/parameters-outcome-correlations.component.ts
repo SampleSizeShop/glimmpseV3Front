@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
-import {CorrelationMatrixService} from '../../shared/correlationMatrix.service';
+import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
 import {isNull, isNullOrUndefined} from 'util';
 import {Subscription} from "rxjs/Subscription";
 import {StudyService} from "../study.service";

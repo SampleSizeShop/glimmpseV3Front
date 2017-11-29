@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
-import {CorrelationMatrix} from './CorrelationMatrix';
+import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
 
 @Injectable()
 export class CorrelationMatrixService {

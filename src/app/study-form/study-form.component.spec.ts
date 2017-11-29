@@ -11,7 +11,7 @@ import {Http} from '@angular/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StatisticalTestsComponent} from './statistical-tests/statistical-tests.component';
 import {TypeOneErrorComponent} from './type-one-error/type-one-error.component';
-import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
+import {CorrelationMatrixComponent} from './correlation-matrix/correlation-matrix.component';
 import {MathJaxDirective} from '../mathjax/mathjax.directive';
 import {WithinIsuOutcomesComponent} from './within-isu-outcomes/within-isu-outcomes.component';
 import {WithinIsuRepeatedMeasuresComponent} from './within-isu-repeated-measures/within-isu-repeated-measures.component';

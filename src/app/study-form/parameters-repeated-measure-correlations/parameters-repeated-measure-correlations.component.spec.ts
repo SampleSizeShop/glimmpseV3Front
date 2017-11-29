@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {ReactiveFormsModule} from '@angular/forms';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {CorrelationMatrixComponent} from '../../correlation-matrix/correlation-matrix.component';
+import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {StudyService} from "../study.service";
