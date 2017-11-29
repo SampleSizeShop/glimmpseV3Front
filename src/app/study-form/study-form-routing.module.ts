@@ -22,14 +22,19 @@ import {ParametersOutcomeCorrelationsComponent} from './parameters-outcome-corre
 import {ParametersRepeatedMeasureOutcomeCorrelationsComponent} from './parameters-repeated-measure-outcome-correlations/parameters-repeated-measure-outcome-correlations.component';
 import {ParametersRepeatedMeasureCorrelationsComponent} from './parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component';
 import {NgModule} from '@angular/core';
+import {StudyFormGuard} from './study-form-guard.service';
+import {StudyService} from "./study.service";
+import {RepeatedMeasureCorrelationsGuard} from "./parameters-repeated-measure-correlations/repeated-measure-correlations-guard.service";
 
 const studyFormRoutes: Routes = [
       {
         path: 'design',
         component: StudyFormComponent,
+        canActivate: [StudyFormGuard],
         children: [
           {
-            path: '', children: [
+            path: '',
+            children: [
             {path: constants.STAGES[1], component: UserModeComponent},
             {path: constants.STAGES[2], component: TargetEventComponent},
             {path: constants.STAGES[3], component: SolveForComponent},
@@ -49,8 +54,16 @@ const studyFormRoutes: Routes = [
             {path: constants.STAGES[17], component: ParametersStandardDeviationComponent},
             {path: constants.STAGES[18], component: ParametersOutcomeCorrelationsComponent},
             {path: constants.STAGES[19], component: ParametersRepeatedMeasureOutcomeCorrelationsComponent},
-            {path: constants.STAGES[20] + '/:meas', component: ParametersRepeatedMeasureCorrelationsComponent},
-            {path: constants.STAGES[20], component: ParametersRepeatedMeasureCorrelationsComponent}
+            {
+              path: constants.STAGES[20] + '/:meas',
+              component: ParametersRepeatedMeasureCorrelationsComponent,
+              canActivate: [ RepeatedMeasureCorrelationsGuard ]
+            },
+            {
+              path: constants.STAGES[20],
+              component: ParametersRepeatedMeasureCorrelationsComponent,
+              canActivate: [ RepeatedMeasureCorrelationsGuard ]
+            }
             ]
           }
         ]
@@ -63,6 +76,11 @@ const studyFormRoutes: Routes = [
   ],
   exports: [
     RouterModule
+  ],
+  providers: [
+    StudyService,
+    StudyFormGuard,
+    RepeatedMeasureCorrelationsGuard
   ]
 })
 export class StudyFormRoutingModule {}

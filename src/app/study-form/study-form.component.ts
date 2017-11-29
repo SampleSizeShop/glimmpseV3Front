@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
   selector: 'app-study-form',
   templateUrl: './study-form.component.html',
   styleUrls: ['./study-form.component.scss'],
-  providers: [StudyService, NGXLogger, NavigationService]
+  providers: [NGXLogger, NavigationService]
 })
 export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _valid = false;
