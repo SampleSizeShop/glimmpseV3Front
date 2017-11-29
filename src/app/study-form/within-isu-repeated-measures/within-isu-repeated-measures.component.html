@@ -1,0 +1,158 @@
+<script src="../study-form.component.spec.ts"></script>
+<div *ngIf="!hasRepeatedMeasures() && !editing" id="firstrepmeasure">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h5>Are you taking repeated measures?</h5>
+      </div>
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label id="includerptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">define repeated measurement
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="nextRepeatedMeasure() && !editing" id="nextrepmeasure">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col">
+        <h5>Would you like to include repeated measurements on another dimension?</h5>
+      </div>
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label [class.active]="included" id="includenextrptmeasuresbtn" class="btn btn-primary">
+            <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Define another set of repeated measurements.
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure() && !editing" id="fullrepmeasure">
+  <div class="container-fluid">
+    <h5>That's all folks!</h5>
+  </div>
+</div>
+
+<div *ngIf="stages[0] === stageName">
+  <div id="dimensionsheader">
+    <h5>What is the name of the dimension you will be measuring and in what units (if applicable) is it measured?</h5>
+  </div>
+  <form [formGroup]="dimensionForm">
+    <div class="container-fluid">
+      <div class="form-group">
+        <label for="dimension">Dimension:</label>
+        <input class="form-control" formControlName="dimension" id="dimension" required>
+        <div *ngIf="formErrors.name" class="form-group has-danger">
+          <div class="form-control-feedback" id="outcomeserr">{{formErrors.name}}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="units">Units:</label>
+        <input class="form-control" formControlName="units" id="units">
+      </div>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="stages[1] === stageName">
+  <div id="typeheader">
+    <h5>What type of data is {{dimensionForm.value.name}}?</h5>
+    <form [formGroup]="typeForm">
+      <div class="form-group">
+        <select class="form-control" id="type" formControlName="type">
+          <option *ngFor="let t of types" [value]="t">{{t}}</option>
+        </select>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="stages[2] === stageName">
+  <div id="repeatesheader">
+    <h5>How many times are you measuring {{dimensionForm.value.name}}?</h5>
+    <form [formGroup]="repeatsForm">
+      <div class="form-group" id="repeatsinput">
+        <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
+        <div *ngIf="formErrors.repeats" class="form-group has-danger">
+          <div class="form-control-feedback">{{formErrors.repeats}}</div>
+        </div>
+        <small id="repeatshelp" class="form-text text-muted">You must have between 2 and 10 repeats (inclusive)</small>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="stages[3] === stageName">
+  <div id="spacingheader">
+    <h5>At which values of {{dimensionForm.value.name}} will you be taking measurements?</h5>
+    <form [formGroup]="spacingForm">
+      <div class="container-fluid">
+        <div class="row">
+
+          <div class="col">
+            <div class="form-group" id="spacinginput" *ngFor="let space of spacingControlNames">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col">
+                    Measurement #{{space + 1}} at
+                  </div>
+                  <div class="col">
+                    <input type="number" class="form-control" id="spacing" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
+                    <div *ngIf="formErrors.valueNames" class="form-group has-danger">
+                      <div class="form-control-feedback">{{formErrors.valueNames}}</div>
+                    </div>
+                  </div>
+                  <div class="col">
+                    {{dimensionForm.value.units}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="row">
+              <h6>Auto fill with measurements at regular intervals?</h6>
+            </div>
+            <div class="row">
+              <label for="first">First measurement:</label>
+              <input type="number" id="first" class="form-control" formControlName="first">
+            </div>
+            <div class="row">
+              <label for="interval">Interval:</label>
+              <input type="number" id="interval" class="form-control" formControlName="interval">
+            </div>
+            <div class="row">
+              <button class="btn btn-secondary" (click)="autoFill()" style="margin-top: 10px">Fill</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<br>
+<small *ngIf="hasRepeatedMeasures()">Repeated Measures:</small>
+<div *ngFor="let repeatedMeasure of repeatedMeasures; let i = index">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-md-auto">
+        <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">remove</i>
+      </div>
+      <div class="col  col-md-auto">
+        <i class="material-icons" (click)="editRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="editrepeatedMeasure">create</i>
+      </div>
+      <div class="col">
+        {{repeatedMeasures[i] | json}}
+      </div>
+    </div>
+  </div>
+</div>
