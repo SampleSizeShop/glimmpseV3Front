@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BetweenIsuPredictorsComponent } from './between-isu-predictors.component';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';

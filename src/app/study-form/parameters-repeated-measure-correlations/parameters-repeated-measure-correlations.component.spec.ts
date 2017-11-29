@@ -8,7 +8,7 @@ import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {CorrelationMatrixComponent} from '../../correlation-matrix/correlation-matrix.component';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
-import {StudyService} from "../../shared/study.service";
+import {StudyService} from "../study.service";
 
 describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
   let component: ParametersRepeatedMeasureCorrelationsComponent;

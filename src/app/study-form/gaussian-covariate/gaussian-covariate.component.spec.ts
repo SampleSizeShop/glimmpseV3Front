@@ -4,7 +4,7 @@ import { GaussianCovariateComponent } from './gaussian-covariate.component';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {ReactiveFormsModule} from '@angular/forms';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 

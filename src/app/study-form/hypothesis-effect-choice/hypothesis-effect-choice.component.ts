@@ -3,7 +3,7 @@ import {ISUFactor} from '../../shared/ISUFactor';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
 import {Subscription} from 'rxjs/Subscription';
 import {ISUFactors} from '../../shared/ISUFactors';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 import {constants} from '../../shared/constants';

@@ -1,6 +1,6 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
 import {constants} from '../../shared/constants';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WithinIsuRepeatedMeasuresComponent } from './within-isu-repeated-measures.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {NavigationService} from '../../shared/navigation.service';

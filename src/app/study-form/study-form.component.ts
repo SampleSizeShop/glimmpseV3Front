@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
-import {StudyService} from '../shared/study.service';
+import {StudyService} from './study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HypothesisBetweenComponent } from './hypothesis-between.component';
 import {MockBackend} from '@angular/http/testing';
 import {Http} from '@angular/http';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Component} from '@angular/core';

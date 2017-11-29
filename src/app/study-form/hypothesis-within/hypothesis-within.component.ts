@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs/Subscription';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
 
 @Component({

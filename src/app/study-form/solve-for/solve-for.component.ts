@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {NGXLogger} from 'ngx-logger';

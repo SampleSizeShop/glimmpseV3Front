@@ -4,15 +4,15 @@ import 'rxjs/add/operator/toPromise';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
-import {constants} from './constants';
-import {RepeatedMeasure} from './RepeatedMeasure';
-import {Cluster} from './Cluster';
-import {GaussianCovariate} from './GaussianCovariate';
-import {HypothesisEffect} from './HypothesisEffect';
-import {ISUFactor} from './ISUFactor';
-import {Outcome} from './Outcome';
-import {Predictor} from './Predictor';
-import {ISUFactors} from "./ISUFactors";
+import {constants} from '../shared/constants';
+import {RepeatedMeasure} from '../shared/RepeatedMeasure';
+import {Cluster} from '../shared/Cluster';
+import {GaussianCovariate} from '../shared/GaussianCovariate';
+import {HypothesisEffect} from '../shared/HypothesisEffect';
+import {ISUFactor} from '../shared/ISUFactor';
+import {Outcome} from '../shared/Outcome';
+import {Predictor} from '../shared/Predictor';
+import {ISUFactors} from "../shared/ISUFactors";
 
 @Injectable()
 export class StudyService {

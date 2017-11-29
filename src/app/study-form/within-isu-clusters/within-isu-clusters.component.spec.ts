@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WithinIsuClustersComponent } from './within-isu-clusters.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {NavigationService} from '../../shared/navigation.service';

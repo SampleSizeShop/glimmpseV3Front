@@ -8,7 +8,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MockBackend} from '@angular/http/testing';
 import {Http} from '@angular/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {StudyService} from "../../shared/study.service";
+import {StudyService} from "../study.service";
 
 describe('ParametersOutcomeCorrelationsComponent', () => {
   let component: ParametersOutcomeCorrelationsComponent;

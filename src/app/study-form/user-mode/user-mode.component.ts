@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {FormControl} from '@angular/forms';
 
 @Component({

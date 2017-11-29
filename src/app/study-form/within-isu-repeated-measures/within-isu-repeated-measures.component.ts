@@ -4,7 +4,7 @@ import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {constants} from '../../shared/constants';
 import {NavigationService} from 'app/shared/navigation.service';
 import {Subscription} from 'rxjs/Subscription';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {minMaxValidator} from '../../shared/minmax.validator';
 
 @Component({

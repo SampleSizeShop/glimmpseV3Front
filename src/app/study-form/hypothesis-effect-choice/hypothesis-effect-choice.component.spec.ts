@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HypothesisEffectChoiceComponent } from './hypothesis-effect-choice.component';
 import {ISUFactor} from '../../shared/ISUFactor';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';

@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HypothesisWithinComponent } from './hypothesis-within.component';
 import {MockBackend} from '@angular/http/testing';
 import {Http} from '@angular/http';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 
 describe('HypothesisWithinComponent', () => {
   let component: HypothesisWithinComponent;

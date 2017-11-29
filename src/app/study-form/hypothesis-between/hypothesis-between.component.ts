@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {constants} from 'app/shared/constants';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';

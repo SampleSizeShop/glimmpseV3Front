@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TargetEventComponent } from './target-event.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {MockBackend} from '@angular/http/testing';
 import {Http} from '@angular/http';
 import {DebugElement} from '@angular/core';

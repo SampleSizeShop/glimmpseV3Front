@@ -3,7 +3,7 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {CorrelationMatrixService} from '../../shared/correlationMatrix.service';
 import {isNull, isNullOrUndefined} from 'util';
 import {Subscription} from "rxjs/Subscription";
-import {StudyService} from "../../shared/study.service";
+import {StudyService} from "../study.service";
 
 @Component({
   selector: 'app-parameters-outcome-correlations',

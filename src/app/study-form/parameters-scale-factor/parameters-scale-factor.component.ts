@@ -2,7 +2,7 @@ import {Component, DoCheck, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/minmax.validator';
 

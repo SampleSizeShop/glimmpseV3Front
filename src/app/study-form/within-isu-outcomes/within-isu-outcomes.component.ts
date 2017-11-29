@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../../shared/constants';
 import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../../shared/navigation.service';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {ISUFactor} from '../../shared/ISUFactor';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';

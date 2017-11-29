@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 
 @Component({
   selector: 'app-parameters-standard-deviation',

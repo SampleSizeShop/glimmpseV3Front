@@ -1,7 +1,7 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {Cluster} from '../../shared/Cluster';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {NavigationService} from '../../shared/navigation.service';
 import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs/Subscription';

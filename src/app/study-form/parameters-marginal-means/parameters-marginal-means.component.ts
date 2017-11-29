@@ -2,7 +2,7 @@ import {Component, DoCheck, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {ISUFactorCombinationTable} from '../../shared/ISUFactorCombinationTable';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
 import {Subscription} from "rxjs/Subscription";
 

@@ -3,7 +3,7 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {ISUFactor} from '../../shared/ISUFactor';
 import {isNullOrUndefined} from 'util';
 import {Subscription} from "rxjs/Subscription";
-import {StudyService} from "../../shared/study.service";
+import {StudyService} from "../study.service";
 
 @Component({
   selector: 'app-parameters-repeated-measure-outcome-correlations',

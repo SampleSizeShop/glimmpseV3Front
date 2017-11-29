@@ -1,7 +1,7 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {GaussianCovariate} from '../../shared/GaussianCovariate';
-import {StudyService} from '../../shared/study.service';
+import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
 import {minMaxValidator} from '../../shared/minmax.validator';
 
