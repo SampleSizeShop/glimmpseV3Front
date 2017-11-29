@@ -10,18 +10,11 @@ import {Component} from '@angular/core';
 import {ISUFactors} from '../shared/ISUFactors';
 import {Outcome} from 'app/shared/Outcome';
 import {Predictor} from '../shared/Predictor';
+import {BetweenIsuGroupsComponent} from "../between-isu-groups/between-isu-groups.component";
 
 describe('HypothesisBetweenComponent no factors', () => {
   let component: HypothesisBetweenComponent;
-  let fixture: ComponentFixture<TestWrapperComponent>;
-
-  @Component({
-    selector: 'app-test-component-wrapper',
-    template: '<app-hypothesis-between [isuFactors]="isuFactors"></app-hypothesis-between>'
-  })
-  class TestWrapperComponent {
-    isuFactors = new ISUFactors();
-  }
+  let fixture: ComponentFixture<HypothesisBetweenComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,7 +22,6 @@ describe('HypothesisBetweenComponent no factors', () => {
         ReactiveFormsModule
       ],
       declarations: [
-        TestWrapperComponent,
         MathJaxDirective,
         HypothesisBetweenComponent
          ],
@@ -39,8 +31,8 @@ describe('HypothesisBetweenComponent no factors', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestWrapperComponent);
-    component = fixture.debugElement.children[0].componentInstance;
+    fixture = TestBed.createComponent(HypothesisBetweenComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
@@ -58,7 +50,7 @@ describe('HypothesisBetweenComponent no factors', () => {
 
 describe('HypothesisBetweenComponent with Factors', () => {
   let component: HypothesisBetweenComponent;
-  let fixture: ComponentFixture<TestWrapperComponent>;
+  let fixture: ComponentFixture<HypothesisBetweenComponent>;
 
   class MockISUFactors extends ISUFactors {
     constructor() {
@@ -76,28 +68,12 @@ describe('HypothesisBetweenComponent with Factors', () => {
     }
   }
 
-  @Component({
-    selector: 'app-test-component-wrapper',
-    template: '<app-hypothesis-between [isuFactors]="isuFactors"></app-hypothesis-between>'
-  })
-  class TestWrapperComponent {
-    isuFactors: ISUFactors;
-    constructor(isuFactors?: ISUFactors) {
-      if (isuFactors) {
-        this.isuFactors = isuFactors;
-      } else {
-        this.isuFactors = new ISUFactors();
-      }
-    }
-  }
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule
       ],
       declarations: [
-        TestWrapperComponent,
         MathJaxDirective,
         HypothesisBetweenComponent
          ],
@@ -107,8 +83,8 @@ describe('HypothesisBetweenComponent with Factors', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestWrapperComponent);
-    component = fixture.debugElement.children[0].componentInstance;
+    fixture = TestBed.createComponent(HypothesisBetweenComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 

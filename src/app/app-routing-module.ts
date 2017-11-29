@@ -26,31 +26,6 @@ import {ParametersRepeatedMeasureCorrelationsComponent} from "./parameters-repea
 
 const routes: Routes = [
   {path: 'mathjax', component: MathJaxComponent},
-  {path: 'design', component: StudyFormComponent,
-    children: [
-      {path: constants.STAGES[1], component: UserModeComponent},
-      {path: constants.STAGES[2], component: TargetEventComponent},
-      {path: constants.STAGES[3], component: SolveForComponent},
-      {path: constants.STAGES[4], component: StatisticalTestsComponent},
-      {path: constants.STAGES[5], component: TypeOneErrorComponent},
-      {path: constants.STAGES[6], component: WithinIsuOutcomesComponent},
-      {path: constants.STAGES[7], component: WithinIsuRepeatedMeasuresComponent},
-      {path: constants.STAGES[8], component: WithinIsuClustersComponent},
-      {path: constants.STAGES[9], component: BetweenIsuPredictorsComponent},
-      {path: constants.STAGES[10], component: BetweenIsuGroupsComponent},
-      {path: constants.STAGES[11], component: GaussianCovariateComponent},
-      {path: constants.STAGES[12], component: HypothesisEffectChoiceComponent},
-      {path: constants.STAGES[13], component: HypothesisBetweenComponent},
-      {path: constants.STAGES[14], component: HypothesisWithinComponent},
-      {path: constants.STAGES[15], component: ParametersMarginalMeansComponent},
-      {path: constants.STAGES[16], component: ParametersScaleFactorComponent},
-      {path: constants.STAGES[17], component: ParametersStandardDeviationComponent},
-      {path: constants.STAGES[18], component: ParametersOutcomeCorrelationsComponent},
-      {path: constants.STAGES[19], component: ParametersRepeatedMeasureOutcomeCorrelationsComponent},
-      {path: constants.STAGES[20] + '/:meas', component: ParametersRepeatedMeasureCorrelationsComponent},
-      {path: constants.STAGES[20], component: ParametersRepeatedMeasureCorrelationsComponent}
-    ]
-  }
 
 ];
 

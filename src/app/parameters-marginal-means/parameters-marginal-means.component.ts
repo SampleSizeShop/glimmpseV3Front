@@ -4,6 +4,7 @@ import {ISUFactors} from '../shared/ISUFactors';
 import {ISUFactorCombinationTable} from '../shared/ISUFactorCombinationTable';
 import {StudyService} from '../shared/study.service';
 import {isNullOrUndefined} from 'util';
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-parameters-marginal-means',
@@ -15,7 +16,12 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
   private _tables: Array<ISUFactorCombinationTable>;
   private _marginalMeansForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private _study_service: StudyService) {}
+  private _isuFactorsSubscription: Subscription;
+
+  constructor(private fb: FormBuilder, private _study_service: StudyService) {
+    this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    } );}
 
   ngOnInit() {
     this.updateMarginalMeansFormControls();
@@ -66,7 +72,7 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
     return this._isuFactors;
   }
 
-  @Input() set isuFactors(value: ISUFactors) {
+  set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
   }
 
@@ -84,5 +90,9 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
 
   set marginalMeansForm(value: FormGroup) {
     this._marginalMeansForm = value;
+  }
+
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
   }
 }

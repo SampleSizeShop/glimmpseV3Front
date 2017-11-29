@@ -21,7 +21,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   private _tables: Array<ISUFactorCombinationTable>;
 
-  private _betweenIsuGroupsSubscription: Subscription;
+  private _isuFactorsSubscription: Subscription;
   private _solveForSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
@@ -29,7 +29,11 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
     this.solveForSubscription = this.study_service.solveForSelected$.subscribe( solveFor => {
       this.solveFor = solveFor;
-    })}
+    })
+    this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    } );
+  }
 
   ngOnInit() {
     this.buildForm();
@@ -126,7 +130,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     return this._isuFactors;
   }
 
-  @Input() set isuFactors(value: ISUFactors) {
+  set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
   }
 
@@ -146,20 +150,20 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this._tables = value;
   }
 
-  get betweenIsuGroupsSubscription(): Subscription {
-    return this._betweenIsuGroupsSubscription;
-  }
-
-  set betweenIsuGroupsSubscription(value: Subscription) {
-    this._betweenIsuGroupsSubscription = value;
-  }
-
   get solveForSubscription(): Subscription {
     return this._solveForSubscription;
   }
 
   set solveForSubscription(value: Subscription) {
     this._solveForSubscription = value;
+  }
+
+  get isuFactorsSubscription(): Subscription {
+    return this._isuFactorsSubscription;
+  }
+
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
   }
 
   get fb(): FormBuilder {

@@ -25,7 +25,7 @@ import {NgModule} from '@angular/core';
 
 const studyFormRoutes: Routes = [
       {
-        path: 'newRouting',
+        path: 'design',
         component: StudyFormComponent,
         children: [
           {

@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {constants} from '../shared/constants';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../shared/study.service';
+import {ISUFactors} from '../shared/ISUFactors';
 
 @Component({
   selector: 'app-hypothesis-within',
@@ -11,12 +12,17 @@ import {StudyService} from '../shared/study.service';
 export class HypothesisWithinComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
   private _withinHypothesisNature: string;
+  private _isuFactors: ISUFactors;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _withinHypothesisNatureSubscription: Subscription;
+  private _isuFactorsSubscription: Subscription;
 
   constructor(private study_service: StudyService) {
     this.showAdvancedOptions = false;
 
+    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    } );
     this.withinHypothesisNatureSubscription = this.study_service.withinHypothesisNature$.subscribe(
       withinHypothesisNature => {
         this.withinHypothesisNature = withinHypothesisNature;
@@ -77,5 +83,17 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
 
   set withinHypothesisNatureSubscription(value: Subscription) {
     this._withinHypothesisNatureSubscription = value;
+  }
+
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
+  }
+
+  get isuFactors(): ISUFactors {
+    return this._isuFactors;
+  }
+
+  set isuFactors(value: ISUFactors) {
+    this._isuFactors = value;
   }
 }

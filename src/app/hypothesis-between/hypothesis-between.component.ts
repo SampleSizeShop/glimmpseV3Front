@@ -20,6 +20,8 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _marginalsIn: Array<CMatrix>;
   private _marginalsOut: Array<CMatrix>;
 
+
+  private _isuFactorsSubscription: Subscription;
   private _betweenHypothesisNatureSubscription: Subscription;
   texString = '';
 
@@ -28,6 +30,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.marginalsOut = [];
     this.showAdvancedOptions = false;
 
+    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    } );
     this.betweenHypothesisNatureSubscription = this.study_service.betweenHypothesisNature$.subscribe(
       betweenHypothesisNature => {
         this.betweenHypothesisNature = betweenHypothesisNature;
@@ -178,6 +183,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._betweenHypothesisNatureSubscription = value;
   }
 
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
+  }
+
   get marginalsIn(): Array<CMatrix> {
     return this._marginalsIn;
   }
@@ -198,7 +207,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     return this._isuFactors;
   }
 
-  @Input() set isuFactors(value: ISUFactors) {
+  set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
   }
 }

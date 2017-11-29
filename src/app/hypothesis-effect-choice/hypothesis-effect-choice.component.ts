@@ -14,15 +14,19 @@ import {constants} from '../shared/constants';
   styleUrls: ['./hypothesis-effect-choice.component.css']
 })
 export class HypothesisEffectChoiceComponent implements OnInit {
-  @Input() variables;
+  private _variables: ISUFactor[];
   private _possibleEffects: HypothesisEffect[];
   private _selected: HypothesisEffect;
 
   private _hypothesisEffectSubscription: Subscription;
+  private _isuFactorsSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private _study_service: StudyService) {
     this.possibleEffects = [];
 
+    this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
+      this.variables = isuFactors.variables;
+    } );
     this.hypothesisEffectSubscription = this._study_service.hypothesisEffect$.subscribe( effect => {
       this._selected = effect;
     });
@@ -34,7 +38,6 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   }
 
   selectEffect(effect: HypothesisEffect) {
-    console.log('selected + ' + effect.name);
     this._selected = effect;
     this.study_service.updateHypothesisEffect(effect);
   }
@@ -147,12 +150,24 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     this._hypothesisEffectSubscription = value;
   }
 
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
+  }
+
   get study_service(): StudyService {
     return this._study_service;
   }
 
   set study_service(value: StudyService) {
     this._study_service = value;
+  }
+
+  get variables(): ISUFactor[] {
+    return this._variables;
+  }
+
+  set variables(value: ISUFactor[]) {
+    this._variables = value;
   }
 
   compare(a: HypothesisEffect, b: HypothesisEffect) {

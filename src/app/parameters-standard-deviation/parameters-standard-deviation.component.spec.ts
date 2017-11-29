@@ -8,18 +8,11 @@ import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
+import {StudyService} from "../shared/study.service";
 
 describe('ParametersStandardDeviationComponent', () => {
   let component: ParametersStandardDeviationComponent;
-  let fixture: ComponentFixture<TestWrapperComponent>;
-
-  @Component({
-    selector: 'app-test-component-wrapper',
-    template: '<app-parameters-standard-deviation [isuFactors]="isuFactors"></app-parameters-standard-deviation>'
-  })
-  class TestWrapperComponent {
-    isuFactors = new ISUFactors();
-  }
+  let fixture: ComponentFixture<ParametersStandardDeviationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -28,11 +21,11 @@ describe('ParametersStandardDeviationComponent', () => {
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})
       ],
       declarations: [
-        TestWrapperComponent,
         ParametersStandardDeviationComponent,
         CorrelationMatrixComponent
       ],
       providers: [
+        StudyService,
         {provide: Http, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock}
       ]
@@ -41,8 +34,8 @@ describe('ParametersStandardDeviationComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestWrapperComponent);
-    component = fixture.debugElement.children[0].componentInstance;
+    fixture = TestBed.createComponent(ParametersStandardDeviationComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 

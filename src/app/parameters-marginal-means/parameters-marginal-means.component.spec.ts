@@ -10,28 +10,20 @@ import {ISUFactors} from '../shared/ISUFactors';
 
 describe('ParametersMarginalMeansComponent', () => {
   let component: ParametersMarginalMeansComponent;
-  let fixture: ComponentFixture<TestWrapperComponent>;
-
-  @Component({
-    selector: 'app-test-component-wrapper',
-    template: '<app-parameters-marginal-means [isuFactors]="isuFactors"></app-parameters-marginal-means>'
-  })
-  class TestWrapperComponent {
-    isuFactors = new ISUFactors();
-  }
+  let fixture: ComponentFixture<ParametersMarginalMeansComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [ TestWrapperComponent, ParametersMarginalMeansComponent ],
+      declarations: [ ParametersMarginalMeansComponent ],
       providers: [StudyService, { provide: Http, useClass: MockBackend }]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestWrapperComponent);
-    component = fixture.debugElement.children[0].componentInstance;
+    fixture = TestBed.createComponent(ParametersMarginalMeansComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 

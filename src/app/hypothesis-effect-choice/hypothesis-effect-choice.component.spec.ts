@@ -12,28 +12,20 @@ import {Component} from '@angular/core';
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;
-  let fixture: ComponentFixture<TestWrapperComponent>;
-
-  @Component({
-    selector: 'app-test-component-wrapper',
-    template: '<app-hypothesis-effect-choice [variables]="variables"></app-hypothesis-effect-choice>'
-  })
-  class TestWrapperComponent {
-    variables = [];
-  }
+  let fixture: ComponentFixture<HypothesisEffectChoiceComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [ TestWrapperComponent, HypothesisEffectChoiceComponent ],
+      declarations: [ HypothesisEffectChoiceComponent ],
       providers: [StudyService, { provide: Http, useClass: MockBackend }]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestWrapperComponent);
-    component = fixture.debugElement.children[0].componentInstance;
+    fixture = TestBed.createComponent(HypothesisEffectChoiceComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 

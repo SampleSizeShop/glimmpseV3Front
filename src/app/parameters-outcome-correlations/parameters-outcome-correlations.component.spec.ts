@@ -8,18 +8,11 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MockBackend} from '@angular/http/testing';
 import {Http} from '@angular/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {StudyService} from "../shared/study.service";
 
 describe('ParametersOutcomeCorrelationsComponent', () => {
   let component: ParametersOutcomeCorrelationsComponent;
-  let fixture: ComponentFixture<TestWrapperComponent>;
-
-  @Component({
-    selector: 'app-test-component-wrapper',
-    template: '<app-parameters-outcome-correlations [isuFactors]="isuFactors"></app-parameters-outcome-correlations>'
-  })
-  class TestWrapperComponent {
-    isuFactors = new ISUFactors();
-  }
+  let fixture: ComponentFixture<ParametersOutcomeCorrelationsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -28,11 +21,11 @@ describe('ParametersOutcomeCorrelationsComponent', () => {
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})
       ],
       declarations: [
-        TestWrapperComponent,
         ParametersOutcomeCorrelationsComponent,
         CorrelationMatrixComponent
       ],
       providers: [
+        StudyService,
         {provide: Http, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock}
         ]
@@ -41,8 +34,8 @@ describe('ParametersOutcomeCorrelationsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestWrapperComponent);
-    component = fixture.debugElement.children[0].componentInstance;
+    fixture = TestBed.createComponent(ParametersOutcomeCorrelationsComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 

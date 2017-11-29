@@ -8,19 +8,11 @@ import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
+import {StudyService} from "../shared/study.service";
 
 describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
   let component: ParametersRepeatedMeasureCorrelationsComponent;
-  let fixture: ComponentFixture<TestWrapperComponent>;
-
-  @Component({
-    selector: 'app-test-component-wrapper',
-    template: '<app-parameters-repeated-measure-correlations [isuFactors]="isuFactors"></app-parameters-repeated-measure-correlations>'
-  })
-  class TestWrapperComponent {
-    isuFactors = new ISUFactors();
-  }
-
+  let fixture: ComponentFixture<ParametersRepeatedMeasureCorrelationsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -29,11 +21,11 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})
       ],
       declarations: [
-        TestWrapperComponent,
         ParametersRepeatedMeasureCorrelationsComponent,
         CorrelationMatrixComponent
       ],
       providers: [
+        StudyService,
         {provide: Http, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock}
       ]
@@ -42,8 +34,8 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TestWrapperComponent);
-    component = fixture.debugElement.children[0].componentInstance;
+    fixture = TestBed.createComponent(ParametersRepeatedMeasureCorrelationsComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 

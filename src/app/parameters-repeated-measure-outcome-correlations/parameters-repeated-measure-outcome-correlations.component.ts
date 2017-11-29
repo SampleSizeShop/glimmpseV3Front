@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactors} from '../shared/ISUFactors';
 import {ISUFactor} from '../shared/ISUFactor';
 import {isNullOrUndefined} from 'util';
+import {Subscription} from "rxjs/Subscription";
+import {StudyService} from "../shared/study.service";
 
 @Component({
   selector: 'app-parameters-repeated-measure-outcome-correlations',
@@ -10,10 +12,14 @@ import {isNullOrUndefined} from 'util';
 })
 export class ParametersRepeatedMeasureOutcomeCorrelationsComponent implements OnInit {
   private _isuFactors: ISUFactors;
+  private _isuFactorsSubscription: Subscription;
   private _combinations: Map<ISUFactor, Array<ISUFactor>>;
   private map: Map<string, string[]>;
   selected: string;
-  constructor() {
+  constructor(private study_service: StudyService) {
+    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    } );
   }
 
   ngOnInit() {
@@ -63,5 +69,9 @@ export class ParametersRepeatedMeasureOutcomeCorrelationsComponent implements On
 
   set combinations(value: Map<ISUFactor, Array<ISUFactor>>) {
     this._combinations = value;
+  }
+
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
   }
 }

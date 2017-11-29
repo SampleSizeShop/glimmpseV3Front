@@ -78,7 +78,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   private navigate(stage: number) {
-    this.router.navigateByUrl('/design/' + constants.STAGES[stage]);
+    this.router.navigate(['design', constants.STAGES[stage]]);
   }
 
   back(): void {
@@ -434,6 +434,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       outcomes => {
         this.study.isuFactors.updateOutcomes(outcomes);
         this.study.checkDependencies();
+        this.updateISUFactors();
       }
     );
 
@@ -441,12 +442,15 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       measures => {
         this.study.isuFactors.updateRepeatedMeasures(measures);
         this.study.checkDependencies();
+        this.updateISUFactors();
       }
     );
 
     this.withinIsuClusterSubscription = this.study_service.withinIsuCluster$.subscribe(
       cluster => {
         this.study.isuFactors.updateCluster(cluster);
+        // TODO: what is wrong with the line below?
+        // this.updateISUFactors();
       }
     );
 
@@ -454,6 +458,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       predictors => {
         this.study.isuFactors.updatePredictors(predictors);
         this.study.checkDependencies();
+        this.updateISUFactors();
       }
     );
 
@@ -486,9 +491,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       hypothesisEffect => {
         this.study.isuFactors.updateHypothesis(hypothesisEffect);
         this.study.checkDependencies();
+        this.updateISUFactors();
       }
     );
   };
+
+  updateISUFactors() {
+    this.study_service.updateIsuFactors(this.study.isuFactors);
+  }
 
   unsubscribeFromStudyService() {
     this.modeSubscription.unsubscribe();

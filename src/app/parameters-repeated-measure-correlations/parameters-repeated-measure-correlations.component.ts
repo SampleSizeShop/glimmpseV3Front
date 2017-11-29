@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactors} from '../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
+import {StudyService} from "../shared/study.service";
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-parameters-repeated-measure-correlations',
@@ -11,11 +13,17 @@ import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 })
 export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
   private _isuFactors: ISUFactors;
+  private _isuFactorsSubscription: Subscription;
+
   size: number;
   title = 'repeated measure';
   names = [];
 
-  constructor() { }
+  constructor(private study_service: StudyService) {
+    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    } );
+  }
 
   ngOnInit() {
     this.setSize();
@@ -47,7 +55,11 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
     return this._isuFactors;
   }
 
-  @Input() set isuFactors(value: ISUFactors) {
+  set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
+  }
+
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
   }
 }

@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactors} from '../shared/ISUFactors';
 import {CorrelationMatrixService} from '../shared/correlationMatrix.service';
 import {isNull, isNullOrUndefined} from 'util';
+import {Subscription} from "rxjs/Subscription";
+import {StudyService} from "../shared/study.service";
 
 @Component({
   selector: 'app-parameters-outcome-correlations',
@@ -11,11 +13,16 @@ import {isNull, isNullOrUndefined} from 'util';
 })
 export class ParametersOutcomeCorrelationsComponent implements OnInit {
   private _isuFactors: ISUFactors;
+  private _isuFactorsSubscription: Subscription;
   size: number;
   title = 'outcome';
   names = [];
 
-  constructor() { }
+  constructor(private study_service: StudyService) {
+    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    } );
+  }
 
   ngOnInit() {
     this.setSize();
@@ -46,7 +53,11 @@ export class ParametersOutcomeCorrelationsComponent implements OnInit {
     return this._isuFactors;
   }
 
-  @Input() set isuFactors(value: ISUFactors) {
+  set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
+  }
+
+  set isuFactorsSubscription(value: Subscription) {
+    this._isuFactorsSubscription = value;
   }
 }
