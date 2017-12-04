@@ -53,7 +53,10 @@ const studyFormRoutes: Routes = [
             {path: constants.STAGES[16], component: ParametersScaleFactorComponent},
             {path: constants.STAGES[17], component: ParametersStandardDeviationComponent},
             {path: constants.STAGES[18], component: ParametersOutcomeCorrelationsComponent},
-            {path: constants.STAGES[19], component: ParametersRepeatedMeasureOutcomeCorrelationsComponent},
+            {
+              path: constants.STAGES[19],
+              component: ParametersRepeatedMeasureOutcomeCorrelationsComponent,
+              canActivate: [ RepeatedMeasureCorrelationsGuard ] },
             {
               path: constants.STAGES[20] + '/:meas',
               component: ParametersRepeatedMeasureCorrelationsComponent,
