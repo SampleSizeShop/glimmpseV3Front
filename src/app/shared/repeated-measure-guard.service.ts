@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {constants} from '../../shared/constants';
-import {StudyService} from '../study.service';
-import {ISUFactors} from '../../shared/ISUFactors';
+import {constants} from './constants';
+import {StudyService} from '../study-form/study.service';
+import {ISUFactors} from './ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {isNullOrUndefined} from 'util';
 
 @Injectable()
-export class RepeatedMeasureCorrelationsGuard implements CanActivate {
+export class RepeatedMeasureGuard implements CanActivate {
   private isuFactors: ISUFactors;
   private isuFactorsSubscription: Subscription;
 

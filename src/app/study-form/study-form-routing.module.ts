@@ -24,7 +24,7 @@ import {ParametersRepeatedMeasureCorrelationsComponent} from './parameters-repea
 import {NgModule} from '@angular/core';
 import {StudyFormGuard} from './study-form-guard.service';
 import {StudyService} from "./study.service";
-import {RepeatedMeasureCorrelationsGuard} from "./parameters-repeated-measure-correlations/repeated-measure-correlations-guard.service";
+import {RepeatedMeasureGuard} from "../shared/repeated-measure-guard.service";
 
 const studyFormRoutes: Routes = [
       {
@@ -56,16 +56,16 @@ const studyFormRoutes: Routes = [
             {
               path: constants.STAGES[19],
               component: ParametersRepeatedMeasureOutcomeCorrelationsComponent,
-              canActivate: [ RepeatedMeasureCorrelationsGuard ] },
+              canActivate: [ RepeatedMeasureGuard ] },
             {
               path: constants.STAGES[20] + '/:meas',
               component: ParametersRepeatedMeasureCorrelationsComponent,
-              canActivate: [ RepeatedMeasureCorrelationsGuard ]
+              canActivate: [ RepeatedMeasureGuard ]
             },
             {
               path: constants.STAGES[20],
               component: ParametersRepeatedMeasureCorrelationsComponent,
-              canActivate: [ RepeatedMeasureCorrelationsGuard ]
+              canActivate: [ RepeatedMeasureGuard ]
             }
             ]
           }
@@ -83,7 +83,7 @@ const studyFormRoutes: Routes = [
   providers: [
     StudyService,
     StudyFormGuard,
-    RepeatedMeasureCorrelationsGuard
+    RepeatedMeasureGuard
   ]
 })
 export class StudyFormRoutingModule {}
