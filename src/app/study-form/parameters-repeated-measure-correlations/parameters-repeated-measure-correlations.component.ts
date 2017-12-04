@@ -2,8 +2,11 @@ import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
-import {StudyService} from "../study.service";
-import {Subscription} from "rxjs/Subscription";
+import {StudyService} from '../study.service';
+import {Subscription} from 'rxjs/Subscription';
+import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-parameters-repeated-measure-correlations',
@@ -14,18 +17,19 @@ import {Subscription} from "rxjs/Subscription";
 export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
-
+  private _repeatedMeasure: Observable<RepeatedMeasure>;
   size: number;
   title = 'repeated measure';
   names = [];
 
-  constructor(private study_service: StudyService) {
+  constructor(private study_service: StudyService, private route: ActivatedRoute) {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
   }
 
   ngOnInit() {
+    console.log(this.route.paramMap['meas']);
     this.setSize();
     this.setNames();
   }
@@ -61,5 +65,13 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
 
   set isuFactorsSubscription(value: Subscription) {
     this._isuFactorsSubscription = value;
+  }
+
+  get repeatedMeasure(): Observable<RepeatedMeasure> {
+    return this._repeatedMeasure;
+  }
+
+  set repeatedMeasure(value: Observable<RepeatedMeasure>) {
+    this._repeatedMeasure = value;
   }
 }

@@ -27,9 +27,9 @@ export class RepeatedMeasureCorrelationsGuard implements CanActivate {
       return true;
     } else {
       const stage = this.study_service.getStageFromName(route.url.toString());
-      const next = constants.STAGES[stage + 1];
+      const next = constants.STAGES[stage + 2];
       if (!isNullOrUndefined(next)) {
-        this.navigate(stage + 1);
+        this.navigate(stage + 2);
       }
       return false;
     }
