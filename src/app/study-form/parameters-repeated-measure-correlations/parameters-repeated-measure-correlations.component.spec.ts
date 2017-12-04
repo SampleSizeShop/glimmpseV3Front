@@ -9,12 +9,41 @@ import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matr
 import {Http} from '@angular/http';
 import {MockBackend} from '@angular/http/testing';
 import {StudyService} from "../study.service";
+import {ActivatedRoute} from "@angular/router";
+
+import { BehaviorSubject } from 'rxjs/Rx';
+
+export class MockActivatedRoute {
+  private paramsSubject = new BehaviorSubject(this.testParams);
+  private _paramMap = {'meas': 'route'};
+  private _testParams: {};
+
+  params  = this.paramsSubject.asObservable();
+
+  get testParams() {
+    return this._testParams;
+  }
+  set testParams(newParams: any) {
+    this._testParams = newParams;
+    this.paramsSubject.next(newParams);
+  }
+
+  get paramMap(): { meas: string } {
+    return this._paramMap;
+  }
+
+  set paramMap(value: { meas: string }) {
+    this._paramMap = value;
+  }
+}
 
 describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
   let component: ParametersRepeatedMeasureCorrelationsComponent;
   let fixture: ComponentFixture<ParametersRepeatedMeasureCorrelationsComponent>;
+  let activeRoute: MockActivatedRoute;
 
   beforeEach(async(() => {
+    activeRoute = new MockActivatedRoute();
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -27,7 +56,8 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
       providers: [
         StudyService,
         {provide: Http, useClass: MockBackend},
-        {provide: NGXLogger, useClass: NGXLoggerMock}
+        {provide: NGXLogger, useClass: NGXLoggerMock},
+        {provide: ActivatedRoute, useValue: activeRoute }
       ]
     })
     .compileComponents();

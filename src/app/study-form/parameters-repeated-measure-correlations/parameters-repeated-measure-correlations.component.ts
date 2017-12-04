@@ -5,7 +5,7 @@ import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 
 @Component({
