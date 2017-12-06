@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from './correlationMatrix.service';
 import {Subscription} from 'rxjs/Subscription';
@@ -15,7 +15,7 @@ import {isNullOrUndefined} from 'util';
   styleUrls: ['./correlation-matrix.component.scss'],
   providers: [ NGXLogger ]
 })
-export class CorrelationMatrixComponent implements  OnInit, OnDestroy {
+export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
 
   private _size: number;
   private _title: string;
@@ -29,6 +29,7 @@ export class CorrelationMatrixComponent implements  OnInit, OnDestroy {
   private _uMatrix: CorrelationMatrix;
   private _min: number;
   private _max: number;
+  private _check: number;
 
   private _formErrors = constants.CORRELATION_MATRIX_FORM_ERRORS;
   private _messages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
@@ -49,10 +50,19 @@ export class CorrelationMatrixComponent implements  OnInit, OnDestroy {
         }
       }
     );
+    this._check = this.size;
   }
 
   ngOnInit() {
     this.buildForm();
+  }
+
+  ngDoCheck() {
+    if (this._check !== this.size) {
+      console.log('buildForm');
+      this.buildForm();
+    }
+    this._check = this.size;
   }
 
   ngOnDestroy() {
