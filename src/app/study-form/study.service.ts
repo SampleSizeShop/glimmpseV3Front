@@ -12,7 +12,7 @@ import {HypothesisEffect} from '../shared/HypothesisEffect';
 import {ISUFactor} from '../shared/ISUFactor';
 import {Outcome} from '../shared/Outcome';
 import {Predictor} from '../shared/Predictor';
-import {ISUFactors} from "../shared/ISUFactors";
+import {ISUFactors} from '../shared/ISUFactors';
 
 @Injectable()
 export class StudyService {

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, DoCheck, OnChanges, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 
 import {Observable} from 'rxjs/Observable';
@@ -17,7 +17,7 @@ import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
   styleUrls: ['./parameters-repeated-measure-correlations.component.scss'],
   providers: [CorrelationMatrixService]
 })
-export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit, OnChanges {
+export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _repeatedMeasure$: Observable<RepeatedMeasure>;
@@ -37,10 +37,6 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit, O
     );
   }
 
-  ngOnChanges() {
-    console.log('logged');
-  }
-
   getRepeatedMeasures() { return Observable.of(this.isuFactors.repeatedMeasures); }
 
   private getRepeatedMeasure(name: string | any) {
@@ -52,6 +48,10 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit, O
 
   set repeatedMeasure$(value: Observable<RepeatedMeasure>) {
     this._repeatedMeasure$ = value;
+  }
+
+  get repeatedMeasure$(): Observable<RepeatedMeasure> {
+    return this._repeatedMeasure$;
   }
 
   get isuFactors(): ISUFactors {
