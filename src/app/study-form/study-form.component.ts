@@ -46,6 +46,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _stages;
   private _noStages: number;
   private _childComponentNav: boolean;
+  private parameters = [];
+  private measureNames = [];
 
   constructor(
     private study_service: StudyService,
@@ -63,11 +65,23 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       this.navigation_service.updateNavigation('NEXT');
     } else {
       const current = this.getStage();
-      if ( current < this._noStages &&  this.valid ) {
+      if ( current <= this._noStages &&  this.valid ) {
         if (current === 9
           && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(11)
+        } else if (
+          current === 19
+          && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
+          && this.study.isuFactors.repeatedMeasures.length > 0) {
+          this.setStage(20);
+          this.study.isuFactors.repeatedMeasures.forEach(measure => {this.measureNames.push(measure.name)});
+          this.parameters = [];
+          this.parameters.push(this.measureNames.pop());
+        } else if (current === 20 && this.measureNames.length > 0) {
+          this.parameters = [];
+          this.parameters.push(this.measureNames.pop());
+          this.setStage(20);
         } else {
           this.setStage( current + 1 );
         }
@@ -78,7 +92,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   private navigate(stage: number) {
-    this.router.navigate(['design', constants.STAGES[stage]]);
+    let params = ['design', constants.STAGES[stage]];
+    params = params.concat(this.parameters);
+    this.router.navigate(params);
   }
 
   back(): void {
@@ -102,17 +118,17 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   setNextBack(): void {
-    const current = this.getStage();
-    if ( current < this._noStages ) {
-      this.hasNext = true;
-    } else {
-      this.hasNext = false;
-    }
-    if ( current > 1 ) {
-      this.hasBack = true;
-    } else {
-      this.hasBack = false;
-    }
+   const current = this.getStage();
+   if ( current < this._noStages ) {
+     this.hasNext = true;
+   } else {
+     // this.hasNext = false;
+   }
+   if ( current > 1 ) {
+     this.hasBack = true;
+   } else {
+     this.hasBack = false;
+   }
   }
 
   ngOnInit() {
@@ -449,8 +465,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.withinIsuClusterSubscription = this.study_service.withinIsuCluster$.subscribe(
       cluster => {
         this.study.isuFactors.updateCluster(cluster);
-        // TODO: what is wrong with the line below?
-        // this.updateISUFactors();
       }
     );
 

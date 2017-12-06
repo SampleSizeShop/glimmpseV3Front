@@ -1,12 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, DoCheck, OnChanges, OnInit} from '@angular/core';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import {Subscription} from 'rxjs/Subscription';
+
 import {ISUFactors} from '../../shared/ISUFactors';
-import {isNullOrUndefined} from 'util';
 import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs/Subscription';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
-import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-parameters-repeated-measure-correlations',
@@ -14,10 +17,10 @@ import {Observable} from 'rxjs/Observable';
   styleUrls: ['./parameters-repeated-measure-correlations.component.scss'],
   providers: [CorrelationMatrixService]
 })
-export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
+export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit, OnChanges {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
-  private _repeatedMeasure: Observable<RepeatedMeasure>;
+  private _repeatedMeasure$: Observable<RepeatedMeasure>;
   size: number;
   title = 'repeated measure';
   names = [];
@@ -29,31 +32,27 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.route.paramMap['meas']);
-    this.setSize();
-    this.setNames();
+    this.repeatedMeasure$ = this.route.paramMap.switchMap(
+      (params: ParamMap) => this.getRepeatedMeasure(params.get('name'))
+    );
   }
 
-  setNames() {
-    if (!isNullOrUndefined(this.isuFactors.repeatedMeasuresInHypothesis
-        && this.isuFactors.repeatedMeasuresInHypothesis.length > 0)) {
-      this.isuFactors.repeatedMeasuresInHypothesis.forEach( measure => {
-        this.names.push(measure.name)
-      })
-    } else {
-      this.names = ['']
-    }
+  ngOnChanges() {
+    console.log('logged');
   }
 
-  setSize() {
-    if (!isNullOrUndefined(this.isuFactors.repeatedMeasuresInHypothesis)
-      && this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
-      this.size = this.isuFactors.repeatedMeasuresInHypothesis.length;
-    } else {
-      this.size = 1;
-    }
+  getRepeatedMeasures() { return Observable.of(this.isuFactors.repeatedMeasures); }
+
+  private getRepeatedMeasure(name: string | any) {
+    return this.getRepeatedMeasures().map(
+      measures => measures.find(
+        measure => measure.name === name
+      ));
   }
 
+  set repeatedMeasure$(value: Observable<RepeatedMeasure>) {
+    this._repeatedMeasure$ = value;
+  }
 
   get isuFactors(): ISUFactors {
     return this._isuFactors;
@@ -65,13 +64,5 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
 
   set isuFactorsSubscription(value: Subscription) {
     this._isuFactorsSubscription = value;
-  }
-
-  get repeatedMeasure(): Observable<RepeatedMeasure> {
-    return this._repeatedMeasure;
-  }
-
-  set repeatedMeasure(value: Observable<RepeatedMeasure>) {
-    this._repeatedMeasure = value;
   }
 }

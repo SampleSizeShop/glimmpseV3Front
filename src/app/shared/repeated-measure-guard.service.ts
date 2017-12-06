@@ -19,6 +19,8 @@ export class RepeatedMeasureGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     console.log('RepMeasureGuard#canActivate called');
+    const st = this.study_service.stage;
+    console.log(st);
     if (
       !isNullOrUndefined(this.isuFactors)
       && !isNullOrUndefined(this.isuFactors.repeatedMeasures)
