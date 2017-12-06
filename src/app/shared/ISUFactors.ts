@@ -63,25 +63,27 @@ export class ISUFactors {
   }
 
   getNextRepeatedMeasure(name: string): RepeatedMeasure {
-    let measure: RepeatedMeasure = null;
-    measure = this.repeatedMeasures.find(
+    let measure = this.repeatedMeasures.find(
       nextMeasure => nextMeasure.name === name
     );
     const nextIndex = this.repeatedMeasures.indexOf(measure) + 1;
     if (nextIndex < this.repeatedMeasures.length) {
       measure = this.repeatedMeasures[nextIndex];
+    } else {
+      measure = null;
     }
     return measure
   }
 
   getPreviousRepeatedMeasure(name: string): RepeatedMeasure {
-    let measure: RepeatedMeasure = null;
-    measure = this.repeatedMeasures.find(
-      prevMeasure => measure.name === name
+    let measure = this.repeatedMeasures.find(
+      prevMeasure => prevMeasure.name === name
     );
     const previousIndex = this.repeatedMeasures.indexOf(measure) - 1;
     if (previousIndex >= 0) {
       measure = this.repeatedMeasures[previousIndex];
+    } else {
+      measure = null;
     }
     return measure
   }
