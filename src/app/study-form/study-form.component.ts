@@ -75,12 +75,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
           && this.study.isuFactors.repeatedMeasures.length > 0) {
           this.setStage(20);
-          this.study.isuFactors.repeatedMeasures.forEach(measure => {this.measureNames.push(measure.name)});
           this.parameters = [];
-          this.parameters.push(this.measureNames.pop());
-        } else if (current === 20 && this.measureNames.length > 0) {
-          this.parameters = [];
-          this.parameters.push(this.measureNames.pop());
+          this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
+        } else if (current === 20) {
+          const currentName = this.parameters.pop();
+          const next = this.study.isuFactors.getNextRepeatedMeasure(currentName);
+          this.parameters.push(next.name);
           this.setStage(20);
         } else {
           this.setStage( current + 1 );
@@ -94,6 +94,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private navigate(stage: number) {
     let params = ['design', constants.STAGES[stage]];
     params = params.concat(this.parameters);
+    console.log(params);
     this.router.navigate(params);
   }
 
