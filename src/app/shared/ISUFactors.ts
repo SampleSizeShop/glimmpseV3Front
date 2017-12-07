@@ -42,8 +42,96 @@ export class ISUFactors {
     this.variables = this._updateListOfISUFactors(newOutcomes);
   }
 
+  get firstOutcome(): Outcome {
+    let outcome: Outcome = null;
+    if (!isNullOrUndefined(this.outcomes)) {
+      outcome = this.outcomes[0];
+    }
+    return outcome;
+  }
+
+  get lastOutcome(): Outcome {
+    let outcome: Outcome = null;
+    if (!isNullOrUndefined(this.outcomes)) {
+      outcome = this.outcomes[this.outcomes.length - 1 ];
+    }
+    return outcome;
+  }
+
+  getNextOutcome(name: string): Outcome {
+    let outcome = this.outcomes.find(
+      nextOutcome => nextOutcome.name === name
+    );
+    const nextIndex = this.outcomes.indexOf(outcome) + 1;
+    if (nextIndex < this.outcomes.length) {
+      outcome = this.outcomes[nextIndex];
+    } else {
+      outcome = null;
+    }
+    return outcome
+  }
+
+  getPreviousOutcome(name: string): Outcome {
+    let outcome = this.outcomes.find(
+      prevOutcome => prevOutcome.name === name
+    );
+    const previousIndex = this.outcomes.indexOf(outcome) - 1;
+    if (previousIndex >= 0) {
+      outcome = this.outcomes[previousIndex];
+    } else {
+      outcome = null;
+    }
+    return outcome
+  }
+
   get repeatedMeasures(): Array<RepeatedMeasure> {
     return this.getFactorsByType(RepeatedMeasure);
+  }
+
+  get firstRepeatedMeasure(): RepeatedMeasure {
+    let measure: RepeatedMeasure = null;
+    if (!isNullOrUndefined(this.repeatedMeasures)) {
+      measure = this.repeatedMeasures[0];
+    }
+    return measure;
+  }
+
+  get lastRepeatedMeasure(): RepeatedMeasure {
+    let measure: RepeatedMeasure = null;
+    if (!isNullOrUndefined(this.repeatedMeasures)) {
+      measure = this.repeatedMeasures[this.repeatedMeasures.length - 1 ];
+    }
+    return measure;
+  }
+
+  getNextRepeatedMeasure(name: string): RepeatedMeasure {
+    let measure = this.repeatedMeasures.find(
+      nextMeasure => nextMeasure.name === name
+    );
+    const nextIndex = this.repeatedMeasures.indexOf(measure) + 1;
+    if (nextIndex < this.repeatedMeasures.length) {
+      measure = this.repeatedMeasures[nextIndex];
+    } else {
+      measure = null;
+    }
+    return measure
+  }
+
+  getPreviousRepeatedMeasure(name: string): RepeatedMeasure {
+    let measure = this.repeatedMeasures.find(
+      prevMeasure => prevMeasure.name === name
+    );
+    const previousIndex = this.repeatedMeasures.indexOf(measure) - 1;
+    if (previousIndex >= 0) {
+      measure = this.repeatedMeasures[previousIndex];
+    } else {
+      measure = null;
+    }
+    return measure
+  }
+
+  get repeatedMeasuresInHypothesis(): Array<Predictor> {
+    return this.getFactorsinHypothesisByType(RepeatedMeasure);
   }
 
   updateRepeatedMeasures(newRepeatedMeasures: Array<RepeatedMeasure>) {
@@ -74,6 +162,16 @@ export class ISUFactors {
   getFactorsByType( type ) {
     const array = new Array();
     this.variables.forEach( variable => {
+      if (variable.constructor.name === type.name) {
+        array.push(variable);
+      }
+    });
+    return array;
+  }
+
+  getFactorsinHypothesisByType( type ) {
+    const array = new Array();
+    this.hypothesis.forEach( variable => {
       if (variable.constructor.name === type.name) {
         array.push(variable);
       }

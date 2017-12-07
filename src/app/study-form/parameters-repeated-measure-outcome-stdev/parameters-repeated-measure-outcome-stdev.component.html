@@ -1,0 +1,11 @@
+<div *ngIf="outcome$ | async as outcome">
+  <h5>Define the standard deviations for each of the repeated measure in relation to {{outcome.name}}:</h5>
+  <div *ngFor="let measure of isuFactors.repeatedMeasures" class="row">
+    <div class="row">{{measure.name}}:</div>
+    <div class="row">
+      <div *ngFor="let val of measure.valueNames">
+        <div class="col-md-auto"><label>{{val}}:</label><input type="number" value="1"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
-import {StudyService} from '../shared/study.service';
+import {StudyService} from './study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../shared/constants';
@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
   selector: 'app-study-form',
   templateUrl: './study-form.component.html',
   styleUrls: ['./study-form.component.scss'],
-  providers: [StudyService, NGXLogger, NavigationService]
+  providers: [NGXLogger, NavigationService]
 })
 export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _valid = false;
@@ -46,6 +46,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _stages;
   private _noStages: number;
   private _childComponentNav: boolean;
+  private parameters = [];
 
   constructor(
     private study_service: StudyService,
@@ -63,11 +64,43 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       this.navigation_service.updateNavigation('NEXT');
     } else {
       const current = this.getStage();
-      if ( current < this._noStages &&  this.valid ) {
+      if ( current <= this._noStages &&  this.valid ) {
         if (current === 9
           && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(11)
+        } else if (
+          current === 18
+          && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
+          && this.study.isuFactors.repeatedMeasures.length > 0) {
+          this.setStage(19);
+          this.parameters = [];
+          this.parameters.push(this.study.isuFactors.firstOutcome.name);
+        } else if (
+            current === 19
+            && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
+            && this.study.isuFactors.repeatedMeasures.length > 0) {
+          const currentName = this.parameters.pop();
+          const next = this.study.isuFactors.getNextOutcome(currentName);
+          if (!isNullOrUndefined(next)) {
+            // next outcome/repeates measure standard deviation
+            this.parameters.push(next.name);
+            this.setStage(19);
+          } else {
+            // first repeated measure correlation
+            this.setStage(20);
+            this.parameters = [];
+            this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
+          }
+        } else if (current === 20) {
+          const currentName = this.parameters.pop();
+          const next = this.study.isuFactors.getNextRepeatedMeasure(currentName);
+          if (!isNullOrUndefined(next)) {
+            this.parameters.push(next.name);
+            this.setStage(20);
+          } else {
+            this.setStage(1);
+          }
         } else {
           this.setStage( current + 1 );
         }
@@ -78,7 +111,10 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   private navigate(stage: number) {
-    this.router.navigateByUrl('/design/' + constants.STAGES[stage]);
+    let params = ['design', constants.STAGES[stage]];
+    params = params.concat(this.parameters);
+    console.log(params);
+    this.router.navigate(params);
   }
 
   back(): void {
@@ -91,6 +127,32 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(9)
+        } else if (current === 19) {
+          const currentName = this.parameters.pop();
+          const previous = this.study.isuFactors.getPreviousOutcome(currentName);
+          if (!isNullOrUndefined(previous)) {
+            this.parameters.push(previous.name);
+            this.setStage(19);
+          } else {
+            this.setStage(18);
+          }
+        } else if (current === 20) {
+          const currentName = this.parameters.pop();
+          const previous = this.study.isuFactors.getPreviousRepeatedMeasure(currentName);
+          if (!isNullOrUndefined(previous)) {
+            this.parameters.push(previous.name);
+            this.setStage(20);
+          } else {
+            this.parameters = [];
+            this.parameters.push(this.study.isuFactors.lastOutcome.name);
+            this.setStage(19);
+          }
+        } else if (current === 21
+          && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
+          && this.study.isuFactors.repeatedMeasures.length > 0 ) {
+          this.setStage(20);
+          this.parameters = [];
+          this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
         } else {
           this.setStage(current - 1);
         }
@@ -102,17 +164,17 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   setNextBack(): void {
-    const current = this.getStage();
-    if ( current < this._noStages ) {
-      this.hasNext = true;
-    } else {
-      this.hasNext = false;
-    }
-    if ( current > 1 ) {
-      this.hasBack = true;
-    } else {
-      this.hasBack = false;
-    }
+   const current = this.getStage();
+   if ( current < this._noStages ) {
+     this.hasNext = true;
+   } else {
+     this.hasNext = false;
+   }
+   if ( current > 1 ) {
+     this.hasBack = true;
+   } else {
+     this.hasBack = false;
+   }
   }
 
   ngOnInit() {
@@ -434,6 +496,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       outcomes => {
         this.study.isuFactors.updateOutcomes(outcomes);
         this.study.checkDependencies();
+        this.updateISUFactors();
       }
     );
 
@@ -441,6 +504,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       measures => {
         this.study.isuFactors.updateRepeatedMeasures(measures);
         this.study.checkDependencies();
+        this.updateISUFactors();
       }
     );
 
@@ -454,6 +518,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       predictors => {
         this.study.isuFactors.updatePredictors(predictors);
         this.study.checkDependencies();
+        this.updateISUFactors();
       }
     );
 
@@ -486,9 +551,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       hypothesisEffect => {
         this.study.isuFactors.updateHypothesis(hypothesisEffect);
         this.study.checkDependencies();
+        this.updateISUFactors();
       }
     );
   };
+
+  updateISUFactors() {
+    this.study_service.updateIsuFactors(this.study.isuFactors);
+  }
 
   unsubscribeFromStudyService() {
     this.modeSubscription.unsubscribe();
