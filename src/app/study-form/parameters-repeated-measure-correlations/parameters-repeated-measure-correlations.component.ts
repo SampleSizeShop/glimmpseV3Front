@@ -21,9 +21,6 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _repeatedMeasure$: Observable<RepeatedMeasure>;
-  size: number;
-  title = 'repeated measure';
-  names = [];
 
   constructor(private study_service: StudyService, private route: ActivatedRoute) {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
@@ -33,7 +30,7 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit {
 
   ngOnInit() {
     this.repeatedMeasure$ = this.route.paramMap.switchMap(
-      (params: ParamMap) => this.getRepeatedMeasure(params.get('name'))
+      (params: ParamMap) => this.getRepeatedMeasure(params.get('measure'))
     );
   }
 

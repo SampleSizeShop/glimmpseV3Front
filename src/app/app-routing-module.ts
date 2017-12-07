@@ -21,7 +21,7 @@ import {HypothesisBetweenComponent} from './study-form/hypothesis-between/hypoth
 import {ParametersScaleFactorComponent} from './study-form/parameters-scale-factor/parameters-scale-factor.component';
 import {ParametersStandardDeviationComponent} from './study-form/parameters-standard-deviation/parameters-standard-deviation.component';
 import {ParametersOutcomeCorrelationsComponent} from "./study-form/parameters-outcome-correlations/parameters-outcome-correlations.component";
-import {ParametersRepeatedMeasureOutcomeCorrelationsComponent} from "./study-form/parameters-repeated-measure-outcome-correlations/parameters-repeated-measure-outcome-correlations.component";
+import {ParametersRepeatedMeasureOutcomeStDevComponent} from "./study-form/parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.component";
 import {ParametersRepeatedMeasureCorrelationsComponent} from "./study-form/parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component";
 
 const routes: Routes = [

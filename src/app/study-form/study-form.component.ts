@@ -47,7 +47,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _noStages: number;
   private _childComponentNav: boolean;
   private parameters = [];
-  private measureNames = [];
 
   constructor(
     private study_service: StudyService,
@@ -71,12 +70,28 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(11)
         } else if (
-          current === 19
+          current === 18
           && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
           && this.study.isuFactors.repeatedMeasures.length > 0) {
-          this.setStage(20);
+          this.setStage(19);
           this.parameters = [];
-          this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
+          this.parameters.push(this.study.isuFactors.firstOutcome.name);
+        } else if (
+            current === 19
+            && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
+            && this.study.isuFactors.repeatedMeasures.length > 0) {
+          const currentName = this.parameters.pop();
+          const next = this.study.isuFactors.getNextOutcome(currentName);
+          if (!isNullOrUndefined(next)) {
+            // next outcome/repeates measure standard deviation
+            this.parameters.push(next.name);
+            this.setStage(19);
+          } else {
+            // first repeated measure correlation
+            this.setStage(20);
+            this.parameters = [];
+            this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
+          }
         } else if (current === 20) {
           const currentName = this.parameters.pop();
           const next = this.study.isuFactors.getNextRepeatedMeasure(currentName);
@@ -112,6 +127,15 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(9)
+        } else if (current === 19) {
+          const currentName = this.parameters.pop();
+          const previous = this.study.isuFactors.getPreviousOutcome(currentName);
+          if (!isNullOrUndefined(previous)) {
+            this.parameters.push(previous.name);
+            this.setStage(19);
+          } else {
+            this.setStage(18);
+          }
         } else if (current === 20) {
           const currentName = this.parameters.pop();
           const previous = this.study.isuFactors.getPreviousRepeatedMeasure(currentName);
@@ -119,6 +143,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
             this.parameters.push(previous.name);
             this.setStage(20);
           } else {
+            this.parameters = [];
+            this.parameters.push(this.study.isuFactors.lastOutcome.name);
             this.setStage(19);
           }
         } else if (current === 21

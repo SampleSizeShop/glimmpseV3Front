@@ -42,6 +42,48 @@ export class ISUFactors {
     this.variables = this._updateListOfISUFactors(newOutcomes);
   }
 
+  get firstOutcome(): Outcome {
+    let outcome: Outcome = null;
+    if (!isNullOrUndefined(this.outcomes)) {
+      outcome = this.outcomes[0];
+    }
+    return outcome;
+  }
+
+  get lastOutcome(): Outcome {
+    let outcome: Outcome = null;
+    if (!isNullOrUndefined(this.outcomes)) {
+      outcome = this.outcomes[this.outcomes.length - 1 ];
+    }
+    return outcome;
+  }
+
+  getNextOutcome(name: string): Outcome {
+    let outcome = this.outcomes.find(
+      nextOutcome => nextOutcome.name === name
+    );
+    const nextIndex = this.outcomes.indexOf(outcome) + 1;
+    if (nextIndex < this.outcomes.length) {
+      outcome = this.outcomes[nextIndex];
+    } else {
+      outcome = null;
+    }
+    return outcome
+  }
+
+  getPreviousOutcome(name: string): Outcome {
+    let outcome = this.outcomes.find(
+      prevOutcome => prevOutcome.name === name
+    );
+    const previousIndex = this.outcomes.indexOf(outcome) - 1;
+    if (previousIndex >= 0) {
+      outcome = this.outcomes[previousIndex];
+    } else {
+      outcome = null;
+    }
+    return outcome
+  }
+
   get repeatedMeasures(): Array<RepeatedMeasure> {
     return this.getFactorsByType(RepeatedMeasure);
   }
