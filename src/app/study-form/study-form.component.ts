@@ -99,7 +99,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
             this.parameters.push(next.name);
             this.setStage(20);
           } else {
-            this.setStage(1);
+            this.setStage(21);
           }
         } else {
           this.setStage( current + 1 );

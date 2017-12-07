@@ -85,35 +85,32 @@ describe('StudyFormComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
-  // TODO: Re Instate these once I decide what ot do with navigation
 
-  /**
+  // TODO: Still valid?
   it('Should set the stage when next is called', () => {
     if ( component.stages ) {
       for ( let i = 1 ; i <= component.noStages; i++ ) {
         getSpy.and.returnValue(i)
         component.next();
       }
-      expect(component.setStage).toHaveBeenCalledTimes(component.noStages - 1);
+      expect(component.setStage).toHaveBeenCalledTimes(component.noStages );
     } else {
       expect(false)
     }
   });
 
-
+  // TODO: Still valid?
   it('Should set the stage when back is called unless we are ate stage 1', () => {
     if ( component.stages ) {
       for ( let i = 1 ; i <= component.noStages; i++ ) {
         getSpy.and.returnValue(i)
         component.next();
       }
-      expect(component.setStage).toHaveBeenCalledTimes(component.noStages - 1);
+      expect(component.setStage).toHaveBeenCalledTimes(component.noStages );
     } else {
       expect(false)
     }
   });
-
-   **/
 
   it('Should correctly set next and back boolean flags for the first stage', () => {
     getSpy.and.returnValue(1);
