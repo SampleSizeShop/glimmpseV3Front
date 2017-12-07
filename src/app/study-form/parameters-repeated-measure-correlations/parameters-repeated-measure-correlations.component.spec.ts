@@ -1,49 +1,34 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {Http} from '@angular/http';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MockBackend} from '@angular/http/testing';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import { ParametersRepeatedMeasureCorrelationsComponent } from './parameters-repeated-measure-correlations.component';
-import {Component} from '@angular/core';
-import {ISUFactors} from '../../shared/ISUFactors';
-import {ReactiveFormsModule} from '@angular/forms';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
-import {Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {StudyService} from "../study.service";
-import {ActivatedRoute} from "@angular/router";
+import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
+import {StudyService} from '../study.service';
 
-import { BehaviorSubject } from 'rxjs/Rx';
+import 'rxjs/add/operator/switchMap';
+import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
+import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 
-export class MockActivatedRoute {
-  private paramsSubject = new BehaviorSubject(this.testParams);
-  private _paramMap = {'meas': 'route'};
-  private _testParams: {};
-
-  params  = this.paramsSubject.asObservable();
-
-  get testParams() {
-    return this._testParams;
-  }
-  set testParams(newParams: any) {
-    this._testParams = newParams;
-    this.paramsSubject.next(newParams);
-  }
-
-  get paramMap(): { meas: string } {
-    return this._paramMap;
-  }
-
-  set paramMap(value: { meas: string }) {
-    this._paramMap = value;
-  }
-}
+let component: ParametersRepeatedMeasureCorrelationsComponent;
+let fixture: ComponentFixture<ParametersRepeatedMeasureCorrelationsComponent>;
+let activatedRoute: ActivatedRouteStub;
 
 describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
-  let component: ParametersRepeatedMeasureCorrelationsComponent;
-  let fixture: ComponentFixture<ParametersRepeatedMeasureCorrelationsComponent>;
-  let activeRoute: MockActivatedRoute;
+  beforeEach(() => {
+    activatedRoute = new ActivatedRouteStub();
+  });
+
+  class StudyServiceSpy {
+    testRepeatedMeasure = new RepeatedMeasure('Test');
+  }
 
   beforeEach(async(() => {
-    activeRoute = new MockActivatedRoute();
+    activatedRoute.testParamMap = {name: 'Test'};
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
@@ -55,9 +40,11 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
       ],
       providers: [
         StudyService,
+        CorrelationMatrixService,
+        {provide: Router, useClass: RouterStub},
         {provide: Http, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock},
-        {provide: ActivatedRoute, useValue: activeRoute }
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub }
       ]
     })
     .compileComponents();
@@ -66,7 +53,7 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ParametersRepeatedMeasureCorrelationsComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture.detectChanges();
   });
 
   it('should create', () => {

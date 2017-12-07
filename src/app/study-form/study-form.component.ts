@@ -142,7 +142,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
    if ( current < this._noStages ) {
      this.hasNext = true;
    } else {
-     // this.hasNext = false;
+     this.hasNext = false;
    }
    if ( current > 1 ) {
      this.hasBack = true;

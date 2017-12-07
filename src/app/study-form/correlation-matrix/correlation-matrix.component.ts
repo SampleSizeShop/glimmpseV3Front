@@ -44,7 +44,11 @@ export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
     this.correlationMatrixSubscription = this._correlationMatrixService.size$.subscribe(
       size => {
         this.size = size;
-        if (size !== -1 && this.uMatrix.values.size()[0] > 0) {
+        if (
+          !isNullOrUndefined(size)
+          && size > 0
+          && this.uMatrix.values.size()[0] > 0
+        ) {
           this.buildForm();
           this.sizeArray = Array.from(Array(this.size).keys());
         }
@@ -59,8 +63,12 @@ export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
 
   ngDoCheck() {
     if (this._check !== this.size) {
-      console.log('buildForm');
-      this.buildForm();
+      if (!isNullOrUndefined(this.size)
+        && this.size > 0
+        && this.uMatrix.values.size()[0] > 0) {
+        console.log('buildForm');
+        this.buildForm();
+      }
     }
     this._check = this.size;
   }
