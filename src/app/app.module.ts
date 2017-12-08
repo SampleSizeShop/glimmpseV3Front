@@ -40,6 +40,7 @@ import { ParametersIntraClassCorrelationComponent } from './study-form/parameter
 import { ParametersGaussianCovariateCorrelationComponent } from './study-form/parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-correlation.component';
 import { ParametersVarianceScaleFactorsComponent } from './study-form/parameters-variance-scale-factors/parameters-variance-scale-factors.component';
 import { ParametersGaussianCovariateVarianceComponent } from './study-form/parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.component';
+import { OptionalSpecsPowerMethodComponent } from './study-form/optional-specs-power-method/optional-specs-power-method.component';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { ParametersGaussianCovariateVarianceComponent } from './study-form/param
     ParametersIntraClassCorrelationComponent,
     ParametersGaussianCovariateCorrelationComponent,
     ParametersVarianceScaleFactorsComponent,
-    ParametersGaussianCovariateVarianceComponent
+    ParametersGaussianCovariateVarianceComponent,
+    OptionalSpecsPowerMethodComponent
   ],
   imports: [
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),

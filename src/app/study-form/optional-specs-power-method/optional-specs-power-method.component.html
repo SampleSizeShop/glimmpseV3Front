@@ -1,0 +1,17 @@
+<h5>Choose power mode:</h5>
+<div class="btn-group" data-toggle="buttons">
+  <label aria-pressed="true" class="btn btn-primary" [class.active]="unconditional" id="unconditionalbtn">
+    <input type="radio" id="UNCONDITIONAL" (click)="selectUnconditional()"> UNCONDITIONAL
+  </label>
+  <label class="btn btn-primary" aria-pressed="true" [class.active]="!unconditional" id="quantilebtn">
+    <input type="radio" id="QUANTILE" (click)="selectQuantile()"> QUANTILE
+  </label>
+</div>
+<div>
+  <p *ngIf="unconditional" id="quantiledesc">
+    Unconditional Power!!
+  </p>
+  <p *ngIf="!unconditional" id="unconditionaldesc">
+    Quantile Power!
+  </p>
+</div>

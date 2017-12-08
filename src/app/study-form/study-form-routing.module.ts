@@ -26,12 +26,13 @@ import {StudyFormGuard} from './study-form-guard.service';
 import {StudyService} from './study.service';
 import {RepeatedMeasureGuard} from '../shared/repeated-measure-guard.service';
 import {NavigationService} from '../shared/navigation.service';
-import {ParametersIntraClassCorrelationComponent} from "./parameters-intra-class-correlation/parameters-intra-class-correlation.component";
-import {ClusterGuard} from "../shared/cluster-guard.service";
-import {ParametersVarianceScaleFactorsComponent} from "./parameters-variance-scale-factors/parameters-variance-scale-factors.component";
-import {ParametersGaussianCovariateCorrelationComponent} from "./parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-correlation.component";
-import {GaussianCovariateGuard} from "../shared/gaussian-covariate-guard.service";
-import {ParametersGaussianCovariateVarianceComponent} from "./parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.component";
+import {ParametersIntraClassCorrelationComponent} from './parameters-intra-class-correlation/parameters-intra-class-correlation.component';
+import {ClusterGuard} from '../shared/cluster-guard.service';
+import {ParametersVarianceScaleFactorsComponent} from './parameters-variance-scale-factors/parameters-variance-scale-factors.component';
+import {ParametersGaussianCovariateCorrelationComponent} from './parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-correlation.component';
+import {GaussianCovariateGuard} from '../shared/gaussian-covariate-guard.service';
+import {ParametersGaussianCovariateVarianceComponent} from './parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.component';
+import {OptionalSpecsPowerMethodComponent} from './optional-specs-power-method/optional-specs-power-method.component';
 
 const studyFormRoutes: Routes = [
       {
@@ -93,7 +94,12 @@ const studyFormRoutes: Routes = [
               component: ParametersGaussianCovariateCorrelationComponent,
               canActivate: [ GaussianCovariateGuard ]
             },
-            {path: constants.STAGES[24], component: ParametersVarianceScaleFactorsComponent}
+            {path: constants.STAGES[24], component: ParametersVarianceScaleFactorsComponent},
+            {
+              path: constants.STAGES[25],
+              component: OptionalSpecsPowerMethodComponent,
+              canActivate: [ GaussianCovariateGuard ]
+            }
             ]
           }
         ]
