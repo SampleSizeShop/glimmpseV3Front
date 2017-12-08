@@ -7,7 +7,7 @@ import {Cluster} from './Cluster';
 import {constants} from './constants';
 import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
-import {HypothesisEffect} from "./HypothesisEffect";
+import {HypothesisEffect} from './HypothesisEffect';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();

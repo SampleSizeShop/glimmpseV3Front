@@ -18,7 +18,7 @@ export class ClusterGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('RepMeasureGuard#canActivate called');
+    console.log('ClusterGuard#canActivate called');
     const st = this.study_service.stage;
     console.log(st);
     if (
@@ -27,16 +27,7 @@ export class ClusterGuard implements CanActivate {
     ) {
       return true;
     } else {
-      const stage = this.study_service.getStageFromName(route.url.toString());
-      const next = constants.STAGES[stage + 1];
-      if (!isNullOrUndefined(next)) {
-        this.navigate(stage + 1);
-      }
       return false;
     }
-  }
-
-  private navigate(stage: number) {
-    this.router.navigate(['design', constants.STAGES[stage]]);
   }
 }

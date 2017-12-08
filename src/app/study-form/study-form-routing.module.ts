@@ -28,6 +28,9 @@ import {RepeatedMeasureGuard} from '../shared/repeated-measure-guard.service';
 import {NavigationService} from '../shared/navigation.service';
 import {ParametersIntraClassCorrelationComponent} from "./parameters-intra-class-correlation/parameters-intra-class-correlation.component";
 import {ClusterGuard} from "../shared/cluster-guard.service";
+import {ParametersVarianceScaleFactorsComponent} from "./parameters-variance-scale-factors/parameters-variance-scale-factors.component";
+import {ParametersGaussianCovariateCorrelationComponent} from "./parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-correlation.component";
+import {GaussianCovariateGuard} from "../shared/gaussian-covariate-guard.service";
 
 const studyFormRoutes: Routes = [
       {
@@ -78,7 +81,13 @@ const studyFormRoutes: Routes = [
               path: constants.STAGES[21],
               component: ParametersIntraClassCorrelationComponent,
               canActivate: [ ClusterGuard ]
-            }
+            },
+            {
+              path: constants.STAGES[22],
+              component: ParametersGaussianCovariateCorrelationComponent,
+              canActivate: [ GaussianCovariateGuard ]
+            },
+            {path: constants.STAGES[23], component: ParametersVarianceScaleFactorsComponent}
             ]
           }
         ]
@@ -97,7 +106,8 @@ const studyFormRoutes: Routes = [
     NavigationService,
     StudyFormGuard,
     RepeatedMeasureGuard,
-    ClusterGuard
+    ClusterGuard,
+    GaussianCovariateGuard
   ]
 })
 export class StudyFormRoutingModule {}

@@ -117,11 +117,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     let params = ['design', constants.STAGES[stage]];
     params = params.concat(this.parameters);
     console.log(params);
-    const r = this.router.navigate(params);
-    // TODO: tidy up
-    r.then( value => {
-      console.log('ret: ' + value);
-      if ( !value) {
+    const success = this.router.navigate(params);
+    success.then( loaded => {
+      if ( !loaded) {
         if (direction === 'NEXT') {
           this.next( stage );
         } else if ( direction === 'BACK') {

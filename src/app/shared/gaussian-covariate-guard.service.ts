@@ -6,26 +6,26 @@ import {ISUFactors} from './ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {isNullOrUndefined} from 'util';
 import {NavigationService} from "./navigation.service";
+import {GaussianCovariate} from "./GaussianCovariate";
 
 @Injectable()
-export class RepeatedMeasureGuard implements CanActivate {
-  private isuFactors: ISUFactors;
-  private isuFactorsSubscription: Subscription;
+export class GaussianCovariateGuard implements CanActivate {
+  private gaussianCovariate: GaussianCovariate;
+  private gaussianCovariatesSubscription: Subscription;
 
   constructor(private router: Router, private study_service: StudyService) {
-    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
-      this.isuFactors = isuFactors;
-    } );
+    this.gaussianCovariatesSubscription = this.study_service.gaussianCovariate$.subscribe(gaussianCovariate => {
+        this.gaussianCovariate = gaussianCovariate;
+      }
+    );
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('RepMeasureGuard#canActivate called');
-    const st = this.study_service.stage;
-    console.log(st);
+    console.log('GaussianCovariateGuard#canActivate called');
+    const stage = this.study_service.stage;
+    console.log(stage);
     if (
-      !isNullOrUndefined(this.isuFactors)
-      && !isNullOrUndefined(this.isuFactors.repeatedMeasures)
-      && this.isuFactors.repeatedMeasures.length > 0
+      !isNullOrUndefined(this.gaussianCovariate)
     ) {
       return true;
     } else {
