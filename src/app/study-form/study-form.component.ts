@@ -59,11 +59,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.subscribeToNavigationService();
   }
 
-  next(): void {
+  next(stage?: number): void {
     if (this.childComponentNav &&  this.valid) {
       this.navigation_service.updateNavigation('NEXT');
     } else {
-      const current = this.getStage();
+      let current = this.getStage();
+      if (stage) {
+        current = stage;
+      }
       if ( current <= this._noStages &&  this.valid ) {
         if (current === 9
           && (isNullOrUndefined(this.study.isuFactors)
@@ -104,24 +107,38 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         } else {
           this.setStage( current + 1 );
         }
-        this.navigate(this.study_service.stage);
+        this.navigate(this.study_service.stage, 'NEXT');
         this.setNextBack();
       }
     }
   }
 
-  private navigate(stage: number) {
+  private navigate(stage: number, direction: string) {
     let params = ['design', constants.STAGES[stage]];
     params = params.concat(this.parameters);
     console.log(params);
-    this.router.navigate(params);
+    const r = this.router.navigate(params);
+    // TODO: tidy up
+    r.then( value => {
+      console.log('ret: ' + value);
+      if ( !value) {
+        if (direction === 'NEXT') {
+          this.next( stage );
+        } else if ( direction === 'BACK') {
+          this.back( stage );
+        }
+      }
+    });
   }
 
-  back(): void {
+  back(stage?: number): void {
     if (this.childComponentNav) {
       this.navigation_service.updateNavigation('BACK');
     } else {
-      const current = this.getStage();
+      let current = this.getStage();
+      if (stage) {
+        current = stage;
+      }
       if (current > 1 && this.guided) {
         if (current === 11
           && (isNullOrUndefined(this.study.isuFactors)
@@ -157,7 +174,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.setStage(current - 1);
         }
       }
-      this.navigate(this.study_service.stage);
+      this.navigate(this.study_service.stage, 'BACK');
       this.setNextBack();
       this.valid = true;
     }
