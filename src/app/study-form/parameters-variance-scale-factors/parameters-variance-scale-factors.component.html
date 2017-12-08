@@ -1,3 +1,40 @@
-<p>
-  parameters-variance-scale-factors works!
-</p>
+<div *ngIf="firstScaleFactor()" id="firstscaleFactor">
+  <h5>Name your first scale factor:</h5>
+</div>
+<div *ngIf="nextScaleFactor()" id="nextscaleFactor">
+  <h5>Would you like to add another scale factor?</h5>
+</div>
+<div *ngIf="!firstScaleFactor() && !nextScaleFactor()" id="scaleFactorsfull">
+  <h5>Whoa! That's a lot of scale factors!! We'll handle this lot, but if you really, really want to analyse more than {{max}} scale factors, consult a statstician... and good luck... or run multiple studies?</h5>
+</div>
+<form [formGroup]="scaleFactorsForm">
+  <div class="container-fluid">
+    <div class="row" *ngIf="firstScaleFactor() || nextScaleFactor()">
+      <div class="col">
+        <div class="form-group">
+          <input class="form-control" formControlName="scaleFactors" (keyup.enter)="addScaleFactor()" id="scaleFactors">
+          <div *ngIf="formErrors.scaleFactors" class="form-group has-danger">
+            <div class="form-control-feedback" id="scaleFactorserr">{{formErrors.scaleFactors}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <i class="material-icons" (click)="addScaleFactor()" style="margin-top: 10px" id="addscaleFactor">add</i>
+      </div>
+    </div>
+  </div>
+  <br>
+  <small *ngIf="!firstScaleFactor()">ScaleFactors:</small>
+  <div *ngFor="let scaleFactor of scaleFactors" id="scaleFactorlist">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col col-md-auto">
+          <i class="material-icons" (click)="removeScaleFactor(scaleFactor)" style="margin-bottom: 5px" id="removescaleFactor">remove</i>
+        </div>
+        <div class="col">
+          {{scaleFactor | json}}
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
