@@ -37,21 +37,21 @@ describe('WithinIsuClustersComponent', () => {
   it('should not show the Element form when the user chooses to add clustering', () => {
     component.dontincludeClusters();
     fixture.detectChanges();
-    const form: DebugElement = fixture.debugElement.query(By.css('#elementName'));
+    const form: DebugElement = fixture.debugElement.query(By.css('#name'));
     expect(form).toBeFalsy();
   });
 
   it('should show the Element form when the user chooses to add clustering', () => {
     component.includeClusters();
     fixture.detectChanges();
-    const form: DebugElement = fixture.debugElement.query(By.css('#elementName'));
+    const form: DebugElement = fixture.debugElement.query(By.css('#name'));
     const el = form.nativeElement;
     expect(el).toBeTruthy();
   });
 
   it('should show the cluster level form when the user clicks next after naming their cluster.', () => {
     component.includeClusters();
-    component.elementForm.get('elementName').setValue('Name')
+    component.elementForm.get('name').setValue('Name')
     component.internallyNavigate('NEXT');
 
     fixture.detectChanges();
@@ -62,7 +62,7 @@ describe('WithinIsuClustersComponent', () => {
 
   it('should add a level when a user clicks the add button if value and noElements are both supplied', () => {
     component.includeClusters();
-    component.elementForm.get('elementName').setValue('Name')
+    component.elementForm.get('name').setValue('Name')
     component.internallyNavigate('NEXT');
     component.clusterLevelForm.get('levelName').setValue('levelName');
     component.clusterLevelForm.get('noElements').setValue('noElements');
@@ -73,7 +73,7 @@ describe('WithinIsuClustersComponent', () => {
 
   it('should not add a level when a user clicks the add button if value is not supplied', () => {
     component.includeClusters();
-    component.elementForm.get('elementName').setValue('Name')
+    component.elementForm.get('name').setValue('Name')
     component.internallyNavigate('NEXT');
     component.clusterLevelForm.get('noElements').setValue('noElements');
     component.addLevel();
@@ -83,7 +83,7 @@ describe('WithinIsuClustersComponent', () => {
 
   it('should not add a level when a user clicks the add button if noElements is not supplied', () => {
     component.includeClusters();
-    component.elementForm.get('elementName').setValue('Name')
+    component.elementForm.get('name').setValue('Name')
     component.internallyNavigate('NEXT');
     component.clusterLevelForm.get('levelName').setValue('levelName');
     component.addLevel();
@@ -93,7 +93,7 @@ describe('WithinIsuClustersComponent', () => {
 
   it('should add the cluster when user clicks next after specifying its levels', () => {
     component.includeClusters();
-    component.elementForm.get('elementName').setValue('Name')
+    component.elementForm.get('name').setValue('Name')
     fixture.detectChanges();
     component.internallyNavigate('NEXT');
     component.clusterLevelForm.get('levelName').setValue('levelName');
@@ -102,7 +102,7 @@ describe('WithinIsuClustersComponent', () => {
     component.internallyNavigate('NEXT');
     fixture.detectChanges();
 
-    expect(component.cluster.elementName).toBe('Name');
+    expect(component.cluster.name).toBe('Name');
     expect(component.cluster.levels.length).toBe(1);
 
     const level = component.cluster.levels.pop();

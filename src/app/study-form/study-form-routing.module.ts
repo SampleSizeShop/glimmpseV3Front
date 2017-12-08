@@ -26,6 +26,8 @@ import {StudyFormGuard} from './study-form-guard.service';
 import {StudyService} from './study.service';
 import {RepeatedMeasureGuard} from '../shared/repeated-measure-guard.service';
 import {NavigationService} from '../shared/navigation.service';
+import {ParametersIntraClassCorrelationComponent} from "./parameters-intra-class-correlation/parameters-intra-class-correlation.component";
+import {ClusterGuard} from "../shared/cluster-guard.service";
 
 const studyFormRoutes: Routes = [
       {
@@ -62,6 +64,11 @@ const studyFormRoutes: Routes = [
               path: constants.STAGES[20] + '/:measure',
               component: ParametersRepeatedMeasureCorrelationsComponent,
               canActivate: [ RepeatedMeasureGuard ]
+            },
+            {
+              path: constants.STAGES[21],
+              component: ParametersIntraClassCorrelationComponent,
+              canActivate: [ ClusterGuard ]
             }
             ]
           }
@@ -80,7 +87,8 @@ const studyFormRoutes: Routes = [
     StudyService,
     NavigationService,
     StudyFormGuard,
-    RepeatedMeasureGuard
+    RepeatedMeasureGuard,
+    ClusterGuard
   ]
 })
 export class StudyFormRoutingModule {}

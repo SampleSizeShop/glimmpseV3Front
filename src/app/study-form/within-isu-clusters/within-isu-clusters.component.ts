@@ -57,7 +57,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   buildForm() {
     this.elementForm = this.fb.group({
-      elementName: ['']
+      name: ['']
     });
     this.clusterLevelForm = this.fb.group({
       levelName: [''],
@@ -93,7 +93,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   addCluster() {
     this.cluster = new Cluster();
-    this.cluster.elementName = this.elementForm.value.elementName;
+    this.cluster.name = this.elementForm.value.name;
 
     for (const level of this.levels) {
       this.cluster.levels.push(level);
@@ -102,7 +102,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   editCluster(cluster: Cluster) {
     this.removeCluster();
-    this.elementForm.get('elementName').setValue(cluster.elementName);
+    this.elementForm.get('name').setValue(cluster.name);
     this.levels = cluster.levels;
     this.includeClusters();
   }
