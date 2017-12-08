@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
-import {isNull, isNullOrUndefined} from 'util';
-import {Subscription} from "rxjs/Subscription";
-import {StudyService} from "../study.service";
+import {isNullOrUndefined} from 'util';
+import {Subscription} from 'rxjs/Subscription';
+import {StudyService} from '../study.service';
 
 @Component({
   selector: 'app-parameters-outcome-correlations',
