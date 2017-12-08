@@ -31,7 +31,7 @@ private _formErrors;
 
   buildForm() {
     this.scaleFactorsForm = this.fb.group({
-      scaleFactors: ['', minMaxValidator( -1, 1)]
+      scaleFactors: [0, minMaxValidator( -1, 1)]
     });
 
     this.scaleFactorsForm.valueChanges.subscribe(data => this.onValueChanged(data));
