@@ -1,22 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
-import {isNullOrUndefined} from 'util';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../study.service';
-import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-correlation',
   templateUrl: './parameters-gaussian-covariate-correlation.component.html',
-  styleUrls: ['./parameters-gaussian-covariate-correlation.component.scss'],
-  providers: [CorrelationMatrixService]
+  styleUrls: ['./parameters-gaussian-covariate-correlation.component.scss']
 })
 export class ParametersGaussianCovariateCorrelationComponent implements OnInit {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
-  size: number;
-  title = 'outcome vs gaussian covariate';
-  names = [];
 
   constructor(private study_service: StudyService) {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
@@ -25,31 +19,11 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.setSize();
-    this.setNames();
+    // TODO: thisnk about dependency checks
   }
 
-  setNames() {
-    if (!isNullOrUndefined(this.isuFactors.outcomes
-        && this.isuFactors.outcomes.length > 0)) {
-      this.isuFactors.outcomes.forEach( outcome => {
-        this.names.push(outcome.name)
-      })
-    } else {
-      this.names = ['']
-    }
-  }
 
-  setSize() {
-    if (!isNullOrUndefined(this.isuFactors.outcomes)
-      && this.isuFactors.outcomes.length > 0) {
-      this.size = this.isuFactors.outcomes.length;
-    } else {
-      this.size = 1;
-    }
-  }
-
-  get isuFactors() {
+  get isuFactors(): ISUFactors {
     return this._isuFactors;
   }
 
