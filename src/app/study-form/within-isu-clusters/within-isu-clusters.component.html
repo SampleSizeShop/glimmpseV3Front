@@ -23,9 +23,9 @@
     </div>
     <form [formGroup]="elementForm">
       <div class="form-group">
-        <input class="form-control" formControlName="elementName" id="elementName" required>
-        <div *ngIf="formErrors.elementName" class="form-group has-danger">
-          <div class="form-control-feedback" id="elementNameerr">{{formErrors.elementName}}</div>
+        <input class="form-control" formControlName="name" id="name" required>
+        <div *ngIf="formErrors.name" class="form-group has-danger">
+          <div class="form-control-feedback" id="nameerr">{{formErrors.name}}</div>
         </div>
       </div>
     </form>

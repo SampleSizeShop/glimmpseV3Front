@@ -87,7 +87,8 @@ const studyFormRoutes: Routes = [
     StudyService,
     NavigationService,
     StudyFormGuard,
-    RepeatedMeasureGuard
+    RepeatedMeasureGuard,
+    ClusterGuard
   ]
 })
 export class StudyFormRoutingModule {}
