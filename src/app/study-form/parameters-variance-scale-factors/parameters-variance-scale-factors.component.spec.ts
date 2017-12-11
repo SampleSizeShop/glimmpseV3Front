@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParametersVarianceScaleFactorsComponent } from './parameters-variance-scale-factors.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import {StudyService} from "../study.service";
+import {Http} from "@angular/http";
+import {MockBackend} from "@angular/http/testing";
 
 describe('ParametersVarianceScaleFactorsComponent', () => {
   let component: ParametersVarianceScaleFactorsComponent;
@@ -8,7 +12,12 @@ describe('ParametersVarianceScaleFactorsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ParametersVarianceScaleFactorsComponent ]
+      imports: [ReactiveFormsModule],
+      declarations: [ ParametersVarianceScaleFactorsComponent ],
+      providers: [
+        StudyService,
+        {provide: Http, useClass: MockBackend}
+      ]
     })
     .compileComponents();
   }));

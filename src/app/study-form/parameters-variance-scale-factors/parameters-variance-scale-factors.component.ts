@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Subscription} from 'rxjs/Subscription';
-import {HypothesisEffect} from '../../shared/HypothesisEffect';
-import {StudyService} from "../study.service";
+import {StudyService} from '../study.service';
 
 @Component({
   selector: 'app-parameters-variance-scale-factors',

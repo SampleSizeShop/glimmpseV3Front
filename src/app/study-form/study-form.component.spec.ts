@@ -25,10 +25,10 @@ import {HypothesisWithinComponent} from './hypothesis-within/hypothesis-within.c
 import {ParametersMarginalMeansComponent} from './parameters-marginal-means/parameters-marginal-means.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ParametersScaleFactorComponent} from './parameters-scale-factor/parameters-scale-factor.component';
-import {ParametersOutcomeCorrelationsComponent} from "./parameters-outcome-correlations/parameters-outcome-correlations.component";
-import {ParametersRepeatedMeasureOutcomeStDevComponent} from "./parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.component";
-import {ParametersRepeatedMeasureCorrelationsComponent} from "./parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component";
-import {ParametersStandardDeviationComponent} from "./parameters-standard-deviation/parameters-standard-deviation.component";
+import {ParametersOutcomeCorrelationsComponent} from './parameters-outcome-correlations/parameters-outcome-correlations.component';
+import {ParametersRepeatedMeasureOutcomeStDevComponent} from './parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.component';
+import {ParametersRepeatedMeasureCorrelationsComponent} from './parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component';
+import {ParametersStandardDeviationComponent} from './parameters-standard-deviation/parameters-standard-deviation.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
