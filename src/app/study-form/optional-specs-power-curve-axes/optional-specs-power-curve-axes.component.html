@@ -1,0 +1,23 @@
+<h5>Select the quantity to show on the x-axis:</h5>
+<div class="btn-group" data-toggle="buttons">
+  <label aria-pressed="true" class="btn btn-primary" [class.active]="isRejection()" id="rejectionbtn">
+    <input type="radio" id="REJECTION" (click)="selectRejectionOnly()"> Desired Power
+  </label>
+  <label class="btn btn-primary" aria-pressed="true" [class.active]="isCIWidth()" id="ciwidthbtn">
+    <input type="radio" id="CIWIDTH" (click)="selectCIWidth()"> Variability Scale Factor
+  </label>
+  <label class="btn btn-primary" aria-pressed="true" [class.active]="isWAVR()" id="wavrbtn">
+    <input type="radio" id="WAVR" (click)="selectWAVR()">  Means Scale Factor
+  </label>
+</div>
+<div>
+  <p *ngIf="isRejection()" id="rejectiondesc">
+    Description of desired power on x-axis
+  </p>
+  <p *ngIf="isCIWidth()" id="ciwidthdesc">
+    Description of variability scale factor on x-axis
+  </p>
+  <p *ngIf="isWAVR()" id="wavrdesc">
+    Description of means scale factor on x-axis
+  </p>
+</div>

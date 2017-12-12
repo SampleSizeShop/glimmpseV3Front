@@ -1,0 +1,16 @@
+<h5>Choose target event:</h5>
+<div class="btn-group" data-toggle="buttons">
+  <label aria-pressed="true" class="btn btn-primary" [class.active]="betaFixed" id="sigmaestimatedbtn">
+    <input type="radio" id="sigmaestimatedinput" (click)="toggleBetaFixed()"> Rejection Only
+  </label>
+  <label class="btn btn-primary" aria-pressed="true" [class.active]="!betaFixed" id="bothestimatedbtn">
+    <input type="radio" id="bothestimatedinput" (click)="toggleBetaFixed()"> CI Width Only
+  </label>
+</div>
+<div>
+  <p *ngIf="betaFixed" id="sigmaestimated">
+    Beta is fixed but sigma is estimated</p>
+  <p *ngIf="!betaFixed" id="bothestimated">
+    Both Beta and Sigma are estimated
+  </p>
+</div>
