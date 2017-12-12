@@ -123,31 +123,35 @@ const studyFormRoutes: Routes = [
                 component: OptionalSpecsPowerCurveDataSeriesComponent,
                 canActivate: [ PowerCurveGuard ]
               },
-            {path: constants.STAGES[29], component: OptionalSpecsCiChoiceComponent},
+            {
+              path: constants.STAGES[29],
+              component: OptionalSpecsCiChoiceComponent,
+              canActivate: [ PowerCurveGuard ]
+            },
             {
               path: constants.STAGES[30],
               component: OptionalSpecsCiAssumptionsComponent,
-              canActivate: [ ConfidenceIntervalGuard ]
+              canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
               path: constants.STAGES[31],
               component: OptionalSpecsCiLowerTailComponent,
-              canActivate: [ ConfidenceIntervalGuard ]
+              canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
               path: constants.STAGES[32],
               component: OptionalSpecsCiUpperTailComponent,
-              canActivate: [ ConfidenceIntervalGuard ]
+              canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
               path: constants.STAGES[33],
               component: OptionalSpecsCiBetaSampleSizeComponent,
-              canActivate: [ ConfidenceIntervalGuard ]
+              canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
               path: constants.STAGES[34],
               component: OptionalSpecsCiBetaDesignMatrixRankComponent,
-              canActivate: [ ConfidenceIntervalGuard ]
+              canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {path: constants.STAGES[35], component: CalculateComponent}
             ]
