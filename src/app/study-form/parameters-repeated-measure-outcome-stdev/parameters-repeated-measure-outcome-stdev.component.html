@@ -2,8 +2,8 @@
   <div *ngIf="measure$ | async as measure">
     <h5>Define the standard deviations for {{measure.name}} in relation to {{outcome.name}}:</h5>
     <div class="row">{{measure.name}}:</div>
-    <div class="row">
-      <div *ngFor="let val of measure.valueNames">
+    <div *ngFor="let val of measure.valueNames">
+      <div class="row">
         <div class="col-md-auto"><label>{{val}}:</label><input type="number" value="1"></div>
       </div>
     </div>
