@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import {constants} from '../../shared/constants';
+import {PowerCurve} from '../../shared/PowerCurve';
+import {StudyService} from '../study.service';
+import {isNullOrUndefined} from 'util';
+import {Subscription} from 'rxjs/Subscription';
+import {Router} from '@angular/router';
+import {PowerCurveConfidenceInterval} from '../../shared/PowerCurveConfidenceInterval';
 
 @Component({
   selector: 'app-optional-specs-ci-choice',
@@ -6,25 +13,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./optional-specs-ci-choice.component.scss']
 })
 export class OptionalSpecsCiChoiceComponent implements OnInit {
-  private _powerCurvesHaveConfidenceIntervals: boolean;
+  private _powerCurve: PowerCurve;
+  private _powerCurveSubscription: Subscription;
 
-  constructor() {
-    this._powerCurvesHaveConfidenceIntervals = false;
-  }
-
-  get powerCurvesHaveConfidenceIntervals(): boolean {
-    return this._powerCurvesHaveConfidenceIntervals;
-  }
-
-  set powerCurvesHaveConfidenceIntervals(value: boolean) {
-    this._powerCurvesHaveConfidenceIntervals = value;
-  }
-
-  togglePowerCurves() {
-    this.powerCurvesHaveConfidenceIntervals = !this.powerCurvesHaveConfidenceIntervals;
+  constructor(private router: Router, private study_service: StudyService) {
+    this._powerCurveSubscription = this.study_service.powerCurve$.subscribe(powerCurve => {
+      this._powerCurve = powerCurve;
+    });
   }
 
   ngOnInit() {
+  }
+
+  addConfidenceInterval() {
+    this._powerCurve.confidenceInterval = new PowerCurveConfidenceInterval();
+    this.study_service.updatePowerCurve(this._powerCurve);
+    this.router.navigate(['design', constants.STAGES[30]]);
+  }
+
+  removeConfidenceInterval() {
+    this._powerCurve.confidenceInterval = null;
+    this.study_service.updatePowerCurve(this._powerCurve);
+  }
+
+  get hasConfidenceInterval() {
+    return isNullOrUndefined(this._powerCurve.confidenceInterval);
   }
 
 }

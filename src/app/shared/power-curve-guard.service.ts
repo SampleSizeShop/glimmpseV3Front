@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {StudyService} from '../study-form/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {PowerCurve} from './PowerCurve';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 @Injectable()
 export class PowerCurveGuard implements CanActivate {

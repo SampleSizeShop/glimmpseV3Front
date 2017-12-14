@@ -4,6 +4,7 @@ import {constants} from '../../shared/constants';
 import {StudyService} from '../study.service';
 import {PowerCurve} from '../../shared/PowerCurve';
 import {Subscription} from 'rxjs/Subscription';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-optional-specs-power-curve-choice',
@@ -16,7 +17,7 @@ export class OptionalSpecsPowerCurveChoiceComponent implements OnInit {
 
   constructor(private router: Router, private study_service: StudyService) {
     this._powerCurveSubscription = this.study_service.powerCurve$.subscribe(powerCurve => {
-      this.powerCurve = powerCurve;
+      this._powerCurve = powerCurve;
   });
   }
 
@@ -30,14 +31,9 @@ export class OptionalSpecsPowerCurveChoiceComponent implements OnInit {
 
   removePowerCurve() {
     this.study_service.updatePowerCurve(null);
-    this.powerCurve = false;
   }
 
-  get powerCurve(): PowerCurve {
-    return this._powerCurve;
-  }
-
-  set powerCurve(value: PowerCurve) {
-    this._powerCurve = value;
+  get hasPowerCurve() {
+    return !isNullOrUndefined(this._powerCurve);
   }
 }

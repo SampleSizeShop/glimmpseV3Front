@@ -1,9 +1,9 @@
 <h5>Would you like to define confidence intervals for your power curves?</h5>
 <div class="btn-group" data-toggle="buttons">
-  <label *ngIf="!powerCurvesHaveConfidenceIntervals" aria-pressed="true" class="btn btn-primary" id="cibtn">
-    <input type="radio" id="CI" (click)="togglePowerCurves()"> Define Confidence Intervals
+  <label *ngIf="hasConfidenceInterval" aria-pressed="true" class="btn btn-primary" id="cibtn">
+    <input type="radio" id="CI" (click)="addConfidenceInterval()"> Define Confidence Intervals
   </label>
-  <label *ngIf="powerCurvesHaveConfidenceIntervals" aria-pressed="true" class="btn btn-primary" id="nocibtn">
-    <input type="radio" id="NOCI" (click)="togglePowerCurves()"> Do Not Define Confidence Intervals
+  <label *ngIf="!hasConfidenceInterval" aria-pressed="true" class="btn btn-primary" id="nocibtn">
+    <input type="radio" id="NOCI" (click)="removeConfidenceInterval()"> Do Not Define Confidence Intervals
   </label>
 </div>
