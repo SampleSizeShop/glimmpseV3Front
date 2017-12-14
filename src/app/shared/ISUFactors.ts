@@ -39,7 +39,7 @@ export class ISUFactors {
   }
 
   updateOutcomes(newOutcomes: Array<Outcome>) {
-    this.variables = this._updateListOfISUFactors(newOutcomes);
+    this.variables = this._updateListOfISUFactors(newOutcomes, 'Outcome');
   }
 
   get firstOutcome(): Outcome {
@@ -135,7 +135,7 @@ export class ISUFactors {
   }
 
   updateRepeatedMeasures(newRepeatedMeasures: Array<RepeatedMeasure>) {
-    this.variables = this._updateListOfISUFactors(newRepeatedMeasures);
+    this.variables = this._updateListOfISUFactors(newRepeatedMeasures, 'RepeatedMeasure');
   }
 
   get cluster(): Cluster {
@@ -148,7 +148,7 @@ export class ISUFactors {
   }
 
   updateCluster(newCluster: Cluster) {
-    this.variables = this._updateListOfISUFactors([newCluster]);
+    this.variables = this._updateListOfISUFactors([newCluster], 'Cluster');
   }
 
   get predictors(): Array<Predictor> {
@@ -156,7 +156,7 @@ export class ISUFactors {
   }
 
   updatePredictors(newPredictors: Array<Predictor>) {
-    this.variables = this._updateListOfISUFactors(newPredictors);
+    this.variables = this._updateListOfISUFactors(newPredictors, 'Predictor');
   }
 
   getFactorsByType( type ) {
@@ -179,11 +179,15 @@ export class ISUFactors {
     return array;
   }
 
-  _updateListOfISUFactors<K extends ISUFactor>(newFactors: Array<K>): Array<ISUFactor> {
+  _updateListOfISUFactors<K extends ISUFactor>(newFactors: Array<K>,  type?: string): Array<ISUFactor> {
     const toDelete = [];
+    if (!type && !isNullOrUndefined(newFactors[0])) {
+      type = newFactors[0].constructor.name
+    }
+    // Delete each variable of type K
     this.variables.forEach(variable => {
-      if (isNullOrUndefined(variable) ||
-        (!isNullOrUndefined(newFactors[0]) && variable.constructor.name === newFactors[0].constructor.name)) {
+      if (isNullOrUndefined(variable) || variable.constructor.name === type
+        ) {
         const index = this.variables.indexOf(variable);
         if (index !== -1 || isNullOrUndefined(variable)) {
           toDelete.push(index);
@@ -194,6 +198,8 @@ export class ISUFactors {
     toDelete.forEach( index => {
       this.variables.splice(index, 1);
     });
+
+    // Add the new list
     return this.variables.concat(newFactors);
   }
 
