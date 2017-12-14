@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
+import {constants} from "../../shared/constants";
 
 @Component({
   selector: 'app-optional-specs-power-curve-choice',
@@ -6,24 +8,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./optional-specs-power-curve-choice.component.scss']
 })
 export class OptionalSpecsPowerCurveChoiceComponent implements OnInit {
-  private _createPowerCurve: boolean;
+  private _hasPowerCurve: boolean;
 
-  constructor() {
-    this.createPowerCurve = false;
+  constructor(private router: Router) {
+    this.hasPowerCurve = false;
   }
 
   ngOnInit() {
   }
 
-  toggleCreatePowerCurve() {
-    this.createPowerCurve = !this.createPowerCurve;
+  createPowerCurve() {
+    this.hasPowerCurve = true;
+    this.router.navigate(['design', constants.STAGES[27]]);
   }
 
-  get createPowerCurve(): boolean {
-    return this._createPowerCurve;
+  removePowerCurve() {
+    this.hasPowerCurve = false;
   }
 
-  set createPowerCurve(value: boolean) {
-    this._createPowerCurve = value;
+  get hasPowerCurve(): boolean {
+    return this._hasPowerCurve;
+  }
+
+  set hasPowerCurve(value: boolean) {
+    this._hasPowerCurve = value;
   }
 }
