@@ -38,6 +38,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _betweenHypothesisNatureSubscription: Subscription;
   private _withinHypothesisNatureSubscription: Subscription;
   private _hypothesisEffectSubscription: Subscription;
+  private _powerCurveSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -455,6 +456,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._hypothesisEffectSubscription = value;
   }
 
+  get powerCurveSubscription(): Subscription {
+    return this._powerCurveSubscription;
+  }
+
+  set powerCurveSubscription(value: Subscription) {
+    this._powerCurveSubscription = value;
+  }
+
   subscribeToStudyService() {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
@@ -567,6 +576,13 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.study.isuFactors.updateHypothesis(hypothesisEffect);
         this.study.checkDependencies();
         this.updateISUFactors();
+      }
+    );
+
+    this.powerCurveSubscription = this.study_service.powerCurve$.subscribe(
+      powerCurve => {
+        this.study.checkDependencies();
+        this.study.powerCurve = powerCurve;
       }
     );
   };

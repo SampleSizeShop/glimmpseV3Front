@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
-import {constants} from "../../shared/constants";
+import {Router} from '@angular/router';
+import {constants} from '../../shared/constants';
+import {StudyService} from '../study.service';
+import {PowerCurve} from '../../shared/PowerCurve';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-optional-specs-power-curve-choice',
@@ -8,29 +11,33 @@ import {constants} from "../../shared/constants";
   styleUrls: ['./optional-specs-power-curve-choice.component.scss']
 })
 export class OptionalSpecsPowerCurveChoiceComponent implements OnInit {
-  private _hasPowerCurve: boolean;
+  private _powerCurve: PowerCurve;
+  private _powerCurveSubscription: Subscription;
 
-  constructor(private router: Router) {
-    this.hasPowerCurve = false;
+  constructor(private router: Router, private study_service: StudyService) {
+    this._powerCurveSubscription = this.study_service.powerCurve$.subscribe(powerCurve => {
+      this.powerCurve = powerCurve;
+  });
   }
 
   ngOnInit() {
   }
 
   createPowerCurve() {
-    this.hasPowerCurve = true;
+    this.study_service.updatePowerCurve(new PowerCurve());
     this.router.navigate(['design', constants.STAGES[27]]);
   }
 
   removePowerCurve() {
-    this.hasPowerCurve = false;
+    this.study_service.updatePowerCurve(null);
+    this.powerCurve = false;
   }
 
-  get hasPowerCurve(): boolean {
-    return this._hasPowerCurve;
+  get powerCurve(): PowerCurve {
+    return this._powerCurve;
   }
 
-  set hasPowerCurve(value: boolean) {
-    this._hasPowerCurve = value;
+  set powerCurve(value: PowerCurve) {
+    this._powerCurve = value;
   }
 }

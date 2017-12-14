@@ -4,6 +4,7 @@ import {HypothesisEffect} from './HypothesisEffect';
 import {isNullOrUndefined} from 'util';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
+import {PowerCurve} from "./PowerCurve";
 
 export class StudyDesign {
   private _name: string;
@@ -19,6 +20,7 @@ export class StudyDesign {
   private _betweenHypothesisNature: string;
   private _withinHypothesisNature: string;
   private _scaleFactor: number;
+  private _powerCurve: PowerCurve
 
   constructor(name?: string,
               guided?: boolean,
@@ -35,6 +37,7 @@ export class StudyDesign {
               withinHypothesisNature?: string,
               hypothesisEffect?: HypothesisEffect,
               scaleFactor?: number,
+              powerCurve?: PowerCurve
 ) {
     this.isuFactors = new ISUFactors();
   }
@@ -226,5 +229,13 @@ export class StudyDesign {
 
   set scaleFactor(value: number) {
     this._scaleFactor = value;
+  }
+
+  get powerCurve(): PowerCurve {
+    return this._powerCurve;
+  }
+
+  set powerCurve(value: PowerCurve) {
+    this._powerCurve = value;
   }
 }

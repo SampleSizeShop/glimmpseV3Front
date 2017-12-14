@@ -13,6 +13,7 @@ import {ISUFactor} from '../shared/ISUFactor';
 import {Outcome} from '../shared/Outcome';
 import {Predictor} from '../shared/Predictor';
 import {ISUFactors} from '../shared/ISUFactors';
+import {PowerCurve} from "../shared/PowerCurve";
 
 @Injectable()
 export class StudyService {
@@ -76,6 +77,9 @@ export class StudyService {
 
   private _scaleFactorSource = new BehaviorSubject<number>(1);
   private _scaleFactor$ = this._scaleFactorSource.asObservable();
+
+  private _powerCurveSource = new BehaviorSubject<PowerCurve>(null);
+  private _powerCurve$ = this._powerCurveSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -149,6 +153,10 @@ export class StudyService {
 
   updateScaleFactor(scaleFactor: number) {
     this._scaleFactorSource.next(scaleFactor);
+  }
+
+  updatePowerCurve(powerCurve: PowerCurve) {
+    this._powerCurveSource.next(powerCurve);
   }
 
   constructor(private  http: Http) {
@@ -349,6 +357,14 @@ export class StudyService {
 
   set scaleFactor$(value: Observable<number>) {
     this._scaleFactor$ = value;
+  }
+
+  get powerCurve$(): Observable<PowerCurve> {
+    return this._powerCurve$;
+  }
+
+  set powerCurve$(value: Observable<PowerCurve>) {
+    this._powerCurve$ = value;
   }
 }
 
