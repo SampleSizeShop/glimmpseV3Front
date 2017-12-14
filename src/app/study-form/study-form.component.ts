@@ -160,10 +160,18 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(9)
         } else if (current === 19) {
-          const currentName = this.parameters.pop();
-          const previous = this.study.isuFactors.getPreviousOutcome(currentName);
-          if (!isNullOrUndefined(previous)) {
-            this.parameters.push(previous.name);
+          const currentMeasure = this.parameters.pop();
+          const currentOutcome = this.parameters.pop();
+          const previousMeasure = this.study.isuFactors.getPreviousRepeatedMeasure(currentMeasure);
+          const previousOutcome = this.study.isuFactors.getPreviousOutcome(currentOutcome);
+          this.parameters = [];
+          if (!isNullOrUndefined(previousMeasure)) {
+            this.parameters.push(currentOutcome);
+            this.parameters.push(previousMeasure.name);
+            this.setStage(19);
+          } else if (!isNullOrUndefined(previousOutcome)) {
+            this.parameters.push(previousOutcome.name);
+            this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
             this.setStage(19);
           } else {
             this.setStage(18);
@@ -177,6 +185,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           } else {
             this.parameters = [];
             this.parameters.push(this.study.isuFactors.lastOutcome.name);
+            this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
             this.setStage(19);
           }
         } else if (current === 21
