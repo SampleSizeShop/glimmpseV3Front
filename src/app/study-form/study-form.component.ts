@@ -105,6 +105,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           } else {
             this.setStage(21);
           }
+        } else if (current === 26) {
+          this.setStage(35);
+        } else if (current === 29) {
+          this.setStage(26);
+        } else if (current === 34) {
+          this.setStage(29);
         } else {
           this.setStage( current + 1 );
         }
@@ -169,6 +175,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.setStage(20);
           this.parameters = [];
           this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
+        } else if (current === 35) {
+          this.setStage(26);
         } else {
           this.setStage(current - 1);
         }
