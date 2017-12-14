@@ -113,6 +113,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
             this.parameters.push(next.name);
             this.setStage(20);
           } else {
+            this.parameters = [];
             this.setStage(21);
           }
         } else if (current === 26) {
@@ -179,11 +180,11 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         } else if (current === 20) {
           const currentName = this.parameters.pop();
           const previous = this.study.isuFactors.getPreviousRepeatedMeasure(currentName);
+          this.parameters = [];
           if (!isNullOrUndefined(previous)) {
             this.parameters.push(previous.name);
             this.setStage(20);
           } else {
-            this.parameters = [];
             this.parameters.push(this.study.isuFactors.lastOutcome.name);
             this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
             this.setStage(19);

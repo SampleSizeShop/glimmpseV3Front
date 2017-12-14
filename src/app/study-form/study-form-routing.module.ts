@@ -45,6 +45,7 @@ import {OptionalSpecsCiAssumptionsComponent} from './optional-specs-ci-assumptio
 import {OptionalSpecsCiChoiceComponent} from './optional-specs-ci-choice/optional-specs-ci-choice.component';
 import {PowerCurveGuard} from '../shared/power-curve-guard.service';
 import {ConfidenceIntervalGuard} from '../shared/ci-guard.service';
+import {MarginalMeansGuard} from "./parameters-marginal-means/marginal-means-guard.service";
 
 const studyFormRoutes: Routes = [
       {
@@ -69,8 +70,15 @@ const studyFormRoutes: Routes = [
             {path: constants.STAGES[12], component: HypothesisEffectChoiceComponent},
             {path: constants.STAGES[13], component: HypothesisBetweenComponent},
             {path: constants.STAGES[14], component: HypothesisWithinComponent},
-            {path: constants.STAGES[15], component: ParametersMarginalMeansComponent},
-            {path: constants.STAGES[16], component: ParametersScaleFactorComponent},
+            {
+              path: constants.STAGES[15],
+              component: ParametersMarginalMeansComponent,
+              canActivate: [ MarginalMeansGuard ]
+            },
+            {
+              path: constants.STAGES[16],
+              component: ParametersScaleFactorComponent,
+              canActivate: [MarginalMeansGuard]},
             {path: constants.STAGES[17], component: ParametersStandardDeviationComponent},
             {path: constants.STAGES[18], component: ParametersOutcomeCorrelationsComponent},
             {
@@ -175,7 +183,8 @@ const studyFormRoutes: Routes = [
     ClusterGuard,
     GaussianCovariateGuard,
     ConfidenceIntervalGuard,
-    PowerCurveGuard
+    PowerCurveGuard,
+    MarginalMeansGuard
   ]
 })
 export class StudyFormRoutingModule {}
