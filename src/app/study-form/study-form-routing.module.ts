@@ -74,7 +74,7 @@ const studyFormRoutes: Routes = [
             {path: constants.STAGES[17], component: ParametersStandardDeviationComponent},
             {path: constants.STAGES[18], component: ParametersOutcomeCorrelationsComponent},
             {
-              path: constants.STAGES[19] + '/:outcome',
+              path: constants.STAGES[19] + '/:outcome/:measure',
               component: ParametersRepeatedMeasureOutcomeStDevComponent,
               canActivate: [ RepeatedMeasureGuard ] },
             {

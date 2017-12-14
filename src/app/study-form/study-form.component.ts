@@ -80,20 +80,30 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.setStage(19);
           this.parameters = [];
           this.parameters.push(this.study.isuFactors.firstOutcome.name);
+          this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
         } else if (
             current === 19
             && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
             && this.study.isuFactors.repeatedMeasures.length > 0) {
-          const currentName = this.parameters.pop();
-          const next = this.study.isuFactors.getNextOutcome(currentName);
-          if (!isNullOrUndefined(next)) {
+
+          const currentMeasureName = this.parameters.pop();
+          const nextMeasure = this.study.isuFactors.getNextRepeatedMeasure(currentMeasureName);
+          const currentOutcomeName = this.parameters.pop();
+          const nextOutcome = this.study.isuFactors.getNextOutcome(currentOutcomeName);
+          this.parameters = [];
+          if (!isNullOrUndefined(nextMeasure)) {
             // next outcome/repeates measure standard deviation
-            this.parameters.push(next.name);
+            this.parameters.push(currentOutcomeName);
+            this.parameters.push(nextMeasure.name);
+            this.setStage(19);
+          } else if (!isNullOrUndefined(nextOutcome)) {
+            // next outcome/repeates measure standard deviation
+            this.parameters.push(nextOutcome.name);
+            this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
             this.setStage(19);
           } else {
             // first repeated measure correlation
             this.setStage(20);
-            this.parameters = [];
             this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
           }
         } else if (current === 20) {
