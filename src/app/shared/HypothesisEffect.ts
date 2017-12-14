@@ -6,6 +6,10 @@ import {constants} from './constants';
 export class HypothesisEffect {
   variables: Array<ISUFactor> = [];
 
+  constructor() {
+    this.variables = [];
+  }
+
   get type(): string {
     let type = '';
     if (isNullOrUndefined(this.variables) || this.variables.length === 0) {

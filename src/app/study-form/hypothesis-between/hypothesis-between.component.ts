@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {constants} from 'app/shared/constants';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
@@ -66,8 +66,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   calculateCMatrix() {
-    if (!isNullOrUndefined( this._isuFactors ) &&
-        this._isuFactors.hypothesis.length > 0 ) {
+    if (!isNullOrUndefined( this._isuFactors )) {
       this.marginalsIn = [];
       this.marginalsOut = [];
       // work out which between factors are in the hypothesis
