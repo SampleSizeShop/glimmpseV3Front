@@ -23,7 +23,9 @@
         <h6>Click on any of the partials below to customise them:</h6>
         <div class="container-fluid">
           <div *ngFor="let measure of isuFactors.repeatedMeasures">
-            <div class="row">{{measure.name}}</div>
+            <div class="row">
+              <h6>{{measure.name}}:</h6>
+            </div>
             <div class="row">
               <div [mathJaxExpr]="measure.partialUMatrix.toTeX()"></div>
             </div>

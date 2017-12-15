@@ -19,16 +19,18 @@
       </div>
       <br>
       <br>
-      <div class="btn-group-vertical btn-block" data-toggle="buttons">
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.IDENTITY)" *ngIf="showAdvancedOptions">
-          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)">Identity
-        </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="showAdvancedOptions">
-          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)">Polynomial
-        </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.USER_DEFINED)" *ngIf="showAdvancedOptions" disabled="true">
-          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED)" [disabled]="true">User Specified
-        </label>
+      <div class="btn-group-vertical btn-block" data-toggle="buttons" *ngIf="showAdvancedOptions">
+        <h6>Click on any of the marginal C matrices below to customise them:</h6>
+        <div class="container-fluid">
+          <div *ngFor="let predictor of marginalsIn">
+            <div class="row">
+              <h6>{{predictor.name}}:</h6>
+            </div>
+            <div class="row">
+              <div [mathJaxExpr]="predictor.toTeX()"></div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <br>
