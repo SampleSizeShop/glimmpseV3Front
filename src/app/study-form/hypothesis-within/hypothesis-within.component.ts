@@ -72,9 +72,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
       this._uRepeatedMeasures = new UMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
       this._uRepeatedMeasures.populateIdentityMatrix(1);
       this.isuFactors.repeatedMeasures.forEach( measure => {
-        const Ur = new UMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
-        Ur.populateMainEffect(measure.valueNames.length);
-        this._uRepeatedMeasures.values = this._uRepeatedMeasures.kronecker(Ur);
+        this._uRepeatedMeasures.values = this._uRepeatedMeasures.kronecker(measure.partialUMatrix);
       });
     } else {
       this._uRepeatedMeasures = new UMatrix(constants.C_MATRIX_TYPE.IDENTITY);
