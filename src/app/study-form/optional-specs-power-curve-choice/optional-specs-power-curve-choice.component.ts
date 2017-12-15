@@ -24,8 +24,16 @@ export class OptionalSpecsPowerCurveChoiceComponent implements OnInit {
   ngOnInit() {
   }
 
+  get powerCurve(): PowerCurve {
+    return this._powerCurve;
+  }
+
   createPowerCurve() {
     this.study_service.updatePowerCurve(new PowerCurve());
+    this.router.navigate(['design', constants.STAGES[27]]);
+  }
+
+  editPowerCurve() {
     this.router.navigate(['design', constants.STAGES[27]]);
   }
 

@@ -31,13 +31,22 @@ export class OptionalSpecsCiChoiceComponent implements OnInit {
     this.router.navigate(['design', constants.STAGES[30]]);
   }
 
+  editConfidenceInterval() {
+    this.router.navigate(['design', constants.STAGES[30]]);
+  }
+
   removeConfidenceInterval() {
     this._powerCurve.confidenceInterval = null;
     this.study_service.updatePowerCurve(this._powerCurve);
   }
 
   get hasConfidenceInterval() {
-    return isNullOrUndefined(this._powerCurve.confidenceInterval);
+    return !isNullOrUndefined(this._powerCurve.confidenceInterval);
   }
 
+  get confidenceInterval(): PowerCurveConfidenceInterval {
+    if (this.hasConfidenceInterval) {
+      return this._powerCurve.confidenceInterval;
+    }
+  }
 }
