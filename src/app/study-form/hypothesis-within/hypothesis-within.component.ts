@@ -60,7 +60,8 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     this._uCluster = 1;
     if (!isNullOrUndefined(this.isuFactors.cluster)) {
       this.isuFactors.cluster.levels.forEach( level => {
-        this._uCluster = this._uCluster * ( 1 + (level.noElements -1) * 1 ) * (1 / 1);
+        this._uCluster =
+          this._uCluster * ( 1 + (level.noElements - 1) * level.intraClassCorellation ) * (1 / level.noElements);
       });
     }
   }
@@ -71,8 +72,8 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
       this._uRepeatedMeasures = new UMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
       this._uRepeatedMeasures.populateMainEffect(this.isuFactors.repeatedMeasures.length);
     } else {
-      this._uOutcomes = new UMatrix(constants.C_MATRIX_TYPE.IDENTITY);
-      this._uOutcomes.populateIdentityMatrix(1);
+      this._uRepeatedMeasures = new UMatrix(constants.C_MATRIX_TYPE.IDENTITY);
+      this._uRepeatedMeasures.populateIdentityMatrix(1);
     }
   }
 
