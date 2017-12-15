@@ -152,8 +152,8 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   }
 
   get uMatrix() {
-    let m = this.uOutcomes.multiply(this.uCluster);
-    m = math.kron(m, this.uRepeatedMeasures.values);
+    let m = this.uOutcomes.kronecker(this.uRepeatedMeasures);
+    m = math.kron(m, math.matrix([this.uCluster]));
     let texString = '$\\begin{bmatrix}';
     let row = 0;
     m.forEach(function (value, index, matrix) {
