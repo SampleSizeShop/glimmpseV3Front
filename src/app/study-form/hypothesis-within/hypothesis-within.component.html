@@ -36,6 +36,26 @@
           <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED)">User Specified
         </label>
       </div>
+
+
+      <br>
+      <br>
+
+      <h6>Uo</h6>
+      <div [mathJaxExpr]="uOutcomes.toTeX()"></div>
+      <br>
+
+      <h6>Uc</h6>
+      <div [mathJaxExpr]="uCluster"></div>
+      <br>
+
+      <h6>Ur</h6>
+      <div [mathJaxExpr]="uRepeatedMeasures.toTeX()"></div>
+
+      <br>
+      <h6>U Matrix</h6>
+      <div [mathJaxExpr]="uMatrix"></div>
+
     </div>
     <div class="col">
       <div class="card">

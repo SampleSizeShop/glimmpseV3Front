@@ -3,6 +3,10 @@ import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
+import {UMatrix} from '../../shared/UMatrix';
+import {isNullOrUndefined} from 'util';
+import * as math from 'mathjs';
+import Matrix = mathjs.Matrix;
 
 @Component({
   selector: 'app-hypothesis-within',
@@ -16,6 +20,10 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _withinHypothesisNatureSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
+
+  private _uOutcomes: UMatrix;
+  private _uRepeatedMeasures: UMatrix;
+  private _uCluster: number
 
   constructor(private study_service: StudyService) {
     this.showAdvancedOptions = false;
@@ -34,10 +42,38 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     if (this.withinHypothesisNature !== this.HYPOTHESIS_NATURE.GLOBAL_TRENDS) {
       this.showAdvancedOptions = true;
     }
+    this.populateUOutcomes();
+    this.populateUClusters();
+    this.populateURepeatedMeasures();
   }
 
   ngOnDestroy() {
     this.withinHypothesisNatureSubscription.unsubscribe();
+  }
+
+  populateUOutcomes() {
+    this._uOutcomes = new UMatrix(constants.C_MATRIX_TYPE.IDENTITY);
+    this._uOutcomes.populateIdentityMatrix(this.isuFactors.outcomes.length);
+  }
+
+  populateUClusters() {
+    this._uCluster = 1;
+    if (!isNullOrUndefined(this.isuFactors.cluster)) {
+      this.isuFactors.cluster.levels.forEach( level => {
+        this._uCluster = this._uCluster * ( 1 + (level.noElements -1) * 1 ) * (1 / 1);
+      });
+    }
+  }
+
+  populateURepeatedMeasures() {
+    if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) &&
+    this.isuFactors.repeatedMeasures.length > 0) {
+      this._uRepeatedMeasures = new UMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
+      this._uRepeatedMeasures.populateMainEffect(this.isuFactors.repeatedMeasures.length);
+    } else {
+      this._uOutcomes = new UMatrix(constants.C_MATRIX_TYPE.IDENTITY);
+      this._uOutcomes.populateIdentityMatrix(1);
+    }
   }
 
   isSelected(hypothesis: string): boolean {
@@ -95,5 +131,33 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
 
   set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
+  }
+
+  get uOutcomes(): UMatrix {
+    return this._uOutcomes;
+  }
+
+  get uRepeatedMeasures(): UMatrix {
+    return this._uRepeatedMeasures;
+  }
+
+  get uCluster(): number {
+    return this._uCluster;
+  }
+
+  get uMatrix() {
+    let m = this.uOutcomes.multiply(this.uCluster);
+    m = math.kron(m, this.uRepeatedMeasures.values);
+    let texString = '$\\begin{bmatrix}';
+    let row = 0;
+    m.forEach(function (value, index, matrix) {
+      if (index[0] > row) {
+        row = index[0];
+        texString = texString.slice(0, texString.length - 2) + '\\\\';
+      }
+      texString = texString + value + ' & '
+    })
+    texString = texString.slice(0, texString.length - 2) + '\\end{bmatrix}$';
+    return texString;
   }
 }
