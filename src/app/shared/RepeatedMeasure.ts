@@ -19,6 +19,10 @@ export class RepeatedMeasure extends ISUFactor {
     this.partialUMatrix = new UMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
   }
 
+  get noRepeats(): number {
+    return this._noRepeats;
+  }
+
   set noRepeats(value: number) {
     this._noRepeats = value;
     this.partialUMatrix.populateMainEffect(value);
