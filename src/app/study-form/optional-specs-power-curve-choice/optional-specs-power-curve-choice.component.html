@@ -1,9 +1,9 @@
-<div class="container-fluid">
+<div class="container-fluid"  *ngIf="!hasPowerCurve">
   <div class="row">
     <h5>Would you like to create a power curve?</h5>
   </div>
   <div class="row">
-    <div class="btn-group" data-toggle="buttons" *ngIf="!hasPowerCurve" >
+    <div class="btn-group" data-toggle="buttons">
       <label aria-pressed="true" class="btn btn-primary" id="curvebtn">
         <input type="radio" id="curvebtninput" (click)="createPowerCurve()"> Create a power curve
       </label>
