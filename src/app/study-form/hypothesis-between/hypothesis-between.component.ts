@@ -22,7 +22,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
 
   private _isuFactorsSubscription: Subscription;
-  private _betweenHypothesisNatureSubscription: Subscription;
   texString = '';
 
   constructor(private study_service: StudyService) {
@@ -36,14 +35,11 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.betweenHypothesisNature !== this.HYPOTHESIS_NATURE.GLOBAL_TRENDS) {
-      this.showAdvancedOptions = true;
-    };
     this.calculateCMatrix();
   }
 
   ngOnDestroy() {
-    this.betweenHypothesisNatureSubscription.unsubscribe();
+    this.isuFactorsSubscription.unsubscribe();
   }
 
   isSelected(hypothesis: string): boolean {
@@ -167,14 +163,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set HYPOTHESIS_NATURE(value) {
     this._HYPOTHESIS_NATURE = value;
-  }
-
-  get betweenHypothesisNatureSubscription(): Subscription {
-    return this._betweenHypothesisNatureSubscription;
-  }
-
-  set betweenHypothesisNatureSubscription(value: Subscription) {
-    this._betweenHypothesisNatureSubscription = value;
   }
 
   set isuFactorsSubscription(value: Subscription) {
