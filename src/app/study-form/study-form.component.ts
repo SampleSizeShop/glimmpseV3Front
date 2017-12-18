@@ -35,8 +35,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _betweenIsuPredictorsSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
-  private _betweenHypothesisNatureSubscription: Subscription;
-  private _withinHypothesisNatureSubscription: Subscription;
   private _hypothesisEffectSubscription: Subscription;
   private _powerCurveSubscription: Subscription;
 
@@ -466,22 +464,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._gaussianCovariateSubscription = value;
   }
 
-  get betweenHypothesisNatureSubscription(): Subscription {
-    return this._betweenHypothesisNatureSubscription;
-  }
-
-  set betweenHypothesisNatureSubscription(value: Subscription) {
-    this._betweenHypothesisNatureSubscription = value;
-  }
-
-  get withinHypothesisNatureSubscription(): Subscription {
-    return this._withinHypothesisNatureSubscription;
-  }
-
-  set withinHypothesisNatureSubscription(value: Subscription) {
-    this._withinHypothesisNatureSubscription = value;
-  }
-
   get hypothesisEffectSubscription(): Subscription {
     return this._hypothesisEffectSubscription;
   }
@@ -593,18 +575,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       }
     );
 
-    this.withinHypothesisNatureSubscription = this.study_service.withinHypothesisNature$.subscribe(
-      withinHypothesisNature => {
-        this.study.withinHypothesisNature = withinHypothesisNature;
-      }
-    );
-
-    this.betweenHypothesisNatureSubscription = this.study_service.betweenHypothesisNature$.subscribe(
-      betweenHypothesisNature => {
-        this.study.betweenHypothesisNature = betweenHypothesisNature;
-      }
-    );
-
     this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
       hypothesisEffect => {
         this.study.isuFactors.updateHypothesis(hypothesisEffect);
@@ -640,8 +610,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.betweenIsuPredictorsSubscription.unsubscribe();
     this.isuFactorsSubscription.unsubscribe();
     this.gaussianCovariateSubscription.unsubscribe();
-    this.betweenHypothesisNatureSubscription.unsubscribe();
-    this.withinHypothesisNatureSubscription.unsubscribe();
     this.hypothesisEffectSubscription.unsubscribe();
   };
 

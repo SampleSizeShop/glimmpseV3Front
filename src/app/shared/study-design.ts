@@ -17,8 +17,6 @@ export class StudyDesign {
   private _typeOneErrorRate: number;
   private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
-  private _betweenHypothesisNature: string;
-  private _withinHypothesisNature: string;
   private _scaleFactor: number;
   private _powerCurve: PowerCurve
 
@@ -33,8 +31,6 @@ export class StudyDesign {
               typeOneErrorRate?: number,
               isuFactors?: ISUFactors,
               gaussianCovariates?: GaussianCovariate,
-              betweenHypothesisNature?: string,
-              withinHypothesisNature?: string,
               hypothesisEffect?: HypothesisEffect,
               scaleFactor?: number,
               powerCurve?: PowerCurve
@@ -205,22 +201,6 @@ export class StudyDesign {
 
   set gaussianCovariate(value: GaussianCovariate) {
     this._gaussianCovariate = value;
-  }
-
-  get betweenHypothesisNature(): string {
-    return this._betweenHypothesisNature;
-  }
-
-  set betweenHypothesisNature(value: string) {
-    this._betweenHypothesisNature = value;
-  }
-
-  get withinHypothesisNature(): string {
-    return this._withinHypothesisNature;
-  }
-
-  set withinHypothesisNature(value: string) {
-    this._withinHypothesisNature = value;
   }
 
   get scaleFactor(): number {

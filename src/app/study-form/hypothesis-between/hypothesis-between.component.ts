@@ -33,11 +33,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
-    this.betweenHypothesisNatureSubscription = this.study_service.betweenHypothesisNature$.subscribe(
-      betweenHypothesisNature => {
-        this.betweenHypothesisNature = betweenHypothesisNature;
-      }
-    );
   }
 
   ngOnInit() {
