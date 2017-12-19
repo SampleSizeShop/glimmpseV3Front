@@ -24,10 +24,15 @@
         <div class="container-fluid">
           <div *ngFor="let predictor of marginalsIn">
             <div class="row">
-              <h6>{{predictor.name}}:</h6>
-            </div>
-            <div class="row">
-              <div [mathJaxExpr]="predictor.toTeX()"></div>
+              <div class="col  col-md-auto">
+                <h6>{{predictor.name}}:</h6>
+              </div>
+              <div class="col  col-md-auto">
+                <div [mathJaxExpr]="predictor.toTeX()"></div>
+              </div>
+              <div class="col  col-md-auto">
+                <i class="material-icons" (click)="advancedOptions(predictor.name)" style="margin-bottom: 5px" id="editpredictor">create</i>
+              </div>
             </div>
           </div>
         </div>

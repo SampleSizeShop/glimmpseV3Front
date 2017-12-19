@@ -46,6 +46,8 @@ import {OptionalSpecsCiChoiceComponent} from './optional-specs-ci-choice/optiona
 import {PowerCurveGuard} from '../shared/power-curve-guard.service';
 import {ConfidenceIntervalGuard} from '../shared/ci-guard.service';
 import {MarginalMeansGuard} from "./parameters-marginal-means/marginal-means-guard.service";
+import {HypothesisBetweenAdvancedComponent} from "./hypothesis-between-advanced/hypothesis-between-advanced.component";
+import {HypothesisWithinAdvancedComponent} from "./hypothesis-within-advanced/hypothesis-within-advanced.component";
 
 const studyFormRoutes: Routes = [
       {
@@ -68,7 +70,9 @@ const studyFormRoutes: Routes = [
             {path: constants.STAGES[10], component: BetweenIsuGroupsComponent},
             {path: constants.STAGES[11], component: GaussianCovariateComponent},
             {path: constants.STAGES[12], component: HypothesisEffectChoiceComponent},
+            {path: constants.STAGES[13] + '/:predictor', component: HypothesisBetweenAdvancedComponent},
             {path: constants.STAGES[13], component: HypothesisBetweenComponent},
+            {path: constants.STAGES[14] + '/:measure', component: HypothesisWithinAdvancedComponent},
             {path: constants.STAGES[14], component: HypothesisWithinComponent},
             {
               path: constants.STAGES[15],

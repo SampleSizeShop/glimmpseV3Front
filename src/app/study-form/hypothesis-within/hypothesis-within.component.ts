@@ -7,6 +7,7 @@ import {UMatrix} from '../../shared/UMatrix';
 import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';
 import Matrix = mathjs.Matrix;
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-hypothesis-within',
@@ -25,7 +26,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   private _uRepeatedMeasures: UMatrix;
   private _uCluster: number
 
-  constructor(private study_service: StudyService) {
+  constructor(private study_service: StudyService, private router: Router) {
     this.showAdvancedOptions = false;
 
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
@@ -78,6 +79,10 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
       this._uRepeatedMeasures = new UMatrix(constants.C_MATRIX_TYPE.IDENTITY);
       this._uRepeatedMeasures.populateIdentityMatrix(1);
     }
+  }
+
+  advancedOptions(name: string) {
+    this.router.navigate(['design', constants.STAGES[14], name])
   }
 
   isSelected(hypothesis: string): boolean {

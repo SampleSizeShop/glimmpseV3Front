@@ -6,6 +6,7 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';
 import {CMatrix} from '../../shared/CMatrix';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -25,7 +26,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _betweenHypothesisNatureSubscription: Subscription;
   texString = '';
 
-  constructor(private study_service: StudyService) {
+  constructor(private study_service: StudyService, private router: Router) {
     this.marginalsIn = [];
     this.marginalsOut = [];
     this.showAdvancedOptions = false;
@@ -133,6 +134,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
         outOfHypothesis.push(predictor.name);
       }
     });
+  }
+
+  advancedOptions(name: string) {
+    this.router.navigate(['design', constants.STAGES[13], name])
   }
 
   getMarginalCMatrix (noGroups: number): CMatrix {
