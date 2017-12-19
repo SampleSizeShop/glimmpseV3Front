@@ -29,21 +29,21 @@ import {ParametersOutcomeCorrelationsComponent} from './parameters-outcome-corre
 import {ParametersRepeatedMeasureOutcomeStDevComponent} from './parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.component';
 import {ParametersRepeatedMeasureCorrelationsComponent} from './parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component';
 import {ParametersStandardDeviationComponent} from './parameters-standard-deviation/parameters-standard-deviation.component';
-import {ParametersIntraClassCorrelationComponent} from "./parameters-intra-class-correlation/parameters-intra-class-correlation.component";
-import {ParametersGaussianCovariateVarianceComponent} from "./parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.component";
-import {ParametersGaussianCovariateCorrelationComponent} from "./parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-correlation.component";
-import {ParametersVarianceScaleFactorsComponent} from "./parameters-variance-scale-factors/parameters-variance-scale-factors.component";
-import {OptionalSpecsPowerMethodComponent} from "./optional-specs-power-method/optional-specs-power-method.component";
-import {OptionalSpecsCiChoiceComponent} from "./optional-specs-ci-choice/optional-specs-ci-choice.component";
-import {OptionalSpecsCiAssumptionsComponent} from "./optional-specs-ci-assumptions/optional-specs-ci-assumptions.component";
-import {OptionalSpecsCiLowerTailComponent} from "./optional-specs-ci-lower-tail/optional-specs-ci-lower-tail.component";
-import {OptionalSpecsCiUpperTailComponent} from "./optional-specs-ci-upper-tail/optional-specs-ci-upper-tail.component";
-import {OptionalSpecsCiBetaSampleSizeComponent} from "./optional-specs-ci-beta-sample-size/optional-specs-ci-beta-sample-size.component";
-import {OptionalSpecsCiBetaDesignMatrixRankComponent} from "./optional-specs-ci-beta-design-matrix-rank/optional-specs-ci-beta-design-matrix-rank.component";
-import {OptionalSpecsPowerCurveChoiceComponent} from "./optional-specs-power-curve-choice/optional-specs-power-curve-choice.component";
-import {OptionalSpecsPowerCurveAxesComponent} from "./optional-specs-power-curve-axes/optional-specs-power-curve-axes.component";
-import {OptionalSpecsPowerCurveDataSeriesComponent} from "./optional-specs-power-curve-data-series/optional-specs-power-curve-data-series.component";
-import {CalculateComponent} from "./calculate/calculate.component";
+import {ParametersIntraClassCorrelationComponent} from './parameters-intra-class-correlation/parameters-intra-class-correlation.component';
+import {ParametersGaussianCovariateVarianceComponent} from './parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.component';
+import {ParametersGaussianCovariateCorrelationComponent} from './parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-correlation.component';
+import {ParametersVarianceScaleFactorsComponent} from './parameters-variance-scale-factors/parameters-variance-scale-factors.component';
+import {OptionalSpecsPowerMethodComponent} from './optional-specs-power-method/optional-specs-power-method.component';
+import {OptionalSpecsCiChoiceComponent} from './optional-specs-ci-choice/optional-specs-ci-choice.component';
+import {OptionalSpecsCiAssumptionsComponent} from './optional-specs-ci-assumptions/optional-specs-ci-assumptions.component';
+import {OptionalSpecsCiLowerTailComponent} from './optional-specs-ci-lower-tail/optional-specs-ci-lower-tail.component';
+import {OptionalSpecsCiUpperTailComponent} from './optional-specs-ci-upper-tail/optional-specs-ci-upper-tail.component';
+import {OptionalSpecsCiBetaSampleSizeComponent} from './optional-specs-ci-beta-sample-size/optional-specs-ci-beta-sample-size.component';
+import {OptionalSpecsCiBetaDesignMatrixRankComponent} from './optional-specs-ci-beta-design-matrix-rank/optional-specs-ci-beta-design-matrix-rank.component';
+import {OptionalSpecsPowerCurveChoiceComponent} from './optional-specs-power-curve-choice/optional-specs-power-curve-choice.component';
+import {OptionalSpecsPowerCurveAxesComponent} from './optional-specs-power-curve-axes/optional-specs-power-curve-axes.component';
+import {OptionalSpecsPowerCurveDataSeriesComponent} from './optional-specs-power-curve-data-series/optional-specs-power-curve-data-series.component';
+import {CalculateComponent} from './calculate/calculate.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
