@@ -6,7 +6,11 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';
 import {CMatrix} from '../../shared/CMatrix';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
+import {Predictor} from '../../shared/Predictor';
+import {Observable} from 'rxjs/Observable';
+
+import {ActivatedRoute, ParamMap} from '@angular/router';
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -20,12 +24,13 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _isuFactors: ISUFactors;
   private _marginalsIn: Array<CMatrix>;
   private _marginalsOut: Array<CMatrix>;
+  private _predictor$: Observable<Predictor>
 
 
   private _isuFactorsSubscription: Subscription;
   texString = '';
 
-  constructor(private study_service: StudyService, private router: Router) {
+  constructor(private study_service: StudyService, private router: Router, private route: ActivatedRoute) {
     this.marginalsIn = [];
     this.marginalsOut = [];
     this.showAdvancedOptions = false;
@@ -36,11 +41,23 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.predictor$ = this.route.paramMap.switchMap(
+      (params: ParamMap) => this.getPredictor(params.get('predictor'))
+    );
     this.calculateCMatrix();
   }
 
   ngOnDestroy() {
     this.isuFactorsSubscription.unsubscribe();
+  }
+
+  getPredictors() { return Observable.of(this.isuFactors.predictors); }
+
+  private getPredictor(name: string | any) {
+    return this.getPredictors().map(
+      predictors => predictors.find(
+        predictor => predictor.name === name
+      ));
   }
 
   isSelected(hypothesis: string): boolean {
@@ -196,5 +213,13 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
+  }
+
+  get predictor$(): Observable<Predictor> {
+    return this._predictor$;
+  }
+
+  set predictor$(value: Observable<Predictor>) {
+    this._predictor$ = value;
   }
 }

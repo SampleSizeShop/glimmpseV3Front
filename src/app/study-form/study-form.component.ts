@@ -71,6 +71,17 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(11)
+        } else if (current === 12
+          && (!isNullOrUndefined(this.study.isuFactors)
+          && this.study.isuFactors.predictors.length > 0)) {
+          this.setStage(13)
+          this.parameters = [];
+          this.parameters.push(this.study.isuFactors.predictors[0].name);
+        } else if (current === 12
+          && (isNullOrUndefined(this.study.isuFactors)
+          || this.study.isuFactors.predictors.length === 0)) {
+          this.setStage(14)
+          this.parameters = [];
         } else if (
           current === 18
           && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)

@@ -70,9 +70,9 @@ const studyFormRoutes: Routes = [
             {path: constants.STAGES[10], component: BetweenIsuGroupsComponent},
             {path: constants.STAGES[11], component: GaussianCovariateComponent},
             {path: constants.STAGES[12], component: HypothesisEffectChoiceComponent},
-            {path: constants.STAGES[13] + '/:predictor', component: HypothesisBetweenAdvancedComponent},
-            {path: constants.STAGES[13], component: HypothesisBetweenComponent},
-            {path: constants.STAGES[14] + '/:measure', component: HypothesisWithinAdvancedComponent},
+            // {path: constants.STAGES[13] + '/:predictor/:group', component: HypothesisBetweenAdvancedComponent},
+            {path: constants.STAGES[13] + '/:predictor', component: HypothesisBetweenComponent},
+            // {path: constants.STAGES[14] + '/:measure', component: HypothesisWithinAdvancedComponent},
             {path: constants.STAGES[14], component: HypothesisWithinComponent},
             {
               path: constants.STAGES[15],
