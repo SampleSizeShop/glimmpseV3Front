@@ -155,6 +155,48 @@ export class ISUFactors {
     return this.getFactorsByType(Predictor);
   }
 
+  get firstPredictor(): Predictor {
+    let predictor: Predictor = null;
+    if (!isNullOrUndefined(this.predictors)) {
+      predictor = this.predictors[0];
+    }
+    return predictor;
+  }
+
+  get lastPredictor(): Predictor {
+    let predictor: Predictor = null;
+    if (!isNullOrUndefined(this.repeatedMeasures)) {
+      predictor = this.predictors[this.predictors.length - 1 ];
+    }
+    return predictor;
+  }
+
+  getNextPredictor(name: string): Predictor {
+    let predictor = this.predictors.find(
+      nextPredictor => nextPredictor.name === name
+    );
+    const nextIndex = this.predictors.indexOf(predictor) + 1;
+    if (nextIndex < this.predictors.length) {
+      predictor = this.predictors[nextIndex];
+    } else {
+      predictor = null;
+    }
+    return predictor
+  }
+
+  getPreviousPredictor(name: string): Predictor {
+    let predictor = this.predictors.find(
+      prevPredictor => prevPredictor.name === name
+    );
+    const previousIndex = this.predictors.indexOf(predictor) - 1;
+    if (previousIndex >= 0) {
+      predictor = this.predictors[previousIndex];
+    } else {
+      predictor = null;
+    }
+    return predictor
+  }
+
   updatePredictors(newPredictors: Array<Predictor>) {
     this.variables = this._updateListOfISUFactors(newPredictors, 'Predictor');
   }

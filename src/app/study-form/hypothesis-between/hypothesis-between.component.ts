@@ -41,9 +41,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.predictor$ = this.route.paramMap.switchMap(
-      (params: ParamMap) => this.getPredictor(params.get('predictor'))
-    );
+    // this.predictor$ = this.route.paramMap.switchMap(
+    //   (params: ParamMap) => this.getPredictor(params.get('predictor'))
+    // );
     this.calculateCMatrix();
   }
 
@@ -189,6 +189,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set isuFactorsSubscription(value: Subscription) {
     this._isuFactorsSubscription = value;
+  }
+
+  get isuFactorsSubscription(): Subscription {
+    return this._isuFactorsSubscription;
   }
 
   get marginalsIn(): Array<CMatrix> {

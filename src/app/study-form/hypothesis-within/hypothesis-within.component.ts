@@ -6,8 +6,7 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {UMatrix} from '../../shared/UMatrix';
 import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';
-import Matrix = mathjs.Matrix;
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-hypothesis-within',
