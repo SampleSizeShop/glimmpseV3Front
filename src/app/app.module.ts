@@ -8,6 +8,8 @@ import {MathJaxService} from './mathjax/mathjax.service';
 import {MathJaxComponent} from './mathjax/mathjax.component';
 import {MathJaxDirective} from './mathjax/mathjax.directive';
 
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing-module';
@@ -101,6 +103,7 @@ import { HypothesisWithinAdvancedComponent } from './study-form/hypothesis-withi
     HypothesisWithinAdvancedComponent
   ],
   imports: [
+    NgbModule.forRoot(),
     LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),
     BsDropdownModule.forRoot(),
     BrowserModule,

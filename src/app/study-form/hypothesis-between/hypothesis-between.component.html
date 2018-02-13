@@ -1,5 +1,4 @@
-
-  <h5>What is the nature of your X hypothesis?</h5>
+<h5>What is the nature of your X hypothesis?</h5>
   <div class="container-fluid">
     <div class="row">
       <div class="col">
@@ -29,7 +28,14 @@
                   <h6>{{predictor.name}}:</h6>
                 </div>
                 <div class="col  col-md-auto">
-                  <div [mathJaxExpr]="predictor.toTeX()"></div>
+                  <div ngbDropdown class="d-inline-block">
+                    <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>All Pairwise</button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button class="dropdown-item">Identity</button>
+                      <button class="dropdown-item">Polynomial</button>
+                      <button class="dropdown-item">Custom</button>
+                    </div>
+                  </div>
                 </div>
                 <div class="col  col-md-auto">
                   <i class="material-icons" (click)="advancedOptions(predictor.name)" style="margin-bottom: 5px" id="editpredictor">create</i>
