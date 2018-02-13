@@ -1,4 +1,6 @@
 import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
+import {constants} from './constants';
+import {PartialMatrix} from './PartialMatrix';
 
 export class ISUFactor {
   name: string;
@@ -8,6 +10,7 @@ export class ISUFactor {
   valueNames: string[] = [];
   child: ISUFactor;
   inHypothesis: boolean;
+  partialMatrix?: PartialMatrix;
 
   constructor(name?: string, nature?: string, origin?: string) {
     if (name) {
@@ -20,6 +23,7 @@ export class ISUFactor {
       this.origin = origin;
     }
     this.inHypothesis = false;
+    this.isuFactorNature = constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS;
   }
 
   mapCombinations(): Array<ISUFactorCombination> {

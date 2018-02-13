@@ -5,7 +5,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';
-import {CMatrix} from '../../shared/CMatrix';
+import {PartialMatrix} from '../../shared/PartialMatrix';
 import {Router} from '@angular/router';
 import {Predictor} from '../../shared/Predictor';
 import {Observable} from 'rxjs/Observable';
@@ -21,8 +21,8 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _isuFactors: ISUFactors;
-  private _marginalsIn: Array<CMatrix>;
-  private _marginalsOut: Array<CMatrix>;
+  private _marginalsIn: Array<PartialMatrix>;
+  private _marginalsOut: Array<PartialMatrix>;
 
 
   private _isuFactorsSubscription: Subscription;
@@ -75,10 +75,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       this.populateMarginalMatrices(betweenFactorsInHypothesis, marginalMatrices);
       this.populateAverageMatrices(betweenFactorsNotInHypothesis, marginalMatrices);
 
-      const cMatrix = new CMatrix(constants.C_MATRIX_TYPE.CMATRIX);
+      const cMatrix = new PartialMatrix(constants.C_MATRIX_TYPE.CMATRIX);
       let first = marginalMatrices.pop();
       if (isNullOrUndefined(first) || isNullOrUndefined(first.values)) {
-        first = new CMatrix(constants.C_MATRIX_TYPE.AVERAGE);
+        first = new PartialMatrix(constants.C_MATRIX_TYPE.AVERAGE);
         first.values = math.matrix([[1]]);
       }
       cMatrix.values = first.values;
@@ -91,11 +91,11 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     };
   }
 
-  private populateAverageMatrices(betweenFactorsNotInHypothesis: Array<string>, marginalMatrices: Array<CMatrix>) {
+  private populateAverageMatrices(betweenFactorsNotInHypothesis: Array<string>, marginalMatrices: Array<PartialMatrix>) {
     betweenFactorsNotInHypothesis.forEach(name => {
       this._isuFactors.predictors.forEach(value => {
         if (value.name === name) {
-          const marginalMatrix = new CMatrix(constants.C_MATRIX_TYPE.AVERAGE);
+          const marginalMatrix = new PartialMatrix(constants.C_MATRIX_TYPE.AVERAGE);
           marginalMatrix.poopulateAverageMatrix(value.valueNames.length);
           marginalMatrices.push(marginalMatrix);
           marginalMatrix.name = name;
@@ -105,7 +105,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     });
   }
 
-  private populateMarginalMatrices(betweenFactorsInHypothesis: Array<string>, marginalMatrices: Array<CMatrix>) {
+  private populateMarginalMatrices(betweenFactorsInHypothesis: Array<string>, marginalMatrices: Array<PartialMatrix>) {
     betweenFactorsInHypothesis.forEach(name => {
       this._isuFactors.predictors.forEach(value => {
         if (value.name === name) {
@@ -141,15 +141,15 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.router.navigate(['design', constants.STAGES[13], name])
   }
 
-  getMarginalCMatrix (predictor: Predictor): CMatrix {
+  getMarginalCMatrix (predictor: Predictor): PartialMatrix {
     const noGroups = predictor.valueNames.length;
-    const marginalMatrix = new CMatrix();
+    const marginalMatrix = new PartialMatrix();
     if (isNullOrUndefined(predictor.isuFactorNature)) {
       predictor.isuFactorNature = constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS;
     }
     if (predictor.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS) {
-        marginalMatrix.type = constants.C_MATRIX_TYPE.MAIN_EFFECT;
-        marginalMatrix.populateMainEffect(noGroups);
+        marginalMatrix.type = constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS;
+        marginalMatrix.populateCMainEffect(noGroups);
       } else if (predictor.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.POLYNOMIAL) {
         marginalMatrix.type = constants.C_MATRIX_TYPE.POLYNOMIAL;
         marginalMatrix.populatePolynomialEvenSpacing(noGroups);
@@ -157,6 +157,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
         marginalMatrix.type = constants.C_MATRIX_TYPE.IDENTITY;
         marginalMatrix.populateIdentityMatrix(noGroups);
       }
+      marginalMatrix.name = predictor.name;
     return marginalMatrix;
   }
 
@@ -184,19 +185,19 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     return this._isuFactorsSubscription;
   }
 
-  get marginalsIn(): Array<CMatrix> {
+  get marginalsIn(): Array<PartialMatrix> {
     return this._marginalsIn;
   }
 
-  set marginalsIn(value: Array<CMatrix>) {
+  set marginalsIn(value: Array<PartialMatrix>) {
     this._marginalsIn = value;
   }
 
-  get marginalsOut(): Array<CMatrix> {
+  get marginalsOut(): Array<PartialMatrix> {
     return this._marginalsOut;
   }
 
-  set marginalsOut(value: Array<CMatrix>) {
+  set marginalsOut(value: Array<PartialMatrix>) {
     this._marginalsOut = value;
   }
 

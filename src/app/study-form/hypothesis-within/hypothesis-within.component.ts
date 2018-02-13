@@ -3,7 +3,7 @@ import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
-import {UMatrix} from '../../shared/UMatrix';
+import {PartialMatrix} from '../../shared/PartialMatrix';
 import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';
 import {Router} from '@angular/router';
@@ -21,8 +21,8 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   private _withinHypothesisNatureSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
 
-  private _uOutcomes: UMatrix;
-  private _uRepeatedMeasures: UMatrix;
+  private _uOutcomes: PartialMatrix;
+  private _uRepeatedMeasures: PartialMatrix;
   private _uCluster: number
 
   constructor(private study_service: StudyService, private router: Router) {
@@ -52,7 +52,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   }
 
   populateUOutcomes() {
-    this._uOutcomes = new UMatrix(constants.C_MATRIX_TYPE.IDENTITY);
+    this._uOutcomes = new PartialMatrix(constants.C_MATRIX_TYPE.IDENTITY);
     this._uOutcomes.populateIdentityMatrix(this.isuFactors.outcomes.length);
   }
 
@@ -69,13 +69,13 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   populateURepeatedMeasures() {
     if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) &&
     this.isuFactors.repeatedMeasures.length > 0) {
-      this._uRepeatedMeasures = new UMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
+      this._uRepeatedMeasures = new PartialMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
       this._uRepeatedMeasures.populateIdentityMatrix(1);
       this.isuFactors.repeatedMeasures.forEach( measure => {
         this._uRepeatedMeasures.values = this._uRepeatedMeasures.kronecker(measure.partialUMatrix);
       });
     } else {
-      this._uRepeatedMeasures = new UMatrix(constants.C_MATRIX_TYPE.IDENTITY);
+      this._uRepeatedMeasures = new PartialMatrix(constants.C_MATRIX_TYPE.IDENTITY);
       this._uRepeatedMeasures.populateIdentityMatrix(1);
     }
   }
@@ -141,11 +141,11 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     this._isuFactors = value;
   }
 
-  get uOutcomes(): UMatrix {
+  get uOutcomes(): PartialMatrix {
     return this._uOutcomes;
   }
 
-  get uRepeatedMeasures(): UMatrix {
+  get uRepeatedMeasures(): PartialMatrix {
     return this._uRepeatedMeasures;
   }
 

@@ -1,12 +1,12 @@
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
-import {UMatrix} from './UMatrix';
+import {PartialMatrix} from './PartialMatrix';
 
 export class RepeatedMeasure extends ISUFactor {
   units: string;
   type: string;
   private _noRepeats: number;
-  partialUMatrix: UMatrix;
+  partialUMatrix: PartialMatrix;
 
   constructor(name?: string) {
     super(name);
@@ -16,7 +16,7 @@ export class RepeatedMeasure extends ISUFactor {
     this.units = '';
     this.type = '';
     this._noRepeats = 0;
-    this.partialUMatrix = new UMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
+    this.partialUMatrix = new PartialMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
   }
 
   get noRepeats(): number {
@@ -25,6 +25,6 @@ export class RepeatedMeasure extends ISUFactor {
 
   set noRepeats(value: number) {
     this._noRepeats = value;
-    this.partialUMatrix.populateMainEffect(value);
+    this.partialUMatrix.populateUMainEffect(value);
   }
 }
