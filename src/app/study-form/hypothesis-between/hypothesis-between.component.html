@@ -29,8 +29,9 @@
                 </div>
                 <div class="col  col-md-auto">
                   <div ngbDropdown class="d-inline-block">
-                    <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
+                    <button class="btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{predictor.nature}}</button>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button class="dropdown-item">{{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
                       <button class="dropdown-item">{{HYPOTHESIS_NATURE.IDENTITY}}</button>
                       <button class="dropdown-item">{{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
                     </div>
