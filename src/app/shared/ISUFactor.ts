@@ -4,6 +4,7 @@ export class ISUFactor {
   name: string;
   origin: string;
   nature: string;
+  isuFactorNature: string;
   valueNames: string[] = [];
   child: ISUFactor;
   inHypothesis: boolean;

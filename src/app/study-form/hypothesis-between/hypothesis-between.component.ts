@@ -19,12 +19,10 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 })
 export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
-  private _betweenHypothesisNature: string;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _isuFactors: ISUFactors;
   private _marginalsIn: Array<CMatrix>;
   private _marginalsOut: Array<CMatrix>;
-  private _predictor$: Observable<Predictor>
 
 
   private _isuFactorsSubscription: Subscription;
@@ -41,9 +39,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // this.predictor$ = this.route.paramMap.switchMap(
-    //   (params: ParamMap) => this.getPredictor(params.get('predictor'))
-    // );
     this.calculateCMatrix();
   }
 
@@ -60,13 +55,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       ));
   }
 
-  isSelected(hypothesis: string): boolean {
-    return this.betweenHypothesisNature === hypothesis;
-  }
-
   selectHypothesisNature(type: string) {
-    this.betweenHypothesisNature = type;
-    this.study_service.updateBetweenHypothesisNature(this.betweenHypothesisNature);
     this.calculateCMatrix();
   }
 
@@ -120,7 +109,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     betweenFactorsInHypothesis.forEach(name => {
       this._isuFactors.predictors.forEach(value => {
         if (value.name === name) {
-          const marginalMatrix = this.getMarginalCMatrix(value.valueNames.length);
+          const marginalMatrix = this.getMarginalCMatrix(value);
           marginalMatrices.push(marginalMatrix);
           marginalMatrix.name = name;
           this.marginalsIn.push(marginalMatrix);
@@ -144,22 +133,27 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     });
   }
 
+  setNature(predictor: Predictor, nature: string) {
+    console.log( predictor.name + ' set: ' + nature );
+  }
+
   advancedOptions(name: string) {
     this.router.navigate(['design', constants.STAGES[13], name])
   }
 
-  getMarginalCMatrix (noGroups: number): CMatrix {
+  getMarginalCMatrix (predictor: Predictor): CMatrix {
+    const noGroups = predictor.valueNames.length;
     const marginalMatrix = new CMatrix();
-    if (isNullOrUndefined(this.betweenHypothesisNature)) {
-      this.betweenHypothesisNature = constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS;
+    if (isNullOrUndefined(predictor.isuFactorNature)) {
+      predictor.isuFactorNature = constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS;
     }
-    if (this.betweenHypothesisNature === constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS) {
+    if (predictor.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS) {
         marginalMatrix.type = constants.C_MATRIX_TYPE.MAIN_EFFECT;
         marginalMatrix.populateMainEffect(noGroups);
-      } else if (this.betweenHypothesisNature === constants.HYPOTHESIS_BETWEEN_NATURE.POLYNOMIAL) {
+      } else if (predictor.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.POLYNOMIAL) {
         marginalMatrix.type = constants.C_MATRIX_TYPE.POLYNOMIAL;
         marginalMatrix.populatePolynomialEvenSpacing(noGroups);
-      } else if (this.betweenHypothesisNature === constants.HYPOTHESIS_BETWEEN_NATURE.IDENTITY) {
+      } else if (predictor.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.IDENTITY) {
         marginalMatrix.type = constants.C_MATRIX_TYPE.IDENTITY;
         marginalMatrix.populateIdentityMatrix(noGroups);
       }
@@ -172,14 +166,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set showAdvancedOptions(value: boolean) {
     this._showAdvancedOptions = value;
-  }
-
-  get betweenHypothesisNature(): string {
-    return this._betweenHypothesisNature;
-  }
-
-  set betweenHypothesisNature(value: string) {
-    this._betweenHypothesisNature = value;
   }
 
   get HYPOTHESIS_NATURE() {
@@ -220,13 +206,5 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
-  }
-
-  get predictor$(): Observable<Predictor> {
-    return this._predictor$;
-  }
-
-  set predictor$(value: Observable<Predictor>) {
-    this._predictor$ = value;
   }
 }
