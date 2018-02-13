@@ -46,15 +46,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.isuFactorsSubscription.unsubscribe();
   }
 
-  getPredictors() { return Observable.of(this.isuFactors.predictors); }
-
-  private getPredictor(name: string | any) {
-    return this.getPredictors().map(
-      predictors => predictors.find(
-        predictor => predictor.name === name
-      ));
-  }
-
   selectHypothesisNature(type: string) {
     this.calculateCMatrix();
   }
@@ -133,8 +124,15 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     });
   }
 
-  setNature(predictor: Predictor, nature: string) {
-    console.log( predictor.name + ' set: ' + nature );
+  setNature(name: string, nature: string) {
+    console.log( name + ' set: ' + nature );
+    this.isuFactors.predictors.forEach( predictor => {
+        if (predictor.name === name) {
+          predictor.isuFactorNature = nature;
+        }
+      }
+    );
+    this.calculateCMatrix();
   }
 
   advancedOptions(name: string) {
