@@ -149,8 +149,11 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   getMarginalCMatrix (noGroups: number): CMatrix {
-    const marginalMatrix = new CMatrix()
-      if (this.betweenHypothesisNature === constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS) {
+    const marginalMatrix = new CMatrix();
+    if (isNullOrUndefined(this.betweenHypothesisNature)) {
+      this.betweenHypothesisNature = constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS;
+    }
+    if (this.betweenHypothesisNature === constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS) {
         marginalMatrix.type = constants.C_MATRIX_TYPE.MAIN_EFFECT;
         marginalMatrix.populateMainEffect(noGroups);
       } else if (this.betweenHypothesisNature === constants.HYPOTHESIS_BETWEEN_NATURE.POLYNOMIAL) {
