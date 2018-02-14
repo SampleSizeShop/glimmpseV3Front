@@ -18,7 +18,8 @@ export class StudyDesign {
   private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
   private _scaleFactor: number;
-  private _powerCurve: PowerCurve
+  private _varianceScaleFactors: number[];
+  private _powerCurve: PowerCurve;
 
   constructor(name?: string,
               guided?: boolean,
@@ -33,6 +34,7 @@ export class StudyDesign {
               gaussianCovariates?: GaussianCovariate,
               hypothesisEffect?: HypothesisEffect,
               scaleFactor?: number,
+              varianceScaleFactors?: number[],
               powerCurve?: PowerCurve
 ) {
     this.isuFactors = new ISUFactors();
@@ -209,6 +211,14 @@ export class StudyDesign {
 
   set scaleFactor(value: number) {
     this._scaleFactor = value;
+  }
+
+  get varianceScaleFactors(): number[] {
+    return this._varianceScaleFactors;
+  }
+
+  set varianceScaleFactors(value: number[]) {
+    this._varianceScaleFactors = value;
   }
 
   get powerCurve(): PowerCurve {

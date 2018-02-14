@@ -1,35 +1,49 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
+import {Subscription} from "rxjs/Subscription";
 
 @Component({
   selector: 'app-parameters-variance-scale-factors',
   templateUrl: './parameters-variance-scale-factors.component.html',
   styleUrls: ['./parameters-variance-scale-factors.component.scss']
 })
-export class ParametersVarianceScaleFactorsComponent implements OnInit {
+export class ParametersVarianceScaleFactorsComponent implements OnInit, DoCheck {
 private _scaleFactorsForm: FormGroup;
 private _scaleFactors: number[];
 private _max: number;
 private _validationMessages;
 private _formErrors;
+private _varianceScaleFactorsSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private study_service: StudyService) {
     this.scaleFactors = [];
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
     this.formErrors = constants.OUTCOME_FORM_ERRORS;
     this._max = constants.MAX_OUTCOMES;
+
+    this.varianceScaleFactorsSubscription = this.study_service.varianceScaleFactors$.subscribe(
+      factors => {
+        this.scaleFactors = factors;
+      }
+    );
   }
 
   ngOnInit() {
     this.buildForm();
   }
 
+  ngDoCheck() {
+    if (this.scaleFactors) {
+      this.study_service.updateVarianceScaleFactors(this.scaleFactors);
+    }
+  }
+
   buildForm() {
     this.scaleFactorsForm = this.fb.group({
-      scaleFactors: [0, minMaxValidator( -1, 1)]
+      scaleFactors: [0, minMaxValidator( -1, 99999999999)]
     });
 
     this.scaleFactorsForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -61,7 +75,7 @@ private _formErrors;
       && this.scaleFactorsForm.value.scaleFactors
       && this.scaleFactorsForm.value.scaleFactors.trim() !== ''
     ) {
-      this.scaleFactors.push(this.scaleFactorsForm.value);
+      this.scaleFactors.push(+this.scaleFactorsForm.value.scaleFactors);
       this.scaleFactorsForm.reset();
     }
   }
@@ -131,5 +145,13 @@ private _formErrors;
 
   set formErrors(value) {
     this._formErrors = value;
+  }
+
+  get varianceScaleFactorsSubscription(): Subscription {
+    return this._varianceScaleFactorsSubscription;
+  }
+
+  set varianceScaleFactorsSubscription(value: Subscription) {
+    this._varianceScaleFactorsSubscription = value;
   }
 }

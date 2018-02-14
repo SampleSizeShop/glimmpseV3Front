@@ -75,6 +75,9 @@ export class StudyService {
   private _hypothesisEffectSource = new BehaviorSubject<HypothesisEffect>(null);
   private _hypothesisEffect$ = this._hypothesisEffectSource.asObservable();
 
+  private _varianceScaleFactorsSource = new BehaviorSubject<Array<number>>([]);
+  private _varianceScaleFactors$ = this._varianceScaleFactorsSource.asObservable();
+
   private _scaleFactorSource = new BehaviorSubject<number>(1);
   private _scaleFactor$ = this._scaleFactorSource.asObservable();
 
@@ -153,6 +156,10 @@ export class StudyService {
 
   updateScaleFactor(scaleFactor: number) {
     this._scaleFactorSource.next(scaleFactor);
+  }
+
+  updateVarianceScaleFactors(varianceScaleFactors: Array<number>) {
+    this._varianceScaleFactorsSource.next(varianceScaleFactors);
   }
 
   updatePowerCurve(powerCurve: PowerCurve) {
@@ -357,6 +364,14 @@ export class StudyService {
 
   set scaleFactor$(value: Observable<number>) {
     this._scaleFactor$ = value;
+  }
+
+  get varianceScaleFactors$(): Observable<Array<number>> {
+    return this._varianceScaleFactors$;
+  }
+
+  set varianceScaleFactors$(value: Observable<Array<number>>) {
+    this._varianceScaleFactors$ = value;
   }
 
   get powerCurve$(): Observable<PowerCurve> {
