@@ -148,7 +148,8 @@ export const constants = {
   HYPOTHESIS_ORIGIN: {
     OUTCOME: 'Outcome',
     REPEATED_MEASURE: 'Repeated Measure',
-    BETWEEN_PREDICTOR: 'Between ISU Predictor'
+    BETWEEN_PREDICTOR: 'Between ISU Predictor',
+    CLUSTER: 'Cluster'
   },
   HYPOTHESIS_EFFECT_TYPE: {
     GRAND_MAEN: 'Grand Mean',

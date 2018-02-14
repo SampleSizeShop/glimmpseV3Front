@@ -84,13 +84,20 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     this.router.navigate(['design', constants.STAGES[14], name])
   }
 
-  isSelected(hypothesis: string): boolean {
-    return this.withinHypothesisNature === hypothesis;
+  setNature(name: string, nature: string) {
+    console.log( name + ' set: ' + nature );
+    this.isuFactors.repeatedMeasures.forEach( measure => {
+        if (measure.name === name) {
+          measure.isuFactorNature = nature;
+          measure.populatePartialMatrix();
+        }
+      }
+    );
+    this.populateURepeatedMeasures();
   }
 
-  selectHypothesisNature(type: string) {
-    this.withinHypothesisNature = type;
-    this.study_service.updateWithinHypothesisNature(this.withinHypothesisNature);
+  isSelected(hypothesis: string): boolean {
+    return this.withinHypothesisNature === hypothesis;
   }
 
   toggleAdvancedOptions() {
