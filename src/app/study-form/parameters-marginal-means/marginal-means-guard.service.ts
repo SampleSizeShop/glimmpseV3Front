@@ -18,7 +18,7 @@ export class MarginalMeansGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('ClusterGuard#canActivate called');
+    console.log('MarginalMeans#canActivate called');
     const st = this.study_service.stage;
     console.log(st);
     if (

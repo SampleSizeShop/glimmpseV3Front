@@ -36,6 +36,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _isuFactorsSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
   private _hypothesisEffectSubscription: Subscription;
+  private _scaleFactorSubscription: Subscription;
   private _powerCurveSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
@@ -472,6 +473,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._hypothesisEffectSubscription = value;
   }
 
+  get scaleFactorSubscription(): Subscription {
+    return this._scaleFactorSubscription;
+  }
+
+  set scaleFactorSubscription(value: Subscription) {
+    this._scaleFactorSubscription = value;
+  }
+
   get powerCurveSubscription(): Subscription {
     return this._powerCurveSubscription;
   }
@@ -583,6 +592,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       }
     );
 
+    this.scaleFactorSubscription = this.study_service.scaleFactor$.subscribe(
+      scaleFactor => {
+        this.study.scaleFactor = scaleFactor;
+      }
+    );
+
     this.powerCurveSubscription = this.study_service.powerCurve$.subscribe(
       powerCurve => {
         this.study.checkDependencies();
@@ -611,6 +626,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.isuFactorsSubscription.unsubscribe();
     this.gaussianCovariateSubscription.unsubscribe();
     this.hypothesisEffectSubscription.unsubscribe();
+    this.scaleFactorSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {
