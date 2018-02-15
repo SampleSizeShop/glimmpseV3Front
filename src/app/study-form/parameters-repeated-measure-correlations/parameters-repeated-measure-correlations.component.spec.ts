@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -37,7 +37,7 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
         StudyService,
         CorrelationMatrixService,
         {provide: Router, useClass: RouterStub},
-        {provide: Http, useClass: MockBackend},
+        {provide: HttpClient, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: ActivatedRoute, useClass: ActivatedRouteStub }
       ]

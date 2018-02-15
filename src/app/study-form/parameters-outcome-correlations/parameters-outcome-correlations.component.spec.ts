@@ -6,7 +6,7 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MockBackend} from '@angular/http/testing';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StudyService} from "../study.service";
 
@@ -26,7 +26,7 @@ describe('ParametersOutcomeCorrelationsComponent', () => {
       ],
       providers: [
         StudyService,
-        {provide: Http, useClass: MockBackend},
+        {provide: HttpClient, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock}
         ]
     })

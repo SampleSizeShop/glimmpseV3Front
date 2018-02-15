@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -13,7 +13,7 @@ import {ISUFactor} from '../shared/ISUFactor';
 import {Outcome} from '../shared/Outcome';
 import {Predictor} from '../shared/Predictor';
 import {ISUFactors} from '../shared/ISUFactors';
-import {PowerCurve} from "../shared/PowerCurve";
+import {PowerCurve} from '../shared/PowerCurve';
 
 @Injectable()
 export class StudyService {
@@ -166,7 +166,7 @@ export class StudyService {
     this._powerCurveSource.next(powerCurve);
   }
 
-  constructor(private  http: Http) {
+  constructor(private  http: HttpClient) {
     this._stages = constants.STAGES;
     this._stage = 1;
   }

@@ -4,7 +4,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import { TypeOneErrorComponent } from './type-one-error.component';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {MockBackend} from '@angular/http/testing';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {StudyService} from '../study.service';
 
 describe('TypeOneErrorComponent', () => {
@@ -17,7 +17,7 @@ describe('TypeOneErrorComponent', () => {
         ReactiveFormsModule,
         LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})],
       declarations: [ TypeOneErrorComponent ],
-      providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
+      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();
   }));

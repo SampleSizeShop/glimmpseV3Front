@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParametersScaleFactorComponent } from './parameters-scale-factor.component';
 import {StudyService} from '../study.service';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -16,7 +16,7 @@ describe('ParametersScaleFactorComponent', () => {
       ReactiveFormsModule,
       LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})],
       declarations: [ ParametersScaleFactorComponent ],
-      providers: [ StudyService, { provide: Http, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
+      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();
   }));

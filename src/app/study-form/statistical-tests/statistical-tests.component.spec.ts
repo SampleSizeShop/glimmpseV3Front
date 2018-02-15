@@ -4,7 +4,7 @@ import { StatisticalTestsComponent } from './statistical-tests.component';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 import {StudyService} from '../study.service';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 
 describe('StatisticalTestsComponent', () => {
@@ -14,7 +14,7 @@ describe('StatisticalTestsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ StatisticalTestsComponent ],
-      providers: [ StudyService, {provide: Http, useClass: MockBackend} ]
+      providers: [ StudyService, {provide: HttpClient, useClass: MockBackend} ]
     })
     .compileComponents();
   }));

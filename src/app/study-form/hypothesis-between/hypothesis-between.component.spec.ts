@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisBetweenComponent } from './hypothesis-between.component';
 import {MockBackend} from '@angular/http/testing';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {StudyService} from '../study.service';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -26,7 +26,7 @@ describe('HypothesisBetweenComponent no factors', () => {
         HypothesisBetweenComponent
          ],
       providers: [
-        StudyService, {provide: Http, useClass: MockBackend},
+        StudyService, {provide: HttpClient, useClass: MockBackend},
         {provide: Router, useClass: RouterStub},
         {provide: ActivatedRoute, useClass: ActivatedRouteStub }
         ]
@@ -82,7 +82,7 @@ describe('HypothesisBetweenComponent with Factors', () => {
         HypothesisBetweenComponent
          ],
       providers: [ StudyService,
-        {provide: Http, useClass: MockBackend},
+        {provide: HttpClient, useClass: MockBackend},
         {provide: ISUFactors, useClass: MockISUFactors},
         {provide: Router, useClass: RouterStub},
         {provide: ActivatedRoute, useClass: ActivatedRouteStub }]

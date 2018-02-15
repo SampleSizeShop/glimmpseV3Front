@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisWithinComponent } from './hypothesis-within.component';
 import {MockBackend} from '@angular/http/testing';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {StudyService} from '../study.service';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
@@ -29,7 +29,7 @@ describe('HypothesisWithinComponent', () => {
         MathJaxDirective ],
       providers: [
         StudyService,
-        {provide: Http, useClass: MockBackend},
+        {provide: HttpClient, useClass: MockBackend},
         {provide: ISUFactors, useClass: MockISUFactors},
         {provide: Router, useClass: RouterStub},
         {provide: ActivatedRoute, useClass: ActivatedRouteStub}

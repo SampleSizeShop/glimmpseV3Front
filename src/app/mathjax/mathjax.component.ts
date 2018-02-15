@@ -19,6 +19,6 @@ export class MathJaxComponent implements OnInit, OnChanges {
   ngOnChanges(): void {}
 
   updateTexString(){
-    this.mathjaxService.getTexFromFlask().then(response => this.texString = response );
+    // this.mathjaxService.getTexFromFlask().then(response => this.texString = response );
   }
 }

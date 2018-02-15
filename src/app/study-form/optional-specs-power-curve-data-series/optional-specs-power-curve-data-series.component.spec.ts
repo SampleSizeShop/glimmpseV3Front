@@ -6,7 +6,7 @@ import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StudyService} from '../study.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 
 describe('OptionalSpecsPowerCurveDataSeriesComponent', () => {
@@ -23,7 +23,7 @@ describe('OptionalSpecsPowerCurveDataSeriesComponent', () => {
       providers: [
         StudyService,
         {provide: Router, useClass: RouterStub},
-        {provide: Http, useClass: MockBackend},
+        {provide: HttpClient, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: ActivatedRoute, useClass: ActivatedRouteStub }
       ]

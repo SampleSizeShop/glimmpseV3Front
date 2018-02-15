@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {HttpModule} from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import {MathJaxService} from './mathjax/mathjax.service';
 import {MathJaxComponent} from './mathjax/mathjax.component';
 import {MathJaxDirective} from './mathjax/mathjax.directive';
@@ -104,7 +104,7 @@ import { CalculateComponent } from './study-form/calculate/calculate.component';
     BsDropdownModule.forRoot(),
     BrowserModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     StudyFormRoutingModule,
     AppRoutingModule

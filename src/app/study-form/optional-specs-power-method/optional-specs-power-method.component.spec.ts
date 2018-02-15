@@ -7,7 +7,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 
 describe('OptionalSpecsPowerMethodComponent', () => {
   let component: OptionalSpecsPowerMethodComponent;
@@ -23,7 +23,7 @@ describe('OptionalSpecsPowerMethodComponent', () => {
       providers: [
         StudyService,
         {provide: Router, useClass: RouterStub},
-        {provide: Http, useClass: MockBackend},
+        {provide: HttpClient, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: ActivatedRoute, useClass: ActivatedRouteStub }
       ]

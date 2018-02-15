@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BetweenIsuGroupsComponent } from './between-isu-groups.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../study.service';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
@@ -18,7 +18,7 @@ describe('BetweenIsuGroupsComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ BetweenIsuGroupsComponent ],
-      providers: [StudyService, { provide: Http, useClass: MockBackend }]
+      providers: [StudyService, { provide: HttpClient, useClass: MockBackend }]
     })
     .compileComponents();
   }));

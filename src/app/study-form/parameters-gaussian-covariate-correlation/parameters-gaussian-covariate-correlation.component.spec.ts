@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParametersGaussianCovariateCorrelationComponent } from './parameters-gaussian-covariate-correlation.component';
 import {MockBackend} from "@angular/http/testing";
-import {Http} from "@angular/http";
+import {HttpClient} from '@angular/common/http';
 import {StudyService} from "../study.service";
 
 describe('ParametersGaussianCovariateCorrelationComponent', () => {
@@ -14,7 +14,7 @@ describe('ParametersGaussianCovariateCorrelationComponent', () => {
       declarations: [ ParametersGaussianCovariateCorrelationComponent ],
       providers: [
         StudyService,
-        {provide: Http, useClass: MockBackend}]
+        {provide: HttpClient, useClass: MockBackend}]
     })
     .compileComponents();
   }));
