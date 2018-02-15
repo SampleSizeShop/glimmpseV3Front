@@ -53,8 +53,6 @@ import { OptionalSpecsPowerCurveChoiceComponent } from './study-form/optional-sp
 import { OptionalSpecsPowerCurveAxesComponent } from './study-form/optional-specs-power-curve-axes/optional-specs-power-curve-axes.component';
 import { OptionalSpecsPowerCurveDataSeriesComponent } from './study-form/optional-specs-power-curve-data-series/optional-specs-power-curve-data-series.component';
 import { CalculateComponent } from './study-form/calculate/calculate.component';
-import { HypothesisBetweenAdvancedComponent } from './study-form/hypothesis-between-advanced/hypothesis-between-advanced.component';
-import { HypothesisWithinAdvancedComponent } from './study-form/hypothesis-within-advanced/hypothesis-within-advanced.component';
 
 
 @NgModule({
@@ -98,9 +96,7 @@ import { HypothesisWithinAdvancedComponent } from './study-form/hypothesis-withi
     OptionalSpecsPowerCurveChoiceComponent,
     OptionalSpecsPowerCurveAxesComponent,
     OptionalSpecsPowerCurveDataSeriesComponent,
-    CalculateComponent,
-    HypothesisBetweenAdvancedComponent,
-    HypothesisWithinAdvancedComponent
+    CalculateComponent
   ],
   imports: [
     NgbModule.forRoot(),

@@ -45,9 +45,7 @@ import {OptionalSpecsCiAssumptionsComponent} from './optional-specs-ci-assumptio
 import {OptionalSpecsCiChoiceComponent} from './optional-specs-ci-choice/optional-specs-ci-choice.component';
 import {PowerCurveGuard} from '../shared/power-curve-guard.service';
 import {ConfidenceIntervalGuard} from '../shared/ci-guard.service';
-import {MarginalMeansGuard} from "./parameters-marginal-means/marginal-means-guard.service";
-import {HypothesisBetweenAdvancedComponent} from "./hypothesis-between-advanced/hypothesis-between-advanced.component";
-import {HypothesisWithinAdvancedComponent} from "./hypothesis-within-advanced/hypothesis-within-advanced.component";
+import {MarginalMeansGuard} from './parameters-marginal-means/marginal-means-guard.service';
 
 const studyFormRoutes: Routes = [
       {

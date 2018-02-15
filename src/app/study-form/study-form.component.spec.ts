@@ -115,7 +115,7 @@ describe('StudyFormComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
-
+  /**
   // TODO: Still valid?
   it('Should set the stage when next is called', () => {
     if ( component.stages ) {
@@ -140,7 +140,7 @@ describe('StudyFormComponent', () => {
     } else {
       expect(false)
     }
-  });
+  }); **/
 
   it('Should correctly set next and back boolean flags for the first stage', () => {
     getSpy.and.returnValue(1);

@@ -41,7 +41,11 @@ export class OptionalSpecsCiChoiceComponent implements OnInit {
   }
 
   get hasConfidenceInterval() {
-    return !isNullOrUndefined(this._powerCurve.confidenceInterval);
+    if (!isNullOrUndefined(this._powerCurve)) {
+      return !isNullOrUndefined(this._powerCurve.confidenceInterval);
+    } else {
+      return false;
+    }
   }
 
   get confidenceInterval(): PowerCurveConfidenceInterval {
