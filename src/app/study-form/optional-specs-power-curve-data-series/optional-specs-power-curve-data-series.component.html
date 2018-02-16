@@ -1,45 +1,73 @@
 <h5>Define your power curve data series using combinations of the quantities below:</h5>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-3">
-      <h6>Power</h6>
+    <div class="col-md-auto">
+      <div class="row" *ngIf="hasPower">
+        <div class="col-md-auto">
+          <div style="margin:5px; padding:5px;">
+            <label for="powerdropdown" style="font-size: 20px;">Power:</label>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="powerdropdown" ngbDropdownToggle>{{selectedPower}}</button>
+              <div ngbDropdownMenu aria-labelledby="powerdropdown">
+                <button class="dropdown-item" (click)="selectPower(power)">{{power}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-auto">
+          <div style="margin:5px; padding:5px;">
+            <label for="errordropdown" style="font-size: 20px;">Type I Error:</label>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="errordropdown" ngbDropdownToggle>{{selectedTypeOneErrorRate}}</button>
+              <div ngbDropdownMenu aria-labelledby="errordropdown">
+                <button class="dropdown-item" (click)="selectTypeOneErrorRate(typeOneErrorRate)">{{typeOneErrorRate}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="hasMeanScaleFactors">
+        <div class="col-md-auto">
+          <div style="margin:5px; padding:5px;">
+            <label class="label-primary"for="meanscalefactordropdown" style="font-size: 20px;">Mean Scale Factor:</label>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="meanscalefactordropdown" ngbDropdownToggle>{{selectedMeanScaleFactor}}</button>
+              <div ngbDropdownMenu aria-labelledby="meanscalefactordropdown">
+                <button class="dropdown-item" (click)="selectMeanScaleFactor(meanScaleFactor)">{{meanScaleFactor}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="hasVarianceScaleFactors">
+        <div class="col-md-auto">
+          <div style="margin:5px; padding:5px;">
+            <label for="varscalefactordropdown" style="font-size: 20px;">Variance Scale Factor:</label>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="varscalefactordropdown" ngbDropdownToggle>{{selectedVarianceScaleFactor}}</button>
+              <div ngbDropdownMenu aria-labelledby="varscalefactordropdown">
+                <button class="dropdown-item" *ngFor="let vsf of varianceScaleFactors" (click)="selectVarianceScaleFactor(vsf)">{{vsf}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-3">
-      <h6>Type I Error</h6>
-    </div>
-    <div class="col-3">
-      <h6>Mean Scale Facor</h6>
-    </div>
-    <div class="col-3">
-      <h6>Variance Scale Factor</h6>
+    <div class="col-md-auto">
+      <div style="margin:5px; padding:5px;">
+        <i class="material-icons"  style="margin-top: 10px" id="addoutcome" (click)="addDataSeries()">add</i>
+      </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-3">
-      <input type="checkbox"> 1
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 2
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 3
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 4
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-3">
-      <input type="checkbox"> 11
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 22
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 33
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 44
+  <div class="row" *ngFor="let series of powerCurve.dataSeries">
+    <div class="col-md-auto">{{series | json}}</div>
+    <div class="col col-md-auto">
+      <i class="material-icons" (click)="removeDataSeries(series)" style="margin-bottom: 5px" id="remove">remove</i>
     </div>
   </div>
 </div>
