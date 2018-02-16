@@ -1,45 +1,74 @@
 <h5>Define your power curve data series using combinations of the quantities below:</h5>
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-3">
-      <h6>Power</h6>
+    <div class="col-md-auto">
+      <div class="row">
+        <div class="col-md-auto">
+          <div style="margin:5px; padding:5px;">
+            <label for="powerdropdown" style="font-size: 20px;">Power:</label>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="powerdropdown" ngbDropdownToggle>1</button>
+              <div ngbDropdownMenu aria-labelledby="powerdropdown">
+                <button class="dropdown-item" >2</button>
+                <button class="dropdown-item" >3</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-auto">
+          <div style="margin:5px; padding:5px;">
+            <label for="powerdropdown" style="font-size: 20px;">Type I Error:</label>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="errordropdown" ngbDropdownToggle>1</button>
+              <div ngbDropdownMenu aria-labelledby="errordropdown">
+                <button class="dropdown-item" >2</button>
+                <button class="dropdown-item" >3</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-auto">
+          <div style="margin:5px; padding:5px;">
+            <label class="label-primary"for="powerdropdown" style="font-size: 20px;">Mean Scale Factor:</label>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="meanscalefactordropdown" ngbDropdownToggle>1</button>
+              <div ngbDropdownMenu aria-labelledby="meanscalefactordropdown">
+                <button class="dropdown-item" >2</button>
+                <button class="dropdown-item" >3</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-auto">
+          <div style="margin:5px; padding:5px;">
+            <label for="powerdropdown" style="font-size: 20px;">Variance Scale Factor:</label>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="varscalefactordropdown" ngbDropdownToggle>1</button>
+              <div ngbDropdownMenu aria-labelledby="varscalefactordropdown">
+                <button class="dropdown-item" >2</button>
+                <button class="dropdown-item" >3</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-3">
-      <h6>Type I Error</h6>
-    </div>
-    <div class="col-3">
-      <h6>Mean Scale Facor</h6>
-    </div>
-    <div class="col-3">
-      <h6>Variance Scale Factor</h6>
+    <div class="col-md-auto">
+      <div style="margin:5px; padding:5px;">
+        <i class="material-icons"  style="margin-top: 10px" id="addoutcome">add</i>
+      </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-3">
-      <input type="checkbox"> 1
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 2
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 3
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 4
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-3">
-      <input type="checkbox"> 11
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 22
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 33
-    </div>
-    <div class="col-3">
-      <input type="checkbox"> 44
-    </div>
+    <div class="col-md-auto">DATA SERIES SHOW UP HERE</div>
   </div>
 </div>
