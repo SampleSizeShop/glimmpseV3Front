@@ -3,6 +3,10 @@ import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
+import {PartialMatrix} from '../../shared/PartialMatrix';
+import {isNullOrUndefined} from 'util';
+import * as math from 'mathjs';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-hypothesis-within',
@@ -17,7 +21,11 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   private _withinHypothesisNatureSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
 
-  constructor(private study_service: StudyService) {
+  private _uOutcomes: PartialMatrix;
+  private _uRepeatedMeasures: PartialMatrix;
+  private _uCluster: number
+
+  constructor(private study_service: StudyService, private router: Router) {
     this.showAdvancedOptions = false;
 
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
@@ -34,19 +42,62 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     if (this.withinHypothesisNature !== this.HYPOTHESIS_NATURE.GLOBAL_TRENDS) {
       this.showAdvancedOptions = true;
     }
+    this.populateUOutcomes();
+    this.populateUClusters();
+    this.populateURepeatedMeasures();
   }
 
   ngOnDestroy() {
     this.withinHypothesisNatureSubscription.unsubscribe();
   }
 
-  isSelected(hypothesis: string): boolean {
-    return this.withinHypothesisNature === hypothesis;
+  populateUOutcomes() {
+    this._uOutcomes = new PartialMatrix(constants.C_MATRIX_TYPE.IDENTITY);
+    this._uOutcomes.populateIdentityMatrix(this.isuFactors.outcomes.length);
   }
 
-  selectHypothesisNature(type: string) {
-    this.withinHypothesisNature = type;
-    this.study_service.updateWithinHypothesisNature(this.withinHypothesisNature);
+  populateUClusters() {
+    this._uCluster = 1;
+    if (!isNullOrUndefined(this.isuFactors.cluster)) {
+      this.isuFactors.cluster.levels.forEach( level => {
+        this._uCluster =
+          this._uCluster * ( 1 + (level.noElements - 1) * level.intraClassCorellation ) * (1 / level.noElements);
+      });
+    }
+  }
+
+  populateURepeatedMeasures() {
+    if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) &&
+    this.isuFactors.repeatedMeasures.length > 0) {
+      this._uRepeatedMeasures = new PartialMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
+      this._uRepeatedMeasures.populateIdentityMatrix(1);
+      this.isuFactors.repeatedMeasures.forEach( measure => {
+        this._uRepeatedMeasures.values = this._uRepeatedMeasures.kronecker(measure.partialUMatrix);
+      });
+    } else {
+      this._uRepeatedMeasures = new PartialMatrix(constants.C_MATRIX_TYPE.IDENTITY);
+      this._uRepeatedMeasures.populateIdentityMatrix(1);
+    }
+  }
+
+  advancedOptions(name: string) {
+    this.router.navigate(['design', constants.STAGES[14], name])
+  }
+
+  setNature(name: string, nature: string) {
+    console.log( name + ' set: ' + nature );
+    this.isuFactors.repeatedMeasures.forEach( measure => {
+        if (measure.name === name) {
+          measure.isuFactorNature = nature;
+          measure.populatePartialMatrix();
+        }
+      }
+    );
+    this.populateURepeatedMeasures();
+  }
+
+  isSelected(hypothesis: string): boolean {
+    return this.withinHypothesisNature === hypothesis;
   }
 
   toggleAdvancedOptions() {
@@ -95,5 +146,33 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
 
   set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
+  }
+
+  get uOutcomes(): PartialMatrix {
+    return this._uOutcomes;
+  }
+
+  get uRepeatedMeasures(): PartialMatrix {
+    return this._uRepeatedMeasures;
+  }
+
+  get uCluster(): number {
+    return this._uCluster;
+  }
+
+  get uMatrix() {
+    let m = this.uOutcomes.kronecker(this.uRepeatedMeasures);
+    m = math.kron(m, math.matrix([this.uCluster]));
+    let texString = '$\\begin{bmatrix}';
+    let row = 0;
+    m.forEach(function (value, index, matrix) {
+      if (index[0] > row) {
+        row = index[0];
+        texString = texString.slice(0, texString.length - 2) + '\\\\';
+      }
+      texString = texString + value + ' & '
+    })
+    texString = texString.slice(0, texString.length - 2) + '\\end{bmatrix}$';
+    return texString;
   }
 }

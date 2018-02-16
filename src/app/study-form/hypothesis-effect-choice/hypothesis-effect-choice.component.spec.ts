@@ -5,10 +5,9 @@ import {ISUFactor} from '../../shared/ISUFactor';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
 import {StudyService} from '../study.service';
 import {ReactiveFormsModule} from '@angular/forms';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {constants} from '../../shared/constants';
-import {Component} from '@angular/core';
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;
@@ -18,7 +17,7 @@ describe('HypothesisEffectChoiceComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ HypothesisEffectChoiceComponent ],
-      providers: [StudyService, { provide: Http, useClass: MockBackend }]
+      providers: [StudyService, { provide: HttpClient, useClass: MockBackend }]
     })
     .compileComponents();
   }));

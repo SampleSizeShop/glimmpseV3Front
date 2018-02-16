@@ -5,7 +5,7 @@ import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../study.service';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 
 describe('GaussianCovariateComponent', () => {
@@ -16,7 +16,7 @@ describe('GaussianCovariateComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ GaussianCovariateComponent ],
-      providers: [StudyService, {provide: Http, useClass: MockBackend}]
+      providers: [StudyService, {provide: HttpClient, useClass: MockBackend}]
     })
     .compileComponents();
   }));

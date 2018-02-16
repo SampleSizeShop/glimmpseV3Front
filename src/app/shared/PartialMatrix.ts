@@ -2,7 +2,7 @@ import * as math from 'mathjs';
 import Matrix = mathjs.Matrix;
 import {constants} from './constants';
 
-export class CMatrix {
+export class PartialMatrix {
   private _values: Matrix;
   private _type: string;
   name = '';
@@ -14,7 +14,7 @@ export class CMatrix {
     }
   }
 
-  populateMainEffect(noGroups: number) {
+  populateCMainEffect(noGroups: number) {
     if (!Number.isInteger(noGroups)) {
       throw new Error('You have a fractional number of valueNames in your main effect. This is not a valid.');
     } else if (noGroups < 2) {
@@ -23,6 +23,19 @@ export class CMatrix {
       const ident = math.diag(Array(noGroups - 1).fill(-1), 'dense');
       const vec  = math.ones([noGroups - 1, 1]);
       this.values = math.matrix(math.concat(vec, ident));
+      console.log(this.values);
+    }
+  }
+
+  populateUMainEffect(noGroups: number) {
+    if (!Number.isInteger(noGroups)) {
+      throw new Error('You have a fractional number of valueNames in your main effect. This is not a valid.');
+    } else if (noGroups < 1) {
+      throw Error('You have less than 2 valueNames in your main effect. This is not valid.');
+    } else {
+      const ident = math.diag(Array(noGroups - 1).fill(-1), 'dense');
+      const vec  = math.transpose(math.ones([noGroups - 1, 1]));
+      this.values = math.matrix(math.concat(vec, ident, 0));
       console.log(this.values);
     }
   }
@@ -63,7 +76,7 @@ export class CMatrix {
     }
   }
 
-  kronecker (next: CMatrix): Matrix {
+  kronecker (next: PartialMatrix): Matrix {
     // return math.kron(this.values, next.values);
     return math.matrix([0]);
   }

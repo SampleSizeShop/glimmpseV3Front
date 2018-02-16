@@ -2,15 +2,15 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisBetweenComponent } from './hypothesis-between.component';
 import {MockBackend} from '@angular/http/testing';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {StudyService} from '../study.service';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {ReactiveFormsModule} from '@angular/forms';
-import {Component} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {Outcome} from 'app/shared/Outcome';
 import {Predictor} from '../../shared/Predictor';
-import {BetweenIsuGroupsComponent} from "../between-isu-groups/between-isu-groups.component";
+import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 
 describe('HypothesisBetweenComponent no factors', () => {
   let component: HypothesisBetweenComponent;
@@ -25,7 +25,11 @@ describe('HypothesisBetweenComponent no factors', () => {
         MathJaxDirective,
         HypothesisBetweenComponent
          ],
-      providers: [ StudyService, {provide: Http, useClass: MockBackend}]
+      providers: [
+        StudyService, {provide: HttpClient, useClass: MockBackend},
+        {provide: Router, useClass: RouterStub},
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub }
+        ]
     })
     .compileComponents();
   }));
@@ -54,7 +58,7 @@ describe('HypothesisBetweenComponent with Factors', () => {
 
   class MockISUFactors extends ISUFactors {
     constructor() {
-      super()
+      super();
       const outcome = new Outcome('outcome');
       const between1 = new Predictor('between1');
       const between2 = new Predictor('between2');
@@ -77,7 +81,11 @@ describe('HypothesisBetweenComponent with Factors', () => {
         MathJaxDirective,
         HypothesisBetweenComponent
          ],
-      providers: [ StudyService, {provide: Http, useClass: MockBackend}, {provide: ISUFactors, useClass: MockISUFactors}]
+      providers: [ StudyService,
+        {provide: HttpClient, useClass: MockBackend},
+        {provide: ISUFactors, useClass: MockISUFactors},
+        {provide: Router, useClass: RouterStub},
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub }]
     })
     .compileComponents();
   }));
@@ -90,15 +98,5 @@ describe('HypothesisBetweenComponent with Factors', () => {
 
   it('should create and calculate c matrix for one factor in hypothesis and one not', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should create and calculate c matrix for one factor in hypothesis and one not', () => {
-    component.selectHypothesisNature(component.HYPOTHESIS_NATURE.IDENTITY);
-    expect(component.texString === '\\begin{bmatrix}0.5 & 0 & 0.5 & 0 \\\\0 & 0.5 & 0 & 0.5 \\end{bmatrix}');
-  });
-
-  it('should create and calculate c matrix for one factor in hypothesis and one not', () => {
-    component.selectHypothesisNature(component.HYPOTHESIS_NATURE.POLYNOMIAL);
-    expect(component.texString === '\\begin{bmatrix}-0.5 & 0.5 & -0.5 & 0.5 \\end{bmatrix}');
   });
 });

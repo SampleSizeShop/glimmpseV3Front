@@ -1,12 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParametersMarginalMeansComponent } from './parameters-marginal-means.component';
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../study.service';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
-import {Component} from '@angular/core';
-import {ISUFactors} from '../../shared/ISUFactors';
 
 describe('ParametersMarginalMeansComponent', () => {
   let component: ParametersMarginalMeansComponent;
@@ -16,7 +14,7 @@ describe('ParametersMarginalMeansComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ ParametersMarginalMeansComponent ],
-      providers: [StudyService, { provide: Http, useClass: MockBackend }]
+      providers: [StudyService, { provide: HttpClient, useClass: MockBackend }]
     })
     .compileComponents();
   }));

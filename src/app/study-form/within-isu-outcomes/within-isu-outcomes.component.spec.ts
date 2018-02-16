@@ -7,7 +7,7 @@ import {By} from '@angular/platform-browser';
 import {NavigationService} from '../../shared/navigation.service';
 import {StudyService} from '../study.service';
 import {MockBackend} from '@angular/http/testing';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {Outcome} from "../../shared/Outcome";
 
 describe('WithinIsuOutcomesComponent', () => {
@@ -18,7 +18,7 @@ describe('WithinIsuOutcomesComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ WithinIsuOutcomesComponent ],
-      providers: [StudyService, {provide: Http, useClass: MockBackend}, NavigationService]
+      providers: [StudyService, {provide: HttpClient, useClass: MockBackend}, NavigationService]
     })
     .compileComponents();
   }));

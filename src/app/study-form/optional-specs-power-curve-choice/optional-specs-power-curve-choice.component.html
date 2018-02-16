@@ -1,0 +1,28 @@
+<div class="container-fluid"  *ngIf="!hasPowerCurve">
+  <div class="row">
+    <h5>Would you like to create a power curve?</h5>
+  </div>
+  <div class="row">
+    <div class="btn-group" data-toggle="buttons">
+      <label aria-pressed="true" class="btn btn-primary" id="curvebtn">
+        <input type="radio" id="curvebtninput" (click)="createPowerCurve()"> Create a power curve
+      </label>
+    </div>
+  </div>
+</div>
+<div *ngIf="hasPowerCurve">
+  <h5>Power Curve:</h5>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col col-md-auto">
+        {{powerCurve | json}}
+      </div>
+      <div class="col col-md-auto">
+        <i class="material-icons" (click)="removePowerCurve()" style="margin-bottom: 5px" id="removepowercurve">remove</i>
+      </div>
+      <div class="col  col-md-auto">
+        <i class="material-icons" (click)="editPowerCurve()" style="margin-bottom: 5px" id="editpowercurve">create</i>
+      </div>
+    </div>
+  </div>
+</div>

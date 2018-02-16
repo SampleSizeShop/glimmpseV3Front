@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParametersIntraClassCorrelationComponent } from './parameters-intra-class-correlation.component';
 import {StudyService} from '../study.service';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 
 describe('ParametersIntraClassCorrelationComponent', () => {
@@ -14,7 +14,7 @@ describe('ParametersIntraClassCorrelationComponent', () => {
       declarations: [ ParametersIntraClassCorrelationComponent ],
       providers: [
         StudyService,
-        { provide: Http, useClass: MockBackend}
+        { provide: HttpClient, useClass: MockBackend}
         ]
     })
     .compileComponents();

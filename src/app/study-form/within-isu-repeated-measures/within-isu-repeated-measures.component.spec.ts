@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { WithinIsuRepeatedMeasuresComponent } from './within-isu-repeated-measures.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../study.service';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {NavigationService} from '../../shared/navigation.service';
 import {DebugElement} from '@angular/core';
@@ -17,7 +17,7 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ WithinIsuRepeatedMeasuresComponent ],
-      providers: [StudyService, {provide: Http, useClass: MockBackend}, NavigationService]
+      providers: [StudyService, {provide: HttpClient, useClass: MockBackend}, NavigationService]
     })
     .compileComponents();
   }));

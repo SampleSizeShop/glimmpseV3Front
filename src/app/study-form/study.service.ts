@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -13,6 +13,7 @@ import {ISUFactor} from '../shared/ISUFactor';
 import {Outcome} from '../shared/Outcome';
 import {Predictor} from '../shared/Predictor';
 import {ISUFactors} from '../shared/ISUFactors';
+import {PowerCurve} from '../shared/PowerCurve';
 
 @Injectable()
 export class StudyService {
@@ -74,8 +75,14 @@ export class StudyService {
   private _hypothesisEffectSource = new BehaviorSubject<HypothesisEffect>(null);
   private _hypothesisEffect$ = this._hypothesisEffectSource.asObservable();
 
+  private _varianceScaleFactorsSource = new BehaviorSubject<Array<number>>([]);
+  private _varianceScaleFactors$ = this._varianceScaleFactorsSource.asObservable();
+
   private _scaleFactorSource = new BehaviorSubject<number>(1);
   private _scaleFactor$ = this._scaleFactorSource.asObservable();
+
+  private _powerCurveSource = new BehaviorSubject<PowerCurve>(null);
+  private _powerCurve$ = this._powerCurveSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -151,7 +158,15 @@ export class StudyService {
     this._scaleFactorSource.next(scaleFactor);
   }
 
-  constructor(private  http: Http) {
+  updateVarianceScaleFactors(varianceScaleFactors: Array<number>) {
+    this._varianceScaleFactorsSource.next(varianceScaleFactors);
+  }
+
+  updatePowerCurve(powerCurve: PowerCurve) {
+    this._powerCurveSource.next(powerCurve);
+  }
+
+  constructor(private  http: HttpClient) {
     this._stages = constants.STAGES;
     this._stage = 1;
   }
@@ -349,6 +364,22 @@ export class StudyService {
 
   set scaleFactor$(value: Observable<number>) {
     this._scaleFactor$ = value;
+  }
+
+  get varianceScaleFactors$(): Observable<Array<number>> {
+    return this._varianceScaleFactors$;
+  }
+
+  set varianceScaleFactors$(value: Observable<Array<number>>) {
+    this._varianceScaleFactors$ = value;
+  }
+
+  get powerCurve$(): Observable<PowerCurve> {
+    return this._powerCurve$;
+  }
+
+  set powerCurve$(value: Observable<PowerCurve>) {
+    this._powerCurve$ = value;
   }
 }
 

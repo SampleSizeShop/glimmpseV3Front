@@ -35,9 +35,10 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _betweenIsuPredictorsSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
-  private _betweenHypothesisNatureSubscription: Subscription;
-  private _withinHypothesisNatureSubscription: Subscription;
   private _hypothesisEffectSubscription: Subscription;
+  private _scaleFactorSubscription: Subscription;
+  private _varianceScaleFactorsSubscription: Subscription;
+  private _powerCurveSubscription: Subscription;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -59,11 +60,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.subscribeToNavigationService();
   }
 
-  next(): void {
+  next(stage?: number): void {
     if (this.childComponentNav &&  this.valid) {
       this.navigation_service.updateNavigation('NEXT');
     } else {
-      const current = this.getStage();
+      let current = this.getStage();
+      if (stage) {
+        current = stage;
+      }
       if ( current <= this._noStages &&  this.valid ) {
         if (current === 9
           && (isNullOrUndefined(this.study.isuFactors)
@@ -76,20 +80,30 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.setStage(19);
           this.parameters = [];
           this.parameters.push(this.study.isuFactors.firstOutcome.name);
+          this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
         } else if (
             current === 19
             && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
             && this.study.isuFactors.repeatedMeasures.length > 0) {
-          const currentName = this.parameters.pop();
-          const next = this.study.isuFactors.getNextOutcome(currentName);
-          if (!isNullOrUndefined(next)) {
+
+          const currentMeasureName = this.parameters.pop();
+          const nextMeasure = this.study.isuFactors.getNextRepeatedMeasure(currentMeasureName);
+          const currentOutcomeName = this.parameters.pop();
+          const nextOutcome = this.study.isuFactors.getNextOutcome(currentOutcomeName);
+          this.parameters = [];
+          if (!isNullOrUndefined(nextMeasure)) {
             // next outcome/repeates measure standard deviation
-            this.parameters.push(next.name);
+            this.parameters.push(currentOutcomeName);
+            this.parameters.push(nextMeasure.name);
+            this.setStage(19);
+          } else if (!isNullOrUndefined(nextOutcome)) {
+            // next outcome/repeates measure standard deviation
+            this.parameters.push(nextOutcome.name);
+            this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
             this.setStage(19);
           } else {
             // first repeated measure correlation
             this.setStage(20);
-            this.parameters = [];
             this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
           }
         } else if (current === 20) {
@@ -99,39 +113,66 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
             this.parameters.push(next.name);
             this.setStage(20);
           } else {
+            this.parameters = [];
             this.setStage(21);
           }
+        } else if (current === 26) {
+          this.setStage(35);
+        } else if (current === 29) {
+          this.setStage(26);
+        } else if (current === 34) {
+          this.setStage(29);
         } else {
           this.setStage( current + 1 );
         }
-        this.navigate(this.study_service.stage);
+        this.navigate(this.study_service.stage, 'NEXT');
         this.setNextBack();
       }
     }
   }
 
-  private navigate(stage: number) {
+  private navigate(stage: number, direction: string) {
     let params = ['design', constants.STAGES[stage]];
     params = params.concat(this.parameters);
     console.log(params);
-    this.router.navigate(params);
+    const success = this.router.navigate(params);
+    success.then( loaded => {
+      if ( !loaded) {
+        if (direction === 'NEXT') {
+          this.next( stage );
+        } else if ( direction === 'BACK') {
+          this.back( stage );
+        }
+      }
+    });
   }
 
-  back(): void {
+  back(stage?: number): void {
     if (this.childComponentNav) {
       this.navigation_service.updateNavigation('BACK');
     } else {
-      const current = this.getStage();
+      let current = this.getStage();
+      if (stage) {
+        current = stage;
+      }
       if (current > 1 && this.guided) {
         if (current === 11
           && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(9)
         } else if (current === 19) {
-          const currentName = this.parameters.pop();
-          const previous = this.study.isuFactors.getPreviousOutcome(currentName);
-          if (!isNullOrUndefined(previous)) {
-            this.parameters.push(previous.name);
+          const currentMeasure = this.parameters.pop();
+          const currentOutcome = this.parameters.pop();
+          const previousMeasure = this.study.isuFactors.getPreviousRepeatedMeasure(currentMeasure);
+          const previousOutcome = this.study.isuFactors.getPreviousOutcome(currentOutcome);
+          this.parameters = [];
+          if (!isNullOrUndefined(previousMeasure)) {
+            this.parameters.push(currentOutcome);
+            this.parameters.push(previousMeasure.name);
+            this.setStage(19);
+          } else if (!isNullOrUndefined(previousOutcome)) {
+            this.parameters.push(previousOutcome.name);
+            this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
             this.setStage(19);
           } else {
             this.setStage(18);
@@ -139,12 +180,19 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         } else if (current === 20) {
           const currentName = this.parameters.pop();
           const previous = this.study.isuFactors.getPreviousRepeatedMeasure(currentName);
+          this.parameters = [];
           if (!isNullOrUndefined(previous)) {
             this.parameters.push(previous.name);
             this.setStage(20);
           } else {
-            this.parameters = [];
-            this.parameters.push(this.study.isuFactors.lastOutcome.name);
+            const lastOutcome = this.study.isuFactors.lastOutcome;
+            const lastMeasure = this.study.isuFactors.lastRepeatedMeasure;
+            if (
+              !isNullOrUndefined(lastOutcome) &&
+              !isNullOrUndefined(lastMeasure)) {
+              this.parameters.push(lastOutcome.name);
+              this.parameters.push(lastMeasure.name);
+            }
             this.setStage(19);
           }
         } else if (current === 21
@@ -153,11 +201,13 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.setStage(20);
           this.parameters = [];
           this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
+        } else if (current === 35) {
+          this.setStage(26);
         } else {
           this.setStage(current - 1);
         }
       }
-      this.navigate(this.study_service.stage);
+      this.navigate(this.study_service.stage, 'BACK');
       this.setNextBack();
       this.valid = true;
     }
@@ -416,28 +466,36 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._gaussianCovariateSubscription = value;
   }
 
-  get betweenHypothesisNatureSubscription(): Subscription {
-    return this._betweenHypothesisNatureSubscription;
-  }
-
-  set betweenHypothesisNatureSubscription(value: Subscription) {
-    this._betweenHypothesisNatureSubscription = value;
-  }
-
-  get withinHypothesisNatureSubscription(): Subscription {
-    return this._withinHypothesisNatureSubscription;
-  }
-
-  set withinHypothesisNatureSubscription(value: Subscription) {
-    this._withinHypothesisNatureSubscription = value;
-  }
-
   get hypothesisEffectSubscription(): Subscription {
     return this._hypothesisEffectSubscription;
   }
 
   set hypothesisEffectSubscription(value: Subscription) {
     this._hypothesisEffectSubscription = value;
+  }
+
+  get scaleFactorSubscription(): Subscription {
+    return this._scaleFactorSubscription;
+  }
+
+  set scaleFactorSubscription(value: Subscription) {
+    this._scaleFactorSubscription = value;
+  }
+
+  get varianceScaleFactorsSubscription(): Subscription {
+    return this._varianceScaleFactorsSubscription;
+  }
+
+  set varianceScaleFactorsSubscription(value: Subscription) {
+    this._varianceScaleFactorsSubscription = value;
+  }
+
+  get powerCurveSubscription(): Subscription {
+    return this._powerCurveSubscription;
+  }
+
+  set powerCurveSubscription(value: Subscription) {
+    this._powerCurveSubscription = value;
   }
 
   subscribeToStudyService() {
@@ -535,23 +593,30 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       }
     );
 
-    this.withinHypothesisNatureSubscription = this.study_service.withinHypothesisNature$.subscribe(
-      withinHypothesisNature => {
-        this.study.withinHypothesisNature = withinHypothesisNature;
-      }
-    );
-
-    this.betweenHypothesisNatureSubscription = this.study_service.betweenHypothesisNature$.subscribe(
-      betweenHypothesisNature => {
-        this.study.betweenHypothesisNature = betweenHypothesisNature;
-      }
-    );
-
     this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
       hypothesisEffect => {
         this.study.isuFactors.updateHypothesis(hypothesisEffect);
         this.study.checkDependencies();
         this.updateISUFactors();
+      }
+    );
+
+    this.scaleFactorSubscription = this.study_service.scaleFactor$.subscribe(
+      scaleFactor => {
+        this.study.scaleFactor = scaleFactor;
+      }
+    );
+
+    this.varianceScaleFactorsSubscription = this.study_service.varianceScaleFactors$.subscribe(
+      scaleFactors => {
+        this.study.varianceScaleFactors = scaleFactors;
+      }
+    );
+
+    this.powerCurveSubscription = this.study_service.powerCurve$.subscribe(
+      powerCurve => {
+        this.study.checkDependencies();
+        this.study.powerCurve = powerCurve;
       }
     );
   };
@@ -575,9 +640,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.betweenIsuPredictorsSubscription.unsubscribe();
     this.isuFactorsSubscription.unsubscribe();
     this.gaussianCovariateSubscription.unsubscribe();
-    this.betweenHypothesisNatureSubscription.unsubscribe();
-    this.withinHypothesisNatureSubscription.unsubscribe();
     this.hypothesisEffectSubscription.unsubscribe();
+    this.scaleFactorSubscription.unsubscribe();
+    this.varianceScaleFactorsSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {

@@ -1,7 +1,6 @@
 import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
-import {isNullOrUndefined} from "util";
 
 export class Predictor extends ISUFactor {
 

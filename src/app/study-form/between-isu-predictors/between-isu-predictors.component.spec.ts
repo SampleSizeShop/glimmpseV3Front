@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BetweenIsuPredictorsComponent } from './between-isu-predictors.component';
 import {StudyService} from '../study.service';
-import {Http} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ISUFactors} from '../../shared/ISUFactors';
@@ -36,7 +36,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ BetweenIsuPredictorsComponent ],
-      providers: [StudyService, { provide: Http, useClass: MockBackend }, NavigationService]
+      providers: [StudyService, { provide: HttpClient, useClass: MockBackend }, NavigationService]
     })
     .compileComponents();
   }));

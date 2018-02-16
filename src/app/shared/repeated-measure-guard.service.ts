@@ -5,6 +5,7 @@ import {StudyService} from '../study-form/study.service';
 import {ISUFactors} from './ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {isNullOrUndefined} from 'util';
+import {NavigationService} from "./navigation.service";
 
 @Injectable()
 export class RepeatedMeasureGuard implements CanActivate {
@@ -28,16 +29,7 @@ export class RepeatedMeasureGuard implements CanActivate {
     ) {
       return true;
     } else {
-      const stage = this.study_service.getStageFromName(route.url.toString());
-      const next = constants.STAGES[stage + 1];
-      if (!isNullOrUndefined(next)) {
-        this.navigate(stage + 1);
-      }
       return false;
     }
-  }
-
-  private navigate(stage: number) {
-    this.router.navigate(['design', constants.STAGES[stage]]);
   }
 }

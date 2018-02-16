@@ -7,7 +7,7 @@ import {Cluster} from './Cluster';
 import {constants} from './constants';
 import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
-import {HypothesisEffect} from "./HypothesisEffect";
+import {HypothesisEffect} from './HypothesisEffect';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
@@ -39,7 +39,7 @@ export class ISUFactors {
   }
 
   updateOutcomes(newOutcomes: Array<Outcome>) {
-    this.variables = this._updateListOfISUFactors(newOutcomes);
+    this.variables = this._updateListOfISUFactors(newOutcomes, 'Outcome');
   }
 
   get firstOutcome(): Outcome {
@@ -135,7 +135,7 @@ export class ISUFactors {
   }
 
   updateRepeatedMeasures(newRepeatedMeasures: Array<RepeatedMeasure>) {
-    this.variables = this._updateListOfISUFactors(newRepeatedMeasures);
+    this.variables = this._updateListOfISUFactors(newRepeatedMeasures, 'RepeatedMeasure');
   }
 
   get cluster(): Cluster {
@@ -148,15 +148,57 @@ export class ISUFactors {
   }
 
   updateCluster(newCluster: Cluster) {
-    this.variables = this._updateListOfISUFactors([newCluster]);
+    this.variables = this._updateListOfISUFactors([newCluster], 'Cluster');
   }
 
   get predictors(): Array<Predictor> {
     return this.getFactorsByType(Predictor);
   }
 
+  get firstPredictor(): Predictor {
+    let predictor: Predictor = null;
+    if (!isNullOrUndefined(this.predictors)) {
+      predictor = this.predictors[0];
+    }
+    return predictor;
+  }
+
+  get lastPredictor(): Predictor {
+    let predictor: Predictor = null;
+    if (!isNullOrUndefined(this.repeatedMeasures)) {
+      predictor = this.predictors[this.predictors.length - 1 ];
+    }
+    return predictor;
+  }
+
+  getNextPredictor(name: string): Predictor {
+    let predictor = this.predictors.find(
+      nextPredictor => nextPredictor.name === name
+    );
+    const nextIndex = this.predictors.indexOf(predictor) + 1;
+    if (nextIndex < this.predictors.length) {
+      predictor = this.predictors[nextIndex];
+    } else {
+      predictor = null;
+    }
+    return predictor
+  }
+
+  getPreviousPredictor(name: string): Predictor {
+    let predictor = this.predictors.find(
+      prevPredictor => prevPredictor.name === name
+    );
+    const previousIndex = this.predictors.indexOf(predictor) - 1;
+    if (previousIndex >= 0) {
+      predictor = this.predictors[previousIndex];
+    } else {
+      predictor = null;
+    }
+    return predictor
+  }
+
   updatePredictors(newPredictors: Array<Predictor>) {
-    this.variables = this._updateListOfISUFactors(newPredictors);
+    this.variables = this._updateListOfISUFactors(newPredictors, 'Predictor');
   }
 
   getFactorsByType( type ) {
@@ -179,11 +221,15 @@ export class ISUFactors {
     return array;
   }
 
-  _updateListOfISUFactors<K extends ISUFactor>(newFactors: Array<K>): Array<ISUFactor> {
+  _updateListOfISUFactors<K extends ISUFactor>(newFactors: Array<K>,  type?: string): Array<ISUFactor> {
     const toDelete = [];
+    if (!type && !isNullOrUndefined(newFactors[0])) {
+      type = newFactors[0].constructor.name
+    }
+    // Delete each variable of type K
     this.variables.forEach(variable => {
-      if (isNullOrUndefined(variable) ||
-        (!isNullOrUndefined(newFactors[0]) && variable.constructor.name === newFactors[0].constructor.name)) {
+      if (isNullOrUndefined(variable) || variable.constructor.name === type
+        ) {
         const index = this.variables.indexOf(variable);
         if (index !== -1 || isNullOrUndefined(variable)) {
           toDelete.push(index);
@@ -194,6 +240,8 @@ export class ISUFactors {
     toDelete.forEach( index => {
       this.variables.splice(index, 1);
     });
+
+    // Add the new list
     return this.variables.concat(newFactors);
   }
 

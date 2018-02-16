@@ -3,9 +3,14 @@
   <div class="row">
     <div class="col">
       <div class="btn-group-vertical btn-block" data-toggle="buttons">
-        <label class="btn btn-primary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(HYPOTHESIS_NATURE.GLOBAL_TRENDS)">
-          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.GLOBAL_TRENDS)">Global Trends
-        </label>
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-primary dropdown-toggle" id="dropdownBasic2" ngbDropdownToggle>{{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+            <button class="dropdown-item">{{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
+            <button class="dropdown-item">{{HYPOTHESIS_NATURE.IDENTITY}}</button>
+            <button class="dropdown-item">{{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+          </div>
+        </div>
       </div>
       <br>
       <br>
@@ -19,23 +24,49 @@
       </div>
       <br>
       <br>
-      <div class="btn-group-vertical btn-block" data-toggle="buttons">
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.ALL_PAIRWISE)" *ngIf="showAdvancedOptions">
-          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.ALL_PAIRWISE)">All Pairwise
-        </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.SUCCESSIVE_PAIRS)" *ngIf="showAdvancedOptions">
-          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.SUCCESSIVE_PAIRS)">Successive Pairs
-        </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.IDENTITY)" *ngIf="showAdvancedOptions">
-          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)">Identity
-        </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="showAdvancedOptions">
-          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)">Polynomial
-        </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(HYPOTHESIS_NATURE.USER_DEFINED)" *ngIf="showAdvancedOptions">
-          <input type="checkbox" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED)">User Specified
-        </label>
+      <div class="btn-group-vertical btn-block" data-toggle="buttons" *ngIf="showAdvancedOptions">
+        <h6>Click on any of the partials below to customise them:</h6>
+        <div class="container-fluid">
+          <div class="row" *ngFor="let measure of isuFactors.repeatedMeasures">
+            <div class="col col-md-auto">
+              <h6>{{measure.name}}:</h6>
+            </div>
+            <div class="col col-md-auto">
+              <div ngbDropdown class="d-inline-block">
+                <button class="btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{measure.isuFactorNature}}</button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button class="dropdown-item" (click)="setNature(measure.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
+                  <button class="dropdown-item" (click)="setNature(measure.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
+                  <button class="dropdown-item" (click)="setNature(measure.name, HYPOTHESIS_NATURE.POLYNOMIAL)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+                </div>
+              </div>
+            </div>
+            <div class="col  col-md-auto">
+              <i class="material-icons" (click)="advancedOptions(measure.name)" style="margin-bottom: 5px" id="editmeasure">create</i>
+            </div>
+          </div>
+        </div>
       </div>
+
+
+      <br>
+      <br>
+
+      <h6>Uo</h6>
+      <div [mathJaxExpr]="uOutcomes.toTeX()"></div>
+      <br>
+
+      <h6>Uc</h6>
+      <div [mathJaxExpr]="uCluster"></div>
+      <br>
+
+      <h6>Ur</h6>
+      <div [mathJaxExpr]="uRepeatedMeasures.toTeX()"></div>
+
+      <br>
+      <h6>U Matrix</h6>
+      <div [mathJaxExpr]="uMatrix"></div>
+
     </div>
     <div class="col">
       <div class="card">

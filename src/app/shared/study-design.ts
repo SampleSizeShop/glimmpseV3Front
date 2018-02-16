@@ -4,6 +4,7 @@ import {HypothesisEffect} from './HypothesisEffect';
 import {isNullOrUndefined} from 'util';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
+import {PowerCurve} from "./PowerCurve";
 
 export class StudyDesign {
   private _name: string;
@@ -16,9 +17,9 @@ export class StudyDesign {
   private _typeOneErrorRate: number;
   private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
-  private _betweenHypothesisNature: string;
-  private _withinHypothesisNature: string;
   private _scaleFactor: number;
+  private _varianceScaleFactors: number[];
+  private _powerCurve: PowerCurve;
 
   constructor(name?: string,
               guided?: boolean,
@@ -31,10 +32,10 @@ export class StudyDesign {
               typeOneErrorRate?: number,
               isuFactors?: ISUFactors,
               gaussianCovariates?: GaussianCovariate,
-              betweenHypothesisNature?: string,
-              withinHypothesisNature?: string,
               hypothesisEffect?: HypothesisEffect,
               scaleFactor?: number,
+              varianceScaleFactors?: number[],
+              powerCurve?: PowerCurve
 ) {
     this.isuFactors = new ISUFactors();
   }
@@ -204,27 +205,27 @@ export class StudyDesign {
     this._gaussianCovariate = value;
   }
 
-  get betweenHypothesisNature(): string {
-    return this._betweenHypothesisNature;
-  }
-
-  set betweenHypothesisNature(value: string) {
-    this._betweenHypothesisNature = value;
-  }
-
-  get withinHypothesisNature(): string {
-    return this._withinHypothesisNature;
-  }
-
-  set withinHypothesisNature(value: string) {
-    this._withinHypothesisNature = value;
-  }
-
   get scaleFactor(): number {
     return this._scaleFactor;
   }
 
   set scaleFactor(value: number) {
     this._scaleFactor = value;
+  }
+
+  get varianceScaleFactors(): number[] {
+    return this._varianceScaleFactors;
+  }
+
+  set varianceScaleFactors(value: number[]) {
+    this._varianceScaleFactors = value;
+  }
+
+  get powerCurve(): PowerCurve {
+    return this._powerCurve;
+  }
+
+  set powerCurve(value: PowerCurve) {
+    this._powerCurve = value;
   }
 }

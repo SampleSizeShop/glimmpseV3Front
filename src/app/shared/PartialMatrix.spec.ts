@@ -1,32 +1,32 @@
-import {CMatrix} from './CMatrix';
+import {PartialMatrix} from './PartialMatrix';
 
-describe('CMatrix', () => {
-  let component: CMatrix;
+describe('PartialMatrix', () => {
+  let component: PartialMatrix;
 
-  beforeEach( () => { component = new CMatrix(); });
+  beforeEach( () => { component = new PartialMatrix(); });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
   it('Should be matrix with one row and two columns', () => {
-    component.populateMainEffect(2);
+    component.populateCMainEffect(2);
     expect(component.values.get([0, 0])).toEqual(1);
     expect(component.values.get([0, 1])).toEqual(-1);
   });
 
   it('Should return a TeX formatted string', () => {
-    component.populateMainEffect(2);
+    component.populateCMainEffect(2);
     expect(component.toTeX()).toEqual('$\\begin{bmatrix}1 & -1 \\end{bmatrix}$');
   });
 
   it('Should return a TeX formatted string', () => {
-    component.populateMainEffect(3);
+    component.populateCMainEffect(3);
     expect(component.toTeX()).toEqual('$\\begin{bmatrix}1 & -1 & 0 \\\\1 & 0 & -1 \\end{bmatrix}$');
   });
 
   it('Should be matrix with three rows and four columns', () => {
-    component.populateMainEffect(4);
+    component.populateCMainEffect(4);
     expect(component.values.get([0, 0])).toEqual(1);
     expect(component.values.get([0, 1])).toEqual(-1);
     expect(component.values.get([0, 2])).toEqual(0);
