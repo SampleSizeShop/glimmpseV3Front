@@ -7,10 +7,9 @@
           <div style="margin:5px; padding:5px;">
             <label for="powerdropdown" style="font-size: 20px;">Power:</label>
             <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-secondary dropdown-toggle btn-sm" id="powerdropdown" ngbDropdownToggle>1</button>
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="powerdropdown" ngbDropdownToggle>{{selectedPower}}</button>
               <div ngbDropdownMenu aria-labelledby="powerdropdown">
-                <button class="dropdown-item" >2</button>
-                <button class="dropdown-item" >3</button>
+                <button class="dropdown-item">{{power}}</button>
               </div>
             </div>
           </div>
@@ -22,10 +21,9 @@
           <div style="margin:5px; padding:5px;">
             <label for="errordropdown" style="font-size: 20px;">Type I Error:</label>
             <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-secondary dropdown-toggle btn-sm" id="errordropdown" ngbDropdownToggle>1</button>
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="errordropdown" ngbDropdownToggle>{{selectedTypeOneErrorRate}}</button>
               <div ngbDropdownMenu aria-labelledby="errordropdown">
-                <button class="dropdown-item" >2</button>
-                <button class="dropdown-item" >3</button>
+                <button class="dropdown-item" >{{typeOneErrorRate()}}</button>
               </div>
             </div>
           </div>
@@ -37,10 +35,9 @@
           <div style="margin:5px; padding:5px;">
             <label class="label-primary"for="meanscalefactordropdown" style="font-size: 20px;">Mean Scale Factor:</label>
             <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-secondary dropdown-toggle btn-sm" id="meanscalefactordropdown" ngbDropdownToggle>1</button>
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="meanscalefactordropdown" ngbDropdownToggle>{{selectedMeanScaleFactor}}</button>
               <div ngbDropdownMenu aria-labelledby="meanscalefactordropdown">
-                <button class="dropdown-item" >2</button>
-                <button class="dropdown-item" >3</button>
+                <button class="dropdown-item" >{{meanScaleFactor}}</button>
               </div>
             </div>
           </div>
@@ -52,10 +49,9 @@
           <div style="margin:5px; padding:5px;">
             <label for="varscalefactordropdown" style="font-size: 20px;">Variance Scale Factor:</label>
             <div ngbDropdown class="d-inline-block">
-              <button class="btn btn-secondary dropdown-toggle btn-sm" id="varscalefactordropdown" ngbDropdownToggle>1</button>
+              <button class="btn btn-secondary dropdown-toggle btn-sm" id="varscalefactordropdown" ngbDropdownToggle>{{selectedVarianceScaleFactor}}</button>
               <div ngbDropdownMenu aria-labelledby="varscalefactordropdown">
-                <button class="dropdown-item" >2</button>
-                <button class="dropdown-item" >3</button>
+                <button class="dropdown-item" *ngFor="let vsf of varianceScaleFactors">{{vsf}}</button>
               </div>
             </div>
           </div>

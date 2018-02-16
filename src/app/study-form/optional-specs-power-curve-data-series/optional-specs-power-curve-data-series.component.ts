@@ -22,35 +22,43 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
   private _meanScaleFactor: number;
   private _varianceScaleFactors: number[];
 
+  private _selectedPower: number;
+  private _selectedTypeOneErrorRate: number;
+  private _selectedMeanScaleFactor: number;
+  private _selectedVarianceScaleFactor: number;
+
   private hasPower: boolean;
   private hasMeanScaleFactors: boolean;
   private hasVarianceScaleFactors: boolean;
 
   constructor(private study_service: StudyService) {
-    this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
-      solveFor => {
-        this.solveFor = solveFor;
-        if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE) {
-          this.hasPower = true;
-        } else {
-          this.hasPower = false;
-        }
-      }
-    );
     this.powerSubscription = this.study_service.power$.subscribe(
       power => {
         this.power = power;
       }
     );
+    this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
+      solveFor => {
+        this.solveFor = solveFor;
+        if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE) {
+          this.hasPower = true;
+          this.selectedPower = this.power;
+        } else {
+          this.hasPower = false;
+        }
+      }
+    );
     this.typeOneErrorRateSubscription = this.study_service.typeOneErrorRate$.subscribe(
       typeOneErrorRate => {
         this.typeOneErrorRate = typeOneErrorRate
+        this.selectedTypeOneErrorRate = this.typeOneErrorRate;
       });
     this.meanScaleFactorSubscription = this.study_service.scaleFactor$.subscribe(
       scaleFactor => {
         this.meanScaleFactor = scaleFactor
         if (!isNullOrUndefined(this.meanScaleFactor)) {
           this.hasMeanScaleFactors = true;
+          this.selectedMeanScaleFactor = this.meanScaleFactor;
         } else {
           this.hasMeanScaleFactors = false;
         }
@@ -61,6 +69,7 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
         this.varianceScaleFactors = factors;
         if (!isNullOrUndefined(this.varianceScaleFactors) && this.varianceScaleFactors.length > 0) {
           this.hasVarianceScaleFactors = true;
+          this.selectedVarianceScaleFactor = this.varianceScaleFactors[0];
         } else {
           this.hasVarianceScaleFactors = false;
         }
@@ -157,5 +166,37 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
 
   set varianceScaleFactors(value: number[]) {
     this._varianceScaleFactors = value;
+  }
+
+  get selectedPower(): number {
+    return this._selectedPower;
+  }
+
+  set selectedPower(value: number) {
+    this._selectedPower = value;
+  }
+
+  get selectedTypeOneErrorRate(): number {
+    return this._selectedTypeOneErrorRate;
+  }
+
+  set selectedTypeOneErrorRate(value: number) {
+    this._selectedTypeOneErrorRate = value;
+  }
+
+  get selectedMeanScaleFactor(): number {
+    return this._selectedMeanScaleFactor;
+  }
+
+  set selectedMeanScaleFactor(value: number) {
+    this._selectedMeanScaleFactor = value;
+  }
+
+  get selectedVarianceScaleFactor(): number {
+    return this._selectedVarianceScaleFactor;
+  }
+
+  set selectedVarianceScaleFactor(value: number) {
+    this._selectedVarianceScaleFactor = value;
   }
 }
