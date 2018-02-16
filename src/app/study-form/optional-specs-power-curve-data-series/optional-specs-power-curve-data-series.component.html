@@ -9,7 +9,7 @@
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-secondary dropdown-toggle btn-sm" id="powerdropdown" ngbDropdownToggle>{{selectedPower}}</button>
               <div ngbDropdownMenu aria-labelledby="powerdropdown">
-                <button class="dropdown-item">{{power}}</button>
+                <button class="dropdown-item" (click)="selectPower(power)">{{power}}</button>
               </div>
             </div>
           </div>
@@ -23,7 +23,7 @@
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-secondary dropdown-toggle btn-sm" id="errordropdown" ngbDropdownToggle>{{selectedTypeOneErrorRate}}</button>
               <div ngbDropdownMenu aria-labelledby="errordropdown">
-                <button class="dropdown-item" >{{typeOneErrorRate()}}</button>
+                <button class="dropdown-item" (click)="selectTypeOneErrorRate(typeOneErrorRate)">{{typeOneErrorRate}}</button>
               </div>
             </div>
           </div>
@@ -37,7 +37,7 @@
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-secondary dropdown-toggle btn-sm" id="meanscalefactordropdown" ngbDropdownToggle>{{selectedMeanScaleFactor}}</button>
               <div ngbDropdownMenu aria-labelledby="meanscalefactordropdown">
-                <button class="dropdown-item" >{{meanScaleFactor}}</button>
+                <button class="dropdown-item" (click)="selectMeanScaleFactor(meanScaleFactor)">{{meanScaleFactor}}</button>
               </div>
             </div>
           </div>
@@ -51,7 +51,7 @@
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-secondary dropdown-toggle btn-sm" id="varscalefactordropdown" ngbDropdownToggle>{{selectedVarianceScaleFactor}}</button>
               <div ngbDropdownMenu aria-labelledby="varscalefactordropdown">
-                <button class="dropdown-item" *ngFor="let vsf of varianceScaleFactors">{{vsf}}</button>
+                <button class="dropdown-item" *ngFor="let vsf of varianceScaleFactors" (click)="selectVarianceScaleFactor(vsf)">{{vsf}}</button>
               </div>
             </div>
           </div>
@@ -60,11 +60,14 @@
     </div>
     <div class="col-md-auto">
       <div style="margin:5px; padding:5px;">
-        <i class="material-icons"  style="margin-top: 10px" id="addoutcome">add</i>
+        <i class="material-icons"  style="margin-top: 10px" id="addoutcome" (click)="addDataSeries()">add</i>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-auto">DATA SERIES SHOW UP HERE</div>
+  <div class="row" *ngFor="let series of powerCurve.dataSeries">
+    <div class="col-md-auto">{{series | json}}</div>
+    <div class="col col-md-auto">
+      <i class="material-icons" (click)="removeDataSeries(series)" style="margin-bottom: 5px" id="remove">remove</i>
+    </div>
   </div>
 </div>

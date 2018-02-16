@@ -3,6 +3,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {isNullOrUndefined} from 'util';
 import {StudyService} from '../study.service';
 import {constants} from '../../shared/constants';
+import {PowerCurveDataSeries} from '../../shared/PowerCurveDataSeries';
+import {PowerCurve} from '../../shared/PowerCurve';
 
 @Component({
   selector: 'app-optional-specs-power-data-series',
@@ -15,7 +17,9 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
   private _typeOneErrorRateSubscription: Subscription;
   private _meanScaleFactorSubscription: Subscription;
   private _varianceScaleFactorsSubscription: Subscription;
+  private _powerCurveSubscription: Subscription;
 
+  private _powerCurve: PowerCurve;
   private _solveFor: string;
   private _power: number;
   private _typeOneErrorRate: number;
@@ -32,6 +36,9 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
   private hasVarianceScaleFactors: boolean;
 
   constructor(private study_service: StudyService) {
+    this._powerCurveSubscription = this.study_service.powerCurve$.subscribe(powerCurve => {
+      this._powerCurve = powerCurve;
+    });
     this.powerSubscription = this.study_service.power$.subscribe(
       power => {
         this.power = power;
@@ -86,6 +93,49 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
     this.typeOneErrorRateSubscription.unsubscribe();
     this.meanScaleFactorSubscription.unsubscribe();
     this.varianceScaleFactorsSubscription.unsubscribe();
+  }
+
+  selectPower(power: number) {
+    this.selectedPower = power;
+  }
+
+  selectTypeOneErrorRate(rate: number) {
+    this.selectedTypeOneErrorRate = rate;
+  }
+
+  selectMeanScaleFactor(factor: number) {
+    this.selectedMeanScaleFactor = factor;
+  }
+
+  selectVarianceScaleFactor(factor: number) {
+    this.selectedVarianceScaleFactor = factor;
+  }
+
+  addDataSeries() {
+    console.log( 'add data series' )
+    const series = new PowerCurveDataSeries(
+      this.selectedPower,
+      this.selectedTypeOneErrorRate,
+      this.selectedMeanScaleFactor,
+      this.selectedVarianceScaleFactor
+    );
+    // do not add duplicate data series.
+    let newSeries = true;
+    this.powerCurve.dataSeries.forEach( existingSeries => {
+      if (series.equals(existingSeries)) {
+        newSeries = false;
+      }
+    });
+    if (newSeries) {
+      this.powerCurve.dataSeries.push(series);
+    }
+  }
+
+  removeDataSeries(seriesToRemove: PowerCurveDataSeries) {
+    const index = this.powerCurve.dataSeries.indexOf(seriesToRemove);
+    if ( index > -1) {
+      this.powerCurve.dataSeries.splice(index, 1);
+    }
   }
 
   get solveForSubscription(): Subscription {
@@ -198,5 +248,21 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
 
   set selectedVarianceScaleFactor(value: number) {
     this._selectedVarianceScaleFactor = value;
+  }
+
+  get powerCurveSubscription(): Subscription {
+    return this._powerCurveSubscription;
+  }
+
+  set powerCurveSubscription(value: Subscription) {
+    this._powerCurveSubscription = value;
+  }
+
+  get powerCurve(): PowerCurve {
+    return this._powerCurve;
+  }
+
+  set powerCurve(value: PowerCurve) {
+    this._powerCurve = value;
   }
 }
