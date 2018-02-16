@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-auto">
-      <div class="row">
+      <div class="row" *ngIf="hasPower">
         <div class="col-md-auto">
           <div style="margin:5px; padding:5px;">
             <label for="powerdropdown" style="font-size: 20px;">Power:</label>
@@ -20,7 +20,7 @@
       <div class="row">
         <div class="col-md-auto">
           <div style="margin:5px; padding:5px;">
-            <label for="powerdropdown" style="font-size: 20px;">Type I Error:</label>
+            <label for="errordropdown" style="font-size: 20px;">Type I Error:</label>
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-secondary dropdown-toggle btn-sm" id="errordropdown" ngbDropdownToggle>1</button>
               <div ngbDropdownMenu aria-labelledby="errordropdown">
@@ -32,10 +32,10 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" *ngIf="hasMeanScaleFactors">
         <div class="col-md-auto">
           <div style="margin:5px; padding:5px;">
-            <label class="label-primary"for="powerdropdown" style="font-size: 20px;">Mean Scale Factor:</label>
+            <label class="label-primary"for="meanscalefactordropdown" style="font-size: 20px;">Mean Scale Factor:</label>
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-secondary dropdown-toggle btn-sm" id="meanscalefactordropdown" ngbDropdownToggle>1</button>
               <div ngbDropdownMenu aria-labelledby="meanscalefactordropdown">
@@ -47,10 +47,10 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" *ngIf="hasVarianceScaleFactors">
         <div class="col-md-auto">
           <div style="margin:5px; padding:5px;">
-            <label for="powerdropdown" style="font-size: 20px;">Variance Scale Factor:</label>
+            <label for="varscalefactordropdown" style="font-size: 20px;">Variance Scale Factor:</label>
             <div ngbDropdown class="d-inline-block">
               <button class="btn btn-secondary dropdown-toggle btn-sm" id="varscalefactordropdown" ngbDropdownToggle>1</button>
               <div ngbDropdownMenu aria-labelledby="varscalefactordropdown">
