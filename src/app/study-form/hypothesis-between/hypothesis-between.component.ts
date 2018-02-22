@@ -8,9 +8,9 @@ import * as math from 'mathjs';
 import {PartialMatrix} from '../../shared/PartialMatrix';
 import {Router} from '@angular/router';
 import {Predictor} from '../../shared/Predictor';
-import {Observable} from 'rxjs/Observable';
 
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -28,7 +28,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _isuFactorsSubscription: Subscription;
   texString = '';
 
-  constructor(private study_service: StudyService, private router: Router, private route: ActivatedRoute) {
+  constructor(private study_service: StudyService,
+              private router: Router,
+              private log: NGXLogger) {
     this.marginalsIn = [];
     this.marginalsOut = [];
     this.showAdvancedOptions = false;
@@ -125,7 +127,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   setNature(name: string, nature: string) {
-    console.log( name + ' set: ' + nature );
+    this.log.debug( name + ' set: ' + nature );
     this.isuFactors.predictors.forEach( predictor => {
         if (predictor.name === name) {
           predictor.isuFactorNature = nature;

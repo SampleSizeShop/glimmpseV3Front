@@ -1,13 +1,21 @@
 import * as math from 'mathjs';
 import Matrix = mathjs.Matrix;
 import {constants} from './constants';
+import {NGXLogger} from "ngx-logger";
+import {isNullOrUndefined} from "util";
 
 export class PartialMatrix {
+  private logger: NGXLogger;
   private _values: Matrix;
   private _type: string;
   name = '';
 
-  constructor(type?: string) {
+  constructor(type?: string, logger?: NGXLogger) {
+    if (!isNullOrUndefined(logger)) {
+      this.logger = logger;
+    } else {
+      this.logger = null;
+    }
     this.values = math.matrix();
     if ( type ) {
       this.type = type;
@@ -23,7 +31,7 @@ export class PartialMatrix {
       const ident = math.diag(Array(noGroups - 1).fill(-1), 'dense');
       const vec  = math.ones([noGroups - 1, 1]);
       this.values = math.matrix(math.concat(vec, ident));
-      console.log(this.values);
+      this.log(this.values);
     }
   }
 
@@ -36,7 +44,7 @@ export class PartialMatrix {
       const ident = math.diag(Array(noGroups - 1).fill(-1), 'dense');
       const vec  = math.transpose(math.ones([noGroups - 1, 1]));
       this.values = math.matrix(math.concat(vec, ident, 0));
-      console.log(this.values);
+      this.log(this.values);
     }
   }
 
@@ -93,6 +101,12 @@ export class PartialMatrix {
     })
     texString = texString.slice(0, texString.length - 2) + '\\end{bmatrix}$';
     return texString;
+  }
+
+  log(msg) {
+    if (!isNullOrUndefined(this.logger)) {
+      this.logger.debug(msg);
+    }
   }
 
   get values(): Matrix {

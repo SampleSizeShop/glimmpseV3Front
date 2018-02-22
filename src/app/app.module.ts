@@ -103,7 +103,7 @@ import { CalculateComponent } from './study-form/calculate/calculate.component';
     LoggerModule.forRoot({
       serverLoggingUrl: environment.serverLoggingUrl,
       level: environment.loglevel,
-      serverLogLevel: environment.loglevel
+      serverLogLevel: environment.serverLoglevel
     }),
     BsDropdownModule.forRoot(),
     BrowserModule,

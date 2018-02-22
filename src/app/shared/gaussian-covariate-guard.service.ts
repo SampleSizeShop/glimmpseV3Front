@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {constants} from './constants';
 import {StudyService} from '../study-form/study.service';
-import {ISUFactors} from './ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {isNullOrUndefined} from 'util';
-import {NavigationService} from "./navigation.service";
-import {GaussianCovariate} from "./GaussianCovariate";
+import {GaussianCovariate} from './GaussianCovariate';
+import {NGXLogger} from 'ngx-logger';
 
 @Injectable()
 export class GaussianCovariateGuard implements CanActivate {
   private gaussianCovariate: GaussianCovariate;
   private gaussianCovariatesSubscription: Subscription;
 
-  constructor(private router: Router, private study_service: StudyService) {
+  constructor(private router: Router, private study_service: StudyService, private log: NGXLogger) {
     this.gaussianCovariatesSubscription = this.study_service.gaussianCovariate$.subscribe(gaussianCovariate => {
         this.gaussianCovariate = gaussianCovariate;
       }
@@ -21,9 +19,9 @@ export class GaussianCovariateGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('GaussianCovariateGuard#canActivate called');
+    this.log.debug('GaussianCovariateGuard#canActivate called');
     const stage = this.study_service.stage;
-    console.log(stage);
+    this.log.debug(stage);
     if (
       !isNullOrUndefined(this.gaussianCovariate)
     ) {

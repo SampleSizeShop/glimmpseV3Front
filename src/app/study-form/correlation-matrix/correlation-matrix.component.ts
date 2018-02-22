@@ -35,7 +35,7 @@ export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
   private _messages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
   private _validationMessages = {};
 
-  constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService, private logger: NGXLogger) {
+  constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService, private log: NGXLogger) {
     this.correlationMatrixSubscription = this._correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
         this.uMatrix = correlationMatrix;
@@ -66,7 +66,6 @@ export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
       if (!isNullOrUndefined(this.size)
         && this.size > 0
         && this.uMatrix.values.size()[0] > 0) {
-        console.log('buildForm');
         this.buildForm();
       }
     }
@@ -137,15 +136,15 @@ export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
         const name = this.buildName(r.toString(), c.toString());
         this.validationMessages[name] = this.messages;
         if (r > c) {
-          this.controlDefs[name] = [this.uMatrix.values.get([r, c]), minMaxValidator(this.min, this.max, this.logger)];
+          this.controlDefs[name] = [this.uMatrix.values.get([r, c]), minMaxValidator(this.min, this.max, this.log)];
         }
         if (r === c) {
           this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true},
-                                    minMaxValidator(this.min, this.max, this.logger)];
+                                    minMaxValidator(this.min, this.max, this.log)];
         }
         if (r < c) {
           this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true},
-                                    minMaxValidator(this.min, this.max, this.logger)];
+                                    minMaxValidator(this.min, this.max, this.log)];
         }
         this.values[name] = this.uMatrix.values.get([r, c]);
       }

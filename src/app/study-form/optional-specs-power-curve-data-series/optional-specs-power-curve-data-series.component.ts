@@ -5,6 +5,7 @@ import {StudyService} from '../study.service';
 import {constants} from '../../shared/constants';
 import {PowerCurveDataSeries} from '../../shared/PowerCurveDataSeries';
 import {PowerCurve} from '../../shared/PowerCurve';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-optional-specs-power-data-series',
@@ -35,7 +36,7 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
   private hasMeanScaleFactors: boolean;
   private hasVarianceScaleFactors: boolean;
 
-  constructor(private study_service: StudyService) {
+  constructor(private study_service: StudyService, private log: NGXLogger) {
     this._powerCurveSubscription = this.study_service.powerCurve$.subscribe(powerCurve => {
       this._powerCurve = powerCurve;
     });
@@ -112,7 +113,7 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
   }
 
   addDataSeries() {
-    console.log( 'add data series' )
+    this.log.debug( 'add data series' )
     if (!isNullOrUndefined(this.powerCurve)) {
       const series = new PowerCurveDataSeries(
         this.selectedPower,

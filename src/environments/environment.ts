@@ -8,5 +8,6 @@ export const environment = {
   production: false,
   name: 'dev',
   serverLoggingUrl: 'http://127.0.0.1:5000/api/clientsidelog',
-  loglevel: NgxLoggerLevel.DEBUG
+  loglevel: NgxLoggerLevel.DEBUG,
+  serverLoglevel: NgxLoggerLevel.WARN
 };

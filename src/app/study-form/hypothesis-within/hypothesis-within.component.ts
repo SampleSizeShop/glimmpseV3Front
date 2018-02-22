@@ -7,6 +7,7 @@ import {PartialMatrix} from '../../shared/PartialMatrix';
 import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';
 import {Router} from '@angular/router';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-hypothesis-within',
@@ -25,7 +26,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   private _uRepeatedMeasures: PartialMatrix;
   private _uCluster: number
 
-  constructor(private study_service: StudyService, private router: Router) {
+  constructor(private study_service: StudyService, private router: Router, private log: NGXLogger) {
     this.showAdvancedOptions = false;
 
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
@@ -85,7 +86,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   }
 
   setNature(name: string, nature: string) {
-    console.log( name + ' set: ' + nature );
+    this.log.debug( name + ' set: ' + nature );
     this.isuFactors.repeatedMeasures.forEach( measure => {
         if (measure.name === name) {
           measure.isuFactorNature = nature;
