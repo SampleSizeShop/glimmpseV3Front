@@ -51,7 +51,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   constructor(
     private study_service: StudyService,
-    private logger: NGXLogger,
+    private log: NGXLogger,
     private navigation_service: NavigationService,
     private router: Router
   ) {
@@ -134,7 +134,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private navigate(stage: number, direction: string) {
     let params = ['design', constants.STAGES[stage]];
     params = params.concat(this.parameters);
-    console.log(params);
+    this.log.debug(params);
     const success = this.router.navigate(params);
     success.then( loaded => {
       if ( !loaded) {

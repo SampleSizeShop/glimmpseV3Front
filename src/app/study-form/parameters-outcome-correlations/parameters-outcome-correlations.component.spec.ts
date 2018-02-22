@@ -1,14 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParametersOutcomeCorrelationsComponent } from './parameters-outcome-correlations.component';
-import {Component} from '@angular/core';
-import {ISUFactors} from '../../shared/ISUFactors';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {StudyService} from "../study.service";
+import {StudyService} from '../study.service';
+import {testEnvironment} from '../../../environments/environment.test';
 
 describe('ParametersOutcomeCorrelationsComponent', () => {
   let component: ParametersOutcomeCorrelationsComponent;
@@ -18,7 +17,11 @@ describe('ParametersOutcomeCorrelationsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel
+        })
       ],
       declarations: [
         ParametersOutcomeCorrelationsComponent,

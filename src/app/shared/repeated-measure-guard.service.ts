@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {constants} from './constants';
 import {StudyService} from '../study-form/study.service';
 import {ISUFactors} from './ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {isNullOrUndefined} from 'util';
-import {NavigationService} from "./navigation.service";
+import {NGXLogger} from 'ngx-logger';
 
 @Injectable()
 export class RepeatedMeasureGuard implements CanActivate {
   private isuFactors: ISUFactors;
   private isuFactorsSubscription: Subscription;
 
-  constructor(private router: Router, private study_service: StudyService) {
+  constructor(private router: Router, private study_service: StudyService, private log: NGXLogger) {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('RepMeasureGuard#canActivate called');
+    this.log.debug('RepMeasureGuard#canActivate called');
     const st = this.study_service.stage;
-    console.log(st);
+    this.log.debug(st);
     if (
       !isNullOrUndefined(this.isuFactors)
       && !isNullOrUndefined(this.isuFactors.repeatedMeasures)

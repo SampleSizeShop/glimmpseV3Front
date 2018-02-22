@@ -4,13 +4,14 @@ import {StudyService} from '../study-form/study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {PowerCurve} from './PowerCurve';
 import {isNullOrUndefined} from 'util';
+import {NGXLogger} from 'ngx-logger';
 
 @Injectable()
 export class PowerCurveGuard implements CanActivate {
   private powerCurve: PowerCurve;
   private powerCurveSubscription: Subscription;
 
-  constructor(private router: Router, private study_service: StudyService) {
+  constructor(private router: Router, private study_service: StudyService, private log: NGXLogger) {
     this.powerCurveSubscription = this.study_service.powerCurve$.subscribe(powerCurve => {
         this.powerCurve = powerCurve;
       }
@@ -18,7 +19,7 @@ export class PowerCurveGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log('PowerCurveGuard#canActivate called');
+    this.log.debug('PowerCurveGuard#canActivate called');
     if (!isNullOrUndefined(this.powerCurve)) {
       return true;
     } else {

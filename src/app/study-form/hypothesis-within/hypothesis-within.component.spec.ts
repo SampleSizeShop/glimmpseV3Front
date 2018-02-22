@@ -9,6 +9,8 @@ import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {Outcome} from '../../shared/Outcome';
+import {testEnvironment} from '../../../environments/environment.test';
+import {LoggerModule} from 'ngx-logger';
 
 describe('HypothesisWithinComponent', () => {
   let component: HypothesisWithinComponent;
@@ -24,6 +26,13 @@ describe('HypothesisWithinComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel
+        })
+      ],
       declarations: [
         HypothesisWithinComponent,
         MathJaxDirective ],

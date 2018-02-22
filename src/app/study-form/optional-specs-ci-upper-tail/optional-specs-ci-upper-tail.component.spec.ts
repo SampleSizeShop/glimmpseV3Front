@@ -9,6 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
+import {testEnvironment} from '../../../environments/environment.test';
 
 describe('OptionalSpecsCiUpperTailComponent', () => {
   let component: OptionalSpecsCiUpperTailComponent;
@@ -18,7 +19,11 @@ describe('OptionalSpecsCiUpperTailComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel
+        })
       ],
       declarations: [ OptionalSpecsCiUpperTailComponent ],
       providers: [

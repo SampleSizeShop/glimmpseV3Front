@@ -6,7 +6,8 @@ import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
-import {StudyService} from "../study.service";
+import {StudyService} from '../study.service';
+import {testEnvironment} from '../../../environments/environment.test';
 
 describe('ParametersStandardDeviationComponent', () => {
   let component: ParametersStandardDeviationComponent;
@@ -16,7 +17,11 @@ describe('ParametersStandardDeviationComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel
+        })
       ],
       declarations: [
         ParametersStandardDeviationComponent,

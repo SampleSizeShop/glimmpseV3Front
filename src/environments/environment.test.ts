@@ -4,10 +4,9 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 import {NgxLoggerLevel} from 'ngx-logger';
 
-export const environment = {
+export const testEnvironment = {
   production: false,
   name: 'dev',
-  serverLoggingUrl: 'http://127.0.0.1:5000/api/clientsidelog',
-  loglevel: NgxLoggerLevel.DEBUG,
-  serverLoglevel: NgxLoggerLevel.WARN
+  serverLoggingUrl: 'fake/api/clientsidelog',
+  loglevel: NgxLoggerLevel.DEBUG
 };

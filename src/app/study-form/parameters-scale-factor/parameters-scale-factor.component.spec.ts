@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {ReactiveFormsModule} from '@angular/forms';
+import {testEnvironment} from '../../../environments/environment.test';
 
 describe('ParametersScaleFactorComponent', () => {
   let component: ParametersScaleFactorComponent;
@@ -14,7 +15,11 @@ describe('ParametersScaleFactorComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({imports: [
       ReactiveFormsModule,
-      LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})],
+      LoggerModule.forRoot({
+        serverLoggingUrl: testEnvironment.serverLoggingUrl,
+        level: testEnvironment.loglevel,
+        serverLogLevel: testEnvironment.loglevel
+      })],
       declarations: [ ParametersScaleFactorComponent ],
       providers: [ StudyService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })

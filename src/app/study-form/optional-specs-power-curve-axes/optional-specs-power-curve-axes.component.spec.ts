@@ -8,6 +8,7 @@ import {MockBackend} from '@angular/http/testing';
 import {StudyService} from '../study.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
+import {testEnvironment} from '../../../environments/environment.test';
 
 describe('OptionalSpecsPowerCurveAxesComponent', () => {
   let component: OptionalSpecsPowerCurveAxesComponent;
@@ -17,7 +18,11 @@ describe('OptionalSpecsPowerCurveAxesComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel
+        })
       ],
       declarations: [ OptionalSpecsPowerCurveAxesComponent ],
       providers: [

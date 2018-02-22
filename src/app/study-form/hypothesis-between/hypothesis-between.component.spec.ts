@@ -11,6 +11,8 @@ import {Outcome} from 'app/shared/Outcome';
 import {Predictor} from '../../shared/Predictor';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
+import {testEnvironment} from '../../../environments/environment.test';
+import {LoggerModule} from 'ngx-logger';
 
 describe('HypothesisBetweenComponent no factors', () => {
   let component: HypothesisBetweenComponent;
@@ -19,16 +21,21 @@ describe('HypothesisBetweenComponent no factors', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel
+        })
       ],
       declarations: [
         MathJaxDirective,
         HypothesisBetweenComponent
          ],
       providers: [
-        StudyService, {provide: HttpClient, useClass: MockBackend},
-        {provide: Router, useClass: RouterStub},
-        {provide: ActivatedRoute, useClass: ActivatedRouteStub }
+        StudyService,
+        {provide: HttpClient, useClass: MockBackend},
+        {provide: Router, useClass: RouterStub}
         ]
     })
     .compileComponents();
@@ -75,7 +82,12 @@ describe('HypothesisBetweenComponent with Factors', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel
+        })
       ],
       declarations: [
         MathJaxDirective,

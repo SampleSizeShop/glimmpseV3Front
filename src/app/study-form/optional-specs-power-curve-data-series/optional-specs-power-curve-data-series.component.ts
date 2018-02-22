@@ -5,6 +5,7 @@ import {StudyService} from '../study.service';
 import {constants} from '../../shared/constants';
 import {PowerCurveDataSeries} from '../../shared/PowerCurveDataSeries';
 import {PowerCurve} from '../../shared/PowerCurve';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-optional-specs-power-data-series',
@@ -35,7 +36,7 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
   private hasMeanScaleFactors: boolean;
   private hasVarianceScaleFactors: boolean;
 
-  constructor(private study_service: StudyService) {
+  constructor(private study_service: StudyService, private log: NGXLogger) {
     this._powerCurveSubscription = this.study_service.powerCurve$.subscribe(powerCurve => {
       this._powerCurve = powerCurve;
     });
@@ -112,29 +113,41 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
   }
 
   addDataSeries() {
-    console.log( 'add data series' )
-    const series = new PowerCurveDataSeries(
-      this.selectedPower,
-      this.selectedTypeOneErrorRate,
-      this.selectedMeanScaleFactor,
-      this.selectedVarianceScaleFactor
-    );
-    // do not add duplicate data series.
-    let newSeries = true;
-    this.powerCurve.dataSeries.forEach( existingSeries => {
-      if (series.equals(existingSeries)) {
-        newSeries = false;
+    this.log.debug( 'add data series' )
+    if (!isNullOrUndefined(this.powerCurve)) {
+      const series = new PowerCurveDataSeries(
+        this.selectedPower,
+        this.selectedTypeOneErrorRate,
+        this.selectedMeanScaleFactor,
+        this.selectedVarianceScaleFactor
+      );
+      // do not add duplicate data series.
+      let newSeries = true;
+      this.powerCurve.dataSeries.forEach( existingSeries => {
+        if (series.equals(existingSeries)) {
+          newSeries = false;
+        }
+      });
+      if (newSeries) {
+        this.powerCurve.dataSeries.push(series);
       }
-    });
-    if (newSeries) {
-      this.powerCurve.dataSeries.push(series);
     }
   }
 
   removeDataSeries(seriesToRemove: PowerCurveDataSeries) {
-    const index = this.powerCurve.dataSeries.indexOf(seriesToRemove);
-    if ( index > -1) {
-      this.powerCurve.dataSeries.splice(index, 1);
+    if (!isNullOrUndefined(this.powerCurve)) {
+      const index = this.powerCurve.dataSeries.indexOf(seriesToRemove);
+      if ( index > -1) {
+        this.powerCurve.dataSeries.splice(index, 1);
+      }
+    }
+  }
+
+  get dataSeries(): PowerCurveDataSeries[] {
+    if (!isNullOrUndefined(this.powerCurve)) {
+      return this.powerCurve.dataSeries;
+    } else {
+      return [];
     }
   }
 

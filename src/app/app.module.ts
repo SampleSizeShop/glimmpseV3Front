@@ -100,7 +100,11 @@ import { CalculateComponent } from './study-form/calculate/calculate.component';
   ],
   imports: [
     NgbModule.forRoot(),
-    LoggerModule.forRoot({serverLoggingUrl: environment.serverLoggingUrl, level: environment.loglevel} ),
+    LoggerModule.forRoot({
+      serverLoggingUrl: environment.serverLoggingUrl,
+      level: environment.loglevel,
+      serverLogLevel: environment.serverLoglevel
+    }),
     BsDropdownModule.forRoot(),
     BrowserModule,
     ReactiveFormsModule,
