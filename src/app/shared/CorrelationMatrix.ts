@@ -1,6 +1,9 @@
 import * as math from 'mathjs';
 import Matrix = mathjs.Matrix;
 
+/**
+ * Model class containing a mathjs Matrix.
+ */
 export class CorrelationMatrix {
   private _values: Matrix;
 
@@ -16,10 +19,17 @@ export class CorrelationMatrix {
     this._values = value;
   }
 
+  /**
+   * Populate as a diagonal square matrix of size: size.
+   * @param {number} size size of square matrix
+   */
   populateDefaultValues(size: number): void {
     this.values = math.diag(Array(size).fill(1), 'dense');
   }
 
+  /**
+   * @returns {string} TeX formatted string representation of Matrix values.
+   */
   toTeX(): string {
     let texString = '$\\begin{bmatrix}';
     let row = 0;
