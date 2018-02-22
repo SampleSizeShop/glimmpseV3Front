@@ -6,6 +6,7 @@ import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {StudyService} from '../study.service';
+import {testEnvironment} from '../../../environments/environment.test';
 
 describe('TypeOneErrorComponent', () => {
   let component: TypeOneErrorComponent;
@@ -15,7 +16,11 @@ describe('TypeOneErrorComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})],
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel
+        })],
       declarations: [ TypeOneErrorComponent ],
       providers: [ StudyService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })

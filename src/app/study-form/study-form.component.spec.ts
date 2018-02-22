@@ -44,6 +44,7 @@ import {OptionalSpecsPowerCurveChoiceComponent} from './optional-specs-power-cur
 import {OptionalSpecsPowerCurveAxesComponent} from './optional-specs-power-curve-axes/optional-specs-power-curve-axes.component';
 import {OptionalSpecsPowerCurveDataSeriesComponent} from './optional-specs-power-curve-data-series/optional-specs-power-curve-data-series.component';
 import {CalculateComponent} from './calculate/calculate.component';
+import {testEnvironment} from "../../environments/environment.test";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -57,7 +58,10 @@ describe('StudyFormComponent', () => {
         RouterTestingModule.withRoutes([
           { path: 'design/MODE', component: UserModeComponent}
         ]),
-        LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'}) ],
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel}) ],
       declarations: [
         StudyFormComponent,
         UserModeComponent,

@@ -6,6 +6,7 @@ import {CorrelationMatrixService} from './correlationMatrix.service';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
+import {testEnvironment} from '../../../environments/environment.test';
 
 describe('CorrelationMatrixComponent', () => {
   let component: CorrelationMatrixComponent;
@@ -14,7 +15,11 @@ describe('CorrelationMatrixComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [  ReactiveFormsModule,
-                  LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})],
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel
+        })],
       declarations: [ CorrelationMatrixComponent ],
       providers: [ CorrelationMatrixService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })

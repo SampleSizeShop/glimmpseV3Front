@@ -113,29 +113,37 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
 
   addDataSeries() {
     console.log( 'add data series' )
-    const series = new PowerCurveDataSeries(
-      this.selectedPower,
-      this.selectedTypeOneErrorRate,
-      this.selectedMeanScaleFactor,
-      this.selectedVarianceScaleFactor
-    );
-    // do not add duplicate data series.
-    let newSeries = true;
-    this.powerCurve.dataSeries.forEach( existingSeries => {
-      if (series.equals(existingSeries)) {
-        newSeries = false;
+    if (!isNullOrUndefined(this.powerCurve)) {
+      const series = new PowerCurveDataSeries(
+        this.selectedPower,
+        this.selectedTypeOneErrorRate,
+        this.selectedMeanScaleFactor,
+        this.selectedVarianceScaleFactor
+      );
+      // do not add duplicate data series.
+      let newSeries = true;
+      this.powerCurve.dataSeries.forEach( existingSeries => {
+        if (series.equals(existingSeries)) {
+          newSeries = false;
+        }
+      });
+      if (newSeries) {
+        this.powerCurve.dataSeries.push(series);
       }
-    });
-    if (newSeries) {
-      this.powerCurve.dataSeries.push(series);
     }
   }
 
   removeDataSeries(seriesToRemove: PowerCurveDataSeries) {
-    const index = this.powerCurve.dataSeries.indexOf(seriesToRemove);
-    if ( index > -1) {
-      this.powerCurve.dataSeries.splice(index, 1);
+    if (!isNullOrUndefined(this.powerCurve)) {
+      const index = this.powerCurve.dataSeries.indexOf(seriesToRemove);
+      if ( index > -1) {
+        this.powerCurve.dataSeries.splice(index, 1);
+      }
     }
+  }
+
+  hasPowerCurve(): boolean {
+    return !isNullOrUndefined(this.powerCurve);
   }
 
   get solveForSubscription(): Subscription {

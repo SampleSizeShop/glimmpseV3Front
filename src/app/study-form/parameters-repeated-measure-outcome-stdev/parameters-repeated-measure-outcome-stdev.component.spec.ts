@@ -10,6 +10,7 @@ import {StudyService} from '../study.service';
 
 import 'rxjs/add/operator/switchMap';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
+import {testEnvironment} from "../../../environments/environment.test";
 
 let component: ParametersRepeatedMeasureOutcomeStDevComponent;
 let fixture: ComponentFixture<ParametersRepeatedMeasureOutcomeStDevComponent>;
@@ -26,7 +27,11 @@ describe('ParametersRepeatedMeasureOutcomeStDevComponent', () => {
     TestBed.configureTestingModule({
       imports: [
       ReactiveFormsModule,
-      LoggerModule.forRoot({serverLoggingUrl: 'fake/api/clientsidelog', level: 'DEBUG', serverLogLevel: 'WARN'})
+      LoggerModule.forRoot({
+        serverLoggingUrl: testEnvironment.serverLoggingUrl,
+        level: testEnvironment.loglevel,
+        serverLogLevel: testEnvironment.loglevel
+      })
     ],
       declarations: [
         ParametersRepeatedMeasureOutcomeStDevComponent

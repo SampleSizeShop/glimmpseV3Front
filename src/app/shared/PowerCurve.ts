@@ -10,7 +10,7 @@ export class PowerCurve {
     if (confidenceInterval) {
       this.confidenceInterval = confidenceInterval;
     } else {
-      this.confidenceInterval = null;
+      this.confidenceInterval = new PowerCurveConfidenceInterval();
     }
     this._xAxis = 'DesiredPower';
     this._dataSeries = [];
