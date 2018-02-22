@@ -142,8 +142,12 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
     }
   }
 
-  hasPowerCurve(): boolean {
-    return !isNullOrUndefined(this.powerCurve);
+  get dataSeries(): PowerCurveDataSeries[] {
+    if (!isNullOrUndefined(this.powerCurve)) {
+      return this.powerCurve.dataSeries;
+    } else {
+      return [];
+    }
   }
 
   get solveForSubscription(): Subscription {

@@ -64,12 +64,10 @@
       </div>
     </div>
   </div>
-  <div *ngIf="hasPowerCurve()">
-    <div class="row" *ngFor="let series of powerCurve.dataSeries">
-      <div class="col-md-auto">{{series | json}}</div>
-      <div class="col col-md-auto">
-        <i class="material-icons" (click)="removeDataSeries(series)" style="margin-bottom: 5px" id="remove">remove</i>
-      </div>
+  <div class="row" *ngFor="let series of dataSeries">
+    <div class="col-md-auto">{{series | json}}</div>
+    <div class="col col-md-auto">
+      <i class="material-icons" (click)="removeDataSeries(series)" style="margin-bottom: 5px" id="remove">remove</i>
     </div>
   </div>
 </div>
