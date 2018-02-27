@@ -30,6 +30,7 @@
     "@types/mathjs": "0.0.34",
     "angular2-fontawesome": "^0.9.3",
     "bootstrap": "^4.0.0",
+    "compodoc": "0.0.41",
     "core-js": "^2.4.1",
     "css-loader": "^0.28.4",
     "file-loader": "^1.1.9",

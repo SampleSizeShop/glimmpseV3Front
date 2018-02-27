@@ -85,8 +85,8 @@ export class PartialMatrix {
   }
 
   kronecker (next: PartialMatrix): Matrix {
-    return math.kron(this.values, next.values);
-    // return math.matrix([0]);
+    // return math.kron(this.values, next.values);
+    return math.matrix([0]);
   }
 
   toTeX(): string {
