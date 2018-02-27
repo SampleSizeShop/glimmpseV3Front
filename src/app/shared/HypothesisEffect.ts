@@ -1,8 +1,10 @@
 import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
-import {MarginalMean} from './MarginalMean';
 import {constants} from './constants';
 
+/**
+ * Model object which holds a list of ISUFactors, chosen by the user, which make up their hypothesis.
+ */
 export class HypothesisEffect {
   variables: Array<ISUFactor> = [];
 
@@ -10,6 +12,10 @@ export class HypothesisEffect {
     this.variables = [];
   }
 
+  /**
+   * Methos which lets you know whether this hypothesis is a Grand Mean, Interaction or Main Effect
+   * @returns {string} one of: 'Grand Mean', 'Interaction', 'Main Effect'
+   */
   get type(): string {
     let type = '';
     if (isNullOrUndefined(this.variables) || this.variables.length === 0) {
@@ -22,6 +28,10 @@ export class HypothesisEffect {
     return type;
   }
 
+  /**
+   * Returns a description of this hypothesis, based on it's component ISUFactors, for display on screen.
+   * @returns {string} description of this hypothesis, based on it's component ISUFactors eg. "A x B x C"
+   */
   get name(): string {
     let name = '';
     this.variables.forEach( variable => {
@@ -31,6 +41,10 @@ export class HypothesisEffect {
     return name;
   }
 
+  /**
+   * Returns a description of the nature of this hypothesis, based on it's component ISUFactors, for display on screen.
+   * @returns {string} description of the nature of this hypothesis, based on it's component ISUFactors e.g. "Within x Between"
+   */
   get nature(): string {
     let nature = '';
     this.variables.forEach( variable => {
@@ -41,6 +55,10 @@ export class HypothesisEffect {
     return nature;
   }
 
+  /**
+   * Adds an ISUFactor to this hypothesis.
+   * @param {ISUFactor} variable ISUFactor to be added to hypothesis.
+   */
   addVariable(variable: ISUFactor) {
     let existsInList = false;
     this.variables.forEach( value => {
@@ -53,6 +71,11 @@ export class HypothesisEffect {
     }
   }
 
+  /**
+   * Determines if two Hypothesis effect objects contain the same hypothesis.
+   * @param {HypothesisEffect} effect
+   * @returns {boolean}
+   */
   equals (effect: HypothesisEffect) {
     if ( isNullOrUndefined(this.variables) || isNullOrUndefined(effect) || isNullOrUndefined(effect.variables) ) {
       return false;

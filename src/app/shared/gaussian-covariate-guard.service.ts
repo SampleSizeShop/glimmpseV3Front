@@ -6,6 +6,10 @@ import {isNullOrUndefined} from 'util';
 import {GaussianCovariate} from './GaussianCovariate';
 import {NGXLogger} from 'ngx-logger';
 
+/**
+ * GaussianCovariate guard allows access to a route if and only if the currently loaded StudyDesign has a
+ * gaussian covariate defined.
+ */
 @Injectable()
 export class GaussianCovariateGuard implements CanActivate {
   private gaussianCovariate: GaussianCovariate;
@@ -18,6 +22,11 @@ export class GaussianCovariateGuard implements CanActivate {
     );
   }
 
+  /**
+   * @param {ActivatedRouteSnapshot} route The route to guard
+   * @param {RouterStateSnapshot} state RouterStateSnapshot allows method to inspect properties of the router at the time it was called.
+   * @returns {boolean} grant or deny access
+   */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.log.debug('GaussianCovariateGuard#canActivate called');
     const stage = this.study_service.stage;
