@@ -11,4 +11,8 @@ describe('demo-app-front App', () => {
     page.navigateTo();
     expect(page.getParagraphText()).toEqual('Welcome to app!!');
   });
+
+  it('should display', () => {
+  });
+
 });
