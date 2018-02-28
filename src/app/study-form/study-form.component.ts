@@ -155,7 +155,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       if (stage) {
         current = stage;
       }
-      if (current > 1 && this.guided) {
+      if (current > 1) {
         if (current === 11
           && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
