@@ -27,7 +27,7 @@
     "@angular/router": "^5.2.6",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-beta.4",
     "@types/mathjax": "0.0.32",
-    "@types/mathjs": "0.0.34",
+    "@types/mathjs": "0.0.38",
     "angular2-fontawesome": "^0.9.3",
     "bootstrap": "^4.0.0",
     "compodoc": "0.0.41",
