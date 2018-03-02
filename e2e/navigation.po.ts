@@ -12,6 +12,26 @@ export class NavigationE2E {
     next(){
       element(by.id('navigate_next')).click();
     };
+
+    refresh(){
+      browser.refresh();
+    }
+
+    browserBack(){
+      browser.navigate().back();
+    }
+
+    browserForward(){
+      browser.navigate().forward();
+    }
+
+    getRouterURLString(){
+     return browser.getCurrentUrl().then(url => url.split("/").pop());
+    }
+
+    getElementClass(cid: string){
+      return element(by.id(cid)).getAttribute('class')
+    }
   
     prev(){
       element(by.id('navigate_before')).click();
@@ -32,10 +52,7 @@ export class NavigationE2E {
     sleep(ms: number){
       browser.sleep(ms);
     };
-  
-    getURL(){
-      return browser.getCurrentUrl();
-    };
+
   
     findAllByTag(tag: string){
       return element.all(by.tagName(tag));
@@ -48,5 +65,5 @@ export class NavigationE2E {
     findByCssWithText(cls: string, txt: string){
       return element(by.cssContainingText(cls, txt))
     };
-  
+
   }

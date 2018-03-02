@@ -7,10 +7,10 @@ describe('demo-app-front App', () => {
     page = new DemoAppFrontPage();
   });
 
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!!');
-  });
+  // it('should display welcome message', () => {
+  //   page.navigateTo();
+  //   expect(page.getParagraphText()).toEqual('Welcome to app!!');
+  // });
 
   it('should display', () => {
   });

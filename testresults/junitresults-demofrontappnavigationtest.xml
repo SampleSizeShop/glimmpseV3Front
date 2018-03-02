@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites disabled="0" errors="0" failures="5" tests="4" time="43318">
+ <testsuite name="demo-front-app navigation test" timestamp="2018-03-01T16:42:14" hostname="localhost" time="43.318" errors="0" tests="4" skipped="0" disabled="0" failures="5">
+  <testcase classname="demo-front-app navigation test" name="basic navigation without any input foward and backword" time="8.929" />
+  <testcase classname="demo-front-app navigation test" name="basic navigation without any input including browser action" time="31.008">
+   <failure type="toBe" message="Expected &apos;STATISTICAL_TESTS&apos; to be &apos;SOLVE_FOR&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/e2e/navigation.e2e-spec.ts:90:43)
+    at /Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/jasminewd2/index.js:112:25
+    at new ManagedPromise (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:1067:7)
+    at ControlFlow.promise (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2396:12)
+    at schedulerExecute (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/jasminewd2/index.js:95:18)
+    at TaskQueue.execute_ (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2970:14)
+    at TaskQueue.executeNext_ (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2953:27)
+    at asyncRun (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2860:25)
+    at /Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:676:7
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)]]>
+   </failure>
+   <failure type="toBe" message="Expected &apos;STATISTICAL_TESTS&apos; to be &apos;TARGET_EVENT&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/e2e/navigation.e2e-spec.ts:94:43)
+    at /Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/jasminewd2/index.js:112:25
+    at new ManagedPromise (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:1067:7)
+    at ControlFlow.promise (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2396:12)
+    at schedulerExecute (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/jasminewd2/index.js:95:18)
+    at TaskQueue.execute_ (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2970:14)
+    at TaskQueue.executeNext_ (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2953:27)
+    at asyncRun (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2860:25)
+    at /Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:676:7
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)]]>
+   </failure>
+   <failure type="toBe" message="Expected &apos;STATISTICAL_TESTS&apos; to be &apos;SOLVE_FOR&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/e2e/navigation.e2e-spec.ts:98:43)
+    at /Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/jasminewd2/index.js:112:25
+    at new ManagedPromise (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:1067:7)
+    at ControlFlow.promise (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2396:12)
+    at schedulerExecute (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/jasminewd2/index.js:95:18)
+    at TaskQueue.execute_ (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2970:14)
+    at TaskQueue.executeNext_ (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2953:27)
+    at asyncRun (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2860:25)
+    at /Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:676:7
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)]]>
+   </failure>
+   <failure type="toBe" message="Expected &apos;TYPE_ONE_ERROR&apos; to be &apos;STATISTICAL_TESTS&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/e2e/navigation.e2e-spec.ts:121:43)
+    at /Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/jasminewd2/index.js:112:25
+    at new ManagedPromise (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:1067:7)
+    at ControlFlow.promise (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2396:12)
+    at schedulerExecute (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/jasminewd2/index.js:95:18)
+    at TaskQueue.execute_ (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2970:14)
+    at TaskQueue.executeNext_ (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2953:27)
+    at asyncRun (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2860:25)
+    at /Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:676:7
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)]]>
+   </failure>
+   <failure type="toBe" message="Expected &apos;MODE&apos; to be &apos;TYPE_ONE_ERROR&apos;."><![CDATA[Error: Failed expectation
+    at UserContext.<anonymous> (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/e2e/navigation.e2e-spec.ts:139:43)
+    at /Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/jasminewd2/index.js:112:25
+    at new ManagedPromise (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:1067:7)
+    at ControlFlow.promise (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2396:12)
+    at schedulerExecute (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/jasminewd2/index.js:95:18)
+    at TaskQueue.execute_ (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2970:14)
+    at TaskQueue.executeNext_ (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2953:27)
+    at asyncRun (/Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:2860:25)
+    at /Users/alexgre/workspace/testing_work/source_code/glimmps3/DemoAppFront/node_modules/selenium-webdriver/lib/promise.js:676:7
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)]]>
+   </failure>
+  </testcase>
+  <testcase classname="demo-front-app navigation test" name="end2end basic navigation with simple parameters" time="1.696" />
+  <testcase classname="demo-front-app navigation test" name="end2end basic navigation with complex parameters" time="1.684" />
+ </testsuite>
+</testsuites>
