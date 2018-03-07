@@ -118,7 +118,10 @@ export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
 
   _initializeProperties() {
     this.formErrors = {};
-    if (this.size !== -1) {
+    if (
+      this.size !== -1
+      && !isNullOrUndefined(this.uMatrix.values)
+      && this.uMatrix.values.size()[0] !== this.size) {
       this.uMatrix.populateDefaultValues(this.size);
     }
 

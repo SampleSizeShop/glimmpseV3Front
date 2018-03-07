@@ -8,12 +8,14 @@ import {constants} from './constants';
 import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
 import {HypothesisEffect} from './HypothesisEffect';
+import {CorrelationMatrix} from './CorrelationMatrix';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
   betweenIsuRelativeGroupSizes = new Map<string, ISUFactorCombination>();
   marginalMeans = new Map<string, ISUFactorCombination>();
   smallestGroupSize: number[] = [];
+  outcomeCorrelationMatrix: CorrelationMatrix = new CorrelationMatrix();
 
   get hypothesisName(): string {
     let name = '';

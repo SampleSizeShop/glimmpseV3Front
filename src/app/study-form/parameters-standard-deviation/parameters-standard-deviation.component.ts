@@ -25,7 +25,6 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
   }
 
   ngDoCheck() {
-    console.log('DoCheck');
     this._updateStandardDeviations();
   }
 
