@@ -4,7 +4,7 @@ import {HypothesisEffect} from './HypothesisEffect';
 import {isNullOrUndefined} from 'util';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
-import {PowerCurve} from "./PowerCurve";
+import {PowerCurve} from './PowerCurve';
 
 export class StudyDesign {
   private _name: string;

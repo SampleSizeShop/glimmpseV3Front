@@ -74,7 +74,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       spacing: this.fb.array([]),
       first: [0],
       interval: [0]
-    })
+    });
   };
 
   ngOnInit() {
