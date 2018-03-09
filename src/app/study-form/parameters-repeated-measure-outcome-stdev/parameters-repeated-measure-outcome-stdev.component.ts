@@ -67,7 +67,7 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements DoCheck {
     }
     if (!match) {
       this.measure.valueNames.forEach( name => {
-        controlDefs[name] = [7];
+        controlDefs[name] = [1];
       });
     }
     return controlDefs;
