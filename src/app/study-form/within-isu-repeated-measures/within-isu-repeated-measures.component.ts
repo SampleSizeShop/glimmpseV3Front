@@ -77,7 +77,17 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       first: [0],
       interval: [0]
     },{ validator: noDuplicatesValidator(this.spacingControlNames) });
+    this.spacingForm.valueChanges.subscribe(data => this.onValueChanged(data));
   };
+
+  onValueChanged(data?: any) {
+    if (!this.spacingForm) {
+      return;
+    }
+    const form = this.spacingForm;
+
+    // TODO: fix up more nicely...
+  }
 
   ngOnInit() {
     this.buildForm();
@@ -140,6 +150,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       controlDefs['interval'] = this.spacingForm.value.interval;
 
       this.spacingForm = this._fb.group(controlDefs, {validator: noDuplicatesValidator(this.spacingControlNames)});
+      this.spacingForm.valueChanges.subscribe(data => this.onValueChanged(data));
       this.spacingValues = [];
     }
   }

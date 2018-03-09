@@ -114,6 +114,9 @@
                 </div>
               </div>
             </div>
+            <div *ngIf="spacingForm.errors" class="form-group has-danger">
+              <div class="form-control-feedback">{{spacingForm.errors | json}}</div>
+            </div>
           </div>
 
           <div class="col">

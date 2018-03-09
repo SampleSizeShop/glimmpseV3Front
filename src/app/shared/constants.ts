@@ -111,11 +111,9 @@ export const constants = {
     '3': 'SPACING'
   },
   REPEATED_MEASURE_TYPES: ['Numeric', 'Categorical', 'Ordinal'],
-  REPEATED_MEASURE_FORM_ERRORS: {},
+  REPEATED_MEASURE_FORM_ERRORS: {'duplicates': ''},
   REPEATED_MEASURE_FORM_VALIDATION_MESSAGES: {
-    'outcomes': {
-      'duplicate': 'You have already added that outcome.'
-    }
+    'duplicates': {'duplicates': 'Your repeated measures cannot be duplicates.'}
   },
   MAX_LEVELS: 10,
   MAX_ELEMENTS: 10,
