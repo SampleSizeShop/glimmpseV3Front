@@ -73,7 +73,6 @@ private _varianceScaleFactorsSubscription: Subscription;
     if (
       this.scaleFactorsForm.status === 'VALID'
       && this.scaleFactorsForm.value.scaleFactors
-      && this.scaleFactorsForm.value.scaleFactors.trim() !== ''
     ) {
       this.scaleFactors.push(+this.scaleFactorsForm.value.scaleFactors);
       this.scaleFactorsForm.reset();
