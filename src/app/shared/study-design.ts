@@ -118,8 +118,7 @@ export class StudyDesign {
           toRemove.push(this.isuFactors.outcomeRepeatedMeasureStDevs.indexOf(stDev));
         }
       }
-      toRemove = toRemove.reverse();
-      for (const index of toRemove) {
+      for (const index of toRemove.reverse()) {
         if (index > -1) {
           this.isuFactors.outcomeRepeatedMeasureStDevs.splice(index, 1)
         }

@@ -15,7 +15,7 @@ import {isNullOrUndefined} from 'util';
   styleUrls: ['./correlation-matrix.component.scss'],
   providers: [ NGXLogger ]
 })
-export class CorrelationMatrixComponent implements DoCheck, OnDestroy {
+export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
   private _size: number;
   private _title: string;
@@ -56,6 +56,10 @@ export class CorrelationMatrixComponent implements DoCheck, OnDestroy {
       }
     );
     this._check = this.size;
+  }
+
+  ngOnInit() {
+    this.buildForm();
   }
 
   ngDoCheck() {
