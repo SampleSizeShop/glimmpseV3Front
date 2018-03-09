@@ -35,19 +35,21 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements DoCheck {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
-    this.route.params.subscribe( params => {
-      this.isuFactors.repeatedMeasures.forEach( measure => {
-        this.isuFactors.outcomes.forEach( outcome => {
-          if (outcome.name === params['outcome']) {
-            this.outcome = outcome;
+    if (!isNullOrUndefined(this.route) && !isNullOrUndefined(this.route.params)) {
+      this.route.params.subscribe( params => {
+        this.isuFactors.repeatedMeasures.forEach( measure => {
+          this.isuFactors.outcomes.forEach( outcome => {
+            if (outcome.name === params['outcome']) {
+              this.outcome = outcome;
+            }
+          });
+          if (measure.name === params['measure']) {
+            this.measure = measure;
+            this.buildForm();
           }
         });
-        if (measure.name === params['measure']) {
-          this.measure = measure;
-          this.buildForm();
-        }
       });
-    });
+    }
   }
 
   buildForm() {
