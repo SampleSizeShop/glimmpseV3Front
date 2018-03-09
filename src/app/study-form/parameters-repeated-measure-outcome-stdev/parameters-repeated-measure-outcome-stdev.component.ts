@@ -58,20 +58,23 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements DoCheck {
   };
 
   ngDoCheck() {
+    this.updateStDevs();
+  }
+
+  private updateStDevs() {
     const stDevs = new Map<string, number>();
     for (const name in this.measure.valueNames) {
       if (this.stdevForm.get(name)) {
         stDevs.set(name, this.stdevForm.get(name).value);
       }
     }
-    // this is failling!!!!!!!!!
     if (stDevs.size > 0) {
       const res = new OutcomeRepMeasStDev(this.outcome.name, this.measure.name, stDevs);
       if (this.isuFactors.outcomeRepeatedMeasureStDevs.length === 0) {
         this.isuFactors.outcomeRepeatedMeasureStDevs.push(res);
       } else {
         let match = false;
-        for ( const stDev of this.isuFactors.outcomeRepeatedMeasureStDevs ) {
+        for (const stDev of this.isuFactors.outcomeRepeatedMeasureStDevs) {
           if (stDev.outcome === this.outcome.name && stDev.repMeasure === this.measure.name) {
             match = true;
             stDev.values = stDevs;
@@ -81,11 +84,9 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements DoCheck {
           this.isuFactors.outcomeRepeatedMeasureStDevs.push(res);
         }
       }
-      // !!!!!!!!!!!!!!!!!!!!!!
       this.study_service.updateIsuFactors(this.isuFactors);
     }
   }
-
 
   hasStuff() {
     if (!isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this.isuFactors.outcomeRepeatedMeasureStDevs)) {
