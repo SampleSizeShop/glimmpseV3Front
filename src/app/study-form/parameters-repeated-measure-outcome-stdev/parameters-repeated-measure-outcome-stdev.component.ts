@@ -37,25 +37,41 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements DoCheck {
     } );
     this.route.params.subscribe( params => {
       this.isuFactors.repeatedMeasures.forEach( measure => {
+        this.isuFactors.outcomes.forEach( outcome => {
+          if (outcome.name === params['outcome']) {
+            this.outcome = outcome;
+          }
+        });
         if (measure.name === params['measure']) {
           this.measure = measure;
-        }
-      });
-      this.isuFactors.outcomes.forEach( outcome => {
-        if (outcome.name === params['outcome']) {
-          this.outcome = outcome;
+          this.buildForm();
         }
       });
     });
   }
 
   buildForm() {
-    const controlDefs = {};
-    this.measure.valueNames.forEach( name => {
-      controlDefs[name] = [2];
-    });
-    this.stdevForm = this.fb.group(controlDefs);
+    this.stdevForm = this.fb.group(this.getStDevControls());
   };
+
+  getStDevControls() {
+    const controlDefs = {};
+    let match = false;
+    for (const stDev of this.isuFactors.outcomeRepeatedMeasureStDevs) {
+      if (stDev.outcome === this.outcome.name && stDev.repMeasure === this.measure.name) {
+        match = true;
+        this.measure.valueNames.forEach( name => {
+          controlDefs[name] = stDev.values.get(String(name));
+        });
+      }
+    }
+    if (!match) {
+      this.measure.valueNames.forEach( name => {
+        controlDefs[name] = [7];
+      });
+    }
+    return controlDefs;
+  }
 
   ngDoCheck() {
     this.updateStDevs();
