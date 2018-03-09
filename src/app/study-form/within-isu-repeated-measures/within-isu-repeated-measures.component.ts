@@ -6,6 +6,7 @@ import {NavigationService} from 'app/shared/navigation.service';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../study.service';
 import {minMaxValidator} from '../../shared/minmax.validator';
+import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -74,7 +75,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       spacing: this.fb.array([]),
       first: [0],
       interval: [0]
-    })
+    });
   };
 
   ngOnInit() {
@@ -159,6 +160,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       this.spacingValues.push(this.spacingForm.get(name.toString()).value);
     }
     measure.valueNames = this.spacingValues;
+    measure.correlationMatrix = new CorrelationMatrix(measure.valueNames);
 
     this.repeatedMeasures.push(measure);
   }

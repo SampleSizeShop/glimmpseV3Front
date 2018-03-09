@@ -1,3 +1,3 @@
 <div *ngIf="repeatedMeasure$ | async as repeatedMeasure">
-  <app-correlation-matrix [size]="repeatedMeasure.noRepeats" [title]="repeatedMeasure.name" [labels]="repeatedMeasure.valueNames"></app-correlation-matrix>
+  <app-correlation-matrix [size]="repeatedMeasure.valueNames.length" [title]="repeatedMeasure.name" [labels]="repeatedMeasure.valueNames"></app-correlation-matrix>
 </div>
