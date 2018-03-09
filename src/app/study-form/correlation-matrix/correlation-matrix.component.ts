@@ -42,7 +42,7 @@ export class CorrelationMatrixComponent implements DoCheck, OnDestroy {
         this.uMatrix = correlationMatrix;
       }
     );
-    this.sizeSubscription = this._correlationMatrixService.size$.subscribe(
+    this._sizeSubscription = this._correlationMatrixService.size$.subscribe(
       size => {
         this.size = size;
         if (
