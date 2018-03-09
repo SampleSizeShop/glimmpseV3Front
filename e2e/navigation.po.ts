@@ -53,7 +53,10 @@ export class NavigationE2E {
       browser.sleep(ms);
     };
 
-  
+    findAllByClass(ccls: string){
+      return element.all(by.className(ccls));
+    };
+
     findAllByTag(tag: string){
       return element.all(by.tagName(tag));
     };

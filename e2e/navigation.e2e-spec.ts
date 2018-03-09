@@ -141,10 +141,12 @@ describe('demo-front-app navigation test', () => {
 
     it('end2end basic navigation with simple parameters', () => {
         //this test also will test the behavior of the page after input those parameters such as boundary check
+        //MODE
         page.sleep(300);
         expect(page.getElementClass('guidedbtn')).toContain('active');
         page.next();
 
+        //TARGET_EVENT
         page.sleep(300);
         expect(page.getElementClass('rejectionbtn')).toContain('active');
         page.findContentById('ciwidthbtn').click();
@@ -153,6 +155,7 @@ describe('demo-front-app navigation test', () => {
         expect(page.getElementClass('rejectionbtn')).toContain('active');
         page.next()
 
+        //SOLVE_FOR
         page.sleep(300);
         expect(page.getElementClass('powerbtn')).toContain('active');
         page.findContentById('samplesizebtn').click();
@@ -163,6 +166,7 @@ describe('demo-front-app navigation test', () => {
         page.findContentById('samplesize').sendKeys(20);
         page.next()
 
+        //STATISTICAL_TESTS
         page.sleep(300);
         expect(page.getElementClass('hlt')).toContain('active');
         page.findContentById('pb').click();
@@ -171,14 +175,83 @@ describe('demo-front-app navigation test', () => {
         expect(page.getElementClass('pb')).not.toContain('active');
         page.next();
 
+        //TYPE_ONE_ERROR
         page.sleep(300);
         page.findContentById('typeoneerror').clear();
         page.findContentById('typeoneerror').sendKeys(0.01);
+        page.next();
+
+        //WITHIN_ISU_OUTCOMES
+        page.sleep(300);
+        page.findContentById('outcomes').sendKeys('simple');
+        page.findContentById('addoutcome').click();
+        expect(page.findContentById('removeoutcome').isPresent()).toBe(true);
+        expect(page.findByCssWithText('.col', 'simple').isPresent()).toBe(true);
+        page.findContentById('removeoutcome').click();
+        expect(page.findContentById('removeoutcome').isPresent()).toBe(false);
+        expect(page.findByCssWithText('.col', 'simple').isPresent()).toBe(false);
+        page.findContentById('outcomes').sendKeys('simple');
+        page.findContentById('addoutcome').click();
+        page.next();
+
+        page.sleep(100);
+        page.next();
+        page.sleep(100);
+        page.next();
+        page.sleep(100);
+        page.next();
+        page.sleep(100);
+        page.next();
+        page.sleep(100);
+        page.next();
+
+        //HYPOTHESIS_BETWEEN
+        page.sleep(1000);
+        // expect(page.findContentByClass('mjx-chtml MathJax_CHTML').isDisplayed()).toBe(true)
+        page.next();
+        //HYPOTHESIS_WITHIN
+        page.sleep(1000);
+        // expect(page.findContentByClass('mjx-chtml MathJax_CHTML').isDisplayed()).toBe(true);
+        // expect(page.findAllByClass('mjx-chtml MathJax_CHTML').count()).toBe(3);
+        page.next();
+
+        //PARAMETERS_STANDARD_DEVIATION
+        page.sleep(300);
+        //bug in this page: the input value are not saved
+        page.next();
+        page.sleep(100)
+        page.next();
         
+        //PARAMETERS_SCALE_FACTOR_VARIANCE
+        page.sleep(100);
+        page.findContentById('scaleFactors').clear();
+        page.findContentById('scaleFactors').sendKeys('2');
+        page.findContentById('addscaleFactor').click();
+        expect(page.findContentById('removescaleFactor').isPresent()).toBe(true)
+        expect(page.findByCssWithText('.col', '2').isPresent()).toBe(true)
+        page.findContentById('removescaleFactor').click();
+        expect(page.findContentById('removescaleFactor').isPresent()).toBe(false);
+        page.findContentById('scaleFactors').clear();
+        page.findContentById('scaleFactors').sendKeys('1');
+        page.findContentById('addscaleFactor').click();
+        page.next();
+
+        page.sleep(100);
+        page.next();
+
+        page.sleep(100);
+        expect(page.getRouterURLString()).toBe('CALCULATE');
+        //add test here to eval results
     });
 
     it('end2end basic navigation with complex parameters', () => {
-    
+        
+
+    });
+
+    it('end2end basic navigation with tutorial parameters', () => {
+        
+
     });
 
 });
