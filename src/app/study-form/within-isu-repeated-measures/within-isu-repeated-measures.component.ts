@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../study.service';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
+import {noDuplicatesValidator} from '../../shared/noduplicates.validator';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -75,8 +76,18 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       spacing: this.fb.array([]),
       first: [0],
       interval: [0]
-    });
+    },{ validator: noDuplicatesValidator(this.spacingControlNames) });
+    this.spacingForm.valueChanges.subscribe(data => this.onValueChanged(data));
   };
+
+  onValueChanged(data?: any) {
+    if (!this.spacingForm) {
+      return;
+    }
+    const form = this.spacingForm;
+
+    // TODO: fix up more nicely...
+  }
 
   ngOnInit() {
     this.buildForm();
@@ -138,7 +149,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       controlDefs['first'] = this.spacingForm.value.first;
       controlDefs['interval'] = this.spacingForm.value.interval;
 
-      this.spacingForm = this._fb.group(controlDefs);
+      this.spacingForm = this._fb.group(controlDefs, {validator: noDuplicatesValidator(this.spacingControlNames)});
+      this.spacingForm.valueChanges.subscribe(data => this.onValueChanged(data));
       this.spacingValues = [];
     }
   }
@@ -219,10 +231,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       return this.typeForm.status;
     }
     if (stage === 2 ) {
-      return this.repeatsForm.status
+      return this.repeatsForm.status;
     }
     if (stage === 3 ) {
-      return this.spacingForm.status
+      return this.spacingForm.status;
     }
     return 'INVALID';
   }
