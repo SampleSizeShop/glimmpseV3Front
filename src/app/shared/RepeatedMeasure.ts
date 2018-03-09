@@ -1,13 +1,14 @@
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 import {PartialMatrix} from './PartialMatrix';
-import {isNullOrUndefined} from 'util';
+import {CorrelationMatrix} from './CorrelationMatrix';
 
 export class RepeatedMeasure extends ISUFactor {
   units: string;
   type: string;
   private _noRepeats: number;
   partialUMatrix: PartialMatrix;
+  correlationMatrix: CorrelationMatrix;
 
   constructor(name?: string) {
     super(name);
@@ -18,6 +19,7 @@ export class RepeatedMeasure extends ISUFactor {
     this.type = '';
     this._noRepeats = 0;
     this.partialUMatrix = new PartialMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
+    this.correlationMatrix = new CorrelationMatrix(this.valueNames);
   }
 
   get noRepeats(): number {

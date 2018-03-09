@@ -1,14 +1,28 @@
 import * as math from 'mathjs';
 import Matrix = mathjs.Matrix;
+import {isNull, isNullOrUndefined} from "util";
 
 /**
  * Model class containing a mathjs Matrix.
  */
 export class CorrelationMatrix {
+  private _names: string[];
   private _values: Matrix;
 
-  constructor() {
+  constructor(names?: string[]) {
     this.values = math.matrix();
+    if (!isNullOrUndefined(names) && names.length > 0) {
+      this.names = names;
+      this.populateDefaultValues(names.length);
+    }
+  }
+
+  get names(): string[] {
+    return this._names;
+  }
+
+  set names(value: string[]) {
+    this._names = value;
   }
 
   get values(): Matrix {

@@ -12,7 +12,7 @@
     <div class="row" *ngIf="firstScaleFactor() || nextScaleFactor()">
       <div class="col">
         <div class="form-group">
-          <input class="form-control" formControlName="scaleFactors" (keyup.enter)="addScaleFactor()" id="scaleFactors">
+          <input class="form-control" formControlName="scaleFactors" (keyup.enter)="addScaleFactor()" id="scaleFactors" type="number" step="0.01">
           <div *ngIf="formErrors.scaleFactors" class="form-group has-danger">
             <div class="form-control-feedback" id="scaleFactorserr">{{formErrors.scaleFactors}}</div>
           </div>

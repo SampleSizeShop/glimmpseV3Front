@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DoCheck, OnChanges, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../study.service';
@@ -6,30 +6,112 @@ import {Outcome} from '../../shared/Outcome';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {OutcomeRepMeasStDev} from "../../shared/OutcomeRepMeasStDev";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-parameters-repeated-measure-outcome-stdev',
   templateUrl: './parameters-repeated-measure-outcome-stdev.component.html',
   styleUrls: ['./parameters-repeated-measure-outcome-stdev.component.scss']
 })
-export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit {
+export class ParametersRepeatedMeasureOutcomeStDevComponent implements DoCheck {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _outcome$: Observable<Outcome>;
   private _measure$: Observable<RepeatedMeasure>;
-  constructor(private study_service: StudyService, private route: ActivatedRoute) {
-    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
-      this.isuFactors = isuFactors;
-    } );
-  }
+  private _stdevForm: FormGroup;
 
-  ngOnInit() {
+  private _measure: RepeatedMeasure;
+  private _outcome: Outcome;
+
+  constructor(private study_service: StudyService, private route: ActivatedRoute, private fb: FormBuilder) {
     this.outcome$ = this.route.paramMap.switchMap(
       (params: ParamMap) => this.getOutcome(params.get('outcome'))
     );
     this.measure$ = this.route.paramMap.switchMap(
       (params: ParamMap) => this.getMeasure(params.get('measure'))
     );
+    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    } );
+    if (!isNullOrUndefined(this.route) && !isNullOrUndefined(this.route.params)) {
+      this.route.params.subscribe( params => {
+        this.isuFactors.repeatedMeasures.forEach( measure => {
+          this.isuFactors.outcomes.forEach( outcome => {
+            if (outcome.name === params['outcome']) {
+              this.outcome = outcome;
+            }
+          });
+          if (measure.name === params['measure']) {
+            this.measure = measure;
+            this.buildForm();
+          }
+        });
+      });
+    }
+  }
+
+  buildForm() {
+    this.stdevForm = this.fb.group(this.getStDevControls());
+  };
+
+  getStDevControls() {
+    const controlDefs = {};
+    let match = false;
+    for (const stDev of this.isuFactors.outcomeRepeatedMeasureStDevs) {
+      if (stDev.outcome === this.outcome.name && stDev.repMeasure === this.measure.name) {
+        match = true;
+        this.measure.valueNames.forEach( name => {
+          controlDefs[name] = stDev.values.get(String(name));
+        });
+      }
+    }
+    if (!match) {
+      this.measure.valueNames.forEach( name => {
+        controlDefs[name] = [1];
+      });
+    }
+    return controlDefs;
+  }
+
+  ngDoCheck() {
+    this.updateStDevs();
+  }
+
+  private updateStDevs() {
+    const stDevs = new Map<string, number>();
+    for (const name in this.measure.valueNames) {
+      if (this.stdevForm.get(name)) {
+        stDevs.set(name, this.stdevForm.get(name).value);
+      }
+    }
+    if (stDevs.size > 0) {
+      const res = new OutcomeRepMeasStDev(this.outcome.name, this.measure.name, stDevs);
+      if (this.isuFactors.outcomeRepeatedMeasureStDevs.length === 0) {
+        this.isuFactors.outcomeRepeatedMeasureStDevs.push(res);
+      } else {
+        let match = false;
+        for (const stDev of this.isuFactors.outcomeRepeatedMeasureStDevs) {
+          if (stDev.outcome === this.outcome.name && stDev.repMeasure === this.measure.name) {
+            match = true;
+            stDev.values = stDevs;
+          }
+        }
+        if (!match) {
+          this.isuFactors.outcomeRepeatedMeasureStDevs.push(res);
+        }
+      }
+      this.study_service.updateIsuFactors(this.isuFactors);
+    }
+  }
+
+  hasStuff() {
+    if (!isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this.isuFactors.outcomeRepeatedMeasureStDevs)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getOutcomes() { return Observable.of(this.isuFactors.outcomes); }
@@ -76,5 +158,30 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit {
 
   get outcome$(): Observable<Outcome> {
     return this._outcome$;
+  }
+
+  get stdevForm(): FormGroup {
+    return this._stdevForm;
+  }
+
+  set stdevForm(value: FormGroup) {
+    this._stdevForm = value;
+  }
+
+  get measure(): RepeatedMeasure {
+    return this._measure;
+  }
+
+  set measure(value: RepeatedMeasure) {
+    this._measure = value;
+    this.buildForm();
+  }
+
+  get outcome(): Outcome {
+    return this._outcome;
+  }
+
+  set outcome(value: Outcome) {
+    this._outcome = value;
   }
 }

@@ -15,7 +15,7 @@ import {isNullOrUndefined} from 'util';
   styleUrls: ['./correlation-matrix.component.scss'],
   providers: [ NGXLogger ]
 })
-export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
+export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
   private _size: number;
   private _title: string;
@@ -26,6 +26,7 @@ export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
   private _values: {};
   private _correlationMatrixForm: FormGroup;
   private _correlationMatrixSubscription: Subscription;
+  private _sizeSubscription: Subscription;
   private _uMatrix: CorrelationMatrix;
   private _min: number;
   private _max: number;
@@ -41,7 +42,7 @@ export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
         this.uMatrix = correlationMatrix;
       }
     );
-    this.correlationMatrixSubscription = this._correlationMatrixService.size$.subscribe(
+    this._sizeSubscription = this._correlationMatrixService.size$.subscribe(
       size => {
         this.size = size;
         if (
@@ -118,7 +119,10 @@ export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
 
   _initializeProperties() {
     this.formErrors = {};
-    if (this.size !== -1) {
+    if (
+      this.size !== -1
+      && !isNullOrUndefined(this.uMatrix.values)
+      && this.uMatrix.values.size()[0] !== this.size) {
       this.uMatrix.populateDefaultValues(this.size);
     }
 
@@ -248,6 +252,7 @@ export class CorrelationMatrixComponent implements  OnInit, DoCheck, OnDestroy {
 
   @Input() set title(value: string) {
     this._title = value + ' ';
+    this.buildForm();
   }
 
   get labels(): string[] {
