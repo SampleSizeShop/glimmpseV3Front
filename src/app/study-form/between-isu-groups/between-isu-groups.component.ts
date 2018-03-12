@@ -54,9 +54,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   buildForm() {
-    this.groupSizeForm = this.fb.group( {
-      smallestGroupSize: [1]
-    } );
+    this.groupSizeForm = this.fb.group( this.updateSmallestGroupSizeControls()  );
     this.relativeGroupSizeForm = this.fb.group( {} );
     if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE) {
       this.updateGroupsizeFormControls();
@@ -82,6 +80,14 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
         combination.size = value;
       });
     }
+  }
+
+  updateSmallestGroupSizeControls() {
+    if (this.solveFor === constants.SOLVE_FOR_POWER) {
+      return { smallestGroupSize: [ this._isuFactors.smallestGroupSize ] }
+    } else {
+      return { smallestGroupSize: [1] }
+    };
   }
 
   updateGroupsizeFormControls() {
