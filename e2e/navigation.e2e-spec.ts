@@ -66,7 +66,7 @@ describe('demo-front-app navigation test', () => {
         expect(page.getRouterURLString()).toBe('MODE');
     });
 
-    it('basic navigation without any input including browser action', () => {
+    xit('basic navigation without any input including browser action', () => {
         // test browser back
         page.sleep(500);
         expect(page.getRouterURLString()).toBe('MODE');
@@ -244,14 +244,44 @@ describe('demo-front-app navigation test', () => {
         //add test here to eval results
     });
 
-    it('end2end basic navigation with complex parameters', () => {
-        
+    it('end2end basic navigation with complex parameters power', () => {
+        //MODE
+        page.sleep(100);
+        expect(page.getElementClass('guidedbtn')).toContain('active');
+        page.next();
 
+        //TARGET_EVENT
+        page.sleep(100);
+        expect(page.getElementClass('rejectionbtn')).toContain('active');
+        page.next();
+
+        //SOLVE_FOR
+        page.sleep(100);
+        page.findContentById('samplesize').clear();
+        page.findContentById('samplesize').sendKeys('100');
+        page.findContentById('powerbtn').click();
+        expect(page.getElementClass('powerbtn')).toContain('active');
+        page.next();
+
+        //STATISTICAL_TESTS
+        page.sleep(100);
+        
+    });
+
+    it('end2end basic navigation with complex parameters sample size', () => {
+        //MODE
+        page.sleep(100);
+        expect(page.getElementClass('guidedbtn')).toContain('active');
+        page.next();
+
+        //TARGET_EVENT
+        page.sleep(100);
+        expect(page.getElementClass('rejectionbtn')).toContain('active');
+        page.next();
     });
 
     it('end2end basic navigation with tutorial parameters', () => {
         
-
     });
 
 });

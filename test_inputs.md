@@ -33,6 +33,9 @@
 - navigation; 'end2end basic navigation with complex parameters'
 ```javascript
 {
+    'MODE': 'guide',
+
+    'TARGET_EVENT': 'reject only',
 
     'SOLVE_FOR':
     [
@@ -40,9 +43,11 @@
         'solve for': 'power'   
     ],
 
+    'STATISTICAL_TESTS': 'Hotelling Lawley Trace'
+
     'TYPE_ONE_ERROR':
     [
-        'typeoneerror': 0.05 //default
+        'typeoneerror': 0.01 //default
     ],
 
     'WITHIN_ISU_OUTCOMES':
@@ -58,7 +63,7 @@
             'type': 'Numeric', //element(by.cssContainingText('option', 'BeaverBox Testing')).click(); 
             'times': 4,
             'first measure': 1,
-            'interval': 1
+            'interval': 2
         },
         {
             'Dimension': 'doctor',
@@ -73,8 +78,8 @@
     'WITHIN_ISU_CLUSTERS':
     [
         'name': 'hospital'
-        'level name': ['gainesville', 'orlando', 'tampa'],
-        'elements': [5, 10, 10]
+        'level name': ['city', 'state'],
+        'elements': [10, 30]
     ],
     
     'BETWEEN_ISU_PREDICTORS':
@@ -91,7 +96,7 @@
 
     'BETWEEN_ISU_GROUPS':
     [
-        'size': 10
+        'smallest group': 10
     ],
 
     'GAUSSIAN_COVARIATE':
@@ -107,7 +112,7 @@
     'HYPOTHESIS_WITHIN':
     [
         'time': 'polynomial'
-        'doctor': 'polynomial'
+        'doctor': 'global trend'
     ],
     
     'PARAMETERS_STANDARD_DEVIATION':
@@ -118,7 +123,7 @@
 
     'PARAMETERS_OUTCOME_CORRELATION':
     [
-        'weight': 0.7
+        'weight x bloodpressure': 0.7
     ],
 
     'PARAMETERS_REPEATED_MEASURE_OUTCOME_CORRELATION/bloodpressure/time':
@@ -170,10 +175,14 @@
 
     'PARAMETERS_INTRA_CLASS_CORRELATION':
     [
-        'gainesville': 0.5,
-        'orlando': 0.6,
-        'tampa': 0.7
+        'state': 0.5,
+        'city': 0.6
     ],
+
+    'PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE':
+    [
+        'variance of your gaussian covariate': 2
+    ]
 
     'PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION': //range -1 to 1, default should be 0
     [
@@ -181,15 +190,36 @@
         'weight': 0.9
     ],
 
+    'PARAMETERS_SCALE_FACTOR_VARIANCE':
+    [
+        'scaleFactors': [1, 2, 0.5]
+    ],
+
+    'OPTIONAL_SPECS_POWER_METHOD':
+    [
+        'mode': 'unconditional'
+    ]
+
     'PARAMETERS_STANDARD_DEVIATION':
     [
         'input': 2 
     ],
     
-    'PARAMETERS_SCALE_FACTOR_VARIANCE':
+    'OPTIONAL_SPECS_POWER_CURVE_DATA_SERIES':
     [
-        'scaleFactors': 1
+        { "_typeIerror": 0.01, "_meanScaleFactor": 1, "_varianceScaleFactor": 1 },
+        { "_typeIerror": 0.01, "_meanScaleFactor": 1, "_varianceScaleFactor": 2 }
     ],
+
+    'OPTIONAL_SPECS_CI_CHOICE':
+    [
+        'define': 'yes'
+    ]
+
+    'OPTIONAL_SPECS_CI_ASSUMPTIONS':
+    [
+        'choice': 'both'
+    ]
     
     'OPTIONAL_SPECS_CI_LOWER_TAIL':
     [
@@ -210,6 +240,6 @@
     [
         'rank': 5
     ]
-
 }
 ```
+
