@@ -95,7 +95,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
       this.study_service.updateIsuFactors(this.isuFactors);
-
       this.tables = this.isuFactors.groupCombinations(
         this.isuFactors.betweenIsuRelativeGroupSizes,
         this.isuFactors.predictors);
