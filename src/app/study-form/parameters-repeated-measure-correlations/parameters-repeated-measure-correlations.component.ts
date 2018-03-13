@@ -35,28 +35,22 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit, D
     this.repeatedMeasure$ = this.route.paramMap.switchMap(
       (params: ParamMap) => this.getRepeatedMeasure(params.get('measure'))
     );
-    if (!isNullOrUndefined(this.route) && !isNullOrUndefined(this.route.params)) {
-      this.route.params.subscribe( params => {
-        this.isuFactors.repeatedMeasures.forEach( measure => {
-          if (measure.name === params['measure']) {
-            this._measure = measure;
-            this.correlationMatrix = measure.correlationMatrix;
-          }
-        });
-        if (!isNullOrUndefined(this.correlationMatrix && !isNullOrUndefined(this.correlationMatrix.values))) {
-          this.matrix_service.updateCorrelationMatrix(this._measure.correlationMatrix);
-        }
-      });
-    }
+  }
+
+  ngOnInit() {
+    this.repeatedMeasure$.subscribe( measure => {
+      this._measure = measure;
+      this.correlationMatrix = measure.correlationMatrix;
+      if (!isNullOrUndefined(this.correlationMatrix
+          && !isNullOrUndefined(this.correlationMatrix.values))) {
+        this.matrix_service.updateCorrelationMatrix(this._measure.correlationMatrix);
+      }
+    } );
     this.correlationMatrixSubscription = this.matrix_service.correlationMatrix$.subscribe(matrix => {
       if (!isNullOrUndefined(matrix)) {
         this.correlationMatrix = matrix;
       }
     });
-  }
-
-  ngOnInit() {
-
   }
 
   ngDoCheck() {
@@ -70,6 +64,7 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit, D
 
   ngOnDestroy() {
     this._isuFactorsSubscription.unsubscribe();
+    this.correlationMatrixSubscription.unsubscribe();
   }
 
   getRepeatedMeasures() { return Observable.of(this.isuFactors.repeatedMeasures); }
