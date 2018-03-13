@@ -15,7 +15,7 @@ import {isNullOrUndefined} from "util";
   templateUrl: './parameters-repeated-measure-outcome-stdev.component.html',
   styleUrls: ['./parameters-repeated-measure-outcome-stdev.component.scss']
 })
-export class ParametersRepeatedMeasureOutcomeStDevComponent implements DoCheck {
+export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, DoCheck {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _outcome$: Observable<Outcome>;
@@ -37,17 +37,7 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements DoCheck {
     } );
     if (!isNullOrUndefined(this.route) && !isNullOrUndefined(this.route.params)) {
       this.route.params.subscribe( params => {
-        this.isuFactors.repeatedMeasures.forEach( measure => {
-          this.isuFactors.outcomes.forEach( outcome => {
-            if (outcome.name === params['outcome']) {
-              this.outcome = outcome;
-            }
-          });
-          if (measure.name === params['measure']) {
-            this.measure = measure;
-            this.buildForm();
-          }
-        });
+        this.updateForms(params);
       });
     }
   }
@@ -56,27 +46,57 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements DoCheck {
     this.stdevForm = this.fb.group(this.getStDevControls());
   };
 
+  updateForms(params) {
+    this.isuFactors.repeatedMeasures.forEach( measure => {
+      this.isuFactors.outcomes.forEach( outcome => {
+        if (outcome.name === params['outcome']) {
+          this.outcome = outcome;
+        }
+      });
+      if (measure.name === params['measure']) {
+        this.measure = measure;
+        this.buildForm();
+      }
+    });
+  }
+
   getStDevControls() {
     const controlDefs = {};
-    let match = false;
-    for (const stDev of this.isuFactors.outcomeRepeatedMeasureStDevs) {
-      if (stDev.outcome === this.outcome.name && stDev.repMeasure === this.measure.name) {
-        match = true;
+    if (this.hasRepeatedMeasureValues()) {
+      let match = false;
+      for (const stDev of this.isuFactors.outcomeRepeatedMeasureStDevs) {
+        if (stDev.outcome === this.outcome.name && stDev.repMeasure === this.measure.name) {
+          match = true;
+          this.measure.valueNames.forEach( name => {
+            controlDefs[name] = [stDev.values.get(name)];
+          });
+        }
+      }
+      if (!match) {
         this.measure.valueNames.forEach( name => {
-          controlDefs[name] = [stDev.values.get(name)];
+          controlDefs[name] = [1];
         });
       }
-    }
-    if (!match) {
-      this.measure.valueNames.forEach( name => {
-        controlDefs[name] = [1];
-      });
     }
     return controlDefs;
   }
 
+  hasRepeatedMeasureValues() {
+    if (!isNullOrUndefined(this.measure)
+      && !isNullOrUndefined(this.measure.valueNames)
+      && this.measure.valueNames.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  ngOnInit() {
+    this.buildForm();
+  }
   ngDoCheck() {
-    this.updateStDevs();
+    if (this.hasRepeatedMeasureValues()) {
+      this.updateStDevs();
+    }
   }
 
   updateStDevs() {
