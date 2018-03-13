@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnChanges, OnInit} from '@angular/core';
+import {Component, DoCheck, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../study.service';
@@ -15,7 +15,7 @@ import {isNullOrUndefined} from "util";
   templateUrl: './parameters-repeated-measure-outcome-stdev.component.html',
   styleUrls: ['./parameters-repeated-measure-outcome-stdev.component.scss']
 })
-export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, DoCheck {
+export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, DoCheck, OnDestroy {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _outcome$: Observable<Outcome>;
@@ -32,33 +32,34 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, D
     this.measure$ = this.route.paramMap.switchMap(
       (params: ParamMap) => this.getMeasure(params.get('measure'))
     );
+  }
+
+  ngOnInit() {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
-    if (!isNullOrUndefined(this.route) && !isNullOrUndefined(this.route.params)) {
-      this.route.params.subscribe( params => {
-        this.updateForms(params);
-      });
+    this.outcome$.subscribe(outcome => {
+      this.outcome = outcome;
+    });
+    this.measure$.subscribe( measure => {
+      this.measure = measure;
+      this.buildForm();
+    });
+  }
+
+  ngDoCheck() {
+    if (this.hasRepeatedMeasureValues()) {
+      this.updateStDevs();
     }
+  }
+
+  ngOnDestroy() {
+    this.isuFactorsSubscription.unsubscribe();
   }
 
   buildForm() {
     this.stdevForm = this.fb.group(this.getStDevControls());
   };
-
-  updateForms(params) {
-    this.isuFactors.repeatedMeasures.forEach( measure => {
-      this.isuFactors.outcomes.forEach( outcome => {
-        if (outcome.name === params['outcome']) {
-          this.outcome = outcome;
-        }
-      });
-      if (measure.name === params['measure']) {
-        this.measure = measure;
-        this.buildForm();
-      }
-    });
-  }
 
   getStDevControls() {
     const controlDefs = {};
@@ -88,14 +89,6 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, D
       return true;
     } else {
       return false;
-    }
-  }
-  ngOnInit() {
-    this.buildForm();
-  }
-  ngDoCheck() {
-    if (this.hasRepeatedMeasureValues()) {
-      this.updateStDevs();
     }
   }
 
