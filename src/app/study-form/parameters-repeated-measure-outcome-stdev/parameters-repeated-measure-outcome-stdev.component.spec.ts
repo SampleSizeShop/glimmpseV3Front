@@ -11,6 +11,9 @@ import {StudyService} from '../study.service';
 import 'rxjs/add/operator/switchMap';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from "../../../environments/environment.test";
+import {Outcome} from "../../shared/Outcome";
+import {RepeatedMeasure} from "../../shared/RepeatedMeasure";
+import {ISUFactors} from "../../shared/ISUFactors";
 
 let component: ParametersRepeatedMeasureOutcomeStDevComponent;
 let fixture: ComponentFixture<ParametersRepeatedMeasureOutcomeStDevComponent>;
@@ -23,7 +26,7 @@ describe('ParametersRepeatedMeasureOutcomeStDevComponent', () => {
 
 
   beforeEach(async(() => {
-    activatedRoute.testParamMap = {name: 'Test'};
+    activatedRoute.testParamMap = {name: 'Test', outcome: 'outcome1', measure: 'measure1'};
     TestBed.configureTestingModule({
       imports: [
       ReactiveFormsModule,
@@ -50,7 +53,16 @@ describe('ParametersRepeatedMeasureOutcomeStDevComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ParametersRepeatedMeasureOutcomeStDevComponent);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
+
+    component.isuFactors = new ISUFactors();
+    const outcome1 = new Outcome('outcome1');
+    const measure1 = new RepeatedMeasure('measure1');
+    measure1.noRepeats = 2;
+    measure1.valueNames = ['1', '2'];
+    component.isuFactors.variables.push(outcome1);
+    component.isuFactors.variables.push(measure1);
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {
