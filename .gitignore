@@ -40,3 +40,12 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# keys, password, remote commend
+*.pem
+id_rsa
+deploy_docker.sh
+docker_perserve.sh
+ecr_user.sh
+deploy_commends.tar
+/encrypt
