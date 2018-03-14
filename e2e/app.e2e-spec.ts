@@ -7,7 +7,7 @@ describe('demo-app-front App', () => {
     page = new DemoAppFrontPage();
   });
 
-  it('should display', () => {
+  xit('should display', () => {
   });
 
 });

@@ -3,13 +3,17 @@ import { NavigationE2E } from './navigation.po';
 describe('demo-front-app navigation test', () => {
     let page: NavigationE2E;
 
+    // var input_complex = require("./test_inputs/complex_sample.json")
+    // console.log(input_complex.MODE)
+    // console.log(input_complex.WITHIN_ISU_REPEATED_MEASURES[0].Dimension)
+
     beforeEach(() => {
         page = new NavigationE2E();
         // page.navigateToHome();
         page.navigateTo('/design/MODE');
     });
 
-    it('basic navigation without any input foward and backword', () => {
+    xit('basic navigation without any input foward and backword', () => {
         //navi forward and should stop at WITHIN_ISU_OUTCOMES
         page.sleep(500);
         expect(page.findContentById("GUIDED").isDisplayed()).toBeTruthy();
@@ -66,6 +70,7 @@ describe('demo-front-app navigation test', () => {
         expect(page.getRouterURLString()).toBe('MODE');
     });
 
+    //deprecated testcase
     xit('basic navigation without any input including browser action', () => {
         // test browser back
         page.sleep(500);
@@ -139,7 +144,7 @@ describe('demo-front-app navigation test', () => {
         expect(page.getRouterURLString()).toBe('TYPE_ONE_ERROR');
     });
 
-    it('end2end basic navigation with simple parameters', () => {
+    xit('end2end basic navigation with simple parameters', () => {
         //this test also will test the behavior of the page after input those parameters such as boundary check
         //MODE
         page.sleep(300);
@@ -247,40 +252,184 @@ describe('demo-front-app navigation test', () => {
     it('end2end basic navigation with complex parameters power', () => {
         //MODE
         page.sleep(100);
+        //expect(page.getElementClass(input_complex.MODE)).toContain('active');
         expect(page.getElementClass('guidedbtn')).toContain('active');
         page.next();
 
         //TARGET_EVENT
         page.sleep(100);
+        //expect(page.getElementClass(input_complex.TARGET_EVENT)).toContain('active');
         expect(page.getElementClass('rejectionbtn')).toContain('active');
         page.next();
 
         //SOLVE_FOR
         page.sleep(100);
         page.findContentById('samplesize').clear();
-        page.findContentById('samplesize').sendKeys('100');
+        //page.findContentById('samplesize').sendKeys(input_complex.SOLVE_FOR.samplesize);
+        //page.findContentById(input_complex.SOLVE_FOR.solve_for).click();
+        //expect(page.getElementClass(input_complex.SOLVE_FOR.solve_for)).toContain('active');
+        page.findContentById('samplesize').sendKeys(100);
         page.findContentById('powerbtn').click();
         expect(page.getElementClass('powerbtn')).toContain('active');
         page.next();
 
         //STATISTICAL_TESTS
         page.sleep(100);
-        
-    });
-
-    it('end2end basic navigation with complex parameters sample size', () => {
-        //MODE
-        page.sleep(100);
-        expect(page.getElementClass('guidedbtn')).toContain('active');
+        page.findContentById('hlt').click();
+        expect(page.getElementClass('hlt')).not.toContain('active');
+        //add test to assert if no element selected, the forward button should be inactive
+        expect(page.getElementClass('navigate_next')).toContain('disabled');
+        page.findContentById('hlt').click();
+        expect(page.getElementClass('navigate_next')).not.toContain('disabled');
+        page.findContentById('pb').click();
         page.next();
 
-        //TARGET_EVENT
+        //TYPE_ONE_ERROR
         page.sleep(100);
-        expect(page.getElementClass('rejectionbtn')).toContain('active');
+        page.findContentById('typeoneerror').clear();
+        page.findContentById('typeoneerror').sendKeys(0.01);
         page.next();
+
+        //WITHIN_ISU_OUTCOMES
+        page.sleep(100);
+        page.findContentById('outcomes').sendKeys('bloodpressure');
+        page.findContentById('addoutcome').click();
+        page.findContentById('outcomes').sendKeys('weight');
+        page.clickEnterKey();
+        expect(page.findAllcontentById('removeoutcome').count()).toBe(2);
+        page.next();
+
+        //WITHIN_ISU_REPEATED_MEASURES
+        page.sleep(100);
+        page.findContentById('includerptmeasuresbtn').click();
+        page.sleep(50);
+        page.findContentById('dimension').sendKeys('time');
+        page.findContentById('units').sendKeys('day');
+        page.next();
+        page.sleep(50);
+        page.findContentById('type').click();
+        page.findByCssWithText('option', 'Numeric').click();
+        page.next();
+        page.sleep(50);
+        page.findContentById('repeats').clear();
+        page.findContentById('repeats').sendKeys(4);
+        page.next();
+        page.sleep(50);
+        page.findContentById('first').clear();
+        page.findContentById('first').sendKeys(1);
+        page.findContentById('interval').clear();
+        page.findContentById('interval').sendKeys(2);
+        page.findByCssWithText('.btn.btn-secondary', 'Fill').click();
+        expect(page.findAllcontentById('spacing').count()).toBe(4);
+        expect(page.findAllcontentById('spacing').get(0).getAttribute('value')).toBe('1');
+        expect(page.findAllcontentById('spacing').get(1).getAttribute('value')).toBe('3');
+        expect(page.findAllcontentById('spacing').get(1).getAttribute('value')).toBe('5');
+        expect(page.findAllcontentById('spacing').get(3).getAttribute('value')).toBe('7');
+        page.findAllcontentById('spacing').get(0).clear();
+        page.findAllcontentById('spacing').get(0).sendKeys(2);
+        expect(page.findAllcontentById('spacing').get(0).getAttribute('value')).toBe('2');
+        page.findByCssWithText('.btn.btn-secondary', 'Fill').click();
+        expect(page.findAllcontentById('spacing').get(0).getAttribute('value')).toBe('1');
+        page.next();
+        page.sleep(100);
+        page.findContentById('includenextrptmeasuresbtn').click();
+        page.sleep(50);
+        page.findContentById('dimension').sendKeys('doctor');
+        page.next();
+        page.sleep(50);
+        page.findContentById('type').click();
+        page.findByCssWithText('option', 'Categorical').click();
+        page.next();
+        page.sleep(50);
+        page.findContentById('repeats').clear();
+        page.findContentById('repeats').sendKeys(3);
+        page.next();
+        //should be a different UI set up for categorical compared with numeric
+        page.findAllcontentById('spacing').get(0).clear();
+        page.findAllcontentById('spacing').get(0).sendKeys(1);
+        page.findAllcontentById('spacing').get(1).clear();
+        page.findAllcontentById('spacing').get(1).sendKeys(2);
+        page.findAllcontentById('spacing').get(2).clear();
+        page.findAllcontentById('spacing').get(2).sendKeys(3);
+        page.next();
+        page.sleep(50);
+        expect(page.findAllcontentById('removerepeatedMeasure').count()).toBe(2);
+        page.next();
+
+        //WITHIN_ISU_CLUSTERS
+        page.sleep(100);
+        page.findContentById('includerptmeasuresbtn').click();
+        page.findContentById('name').clear();
+        page.findContentById('name').sendKeys('hospital');
+        page.next();
+        page.sleep(100);
+        page.findContentById('levelName').clear();
+        page.findContentById('levelName').sendKeys('city');
+        page.findContentById('noElements').clear();
+        page.findContentById('noElements').sendKeys(10);
+        page.findContentById('addLevel').click();
+        page.findContentById('levelName').clear();
+        page.findContentById('levelName').sendKeys('state');
+        page.findContentById('noElements').clear();
+        page.findContentById('noElements').sendKeys(20);
+        page.findContentById('addLevel').click();
+        page.next();
+        page.sleep(100);
+        expect(page.findContentById('removecluster').isPresent()).toBe(true);
+        // page.findContentById('editcluster').click();
+        // page.next();
+        // page.next();
+        page.next();
+        //the edit function seems not implementated completely, only the name of clustering can be changed, the levels cannot be modified unless we remove the cluster and restart again
+
+        //BETWEEN_ISU_PREDICTORS
+        page.sleep(100);
+        page.findContentById('addbetweenbtn').click();
+        page.findContentByCss('input[formcontrolname=predictorName]').sendKeys('treatment');
+        page.next();
+        page.sleep(100);
+        page.findContentById('group').sendKeys('no dose');
+        page.findContentById('addgroup').click();
+        page.findContentById('group').sendKeys('one dose');
+        page.findContentById('addgroup').click();
+        page.findContentById('group').sendKeys('two dose');
+        page.clickEnterKey();
+        page.next();
+        page.sleep(100);
+        page.findContentById('addbetweenbtn').click();
+        page.findContentByCss('input[formcontrolname=predictorName]').sendKeys('instrument');
+        page.next();
+        page.sleep(100);
+        page.findContentById('group').sendKeys('Xray');
+        page.findContentById('addgroup').click();
+        page.findContentById('group').sendKeys('MRI');
+        page.findContentById('addgroup').click();
+        expect(page.findAllcontentById('removepredictor').count()).toBe(2);
+        page.next();
+
+        //BETWEEN_ISU_GROUPS
+        page.sleep(100);
+        page.findContentById('smallestgroupsize').clear();
+        page.findContentById('smallestgroupsize').sendKeys(10);
+        page.next();
+
+        //GAUSSIAN_COVARIATE
+        page.sleep(100);
+        page.findContentById('includegaussiancovariatebtn').click();
+        page.findContentById('variance').clear();
+        page.findContentById('variance').sendKeys(100);
+        page.findContentById('removegaussiancovariatebtn').click();
+        page.findContentById('includegaussiancovariatebtn').click();
+        expect(page.findContentById('variance').ge)
+        page.findContentById('variance').clear();
+        page.findContentById('variance').sendKeys(1);
     });
 
-    it('end2end basic navigation with tutorial parameters', () => {
+    xit('Create a test case for Homework 2 from the short course', () => {
+    
+    });
+
+    xit('Create a test case for Homework 3 from the short course', () => {
         
     });
 

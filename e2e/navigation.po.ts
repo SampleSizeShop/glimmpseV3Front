@@ -1,4 +1,4 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, protractor } from 'protractor';
 
 export class NavigationE2E {
     navigateToHome() {
@@ -11,6 +11,10 @@ export class NavigationE2E {
   
     next(){
       element(by.id('navigate_next')).click();
+    };
+
+    prev(){
+      element(by.id('navigate_before')).click();
     };
 
     refresh(){
@@ -32,10 +36,6 @@ export class NavigationE2E {
     getElementClass(cid: string){
       return element(by.id(cid)).getAttribute('class')
     }
-  
-    prev(){
-      element(by.id('navigate_before')).click();
-    };
   
     findContentById(cid: string){
       return element(by.id(cid))
@@ -68,5 +68,13 @@ export class NavigationE2E {
     findByCssWithText(cls: string, txt: string){
       return element(by.cssContainingText(cls, txt))
     };
+    
+    findContentByCss(ccss: string){
+      return element(by.css(ccss));
+    };
+    
+    clickEnterKey(){
+      browser.actions().sendKeys(protractor.Key.ENTER).perform();
+    }
 
   }
