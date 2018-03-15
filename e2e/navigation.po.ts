@@ -77,4 +77,7 @@ export class NavigationE2E {
       browser.actions().sendKeys(protractor.Key.ENTER).perform();
     }
 
+    findByPartialLinkText(txt: string){
+      return element(by.partialLinkText(txt));
+    }
   }
