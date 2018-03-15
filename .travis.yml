@@ -17,7 +17,7 @@ apt:
     - google-chrome-beta
 
 before_install:
-  # all the deploy replated commends and ssh key are encrypted by travis
+  # all the deploy replated commands and ssh key are encrypted by travis
   - tar -xvf deploy_commands.tar
   - chmod 600 glimmpsev3uat.pem
   - chmod 700 docker_deploy.sh

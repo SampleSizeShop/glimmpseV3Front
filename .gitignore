@@ -41,11 +41,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# keys, password, remote commend
+# keys, password, remote command
 *.pem
 id_rsa
-docker_deploy.sh
-docker_perserve.sh
-ecr_user.sh
-deploy_commends.tar
 /encrypt
