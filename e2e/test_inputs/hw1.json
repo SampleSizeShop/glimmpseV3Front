@@ -48,6 +48,8 @@
         "effect": "choose the second"
     },
 
+    "HYPOTHESIS_BETWEEN": null,
+
     "HYPOTHESIS_WITHIN": null,
     
     "PARAMETERS_MARGINAL_MEANS":
