@@ -15,7 +15,7 @@ import {isNullOrUndefined} from "util";
   templateUrl: './parameters-repeated-measure-outcome-stdev.component.html',
   styleUrls: ['./parameters-repeated-measure-outcome-stdev.component.scss']
 })
-export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, DoCheck, OnDestroy {
+export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, DoCheck {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _outcome$: Observable<Outcome>;
@@ -32,12 +32,12 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, D
     this.measure$ = this.route.paramMap.switchMap(
       (params: ParamMap) => this.getMeasure(params.get('measure'))
     );
-  }
-
-  ngOnInit() {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
+  }
+
+  ngOnInit() {
     this.outcome$.subscribe(outcome => {
       this.outcome = outcome;
     });
@@ -51,10 +51,6 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, D
     if (this.hasRepeatedMeasureValues()) {
       this.updateStDevs();
     }
-  }
-
-  ngOnDestroy() {
-    this.isuFactorsSubscription.unsubscribe();
   }
 
   buildForm() {
