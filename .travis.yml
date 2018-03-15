@@ -42,6 +42,9 @@ after_success:
 #read the TAG_ENABLE param
   - |
     if [ ${TAG_ENABLE} == T ]; then
+      # #############################################################################################################
+      # increment version
+      # #############################################################################################################
       echo start...
       if [ ${BUILD_TYPE} != patch -a ${BUILD_TYPE} != minor -a ${BUILD_TYPE} != major ]; then travis_terminate 1; fi
       git checkout master
