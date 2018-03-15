@@ -46,7 +46,7 @@ script:
 after_success:
 # read the TAG_ENABLE param
   - |
-    if [ ${TAG_ENABLE} == T ]; then
+    if [ ${TAG_ENABLE} == True ]; then
       # #############################################################################################################
       # increment version
       # #############################################################################################################
@@ -64,7 +64,7 @@ after_success:
       ng build --prod
 
       # #############################################################################################################
-      # install docker since the travis docker service version is too old
+      # install docker as the travis docker service version is too old
       # #############################################################################################################
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
