@@ -49,9 +49,15 @@ after_success:
       git commit -m "commit any changes from travis build"
       npm version ${BUILD_TYPE} -m "updating version and deploying [skip ci]"
       git push origin master
+
+      # #############################################################################################################
       # build project since there is no error
+      # #############################################################################################################
       ng build --prod
-      #install docker since the travis docker service version is too old
+
+      # #############################################################################################################
+      # install docker since the travis docker service version is too old
+      # #############################################################################################################
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
       sudo apt-get update
@@ -59,17 +65,32 @@ after_success:
       sudo apt-get install -y docker-ce
       # up data pip
       pip install -U pip
-      #install awscli
+
+      # #############################################################################################################
+      # install awscli
+      # #############################################################################################################
       sudo pip install awscli --upgrade
       export PATH=~/.local/bin:$PATH
-      #add Aws IAM user credentials to env
+
+      # #############################################################################################################
+      # add Aws IAM user credentials to env
+      # #############################################################################################################
       mkdir -p ~/.aws
       .scripts/ecr_user.sh
+
+      # #############################################################################################################
       # login ECR
+      # #############################################################################################################
       eval $(aws ecr get-login --no-include-email --region us-east-1)
-      #create docker image and push to ECR
+
+      # #############################################################################################################
+      # create docker image and push to ECR
+      # #############################################################################################################
       .scripts/docker_perserve.sh
+
+      # #############################################################################################################
       # deploy latest docker image to EC2
+      # #############################################################################################################
       .scripts/docker_deploy.sh ;
 
     else echo "All tests passed.";
