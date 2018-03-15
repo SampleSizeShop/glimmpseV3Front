@@ -43,11 +43,11 @@ after_success:
   - |
     if [ ${TAG_ENABLE} == T ]; then
       echo start...
-      if [ ${VER_BUMP} != patch -a ${VER_BUMP} != minor -a ${VER_BUMP} != major ]; then travis_terminate 1; fi
+      if [ ${BUILD_TYPE} != patch -a ${BUILD_TYPE} != minor -a ${BUILD_TYPE} != major ]; then travis_terminate 1; fi
       git checkout master
       git add -A
-      git commit -m "commit any changes happened in travis"
-      npm version ${VER_BUMP} -m "version up data and re-deploy [skip ci]"
+      git commit -m "commit any changes from travis build"
+      npm version ${BUILD_TYPE} -m "updating version and deploying [skip ci]"
       git push origin master
       # build project since there is no error
       ng build --prod
