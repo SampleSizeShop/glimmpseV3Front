@@ -115,21 +115,56 @@ describe('demo-front-app short course homework test', () => {
         page.findAllByTag('input').get(1).sendKeys(0.73);
         page.next();
 
+        //PARAMETERS_SCALE_FACTOR
+        page.sleep(100);
+        page.findContentById('scalefactor').clear();
+        page.findContentById('scalefactor').sendKeys(1);
+        page.next();
+
+        //PARAMETERS_STANDARD_DEVIATION
+        page.sleep(100);
+        page.findByTag('input').clear();
+        page.findByTag('input').sendKeys('1.1');
+        page.next();
+
+        //PARAMETERS_OUTCOME_CORRELATION
+        page.sleep(100);
+        page.next();
+
+        //PARAMETERS_INTRA_CLASS_CORRELATION
+        page.sleep(100);
+        page.findByTag('input').clear();
+        page.findByTag('input').sendKeys('0.13');
+        page.next();
+
+        //PARAMETERS_SCALE_FACTOR_VARIANCE
+        page.sleep(100);
+        page.findContentById('scaleFactors').clear();
+        page.findContentById('scaleFactors').sendKeys(1);
+        page.findContentById('addscaleFactor').click();
+        page.next();
+
+        //OPTIONAL_SPECS_POWER_CURVE_CHOICE
+        page.sleep(100);
+        page.next();
+
+        //CALCULATE
+        //TODO: expect the correct responce based on the input from homework1
     });
 
-    xit('Create a test case for Homework 2 from the short course', () => {
+    it('Create a test case for Homework 2 from the short course', () => {
         
     });
 
-    xit('Create a test case for Homework 3 from the short course', () => {
+    it('Create a test case for Homework 3 from the short course', () => {
         
     });
 
-    xit('Create a test case for Homework 4 from the short course', () => {
+    it('Create a test case for Homework 4 from the short course', () => {
         
     });
 
-    xit('Create a test case for Homework 5 from the short course', () => {
+    it('Create a test case for Homework 5 from the short course', () => {
         
     });
 
