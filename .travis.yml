@@ -18,11 +18,9 @@ apt:
 
 before_install:
   # all the deploy replated commands and ssh key are encrypted by travis
-  - tar -xvf deploy_commands.tar
-  - chmod 600 glimmpsev3uat.pem
-  - chmod 700 docker_deploy.sh
-  - chmod 700 docker_perserve.sh
-  - chmod 700 ecr_user.sh
+  - chmod 700 scripts/docker_deploy.sh
+  - chmod 700 scripts/docker_perserve.sh
+  - chmod 700 scripts/ecr_user.sh
   - eval "$(ssh-agent -s)"
   - sudo ssh-add ${GIT_SSH_KEY}
   - git config --global user.name GIT_USER
@@ -66,15 +64,15 @@ after_success:
       export PATH=~/.local/bin:$PATH
       #add Aws IAM user credentials to env
       mkdir -p ~/.aws
-      ./ecr_user.sh
+      .scripts/ecr_user.sh
       # login ECR
       eval $(aws ecr get-login --no-include-email --region us-east-1)
       #create docker image and push to ECR
-      ./docker_perserve.sh
+      .scripts/docker_perserve.sh
       # deploy latest docker image to EC2
-      ./docker_deploy.sh ;
+      .scripts/docker_deploy.sh ;
 
-    else echo "test pass, not update the version, not create a new image, not redeploy the app";
+    else echo "All tests passed.";
     fi
 
   - echo "done"
