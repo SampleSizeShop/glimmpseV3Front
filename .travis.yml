@@ -44,6 +44,7 @@ script:
 - "./node_modules/.bin/karma start karma.conf.js --single-run --log-level=DEBUG"
 after_success:
 - |
+  echo ${TAG_ENABLE}
   if [ ${TAG_ENABLE} == True ]; then
     # #############################################################################################################
     # increment version
