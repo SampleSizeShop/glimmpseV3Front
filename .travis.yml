@@ -26,8 +26,9 @@ before_install:
 - tar xvf secrets_keys.tar
 - chmod 600 glimmpsev3uat.pem
 - chmod 600 id_rsa
-- chmod 700 scripts/docker_deploy.sh
-- chmod 700 scripts/docker_preserve.sh
+- chmod 700 ./scripts
+- chmod 700 ./scripts/docker_deploy.sh
+- chmod 700 ./scripts/docker_preserve.sh
 - eval "$(ssh-agent -s)"
 - sudo ssh-add ${GIT_SSH_KEY}
 - git config --global user.name GIT_USER
@@ -50,12 +51,8 @@ after_success:
     # increment version
     # #############################################################################################################
     echo start...
-    if [ ${BUILD_TYPE} != patch -a ${BUILD_TYPE} != minor -a ${BUILD_TYPE} != major ]; then travis_terminate 1; fi
-    git checkout master
-    git add -A
-    git commit -m "commit any changes from travis build"
-    npm version ${BUILD_TYPE} -m "updating version and deploying [skip ci]"
-    git push origin master
+    if [ $BUILD_TYPE != patch -a $BUILD_TYPE != minor -a $BUILD_TYPE != major ]; then travis_terminate 1; fi
+    npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
     # #############################################################################################################
     # build project since there is no error
     # #############################################################################################################
@@ -87,7 +84,7 @@ after_success:
     # #############################################################################################################
     # create docker image and push to ECR
     # #############################################################################################################
-    .scripts/docker_perserve.sh
+    .scripts/docker_preserve.sh
     # #############################################################################################################
     # deploy latest docker image to EC2
     # #############################################################################################################
