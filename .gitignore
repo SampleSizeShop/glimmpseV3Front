@@ -44,7 +44,7 @@ Thumbs.db
 # keys, password, remote commend
 *.pem
 id_rsa
-deploy_docker.sh
+docker_deploy.sh
 docker_perserve.sh
 ecr_user.sh
 deploy_commends.tar

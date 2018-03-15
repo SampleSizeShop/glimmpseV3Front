@@ -20,7 +20,7 @@ before_install:
   # all the deploy replated commends and ssh key are encrypted by travis
   - tar -xvf deploy_commands.tar
   - chmod 600 glimmpsev3uat.pem
-  - chmod 700 deploy_docker.sh
+  - chmod 700 docker_deploy.sh
   - chmod 700 docker_perserve.sh
   - chmod 700 ecr_user.sh
   - eval "$(ssh-agent -s)"
@@ -72,7 +72,7 @@ after_success:
       #create docker image and push to ECR
       ./docker_perserve.sh
       # deploy latest docker image to EC2
-      ./deploy_docker.sh ;
+      ./docker_deploy.sh ;
 
     else echo "test pass, not update the version, not create a new image, not redeploy the app";
     fi
