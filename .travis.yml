@@ -18,8 +18,8 @@ apt:
 
 before_install:
   # all the deploy replated commends and ssh key are encrypted by travis
-  - tar -xvf deploy_commends.tar
-  - chmod 600 alexgre1.pem
+  - tar -xvf deploy_commands.tar
+  - chmod 600 glimmpsev3uat.pem
   - chmod 700 deploy_docker.sh
   - chmod 700 docker_perserve.sh
   - chmod 700 ecr_user.sh
@@ -51,7 +51,7 @@ after_success:
       git commit -m "commit any changes happened in travis"
       npm version ${VER_BUMP} -m "version up data and re-deploy [skip ci]"
       git push origin master
-      #build project since there is no error
+      # build project since there is no error
       ng build --prod
       #install docker since the travis docker service version is too old
       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -59,7 +59,7 @@ after_success:
       sudo apt-get update
       apt-cache policy docker-ce
       sudo apt-get install -y docker-ce
-      #up data pip
+      # up data pip
       pip install -U pip
       #install awscli
       sudo pip install awscli --upgrade
@@ -67,11 +67,11 @@ after_success:
       #add Aws IAM user credentials to env
       mkdir -p ~/.aws
       ./ecr_user.sh
-      #login ECR
+      # login ECR
       eval $(aws ecr get-login --no-include-email --region us-east-1)
       #create docker image and push to ECR
       ./docker_perserve.sh
-      #deploy latest docker image to EC2
+      # deploy latest docker image to EC2
       ./deploy_docker.sh ;
 
     else echo "test pass, not update the version, not create a new image, not redeploy the app";
