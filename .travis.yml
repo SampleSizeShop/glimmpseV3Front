@@ -27,7 +27,7 @@ before_install:
 - chmod 600 glimmpsev3uat.pem
 - chmod 600 id_rsa
 - chmod 700 scripts/docker_deploy.sh
-- chmod 700 scripts/docker_perserve.sh
+- chmod 700 scripts/docker_preserve.sh
 - eval "$(ssh-agent -s)"
 - sudo ssh-add ${GIT_SSH_KEY}
 - git config --global user.name GIT_USER
