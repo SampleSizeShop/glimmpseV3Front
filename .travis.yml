@@ -17,7 +17,9 @@ apt:
     - google-chrome-beta
 
 before_install:
-  # all the deploy replated commands and ssh key are encrypted by travis
+  # #############################################################################################################
+  # all secret keys are enncrypted variables in travis.
+  # #############################################################################################################
   - chmod 700 scripts/docker_deploy.sh
   - chmod 700 scripts/docker_perserve.sh
   - chmod 700 scripts/ecr_user.sh
@@ -26,7 +28,10 @@ before_install:
   - git config --global user.name GIT_USER
   - git config --global user.email GIT_EMAIL
   - git remote set-url origin git@github.com:${GIT_USER}/${GIT_REPO}.git
-  #activate chrome service
+
+  # #############################################################################################################
+  # browser setup for karma tests
+  # #############################################################################################################
   - export CHROME_BIN=chromium-browser
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
