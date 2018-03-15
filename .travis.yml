@@ -16,15 +16,8 @@ apt:
   - google-chrome-stable
   - google-chrome-beta
 env:
-  - EC2_SSH_KEY=glimmpsev3uat.pem
-  - GIT_SSH_KEY=id_rsa
-  - EC2_URL=ec2-54-161-9-34.compute-1.amazonaws.com
-  - ECR_REPO=543872078551.dkr.ecr.us-east-1.amazonaws.com/glimmpse
-  - ECR_IMG=glimmpse
-  - GIT_MAIL=alasdair.macleod@ufl.edu
-  - GIT_USER=alasdair-macleod
-  - GIT_REPO=DemoAppFront
   global:
+  - EC2_SSH_KEY=glimmpsev3uat.pem GIT_SSH_KEY=id_rsa EC2_URL=ec2-54-161-9-34.compute-1.amazonaws.com ECR_REPO=543872078551.dkr.ecr.us-east-1.amazonaws.com/glimmpse ECR_IMG=glimmpse GIT_MAIL=alasdair.macleod@ufl.edu GIT_USER=alasdair-macleod GIT_REPO=DemoAppFront
   - secure: vEG0gRlk5g4CuOTCOAotIOOUn+SU79lpeKGOsNPMIyiGw7IO0vgAy4u/EStUbt6xB/r70U8r747hsBufXmiAcjcpCHl2afUTntcGVQhHQwtYMsxYk6N6MbcmmSdz3MnPkKo+H5RLyxIj6hK0fftb8K7GEP7816RueCSMYv/dwLDLkEJpDvhJ8/DOLYysKO6I0zzOO5Khosu9+/QzEaq0JfOntLSXiqDC4o3EIwRuhu638B+ilV/bYLWp4Lu/x1QgJ4IxK/UJpOYO1/VwV6y0yX6alI73rqfb2yfcD7D0TP2ZPpuq/DR8WWoPYliaLIzqr/1w4IRrd3RmTolvMZgNb7EFD1O8WjokFusePzjSnm7a3d3gOxfKPObvEnpo3Abb48lbzjV5EPa5fcVqRL+FE8gUaviB/jPnnPFgAQ8I2ElM1CnvW4SS4t5mHaVoSFaQfhdl/6XjHldvmqSM1tmwV8kQ6aRSrSisQm1EJ4zQvkEHRRaL7edRkAwRZy+jHJxIEbySc18NoudOvfEXox67jGpRGyUe+oN6EZGQRjlwAxbXbJUujkTgY1K8PFSc7Mvfm1aj4/4y3/uKajlqXigUYOJ2TomoZPu5Fe5LaqTeiZd33kgZez/b3JoWyLkMyMFzVEfj0S5nesFBoO72m2hXL2pf35awUEgkKJ7GL8DKd54=
   - secure: CZty/HwFVpLmtjFr5/WnHI6faMO8hBbINzdU2QNyRnMzj9xdmjAozqUln0pluB+wwlyMSwZ/6ZwWMGvM6izF7wnmdrHAE4kuWqH0KBam+Tb51Ia+4RozNsaeoAU6CCnAqUbJnVIN7CXpbER5bW5avrQevKCeEGunwDwuH/Xy1vBrsp2SWB302u2cNsgjoOs+wVZc+Ae1a+3wwsdGpcrB3CY101daRh5Av00vaKsZOpT+u/VCMZHitwj9Vy1Pi+vmVIllsNn4X+loYpVMdNTBeo95+/24OEd7S/MGSjl6dHgqSZ0mYEZ/xhOFJ3iI36xW4Duv5GnWCpmaaW9binaH0PV1FDrORZu2g1DXlfohhmnzFvvoiunIFK3OTm0JlO5X9+QZxtTH4ITxQ05f7y48RN1mUPUQqlVbiL55x0qP3TfoM+xGCEh8S0lbAVGy+a05qqtlbzy10DESuv4HmdzvvbHPKpgrI7cfaKUigf8kBBl1K8l/jPWAcRYajbihpTi6uvyq+98vgCBHgay+QAMFCEj/yziNwKnqr0JKX0Fs6n7WS3UT7pUj8mlMnPm6G4JLrVB2kPYZsW8eqIS2QXvgZXGGJEhD1mu4paFgon5zhc0Hc3V06lCkvNcQF5eeu+V9L8pHpMTvfaf7XEUTnEMFzhjneEM4r2UIh0yRbLfFI4U=
 before_install:
