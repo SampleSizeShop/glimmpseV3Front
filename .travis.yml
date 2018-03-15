@@ -22,7 +22,6 @@ before_install:
   # #############################################################################################################
   - chmod 700 scripts/docker_deploy.sh
   - chmod 700 scripts/docker_perserve.sh
-  - chmod 700 scripts/ecr_user.sh
   - eval "$(ssh-agent -s)"
   - sudo ssh-add ${GIT_SSH_KEY}
   - git config --global user.name GIT_USER
