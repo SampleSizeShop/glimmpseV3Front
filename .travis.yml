@@ -44,7 +44,7 @@ script:
   - ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=DEBUG
 
 after_success:
-#read the TAG_ENABLE param
+# read the TAG_ENABLE param
   - |
     if [ ${TAG_ENABLE} == T ]; then
       # #############################################################################################################
