@@ -14,6 +14,7 @@ import {Outcome} from '../shared/Outcome';
 import {Predictor} from '../shared/Predictor';
 import {ISUFactors} from '../shared/ISUFactors';
 import {PowerCurve} from '../shared/PowerCurve';
+import {StudyDesign} from '../shared/study-design';
 
 @Injectable()
 export class StudyService {
@@ -83,6 +84,9 @@ export class StudyService {
 
   private _powerCurveSource = new BehaviorSubject<PowerCurve>(null);
   private _powerCurve$ = this._powerCurveSource.asObservable();
+
+  private _studyDesignSource = new BehaviorSubject<StudyDesign>(null);
+  private _studyDesign$ = this._studyDesignSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -164,6 +168,10 @@ export class StudyService {
 
   updatePowerCurve(powerCurve: PowerCurve) {
     this._powerCurveSource.next(powerCurve);
+  }
+
+  updateStudyDesign(studyDesign: StudyDesign) {
+    this._studyDesignSource.next(studyDesign);
   }
 
   constructor(private  http: HttpClient) {
@@ -380,6 +388,18 @@ export class StudyService {
 
   set powerCurve$(value: Observable<PowerCurve>) {
     this._powerCurve$ = value;
+  }
+
+  get studyDesignSource(): BehaviorSubject<StudyDesign> {
+    return this._studyDesignSource;
+  }
+
+  set studyDesignSource(value: BehaviorSubject<StudyDesign>) {
+    this._studyDesignSource = value;
+  }
+
+  get studyDesign$(): Observable<StudyDesign> {
+    return this._studyDesign$;
   }
 }
 
