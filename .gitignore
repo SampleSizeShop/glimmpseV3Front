@@ -45,3 +45,7 @@ Thumbs.db
 *.pem
 id_rsa
 /encrypt
+
+
+package-lock.json
+*.tar
