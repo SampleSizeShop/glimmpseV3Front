@@ -332,11 +332,6 @@ describe('demo-front-app short course homework test', () => {
  
          //SOLVE_FOR
          page.sleep(100);
-         page.findContentById('samplesize').clear();
-         //page.findContentById('samplesize').sendKeys(input_complex.SOLVE_FOR.samplesize);
-         //page.findContentById(input_complex.SOLVE_FOR.solve_for).click();
-         //expect(page.getElementClass(input_complex.SOLVE_FOR.solve_for)).toContain('active');
-         page.findContentById('samplesize').sendKeys(20);
          page.findContentById('powerbtn').click();
          expect(page.getElementClass('powerbtn')).toContain('active');
          page.next();
@@ -354,7 +349,14 @@ describe('demo-front-app short course homework test', () => {
  
          //WITHIN_ISU_OUTCOMES
          page.sleep(100);
-         page.findContentById('outcomes').sendKeys('DrinkingFrequency');
+         page.findContentById('outcomes').clear();
+         page.findContentById('outcomes').sendKeys('GRADE difference score');
+         page.findContentById('addoutcome').click();
+         page.findContentById('outcomes').clear();
+         page.findContentById('outcomes').sendKeys('LSK difference score');
+         page.findContentById('addoutcome').click();
+         page.findContentById('outcomes').clear();
+         page.findContentById('outcomes').sendKeys('CTOPP difference score');
          page.findContentById('addoutcome').click();
          page.next();
  
@@ -366,13 +368,18 @@ describe('demo-front-app short course homework test', () => {
          page.sleep(100);
          page.findContentById('includerptmeasuresbtn').click();
          page.findContentById('name').clear();
-         page.findContentById('name').sendKeys('worker');
+         page.findContentById('name').sendKeys('student');
          page.next();
          page.sleep(100);
          page.findContentById('levelName').clear();
-         page.findContentById('levelName').sendKeys('Workplace');
+         page.findContentById('levelName').sendKeys('classroom');
          page.findContentById('noElements').clear();
-         page.findContentById('noElements').sendKeys(15);
+         page.findContentById('noElements').sendKeys(5);
+         page.findContentById('addLevel').click();
+         page.findContentById('levelName').clear();
+         page.findContentById('levelName').sendKeys('school');
+         page.findContentById('noElements').clear();
+         page.findContentById('noElements').sendKeys(4);
          page.findContentById('addLevel').click();
          page.next();
          page.sleep(100);
@@ -381,12 +388,14 @@ describe('demo-front-app short course homework test', () => {
          //BETWEEN_ISU_PREDICTORS
          page.sleep(100);
          page.findContentById('addbetweenbtn').click();
-         page.findContentByCss('input[formcontrolname=predictorName]').sendKeys('treatment');
+         page.findContentByCss('input[formcontrolname=predictorName]').sendKeys('LiteracyProgram');
          page.next();
          page.sleep(100);
-         page.findContentById('group').sendKeys('ControlGroup');
+         page.findContentById('group').sendKeys('ABRACADABRA');
          page.findContentById('addgroup').click();
-         page.findContentById('group').sendKeys('WorkplaceTreatmentProgram');
+         page.findContentById('group').sendKeys('English Arts Program');
+         page.findContentById('addgroup').click();
+         page.findContentById('group').sendKeys('bi-lingual education');
          page.findContentById('addgroup').click();
          page.next();
          page.sleep(100);
@@ -414,47 +423,48 @@ describe('demo-front-app short course homework test', () => {
          //HYPOTHESIS_WITHIN
          page.sleep(300);
          page.next();
+        
+        //TODO 
+        //PARAMETERS_MARGINAL_MEANS
+        //  page.sleep(100);
+        //  page.findAllByTag('input').get(0).clear();
+        //  page.findAllByTag('input').get(0).sendKeys(1.24);
+        //  page.findAllByTag('input').get(1).clear();
+        //  page.findAllByTag('input').get(1).sendKeys(0.73);
+        //  page.next();
  
-         //PARAMETERS_MARGINAL_MEANS
-         page.sleep(100);
-         page.findAllByTag('input').get(0).clear();
-         page.findAllByTag('input').get(0).sendKeys(1.24);
-         page.findAllByTag('input').get(1).clear();
-         page.findAllByTag('input').get(1).sendKeys(0.73);
-         page.next();
+        //  //PARAMETERS_SCALE_FACTOR
+        //  page.sleep(100);
+        //  page.findContentById('scalefactor').clear();
+        //  page.findContentById('scalefactor').sendKeys(1);
+        //  page.next();
  
-         //PARAMETERS_SCALE_FACTOR
-         page.sleep(100);
-         page.findContentById('scalefactor').clear();
-         page.findContentById('scalefactor').sendKeys(1);
-         page.next();
+        //  //PARAMETERS_STANDARD_DEVIATION
+        //  page.sleep(100);
+        //  page.findByTag('input').clear();
+        //  page.findByTag('input').sendKeys(1);
+        //  page.next();
  
-         //PARAMETERS_STANDARD_DEVIATION
-         page.sleep(100);
-         page.findByTag('input').clear();
-         page.findByTag('input').sendKeys(1);
-         page.next();
+        //  //PARAMETERS_OUTCOME_CORRELATION
+        //  page.sleep(100);
+        //  page.next();
  
-         //PARAMETERS_OUTCOME_CORRELATION
-         page.sleep(100);
-         page.next();
+        //  //PARAMETERS_INTRA_CLASS_CORRELATION
+        //  page.sleep(100);
+        //  page.findByTag('input').clear();
+        //  page.findByTag('input').sendKeys('0.13');
+        //  page.next();
  
-         //PARAMETERS_INTRA_CLASS_CORRELATION
-         page.sleep(100);
-         page.findByTag('input').clear();
-         page.findByTag('input').sendKeys('0.13');
-         page.next();
+        //  //PARAMETERS_SCALE_FACTOR_VARIANCE
+        //  page.sleep(100);
+        //  page.findContentById('scaleFactors').clear();
+        //  page.findContentById('scaleFactors').sendKeys(1);
+        //  page.findContentById('addscaleFactor').click();
+        //  page.next();
  
-         //PARAMETERS_SCALE_FACTOR_VARIANCE
-         page.sleep(100);
-         page.findContentById('scaleFactors').clear();
-         page.findContentById('scaleFactors').sendKeys(1);
-         page.findContentById('addscaleFactor').click();
-         page.next();
- 
-         //OPTIONAL_SPECS_POWER_CURVE_CHOICE
-         page.sleep(100);
-         page.next();
+        //  //OPTIONAL_SPECS_POWER_CURVE_CHOICE
+        //  page.sleep(100);
+        //  page.next();
  
          //CALCULATE
          //TODO: expect the correct responce based on the input from homework3
