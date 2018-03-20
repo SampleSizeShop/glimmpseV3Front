@@ -147,9 +147,10 @@ describe('demo-front-app short course homework test', () => {
         //OPTIONAL_SPECS_POWER_CURVE_CHOICE
         page.sleep(100);
         page.next();
-
+        
         //CALCULATE
-        //TODO: expect the correct responce based on the input from homework1
+        //TODO fill toBe('') with expected output data model
+        expect(page.findContentById('reviewDataModel').getText()).toBe('TODO');
     });
 
     it('Create a test case for Homework 2 from the short course', () => {
@@ -314,7 +315,8 @@ describe('demo-front-app short course homework test', () => {
         page.next();
 
         //CALCULATE
-        //TODO expect returned results same as verions2=
+        //TODO fill toBe('') with expected output data model
+        expect(page.findContentById('reviewDataModel').getText()).toBe('TODO');
     });
 
     it('Create a test case for Homework 3 from the short course', () => {
@@ -467,7 +469,8 @@ describe('demo-front-app short course homework test', () => {
         //  page.next();
  
          //CALCULATE
-         //TODO: expect the correct responce based on the input from homework3
+         //TODO fill toBe('') with expected output data model
+        // expect(page.findContentById('reviewDataModel').getText()).toBe('TODO');
     });
 
     it('Create a test case for Homework 4 from the short course', () => {
@@ -675,13 +678,177 @@ describe('demo-front-app short course homework test', () => {
          //OPTIONAL_SPECS_POWER_CURVE_CHOICE
          page.sleep(100);
          page.next();
- 
+
          //CALCULATE
-         //TODO: expect the correct responce based on the input from homework4
+         //TODO fill toBe('') with expected output data model
+        expect(page.findContentById('reviewDataModel').getText()).toBe('TODO');
     });
 
     it('Create a test case for Homework 5 from the short course', () => {
-        
+        //MODE
+        page.sleep(100);
+        //expect(page.getElementClass(input_complex.MODE)).toContain('active');
+        expect(page.getElementClass('guidedbtn')).toContain('active');
+        page.next();
+ 
+        //TARGET_EVENT
+        page.sleep(100);
+        //expect(page.getElementClass(input_complex.TARGET_EVENT)).toContain('active');
+        expect(page.getElementClass('rejectionbtn')).toContain('active');
+        page.next();
+
+        //SOLVE_FOR
+        page.sleep(100);
+        page.findContentById('powerbtn').click();
+        expect(page.getElementClass('powerbtn')).toContain('active');
+        page.next();
+
+        //STATISTICAL_TESTS
+        page.sleep(100);
+        page.findContentById('hlt').click();
+        page.next();
+
+        //TYPE_ONE_ERROR
+        page.sleep(100);
+        page.findContentById('typeoneerror').clear();
+        page.findContentById('typeoneerror').sendKeys(0.05);
+        page.next();
+
+        //WITHIN_ISU_OUTCOMES
+        page.sleep(100);
+        page.findContentById('outcomes').clear();
+        page.findContentById('outcomes').sendKeys('SOAM1');
+        // page.findContentById('addoutcome').click();
+        page.clickEnterKey();
+        page.next();
+
+        //WITHIN_ISU_REPEATED_MEASURES
+        page.sleep(100);
+        page.sleep(100);
+        page.findContentById('includerptmeasuresbtn').click();
+        page.sleep(50);
+        page.findContentById('dimension').sendKeys('BrainRegion');
+        page.next();
+        page.sleep(50);
+        page.findContentById('type').click();
+        page.findByCssWithText('option', 'Categorical').click();
+        page.next();
+        page.sleep(50);
+        page.findContentById('repeats').clear();
+        page.findContentById('repeats').sendKeys(2);
+        page.next();
+        page.sleep(50);
+        //TODO should be a different UI set up for categorical compared with numeric
+        page.findAllcontentById('spacing').get(0).clear();
+        page.findAllcontentById('spacing').get(0).sendKeys(1);
+        page.findAllcontentById('spacing').get(1).clear();
+        page.findAllcontentById('spacing').get(1).sendKeys(2);
+        page.next();
+        page.sleep(50);
+        page.next();
+
+        //WITHIN_ISU_CLUSTERS
+        page.sleep(100);
+        page.next();
+
+        //BETWEEN_ISU_PREDICTORS
+        page.sleep(100);
+        page.findContentById('addbetweenbtn').click();
+        page.findContentByCss('input[formcontrolname=predictorName]').sendKeys('treatment');
+        page.next();
+        page.sleep(100);
+        page.findContentById('group').sendKeys('Placebo');
+        page.findContentById('addgroup').click();
+        page.findContentById('group').sendKeys('Chemotherapy');
+        page.findContentById('addgroup').click();
+        page.next();
+        page.findContentById('addbetweenbtn').click();
+        page.findContentByCss('input[formcontrolname=predictorName]').sendKeys('Genotype');
+        page.next();
+        page.sleep(100);
+        page.findContentById('group').sendKeys('GenotypeA');
+        page.findContentById('addgroup').click();
+        page.findContentById('group').sendKeys('GenotypeB');
+        page.findContentById('addgroup').click();
+        page.findContentById('group').sendKeys('GenotypeC');
+        page.findContentById('addgroup').click();
+        page.findContentById('group').sendKeys('GenotypeD');
+        page.findContentById('addgroup').click();
+        page.next();
+        page.sleep(100);
+        page.next();
+
+        //BETWEEN_ISU_GROUPS
+        page.sleep(100);
+        page.findContentById('smallestgroupsize').clear();
+        page.findContentById('smallestgroupsize').sendKeys(5);
+        page.next();
+
+        //GAUSSIAN_COVARIATE
+        page.sleep(100);
+        page.next();
+
+        //HYPOTHESIS_EFFECT_CHOICE
+        page.sleep(100);
+        page.findAllByClass('form-check-input').get(6).click();
+        page.next();
+
+        //HYPOTHESIS_BETWEEN
+        page.sleep(300);
+        page.next();
+
+        //HYPOTHESIS_WITHIN
+        page.sleep(300);
+        page.next();
+
+        //PARAMETERS_MARGINAL_MEANS
+        //TODO VER2 and VER3 input dimension are not matched
+        page.sleep(100);
+        page.next();
+
+        //PARAMETERS_SCALE_FACTOR
+        page.sleep(100);
+        page.findContentById('scalefactor').clear();
+        page.findContentById('scalefactor').sendKeys(1);
+        page.next();
+
+        //PARAMETERS_STANDARD_DEVIATION
+        page.sleep(100);
+        page.findByTag('input').clear();
+        page.findByTag('input').sendKeys(0.3);
+        page.next();
+
+        //PARAMETERS_OUTCOME_CORRELATION
+        page.sleep(100);
+        page.next();
+
+        //PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV/SOAM1/BrainRegion
+        //TODO currently no inputs from VER2 match this input
+        page.sleep(100);
+        page.next();
+
+        //PARAMETERS_REPEATED_MEASURE_CORRELATION/BrainRegion
+        page.sleep(100);
+        page.findContentById('1-0').clear();
+        page.findContentById('1-0').sendKeys(0.53);
+        page.next();
+
+        //PARAMETERS_SCALE_FACTOR_VARIANCE
+        page.sleep(100);
+        page.findContentById('scaleFactors').clear();
+        page.findContentById('scaleFactors').sendKeys(1);
+        // page.findConten(tById('addscaleFactor').click();
+        page.clickEnterKey();
+        page.next();
+
+        //OPTIONAL_SPECS_POWER_CURVE_CHOICE
+        page.sleep(100);
+        page.next();
+
+        page.sleep(10000)
+        //CALCULATE
+        //TODO fill toBe('') with expected output data model
+        expect(page.findContentById('reviewDataModel').getText()).toBe('TODO');
     });
 
 });

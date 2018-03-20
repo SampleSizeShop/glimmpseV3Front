@@ -344,7 +344,7 @@ describe('demo-front-app navigation test', () => {
         page.findContentById('repeats').clear();
         page.findContentById('repeats').sendKeys(3);
         page.next();
-        //should be a different UI set up for categorical compared with numeric
+        //TODO should be a different UI set up for categorical compared with numeric
         page.findAllcontentById('spacing').get(0).clear();
         page.findAllcontentById('spacing').get(0).sendKeys(1);
         page.findAllcontentById('spacing').get(1).clear();
