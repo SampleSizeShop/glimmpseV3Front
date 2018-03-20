@@ -24,7 +24,7 @@ env:
   - secure: l/WXQ7E3gJ31rV10pnhmi9tX3B3JvpsMmedLTMa9HXPmPhYz34KUS1yz+6I+dUorP+nkA8IMZc88rnPW1BCHVtxLKoUFfZbd+GF1BiDmVBA4MEaxddpOUJMJ2vAgIeRJ7QXtXzuU9/KwP/0Irktnk8/AukBPm7jB3hYiovQFPdxqZqetAEZm2yWxsNZ5hZTS6+yPRhuZFO+qg5A7k9PkYdPIKs6hqaX/wnwu28qTNv7RHqyS4YyD0GX41pJrq5SuNFf5SIoLp9iy8nTZ/+/LuqaBXqnendZzcaDmJP2illw7Jh2oNmlCt/0q1uAWENxTOApvy4qTx538obE7whUTOCH/Kexse3gqR7XL35S96J6HuMVf4IrPERGVYB0MGq2rVhYUuj9outUpVjxz8BlfQa+AQimC4qBmR/MyduZZvtaF0FW9ZJl+NrPIl9NOXstEllSijiuo1qY/zdgu2PFL65suaMsdyk7AVAhBa46Njzu7dMm5BTV8G5wZ1YuZ+MFIJMiwJsCMDdsRriMtLYGv2OqxZqXn4Jv89JLjxFpyiWI6lyrqRMMGKeLY7AxXKwunELS4V1pD0hLPw2Y/eZbo77eHyUnq0JIn/53nqM/WNvTqJt9ixoQDd2D7ksHh6DynvC6Tw7Adpmk8AgUSQsVHLadoKSa5wFImcUlMfh9PqoM=
 before_install:
 - openssl aes-256-cbc -K $encrypted_ac40f3edab40_key -iv $encrypted_ac40f3edab40_iv
-  - in secret_keys.tar.enc -out secret_keys.tar -d
+  -in secret_keys.tar.enc -out secret_keys.tar -d
 - ls -lrt ./scripts/*.sh
 - in secrets_keys.tar.enc -out secrets_keys.tar -d
 - tar xvf secrets_keys.tar
