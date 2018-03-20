@@ -22,7 +22,6 @@ env:
   - secure: CZty/HwFVpLmtjFr5/WnHI6faMO8hBbINzdU2QNyRnMzj9xdmjAozqUln0pluB+wwlyMSwZ/6ZwWMGvM6izF7wnmdrHAE4kuWqH0KBam+Tb51Ia+4RozNsaeoAU6CCnAqUbJnVIN7CXpbER5bW5avrQevKCeEGunwDwuH/Xy1vBrsp2SWB302u2cNsgjoOs+wVZc+Ae1a+3wwsdGpcrB3CY101daRh5Av00vaKsZOpT+u/VCMZHitwj9Vy1Pi+vmVIllsNn4X+loYpVMdNTBeo95+/24OEd7S/MGSjl6dHgqSZ0mYEZ/xhOFJ3iI36xW4Duv5GnWCpmaaW9binaH0PV1FDrORZu2g1DXlfohhmnzFvvoiunIFK3OTm0JlO5X9+QZxtTH4ITxQ05f7y48RN1mUPUQqlVbiL55x0qP3TfoM+xGCEh8S0lbAVGy+a05qqtlbzy10DESuv4HmdzvvbHPKpgrI7cfaKUigf8kBBl1K8l/jPWAcRYajbihpTi6uvyq+98vgCBHgay+QAMFCEj/yziNwKnqr0JKX0Fs6n7WS3UT7pUj8mlMnPm6G4JLrVB2kPYZsW8eqIS2QXvgZXGGJEhD1mu4paFgon5zhc0Hc3V06lCkvNcQF5eeu+V9L8pHpMTvfaf7XEUTnEMFzhjneEM4r2UIh0yRbLfFI4U=
 before_install:
 - ls -lrt ./scripts/*.sh
-- openssl aes-256-cbc -K $encrypted_ac40f3edab40_key -iv $encrypted_ac40f3edab40_iv
 - in secrets_keys.tar.enc -out secrets_keys.tar -d
 - tar xvf secrets_keys.tar
 - chmod 600 glimmpsev3uat.pem
