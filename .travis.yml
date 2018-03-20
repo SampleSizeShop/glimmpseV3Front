@@ -74,10 +74,6 @@ after_success:
     # add Aws IAM user credentials to env
     # #############################################################################################################
     mkdir -p ~/.aws
-    - chmod 777 ./scripts
-    - chmod 777 ./scripts/ecr_user.sh
-    - chmod 777 ./scripts/docker_preserve.sh
-    - chmod 777 ./scripts/docker_deploy.sh
     ./scripts/ecr_user.sh
     # #############################################################################################################
     # login ECR
