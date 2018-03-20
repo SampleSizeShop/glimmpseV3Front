@@ -62,7 +62,8 @@
     
     "PARAMETERS_MARGINAL_MEANS":
     {
-        
+        "placebo":{"GenotypeA":3.145, "GenotypeB":3.145, "GenotypeC":3.145, "GenotypeD":3.145},
+        "Chemothrepy":{"GenotypeA":2.123, "GenotypeB":2.325, "GenotypeC":2.525, "GenotypeD":2.975}
     },
 
     "PARAMETERS_SCALE_FACTOR": 1,

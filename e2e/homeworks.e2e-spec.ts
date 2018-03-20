@@ -724,7 +724,6 @@ describe('demo-front-app short course homework test', () => {
 
         //WITHIN_ISU_REPEATED_MEASURES
         page.sleep(100);
-        page.sleep(100);
         page.findContentById('includerptmeasuresbtn').click();
         page.sleep(50);
         page.findContentById('dimension').sendKeys('BrainRegion');
@@ -794,16 +793,31 @@ describe('demo-front-app short course homework test', () => {
         page.next();
 
         //HYPOTHESIS_BETWEEN
-        page.sleep(300);
+        page.sleep(500);
         page.next();
 
         //HYPOTHESIS_WITHIN
-        page.sleep(300);
+        page.sleep(500);
         page.next();
 
         //PARAMETERS_MARGINAL_MEANS
-        //TODO VER2 and VER3 input dimension are not matched
         page.sleep(100);
+        page.findAllByTag('input').get(0).clear();
+        page.findAllByTag('input').get(0).sendKeys(3.145);
+        page.findAllByTag('input').get(1).clear();
+        page.findAllByTag('input').get(1).sendKeys(2.125);
+        page.findAllByTag('input').get(2).clear();
+        page.findAllByTag('input').get(2).sendKeys(3.145);
+        page.findAllByTag('input').get(3).clear();
+        page.findAllByTag('input').get(3).sendKeys(2.325);
+        page.findAllByTag('input').get(4).clear();
+        page.findAllByTag('input').get(4).sendKeys(3.145);
+        page.findAllByTag('input').get(5).clear();
+        page.findAllByTag('input').get(5).sendKeys(2.525);
+        page.findAllByTag('input').get(6).clear();
+        page.findAllByTag('input').get(6).sendKeys(3.145);
+        page.findAllByTag('input').get(7).clear();
+        page.findAllByTag('input').get(7).sendKeys(2.975);
         page.next();
 
         //PARAMETERS_SCALE_FACTOR
@@ -823,7 +837,6 @@ describe('demo-front-app short course homework test', () => {
         page.next();
 
         //PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV/SOAM1/BrainRegion
-        //TODO currently no inputs from VER2 match this input
         page.sleep(100);
         page.next();
 
