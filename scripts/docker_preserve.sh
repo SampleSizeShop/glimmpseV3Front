@@ -13,9 +13,11 @@ VERSION=$(node -e "console.log(require('./package.json').version)")
 # #############################################################################################################
 # build image
 # #############################################################################################################
+echo BUILDING IMAGE IN SCRIPT
 docker build -t $REPO/$IMAGE:latest -t $REPO/$IMAGE:$VERSION .
 # #############################################################################################################
 # upload the image to AWS ECR repo
 # #############################################################################################################
+echo PUSH IMAGE IN SCRIPT
 docker push $REPO/$IMAGE:latest
 docker push $REPO/$IMAGE:$VERSION

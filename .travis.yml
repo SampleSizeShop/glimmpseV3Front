@@ -44,7 +44,6 @@ script:
 - "./node_modules/.bin/karma start karma.conf.js --single-run --log-level=DEBUG"
 after_success:
 - |
-  echo $TAG_ENABLE
   if [ $TAG_ENABLE == True ]; then
     # #############################################################################################################
     # increment version
@@ -56,10 +55,12 @@ after_success:
     # #############################################################################################################
     # build project since there is no error
     # #############################################################################################################
+    echo BUILDING BUILDING
     ng build --prod
     # #############################################################################################################
     # install docker as the travis docker service version is too old
     # #############################################################################################################
+    echo INSTALL DOCKER INSTALL DOCKER
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     sudo apt-get update
@@ -70,6 +71,7 @@ after_success:
     # #############################################################################################################
     # install awscli
     # #############################################################################################################
+    echo INSTALL AWS INSTAL AWS
     sudo pip install awscli --upgrade
     export PATH=~/.local/bin:$PATH
     # #############################################################################################################
@@ -80,14 +82,17 @@ after_success:
     # #############################################################################################################
     # login ECR
     # #############################################################################################################
+    echo ECR LOOGIN ECR LOGIN
     eval $(aws ecr get-login --no-include-email --region us-east-1)
     # #############################################################################################################
     # create docker image and push to ECR
     # #############################################################################################################
+    echo DOCKER PRESERVE DOCKER PRESERVE
     ./scripts/docker_preserve.sh
     # #############################################################################################################
     # deploy latest docker image to EC2
     # #############################################################################################################
+    echo DOCKER DEPLOY DEPLOY
     ./scripts/docker_deploy.sh ;
   else echo "All tests passed.";
   fi
