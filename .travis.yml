@@ -88,7 +88,15 @@ after_success:
     # create docker image and push to ECR
     # #############################################################################################################
     echo DOCKER PRESERVE DOCKER PRESERVE
-    ./scripts/docker_preserve.sh
+    REPO=${ECR_REPO}
+    IMAGE=${ECR_IMG}
+    VERSION=$(node -e "console.log(require('./package.json').version)")
+    echo BUILDING IMAGE IN SCRIPT
+    echo $REPO
+    docker build -t $REPO/$IMAGE:latest -t $REPO/$IMAGE:$VERSION .
+    echo PUSH IMAGE IN SCRIPT
+    docker push $REPO/$IMAGE:latest
+    docker push $REPO/$IMAGE:$VERSION
     # #############################################################################################################
     # deploy latest docker image to EC2
     # #############################################################################################################
