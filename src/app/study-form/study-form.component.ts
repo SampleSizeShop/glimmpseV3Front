@@ -248,6 +248,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       this.childComponentNav = false;
     }
     this.setNextBack();
+    this.study_service.updateStudyDesign(this.study);
   }
 
   ngOnDestroy() {
