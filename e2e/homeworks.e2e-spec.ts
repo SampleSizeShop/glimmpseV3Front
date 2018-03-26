@@ -167,6 +167,10 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_powerCurve'])).toBe(dm['_powerCurve']);
         expect(tdm.then(x => x['_varianceScaleFactors'])).toEqual(dm['_varianceScaleFactors']);
         expect(tdm.then(x => x['_selectedTests'])).toEqual(dm['_selectedTests']);
+        expect(tdm.then(x => x['_power'])).toEqual(dm['_power']);
+        expect(tdm.then(x => x['smallestGroupSize'])).toEqual(dm['smallestGroupSize']);
+        expect(tdm.then(x => x['marginalMeans'])).toEqual(dm['marginalMeans']);
+
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['valueNames'])).toEqual(dm['_isuFactors']['variables'][0]['valueNames']);
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['name'])).toBe(dm['_isuFactors']['variables'][0]['name']);
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['inHypothesis'])).toBe(dm['_isuFactors']['variables'][0]['inHypothesis']);
@@ -191,9 +195,11 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['variables'][2]['origin'])).toBe(dm['_isuFactors']['variables'][2]['origin']);
         expect(tdm.then(x => x['_isuFactors']['variables'][2]['child'])).toBe(dm['_isuFactors']['variables'][2]['child']);
 
+        expect(tdm.then(x => x['outcomeCorrelationMatrix']['_values']['data'])).toBe(dm['outcomeCorrelationMatrix']['_values']['data']);
+        expect(tdm.then(x => x['outcomeCorrelationMatrix']['_values']['size'])).toBe(dm['outcomeCorrelationMatrix']['_values']['size']);
     });
 
-    xit('Create a test case for Homework 2 from the short course', () => {
+    it('Create a test case for Homework 2 from the short course', () => {
         //MODE
         page.sleep(100);
         //expect(page.getElementClass(input_complex.MODE)).toContain('active');
@@ -367,7 +373,59 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_powerCurve'])).toBe(dm['_powerCurve']);
         expect(tdm.then(x => x['_varianceScaleFactors'])).toEqual(dm['_varianceScaleFactors']);
         expect(tdm.then(x => x['_selectedTests'])).toEqual(dm['_selectedTests']);
+        expect(tdm.then(x => x['_power'])).toEqual(dm['_power']);
+        expect(tdm.then(x => x['smallestGroupSize'])).toEqual(dm['smallestGroupSize']);
+        expect(tdm.then(x => x['marginalMeans'])).toEqual(dm['marginalMeans']);
+
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['valueNames'])).toEqual(dm['_isuFactors']['variables'][0]['valueNames']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['name'])).toBe(dm['_isuFactors']['variables'][0]['name']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['inHypothesis'])).toBe(dm['_isuFactors']['variables'][0]['inHypothesis']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['isuFactorNature'])).toBe(dm['_isuFactors']['variables'][0]['isuFactorNature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['nature'])).toBe(dm['_isuFactors']['variables'][0]['nature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['origin'])).toBe(dm['_isuFactors']['variables'][0]['origin']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['standardDeviation'])).toBe(dm['_isuFactors']['variables'][0]['standardDeviation']);
         
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['valueNames'])).toEqual(dm['_isuFactors']['variables'][1]['valueNames']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['name'])).toBe(dm['_isuFactors']['variables'][1]['name']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['child'])).toBe(dm['_isuFactors']['variables'][1]['child']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['inHypothesis'])).toBe(dm['_isuFactors']['variables'][1]['inHypothesis']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['isuFactorNature'])).toBe(dm['_isuFactors']['variables'][1]['isuFactorNature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['nature'])).toBe(dm['_isuFactors']['variables'][1]['nature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['origin'])).toBe(dm['_isuFactors']['variables'][1]['origin']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['type'])).toBe(dm['_isuFactors']['variables'][1]['type']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['_noRepeats'])).toBe(dm['_isuFactors']['variables'][1]['_noRepeats']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['partialUMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['variables'][1]['partialUMatrix']['_values']['data']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['partialUMatrix']['_values']['size'])).toEqual(dm['_isuFactors']['variables'][1]['partialUMatrix']['_values']['size']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['correlationMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['variables'][1]['correlationMatrix']['_values']['data']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['correlationMatrix']['_values']['size'])).toEqual(dm['_isuFactors']['variables'][1]['correlationMatrix']['_values']['size']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['correlationMatrix']['_names'])).toEqual(dm['_isuFactors']['variables'][1]['correlationMatrix']['_names']);
+
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['valueNames'])).toEqual(dm['_isuFactors']['variables'][2]['valueNames']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['name'])).toBe(dm['_isuFactors']['variables'][2]['name']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['inHypothesis'])).toBe(dm['_isuFactors']['variables'][2]['inHypothesis']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['isuFactorNature'])).toBe(dm['_isuFactors']['variables'][2]['isuFactorNature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['nature'])).toBe(dm['_isuFactors']['variables'][2]['nature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['origin'])).toBe(dm['_isuFactors']['variables'][2]['origin']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['valueNames'])).toEqual(dm['_isuFactors']['variables'][2]['child']['valueNames']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['name'])).toBe(dm['_isuFactors']['variables'][2]['child']['name']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['child'])).toEqual(dm['_isuFactors']['variables'][2]['child']['child']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['inHypothesis'])).toBe(dm['_isuFactors']['variables'][2]['child']['inHypothesis']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['isuFactorNature'])).toBe(dm['_isuFactors']['variables'][2]['child']['isuFactorNature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['nature'])).toBe(dm['_isuFactors']['variables'][2]['child']['nature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['origin'])).toBe(dm['_isuFactors']['variables'][2]['child']['origin']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['type'])).toBe(dm['_isuFactors']['variables'][2]['child']['type']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['_noRepeats'])).toBe(dm['_isuFactors']['variables'][2]['child']['_noRepeats']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['partialUMatrix']['_type'])).toEqual(dm['_isuFactors']['variables'][2]['child']['partialUMatrix']['_type']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['partialUMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['variables'][2]['child']['partialUMatrix']['_values']['data']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['partialUMatrix']['_values']['size'])).toEqual(dm['_isuFactors']['variables'][2]['child']['partialUMatrix']['_values']['size']);
+
+
+        expect(tdm.then(x => x['outcomeCorrelationMatrix']['_values']['data'])).toEqual(dm['outcomeCorrelationMatrix']['_values']['data']);
+        expect(tdm.then(x => x['outcomeCorrelationMatrix']['_values']['size'])).toEqual(dm['outcomeCorrelationMatrix']['_values']['size']);
+
+        expect(tdm.then(x => x['outcomeRepeatedMeasureStDevs'][0]['outcome'])).toEqual(dm['outcomeRepeatedMeasureStDevs'][0]['outcome']);
+        expect(tdm.then(x => x['outcomeRepeatedMeasureStDevs'][0]['repMeasure'])).toEqual(dm['outcomeRepeatedMeasureStDevs'][0]['repMeasure']);
+        expect(tdm.then(x => x['outcomeRepeatedMeasureStDevs'][0]['values'])).toEqual(dm['outcomeRepeatedMeasureStDevs'][0]['values']);
     });
 
     xit('Create a test case for Homework 3 from the short course', () => {
