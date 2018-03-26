@@ -1,10 +1,13 @@
 import { NavigationE2E } from './navigation.po';
+import { HomeworkDataModelE2E } from './homeworks.po';
 
 describe('demo-front-app short course homework test', () => {
     let page: NavigationE2E;
+    let hdm: HomeworkDataModelE2E;
     
     beforeEach(() => {
         page = new NavigationE2E();
+        hdm = new HomeworkDataModelE2E();
         // page.navigateToHome();
         page.navigateTo('/design/MODE');
     });
@@ -25,9 +28,6 @@ describe('demo-front-app short course homework test', () => {
         //SOLVE_FOR
         page.sleep(100);
         page.findContentById('samplesize').clear();
-        //page.findContentById('samplesize').sendKeys(input_complex.SOLVE_FOR.samplesize);
-        //page.findContentById(input_complex.SOLVE_FOR.solve_for).click();
-        //expect(page.getElementClass(input_complex.SOLVE_FOR.solve_for)).toContain('active');
         page.findContentById('samplesize').sendKeys(20);
         page.findContentById('powerbtn').click();
         expect(page.getElementClass('powerbtn')).toContain('active');
@@ -35,7 +35,7 @@ describe('demo-front-app short course homework test', () => {
 
         //STATISTICAL_TESTS
         page.sleep(100);
-        page.findContentById('hlt').click();
+        // page.findContentById('hlt').click();
         page.next();
 
         //TYPE_ONE_ERROR
@@ -149,11 +149,51 @@ describe('demo-front-app short course homework test', () => {
         page.next();
         
         //CALCULATE
-        //TODO fill toBe('') with expected output data model
-        expect(page.findContentById('reviewDataModel').getText()).toBe('TODO');
+        // id='reviewDataModel'
+        // file='./gold_standard_data_model_for_homeworks/hw1_data_model.json'
+        // test the input data are stored in a right format in the frontend compared with gold standard data model revised by statician 
+        var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw1_data_model.json');
+        var tdm = hdm.getOutputDataModel('reviewDataModel');
+        // expect(hdm.getOutputDataModelValue('reviewDataModel', '_solveFor')).toBe(dm['_solveFor'])
+        // expect(hdm.getOutputDataModelValue('reviewDataModel', '_typeOneErrorRate')).toBe(dm['_typeOneErrorRate'])
+        // expect(hdm.getOutputDataModelValue('reviewDataModel', '_scaleFactor')).toBe(dm['_scaleFactor'])
+        expect(tdm.then(x => x['_solveFor'])).toBe(dm['_solveFor']);
+        expect(tdm.then(x => x['_typeOneErrorRate'])).toBe(dm['_typeOneErrorRate']);
+        expect(tdm.then(x => x['_scaleFactor'])).toBe(dm['_scaleFactor']);
+        expect(tdm.then(x => x['_samplesize'])).toBe(dm['_samplesize']);
+        expect(tdm.then(x => x['_ciwidth'])).toBe(dm['_ciwidth']);
+        expect(tdm.then(x => x['_gaussianCovariate'])).toBe(dm['_gaussianCovariate']);
+        expect(tdm.then(x => x['_targetEvent'])).toBe(dm['_targetEvent']);
+        expect(tdm.then(x => x['_powerCurve'])).toBe(dm['_powerCurve']);
+        expect(tdm.then(x => x['_varianceScaleFactors'])).toEqual(dm['_varianceScaleFactors']);
+        expect(tdm.then(x => x['_selectedTests'])).toEqual(dm['_selectedTests']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['valueNames'])).toEqual(dm['_isuFactors']['variables'][0]['valueNames']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['name'])).toBe(dm['_isuFactors']['variables'][0]['name']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['inHypothesis'])).toBe(dm['_isuFactors']['variables'][0]['inHypothesis']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['isuFactorNature'])).toBe(dm['_isuFactors']['variables'][0]['isuFactorNature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['nature'])).toBe(dm['_isuFactors']['variables'][0]['nature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['origin'])).toBe(dm['_isuFactors']['variables'][0]['origin']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][0]['standardDeviation'])).toBe(dm['_isuFactors']['variables'][0]['standardDeviation']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['valueNames'])).toEqual(dm['_isuFactors']['variables'][1]['valueNames']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['name'])).toBe(dm['_isuFactors']['variables'][1]['name']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['inHypothesis'])).toBe(dm['_isuFactors']['variables'][1]['inHypothesis']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['isuFactorNature'])).toBe(dm['_isuFactors']['variables'][1]['isuFactorNature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['nature'])).toBe(dm['_isuFactors']['variables'][1]['nature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['origin'])).toBe(dm['_isuFactors']['variables'][1]['origin']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['levels'][0]['levelName'])).toBe(dm['_isuFactors']['variables'][1]['levels'][0]['levelName']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['levels'][0]['noElements'])).toBe(dm['_isuFactors']['variables'][1]['levels'][0]['noElements']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][1]['levels'][0]['intraClassCorellation'])).toBe(dm['_isuFactors']['variables'][1]['levels'][0]['intraClassCorellation']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['valueNames'])).toEqual(dm['_isuFactors']['variables'][2]['valueNames']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['name'])).toBe(dm['_isuFactors']['variables'][2]['name']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['inHypothesis'])).toBe(dm['_isuFactors']['variables'][2]['inHypothesis']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['isuFactorNature'])).toBe(dm['_isuFactors']['variables'][2]['isuFactorNature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['nature'])).toBe(dm['_isuFactors']['variables'][2]['nature']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['origin'])).toBe(dm['_isuFactors']['variables'][2]['origin']);
+        expect(tdm.then(x => x['_isuFactors']['variables'][2]['child'])).toBe(dm['_isuFactors']['variables'][2]['child']);
+
     });
 
-    it('Create a test case for Homework 2 from the short course', () => {
+    xit('Create a test case for Homework 2 from the short course', () => {
         //MODE
         page.sleep(100);
         //expect(page.getElementClass(input_complex.MODE)).toContain('active');
@@ -177,7 +217,7 @@ describe('demo-front-app short course homework test', () => {
 
         //STATISTICAL_TESTS
         page.sleep(100);
-        page.findContentById('hlt').click();
+        // page.findContentById('hlt').click();
         page.next();
 
         //TYPE_ONE_ERROR
@@ -315,117 +355,128 @@ describe('demo-front-app short course homework test', () => {
         page.next();
 
         //CALCULATE
-        //TODO fill toBe('') with expected output data model
-        expect(page.findContentById('reviewDataModel').getText()).toBe('TODO');
+        var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw2_data_model.json');
+        var tdm = hdm.getOutputDataModel('reviewDataModel');
+        expect(tdm.then(x => x['_solveFor'])).toBe(dm['_solveFor']);
+        expect(tdm.then(x => x['_typeOneErrorRate'])).toBe(dm['_typeOneErrorRate']);
+        expect(tdm.then(x => x['_scaleFactor'])).toBe(dm['_scaleFactor']);
+        expect(tdm.then(x => x['_samplesize'])).toBe(dm['_samplesize']);
+        expect(tdm.then(x => x['_ciwidth'])).toBe(dm['_ciwidth']);
+        expect(tdm.then(x => x['_gaussianCovariate'])).toBe(dm['_gaussianCovariate']);
+        expect(tdm.then(x => x['_targetEvent'])).toBe(dm['_targetEvent']);
+        expect(tdm.then(x => x['_powerCurve'])).toBe(dm['_powerCurve']);
+        expect(tdm.then(x => x['_varianceScaleFactors'])).toEqual(dm['_varianceScaleFactors']);
+        expect(tdm.then(x => x['_selectedTests'])).toEqual(dm['_selectedTests']);
+        
     });
 
-    it('Create a test case for Homework 3 from the short course', () => {
-         //MODE
-         page.sleep(100);
-         //expect(page.getElementClass(input_complex.MODE)).toContain('active');
-         expect(page.getElementClass('guidedbtn')).toContain('active');
-         page.next();
-  
-         //TARGET_EVENT
-         page.sleep(100);
-         //expect(page.getElementClass(input_complex.TARGET_EVENT)).toContain('active');
-         expect(page.getElementClass('rejectionbtn')).toContain('active');
-         page.next();
- 
-         //SOLVE_FOR
-         page.sleep(100);
-         page.findContentById('powerbtn').click();
-         expect(page.getElementClass('powerbtn')).toContain('active');
-         page.next();
- 
-         //STATISTICAL_TESTS
-         page.sleep(100);
-         page.findContentById('hlt').click();
-         page.next();
- 
-         //TYPE_ONE_ERROR
-         page.sleep(100);
-         page.findContentById('typeoneerror').clear();
-         page.findContentById('typeoneerror').sendKeys(0.05);
-         page.next();
- 
-         //WITHIN_ISU_OUTCOMES
-         page.sleep(100);
-         page.findContentById('outcomes').clear();
-         page.findContentById('outcomes').sendKeys('GRADE difference score');
-         page.findContentById('addoutcome').click();
-         page.findContentById('outcomes').clear();
-         page.findContentById('outcomes').sendKeys('LSK difference score');
-         page.findContentById('addoutcome').click();
-         page.findContentById('outcomes').clear();
-         page.findContentById('outcomes').sendKeys('CTOPP difference score');
-         page.findContentById('addoutcome').click();
-         page.next();
- 
-         //WITHIN_ISU_REPEATED_MEASURES
-         page.sleep(100);
-         page.next();
- 
-         //WITHIN_ISU_CLUSTERS
-         page.sleep(100);
-         page.findContentById('includerptmeasuresbtn').click();
-         page.findContentById('name').clear();
-         page.findContentById('name').sendKeys('student');
-         page.next();
-         page.sleep(100);
-         page.findContentById('levelName').clear();
-         page.findContentById('levelName').sendKeys('classroom');
-         page.findContentById('noElements').clear();
-         page.findContentById('noElements').sendKeys(5);
-         page.findContentById('addLevel').click();
-         page.findContentById('levelName').clear();
-         page.findContentById('levelName').sendKeys('school');
-         page.findContentById('noElements').clear();
-         page.findContentById('noElements').sendKeys(4);
-         page.findContentById('addLevel').click();
-         page.next();
-         page.sleep(100);
-         page.next();
- 
-         //BETWEEN_ISU_PREDICTORS
-         page.sleep(100);
-         page.findContentById('addbetweenbtn').click();
-         page.findContentByCss('input[formcontrolname=predictorName]').sendKeys('LiteracyProgram');
-         page.next();
-         page.sleep(100);
-         page.findContentById('group').sendKeys('ABRACADABRA');
-         page.findContentById('addgroup').click();
-         page.findContentById('group').sendKeys('English Arts Program');
-         page.findContentById('addgroup').click();
-         page.findContentById('group').sendKeys('bi-lingual education');
-         page.findContentById('addgroup').click();
-         page.next();
-         page.sleep(100);
-         page.next();
- 
-         //BETWEEN_ISU_GROUPS
-         page.sleep(100);
-         page.findContentById('smallestgroupsize').clear();
-         page.findContentById('smallestgroupsize').sendKeys(20);
-         page.next();
- 
-         //GAUSSIAN_COVARIATE
-         page.sleep(100);
-         page.next();
- 
-         //HYPOTHESIS_EFFECT_CHOICE
-         page.sleep(100);
-         page.findAllByClass('form-check-input').get(1).click();
-         page.next();
- 
-         //HYPOTHESIS_BETWEEN
-         page.sleep(300);
-         page.next();
- 
-         //HYPOTHESIS_WITHIN
-         page.sleep(300);
-         page.next();
-        
+    xit('Create a test case for Homework 3 from the short course', () => {
+        //MODE
+        page.sleep(100);
+        //expect(page.getElementClass(input_complex.MODE)).toContain('active');
+        expect(page.getElementClass('guidedbtn')).toContain('active');
+        page.next();
+
+        //TARGET_EVENT
+        page.sleep(100);
+        //expect(page.getElementClass(input_complex.TARGET_EVENT)).toContain('active');
+        expect(page.getElementClass('rejectionbtn')).toContain('active');
+        page.next();
+
+        //SOLVE_FOR
+        page.sleep(100);
+        page.findContentById('powerbtn').click();
+        expect(page.getElementClass('powerbtn')).toContain('active');
+        page.next();
+
+        //STATISTICAL_TESTS
+        page.sleep(100);
+        // page.findContentById('hlt').click();
+        page.next();
+
+        //TYPE_ONE_ERROR
+        page.sleep(100);
+        page.findContentById('typeoneerror').clear();
+        page.findContentById('typeoneerror').sendKeys(0.05);
+        page.next();
+
+        //WITHIN_ISU_OUTCOMES
+        page.sleep(100);
+        page.findContentById('outcomes').clear();
+        page.findContentById('outcomes').sendKeys('GRADE difference score');
+        page.findContentById('addoutcome').click();
+        page.findContentById('outcomes').clear();
+        page.findContentById('outcomes').sendKeys('LSK difference score');
+        page.findContentById('addoutcome').click();
+        page.findContentById('outcomes').clear();
+        page.findContentById('outcomes').sendKeys('CTOPP difference score');
+        page.findContentById('addoutcome').click();
+        page.next();
+
+        //WITHIN_ISU_REPEATED_MEASURES
+        page.sleep(100);
+        page.next();
+
+        //WITHIN_ISU_CLUSTERS
+        page.sleep(100);
+        page.findContentById('includerptmeasuresbtn').click();
+        page.findContentById('name').clear();
+        page.findContentById('name').sendKeys('student');
+        page.next();
+        page.sleep(100);
+        page.findContentById('levelName').clear();
+        page.findContentById('levelName').sendKeys('classroom');
+        page.findContentById('noElements').clear();
+        page.findContentById('noElements').sendKeys(5);
+        page.findContentById('addLevel').click();
+        page.findContentById('levelName').clear();
+        page.findContentById('levelName').sendKeys('school');
+        page.findContentById('noElements').clear();
+        page.findContentById('noElements').sendKeys(4);
+        page.findContentById('addLevel').click();
+        page.next();
+        page.sleep(100);
+        page.next();
+
+        //BETWEEN_ISU_PREDICTORS
+        page.sleep(100);
+        page.findContentById('addbetweenbtn').click();
+        page.findContentByCss('input[formcontrolname=predictorName]').sendKeys('LiteracyProgram');
+        page.next();
+        page.sleep(100);
+        page.findContentById('group').sendKeys('ABRACADABRA');
+        page.findContentById('addgroup').click();
+        page.findContentById('group').sendKeys('English Arts Program');
+        page.findContentById('addgroup').click();
+        page.findContentById('group').sendKeys('bi-lingual education');
+        page.findContentById('addgroup').click();
+        page.next();
+        page.sleep(100);
+        page.next();
+
+        //BETWEEN_ISU_GROUPS
+        page.sleep(100);
+        page.findContentById('smallestgroupsize').clear();
+        page.findContentById('smallestgroupsize').sendKeys(20);
+        page.next();
+
+        //GAUSSIAN_COVARIATE
+        page.sleep(100);
+        page.next();
+
+        //HYPOTHESIS_EFFECT_CHOICE
+        page.sleep(100);
+        page.findAllByClass('form-check-input').get(1).click();
+        page.next();
+
+        //HYPOTHESIS_BETWEEN
+        page.sleep(300);
+        page.next();
+
+        //HYPOTHESIS_WITHIN
+        page.sleep(300);
+        page.next();
+    
         //TODO 
         //PARAMETERS_MARGINAL_MEANS
         //  page.sleep(100);
@@ -468,48 +519,48 @@ describe('demo-front-app short course homework test', () => {
         //  page.sleep(100);
         //  page.next();
  
-         //CALCULATE
-         //TODO fill toBe('') with expected output data model
-        // expect(page.findContentById('reviewDataModel').getText()).toBe('TODO');
+        //CALCULATE
+        //TODO fill toBe('') with expected output data model
+        
     });
 
-    it('Create a test case for Homework 4 from the short course', () => {
-         //MODE
-         page.sleep(100);
-         //expect(page.getElementClass(input_complex.MODE)).toContain('active');
-         expect(page.getElementClass('guidedbtn')).toContain('active');
-         page.next();
-  
-         //TARGET_EVENT
-         page.sleep(100);
-         //expect(page.getElementClass(input_complex.TARGET_EVENT)).toContain('active');
-         expect(page.getElementClass('rejectionbtn')).toContain('active');
-         page.next();
- 
-         //SOLVE_FOR
-         page.sleep(100);
-         page.findContentById('samplesizebtn').click();
-         expect(page.getElementClass('samplesizebtn')).toContain('active');
-         page.findContentById('power').clear();
-         page.findContentById('power').sendKeys(0.9);
-         page.next();
- 
-         //STATISTICAL_TESTS
-         page.sleep(100);
-         page.findContentById('hlt').click();
-         page.next();
- 
-         //TYPE_ONE_ERROR
-         page.sleep(100);
-         page.findContentById('typeoneerror').clear();
-         page.findContentById('typeoneerror').sendKeys(0.05);
-         page.next();
- 
-         //WITHIN_ISU_OUTCOMES
-         page.sleep(100);
-         page.findContentById('outcomes').sendKeys('Alcohol Use Score');
-         page.findContentById('addoutcome').click();
-         page.next();
+    xit('Create a test case for Homework 4 from the short course', () => {
+        //MODE
+        page.sleep(100);
+        //expect(page.getElementClass(input_complex.MODE)).toContain('active');
+        expect(page.getElementClass('guidedbtn')).toContain('active');
+        page.next();
+
+        //TARGET_EVENT
+        page.sleep(100);
+        //expect(page.getElementClass(input_complex.TARGET_EVENT)).toContain('active');
+        expect(page.getElementClass('rejectionbtn')).toContain('active');
+        page.next();
+
+        //SOLVE_FOR
+        page.sleep(100);
+        page.findContentById('samplesizebtn').click();
+        expect(page.getElementClass('samplesizebtn')).toContain('active');
+        page.findContentById('power').clear();
+        page.findContentById('power').sendKeys(0.9);
+        page.next();
+
+        //STATISTICAL_TESTS
+        page.sleep(100);
+        // page.findContentById('hlt').click();
+        page.next();
+
+        //TYPE_ONE_ERROR
+        page.sleep(100);
+        page.findContentById('typeoneerror').clear();
+        page.findContentById('typeoneerror').sendKeys(0.05);
+        page.next();
+
+        //WITHIN_ISU_OUTCOMES
+        page.sleep(100);
+        page.findContentById('outcomes').sendKeys('Alcohol Use Score');
+        page.findContentById('addoutcome').click();
+        page.next();
  
          //WITHIN_ISU_REPEATED_MEASURES
         page.sleep(100);
@@ -536,155 +587,166 @@ describe('demo-front-app short course homework test', () => {
         page.sleep(50);
         page.next();
  
-         //WITHIN_ISU_CLUSTERS
-         page.sleep(100);
-         page.findContentById('includerptmeasuresbtn').click();
-         page.findContentById('name').clear();
-         page.findContentById('name').sendKeys('student');
-         page.next();
-         page.sleep(100);
-         page.findContentById('levelName').clear();
-         page.findContentById('levelName').sendKeys('classroom');
-         page.findContentById('noElements').clear();
-         page.findContentById('noElements').sendKeys(20);
-         page.findContentById('addLevel').click();
-         page.findContentById('levelName').clear();
-         page.findContentById('levelName').sendKeys('school');
-         page.findContentById('noElements').clear();
-         page.findContentById('noElements').sendKeys(3);
-         page.findContentById('addLevel').click();
-         page.findContentById('levelName').clear();
-         page.findContentById('levelName').sendKeys('neighborhood');
-         page.findContentById('noElements').clear();
-         page.findContentById('noElements').sendKeys(2);
-         page.findContentById('addLevel').click();
-         page.next();
-         page.sleep(100);
-         page.next();
- 
-         //BETWEEN_ISU_PREDICTORS
-         page.sleep(100);
-         page.findContentById('addbetweenbtn').click();
-         page.findContentByCss('input[formcontrolname=predictorName]').sendKeys('treatment');
-         page.next();
-         page.sleep(100);
-         page.findContentById('group').sendKeys('Alcohol Education Program');
-         page.findContentById('addgroup').click();
-         page.findContentById('group').sendKeys('Standard Of Care');
-         page.findContentById('addgroup').click();
-         page.next();
-         page.sleep(100);
-         page.next();
- 
-         //BETWEEN_ISU_GROUPS
-         page.sleep(100);
-         page.findAllByTag('input').get(0).clear();
-         page.findAllByTag('input').get(0).sendKeys(2);
-         page.findAllByTag('input').get(1).clear();
-         page.findAllByTag('input').get(1).sendKeys(1);
-         page.next();
- 
-         //GAUSSIAN_COVARIATE
-         page.sleep(100);
-         page.next();
- 
-         //HYPOTHESIS_EFFECT_CHOICE
-         page.sleep(100);
-         page.findAllByClass('form-check-input').get(5).click();
-         page.next();
- 
-         //HYPOTHESIS_BETWEEN
-         page.sleep(500);
-         page.next();
- 
-         //HYPOTHESIS_WITHIN
-         page.sleep(500);
-         page.next();
+        //WITHIN_ISU_CLUSTERS
+        page.sleep(100);
+        page.findContentById('includerptmeasuresbtn').click();
+        page.findContentById('name').clear();
+        page.findContentById('name').sendKeys('student');
+        page.next();
+        page.sleep(100);
+        page.findContentById('levelName').clear();
+        page.findContentById('levelName').sendKeys('classroom');
+        page.findContentById('noElements').clear();
+        page.findContentById('noElements').sendKeys(20);
+        page.findContentById('addLevel').click();
+        page.findContentById('levelName').clear();
+        page.findContentById('levelName').sendKeys('school');
+        page.findContentById('noElements').clear();
+        page.findContentById('noElements').sendKeys(3);
+        page.findContentById('addLevel').click();
+        page.findContentById('levelName').clear();
+        page.findContentById('levelName').sendKeys('neighborhood');
+        page.findContentById('noElements').clear();
+        page.findContentById('noElements').sendKeys(2);
+        page.findContentById('addLevel').click();
+        page.next();
+        page.sleep(100);
+        page.next();
 
-         //PARAMETERS_MARGINAL_MEANS
-         //TODO: in the version2, the method used is LEAR, but we convert the data to unstructured in order to fit the VERSION3
-         page.sleep(100);
-         page.findAllByTag('input').get(0).clear();
-         page.findAllByTag('input').get(0).sendKeys(5.2);
-         page.findAllByTag('input').get(1).clear();
-         page.findAllByTag('input').get(1).sendKeys(5.3);
-         page.findAllByTag('input').get(2).clear();
-         page.findAllByTag('input').get(2).sendKeys(5.3);
-         page.findAllByTag('input').get(3).clear();
-         page.findAllByTag('input').get(3).sendKeys(5.3);
-         page.findAllByTag('input').get(4).clear();
-         page.findAllByTag('input').get(4).sendKeys(5.2);
-         page.findAllByTag('input').get(5).clear();
-         page.findAllByTag('input').get(5).sendKeys(5.5);
-         page.findAllByTag('input').get(6).clear();
-         page.findAllByTag('input').get(6).sendKeys(5.9);
-         page.findAllByTag('input').get(7).clear();
-         page.findAllByTag('input').get(7).sendKeys(6.2);
-         page.next();
- 
-         //PARAMETERS_SCALE_FACTOR
-         page.sleep(100);
-         page.findContentById('scalefactor').clear();
-         page.findContentById('scalefactor').sendKeys(1);
-         page.next();
- 
-         //PARAMETERS_STANDARD_DEVIATION
-         page.sleep(100);
-         page.findByTag('input').clear();
-         page.findByTag('input').sendKeys(4);
-         page.next();
- 
-         //PARAMETERS_OUTCOME_CORRELATION
-         page.sleep(100);
-         page.next();
+        //BETWEEN_ISU_PREDICTORS
+        page.sleep(100);
+        page.findContentById('addbetweenbtn').click();
+        page.findContentByCss('input[formcontrolname=predictorName]').sendKeys('treatment');
+        page.next();
+        page.sleep(100);
+        page.findContentById('group').sendKeys('Alcohol Education Program');
+        page.findContentById('addgroup').click();
+        page.findContentById('group').sendKeys('Standard Of Care');
+        page.findContentById('addgroup').click();
+        page.next();
+        page.sleep(100);
+        page.next();
 
-         //PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV/Alcohol%20Use%20Score/Halfyear
-         page.sleep(100);
-         page.next();
+        //BETWEEN_ISU_GROUPS
+        page.sleep(100);
+        page.findAllByTag('input').get(0).clear();
+        page.findAllByTag('input').get(0).sendKeys(2);
+        page.findAllByTag('input').get(1).clear();
+        page.findAllByTag('input').get(1).sendKeys(1);
+        page.next();
 
-         //PARAMETERS_REPEATED_MEASURE_CORRELATION/Halfyear
-         page.sleep(100);
-         page.findContentById('1-0').clear();
-         page.findContentById('1-0').sendKeys(0.6);
-         page.findContentById('2-0').clear();
-         page.findContentById('2-0').sendKeys(0.5017694177101615);
-         page.findContentById('3-0').clear();
-         page.findContentById('3-0').sendKeys(0.41962091424865766);
-         page.findContentById('2-1').clear();
-         page.findContentById('2-1').sendKeys(0.5486908515968686);
-         page.findContentById('3-1').clear();
-         page.findContentById('3-1').sendKeys(0.45886048184775574);
-         page.findContentById('3-2').clear();
-         page.findContentById('3-2').sendKeys(0.5486908515968686);
-         page.next();
- 
-         //PARAMETERS_INTRA_CLASS_CORRELATION
-         page.sleep(100);
-         page.findAllByTag('input').get(0).clear();
-         page.findAllByTag('input').get(0).sendKeys(0.09);
-         page.findAllByTag('input').get(1).clear();
-         page.findAllByTag('input').get(1).sendKeys(0.04);
-         page.findAllByTag('input').get(2).clear();
-         page.findAllByTag('input').get(2).sendKeys(0.03);
-         page.next();
- 
-         //PARAMETERS_SCALE_FACTOR_VARIANCE
-         page.sleep(100);
-         page.findContentById('scaleFactors').clear();
-         page.findContentById('scaleFactors').sendKeys(1);
-         page.findContentById('addscaleFactor').click();
-         page.next();
- 
-         //OPTIONAL_SPECS_POWER_CURVE_CHOICE
-         page.sleep(100);
-         page.next();
+        //GAUSSIAN_COVARIATE
+        page.sleep(100);
+        page.next();
+
+        //HYPOTHESIS_EFFECT_CHOICE
+        page.sleep(100);
+        page.findAllByClass('form-check-input').get(5).click();
+        page.next();
+
+        //HYPOTHESIS_BETWEEN
+        page.sleep(500);
+        page.next();
+
+        //HYPOTHESIS_WITHIN
+        page.sleep(500);
+        page.next();
+
+        //PARAMETERS_MARGINAL_MEANS
+        //TODO: in the version2, the method used is LEAR, but we convert the data to unstructured in order to fit the VERSION3
+        page.sleep(100);
+        page.findAllByTag('input').get(0).clear();
+        page.findAllByTag('input').get(0).sendKeys(5.2);
+        page.findAllByTag('input').get(1).clear();
+        page.findAllByTag('input').get(1).sendKeys(5.3);
+        page.findAllByTag('input').get(2).clear();
+        page.findAllByTag('input').get(2).sendKeys(5.3);
+        page.findAllByTag('input').get(3).clear();
+        page.findAllByTag('input').get(3).sendKeys(5.3);
+        page.findAllByTag('input').get(4).clear();
+        page.findAllByTag('input').get(4).sendKeys(5.2);
+        page.findAllByTag('input').get(5).clear();
+        page.findAllByTag('input').get(5).sendKeys(5.5);
+        page.findAllByTag('input').get(6).clear();
+        page.findAllByTag('input').get(6).sendKeys(5.9);
+        page.findAllByTag('input').get(7).clear();
+        page.findAllByTag('input').get(7).sendKeys(6.2);
+        page.next();
+
+        //PARAMETERS_SCALE_FACTOR
+        page.sleep(100);
+        page.findContentById('scalefactor').clear();
+        page.findContentById('scalefactor').sendKeys(1);
+        page.next();
+
+        //PARAMETERS_STANDARD_DEVIATION
+        page.sleep(100);
+        page.findByTag('input').clear();
+        page.findByTag('input').sendKeys(4);
+        page.next();
+
+        //PARAMETERS_OUTCOME_CORRELATION
+        page.sleep(100);
+        page.next();
+
+        //PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV/Alcohol%20Use%20Score/Halfyear
+        page.sleep(100);
+        page.next();
+
+        //PARAMETERS_REPEATED_MEASURE_CORRELATION/Halfyear
+        page.sleep(100);
+        page.findContentById('1-0').clear();
+        page.findContentById('1-0').sendKeys(0.6);
+        page.findContentById('2-0').clear();
+        page.findContentById('2-0').sendKeys(0.5017694177101615);
+        page.findContentById('3-0').clear();
+        page.findContentById('3-0').sendKeys(0.41962091424865766);
+        page.findContentById('2-1').clear();
+        page.findContentById('2-1').sendKeys(0.5486908515968686);
+        page.findContentById('3-1').clear();
+        page.findContentById('3-1').sendKeys(0.45886048184775574);
+        page.findContentById('3-2').clear();
+        page.findContentById('3-2').sendKeys(0.5486908515968686);
+        page.next();
+
+        //PARAMETERS_INTRA_CLASS_CORRELATION
+        page.sleep(100);
+        page.findAllByTag('input').get(0).clear();
+        page.findAllByTag('input').get(0).sendKeys(0.09);
+        page.findAllByTag('input').get(1).clear();
+        page.findAllByTag('input').get(1).sendKeys(0.04);
+        page.findAllByTag('input').get(2).clear();
+        page.findAllByTag('input').get(2).sendKeys(0.03);
+        page.next();
+
+        //PARAMETERS_SCALE_FACTOR_VARIANCE
+        page.sleep(100);
+        page.findContentById('scaleFactors').clear();
+        page.findContentById('scaleFactors').sendKeys(1);
+        page.findContentById('addscaleFactor').click();
+        page.next();
+
+        //OPTIONAL_SPECS_POWER_CURVE_CHOICE
+        page.sleep(100);
+        page.next();
 
          //CALCULATE
-         //TODO fill toBe('') with expected output data model
-        expect(page.findContentById('reviewDataModel').getText()).toBe('TODO');
+        var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw4_data_model.json');
+        var tdm = hdm.getOutputDataModel('reviewDataModel');
+        expect(tdm.then(x => x['_solveFor'])).toBe(dm['_solveFor']);
+        expect(tdm.then(x => x['_typeOneErrorRate'])).toBe(dm['_typeOneErrorRate']);
+        expect(tdm.then(x => x['_scaleFactor'])).toBe(dm['_scaleFactor']);
+        expect(tdm.then(x => x['_samplesize'])).toBe(dm['_samplesize']);
+        expect(tdm.then(x => x['_ciwidth'])).toBe(dm['_ciwidth']);
+        expect(tdm.then(x => x['_gaussianCovariate'])).toBe(dm['_gaussianCovariate']);
+        expect(tdm.then(x => x['_targetEvent'])).toBe(dm['_targetEvent']);
+        expect(tdm.then(x => x['_powerCurve'])).toBe(dm['_powerCurve']);
+        expect(tdm.then(x => x['_varianceScaleFactors'])).toEqual(dm['_varianceScaleFactors']);
+        expect(tdm.then(x => x['_selectedTests'])).toEqual(dm['_selectedTests']);
+        
     });
 
-    it('Create a test case for Homework 5 from the short course', () => {
+    xit('Create a test case for Homework 5 from the short course', () => {
         //MODE
         page.sleep(100);
         //expect(page.getElementClass(input_complex.MODE)).toContain('active');
@@ -705,7 +767,7 @@ describe('demo-front-app short course homework test', () => {
 
         //STATISTICAL_TESTS
         page.sleep(100);
-        page.findContentById('hlt').click();
+        // page.findContentById('hlt').click();
         page.next();
 
         //TYPE_ONE_ERROR
@@ -860,8 +922,18 @@ describe('demo-front-app short course homework test', () => {
 
         page.sleep(10000)
         //CALCULATE
-        //TODO fill toBe('') with expected output data model
-        expect(page.findContentById('reviewDataModel').getText()).toBe('TODO');
+        var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw5_data_model.json');
+        var tdm = hdm.getOutputDataModel('reviewDataModel');
+        expect(tdm.then(x => x['_solveFor'])).toBe(dm['_solveFor']);
+        expect(tdm.then(x => x['_typeOneErrorRate'])).toBe(dm['_typeOneErrorRate']);
+        expect(tdm.then(x => x['_scaleFactor'])).toBe(dm['_scaleFactor']);
+        expect(tdm.then(x => x['_samplesize'])).toBe(dm['_samplesize']);
+        expect(tdm.then(x => x['_ciwidth'])).toBe(dm['_ciwidth']);
+        expect(tdm.then(x => x['_gaussianCovariate'])).toBe(dm['_gaussianCovariate']);
+        expect(tdm.then(x => x['_targetEvent'])).toBe(dm['_targetEvent']);
+        expect(tdm.then(x => x['_powerCurve'])).toBe(dm['_powerCurve']);
+        expect(tdm.then(x => x['_varianceScaleFactors'])).toEqual(dm['_varianceScaleFactors']);
+        expect(tdm.then(x => x['_selectedTests'])).toEqual(dm['_selectedTests']);
+        
     });
-
 });

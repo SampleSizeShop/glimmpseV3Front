@@ -13,7 +13,7 @@ describe('demo-front-app navigation test', () => {
         page.navigateTo('/design/MODE');
     });
 
-    it('basic navigation without any input foward and backword', () => {
+    xit('basic navigation without any input foward and backword', () => {
         //navi forward and should stop at WITHIN_ISU_OUTCOMES
         page.sleep(500);
         expect(page.findContentById("GUIDED").isDisplayed()).toBeTruthy();
@@ -144,7 +144,7 @@ describe('demo-front-app navigation test', () => {
         expect(page.getRouterURLString()).toBe('TYPE_ONE_ERROR');
     });
 
-    it('end2end basic navigation with simple parameters', () => {
+    xit('end2end basic navigation with simple parameters', () => {
         //this test also will test the behavior of the page after input those parameters such as boundary check
         //MODE
         page.sleep(300);
@@ -249,7 +249,7 @@ describe('demo-front-app navigation test', () => {
         //add test here to eval results
     });
 
-    it('end2end basic navigation with complex parameters power', () => {
+    xit('end2end basic navigation with complex parameters power', () => {
         //MODE
         page.sleep(100);
         //expect(page.getElementClass(input_complex.MODE)).toContain('active');
@@ -656,7 +656,7 @@ describe('demo-front-app navigation test', () => {
         page.next();
 
         //CALCULATE
-        //TODO add expects to confirm the summary of the calculate
-        //TODO add expects to confirm the calculated results are correct and presented correctly
+        //TODO test data model output
+
     });
 });

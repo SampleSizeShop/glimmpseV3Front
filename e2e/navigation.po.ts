@@ -19,23 +19,23 @@ export class NavigationE2E {
 
     refresh(){
       browser.refresh();
-    }
+    };
 
     browserBack(){
       browser.navigate().back();
-    }
+    };
 
     browserForward(){
       browser.navigate().forward();
-    }
+    };
 
     getRouterURLString(){
      return browser.getCurrentUrl().then(url => url.split("/").pop());
-    }
+    };
 
     getElementClass(cid: string){
       return element(by.id(cid)).getAttribute('class')
-    }
+    };
   
     findContentById(cid: string){
       return element(by.id(cid))
@@ -75,9 +75,9 @@ export class NavigationE2E {
     
     clickEnterKey(){
       browser.actions().sendKeys(protractor.Key.ENTER).perform();
-    }
+    };
 
     findByPartialLinkText(txt: string){
       return element(by.partialLinkText(txt));
-    }
+    };
   }

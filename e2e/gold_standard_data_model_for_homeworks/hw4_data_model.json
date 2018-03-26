@@ -274,7 +274,7 @@
   "_ciwidth": 1,
   "_power": 0.9,
   "_selectedTests": [
-    
+    "Hotelling Lawley Trace"
   ],
   "_typeOneErrorRate": 0.05,
   "_gaussianCovariate": null,
