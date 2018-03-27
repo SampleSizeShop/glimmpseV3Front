@@ -45,49 +45,28 @@ script:
 after_success:
 - |
   if [ $TAG_ENABLE == True ]; then
-    # #############################################################################################################
-    # increment version
-    # #############################################################################################################
-    echo start...
-    git status
+    echo INCREMENT VERSION
+    npm config set loglevel warn
     if [ $BUILD_TYPE != patch -a $BUILD_TYPE != minor -a $BUILD_TYPE != major ]; then travis_terminate 1; fi
     npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
-    # #############################################################################################################
-    # build project since there is no error
-    # #############################################################################################################
-    echo BUILDING BUILDING
+    echo BUILD PROJECT
     ng build --prod
-    # #############################################################################################################
-    # install docker as the travis docker service version is too old
-    # #############################################################################################################
-    echo INSTALL DOCKER INSTALL DOCKER
+    echo INSTALL LATEST STABLE DOCKER
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     sudo apt-get update
     apt-cache policy docker-ce
     sudo apt-get install -y docker-ce
-    # up data pip
+    echo INSTALL LATEST PIP
     pip install -U pip
-    # #############################################################################################################
-    # install awscli
-    # #############################################################################################################
-    echo INSTALL AWS INSTAL AWS
+    echo INSTALL AWS CLI
     sudo pip install awscli --upgrade
     export PATH=~/.local/bin:$PATH
-    # #############################################################################################################
-    # add Aws IAM user credentials to env
-    # #############################################################################################################
     mkdir -p ~/.aws
     ./scripts/ecr_user.sh
-    # #############################################################################################################
-    # login ECR
-    # #############################################################################################################
-    echo ECR LOOGIN ECR LOGIN
+    echo LOGIN TO ECR
     eval $(aws ecr get-login --no-include-email --region us-east-1)
-    # #############################################################################################################
-    # create docker image and push to ECR
-    # #############################################################################################################
-    echo DOCKER PRESERVE DOCKER PRESERVE
+    echo CREATE DOCKER IMAGE
     REPO=${ECR_REPO}
     IMAGE=${ECR_IMG}
     VERSION=$(node -e "console.log(require('./package.json').version)")
