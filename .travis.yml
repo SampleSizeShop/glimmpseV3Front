@@ -46,38 +46,33 @@ script:
 after_success:
 - |
   if [ $TAG_ENABLE == True ]; then
-    echo INCREMENT VERSION
+    echo Incrementing Glimmpse version...
     if [ $BUILD_TYPE != patch -a $BUILD_TYPE != minor -a $BUILD_TYPE != major ]; then travis_terminate 1; fi
     npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
     echo BUILD PROJECT
     ng build --prod
-    echo INSTALL LATEST STABLE DOCKER
+    echo Istall latest stable version of Docker...
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     sudo apt-get update
     sudo apt-get install -y docker-ce
-    echo INSTALL LATEST PIP
+    echo Install latest version of pip...
     pip install -U pip
-    echo INSTALL AWS CLI
+    echo Install AWS cli...
     sudo pip install awscli --upgrade
     export PATH=~/.local/bin:$PATH
     mkdir -p ~/.aws
     ./scripts/ecr_user.sh
     echo LOGIN TO ECR
     eval $(aws ecr get-login --no-include-email --region us-east-1)
-    echo CREATE DOCKER IMAGE
+    echo Create docker image
     REPO=${ECR_REPO}
     IMAGE=${ECR_IMG}
     VERSION=$(node -e "console.log(require('./package.json').version)")
-    echo BUILDING IMAGE IN SCRIPT
     echo $REPO
     docker build -t $REPO/$IMAGE:latest -t $REPO/$IMAGE:$VERSION .
-    echo PUSH IMAGE IN SCRIPT
     docker push $REPO/$IMAGE:latest
     docker push $REPO/$IMAGE:$VERSION
-    # #############################################################################################################
-    # deploy latest docker image to EC2
-    # #############################################################################################################
     # echo DOCKER DEPLOY DEPLOY
     # ./scripts/docker_deploy.sh ;
   else echo "All tests passed.";
