@@ -37,7 +37,7 @@ before_install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 before_script:
-- npm cache clean
+- npm cache verify
 - npm config set loglevel warn
 - npm install -g @angular/cli
 - npm install -g karma
