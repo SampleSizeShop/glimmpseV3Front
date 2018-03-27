@@ -74,7 +74,6 @@ script:
     # echo DOCKER DEPLOY DEPLOY
     # ./scripts/docker_deploy.sh ;
   else ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
-after_success:
-
   fi
+after_success:
 - echo "done"
