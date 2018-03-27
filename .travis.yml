@@ -42,8 +42,6 @@ before_script:
 - npm install -g karma
 - npm install
 script:
-- "./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN"
-after_success:
 - |
   if [ $TAG_ENABLE == True ]; then
     echo Incrementing Glimmpse version...
@@ -75,6 +73,8 @@ after_success:
     docker push $REPO/$IMAGE:$VERSION
     # echo DOCKER DEPLOY DEPLOY
     # ./scripts/docker_deploy.sh ;
-  else echo "All tests passed.";
+  else ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
+after_success:
+
   fi
 - echo "done"
