@@ -42,7 +42,7 @@ before_script:
 - npm install -g karma
 - npm install
 script:
-- "./node_modules/.bin/karma start karma.conf.js --single-run --log-level=DEBUG"
+- "./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN"
 after_success:
 - |
   if [ $TAG_ENABLE == True ]; then
@@ -55,7 +55,6 @@ after_success:
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     sudo apt-get update
-    apt-cache policy docker-ce
     sudo apt-get install -y docker-ce
     echo INSTALL LATEST PIP
     pip install -U pip
