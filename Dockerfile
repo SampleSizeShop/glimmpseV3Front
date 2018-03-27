@@ -3,10 +3,10 @@ FROM node:8.6 as node
 ENV NPM_CONFIG_LOGLEVEL warn
 WORKDIR /app
 COPY package.json /app/
-RUN npm install puppeteer --save-dev
+# RUN npm install puppeteer --save-dev
 RUN npm install
 RUN npm i -D puppeteer karma-chrome-launcher
-RUN ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
+# RUN ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
 COPY ./ /app/
 ARG env=prod
 RUN npm run build -- --prod --environment $env
