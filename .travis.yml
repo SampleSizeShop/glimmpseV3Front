@@ -15,66 +15,68 @@ apt:
   packages:
   - google-chrome-stable
   - google-chrome-beta
-env:
-  global:
-  - EC2_SSH_KEY=glimmpsev3uat.pem GIT_SSH_KEY=id_rsa EC2_URL=ec2-54-161-9-34.compute-1.amazonaws.com
-    ECR_REPO=543872078551.dkr.ecr.us-east-1.amazonaws.com ECR_IMG=glimmpse
-    GIT_MAIL=alasdair.macleod@ufl.edu GIT_USER=alasdair-macleod GIT_REPO=DemoAppFront
-  - secure: OUuPL0s2awbQleStHL9y184yXCz7pekS+iQx1EBwlbM0LVUI3JGvTl3oGSn7HiOLtNxfO2L69hEPxg1+FgIR6w1rMUSZV7bOqe3kuJmDaRXmiHGU/YB+jnNjB02dzPGyLse6TtCVs6K4dXCo28mfK7MUD9ifxCJ2I9lNXTLhvVnC0Y/nhXKJ+s10X8wkfsn19Jm1VOLvOjADQ+sm3RwZYvDBiBlw0xVa5IT75s5AiFTir+QGdYGI9MZGVoh/S7Hgeuzx0T6Z26F1IqFXKQesyxM1lC6EyBSpH/jArn4dtgt0cbI6ZvATP/3njwDBoFOe+dh8e50Gi2mYxE4pf9dZWqwUDFOP0JQ7e67zFnMKYbmon6jRuwIWBh2tECeYCCE1B7qSa0Y3WDvlB/IZrvm0d7FuHYpAUGPGBE/RRShCpc6VoC/9HQrLHlnv4sa3giAiNZNGDGKu0CQ16hGaAu35f9694Ma6XCmdkRBDYQQpAxAbNXMimLpL3cmGbkS0sYThWmooZ/20GXFcbEMBWk5aqHy40VKx3KrhzGtS+4Wp5SEWbKatQcDS2MafPmwJUv/l98oHo3OAMPEgrkT32aS+tP1NMiEIqZ2BHvjjF2jW1yhAl2nvBU7WNr2+5wfeQC4vrGTlPnAS8U9lUraIRHQjsggqQheHhSgtb6MTE84jt9Y=
-  - secure: l/WXQ7E3gJ31rV10pnhmi9tX3B3JvpsMmedLTMa9HXPmPhYz34KUS1yz+6I+dUorP+nkA8IMZc88rnPW1BCHVtxLKoUFfZbd+GF1BiDmVBA4MEaxddpOUJMJ2vAgIeRJ7QXtXzuU9/KwP/0Irktnk8/AukBPm7jB3hYiovQFPdxqZqetAEZm2yWxsNZ5hZTS6+yPRhuZFO+qg5A7k9PkYdPIKs6hqaX/wnwu28qTNv7RHqyS4YyD0GX41pJrq5SuNFf5SIoLp9iy8nTZ/+/LuqaBXqnendZzcaDmJP2illw7Jh2oNmlCt/0q1uAWENxTOApvy4qTx538obE7whUTOCH/Kexse3gqR7XL35S96J6HuMVf4IrPERGVYB0MGq2rVhYUuj9outUpVjxz8BlfQa+AQimC4qBmR/MyduZZvtaF0FW9ZJl+NrPIl9NOXstEllSijiuo1qY/zdgu2PFL65suaMsdyk7AVAhBa46Njzu7dMm5BTV8G5wZ1YuZ+MFIJMiwJsCMDdsRriMtLYGv2OqxZqXn4Jv89JLjxFpyiWI6lyrqRMMGKeLY7AxXKwunELS4V1pD0hLPw2Y/eZbo77eHyUnq0JIn/53nqM/WNvTqJt9ixoQDd2D7ksHh6DynvC6Tw7Adpmk8AgUSQsVHLadoKSa5wFImcUlMfh9PqoM=
-before_install:
-- openssl aes-256-cbc -K $encrypted_ac40f3edab40_key -iv $encrypted_ac40f3edab40_iv -in secret_keys.tar.enc -out secret_keys.tar -d
-- ls -lrt ./scripts/*.sh
-- tar xvf secret_keys.tar
-- chmod 600 glimmpsev3uat.pem
-- chmod 600 id_rsa
-- eval "$(ssh-agent -s)"
-- sudo ssh-add ${GIT_SSH_KEY}
-- git config --global user.name GIT_USER
-- git config --global user.email GIT_EMAIL
-- git remote set-url origin git@github.com:${GIT_USER}/${GIT_REPO}.git
-- export CHROME_BIN=chromium-browser
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
-before_script:
-- npm cache verify
-- npm config set loglevel warn
-- npm install -g @angular/cli
-- npm install -g karma
-- npm install
-script:
-- ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
-- |
-  if [ $TAG_ENABLE == True ]; then
-    echo Incrementing Glimmpse version...
-    if [ $BUILD_TYPE != patch -a $BUILD_TYPE != minor -a $BUILD_TYPE != major ]; then travis_terminate 1; fi
-    npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
-    echo BUILD PROJECT
-    ng build --prod
-    echo Istall latest stable version of Docker...
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-    sudo apt-get update
-    sudo apt-get install -y docker-ce
-    echo Install latest version of pip...
-    pip install -U pip
-    echo Install AWS cli...
-    sudo pip install awscli --upgrade
-    export PATH=~/.local/bin:$PATH
-    mkdir -p ~/.aws
-    ./scripts/ecr_user.sh
-    echo LOGIN TO ECR
-    eval $(aws ecr get-login --no-include-email --region us-east-1)
-    echo Create docker image
-    REPO=${ECR_REPO}
-    IMAGE=${ECR_IMG}
-    VERSION=$(node -e "console.log(require('./package.json').version)")
-    echo $REPO
-    docker build -t $REPO/$IMAGE:latest -t $REPO/$IMAGE:$VERSION .
-    docker push $REPO/$IMAGE:latest
-    docker push $REPO/$IMAGE:$VERSION
-    # echo DOCKER DEPLOY DEPLOY
-    # ./scripts/docker_deploy.sh ;
-  fi
+jobs:
+  include:
+    - stage: test
+      before_script:
+      - npm cache verify
+      - npm config set loglevel warn
+      - npm install -g @angular/cli
+      - npm install -g karma
+      - npm install
+      before_install:
+      - export CHROME_BIN=chromium-browser
+      - export DISPLAY=:99.0
+      - sh -e /etc/init.d/xvfb start
+      script:
+      - ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
+    - stage: build
+    env:
+      global:
+      - EC2_SSH_KEY=glimmpsev3uat.pem GIT_SSH_KEY=id_rsa EC2_URL=ec2-54-161-9-34.compute-1.amazonaws.com
+        ECR_REPO=543872078551.dkr.ecr.us-east-1.amazonaws.com ECR_IMG=glimmpse
+        GIT_MAIL=alasdair.macleod@ufl.edu GIT_USER=alasdair-macleod GIT_REPO=DemoAppFront
+      - secure: OUuPL0s2awbQleStHL9y184yXCz7pekS+iQx1EBwlbM0LVUI3JGvTl3oGSn7HiOLtNxfO2L69hEPxg1+FgIR6w1rMUSZV7bOqe3kuJmDaRXmiHGU/YB+jnNjB02dzPGyLse6TtCVs6K4dXCo28mfK7MUD9ifxCJ2I9lNXTLhvVnC0Y/nhXKJ+s10X8wkfsn19Jm1VOLvOjADQ+sm3RwZYvDBiBlw0xVa5IT75s5AiFTir+QGdYGI9MZGVoh/S7Hgeuzx0T6Z26F1IqFXKQesyxM1lC6EyBSpH/jArn4dtgt0cbI6ZvATP/3njwDBoFOe+dh8e50Gi2mYxE4pf9dZWqwUDFOP0JQ7e67zFnMKYbmon6jRuwIWBh2tECeYCCE1B7qSa0Y3WDvlB/IZrvm0d7FuHYpAUGPGBE/RRShCpc6VoC/9HQrLHlnv4sa3giAiNZNGDGKu0CQ16hGaAu35f9694Ma6XCmdkRBDYQQpAxAbNXMimLpL3cmGbkS0sYThWmooZ/20GXFcbEMBWk5aqHy40VKx3KrhzGtS+4Wp5SEWbKatQcDS2MafPmwJUv/l98oHo3OAMPEgrkT32aS+tP1NMiEIqZ2BHvjjF2jW1yhAl2nvBU7WNr2+5wfeQC4vrGTlPnAS8U9lUraIRHQjsggqQheHhSgtb6MTE84jt9Y=
+      - secure: l/WXQ7E3gJ31rV10pnhmi9tX3B3JvpsMmedLTMa9HXPmPhYz34KUS1yz+6I+dUorP+nkA8IMZc88rnPW1BCHVtxLKoUFfZbd+GF1BiDmVBA4MEaxddpOUJMJ2vAgIeRJ7QXtXzuU9/KwP/0Irktnk8/AukBPm7jB3hYiovQFPdxqZqetAEZm2yWxsNZ5hZTS6+yPRhuZFO+qg5A7k9PkYdPIKs6hqaX/wnwu28qTNv7RHqyS4YyD0GX41pJrq5SuNFf5SIoLp9iy8nTZ/+/LuqaBXqnendZzcaDmJP2illw7Jh2oNmlCt/0q1uAWENxTOApvy4qTx538obE7whUTOCH/Kexse3gqR7XL35S96J6HuMVf4IrPERGVYB0MGq2rVhYUuj9outUpVjxz8BlfQa+AQimC4qBmR/MyduZZvtaF0FW9ZJl+NrPIl9NOXstEllSijiuo1qY/zdgu2PFL65suaMsdyk7AVAhBa46Njzu7dMm5BTV8G5wZ1YuZ+MFIJMiwJsCMDdsRriMtLYGv2OqxZqXn4Jv89JLjxFpyiWI6lyrqRMMGKeLY7AxXKwunELS4V1pD0hLPw2Y/eZbo77eHyUnq0JIn/53nqM/WNvTqJt9ixoQDd2D7ksHh6DynvC6Tw7Adpmk8AgUSQsVHLadoKSa5wFImcUlMfh9PqoM=
+      before_install:
+      - openssl aes-256-cbc -K $encrypted_ac40f3edab40_key -iv $encrypted_ac40f3edab40_iv -in secret_keys.tar.enc -out secret_keys.tar -d
+      - ls -lrt ./scripts/*.sh
+      - tar xvf secret_keys.tar
+      - chmod 600 glimmpsev3uat.pem
+      - chmod 600 id_rsa
+      - eval "$(ssh-agent -s)"
+      - sudo ssh-add ${GIT_SSH_KEY}
+      - git config --global user.name GIT_USER
+      - git config --global user.email GIT_EMAIL
+      - git remote set-url origin git@github.com:${GIT_USER}/${GIT_REPO}.git
+      script:
+      - if: $TAG_ENABLE = True
+          - echo Incrementing Glimmpse version...
+          - if [ $BUILD_TYPE != patch -a $BUILD_TYPE != minor -a $BUILD_TYPE != major ]; then travis_terminate 1; fi
+          - npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
+          - echo BUILD PROJECT
+          - ng build --prod
+          - echo Istall latest stable version of Docker...
+          - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+          - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+          - sudo apt-get update
+          - sudo apt-get install -y docker-ce
+          - echo Install latest version of pip...
+          - pip install -U pip
+          - echo Install AWS cli...
+          - sudo pip install awscli --upgrade
+          - export PATH=~/.local/bin:$PATH
+          - mkdir -p ~/.aws
+          - ./scripts/ecr_user.sh
+          - echo LOGIN TO ECR
+          - eval $(aws ecr get-login --no-include-email --region us-east-1)
+          - echo Create docker image
+          - REPO=${ECR_REPO}
+          - IMAGE=${ECR_IMG}
+          - VERSION=$(node -e "console.log(require('./package.json').version)")
+          - echo $REPO
+          - docker build -t $REPO/$IMAGE:latest -t $REPO/$IMAGE:$VERSION .
+          - docker push $REPO/$IMAGE:latest
+          - docker push $REPO/$IMAGE:$VERSION
 after_success:
 - echo "done"
