@@ -44,12 +44,13 @@ before_install:
 - sh -e /etc/init.d/xvfb start
 - sudo pip install --upgrade pip
 script:
-- ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
+- echo $TAG_ENABLE
+# - ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
 jobs:
   include:
     - stage:
     - name: build
-      if: ( env($TAG_ENABLE)=True ) AND ( env($BUILD_TYPE) IN (patch, minor, major) )
+      if: ( env($TAG_ENABLE)=True ) AND ( env($BUILD_TYPE) IN (patch, minor, major ) )
       script:
       - npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
       - ng build --prod
@@ -62,9 +63,11 @@ jobs:
       - mkdir -p ~/.aws
       - ./scripts/ecr_user.sh
       - eval $(aws ecr get-login --no-include-email --region us-east-1)
+      - REPO=${ECR_REPO}
+      - IMAGE=${ECR_IMG}
       - VERSION=$(node -e "console.log(require('./package.json').version)")
-      - docker build -t $ECR_REPO/$ECR_IMG:latest -t $ECR_REPO/$ECR_REPO:$VERSION .
-      - docker push $ECR_REPO/$ECR_IMG:latest
-      - docker push $ECR_REPO/$ECR_IMG:$VERSION
+      - docker build -t $REPO/$IMAGE:latest -t $REPO/$IMAGE:$VERSION .
+      - docker push $REPO/$IMAGE:latest
+      - docker push $REPO/$IMAGE:$VERSION
 after_success:
 - echo "done"
