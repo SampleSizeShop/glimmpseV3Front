@@ -4,7 +4,7 @@ ENV NPM_CONFIG_LOGLEVEL warn
 WORKDIR /app
 COPY package.json /app/
 RUN npm install
-RUN ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
+# RUN ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
 COPY ./ /app/
 ARG env=prod
 RUN npm run build -- --prod --environment $env
