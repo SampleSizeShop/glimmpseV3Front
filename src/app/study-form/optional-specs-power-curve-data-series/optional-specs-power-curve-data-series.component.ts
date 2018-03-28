@@ -32,9 +32,9 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
   private _selectedMeanScaleFactor: number;
   private _selectedVarianceScaleFactor: number;
 
-  private hasPower: boolean;
-  private hasMeanScaleFactors: boolean;
-  private hasVarianceScaleFactors: boolean;
+  private _hasPower: boolean;
+  private _hasMeanScaleFactors: boolean;
+  private _hasVarianceScaleFactors: boolean;
 
   constructor(private study_service: StudyService, private log: NGXLogger) {
     this._powerCurveSubscription = this.study_service.powerCurve$.subscribe(powerCurve => {
@@ -277,5 +277,29 @@ export class OptionalSpecsPowerCurveDataSeriesComponent implements OnInit, OnDes
 
   set powerCurve(value: PowerCurve) {
     this._powerCurve = value;
+  }
+
+  get hasPower(): boolean {
+    return this._hasPower;
+  }
+
+  set hasPower(value: boolean) {
+    this._hasPower = value;
+  }
+
+  get hasMeanScaleFactors(): boolean {
+    return this._hasMeanScaleFactors;
+  }
+
+  set hasMeanScaleFactors(value: boolean) {
+    this._hasMeanScaleFactors = value;
+  }
+
+  get hasVarianceScaleFactors(): boolean {
+    return this._hasVarianceScaleFactors;
+  }
+
+  set hasVarianceScaleFactors(value: boolean) {
+    this._hasVarianceScaleFactors = value;
   }
 }

@@ -17,7 +17,7 @@ import {UserModeComponent} from './study-form/user-mode/user-mode.component';
 import {StudyFormComponent} from './study-form/study-form.component';
 import {TargetEventComponent} from './study-form/target-event/target-event.component';
 import {SolveForComponent} from './study-form/solve-for/solve-for.component';
-import {LoggerModule} from 'ngx-logger';
+import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 import {environment} from '../environments/environment';
 import { StatisticalTestsComponent } from './study-form/statistical-tests/statistical-tests.component';
 import { TypeOneErrorComponent } from './study-form/type-one-error/type-one-error.component';
@@ -102,8 +102,8 @@ import { CalculateComponent } from './study-form/calculate/calculate.component';
     NgbModule.forRoot(),
     LoggerModule.forRoot({
       serverLoggingUrl: environment.serverLoggingUrl,
-      level: environment.loglevel,
-      serverLogLevel: environment.serverLoglevel
+      level: NgxLoggerLevel.INFO,
+      serverLogLevel: NgxLoggerLevel.ERROR
     }),
     BsDropdownModule.forRoot(),
     BrowserModule,
