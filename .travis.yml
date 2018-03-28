@@ -44,13 +44,12 @@ before_install:
 - sh -e /etc/init.d/xvfb start
 - sudo pip install --upgrade pip
 script:
-- echo $TAG_ENABLE
-# - ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
+- ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
 jobs:
   include:
     - stage:
     - name: build
-      if: ( env($TAG_ENABLE)=True ) AND ( env($BUILD_TYPE) IN (patch, minor, major ) )
+      if: ( env($TAG_ENABLE)=True ) AND ( env($BUILD_TYPE) IN (patch, minor, major ) ) AND branch IN (master, VER3-252_buildProcess)
       script:
       - npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
       - ng build --prod
