@@ -70,7 +70,8 @@ describe('demo-front-app navigation test', () => {
         expect(page.getRouterURLString()).toBe('MODE');
     });
 
-    //deprecated testcase
+    //the browser forward backward function is not working, TODO: debug
+    //do not use this testcase until browser behaviours are fixed
     xit('basic navigation without any input including browser action', () => {
         // test browser back
         page.sleep(500);
@@ -246,7 +247,7 @@ describe('demo-front-app navigation test', () => {
 
         page.sleep(100);
         expect(page.getRouterURLString()).toBe('CALCULATE');
-        //add test here to eval results
+        //TODO add test here to eval the output contains all the necessary input data
     });
 
     xit('end2end basic navigation with complex parameters power', () => {
@@ -656,7 +657,6 @@ describe('demo-front-app navigation test', () => {
         page.next();
 
         //CALCULATE
-        //TODO test data model output
-
+        //TODO add test here to eval the output contains all the necessary input data
     });
 });
