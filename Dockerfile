@@ -5,7 +5,6 @@ WORKDIR /app
 COPY package.json /app/
 COPY karma.conf.js /app/
 RUN npm install
-RUN ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
 COPY ./ /app/
 ARG env=prod
 RUN npm run build -- --prod --environment $env

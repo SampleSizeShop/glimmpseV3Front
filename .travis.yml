@@ -39,10 +39,11 @@ before_install:
 before_script:
 - npm cache verify
 - npm config set loglevel warn
-# - npm install -g @angular/cli
-# - npm install -g karma
-# - npm install
+- npm install -g @angular/cli
+- npm install -g karma
+- npm install
 script:
+- ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
 - |
   if [ $TAG_ENABLE == True ]; then
     echo Incrementing Glimmpse version...
@@ -74,7 +75,6 @@ script:
     docker push $REPO/$IMAGE:$VERSION
     # echo DOCKER DEPLOY DEPLOY
     # ./scripts/docker_deploy.sh ;
-  else ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
   fi
 after_success:
 - echo "done"
