@@ -50,12 +50,10 @@ jobs:
   include:
     - stage:
     - name: build
-      if: env($TAG_ENABLE)=True
+      if: ( env($TAG_ENABLE)=True ) AND ( env($BUILD_TYPE) IN (patch, minor, major) )
       script:
-      - if [ $BUILD_TYPE != patch -a $BUILD_TYPE != minor -a $BUILD_TYPE != major ]; then travis_terminate 1; fi
       - npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
       - ng build --prod
-      - echo Istall latest stable version of Docker...
       - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
       - sudo apt-get update
