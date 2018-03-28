@@ -3,7 +3,6 @@ FROM node:8.7 as node
 ENV NPM_CONFIG_LOGLEVEL warn
 WORKDIR /app
 COPY package.json /app/
-COPY karma.conf.js /app/
 RUN npm install
 COPY ./ /app/
 ARG env=prod
