@@ -3,6 +3,7 @@ FROM node:8.6 as node
 ENV NPM_CONFIG_LOGLEVEL warn
 WORKDIR /app
 COPY package.json /app/
+COPY karma.conf.js /app/
 RUN npm install
 RUN ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
 COPY ./ /app/
