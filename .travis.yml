@@ -50,7 +50,7 @@ jobs:
   include:
     - stage:
     - name: build
-      if: env(TAG_ENABLE) = True
+      if: env(TAG_ENABLE)=True
       script:
       - if [ $BUILD_TYPE != patch -a $BUILD_TYPE != minor -a $BUILD_TYPE != major ]; then travis_terminate 1; fi
       - npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
@@ -68,7 +68,6 @@ jobs:
       - REPO=${ECR_REPO}
       - IMAGE=${ECR_IMG}
       - VERSION=$(node -e "console.log(require('./package.json').version)")
-      - echo $REPO
       - docker build -t $REPO/$IMAGE:latest -t $REPO/$IMAGE:$VERSION .
       - docker push $REPO/$IMAGE:latest
       - docker push $REPO/$IMAGE:$VERSION
