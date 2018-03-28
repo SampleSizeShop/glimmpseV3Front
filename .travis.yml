@@ -50,7 +50,7 @@ jobs:
   include:
     - stage:
     - name: build
-      if: $TAG_ENABLE="True"
+      if: branch = master
       script:
       - if [ $BUILD_TYPE != patch -a $BUILD_TYPE != minor -a $BUILD_TYPE != major ]; then travis_terminate 1; fi
       - npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
