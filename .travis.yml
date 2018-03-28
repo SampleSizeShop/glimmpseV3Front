@@ -42,7 +42,7 @@ before_install:
 - export CHROME_BIN=chromium-browser
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
-- pip install -U pip
+- pip install --upgrade pip
 script:
 - ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
 jobs:
