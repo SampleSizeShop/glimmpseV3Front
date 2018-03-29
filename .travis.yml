@@ -48,10 +48,11 @@ before_install:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - sudo pip install --upgrade pip
-script:
-- ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
 jobs:
   include:
+    - stage: test
+      script:
+      - ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
     - stage: build
       if: ( env($TAG_ENABLE)=True ) AND ( env($BUILD_TYPE) IN (patch, minor, major ) ) AND branch IN (master, VER3-252_buildProcess)
       script:
