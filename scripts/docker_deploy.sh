@@ -2,8 +2,8 @@
 # ##############################################################################################################
 # set up env
 # ##############################################################################################################
-echo REPO=${ECR_REPO} > sshenv
-echo IMAGE=${ECR_IMG} >> sshenv
+echo REPO > sshenv
+echo IMAGE >> sshenv
 scp -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -i ${EC2_SSH_KEY} sshenv ${EC2_URL}:~/
 ssh -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -i ${EC2_SSH_KEY} ${EC2_URL} /bin/bash << 'EOT'
 # #############################################################################################################
