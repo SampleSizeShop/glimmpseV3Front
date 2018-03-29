@@ -52,8 +52,7 @@ script:
 - ./node_modules/.bin/karma start karma.conf.js --single-run --log-level=WARN
 jobs:
   include:
-    - stage:
-    - name: build
+    - stage: build
       if: ( env($TAG_ENABLE)=True ) AND ( env($BUILD_TYPE) IN (patch, minor, major ) ) AND branch IN (master, VER3-252_buildProcess)
       script:
       - npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
@@ -71,7 +70,7 @@ jobs:
       - docker build -t $REPO/$IMAGE:latest -t $REPO/$IMAGE:$VERSION .
       - docker push $REPO/$IMAGE:latest
       - docker push $REPO/$IMAGE:$VERSION
-    - name: deploy
+    - stage: deploy
       if: ( env($TAG_ENABLE)=True ) AND ( env($BUILD_TYPE) IN (patch, minor, major ) ) AND branch IN (master, VER3-252_buildProcess) AND env($DEPLOY) = True
       script:
       - ./scripts/docker_deploy.sh
