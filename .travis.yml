@@ -72,9 +72,9 @@ jobs:
       - docker push $REPO/$IMAGE:latest
       - docker push $REPO/$IMAGE:$VERSION
     - stage:
-        - name: deploy
-          if: ( env($TAG_ENABLE)=True ) AND ( env($BUILD_TYPE) IN (patch, minor, major ) ) AND branch IN (master, VER3-252_buildProcess) AND env($DEPLOY) = True
-          script:
-          - bash ./scripts/docker_deploy.sh
+    - name: deploy
+      if: ( env($TAG_ENABLE)=True ) AND ( env($BUILD_TYPE) IN (patch, minor, major ) ) AND branch IN (master, VER3-252_buildProcess) AND env($DEPLOY) = True
+      script:
+      - bash ./scripts/docker_deploy.sh
 after_success:
 - echo "done"
