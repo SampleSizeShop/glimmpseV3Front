@@ -59,6 +59,7 @@
     "@types/jasminewd2": "^2.0.0",
     "@types/node": "^6.0.92",
     "codelyzer": "~3.0.1",
+    "dockerlint": "^0.3.7",
     "jasmine-core": "^2.6.4",
     "jasmine-reporters": "^2.3.0",
     "jasmine-spec-reporter": "^4.1.1",
