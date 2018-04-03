@@ -9,7 +9,7 @@ import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
 import {HypothesisEffect} from './HypothesisEffect';
 import {CorrelationMatrix} from './CorrelationMatrix';
-import {OutcomeRepMeasStDev} from "./OutcomeRepMeasStDev";
+import {OutcomeRepMeasStDev} from './OutcomeRepMeasStDev';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
@@ -18,6 +18,25 @@ export class ISUFactors {
   smallestGroupSize: number[] = [];
   outcomeCorrelationMatrix: CorrelationMatrix = new CorrelationMatrix();
   outcomeRepeatedMeasureStDevs = Array<OutcomeRepMeasStDev>();
+
+  toJSON() {
+    return {
+        variables: this.variables,
+        betweenIsuRelativeGroupSizes: this.betweenIsuRelativeGroupSizes,
+        marginalMeans: this.marginalMeansToArray(),
+        smallestGroupSize: this.smallestGroupSize,
+        outcomeCorrelationMatrix: this.outcomeCorrelationMatrix,
+        outcomeRepeatedMeasureStDevs: this.outcomeRepeatedMeasureStDevs };
+  }
+
+  marginalMeansToArray() {
+    const l = [];
+    this.marginalMeans.forEach( (value: ISUFactorCombination, name: string) => {
+      const obj = { name: name, ISUFactorCombination: value }
+      l.push(obj);
+    });
+    return l;
+  }
 
   get hypothesisName(): string {
     let name = '';
@@ -338,7 +357,7 @@ export class ISUFactors {
     let include = true;
     combination.id.forEach(value => {
       subGroup.id.forEach( element => {
-        if ( value.id === element.id && value.value !== element.value ) {
+        if ( value.factorName === element.factorName && value.value !== element.value ) {
           include = false;
         }
       });
