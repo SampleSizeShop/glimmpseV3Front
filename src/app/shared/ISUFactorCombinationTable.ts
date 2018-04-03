@@ -32,10 +32,10 @@ export class ISUFactorCombinationTable {
       let col = null;
 
       member.id.forEach( groupId => {
-        if (groupId.id === this.rowDimension) {
+        if (groupId.factorName === this.rowDimension) {
           row = groupId
         }
-        if ( groupId.id === this.colDimension ) {
+        if ( groupId.factorName === this.colDimension ) {
           col = groupId
         }
       } );
@@ -65,7 +65,7 @@ export class ISUFactorCombinationTable {
   get groupName() {
     let name = '';
     this.groupIdentifier.forEach( id => {
-      name = name + ' ' + id.id + ':' + id.value;
+      name = name + ' ' + id.factorName + ':' + id.value;
     } );
     name = name.trim();
     return name;
@@ -133,10 +133,10 @@ class TableKey {
 
   toString() {
     let name = '';
-    if (this.row) { name = name + this.row.id + this.row.value; }
+    if (this.row) { name = name + this.row.factorName + this.row.value; }
     if ( !isNullOrUndefined(this.col)
-      && !isNullOrUndefined(this.col.id)
-      && !isNullOrUndefined(this.col.value)) { name = name + this.col.id + this.col.value; }
+      && !isNullOrUndefined(this.col.factorName)
+      && !isNullOrUndefined(this.col.value)) { name = name + this.col.factorName + this.col.value; }
     return name;
   }
 

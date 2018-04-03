@@ -20,10 +20,10 @@ export class ISUFactorCombination {
 }
 
 /**
- * Model class used to generate a string id for a independent sampling unit (ISU) name and one of it's values.
+ * Model class used to generate a string factorName for a independent sampling unit (ISU) name and one of it's values.
  */
 export class CombinationId {
-  id: string;
+  factorName: string;
   value: string;
 
   /**
@@ -35,7 +35,7 @@ export class CombinationId {
    * @param {string} value
    */
   constructor(id?: string, value?: string) {
-    this.id = id;
+    this.factorName = id;
     this.value = value;
   }
 }
