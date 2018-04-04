@@ -148,6 +148,8 @@ describe('demo-front-app short course homework test', () => {
         page.sleep(100);
         page.next();
         
+        page.sleep(20000);
+
         //CALCULATE
         // id='reviewDataModel'
         // file='./gold_standard_data_model_for_homeworks/hw1_data_model.json'
@@ -194,7 +196,12 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['variables'][2]['child'])).toEqual(dm['_isuFactors']['variables'][2]['child']);
 
         expect(tdm.then(x => x['_isuFactors']['smallestGroupSize'])).toEqual(dm['_isuFactors']['smallestGroupSize']);
-        expect(tdm.then(x => x['_isuFactors']['marginalMeans'])).toEqual(dm['_isuFactors']['marginalMeans']);
+        expect(tdm.then(x => x['_isuFactors']['marginalMeans'][0])).toEqual(dm['_isuFactors']['marginalMeans'][0]);
+        expect(tdm.then(x => x['_isuFactors']['marginalMeans'][0]['name'])).toEqual(dm['_isuFactors']['marginalMeans'][0]['name']);
+        expect(tdm.then(x => x['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['size'])).toEqual(dm['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['size']);
+        expect(tdm.then(x => x['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['id'][0]['factorName'])).toEqual(dm['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['id'][0]['factorName']);
+        expect(tdm.then(x => x['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['id'][0]['value'])).toEqual(dm['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['id'][0]['value']);
+    
         expect(tdm.then(x => x['_isuFactors']['outcomeRepeatedMeasureStDevs'])).toEqual(dm['_isuFactors']['outcomeRepeatedMeasureStDevs']);
         expect(tdm.then(x => x['_isuFactors']['betweenIsuRelativeGroupSizes'])).toEqual(dm['_isuFactors']['betweenIsuRelativeGroupSizes']);
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['data']);
@@ -362,6 +369,8 @@ describe('demo-front-app short course homework test', () => {
         page.sleep(50);
         page.next();
 
+        page.sleep(20000);
+
         //CALCULATE
         var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw2_data_model.json');
         var tdm = hdm.getOutputDataModel('reviewDataModel');
@@ -428,7 +437,7 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['variables'][2]['child']['correlationMatrix']['_values']['size'])).toEqual(dm['_isuFactors']['variables'][2]['child']['correlationMatrix']['_values']['size']);
 
         expect(tdm.then(x => x['_isuFactors']['smallestGroupSize'])).toEqual(dm['_isuFactors']['smallestGroupSize']);
-        expect(tdm.then(x => x['_isuFactors']['marginalMeans'])).toEqual(dm['_isuFactors']['marginalMeans']);
+        expect(tdm.then(x => x['_isuFactors']['marginalMeans'])).toEqual(dm['_isuFactors']['marginalMeans']);//TODO expand the expect based on data model
         expect(tdm.then(x => x['_isuFactors']['betweenIsuRelativeGroupSizes'])).toEqual(dm['_isuFactors']['betweenIsuRelativeGroupSizes']);
         
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['data']);
@@ -799,6 +808,8 @@ describe('demo-front-app short course homework test', () => {
         page.sleep(100);
         page.next();
 
+        page.sleep(20000);
+
          //CALCULATE
         var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw4_data_model.json');
         var tdm = hdm.getOutputDataModel('reviewDataModel');
@@ -879,7 +890,7 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['variables'][3]['child']['correlationMatrix']['_values']['size'])).toEqual(dm['_isuFactors']['variables'][3]['child']['correlationMatrix']['_values']['size']);
        
         expect(tdm.then(x => x['_isuFactors']['smallestGroupSize'])).toEqual(dm['_isuFactors']['smallestGroupSize']);
-        expect(tdm.then(x => x['_isuFactors']['marginalMeans'])).toEqual(dm['_isuFactors']['marginalMeans']);
+        expect(tdm.then(x => x['_isuFactors']['marginalMeans'])).toEqual(dm['_isuFactors']['marginalMeans']);//TODO expand the expect based on data model
         expect(tdm.then(x => x['_isuFactors']['betweenIsuRelativeGroupSizes'])).toEqual(dm['_isuFactors']['betweenIsuRelativeGroupSizes']);
 
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['data']);
@@ -1064,7 +1075,7 @@ describe('demo-front-app short course homework test', () => {
         page.sleep(100);
         page.next();
 
-        page.sleep(10000)
+        page.sleep(20000);
         //CALCULATE
         var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw5_data_model.json');
         var tdm = hdm.getOutputDataModel('reviewDataModel');
@@ -1127,7 +1138,7 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['variables'][3]['child']['origin'])).toEqual(dm['_isuFactors']['variables'][3]['child']['origin']);
        
         expect(tdm.then(x => x['_isuFactors']['smallestGroupSize'])).toEqual(dm['_isuFactors']['smallestGroupSize']);
-        expect(tdm.then(x => x['_isuFactors']['marginalMeans'])).toEqual(dm['_isuFactors']['marginalMeans']);
+        expect(tdm.then(x => x['_isuFactors']['marginalMeans'])).toEqual(dm['_isuFactors']['marginalMeans']);//TODO expand the expect based on data model
         expect(tdm.then(x => x['_isuFactors']['betweenIsuRelativeGroupSizes'])).toEqual(dm['_isuFactors']['betweenIsuRelativeGroupSizes']);
 
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['data']);

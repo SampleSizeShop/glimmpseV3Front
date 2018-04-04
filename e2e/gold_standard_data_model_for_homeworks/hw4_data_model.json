@@ -238,9 +238,136 @@
     "betweenIsuRelativeGroupSizes": {
       
     },
-    "marginalMeans": {
-      
-    },
+    "marginalMeans": [
+      {
+        "name": "Alcohol Education Program0",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Alcohol Education Program"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 0
+            }
+          ],
+          "size": 5.2
+        }
+      },
+      {
+        "name": "Alcohol Education Program1",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Alcohol Education Program"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 1
+            }
+          ],
+          "size": 5.3
+        }
+      },
+      {
+        "name": "Alcohol Education Program3",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Alcohol Education Program"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 3
+            }
+          ],
+          "size": 5.3
+        }
+      },
+      {
+        "name": "Alcohol Education Program5",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Alcohol Education Program"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 5
+            }
+          ],
+          "size": 5.3
+        }
+      },
+      {
+        "name": "Standard Of Care0",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Standard Of Care"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 0
+            }
+          ],
+          "size": 5.2
+        }
+      },
+      {
+        "name": "Standard Of Care1",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Standard Of Care"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 1
+            }
+          ],
+          "size": 5.5
+        }
+      },
+      {
+        "name": "Standard Of Care3",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Standard Of Care"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 3
+            }
+          ],
+          "size": 5.9
+        }
+      },
+      {
+        "name": "Standard Of Care5",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Standard Of Care"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 5
+            }
+          ],
+          "size": 6.2
+        }
+      }
+    ],
     "smallestGroupSize": [
       
     ],

@@ -45,9 +45,32 @@
     "betweenIsuRelativeGroupSizes": {
       
     },
-    "marginalMeans": {
-      
-    },
+    "marginalMeans": [
+      {
+        "name": "ControlGroup",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "ControlGroup"
+            }
+          ],
+          "size": 1.24
+        }
+      },
+      {
+        "name": "WorkplaceTreatmentProgram",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "WorkplaceTreatmentProgram"
+            }
+          ],
+          "size": 0.73
+        }
+      }
+    ],
     "smallestGroupSize": 20,
     "outcomeCorrelationMatrix": {
       "_values": {

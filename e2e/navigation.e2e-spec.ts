@@ -13,7 +13,7 @@ describe('demo-front-app navigation test', () => {
         page.navigateTo('/design/MODE');
     });
 
-    xit('basic navigation without any input foward and backword', () => {
+    it('basic navigation without any input foward and backword', () => {
         //navi forward and should stop at WITHIN_ISU_OUTCOMES
         page.sleep(500);
         expect(page.findContentById("GUIDED").isDisplayed()).toBeTruthy();
@@ -145,7 +145,7 @@ describe('demo-front-app navigation test', () => {
         expect(page.getRouterURLString()).toBe('TYPE_ONE_ERROR');
     });
 
-    xit('end2end basic navigation with simple parameters', () => {
+    it('end2end basic navigation with simple parameters', () => {
         //this test also will test the behavior of the page after input those parameters such as boundary check
         //MODE
         page.sleep(300);
@@ -250,7 +250,7 @@ describe('demo-front-app navigation test', () => {
         //TODO add test here to eval the output contains all the necessary input data
     });
 
-    xit('end2end basic navigation with complex parameters power', () => {
+    it('end2end basic navigation with complex parameters power', () => {
         //MODE
         page.sleep(100);
         //expect(page.getElementClass(input_complex.MODE)).toContain('active');
@@ -657,6 +657,7 @@ describe('demo-front-app navigation test', () => {
         page.next();
 
         //CALCULATE
-        //TODO add test here to eval the output contains all the necessary input data
+        //TODO add test here to eval the output data model saves all the necessary input data using 'reviewDataModel'
+        //TODO another way to test is go backward to the MODE page and check all the fields along the line
     });
 });

@@ -110,9 +110,136 @@
     "betweenIsuRelativeGroupSizes": {
       
     },
-    "marginalMeans": {
-      
-    },
+    "marginalMeans": [
+      {
+        "name": "GenotypeAPlacebo",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "Genotype",
+              "value": "GenotypeA"
+            },
+            {
+              "factorName": "treatment",
+              "value": "Placebo"
+            }
+          ],
+          "size": 3.145
+        }
+      },
+      {
+        "name": "GenotypeAChemotherapy",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "Genotype",
+              "value": "GenotypeA"
+            },
+            {
+              "factorName": "treatment",
+              "value": "Chemotherapy"
+            }
+          ],
+          "size": 2.125
+        }
+      },
+      {
+        "name": "GenotypeBPlacebo",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "Genotype",
+              "value": "GenotypeB"
+            },
+            {
+              "factorName": "treatment",
+              "value": "Placebo"
+            }
+          ],
+          "size": 3.145
+        }
+      },
+      {
+        "name": "GenotypeBChemotherapy",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "Genotype",
+              "value": "GenotypeB"
+            },
+            {
+              "factorName": "treatment",
+              "value": "Chemotherapy"
+            }
+          ],
+          "size": 2.325
+        }
+      },
+      {
+        "name": "GenotypeCPlacebo",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "Genotype",
+              "value": "GenotypeC"
+            },
+            {
+              "factorName": "treatment",
+              "value": "Placebo"
+            }
+          ],
+          "size": 3.145
+        }
+      },
+      {
+        "name": "GenotypeCChemotherapy",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "Genotype",
+              "value": "GenotypeC"
+            },
+            {
+              "factorName": "treatment",
+              "value": "Chemotherapy"
+            }
+          ],
+          "size": 2.525
+        }
+      },
+      {
+        "name": "GenotypeDPlacebo",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "Genotype",
+              "value": "GenotypeD"
+            },
+            {
+              "factorName": "treatment",
+              "value": "Placebo"
+            }
+          ],
+          "size": 3.145
+        }
+      },
+      {
+        "name": "GenotypeDChemotherapy",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "Genotype",
+              "value": "GenotypeD"
+            },
+            {
+              "factorName": "treatment",
+              "value": "Chemotherapy"
+            }
+          ],
+          "size": 2.975
+        }
+      }
+    ],
     "smallestGroupSize": 5,
     "outcomeCorrelationMatrix": {
       "_values": {

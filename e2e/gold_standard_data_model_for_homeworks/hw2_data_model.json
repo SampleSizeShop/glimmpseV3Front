@@ -173,9 +173,104 @@
     "betweenIsuRelativeGroupSizes": {
       
     },
-    "marginalMeans": {
-      
-    },
+    "marginalMeans": [
+      {
+        "name": "SensoryFocus1",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "SensoryFocus"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 1
+            }
+          ],
+          "size": 3.6
+        }
+      },
+      {
+        "name": "SensoryFocus2",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "SensoryFocus"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 2
+            }
+          ],
+          "size": 2.8
+        }
+      },
+      {
+        "name": "SensoryFocus3",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "SensoryFocus"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 3
+            }
+          ],
+          "size": 0.9
+        }
+      },
+      {
+        "name": "StandardOfCare1",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "StandardOfCare"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 1
+            }
+          ],
+          "size": 4.5
+        }
+      },
+      {
+        "name": "StandardOfCare2",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "StandardOfCare"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 2
+            }
+          ],
+          "size": 4.3
+        }
+      },
+      {
+        "name": "StandardOfCare3",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "StandardOfCare"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 3
+            }
+          ],
+          "size": 3
+        }
+      }
+    ],
     "smallestGroupSize": [
       
     ],
