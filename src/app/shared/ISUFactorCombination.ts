@@ -31,11 +31,11 @@ export class CombinationId {
    * here's hoe to use this
    *
    * testing
-   * @param {string} id
+   * @param {string} factorName
    * @param {string} value
    */
-  constructor(id?: string, value?: string) {
-    this.factorName = id;
+  constructor(factorName?: string, value?: string) {
+    this.factorName = factorName;
     this.value = value;
   }
 }
