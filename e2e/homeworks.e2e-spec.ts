@@ -148,7 +148,7 @@ describe('demo-front-app short course homework test', () => {
         page.sleep(100);
         page.next();
         
-        page.sleep(20000);
+        // page.sleep(20000);
 
         //CALCULATE
         // id='reviewDataModel'
@@ -369,7 +369,7 @@ describe('demo-front-app short course homework test', () => {
         page.sleep(50);
         page.next();
 
-        page.sleep(20000);
+        // page.sleep(20000);
 
         //CALCULATE
         var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw2_data_model.json');
@@ -808,7 +808,7 @@ describe('demo-front-app short course homework test', () => {
         page.sleep(100);
         page.next();
 
-        page.sleep(20000);
+        // page.sleep(20000);
 
          //CALCULATE
         var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw4_data_model.json');
@@ -1075,7 +1075,8 @@ describe('demo-front-app short course homework test', () => {
         page.sleep(100);
         page.next();
 
-        page.sleep(20000);
+        // page.sleep(20000);
+        
         //CALCULATE
         var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw5_data_model.json');
         var tdm = hdm.getOutputDataModel('reviewDataModel');
