@@ -11,7 +11,6 @@ export class StudyDesign {
   private _targetEvent: string;
   private _solveFor: string;
   private _power: number;
-  private _samplesize: number;
   private _ciwidth: number;
   private _selectedTests: string[];
   private _typeOneErrorRate: number;
@@ -26,7 +25,6 @@ export class StudyDesign {
               targetEvent?: string,
               solveFor?: string,
               power?: number,
-              samplesize?: number,
               ciwidth?: number,
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
@@ -184,14 +182,6 @@ export class StudyDesign {
 
   set power(value: number) {
     this._power = value;
-  }
-
-  get samplesize(): number {
-    return this._samplesize;
-  }
-
-  set samplesize(value: number) {
-    this._samplesize = value;
   }
 
   get ciwidth(): number {
