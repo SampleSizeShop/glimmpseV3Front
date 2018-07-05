@@ -40,7 +40,6 @@ export const constants = {
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
     'power': '',
-    'samplesize': '',
     'ciwidth': ''
   },
   TYPE_ONE_ERROR_ERRORS: {
@@ -51,10 +50,6 @@ export const constants = {
   },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
-      'minval': 'Value too low.',
-      'maxval': 'Value too high'
-    },
-    'samplesize': {
       'minval': 'Value too low.',
       'maxval': 'Value too high'
     },

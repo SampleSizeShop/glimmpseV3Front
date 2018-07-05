@@ -121,15 +121,6 @@ describe('SolveForComponen_targetEvent_Rejection', () => {
     expect(el.id).toEqual('powerbtn')
   });
 
-  it('should show the sample size input when target event is rejection and solving for power', () => {
-    component.selectPower();
-    fixture.detectChanges();
-
-    const desc: DebugElement = fixture.debugElement.query(By.css('#samplesizeinput'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy()
-  });
-
   it('should show the sample size button when target event is rejection and solving for samplesize', () => {
     component.selectSampleSize();
     fixture.detectChanges();
@@ -193,15 +184,6 @@ describe('SolveForComponent_targetEvent_CIWIDTH', () => {
     expect(el.id).toEqual('probabilitybtn')
   });
 
-  it('should show the sample size input when target event is ci width and solving for power', () => {
-    component.selectPower();
-    fixture.detectChanges();
-
-    const desc: DebugElement = fixture.debugElement.query(By.css('#samplesizeinput'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy()
-  });
-
   it('should show the sample size button when target event is ci width and solving for samplesize', () => {
     component.selectSampleSize();
     fixture.detectChanges();
@@ -261,15 +243,6 @@ describe('SolveForComponent_targetEvent_WAVR', () => {
     const desc: DebugElement = fixture.debugElement.query(By.css('.active'));
     const el = desc.nativeElement;
     expect(el.id).toEqual('probabilitybtn')
-  });
-
-  it('should show the sample size input when target event is WAVR and solving for power', () => {
-    component.selectPower();
-    fixture.detectChanges();
-
-    const desc: DebugElement = fixture.debugElement.query(By.css('#samplesizeinput'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy()
   });
 
   it('should show the sample size button when target event is WAVR and solving for samplesize', () => {

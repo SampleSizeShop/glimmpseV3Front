@@ -521,12 +521,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       }
     );
 
-    this.samplesizeSubscription = this.study_service.samplesize$.subscribe(
-      samplesize => {
-        this.study.samplesize = samplesize;
-      }
-    );
-
     this.ciwidthSubscription = this.study_service.ciwidth$.subscribe(
       ciwidth => {
         this.study.ciwidth = ciwidth;
