@@ -184,7 +184,29 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(9)
+        } else if (
+        // //////////////////
+          current === 15
+          && !isNullOrUndefined(this.study.isuFactors.outcomes)
+          && this.study.isuFactors.outcomes.length > 0) {
+          const currentOutcomeName = this.parameters.pop();
+          const previousOutcome = this.study.isuFactors.getPreviousOutcome(currentOutcomeName);
+          this.parameters = [];
+          if (!isNullOrUndefined(previousOutcome)) {
+            // next outcome marginal means
+            this.parameters.push(previousOutcome.name);
+            this.setStage(15);
+          } else {
+            this.setStage(14);
+          }
+        } else if (current === 16
+          && !isNullOrUndefined(this.study.isuFactors.outcomes)
+          && this.study.isuFactors.outcomes.length > 0) {
+          this.setStage(15);
+          this.parameters = [];
+          this.parameters.push(this.study.isuFactors.lastOutcome.name);
         } else if (current === 19) {
+// ///////////////////
           const currentMeasure = this.parameters.pop();
           const currentOutcome = this.parameters.pop();
           const previousMeasure = this.study.isuFactors.getPreviousRepeatedMeasure(currentMeasure);
