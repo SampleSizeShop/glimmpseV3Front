@@ -28,7 +28,7 @@ export class CombinationId {
 
   /**
    * @example
-   * here's hoe to use this
+   * here's how to use this
    *
    * testing
    * @param {string} factorName

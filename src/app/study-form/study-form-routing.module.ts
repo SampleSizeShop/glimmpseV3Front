@@ -71,7 +71,7 @@ const studyFormRoutes: Routes = [
             {path: constants.STAGES[13], component: HypothesisBetweenComponent},
             {path: constants.STAGES[14], component: HypothesisWithinComponent},
             {
-              path: constants.STAGES[15],
+              path: constants.STAGES[15] + '/:outcome',
               component: ParametersMarginalMeansComponent,
               canActivate: [ MarginalMeansGuard ]
             },

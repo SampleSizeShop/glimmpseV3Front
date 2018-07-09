@@ -4,7 +4,10 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {ISUFactorCombinationTable} from '../../shared/ISUFactorCombinationTable';
 import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from 'rxjs/Subscription';
+import {Observable} from 'rxjs/Observable';
+import {Outcome} from '../../shared/Outcome';
+import {ActivatedRoute, ParamMap} from '@angular/router';
 
 @Component({
   selector: 'app-parameters-marginal-means',
@@ -17,8 +20,13 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
   private _marginalMeansForm: FormGroup;
 
   private _isuFactorsSubscription: Subscription;
+  private _outcome$: Observable<Outcome>;
+  private _outcome: Outcome;
 
-  constructor(private fb: FormBuilder, private _study_service: StudyService) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute, private _study_service: StudyService) {
+    this.outcome$ = this.route.paramMap.switchMap(
+      (params: ParamMap) => this.getOutcome(params.get('outcome'))
+    );
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );}
@@ -39,6 +47,15 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
         marginalMean.size = value;
       });
     }
+  }
+
+  getOutcomes() { return Observable.of(this.isuFactors.outcomes); }
+
+  private getOutcome(name: string | any) {
+    return this.getOutcomes().map(
+      outcomes => outcomes.find(
+        outcome => outcome.name === name
+      ));
   }
 
   updateMarginalMeansFormControls() {
@@ -94,5 +111,21 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
 
   set isuFactorsSubscription(value: Subscription) {
     this._isuFactorsSubscription = value;
+  }
+
+  get outcome(): Outcome {
+    return this._outcome;
+  }
+
+  set outcome(value: Outcome) {
+    this._outcome = value;
+  }
+
+  set outcome$(value: Observable<Outcome>) {
+    this._outcome$ = value;
+  }
+
+  get outcome$(): Observable<Outcome> {
+    return this._outcome$;
   }
 }
