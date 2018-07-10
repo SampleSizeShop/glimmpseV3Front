@@ -44,6 +44,9 @@ export class ISUFactors {
       name = name.concat(variable.name, ' x ');
     });
     name = name.substring(0, name.length - 3 );
+    if (name.length == 0) {
+      name = 'grand mean';
+    }
     return name;
   }
 
