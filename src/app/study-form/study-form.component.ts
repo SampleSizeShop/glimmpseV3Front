@@ -74,7 +74,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(11)
         } else if (
-// //////////////////
         current === 14
         && !isNullOrUndefined(this.study.isuFactors.outcomes)
         && this.study.isuFactors.outcomes.length > 0) {
@@ -97,7 +96,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
             this.setStage(16);
           }
         } else if (
-// ///////////////////
           current === 18
           && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
           && this.study.isuFactors.repeatedMeasures.length > 0) {
@@ -185,7 +183,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(9)
         } else if (
-        // //////////////////
           current === 15
           && !isNullOrUndefined(this.study.isuFactors.outcomes)
           && this.study.isuFactors.outcomes.length > 0) {
@@ -206,7 +203,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.parameters = [];
           this.parameters.push(this.study.isuFactors.lastOutcome.name);
         } else if (current === 19) {
-// ///////////////////
           const currentMeasure = this.parameters.pop();
           const currentOutcome = this.parameters.pop();
           const previousMeasure = this.study.isuFactors.getPreviousRepeatedMeasure(currentMeasure);

@@ -20,19 +20,21 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
   private _marginalMeansForm: FormGroup;
 
   private _isuFactorsSubscription: Subscription;
+  private _outcomeSubscription: Subscription;
   private _outcome$: Observable<Outcome>;
   private _outcome: Outcome;
 
   constructor(private fb: FormBuilder, private route: ActivatedRoute, private _study_service: StudyService) {
+    this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    });
     this.outcome$ = this.route.paramMap.switchMap(
       (params: ParamMap) => this.getOutcome(params.get('outcome'))
     );
-    this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
-      this.isuFactors = isuFactors;
-    } );}
-
-  ngOnInit() {
-    this.updateMarginalMeansFormControls();
+    this.outcomeSubscription = this.outcome$.subscribe( outcome => {
+      this.outcome = outcome;
+      this.updateMarginalMeansFormControls();
+    });
   }
 
   ngDoCheck() {
@@ -111,6 +113,10 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
 
   set isuFactorsSubscription(value: Subscription) {
     this._isuFactorsSubscription = value;
+  }
+
+  set outcomeSubscription(value: Subscription) {
+    this._outcomeSubscription = value;
   }
 
   get outcome(): Outcome {
