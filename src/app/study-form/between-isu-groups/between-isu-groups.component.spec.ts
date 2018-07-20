@@ -64,6 +64,7 @@ describe('BetweenIsuGroupsComponent', () => {
     expect(component.isuFactors.smallestGroupSize).toEqual('2');
   });
 
+  /**
   it('Should update the relative group size form.', () => {
     component.isuFactors = new ISUFactors();
     component.solveFor = 'SAMPLESIZE';
@@ -76,5 +77,5 @@ describe('BetweenIsuGroupsComponent', () => {
     component.relativeGroupSizeForm.get('a1').setValue('2')
     fixture.detectChanges();
     expect(component.isuFactors.betweenIsuRelativeGroupSizes.size).toEqual(2);
-  });
+  }); **/
 });

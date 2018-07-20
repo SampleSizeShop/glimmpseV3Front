@@ -5,6 +5,7 @@ import {isNullOrUndefined} from 'util';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 import {PowerCurve} from './PowerCurve';
+import {RelativeGroupSizeTable} from "./RelativeGroupSizeTable";
 
 export class StudyDesign {
   private _name: string;
@@ -38,21 +39,38 @@ export class StudyDesign {
     this.isuFactors = new ISUFactors();
   }
 
+  get relativeGroupSizes() {
+    const groups = [];
+    this.isuFactors.betweenIsuRelativeGroupSizes.forEach( relativeGroupSizeTable => {
+      relativeGroupSizeTable.table.forEach( row => {
+        row.forEach(group => {
+          groups.push(group);
+        });
+      });
+    });
+    return groups;
+  }
+
+  generateGroupSizeTables() {
+    const tables = Array<RelativeGroupSizeTable>();
+    if (this.isuFactors.predictors.length == 2) {
+      const table = new RelativeGroupSizeTable();
+      table.populateTable(this.isuFactors.generateCombinations(this.isuFactors.predictors));
+      tables.push(table);
+    }
+    return tables;
+  }
+
   checkDependencies() {
     // Are factorName groups made up of predictors we have defined
     if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE &&
       !isNullOrUndefined(this.isuFactors.predictors) &&
       this.isuFactors.predictors.length > 0) {
-        const groups = this.isuFactors.betweenIsuRelativeGroupSizes
+        const groups = this.relativeGroupSizes;
         const combinations = this.isuFactors.generateCombinations(this.isuFactors.predictors);
-        if (groups.size !== combinations.size) {
-          this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
+        if (groups.length !== combinations.length) {
+          this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables();
         }
-        groups.forEach(key => {
-          if (!combinations.has(key.name) ) {
-            this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
-          }
-        });
     }
 
     // is our hypothesis effect made up of isuFactors we have defined
@@ -79,6 +97,8 @@ export class StudyDesign {
       }
     };
 
+    //TODO: Re instate dependency check
+    /**
     // Are marginal means factorName groups made up of hypothesis we have chosen
     if (!isNullOrUndefined(this.isuFactors.hypothesis) &&
       this.isuFactors.hypothesis.length > 0) {
@@ -92,7 +112,7 @@ export class StudyDesign {
           this.isuFactors.marginalMeans = combinations;
         }
       });
-    }
+    }**/
 
     // Do all of our OutcomeRepMeasStDev still exist
     if (

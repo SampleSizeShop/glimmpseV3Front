@@ -1,42 +1,20 @@
-import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
+import {ISUFactorCombination} from './ISUFactorCombination';
+import {isNullOrUndefined} from 'util';
+import {CombinationId} from './CombinationId';
 
-export class MarginalMean {
-  name = '';
-  groups: string[] = [];
-  child: MarginalMean;
-
-  mapCombinations() {
-    let combinations = [] ;
-    this.groupIds.forEach( group => {
-      combinations.push(new ISUFactorCombination( [group] , 1));
-    });
-
-    if (!this.child) {
-      return combinations;
+export class MarginalMean extends ISUFactorCombination {
+  constructor(id: Array<CombinationId>, value?: number) {
+    super(id);
+    if (!isNullOrUndefined(value)) {
+      this.value = value;
     }
-
-    const childCombinations = this.child.mapCombinations();
-    combinations = this.combineLists(combinations, childCombinations);
-    return combinations;
   }
 
-  combineLists(combinations, childCombinations) {
-    const newCombinations = [];
-    combinations.forEach( combination => {
-        childCombinations.forEach( childCombination => {
-          const id = combination.id.concat(childCombination.id);
-          newCombinations.push(new ISUFactorCombination(id, 1));
-        });
-      }
-    );
-    return newCombinations;
+  get value() {
+    return this.value;
   }
 
-  get groupIds(): CombinationId[] {
-    const  nameGroupPairs = [];
-    for ( const group of this.groups ) {
-      nameGroupPairs.push( new CombinationId(this.name, group));
-    }
-    return nameGroupPairs;
+  set value(value: number) {
+    this.value = value;
   }
 }

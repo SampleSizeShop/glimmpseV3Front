@@ -6,6 +6,8 @@ import {ISUFactorCombinationTable} from '../../shared/ISUFactorCombinationTable'
 import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import {constants} from '../../shared/constants';
+import {CombinationId} from "../../shared/CombinationId";
+import {RelativeGroupSizeTable} from "../../shared/RelativeGroupSizeTable";
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -19,7 +21,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   private _relativeGroupSizeForm: FormGroup;
   private _solveFor: string;
 
-  private _tables: Array<ISUFactorCombinationTable>;
+  private _table: RelativeGroupSizeTable;
 
   private _isuFactorsSubscription: Subscription;
   private _solveForSubscription: Subscription;
@@ -32,6 +34,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     })
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
+      this.table = this.isuFactors.betweenIsuRelativeGroupSizes[0];
     } );
   }
 
@@ -74,12 +77,13 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   updateCombinations() {
-    if ( this.isuFactors ) {
+    //TODO: re instate save mechanism for group sizes
+    /** if ( this.isuFactors ) {
       this.isuFactors.betweenIsuRelativeGroupSizes.forEach(combination => {
         const value = this.relativeGroupSizeForm.get(combination.name).value;
         combination.size = value;
       });
-    }
+    } **/
   }
 
   updateSmallestGroupSizeControls() {
@@ -91,26 +95,10 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   updateGroupsizeFormControls() {
-    if (isNullOrUndefined(this.isuFactors) || isNullOrUndefined(this.isuFactors.predictors)) {
+    if (isNullOrUndefined(this.isuFactors) || isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes)) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
-      this.study_service.updateIsuFactors(this.isuFactors);
-      this.tables = this.isuFactors.groupCombinations(
-        this.isuFactors.betweenIsuRelativeGroupSizes,
-        this.isuFactors.predictors);
-      const controlDefs = {};
-      this.tables.forEach(table => {
-        const names = table.table.keys();
-        let done = false;
-        let next = names.next();
-        while (!done) {
-          const key = next.value;
-          const combination = table.table.get(key);
-          controlDefs[combination.name] = [combination.size];
-          next = names.next();
-          done = next.done;
-        }
-      });
+      const controlDefs = this.table.controlDefs;
       this.relativeGroupSizeForm = this.fb.group(controlDefs);
     }
   }
@@ -147,12 +135,12 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this._solveFor = value;
   }
 
-  get tables(): ISUFactorCombinationTable[] {
-    return this._tables;
+  get table(): RelativeGroupSizeTable {
+    return this._table;
   }
 
-  set tables(value: ISUFactorCombinationTable[]) {
-    this._tables = value;
+  set table(value: RelativeGroupSizeTable) {
+    this._table = value;
   }
 
   get solveForSubscription(): Subscription {

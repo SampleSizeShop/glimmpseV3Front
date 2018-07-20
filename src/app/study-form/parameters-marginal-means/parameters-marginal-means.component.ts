@@ -14,7 +14,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
   templateUrl: './parameters-marginal-means.component.html',
   styleUrls: ['./parameters-marginal-means.component.css']
 })
-export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
+export class ParametersMarginalMeansComponent implements DoCheck {
   private _isuFactors: ISUFactors;
   private _tables: Array<ISUFactorCombinationTable>;
   private _marginalMeansForm: FormGroup;
@@ -46,7 +46,7 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
     if ( this.isuFactors ) {
       this.isuFactors.marginalMeans.forEach(marginalMean => {
         const value = this.marginalMeansForm.get(marginalMean.name).value;
-        marginalMean.size = value;
+        marginalMean.value = value;
       });
     }
   }
@@ -61,11 +61,11 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
   }
 
   updateMarginalMeansFormControls() {
-    if (isNullOrUndefined( this._isuFactors.marginalMeans ) || this._isuFactors.marginalMeans.size === 0) {
-      this._isuFactors.marginalMeans = this._isuFactors.generateCombinations(this._isuFactors.hypothesis);
+    if (isNullOrUndefined( this._isuFactors.marginalMeans ) || this._isuFactors.marginalMeans.length === 0) {
+      //this._isuFactors.marginalMeans = this._isuFactors.generateCombinations(this._isuFactors.hypothesis);
     }
 
-    this.tables = this.isuFactors.groupCombinations(
+    /**this.tables = this.groupCombinations(
       this.isuFactors.marginalMeans,
       this.isuFactors.hypothesis);
 
@@ -84,7 +84,7 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
         done = next.done;
       }
     });
-    this.marginalMeansForm = this.fb.group(controlDefs);
+    this.marginalMeansForm = this.fb.group(controlDefs);**/
   }
 
   get isuFactors(): ISUFactors {
