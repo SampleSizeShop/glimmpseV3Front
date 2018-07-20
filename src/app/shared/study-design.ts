@@ -53,7 +53,7 @@ export class StudyDesign {
 
   generateGroupSizeTables() {
     const tables = Array<RelativeGroupSizeTable>();
-    if (this.isuFactors.predictors.length == 2) {
+    if (this.isuFactors.predictors.length > 0) {
       const table = new RelativeGroupSizeTable();
       table.populateTable(this.isuFactors.generateCombinations(this.isuFactors.predictors));
       tables.push(table);

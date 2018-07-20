@@ -30,11 +30,15 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
           row = factor.order;
         }
       });
-      element.id.forEach( factor => {
-        if (factor.factorName === this.dimensions[1].factorName) {
-          col = factor.order;
-        }
-      });
+      if (this.dimensions.length > 1) {
+        element.id.forEach( factor => {
+          if (factor.factorName === this.dimensions[1].factorName) {
+            col = factor.order;
+          }
+        });
+      } else {
+        col = 0;
+      }
       tableMap.set(row.toString() + '-' + col.toString(), element)
       if (row > rowLength) {rowLength = row; }
       if (col > colLength) {colLength = col; }
@@ -69,10 +73,14 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
   }
 
   getColLabel(element: ISUFactorCombination): String {
-    return this._getDimensionLabel(element, 1);
+    let label = '';
+    if (this.dimensions.length > 1) {
+      label = this._getDimensionLabel(element, 1);
+    }
+    return label;
   }
 
-  _getDimensionLabel(element: ISUFactorCombination, dimensionIndex: number): String {
+  _getDimensionLabel(element: ISUFactorCombination, dimensionIndex: number) {
     const factorName = this.dimensions[dimensionIndex].factorName;
     let label = 'undefined';
     element.id.forEach( factor => {
