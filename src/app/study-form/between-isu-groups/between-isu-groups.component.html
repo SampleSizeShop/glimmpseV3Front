@@ -19,12 +19,12 @@
           <thead>
           <tr>
             <th></th>
-            <th *ngFor="let col of table.table">{{table.dimensions[0].factorName}}</th>
+            <th *ngFor="let col of table.table[0]">{{table.getColLabel(col)}}</th>
           </tr>
         </thead>
           <tbody>
             <tr *ngFor="let row of table.table;">
-              <td>{{table.dimensions[1].factorName}}</td>
+              <td>{{table.getRowLabel(row[table.table.indexOf(row)])}}</td>
               <td *ngFor="let col of row;">
                 <input type="number" formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}">
               </td>

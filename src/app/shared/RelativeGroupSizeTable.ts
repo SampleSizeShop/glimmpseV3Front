@@ -46,7 +46,7 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
     for (let i = 0; i < rowLength; i++) {
       const col = [];
       for (let j = 0;j < colLength; j++) {
-        col.push(tableMap.get(j + '-' + i));
+        col.push(tableMap.get(i + '-' + j));
       }
       rows.push(col);
     }
@@ -62,5 +62,25 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
         this.tableId.id.indexOf(factor) < 0);
     }
     return dimensions;
+  }
+
+  getColLabel(element: ISUFactorCombination): String {
+    return this._getDimensionLabel(element, 1);
+  }
+
+
+  getRowLabel(element: ISUFactorCombination): String {
+    return this._getDimensionLabel(element, 0);
+  }
+
+  _getDimensionLabel(element: ISUFactorCombination, dimensionIndex: number): String {
+    const factorName = this.dimensions[dimensionIndex].factorName;
+    let label = 'undefined';
+    element.id.forEach( factor => {
+      if (factorName === factor.factorName) {
+        label = factorName + factor.value;
+      }
+    });
+    return label;
   }
 }
