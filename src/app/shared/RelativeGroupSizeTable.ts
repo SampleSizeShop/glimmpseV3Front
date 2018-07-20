@@ -64,13 +64,12 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
     return dimensions;
   }
 
-  getColLabel(element: ISUFactorCombination): String {
-    return this._getDimensionLabel(element, 1);
-  }
-
-
   getRowLabel(element: ISUFactorCombination): String {
     return this._getDimensionLabel(element, 0);
+  }
+
+  getColLabel(element: ISUFactorCombination): String {
+    return this._getDimensionLabel(element, 1);
   }
 
   _getDimensionLabel(element: ISUFactorCombination, dimensionIndex: number): String {

@@ -29,15 +29,15 @@ export class ISUFactorCombinationTable {
 
   get controlDefs() {
     const controlDefs = {};
-    let c = 0;
-    this.table.forEach(col => {
-      let r = 0;
-      col.forEach( row => {
+    let r = 0;
+    this.table.forEach(row => {
+      let c = 0;
+      row.forEach( col => {
         const name = r.toString() + '-' + c.toString();
-        controlDefs[name] = [this.table[c][r].value];
-        r++;
+        controlDefs[name] = [this.table[r][c].value];
+        c++;
       });
-      c++;
+      r++;
     })
     return controlDefs;
   }

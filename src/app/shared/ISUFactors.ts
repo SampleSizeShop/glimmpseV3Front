@@ -299,7 +299,9 @@ export class ISUFactors {
 
     if (!isNullOrUndefined(factorList) && factorList.length > 0) {
       let factors = new Array<ISUFactor>();
-      factors = factors.concat(factorList);
+      factorList.forEach( factor => {
+        factors.push(factor);
+      });
       factors = this.assignChildren(factors);
       combinations = factors[0].mapCombinations();
       combinations.forEach( combination => {
@@ -330,9 +332,9 @@ export class ISUFactors {
     factorList.forEach( factor => {
       factor.child = null;
     })
-    let parent = factorList.pop();
+    let parent = factorList.shift();
     while (factorList.length > 0) {
-      const child = factorList.pop();
+      const child = factorList.shift();
       parent.child = child
       factorsWithChildrenAssigned.push(parent);
       parent = child;

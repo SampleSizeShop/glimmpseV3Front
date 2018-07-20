@@ -2,6 +2,8 @@ import {ISUFactors} from './ISUFactors';
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {Outcome} from './Outcome';
 import {CombinationId} from './CombinationId';
+import {Predictor} from "./Predictor";
+import {constants} from "./constants";
 
 describe('ISUFactors', () => {
   let component: ISUFactors;
@@ -12,42 +14,26 @@ describe('ISUFactors', () => {
     expect(component).toBeTruthy();
   });
 
-  /** it( 'should correcly produce an object representation of marginal means from a Map', () => {
-    const val0 = '0';
-    const val1 = '1';
-    const comb0 = new ISUFactorCombination([new CombinationId('Time', val0)], 1);
-    const comb1 = new ISUFactorCombination([new CombinationId('Time', val1)], 1);
-    const expected = [
-      {name: val0, ISUFactorCombination: comb0},
-      {name: val1, ISUFactorCombination: comb1}
-      ];
-    component.marginalMeans.set(val0, comb0);
-    component.marginalMeans.set(val1, comb1);
-    const actual = component.marginalMeansToArray();
-    expect(expected).toEqual(actual);
-  });
-
-  it( 'should correctly produce an object representation of outcome mean for a scenario ' +
-                 'with one outcome and a grand mean hypothesis', () => {
-    const val0 = '80';
-    const comb0 = new ISUFactorCombination([new CombinationId('bp', val0)], 1);
-    const expected = [
-      {name: val0, ISUFactorCombination: comb0}
-    ];
-    component.marginalMeans.set(val0, comb0);
-    const actual = component.marginalMeansToArray();
-    expect(expected).toEqual(actual);
-  });
-
-  it( 'should correctly a marginal matrix for a scenario with one outcome and a grand mean hypothesis',
+  it( 'should correctly map combinations of two predictors',
     () => {
-    const bp = Outcome(name = 'bp', standardDeviation = 80);
+    const a = new Predictor('a');
+    a.valueNames = ['1', '2'];
+    const b = new Predictor('b');
+    b.valueNames = ['4', '5', '6'];
+
+    const a1 = new CombinationId('a', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '1', 0);
+    const a2 = new CombinationId('a', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '2', 1);
+    const b3 = new CombinationId('b', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '4', 0);
+    const b4 = new CombinationId('b', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '5', 1);
+    const b5 = new CombinationId('b', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '6', 2);
     const expected = [
-      {bp_grand_mean: ISUFactorCombination([CombinationId('bp', 80), 80])}
-    ];
-    component.marginalMeans.set(val0, comb0);
-    const actual = component.marginalMeansToArray();
-    expect(expected).toEqual(actual);
-  }); **/
+      new ISUFactorCombination([a1, b3]),
+      new ISUFactorCombination([a1, b4]),
+      new ISUFactorCombination([a1, b5]),
+      new ISUFactorCombination([a2, b3]),
+      new ISUFactorCombination([a2, b4]),
+      new ISUFactorCombination([a2, b5])];
+    const actual = component.generateCombinations([a, b]);
+  });
 
 });
