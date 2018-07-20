@@ -1,7 +1,7 @@
 import {ISUFactorCombinationTable} from './ISUFactorCombinationTable';
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {CombinationId} from './CombinationId';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
   dimensions: Array<CombinationId>;

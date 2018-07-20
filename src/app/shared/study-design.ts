@@ -51,12 +51,26 @@ export class StudyDesign {
     return groups;
   }
 
+  _getRelativeGroupSizeTableIds() {
+    let tableIds = [null];
+    const factors = this.isuFactors.predictors;
+    factors.shift();
+    factors.shift();
+    if (factors.length > 0) {
+      tableIds = this.isuFactors.generateCombinations(factors);
+    }
+    return tableIds;
+  }
+
   generateGroupSizeTables() {
     const tables = Array<RelativeGroupSizeTable>();
     if (this.isuFactors.predictors.length > 0) {
-      const table = new RelativeGroupSizeTable();
-      table.populateTable(this.isuFactors.generateCombinations(this.isuFactors.predictors));
-      tables.push(table);
+      const tableIds = this._getRelativeGroupSizeTableIds();
+      tableIds.forEach( tableId => {
+        const table = new RelativeGroupSizeTable(tableId);
+        table.populateTable(this.isuFactors.generateCombinations(this.isuFactors.predictors));
+        tables.push(table);
+      });
     }
     return tables;
   }
