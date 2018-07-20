@@ -24,7 +24,7 @@
         </thead>
           <tbody>
             <tr *ngFor="let row of table.table;">
-              <td>{{table.getRowLabel(row[table.table.indexOf(row)])}}</td>
+              <td>{{table.getRowLabel(row[0])}}</td>
               <td *ngFor="let col of row;">
                 <input type="number" formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}">
               </td>
