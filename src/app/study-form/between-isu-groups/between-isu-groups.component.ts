@@ -46,6 +46,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this.table$.subscribe(
       table => {
         this._table = table;
+        this.buildForm();
       }
     );
     this.buildForm();
@@ -95,13 +96,18 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   updateCombinations() {
-    //TODO: re instate save mechanism for group sizes
-    /** if ( this.isuFactors ) {
-      this.isuFactors.betweenIsuRelativeGroupSizes.forEach(combination => {
-        const value = this.relativeGroupSizeForm.get(combination.name).value;
-        combination.size = value;
+    if ( !isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this.table)) {
+      let r = 0;
+      this.table.table.forEach( row => {
+        let c = 0;
+        row.forEach( group => {
+          const name = r.toString() + '-' + c.toString();
+          group.value = this.relativeGroupSizeForm.controls[name].value;
+          c = c + 1;
+        });
+        r = r + 1;
       });
-    } **/
+    }
   }
 
   updateSmallestGroupSizeControls() {
@@ -118,6 +124,18 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     } else {
       const controlDefs = this._table.controlDefs;
       this.relativeGroupSizeForm = this.fb.group(controlDefs);
+      if (!isNullOrUndefined(this.table)) {
+        let r = 0;
+        this.table.table.forEach( row => {
+          let c = 0;
+          row.forEach( group => {
+            const name = r.toString() + '-' + c.toString();
+            this.relativeGroupSizeForm.controls[name].value = group.value;
+            c = c + 1;
+          });
+          r = r + 1;
+        });
+      }
     }
   }
 
