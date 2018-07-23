@@ -130,7 +130,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
           let c = 0;
           row.forEach( group => {
             const name = r.toString() + '-' + c.toString();
-            this.relativeGroupSizeForm.controls[name].value = group.value;
+            this.relativeGroupSizeForm[name] = [group.value];
             c = c + 1;
           });
           r = r + 1;
