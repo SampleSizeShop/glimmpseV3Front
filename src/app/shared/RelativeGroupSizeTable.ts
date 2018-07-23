@@ -120,34 +120,4 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
     });
     return compare;
   }
-
-  compareTableIds(other: RelativeGroupSizeTable) {
-    let compare = false;
-    if (isNullOrUndefined(this.tableId) && isNullOrUndefined(other.tableId)) {
-      compare = true;
-    } else if (!isNullOrUndefined(this.tableId) && !isNullOrUndefined(other.tableId)) {
-      if (this.tableId.name === other.tableId.name) {
-        compare = true;
-      }
-    }
-    return compare;
-  }
-
-  compareTableSize(other: RelativeGroupSizeTable) {
-    let compare = false;
-    if (isNullOrUndefined(this.table) && isNullOrUndefined(other.table)) {
-      compare = true;
-    } else if (!isNullOrUndefined(this.table) && !isNullOrUndefined(other.table)) {
-      if (this.table.length === other.table.length) {
-        let i = 0;
-        this.table.forEach( row => {
-          if (row.length === other.table[i].length) {
-            compare = true;
-          }
-          i = i++;
-        });
-      }
-    }
-    return compare;
-  }
 }

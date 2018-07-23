@@ -1,5 +1,6 @@
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {isNullOrUndefined} from 'util';
+import {RelativeGroupSizeTable} from "./RelativeGroupSizeTable";
 
 export class ISUFactorCombinationTable {
   private _table: Array<Array<ISUFactorCombination>>;
@@ -40,6 +41,36 @@ export class ISUFactorCombinationTable {
       r++;
     })
     return controlDefs;
+  }
+
+  compareTableIds(other: ISUFactorCombinationTable) {
+    let compare = false;
+    if (isNullOrUndefined(this.tableId) && isNullOrUndefined(other.tableId)) {
+      compare = true;
+    } else if (!isNullOrUndefined(this.tableId) && !isNullOrUndefined(other.tableId)) {
+      if (this.tableId.name === other.tableId.name) {
+        compare = true;
+      }
+    }
+    return compare;
+  }
+
+  compareTableSize(other: ISUFactorCombinationTable) {
+    let compare = false;
+    if (isNullOrUndefined(this.table) && isNullOrUndefined(other.table)) {
+      compare = true;
+    } else if (!isNullOrUndefined(this.table) && !isNullOrUndefined(other.table)) {
+      if (this.table.length === other.table.length) {
+        let i = 0;
+        this.table.forEach( row => {
+          if (row.length === other.table[i].length) {
+            compare = true;
+          }
+          i = i++;
+        });
+      }
+    }
+    return compare;
   }
 
   get table(): Array<Array<ISUFactorCombination>> {
