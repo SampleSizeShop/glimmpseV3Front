@@ -69,7 +69,16 @@ export class StudyDesign {
       tableIds.forEach( tableId => {
         const table = new RelativeGroupSizeTable(tableId);
         table.populateTable(this.isuFactors.generateCombinations(this.isuFactors.predictors));
-        tables.push(table);
+        let pushed = false;
+        this.isuFactors.betweenIsuRelativeGroupSizes.forEach( existingTable => {
+          if (existingTable.compareSizeAndDimensions(table)) {
+            tables.push(existingTable);
+            pushed = true;
+          }
+        });
+        if (!pushed) {
+          tables.push(table);
+        }
       });
     }
     return tables;

@@ -218,4 +218,12 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   set table(value: RelativeGroupSizeTable) {
     this._table = value;
   }
+
+  get displayName() {
+    let name = '';
+    if (!isNullOrUndefined(this.table) && !isNullOrUndefined(this.table.tableId)) {
+      name = this.table.tableId.name;
+    }
+    return name;
+  }
 }

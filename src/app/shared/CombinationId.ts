@@ -27,4 +27,12 @@ export class CombinationId {
     }
     return label;
   }
+
+  equals(other: CombinationId) {
+    if (this.label === other.label) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

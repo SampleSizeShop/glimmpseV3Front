@@ -90,4 +90,64 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
     });
     return label;
   }
+
+  compareSizeAndDimensions(other: RelativeGroupSizeTable) {
+    if (
+      this.compareDimensions(other)
+      && this.compareTableIds(other)
+      && this.compareTableSize(other)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  compareDimensions(other: RelativeGroupSizeTable) {
+    let i = 0;
+    let compare = true;
+    this.dimensions.forEach( id => {
+      if (
+        !isNullOrUndefined(other.dimensions[i]
+        && other.dimensions[i].equals(id)
+        )
+      ) {
+        // do nothing
+      } else {
+        compare = false
+      }
+      i = i++;
+    });
+    return compare;
+  }
+
+  compareTableIds(other: RelativeGroupSizeTable) {
+    let compare = false;
+    if (isNullOrUndefined(this.tableId) && isNullOrUndefined(other.tableId)) {
+      compare = true;
+    } else if (!isNullOrUndefined(this.tableId) && !isNullOrUndefined(other.tableId)) {
+      if (this.tableId.name === other.tableId.name) {
+        compare = true;
+      }
+    }
+    return compare;
+  }
+
+  compareTableSize(other: RelativeGroupSizeTable) {
+    let compare = false;
+    if (isNullOrUndefined(this.table) && isNullOrUndefined(other.table)) {
+      compare = true;
+    } else if (!isNullOrUndefined(this.table) && !isNullOrUndefined(other.table)) {
+      if (this.table.length === other.table.length) {
+        let i = 0;
+        this.table.forEach( row => {
+          if (row.length === other.table[i].length) {
+            compare = true;
+          }
+          i = i++;
+        });
+      }
+    }
+    return compare;
+  }
 }
