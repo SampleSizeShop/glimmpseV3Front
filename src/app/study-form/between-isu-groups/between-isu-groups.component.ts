@@ -2,12 +2,14 @@ import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {ISUFactorCombinationTable} from '../../shared/ISUFactorCombinationTable';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import {constants} from '../../shared/constants';
-import {CombinationId} from "../../shared/CombinationId";
-import {RelativeGroupSizeTable} from "../../shared/RelativeGroupSizeTable";
+import {RelativeGroupSizeTable} from '../../shared/RelativeGroupSizeTable';
+import {Observable} from 'rxjs/Observable';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -20,25 +22,32 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   private _groupSizeForm: FormGroup;
   private _relativeGroupSizeForm: FormGroup;
   private _solveFor: string;
-
+  private _table$: Observable<RelativeGroupSizeTable>;
   private _table: RelativeGroupSizeTable;
 
   private _isuFactorsSubscription: Subscription;
   private _solveForSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
+              private route: ActivatedRoute,
               private _study_service: StudyService) {
+    this.table$ = this.route.paramMap.switchMap(
+      (params: ParamMap) => this.getTableFromIndex(params.get('index'))
+    );
+  }
 
+  ngOnInit() {
     this.solveForSubscription = this.study_service.solveForSelected$.subscribe( solveFor => {
       this.solveFor = solveFor;
     })
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
-      this.table = this.isuFactors.betweenIsuRelativeGroupSizes[0];
     } );
-  }
-
-  ngOnInit() {
+    this.table$.subscribe(
+      table => {
+        this._table = table;
+      }
+    );
     this.buildForm();
   }
 
@@ -54,6 +63,15 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnDestroy() {
     this.solveForSubscription.unsubscribe();
+  }
+
+  getRelativeGroupSizeTables() { return Observable.of(this.isuFactors.betweenIsuRelativeGroupSizes); }
+
+  getTableFromIndex(index: string | any) {
+    return this.getRelativeGroupSizeTables().map(
+      tables => tables.find(
+        table => this.isuFactors.betweenIsuRelativeGroupSizes.indexOf(table).toString() === index
+      ));
   }
 
   buildForm() {
@@ -98,7 +116,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     if (isNullOrUndefined(this.isuFactors) || isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes)) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
-      const controlDefs = this.table.controlDefs;
+      const controlDefs = this._table.controlDefs;
       this.relativeGroupSizeForm = this.fb.group(controlDefs);
     }
   }
@@ -135,14 +153,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this._solveFor = value;
   }
 
-  get table(): RelativeGroupSizeTable {
-    return this._table;
-  }
-
-  set table(value: RelativeGroupSizeTable) {
-    this._table = value;
-  }
-
   get solveForSubscription(): Subscription {
     return this._solveForSubscription;
   }
@@ -173,5 +183,21 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   set study_service(value: StudyService) {
     this._study_service = value;
+  }
+
+  get table$(): Observable<RelativeGroupSizeTable> {
+    return this._table$;
+  }
+
+  set table$(value: Observable<RelativeGroupSizeTable>) {
+    this._table$ = value;
+  }
+
+  get table(): RelativeGroupSizeTable {
+    return this._table;
+  }
+
+  set table(value: RelativeGroupSizeTable) {
+    this._table = value;
   }
 }

@@ -73,6 +73,25 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(11)
+        } else if (current === 9
+          && (isNullOrUndefined(this.study.isuFactors)
+          || this.study.isuFactors.predictors.length > 0)) {
+          this.parameters = [];
+          this.parameters.push(this.study.isuFactors.betweenIsuRelativeGroupSizes.indexOf(
+            this.study.isuFactors.firstRelativeGroupSizeTable
+          ));
+          this.setStage(10);
+        } else if (current === 10
+          && (isNullOrUndefined(this.study.isuFactors)
+            || this.study.isuFactors.predictors.length > 0)) {
+          const currentIndex = this.parameters.pop();
+          const nextTable = this.study.isuFactors.getNextRelativeGroupSizeTable(currentIndex);
+          if (!isNullOrUndefined(nextTable)) {
+            this.parameters.push(currentIndex + 1);
+            this.setStage(10);
+          } else {
+            this.setStage(11);
+          }
         } else if (
         current === 14
         && !isNullOrUndefined(this.study.isuFactors.outcomes)
@@ -178,10 +197,29 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         current = stage;
       }
       if (current > 1) {
-        if (current === 11
+        if (current === 10
+          && (isNullOrUndefined(this.study.isuFactors)
+            || this.study.isuFactors.predictors.length > 0)) {
+          const currentIndex = this.parameters.pop();
+          const previousIndex = currentIndex - 1;
+          if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
+            this.parameters.push(previousIndex);
+            this.setStage(10)
+          } else {
+            this.parameters = []
+            this.setStage(9)
+          }
+        } else if (current === 11
           && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
           this.setStage(9)
+        } else if  (current === 11
+          && (isNullOrUndefined(this.study.isuFactors)
+          || this.study.isuFactors.predictors.length > 0)) {
+          const currentIndex = this.study.isuFactors.betweenIsuRelativeGroupSizes.length - 1;
+          this.parameters = [];
+          this.parameters .push(currentIndex);
+          this.setStage(10)
         } else if (
           current === 15
           && !isNullOrUndefined(this.study.isuFactors.outcomes)

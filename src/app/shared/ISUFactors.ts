@@ -381,4 +381,42 @@ export class ISUFactors {
   //TODO: remove
   marginalMeansToArray() {}
 
+  get firstRelativeGroupSizeTable(): RelativeGroupSizeTable {
+    let table: RelativeGroupSizeTable = null;
+    if (!isNullOrUndefined(this.betweenIsuRelativeGroupSizes) && this.betweenIsuRelativeGroupSizes.length > 0) {
+      table = this.betweenIsuRelativeGroupSizes[0];
+    }
+    return table;
+  }
+
+  get lastRelativeGroupSizeTable(): RelativeGroupSizeTable {
+    let table: RelativeGroupSizeTable = null;
+    if (!isNullOrUndefined(this.betweenIsuRelativeGroupSizes) && this.betweenIsuRelativeGroupSizes.length > 0) {
+      table = this.betweenIsuRelativeGroupSizes[this.betweenIsuRelativeGroupSizes.length -1];
+    }
+    return table;
+  }
+
+  getNextRelativeGroupSizeTable(index: number): RelativeGroupSizeTable {
+    let table: RelativeGroupSizeTable = null;
+    const nextIndex = index + 1;
+    if (nextIndex < this.betweenIsuRelativeGroupSizes.length) {
+      table = this.betweenIsuRelativeGroupSizes[nextIndex];
+    } else {
+      table = null;
+    }
+    return table
+  }
+
+  getPreviousRelativeGroupSizeTable(index: number): RelativeGroupSizeTable {
+    let table: RelativeGroupSizeTable = null;
+    const nextIndex = index - 1;
+    if (nextIndex > 0) {
+      table = this.betweenIsuRelativeGroupSizes[nextIndex];
+    } else {
+      table = null;
+    }
+    return table
+  }
+
 }

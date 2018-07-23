@@ -65,7 +65,10 @@ const studyFormRoutes: Routes = [
             {path: constants.STAGES[7], component: WithinIsuRepeatedMeasuresComponent},
             {path: constants.STAGES[8], component: WithinIsuClustersComponent},
             {path: constants.STAGES[9], component: BetweenIsuPredictorsComponent},
-            {path: constants.STAGES[10], component: BetweenIsuGroupsComponent},
+            {
+              path: constants.STAGES[10] + '/:index',
+              component: BetweenIsuGroupsComponent
+            },
             {path: constants.STAGES[11], component: GaussianCovariateComponent},
             {path: constants.STAGES[12], component: HypothesisEffectChoiceComponent},
             {path: constants.STAGES[13], component: HypothesisBetweenComponent},
