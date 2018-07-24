@@ -43,12 +43,13 @@ export class ParametersMarginalMeansComponent implements DoCheck {
   }
 
   updateMarginalMeans() {
-    if ( this.isuFactors ) {
+    //TODO: re instate save
+    /**if ( this.isuFactors ) {
       this.isuFactors.marginalMeans.forEach(marginalMean => {
         const value = this.marginalMeansForm.get(marginalMean.name).value;
         marginalMean.value = value;
       });
-    }
+    } **/
   }
 
   getOutcomes() { return Observable.of(this.isuFactors.outcomes); }
@@ -62,29 +63,8 @@ export class ParametersMarginalMeansComponent implements DoCheck {
 
   updateMarginalMeansFormControls() {
     if (isNullOrUndefined( this._isuFactors.marginalMeans ) || this._isuFactors.marginalMeans.length === 0) {
-      //this._isuFactors.marginalMeans = this._isuFactors.generateCombinations(this._isuFactors.hypothesis);
+      // this._isuFactors.marginalMeans = this._isuFactors.generateCombinations(this._isuFactors.hypothesis);
     }
-
-    /**this.tables = this.groupCombinations(
-      this.isuFactors.marginalMeans,
-      this.isuFactors.hypothesis);
-
-    const controlDefs = {};
-    this.tables.forEach(table => {
-      const names = table.table.keys();
-      let done = false;
-      let next = names.next();
-      while (!done) {
-        const key = next.value;
-        const combination = table.table.get(key);
-        if (!isNullOrUndefined(combination)) {
-          controlDefs[combination.name] = [combination.size];
-        }
-        next = names.next();
-        done = next.done;
-      }
-    });
-    this.marginalMeansForm = this.fb.group(controlDefs);**/
   }
 
   get isuFactors(): ISUFactors {

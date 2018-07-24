@@ -1,6 +1,5 @@
 import {Predictor} from './Predictor';
 import {ISUFactorCombination} from './ISUFactorCombination';
-import {ISUFactorCombinationTable} from './ISUFactorCombinationTable';
 import {Outcome} from './Outcome';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
@@ -12,13 +11,12 @@ import {CorrelationMatrix} from './CorrelationMatrix';
 import {OutcomeRepMeasStDev} from './OutcomeRepMeasStDev';
 import {Group} from './Group';
 import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
-import {MarginalMean} from './MarginalMean';
-import {CombinationId} from "./CombinationId";
+import {MarginalMeansTable} from './MarginalMeansTable';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
   betweenIsuRelativeGroupSizes = new Array<RelativeGroupSizeTable>();
-  marginalMeans = new Array<MarginalMean>();
+  marginalMeans = new Array<MarginalMeansTable>();
   smallestGroupSize: number[] = [];
   outcomeCorrelationMatrix: CorrelationMatrix = new CorrelationMatrix();
   outcomeRepeatedMeasureStDevs = Array<OutcomeRepMeasStDev>();

@@ -1,6 +1,5 @@
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {isNullOrUndefined} from 'util';
-import {RelativeGroupSizeTable} from "./RelativeGroupSizeTable";
 
 export class ISUFactorCombinationTable {
   private _table: Array<Array<ISUFactorCombination>>;
