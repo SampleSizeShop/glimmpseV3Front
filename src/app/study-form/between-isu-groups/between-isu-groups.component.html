@@ -1,13 +1,8 @@
-<div *ngIf="solveFor === 'POWER'">
-  <form [formGroup]="groupSizeForm" class="form-horizontal" id="groupSizeForm">
-    <div class="container-fluid">
-      <h5>What size is your smallest group?</h5>
-      <input type="number" class="form-control" id="smallestgroupsize" formControlName="smallestGroupSize" required>
-    </div>
-  </form>
+<div *ngIf="!hasTable" id="intercept">
+  Hello intercept.
 </div>
 
-<div *ngIf="solveFor === 'SAMPLESIZE'">
+<div *ngIf="hasTable" id="tableControls">
   <form [formGroup]="relativeGroupSizeForm" id="relativeGroupSizeForm">
     <div class="container-fluid">
       <h5>Tell us about the relative sizes of your groups as listed below:</h5>
@@ -21,14 +16,14 @@
             <th></th>
             <th *ngFor="let col of table.table[0]">{{table.getColLabel(col)}}</th>
           </tr>
-        </thead>
+          </thead>
           <tbody>
-            <tr *ngFor="let row of table.table;">
-              <td>{{table.getRowLabel(row[0])}}</td>
-              <td *ngFor="let col of row;">
-                <input type="number" formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}">
-              </td>
-            </tr>
+          <tr *ngFor="let row of table.table;">
+            <td>{{table.getRowLabel(row[0])}}</td>
+            <td *ngFor="let col of row;">
+              <input type="number" formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}">
+            </td>
+          </tr>
           </tbody>
         </table>
       </div>

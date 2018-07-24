@@ -86,8 +86,7 @@ export class StudyDesign {
 
   checkDependencies() {
     // Are factorName groups made up of predictors we have defined
-    if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE &&
-      !isNullOrUndefined(this.isuFactors.predictors) &&
+    if (!isNullOrUndefined(this.isuFactors.predictors) &&
       this.isuFactors.predictors.length > 0) {
         const groups = this.relativeGroupSizes;
         const combinations = this.isuFactors.generateCombinations(this.isuFactors.predictors);

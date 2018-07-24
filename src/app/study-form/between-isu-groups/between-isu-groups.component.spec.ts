@@ -45,24 +45,4 @@ describe('BetweenIsuGroupsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('Should show the group size form if we are solving for power and have predictors', () => {
-    component.solveFor = 'POWER';
-    component.isuFactors = new ISUFactors();
-    component.isuFactors.variables.push(new Predictor());
-    fixture.detectChanges();
-    expect(component.isuFactors.predictors.length).toEqual(1);
-    const desc: DebugElement = fixture.debugElement.query(By.css('#groupSizeForm'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy();
-  });
-
-  it('Should update the smallest group size', () => {
-    component.solveFor = 'POWER';
-    component.isuFactors = new ISUFactors();
-    component.isuFactors.predictors.push(new Predictor());
-    component.groupSizeForm.get('smallestGroupSize').setValue('2');
-    fixture.detectChanges();
-    expect(component.isuFactors.smallestGroupSize).toEqual('2');
-  });
 });

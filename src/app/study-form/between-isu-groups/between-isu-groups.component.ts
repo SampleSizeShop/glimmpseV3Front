@@ -1,10 +1,9 @@
-import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
-import {constants} from '../../shared/constants';
 import {RelativeGroupSizeTable} from '../../shared/RelativeGroupSizeTable';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute, ParamMap} from '@angular/router';
@@ -19,14 +18,11 @@ import 'rxjs/add/observable/of';
 export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   private _isuFactors: ISUFactors;
-  private _groupSizeForm: FormGroup;
   private _relativeGroupSizeForm: FormGroup;
-  private _solveFor: string;
   private _table$: Observable<RelativeGroupSizeTable>;
   private _table: RelativeGroupSizeTable;
 
   private _isuFactorsSubscription: Subscription;
-  private _solveForSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
               private route: ActivatedRoute,
@@ -37,9 +33,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit() {
-    this.solveForSubscription = this.study_service.solveForSelected$.subscribe( solveFor => {
-      this.solveFor = solveFor;
-    })
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
@@ -49,21 +42,17 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
         this.buildForm();
       }
     );
-    this.buildForm();
   }
 
   ngDoCheck() {
-    if (this.solveFor === 'SAMPLESIZE') {
+    if (this.hasTable) {
       this.updateCombinations();
+      this.study_service.updateIsuFactors(this.isuFactors);
     }
-    if (this.solveFor === 'POWER') {
-      this.updateSmallestGroupSize();
-    }
-    this.study_service.updateIsuFactors(this.isuFactors);
   }
 
   ngOnDestroy() {
-    this.solveForSubscription.unsubscribe();
+    this.isuFactorsSubscription.unsubscribe();
   }
 
   getRelativeGroupSizeTables() { return Observable.of(this.isuFactors.betweenIsuRelativeGroupSizes); }
@@ -76,24 +65,15 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   buildForm() {
-    this.groupSizeForm = this.fb.group( this.updateSmallestGroupSizeControls()  );
     this.relativeGroupSizeForm = this.fb.group( {} );
-    if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE) {
-      this.updateGroupsizeFormControls();
-    }
+    this.updateGroupsizeFormControls();
   }
 
   resetForms() {
     this.relativeGroupSizeForm.reset();
-    this.groupSizeForm.reset();
     this.buildForm();
   }
 
-  updateSmallestGroupSize() {
-    if ( this.isuFactors ) {
-      this.isuFactors.smallestGroupSize = this.groupSizeForm.value.smallestGroupSize;
-    }
-  }
 
   updateCombinations() {
     if ( !isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this.table)) {
@@ -110,16 +90,8 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  updateSmallestGroupSizeControls() {
-    if (this.solveFor === constants.SOLVE_FOR_POWER) {
-      return { smallestGroupSize: [ this._isuFactors.smallestGroupSize ] }
-    } else {
-      return { smallestGroupSize: [1] }
-    };
-  }
-
   updateGroupsizeFormControls() {
-    if (isNullOrUndefined(this.isuFactors) || isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes)) {
+    if (!this.hasTable) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
       const controlDefs = this._table.controlDefs;
@@ -139,14 +111,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  get groupSizeForm(): FormGroup {
-    return this._groupSizeForm;
-  }
-
-  set groupSizeForm(value: FormGroup) {
-    this._groupSizeForm = value;
-  }
-
   get relativeGroupSizeForm(): FormGroup {
     return this._relativeGroupSizeForm;
   }
@@ -161,22 +125,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
-  }
-
-  get solveFor(): string {
-    return this._solveFor;
-  }
-
-  set solveFor(value: string) {
-    this._solveFor = value;
-  }
-
-  get solveForSubscription(): Subscription {
-    return this._solveForSubscription;
-  }
-
-  set solveForSubscription(value: Subscription) {
-    this._solveForSubscription = value;
   }
 
   get isuFactorsSubscription(): Subscription {
@@ -225,5 +173,13 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
       name = this.table.tableId.name;
     }
     return name;
+  }
+
+  get hasTable(): boolean {
+    let hasTable = true;
+    if (isNullOrUndefined(this.table)) {
+      hasTable = false;
+    }
+    return hasTable;
   }
 }
