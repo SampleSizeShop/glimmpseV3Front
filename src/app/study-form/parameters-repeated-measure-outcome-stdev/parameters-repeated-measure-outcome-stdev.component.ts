@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnChanges, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../study.service';

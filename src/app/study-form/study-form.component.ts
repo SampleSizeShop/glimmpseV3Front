@@ -69,20 +69,57 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         current = stage;
       }
       if ( current <= this._noStages &&  this.valid ) {
-        if (current === 9
+        if (current === 10
           && (isNullOrUndefined(this.study.isuFactors)
-          || this.study.isuFactors.predictors.length === 0)) {
-          this.setStage(11)
+          || this.study.isuFactors.predictors.length > 0)) {
+          this.parameters = [];
+          this.parameters.push(this.study.isuFactors.betweenIsuRelativeGroupSizes.indexOf(
+            this.study.isuFactors.firstRelativeGroupSizeTable
+          ));
+          this.setStage(11);
+        } else if (current === 11
+          && (isNullOrUndefined(this.study.isuFactors)
+            || this.study.isuFactors.predictors.length > 0)) {
+          const currentIndex = this.parameters.pop();
+          const nextTable = this.study.isuFactors.getNextRelativeGroupSizeTable(currentIndex);
+          if (!isNullOrUndefined(nextTable)) {
+            this.parameters.push(currentIndex + 1);
+            this.setStage(11);
+          } else {
+            this.setStage(12);
+          }
         } else if (
-          current === 18
+        current === 15
+        && !isNullOrUndefined(this.study.isuFactors.outcomes)
+        && this.study.isuFactors.outcomes.length > 0) {
+          this.setStage(16);
+          this.parameters = [];
+          this.parameters.push(this.study.isuFactors.firstOutcome.name);
+        } else if (
+          current === 16
+          && !isNullOrUndefined(this.study.isuFactors.outcomes)
+          && this.study.isuFactors.outcomes.length > 0) {
+          this.log.info('15' + this.parameters[0])
+          const currentOutcomeName = this.parameters.pop();
+          const nextOutcome = this.study.isuFactors.getNextOutcome(currentOutcomeName);
+          this.parameters = [];
+          if (!isNullOrUndefined(nextOutcome)) {
+            // next outcome marginal means
+            this.parameters.push(nextOutcome.name);
+            this.setStage(16);
+          } else {
+            this.setStage(17);
+          }
+        } else if (
+          current === 19
           && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
           && this.study.isuFactors.repeatedMeasures.length > 0) {
-          this.setStage(19);
+          this.setStage(20);
           this.parameters = [];
           this.parameters.push(this.study.isuFactors.firstOutcome.name);
           this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
         } else if (
-            current === 19
+            current === 20
             && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
             && this.study.isuFactors.repeatedMeasures.length > 0) {
 
@@ -95,33 +132,33 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
             // next outcome/repeates measure standard deviation
             this.parameters.push(currentOutcomeName);
             this.parameters.push(nextMeasure.name);
-            this.setStage(19);
+            this.setStage(20);
           } else if (!isNullOrUndefined(nextOutcome)) {
             // next outcome/repeates measure standard deviation
             this.parameters.push(nextOutcome.name);
             this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
-            this.setStage(19);
+            this.setStage(20);
           } else {
             // first repeated measure correlation
-            this.setStage(20);
+            this.setStage(21);
             this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
           }
-        } else if (current === 20) {
+        } else if (current === 21) {
           const currentName = this.parameters.pop();
           const next = this.study.isuFactors.getNextRepeatedMeasure(currentName);
           if (!isNullOrUndefined(next)) {
             this.parameters.push(next.name);
-            this.setStage(20);
+            this.setStage(21);
           } else {
             this.parameters = [];
-            this.setStage(21);
+            this.setStage(22);
           }
-        } else if (current === 26) {
-          this.setStage(35);
-        } else if (current === 29) {
-          this.setStage(26);
-        } else if (current === 34) {
-          this.setStage(29);
+        } else if (current === 27) {
+          this.setStage(36);
+        } else if (current === 30) {
+          this.setStage(27);
+        } else if (current === 35) {
+          this.setStage(30);
         } else {
           this.setStage( current + 1 );
         }
@@ -158,9 +195,48 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       if (current > 1) {
         if (current === 11
           && (isNullOrUndefined(this.study.isuFactors)
+            || this.study.isuFactors.predictors.length > 0)) {
+          const currentIndex = this.parameters.pop();
+          const previousIndex = currentIndex - 1;
+          if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
+            this.parameters.push(previousIndex);
+            this.setStage(11)
+          } else {
+            this.parameters = []
+            this.setStage(10)
+          }
+        } else if (current === 12
+          && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.predictors.length === 0)) {
-          this.setStage(9)
-        } else if (current === 19) {
+          this.setStage(10)
+        } else if  (current === 12
+          && (isNullOrUndefined(this.study.isuFactors)
+          || this.study.isuFactors.predictors.length > 0)) {
+          const currentIndex = this.study.isuFactors.betweenIsuRelativeGroupSizes.length - 1;
+          this.parameters = [];
+          this.parameters .push(currentIndex);
+          this.setStage(11)
+        } else if (
+          current === 16
+          && !isNullOrUndefined(this.study.isuFactors.outcomes)
+          && this.study.isuFactors.outcomes.length > 0) {
+          const currentOutcomeName = this.parameters.pop();
+          const previousOutcome = this.study.isuFactors.getPreviousOutcome(currentOutcomeName);
+          this.parameters = [];
+          if (!isNullOrUndefined(previousOutcome)) {
+            // next outcome marginal means
+            this.parameters.push(previousOutcome.name);
+            this.setStage(16);
+          } else {
+            this.setStage(15);
+          }
+        } else if (current === 17
+          && !isNullOrUndefined(this.study.isuFactors.outcomes)
+          && this.study.isuFactors.outcomes.length > 0) {
+          this.setStage(16);
+          this.parameters = [];
+          this.parameters.push(this.study.isuFactors.lastOutcome.name);
+        } else if (current === 20) {
           const currentMeasure = this.parameters.pop();
           const currentOutcome = this.parameters.pop();
           const previousMeasure = this.study.isuFactors.getPreviousRepeatedMeasure(currentMeasure);
@@ -169,21 +245,21 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           if (!isNullOrUndefined(previousMeasure)) {
             this.parameters.push(currentOutcome);
             this.parameters.push(previousMeasure.name);
-            this.setStage(19);
+            this.setStage(20);
           } else if (!isNullOrUndefined(previousOutcome)) {
             this.parameters.push(previousOutcome.name);
             this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
-            this.setStage(19);
+            this.setStage(20);
           } else {
-            this.setStage(18);
+            this.setStage(19);
           }
-        } else if (current === 20) {
+        } else if (current === 21) {
           const currentName = this.parameters.pop();
           const previous = this.study.isuFactors.getPreviousRepeatedMeasure(currentName);
           this.parameters = [];
           if (!isNullOrUndefined(previous)) {
             this.parameters.push(previous.name);
-            this.setStage(20);
+            this.setStage(21);
           } else {
             const lastOutcome = this.study.isuFactors.lastOutcome;
             const lastMeasure = this.study.isuFactors.lastRepeatedMeasure;
@@ -193,16 +269,16 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
               this.parameters.push(lastOutcome.name);
               this.parameters.push(lastMeasure.name);
             }
-            this.setStage(19);
+            this.setStage(20);
           }
-        } else if (current === 21
+        } else if (current === 22
           && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
           && this.study.isuFactors.repeatedMeasures.length > 0 ) {
-          this.setStage(20);
+          this.setStage(21);
           this.parameters = [];
           this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
-        } else if (current === 35) {
-          this.setStage(26);
+        } else if (current === 36) {
+          this.setStage(27);
         } else {
           this.setStage(current - 1);
         }

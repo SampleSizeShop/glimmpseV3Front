@@ -25,7 +25,6 @@ export class MarginalMeansGuard implements CanActivate {
     if (
       !isNullOrUndefined(this.isuFactors)
       && !isNullOrUndefined(this.isuFactors.hypothesis)
-      && this.isuFactors.hypothesis.length > 0
     ) {
       return true;
     } else {

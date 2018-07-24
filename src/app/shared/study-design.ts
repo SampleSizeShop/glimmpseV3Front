@@ -5,6 +5,7 @@ import {isNullOrUndefined} from 'util';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 import {PowerCurve} from './PowerCurve';
+import {RelativeGroupSizeTable} from "./RelativeGroupSizeTable";
 
 export class StudyDesign {
   private _name: string;
@@ -38,21 +39,60 @@ export class StudyDesign {
     this.isuFactors = new ISUFactors();
   }
 
-  checkDependencies() {
-    // Are factorName groups made up of predictors we have defined
-    if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE &&
-      !isNullOrUndefined(this.isuFactors.predictors) &&
-      this.isuFactors.predictors.length > 0) {
-        const groups = this.isuFactors.betweenIsuRelativeGroupSizes
-        const combinations = this.isuFactors.generateCombinations(this.isuFactors.predictors);
-        if (groups.size !== combinations.size) {
-          this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
-        }
-        groups.forEach(key => {
-          if (!combinations.has(key.name) ) {
-            this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
+  get relativeGroupSizes() {
+    const groups = [];
+    this.isuFactors.betweenIsuRelativeGroupSizes.forEach( relativeGroupSizeTable => {
+      relativeGroupSizeTable.table.forEach( row => {
+        row.forEach(group => {
+          groups.push(group);
+        });
+      });
+    });
+    return groups;
+  }
+
+  _getRelativeGroupSizeTableIds() {
+    let tableIds = [null];
+    const factors = this.isuFactors.predictors;
+    factors.shift();
+    factors.shift();
+    if (factors.length > 0) {
+      tableIds = this.isuFactors.generateCombinations(factors);
+    }
+    return tableIds;
+  }
+
+  generateGroupSizeTables() {
+    const tables = Array<RelativeGroupSizeTable>();
+    if (this.isuFactors.predictors.length > 0) {
+      const tableIds = this._getRelativeGroupSizeTableIds();
+      tableIds.forEach( tableId => {
+        const table = new RelativeGroupSizeTable(tableId);
+        table.populateTable(this.isuFactors.generateCombinations(this.isuFactors.predictors));
+        let pushed = false;
+        this.isuFactors.betweenIsuRelativeGroupSizes.forEach( existingTable => {
+          if (existingTable.compareSizeAndDimensions(table)) {
+            tables.push(existingTable);
+            pushed = true;
           }
         });
+        if (!pushed) {
+          tables.push(table);
+        }
+      });
+    }
+    return tables;
+  }
+
+  checkDependencies() {
+    // Are factorName groups made up of predictors we have defined
+    if (!isNullOrUndefined(this.isuFactors.predictors) &&
+      this.isuFactors.predictors.length > 0) {
+        const groups = this.relativeGroupSizes;
+        const combinations = this.isuFactors.generateCombinations(this.isuFactors.predictors);
+        if (groups.length !== combinations.length) {
+          this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables();
+        }
     }
 
     // is our hypothesis effect made up of isuFactors we have defined
@@ -79,6 +119,8 @@ export class StudyDesign {
       }
     };
 
+    //TODO: Re instate dependency check
+    /**
     // Are marginal means factorName groups made up of hypothesis we have chosen
     if (!isNullOrUndefined(this.isuFactors.hypothesis) &&
       this.isuFactors.hypothesis.length > 0) {
@@ -92,7 +134,7 @@ export class StudyDesign {
           this.isuFactors.marginalMeans = combinations;
         }
       });
-    }
+    }**/
 
     // Do all of our OutcomeRepMeasStDev still exist
     if (

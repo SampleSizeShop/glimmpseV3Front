@@ -1,6 +1,7 @@
-import {ISUFactorCombination, CombinationId} from './ISUFactorCombination';
+import {ISUFactorCombination} from './ISUFactorCombination';
 import {constants} from './constants';
 import {PartialMatrix} from './PartialMatrix';
+import {CombinationId} from './CombinationId';
 
 /**
  * Model class defining each independent sampling unit factor.
@@ -77,7 +78,7 @@ export class ISUFactor {
   mapCombinations(): Array<ISUFactorCombination> {
     let combinations = new Array<ISUFactorCombination>();
     this.valueIds.forEach( value => {
-      combinations.push(new ISUFactorCombination( [value] , 1));
+      combinations.push(new ISUFactorCombination( [value] ));
     });
 
     if (!this.child) {
@@ -109,7 +110,7 @@ export class ISUFactor {
     combinations.forEach( combination => {
         childCombinations.forEach( childCombination => {
           const id = combination.id.concat(childCombination.id);
-          newCombinations.push(new ISUFactorCombination(id, 1));
+          newCombinations.push(new ISUFactorCombination(id));
         });
       }
     );
@@ -129,7 +130,7 @@ export class ISUFactor {
   get valueIds(): Array<CombinationId> {
     const nameValuePairs = [];
     for ( const valueName of this.valueNames ) {
-      nameValuePairs.push( new CombinationId(this.name, valueName));
+      nameValuePairs.push( new CombinationId(this.name, this.origin, valueName));
     }
     return nameValuePairs;
   }
