@@ -6,6 +6,9 @@ import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 import {PowerCurve} from './PowerCurve';
 import {RelativeGroupSizeTable} from "./RelativeGroupSizeTable";
+import {MarginalMeansTable} from "./MarginalMeansTable";
+import {ISUFactorCombination} from "./ISUFactorCombination";
+import {CombinationId} from "./CombinationId";
 
 export class StudyDesign {
   private _name: string;
@@ -62,6 +65,23 @@ export class StudyDesign {
     return tableIds;
   }
 
+  _getMarginalMeansTableIds() {
+    const tableIds = [];
+    this.isuFactors.outcomes.forEach( outcome => {
+      tableIds.push(new ISUFactorCombination(
+        [
+          new CombinationId(
+            outcome.name,
+            constants.HYPOTHESIS_ORIGIN.OUTCOME,
+          '',
+          0
+          )],
+        1
+      ));
+    });
+    return tableIds;
+  }
+
   generateGroupSizeTables() {
     const tables = Array<RelativeGroupSizeTable>();
     if (this.isuFactors.predictors.length > 0) {
@@ -81,6 +101,27 @@ export class StudyDesign {
         }
       });
     }
+    return tables;
+  }
+
+  generateMarginalMeansTables() {
+    const tables = Array<MarginalMeansTable>();
+
+    const tableIds = this._getMarginalMeansTableIds();
+    tableIds.forEach( tableId => {
+      const table = new MarginalMeansTable(tableId);
+      table.populateTable(this.isuFactors);
+      let pushed = false;
+      this.isuFactors.marginalMeans.forEach( existingTable => {
+        if (existingTable.compareSizeAndDimensions(table)) {
+          tables.push(existingTable);
+          pushed = true;
+        }
+      });
+      if (!pushed) {
+        tables.push(table);
+      }
+    });
     return tables;
   }
 
@@ -119,22 +160,11 @@ export class StudyDesign {
       }
     };
 
-    //TODO: Re instate dependency check
-    /**
     // Are marginal means factorName groups made up of hypothesis we have chosen
     if (!isNullOrUndefined(this.isuFactors.hypothesis) &&
       this.isuFactors.hypothesis.length > 0) {
-      const groups = this.isuFactors.marginalMeans
-      const combinations = this.isuFactors.generateCombinations(this.isuFactors.hypothesis);
-      if (groups.size !== combinations.size) {
-        this.isuFactors.marginalMeans = combinations;
-      }
-      groups.forEach(key => {
-        if (!combinations.has(key.name) ) {
-          this.isuFactors.marginalMeans = combinations;
-        }
-      });
-    }**/
+      this.isuFactors.marginalMeans = this.generateMarginalMeansTables();
+    }
 
     // Do all of our OutcomeRepMeasStDev still exist
     if (

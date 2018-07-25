@@ -1,53 +1,26 @@
-<form [formGroup]="marginalMeansForm" id="marginalMeansForm">
-  <div *ngFor="let table of tables; let i = index;">
-    <br>
-    <div *ngIf="table.groupName !== ''">
-      <h6>{{table.groupName}}</h6>
-      <hr>
-    </div>
-
-    <div *ngIf="table.hasCols()">
-      <h5>Define the marginal means for the components in your {{isuFactors.hypothesisName}} hypothesis in relation to {{outcome.name}}</h5>
-      <div class="row">
-        <div class="col col-md-auto"></div>
-        <div class="col col-md-auto">
-          <h6>{{table.colDimension}}</h6>
-        </div>
-      </div>
-    </div>
-
-    <div *ngIf="!table.hasCols()">
-      <h5>what is the mean value for {{outcome.name}}?</h5>
-    </div>
-
-    <div class="row">
-      <div class="col col-md-auto">
-        <div class="verticaltext">
-          <h6 class="verticaltext_content">{{table.rowDimension}}</h6>
-        </div>
-      </div>
+<div *ngIf="hasTable" id="tableControls">
+  <form [formGroup]="marginalMeansForm" id="marginalMeansForm">
+    <div class="container-fluid">
+      <h5>Tell us about the marginal means for you hypothesis in relation to outcome {{table.name}}</h5>
 
       <div class="col col-md-auto">
         <table>
           <thead>
           <tr>
             <th></th>
-            <th *ngFor="let col of table.cols;">{{col}}</th>
+            <th *ngFor="let col of table.table[0]">{{table.getColLabel(col)}}</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let row of table.rows;">
-            <td>{{row}}</td>
-            <td *ngFor="let col of table.cols;">
-              <input type="number" formControlName="{{table.getMember(row, col).name}}">
-            </td>
-            <td *ngIf="!table.hasCols()">
-              <input type="number" formControlName="{{table.getMember(row, null).name}}">
+          <tr *ngFor="let row of table.table;">
+            <td>{{table.getRowLabel(row[0])}}</td>
+            <td *ngFor="let col of row;">
+              <input type="number" formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}">
             </td>
           </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>

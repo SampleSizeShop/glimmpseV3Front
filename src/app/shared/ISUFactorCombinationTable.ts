@@ -1,6 +1,5 @@
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {isNullOrUndefined} from 'util';
-import {RelativeGroupSizeTable} from "./RelativeGroupSizeTable";
 
 export class ISUFactorCombinationTable {
   private _table: Array<Array<ISUFactorCombination>>;
@@ -87,5 +86,13 @@ export class ISUFactorCombinationTable {
 
   set tableId(value: ISUFactorCombination) {
     this._tableId = value;
+  }
+
+  get name(): string {
+    let name = '';
+    if (!isNullOrUndefined(this.tableId)) {
+      name = this.tableId.name;
+    }
+    return name;
   }
 }

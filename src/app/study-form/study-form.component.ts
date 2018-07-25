@@ -94,18 +94,16 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         && this.study.isuFactors.outcomes.length > 0) {
           this.setStage(16);
           this.parameters = [];
-          this.parameters.push(this.study.isuFactors.firstOutcome.name);
+          this.parameters.push(0);
         } else if (
           current === 16
           && !isNullOrUndefined(this.study.isuFactors.outcomes)
           && this.study.isuFactors.outcomes.length > 0) {
           this.log.info('15' + this.parameters[0])
-          const currentOutcomeName = this.parameters.pop();
-          const nextOutcome = this.study.isuFactors.getNextOutcome(currentOutcomeName);
-          this.parameters = [];
-          if (!isNullOrUndefined(nextOutcome)) {
-            // next outcome marginal means
-            this.parameters.push(nextOutcome.name);
+          const currentIndex = this.parameters.pop();
+          const nextTable = this.study.isuFactors.getNextMarginalMeansTable(currentIndex);
+          if (!isNullOrUndefined(nextTable)) {
+            this.parameters.push(currentIndex + 1);
             this.setStage(16);
           } else {
             this.setStage(17);
@@ -220,22 +218,22 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           current === 16
           && !isNullOrUndefined(this.study.isuFactors.outcomes)
           && this.study.isuFactors.outcomes.length > 0) {
-          const currentOutcomeName = this.parameters.pop();
-          const previousOutcome = this.study.isuFactors.getPreviousOutcome(currentOutcomeName);
+          const currentIndex = this.parameters.pop();
+          const previousIndex = currentIndex - 1;
           this.parameters = [];
-          if (!isNullOrUndefined(previousOutcome)) {
+          if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
             // next outcome marginal means
-            this.parameters.push(previousOutcome.name);
+            this.parameters.push(previousIndex);
             this.setStage(16);
           } else {
             this.setStage(15);
           }
         } else if (current === 17
           && !isNullOrUndefined(this.study.isuFactors.outcomes)
-          && this.study.isuFactors.outcomes.length > 0) {
+          && this.study.isuFactors.marginalMeans.length > 0) {
           this.setStage(16);
           this.parameters = [];
-          this.parameters.push(this.study.isuFactors.lastOutcome.name);
+          this.parameters.push(this.study.isuFactors.marginalMeans.length - 1);
         } else if (current === 20) {
           const currentMeasure = this.parameters.pop();
           const currentOutcome = this.parameters.pop();

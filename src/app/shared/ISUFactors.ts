@@ -1,6 +1,5 @@
 import {Predictor} from './Predictor';
 import {ISUFactorCombination} from './ISUFactorCombination';
-import {ISUFactorCombinationTable} from './ISUFactorCombinationTable';
 import {Outcome} from './Outcome';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
@@ -12,13 +11,12 @@ import {CorrelationMatrix} from './CorrelationMatrix';
 import {OutcomeRepMeasStDev} from './OutcomeRepMeasStDev';
 import {Group} from './Group';
 import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
-import {MarginalMean} from './MarginalMean';
-import {CombinationId} from "./CombinationId";
+import {MarginalMeansTable} from './MarginalMeansTable';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
   betweenIsuRelativeGroupSizes = new Array<RelativeGroupSizeTable>();
-  marginalMeans = new Array<MarginalMean>();
+  marginalMeans = new Array<MarginalMeansTable>();
   smallestGroupSize: number[] = [];
   outcomeCorrelationMatrix: CorrelationMatrix = new CorrelationMatrix();
   outcomeRepeatedMeasureStDevs = Array<OutcomeRepMeasStDev>();
@@ -27,7 +25,7 @@ export class ISUFactors {
     return {
         variables: this.variables,
         betweenIsuRelativeGroupSizes: this.betweenIsuRelativeGroupSizes,
-        marginalMeans: this.marginalMeansToArray(),
+        marginalMeans: '',
         smallestGroupSize: this.smallestGroupSize,
         outcomeCorrelationMatrix: this.outcomeCorrelationMatrix,
         outcomeRepeatedMeasureStDevs: this.outcomeRepeatedMeasureStDevs };
@@ -378,21 +376,10 @@ export class ISUFactors {
     return tableNames;
   }
 
-  //TODO: remove
-  marginalMeansToArray() {}
-
   get firstRelativeGroupSizeTable(): RelativeGroupSizeTable {
     let table: RelativeGroupSizeTable = null;
     if (!isNullOrUndefined(this.betweenIsuRelativeGroupSizes) && this.betweenIsuRelativeGroupSizes.length > 0) {
       table = this.betweenIsuRelativeGroupSizes[0];
-    }
-    return table;
-  }
-
-  get lastRelativeGroupSizeTable(): RelativeGroupSizeTable {
-    let table: RelativeGroupSizeTable = null;
-    if (!isNullOrUndefined(this.betweenIsuRelativeGroupSizes) && this.betweenIsuRelativeGroupSizes.length > 0) {
-      table = this.betweenIsuRelativeGroupSizes[this.betweenIsuRelativeGroupSizes.length -1];
     }
     return table;
   }
@@ -408,11 +395,19 @@ export class ISUFactors {
     return table
   }
 
-  getPreviousRelativeGroupSizeTable(index: number): RelativeGroupSizeTable {
-    let table: RelativeGroupSizeTable = null;
-    const nextIndex = index - 1;
-    if (nextIndex > 0) {
-      table = this.betweenIsuRelativeGroupSizes[nextIndex];
+  get firstMarginalMeansTable(): MarginalMeansTable {
+    let table: MarginalMeansTable = null;
+    if (!isNullOrUndefined(this.marginalMeans) && this.marginalMeans.length > 0) {
+      table = this.marginalMeans[0];
+    }
+    return table;
+  }
+
+  getNextMarginalMeansTable(index: number): MarginalMeansTable {
+    let table: MarginalMeansTable = null;
+    const nextIndex = index + 1;
+    if (nextIndex < this.marginalMeans.length) {
+      table = this.marginalMeans[nextIndex];
     } else {
       table = null;
     }
