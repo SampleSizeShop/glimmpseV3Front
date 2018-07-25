@@ -52,7 +52,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     let label = '';
     element.id.forEach( factor => {
       if (factor.factorType === constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR) {
-        label = factor.factorName + '-' + factor.value;
+        label = factor.factorName + ' : ' + factor.value;
       }
     });
     return label;
@@ -62,7 +62,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     let label = '';
     element.id.forEach( factor => {
       if (factor.factorType === constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE) {
-        label = factor.factorName + '-' + factor.value;
+        label = factor.factorName + ' : ' + factor.value;
       }
     });
     return label;
