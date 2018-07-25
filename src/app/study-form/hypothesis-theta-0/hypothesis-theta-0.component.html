@@ -1,19 +1,26 @@
-<p>
-  hypothesis-theta-0 works! a x b = {{a}} x {{b}}
-</p>
-
-<form [formGroup]="theta0Form" id="theta0Form">
-  <div class="container-fluid">
-    <div class="col col-md-auto">
-      <table>
-        <tbody>
+<div>
+  <h6>
+    Theta 0 has been set to a sensible default. If you really, really want to change it, know what it is and know what you're doing you can change it.
+  </h6>
+<div *ngIf="!visible">
+  <i class="material-icons" (click)="toggleVisible()" style="margin-top: 10px" id="addoutcome">add</i></div>
+</div>
+<div *ngIf="visible">
+  <i class="material-icons" (click)="toggleVisible()" style="margin-top: 10px" id="addoutcome">remove</i>
+  <form [formGroup]="theta0Form" id="theta0Form">
+    <div class="container-fluid">
+      <div class="col col-md-auto">
+        <table>
+          <tbody>
           <tr *ngFor="let row of isuFactors.theta0;">
             <td *ngFor="let col of row;">
               <input type="number" formControlName="{{isuFactors.theta0.indexOf(row)}}-{{row.indexOf(col)}}">
             </td>
           </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>
+

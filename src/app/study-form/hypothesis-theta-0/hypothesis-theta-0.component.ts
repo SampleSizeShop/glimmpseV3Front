@@ -15,10 +15,12 @@ export class HypothesisTheta0Component implements OnInit {
   private _isuFactors: ISUFactors;
   private _theta0Form: FormGroup;
   private _isuFactorsSubscription: Subscription;
+  private _visible: boolean;
 
   constructor(private _fb: FormBuilder, private study_service: StudyService) { }
 
   ngOnInit() {
+    this.visible = false;
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
@@ -62,6 +64,10 @@ export class HypothesisTheta0Component implements OnInit {
     return controlDefs;
   }
 
+  toggleVisible() {
+    this.visible = !this.visible;
+  }
+
   get isuFactors(): ISUFactors {
     return this._isuFactors;
   }
@@ -92,5 +98,13 @@ export class HypothesisTheta0Component implements OnInit {
 
   set fb(value: FormBuilder) {
     this._fb = value;
+  }
+
+  get visible(): boolean {
+    return this._visible;
+  }
+
+  set visible(value: boolean) {
+    this._visible = value;
   }
 }
