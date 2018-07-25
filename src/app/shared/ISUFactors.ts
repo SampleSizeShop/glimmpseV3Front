@@ -25,7 +25,7 @@ export class ISUFactors {
     return {
         variables: this.variables,
         betweenIsuRelativeGroupSizes: this.betweenIsuRelativeGroupSizes,
-        marginalMeans: this.marginalMeansToArray(),
+        marginalMeans: '',
         smallestGroupSize: this.smallestGroupSize,
         outcomeCorrelationMatrix: this.outcomeCorrelationMatrix,
         outcomeRepeatedMeasureStDevs: this.outcomeRepeatedMeasureStDevs };
@@ -376,21 +376,10 @@ export class ISUFactors {
     return tableNames;
   }
 
-  //TODO: remove
-  marginalMeansToArray() {}
-
   get firstRelativeGroupSizeTable(): RelativeGroupSizeTable {
     let table: RelativeGroupSizeTable = null;
     if (!isNullOrUndefined(this.betweenIsuRelativeGroupSizes) && this.betweenIsuRelativeGroupSizes.length > 0) {
       table = this.betweenIsuRelativeGroupSizes[0];
-    }
-    return table;
-  }
-
-  get lastRelativeGroupSizeTable(): RelativeGroupSizeTable {
-    let table: RelativeGroupSizeTable = null;
-    if (!isNullOrUndefined(this.betweenIsuRelativeGroupSizes) && this.betweenIsuRelativeGroupSizes.length > 0) {
-      table = this.betweenIsuRelativeGroupSizes[this.betweenIsuRelativeGroupSizes.length -1];
     }
     return table;
   }
@@ -406,11 +395,19 @@ export class ISUFactors {
     return table
   }
 
-  getPreviousRelativeGroupSizeTable(index: number): RelativeGroupSizeTable {
-    let table: RelativeGroupSizeTable = null;
-    const nextIndex = index - 1;
-    if (nextIndex > 0) {
-      table = this.betweenIsuRelativeGroupSizes[nextIndex];
+  get firstMarginalMeansTable(): MarginalMeansTable {
+    let table: MarginalMeansTable = null;
+    if (!isNullOrUndefined(this.marginalMeans) && this.marginalMeans.length > 0) {
+      table = this.marginalMeans[0];
+    }
+    return table;
+  }
+
+  getNextMarginalMeansTable(index: number): MarginalMeansTable {
+    let table: MarginalMeansTable = null;
+    const nextIndex = index + 1;
+    if (nextIndex < this.marginalMeans.length) {
+      table = this.marginalMeans[nextIndex];
     } else {
       table = null;
     }

@@ -12,12 +12,16 @@ describe('MarginalMeansTable', () => {
   const outcomeB = new Outcome('B');
   const predictor = new Predictor('P');
   predictor.valueNames = ['1', '2'];
+  predictor.inHypothesis = true;
   const predictor2 = new Predictor('Q');
   predictor2.valueNames = ['3', '4'];
+  predictor2.inHypothesis = true;
   const repeatedMeasure = new RepeatedMeasure('R');
   repeatedMeasure.valueNames = ['3' , '5', '7'];
+  repeatedMeasure.inHypothesis = true;
   const repeatedMeasure2 = new RepeatedMeasure('S');
   repeatedMeasure2.valueNames = ['2' , '4', '6'];
+  repeatedMeasure2.inHypothesis = true;
   const factors = new ISUFactors();
 
   const a = new CombinationId('A', constants.HYPOTHESIS_ORIGIN.OUTCOME, '', 0);

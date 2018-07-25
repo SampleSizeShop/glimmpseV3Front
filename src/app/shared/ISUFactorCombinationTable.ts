@@ -87,4 +87,12 @@ export class ISUFactorCombinationTable {
   set tableId(value: ISUFactorCombination) {
     this._tableId = value;
   }
+
+  get name(): string {
+    let name = '';
+    if (!isNullOrUndefined(this.tableId)) {
+      name = this.tableId.name;
+    }
+    return name;
+  }
 }
