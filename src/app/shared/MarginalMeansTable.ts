@@ -6,7 +6,7 @@ import {isNullOrUndefined} from 'util';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {constants} from './constants';
 import {Predictor} from './Predictor';
-import {ISUFactor} from "./ISUFactor";
+import {ISUFactor} from './ISUFactor';
 
 
 export class MarginalMeansTable extends ISUFactorCombinationTable {

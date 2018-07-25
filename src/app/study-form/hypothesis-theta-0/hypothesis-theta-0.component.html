@@ -1,3 +1,19 @@
 <p>
-  hypothesis-theta-0 works!
+  hypothesis-theta-0 works! a x b = {{a}} x {{b}}
 </p>
+
+<form [formGroup]="theta0Form" id="theta0Form">
+  <div class="container-fluid">
+    <div class="col col-md-auto">
+      <table>
+        <tbody>
+          <tr *ngFor="let row of isuFactors.theta0;">
+            <td *ngFor="let col of row;">
+              <input type="number" formControlName="{{isuFactors.theta0.indexOf(row)}}-{{row.indexOf(col)}}">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</form>

@@ -15,6 +15,7 @@ import {MarginalMeansTable} from './MarginalMeansTable';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
+  theta0 = [[0]];
   betweenIsuRelativeGroupSizes = new Array<RelativeGroupSizeTable>();
   marginalMeans = new Array<MarginalMeansTable>();
   smallestGroupSize: number[] = [];
