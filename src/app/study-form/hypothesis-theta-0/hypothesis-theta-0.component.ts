@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, DoCheck, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
@@ -10,7 +10,7 @@ import {isNullOrUndefined} from 'util';
   templateUrl: './hypothesis-theta-0.component.html',
   styleUrls: ['./hypothesis-theta-0.component.scss']
 })
-export class HypothesisTheta0Component implements OnInit {
+export class HypothesisTheta0Component implements OnInit, DoCheck {
 
   private _isuFactors: ISUFactors;
   private _theta0Form: FormGroup;
@@ -27,39 +27,33 @@ export class HypothesisTheta0Component implements OnInit {
     this.buildForm();
   }
 
-  buildForm() {
-    this.theta0Form = this.fb.group( {} );
-    this.updateFormControls();
+  ngDoCheck() {
+    this.updateTheta0();
+    this.study_service.updateIsuFactors(this.isuFactors);
   }
 
-  updateFormControls() {
-    const controlDefs = this.controlDefs;
-    this.theta0Form = this.fb.group(controlDefs);
-    if (!isNullOrUndefined(this.isuFactors.theta0)) {
-      let r = 0;
-      this.isuFactors.theta0.forEach( row => {
-        let c = 0;
-        row.forEach( col => {
+  buildForm() {
+    this.theta0Form = this.fb.group( this.controlDefs );
+  }
+
+  updateTheta0() {
+    if ( !isNullOrUndefined(this.isuFactors) ) {
+      this.isuFactors.theta0.forEach( (row, r) => {
+        row.forEach( (element, c) => {
           const name = r.toString() + '-' + c.toString();
-          this.theta0Form[name] = [col];
-          c = c + 1;
+          this.isuFactors.theta0[r][c] = this.theta0Form.get(name).value;
         });
-        r = r + 1;
       });
     }
   }
 
   get controlDefs() {
     const controlDefs = {};
-    let r = 0;
-    this.isuFactors.theta0.forEach(row => {
-      let c = 0;
-      row.forEach( col => {
+    this.isuFactors.theta0.forEach((row, r) => {
+      row.forEach( (col, c) => {
         const name = r.toString() + '-' + c.toString();
         controlDefs[name] = [col];
-        c++;
       });
-      r++;
     });
     return controlDefs;
   }
