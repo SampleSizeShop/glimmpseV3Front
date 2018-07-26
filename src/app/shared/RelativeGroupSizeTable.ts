@@ -92,8 +92,8 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
   }
 
   compareSizeAndDimensions(other: RelativeGroupSizeTable) {
-    if (
-      this.compareDimensions(other)
+    if (!isNullOrUndefined(other)
+      && this.compareDimensions(other)
       && this.compareTableIds(other)
       && this.compareTableSize(other)
     ) {

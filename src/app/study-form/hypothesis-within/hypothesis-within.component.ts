@@ -82,7 +82,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   }
 
   advancedOptions(name: string) {
-    this.router.navigate(['design', constants.STAGES[14], name])
+    this.router.navigate(['design', constants.STAGES.HYPOTHESIS_WITHIN, name])
   }
 
   setNature(name: string, nature: string) {
