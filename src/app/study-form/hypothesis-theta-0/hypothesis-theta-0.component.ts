@@ -38,12 +38,15 @@ export class HypothesisTheta0Component implements OnInit, DoCheck {
 
   updateTheta0() {
     if ( !isNullOrUndefined(this.isuFactors) ) {
+      const thetaArray = [];
       this.isuFactors.theta0.forEach( (row, r) => {
+        thetaArray.push([]);
         row.forEach( (element, c) => {
           const name = r.toString() + '-' + c.toString();
-          this.isuFactors.theta0[r][c] = this.theta0Form.get(name).value;
+          thetaArray[r].push(this.theta0Form.controls[name].value);
         });
       });
+      this.isuFactors.theta0 = thetaArray;
     }
   }
 
