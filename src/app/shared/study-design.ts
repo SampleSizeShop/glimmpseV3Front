@@ -5,10 +5,10 @@ import {isNullOrUndefined} from 'util';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 import {PowerCurve} from './PowerCurve';
-import {RelativeGroupSizeTable} from "./RelativeGroupSizeTable";
-import {MarginalMeansTable} from "./MarginalMeansTable";
-import {ISUFactorCombination} from "./ISUFactorCombination";
-import {CombinationId} from "./CombinationId";
+import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
+import {MarginalMeansTable} from './MarginalMeansTable';
+import {ISUFactorCombination} from './ISUFactorCombination';
+import {CombinationId} from './CombinationId';
 
 export class StudyDesign {
   private _name: string;
@@ -100,6 +100,11 @@ export class StudyDesign {
           tables.push(table);
         }
       });
+    } else {
+      const interceptId = new CombinationId('Intercept', 'Intercept' ,  'Intercept');
+      const intercept = new ISUFactorCombination([interceptId]);
+      const interceptTable = new RelativeGroupSizeTable(intercept, [[intercept]]);
+      tables.push(interceptTable);
     }
     return tables;
   }
@@ -166,6 +171,8 @@ export class StudyDesign {
         if (groups.length !== combinations.length) {
           this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables();
         }
+    } else if (isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes) || this.isuFactors.betweenIsuRelativeGroupSizes.length < 1) {
+      this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables()
     }
 
     // is our hypothesis effect made up of isuFactors we have defined

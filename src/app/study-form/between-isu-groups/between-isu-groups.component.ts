@@ -45,7 +45,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck() {
-    if (this.hasTable) {
+    if (this.isIntercept) {
       this.updateCombinations();
       this.study_service.updateIsuFactors(this.isuFactors);
     }
@@ -91,7 +91,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   updateGroupsizeFormControls() {
-    if (!this.hasTable) {
+    if (!this.isIntercept) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
       const controlDefs = this._table.controlDefs;
@@ -175,11 +175,11 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     return name;
   }
 
-  get hasTable(): boolean {
-    let hasTable = true;
-    if (isNullOrUndefined(this.table)) {
-      hasTable = false;
+  get isIntercept(): boolean {
+    let isIntercept = false;
+    if (!isNullOrUndefined(this.table) && this.table.tableId.name === 'InterceptIntercept') {
+      isIntercept = true;
     }
-    return hasTable;
+    return isIntercept;
   }
 }
