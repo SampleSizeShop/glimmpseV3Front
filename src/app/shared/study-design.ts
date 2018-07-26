@@ -5,10 +5,10 @@ import {isNullOrUndefined} from 'util';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 import {PowerCurve} from './PowerCurve';
-import {RelativeGroupSizeTable} from "./RelativeGroupSizeTable";
-import {MarginalMeansTable} from "./MarginalMeansTable";
-import {ISUFactorCombination} from "./ISUFactorCombination";
-import {CombinationId} from "./CombinationId";
+import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
+import {MarginalMeansTable} from './MarginalMeansTable';
+import {ISUFactorCombination} from './ISUFactorCombination';
+import {CombinationId} from './CombinationId';
 
 export class StudyDesign {
   private _name: string;
@@ -100,6 +100,11 @@ export class StudyDesign {
           tables.push(table);
         }
       });
+    } else {
+      const interceptId = new CombinationId('Intercept', 'Intercept' ,  'Intercept');
+      const intercept = new ISUFactorCombination([interceptId]);
+      const interceptTable = new RelativeGroupSizeTable(intercept, [[intercept]]);
+      tables.push(interceptTable);
     }
     return tables;
   }
@@ -125,6 +130,38 @@ export class StudyDesign {
     return tables;
   }
 
+  generateDefaultTheta0() {
+    const theta0Array = [];
+    for (let i = 0; i < this.a; i++) {
+      theta0Array.push(this.theta0DefaultRow);
+    }
+    return theta0Array
+  }
+
+  get theta0DefaultRow(): Array<number> {
+    const row = [];
+    for (let i = 0; i < this.b; i++) {
+      row.push(0);
+    }
+    return row;
+  }
+
+  get a() {
+    let a = 1;
+    this.isuFactors.predictors.forEach(predictor => {
+      a = a * (predictor.valueNames.length -1);
+    });
+    return a;
+  }
+
+  get b() {
+    let b = this.isuFactors.outcomes.length;
+    this.isuFactors.repeatedMeasures.forEach(measure => {
+      b = b * measure.valueNames.length;
+    });
+    return b;
+  }
+
   checkDependencies() {
     // Are factorName groups made up of predictors we have defined
     if (!isNullOrUndefined(this.isuFactors.predictors) &&
@@ -134,6 +171,8 @@ export class StudyDesign {
         if (groups.length !== combinations.length) {
           this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables();
         }
+    } else if (isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes) || this.isuFactors.betweenIsuRelativeGroupSizes.length < 1) {
+      this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables()
     }
 
     // is our hypothesis effect made up of isuFactors we have defined
@@ -164,6 +203,10 @@ export class StudyDesign {
     if (!isNullOrUndefined(this.isuFactors.hypothesis) &&
       this.isuFactors.hypothesis.length > 0) {
       this.isuFactors.marginalMeans = this.generateMarginalMeansTables();
+    }
+
+    if (this._isuFactors.theta0.length !== this.a || this._isuFactors.theta0[0].length !== this.b) {
+      this._isuFactors.theta0 = this.generateDefaultTheta0();
     }
 
     // Do all of our OutcomeRepMeasStDev still exist

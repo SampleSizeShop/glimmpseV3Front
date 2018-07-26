@@ -47,6 +47,7 @@ import {PowerCurveGuard} from '../shared/power-curve-guard.service';
 import {ConfidenceIntervalGuard} from '../shared/ci-guard.service';
 import {MarginalMeansGuard} from './parameters-marginal-means/marginal-means-guard.service';
 import {BetweenIsuSmallestGroupComponent} from "./between-isu-smallest-group/between-isu-smallest-group.component";
+import {HypothesisTheta0Component} from "./hypothesis-theta-0/hypothesis-theta-0.component";
 
 const studyFormRoutes: Routes = [
       {
@@ -78,98 +79,99 @@ const studyFormRoutes: Routes = [
             {path: constants.STAGES[13], component: HypothesisEffectChoiceComponent},
             {path: constants.STAGES[14], component: HypothesisBetweenComponent},
             {path: constants.STAGES[15], component: HypothesisWithinComponent},
+            {path: constants.STAGES[16], component: HypothesisTheta0Component},
             {
-              path: constants.STAGES[16]  + '/:index',
+              path: constants.STAGES[17]  + '/:index',
               component: ParametersMarginalMeansComponent,
               canActivate: [ MarginalMeansGuard ]
             },
             {
-              path: constants.STAGES[17],
+              path: constants.STAGES[18],
               component: ParametersScaleFactorComponent,
               canActivate: [MarginalMeansGuard]},
-            {path: constants.STAGES[18], component: ParametersStandardDeviationComponent},
-            {path: constants.STAGES[18], component: ParametersOutcomeCorrelationsComponent},
+            {path: constants.STAGES[19], component: ParametersStandardDeviationComponent},
+            {path: constants.STAGES[20], component: ParametersOutcomeCorrelationsComponent},
             {
-              path: constants.STAGES[20] + '/:outcome/:measure',
+              path: constants.STAGES[21] + '/:outcome/:measure',
               component: ParametersRepeatedMeasureOutcomeStDevComponent,
               canActivate: [ RepeatedMeasureGuard ] },
-            {
-              path: constants.STAGES[20],
-              component: ParametersRepeatedMeasureOutcomeStDevComponent,
-              canActivate: [ RepeatedMeasureGuard ] },
-            {
-              path: constants.STAGES[21] + '/:measure',
-              component: ParametersRepeatedMeasureCorrelationsComponent,
-              canActivate: [ RepeatedMeasureGuard ]
-            },
             {
               path: constants.STAGES[21],
+              component: ParametersRepeatedMeasureOutcomeStDevComponent,
+              canActivate: [ RepeatedMeasureGuard ] },
+            {
+              path: constants.STAGES[22] + '/:measure',
               component: ParametersRepeatedMeasureCorrelationsComponent,
               canActivate: [ RepeatedMeasureGuard ]
             },
             {
               path: constants.STAGES[22],
+              component: ParametersRepeatedMeasureCorrelationsComponent,
+              canActivate: [ RepeatedMeasureGuard ]
+            },
+            {
+              path: constants.STAGES[23],
               component: ParametersIntraClassCorrelationComponent,
               canActivate: [ ClusterGuard ]
             },
             {
-              path: constants.STAGES[23],
+              path: constants.STAGES[24],
               component: ParametersGaussianCovariateVarianceComponent,
               canActivate: [ GaussianCovariateGuard ]
             },
             {
-              path: constants.STAGES[24],
+              path: constants.STAGES[25],
               component: ParametersGaussianCovariateCorrelationComponent,
               canActivate: [ GaussianCovariateGuard ]
             },
-            {path: constants.STAGES[25], component: ParametersVarianceScaleFactorsComponent},
+            {path: constants.STAGES[26], component: ParametersVarianceScaleFactorsComponent},
             {
-              path: constants.STAGES[26],
+              path: constants.STAGES[27],
               component: OptionalSpecsPowerMethodComponent,
               canActivate: [ GaussianCovariateGuard ]
             },
-              {path: constants.STAGES[27], component: OptionalSpecsPowerCurveChoiceComponent},
+              {path: constants.STAGES[28], component: OptionalSpecsPowerCurveChoiceComponent},
               {
-                path: constants.STAGES[28],
+                path: constants.STAGES[29],
                 component: OptionalSpecsPowerCurveAxesComponent,
                 canActivate: [ PowerCurveGuard ]
               },
               {
-                path: constants.STAGES[29],
+                path: constants.STAGES[30],
                 component: OptionalSpecsPowerCurveDataSeriesComponent,
                 canActivate: [ PowerCurveGuard ]
               },
             {
-              path: constants.STAGES[30],
+              path: constants.STAGES[31],
               component: OptionalSpecsCiChoiceComponent,
               canActivate: [ PowerCurveGuard ]
             },
             {
-              path: constants.STAGES[31],
+              path: constants.STAGES[32],
               component: OptionalSpecsCiAssumptionsComponent,
               canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
-              path: constants.STAGES[32],
+              path: constants.STAGES[33],
               component: OptionalSpecsCiLowerTailComponent,
               canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
-              path: constants.STAGES[33],
+              path: constants.STAGES[34],
               component: OptionalSpecsCiUpperTailComponent,
               canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
-              path: constants.STAGES[34],
+              path: constants.STAGES[35],
               component: OptionalSpecsCiBetaSampleSizeComponent,
               canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
-              path: constants.STAGES[35],
+              path: constants.STAGES[36],
               component: OptionalSpecsCiBetaDesignMatrixRankComponent,
               canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
-            {path: constants.STAGES[36], component: CalculateComponent}
+            {path: constants.STAGES[37], component: CalculateComponent}
             ]
           }
         ]
