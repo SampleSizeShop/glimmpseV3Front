@@ -190,7 +190,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       if (stage) {
         current = stage;
       }
-      if (current > 1) {
+      if (current > 0) {
         if (current === this.stages.BETWEEN_ISU_GROUPS
           && (isNullOrUndefined(this.study.isuFactors)
             || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
@@ -294,7 +294,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
    } else {
      this.hasNext = false;
    }
-   if ( current > 1 ) {
+   if ( current > 0 ) {
      this.hasBack = true;
    } else {
      this.hasBack = false;

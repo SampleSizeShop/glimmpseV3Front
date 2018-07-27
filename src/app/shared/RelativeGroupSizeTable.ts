@@ -106,18 +106,22 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
   compareDimensions(other: RelativeGroupSizeTable) {
     let i = 0;
     let compare = true;
-    this.dimensions.forEach( id => {
-      if (
-        !isNullOrUndefined(other.dimensions[i]
-        && other.dimensions[i].equals(id)
-        )
-      ) {
-        // do nothing
-      } else {
-        compare = false
-      }
-      i = i++;
-    });
+    if (isNullOrUndefined(this.dimensions)) {
+      compare = false;
+    } else {
+      this.dimensions.forEach( id => {
+        if (
+          !isNullOrUndefined(other.dimensions[i]
+            && other.dimensions[i].equals(id)
+          )
+        ) {
+          // do nothing
+        } else {
+          compare = false
+        }
+        i = i++;
+      });
+    }
     return compare;
   }
 }
