@@ -98,7 +98,7 @@ describe('HypothesisEffectChoiceComponent', () => {
     expect(component.possibleEffects.length).toEqual(4);
   });
 
-  it('should return 1 distinct effect + grand mean', () => {
+  it('should return 1 distinct effect + grand mean-1', () => {
     const A = new Outcome('A');
     const B = new Predictor('B');
     component.variables.push(A, B);
@@ -107,7 +107,7 @@ describe('HypothesisEffectChoiceComponent', () => {
     expect(component.possibleEffects.length).toEqual(2);
   });
 
-  it('should return 1 distinct effect + grand mean', () => {
+  it('should return 1 distinct effect + grand mean-2', () => {
     const A = new Cluster('A');
     const B = new RepeatedMeasure('B');
     component.variables.push(A, B);
