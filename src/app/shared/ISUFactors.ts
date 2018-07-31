@@ -26,7 +26,7 @@ export class ISUFactors {
     return {
         variables: this.variables,
         betweenIsuRelativeGroupSizes: this.betweenIsuRelativeGroupSizes,
-        marginalMeans: '',
+        marginalMeans: this.marginalMeans,
         smallestGroupSize: this.smallestGroupSize,
         outcomeCorrelationMatrix: this.outcomeCorrelationMatrix,
         outcomeRepeatedMeasureStDevs: this.outcomeRepeatedMeasureStDevs };
