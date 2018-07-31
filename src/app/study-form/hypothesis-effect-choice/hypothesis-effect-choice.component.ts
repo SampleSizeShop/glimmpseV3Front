@@ -58,12 +58,12 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     const grandMean = new HypothesisEffect();
     this.addEffectToList(grandMean);
     this.variables.forEach( variable =>  {
-      if (variable.origin !== constants.HYPOTHESIS_ORIGIN.OUTCOME) {
-        let vars = this.deepCopyList(this.variables);
-        vars = this.removeOutcomes(vars);
-        const effect = new HypothesisEffect();
-        effect.addVariable(variable);
-        this.generateCombinations(effect, vars);
+      if (variable.origin !== constants.HYPOTHESIS_ORIGIN.OUTCOME && variable.origin !== constants.HYPOTHESIS_ORIGIN.CLUSTER) {
+          let vars = this.deepCopyList(this.variables);
+          vars = this.removeOutcomes(vars);
+          const effect = new HypothesisEffect();
+          effect.addVariable(variable);
+          this.generateCombinations(effect, vars);
       }
     });
     this.possibleEffects.sort(this.compare);
@@ -72,7 +72,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   removeOutcomes(vars: Array<ISUFactor>) {
     const toDelete = [];
     vars.forEach(v => {
-      if (v.origin === constants.HYPOTHESIS_ORIGIN.OUTCOME) {
+      if (v.origin === constants.HYPOTHESIS_ORIGIN.OUTCOME || v.origin === constants.HYPOTHESIS_ORIGIN.CLUSTER) {
         toDelete.push(this.variables.indexOf(v));
       }
     });
