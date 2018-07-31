@@ -2,6 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisEffectChoiceComponent } from './hypothesis-effect-choice.component';
 import {ISUFactor} from '../../shared/ISUFactor';
+import {Outcome} from '../../shared/Outcome';
+import {Cluster} from '../../shared/Cluster';
+import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
+import {Predictor} from '../../shared/Predictor';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
 import {StudyService} from '../study.service';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -79,7 +83,53 @@ describe('HypothesisEffectChoiceComponent', () => {
     const A = new ISUFactor('A', constants.HYPOTHESIS_NATURE.BETWEEN);
     component.variables.push(A);
     component.determinePossibleEffects();
+
     expect(component.possibleEffects.length).toEqual(2);
+  });
+
+  it('should return 3 distinct effects + grand mean', () => {
+    const A = new Outcome('A');
+    const B = new RepeatedMeasure('B');
+    const C = new Predictor('C');
+    const D = new Cluster('D');
+    component.variables.push(A, B, C, D);
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects.length).toEqual(4);
+  });
+
+  it('should return 1 distinct effect + grand mean-1', () => {
+    const A = new Outcome('A');
+    const B = new Predictor('B');
+    component.variables.push(A, B);
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects.length).toEqual(2);
+  });
+
+  it('should return 1 distinct effect + grand mean-2', () => {
+    const A = new Cluster('A');
+    const B = new RepeatedMeasure('B');
+    component.variables.push(A, B);
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects.length).toEqual(2);
+  });
+
+  it('should return 0 distinct effect + grand mean', () => {
+    const A = new Cluster('A');
+    component.variables.push(A);
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects.length).toEqual(1);
+  });
+
+  it('should return 0 distinct effect + grand mean', () => {
+    const A = new Outcome('A');
+    component.variables.push(A);
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects.length).toEqual(1);
   });
 
   it('should return 0 distinct effects', () => {
