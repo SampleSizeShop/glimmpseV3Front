@@ -1,12 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisTheta0Component } from './hypothesis-theta-0.component';
-import {ActivatedRouteStub} from "../../../testing/router-stubs";
-import {MockBackend} from "@angular/http/testing";
-import {ActivatedRoute} from "@angular/router";
-import {StudyService} from "../study.service";
-import {HttpClient} from "@angular/common/http";
-import {ReactiveFormsModule} from "@angular/forms";
+import {ActivatedRouteStub} from '../../../testing/router-stubs';
+import {MockBackend} from '@angular/http/testing';
+import {ActivatedRoute} from '@angular/router';
+import {StudyService} from '../study.service';
+import {HttpClient} from '@angular/common/http';
+import {ReactiveFormsModule} from '@angular/forms';
+import {constants} from '../../shared/constants';
 
 describe('HypothesisTheta0Component', () => {
   let component: HypothesisTheta0Component;
@@ -34,6 +35,9 @@ describe('HypothesisTheta0Component', () => {
   });
 
   it('should create', () => {
+    const a  = constants.STAGES;
+    const names = []
+    Object.keys(a).forEach( key => {names.push(key)});
     expect(component).toBeTruthy();
   });
 });

@@ -169,7 +169,7 @@ export class StudyService {
 
   constructor(private  http: HttpClient) {
     this._stages = constants.STAGES;
-    this._stage = 1;
+    this._stage = 0;
   }
 
   get stage(): number {
