@@ -1,3 +1,8 @@
 <h5>Review your study design and calculate stuff!! :)</h5>
 <br>
 <div id="reviewDataModel">{{outputString}}</div>
+
+<div class="col-8">
+  <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" >Calculate!</button>
+</div>
+<div>{{resultString | json}}</div>
