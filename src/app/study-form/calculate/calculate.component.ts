@@ -14,7 +14,7 @@ export class CalculateComponent implements OnInit {
   private _studyDesign: StudyDesign;
   private _studySubscription: Subscription;
   private _outputString: string;
-  private _resultString: string;
+  private _resultString;
 
   constructor(private study_service: StudyService, private http: HttpClient) {
     this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
@@ -36,7 +36,7 @@ export class CalculateComponent implements OnInit {
     this.http.post(
       'http://127.0.0.1:5000/api/calculate',
       output,
-      this.jsonHeader()).toPromise().then(response => this.resultString = response as string).catch(this.handleError);
+      this.jsonHeader()).toPromise().then(response => this.resultString = response).catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
@@ -47,6 +47,26 @@ export class CalculateComponent implements OnInit {
   private jsonHeader() {
     const header = {headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
     return header;
+  }
+
+  toTex(matrix: Array<Array<number>>): string {
+    let texString = '$\\begin{bmatrix}';
+    if (isNullOrUndefined(matrix)) {
+      texString = texString + '\\\\';
+    } else {
+      matrix.forEach(row => {
+        row.forEach( col => {
+          texString = texString + col + ' & '
+        });
+        texString = texString.slice(0, texString.length - 2) + '\\\\';
+      });
+    }
+    texString = texString.slice(0, texString.length - 2) + '\\end{bmatrix}$';
+    return texString;
+  }
+
+  get hasResults(): boolean {
+    return !isNullOrUndefined(this.resultString)
   }
 
   get outputString(): string {
@@ -65,11 +85,11 @@ export class CalculateComponent implements OnInit {
     this._studySubscription = value;
   }
 
-  get resultString(): string {
+  get resultString() {
     return this._resultString;
   }
 
-  set resultString(value: string) {
+  set resultString(value) {
     this._resultString = value;
   }
 }
