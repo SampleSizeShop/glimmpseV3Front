@@ -4,6 +4,7 @@ import { CalculateComponent } from './calculate.component';
 import {StudyService} from '../study.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
+import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 
 describe('CalculateComponent', () => {
   let component: CalculateComponent;
@@ -11,7 +12,9 @@ describe('CalculateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CalculateComponent ],
+      declarations: [
+        CalculateComponent,
+        MathJaxDirective],
       providers: [ StudyService,
       {provide: HttpClient, useClass: MockBackend}]
     })

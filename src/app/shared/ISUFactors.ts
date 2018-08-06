@@ -28,6 +28,7 @@ export class ISUFactors {
         betweenIsuRelativeGroupSizes: this.betweenIsuRelativeGroupSizes,
         marginalMeans: this.marginalMeans,
         smallestGroupSize: this.smallestGroupSize,
+        theta0: this.theta0,
         outcomeCorrelationMatrix: this.outcomeCorrelationMatrix,
         outcomeRepeatedMeasureStDevs: this.outcomeRepeatedMeasureStDevs };
   }
