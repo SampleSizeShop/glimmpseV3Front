@@ -1,3 +1,70 @@
 <h5>Review your study design and calculate stuff!! :)</h5>
 <br>
 <div id="reviewDataModel">{{outputString}}</div>
+
+<div class="col-8">
+  <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" >Calculate!</button>
+</div>
+<div *ngIf="hasResults">
+  <div>{{resultString | json}}</div>
+  <tr>
+    <td><h6>Power</h6></td>
+    <td>{{resultString.power}}</td>
+  </tr>
+  <tr>
+    <td><h6>es X</h6></td>
+    <td><div [mathJaxExpr]="toTex(resultString.model.essence_design_matrix)"></div></td>
+  </tr>
+  <tr>
+    <td><h6>rep n</h6></td>
+    <td>{{resultString.model.repeated_rows_in_design_matrix}}</td>
+  </tr>
+  <tr>
+    <td><h6>Hypothesis Beta</h6></td>
+    <td><div [mathJaxExpr]="toTex(resultString.model.hypothesis_beta)"></div></td>
+  </tr>
+  <tr>
+    <td><h6>C</h6></td>
+    <td><div [mathJaxExpr]="toTex(resultString.model.c_matrix)"></div></td>
+  </tr>
+  <tr>
+    <td><h6>U</h6></td>
+    <td><div [mathJaxExpr]="toTex(resultString.model.u_matrix)"></div></td>
+  </tr>
+  <tr>
+    <td><h6>Sigma Star</h6></td>
+    <td><div [mathJaxExpr]="toTex(resultString.model.sigma_star)"></div></td>
+  </tr>
+  <tr>
+    <td><h6>Theta zero</h6></td>
+    <td><div [mathJaxExpr]="toTex(resultString.model.theta_zero)"></div></td>
+  </tr>
+  <tr>
+    <td><h6>Alpha</h6></td>
+    <td>{{resultString.model.alpha}}</td>
+  </tr>
+  <tr>
+    <td><h6>total N</h6></td>
+    <td>{{resultString.model.total_n}}</td>
+  </tr>
+  <tr>
+    <td><h6>Theta</h6></td>
+    <td><div [mathJaxExpr]="toTex(resultString.model.theta)"></div></td>
+  </tr>
+  <tr>
+    <td><h6>M</h6></td>
+    <td><div [mathJaxExpr]="toTex(resultString.model.m)"></div></td>
+  </tr>
+  <tr>
+    <td><h6>NuE</h6></td>
+    <td>{{resultString.model.nu_e}}</td>
+  </tr>
+  <tr>
+    <td><h6>hypothesis sums squares</h6></td>
+    <td>{{resultString.model.hypothesis_sum_square}}</td>
+  </tr>
+  <tr>
+    <td><h6>Error sum squares</h6></td>
+    <td>{{resultString.model.error_sum_square}}</td>
+  </tr>
+</div>
