@@ -62,7 +62,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     let label = '';
     element.id.forEach( factor => {
       if (factor.factorType === constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE) {
-        label = factor.factorName + ' : ' + factor.value;
+        label = label + factor.factorName + ' : ' + factor.value;
       }
     });
     return label;
@@ -85,7 +85,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     const row = new Array<ISUFactorCombination>();
     if (colIds.length > 0) {
       colIds.forEach(col => {
-        const id = [this.tableId.id[0]].push(rowId).push(col)
+        const id = [this.tableId.id[0]].concat(rowId, col)
         row.push( new ISUFactorCombination(id, 1))
       })
     } else {
