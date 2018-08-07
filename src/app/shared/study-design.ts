@@ -157,11 +157,13 @@ export class StudyDesign {
 
   get b() {
     let b = this.isuFactors.outcomes.length;
+    let c = 0
     this.isuFactors.repeatedMeasures.forEach(measure => {
       if (measure.inHypothesis) {
-        b = b * measure.valueNames.length;
+        c = c + 1;
       }
     });
+    b = b * c
     return b;
   }
 
