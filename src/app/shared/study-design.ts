@@ -149,7 +149,8 @@ export class StudyDesign {
   get a() {
     let a = 1;
     this.isuFactors.predictors.forEach(predictor => {
-      a = a * (predictor.valueNames.length -1);
+      if (predictor.inHypothesis) {a = a * (predictor.valueNames.length - 1);
+      }
     });
     return a;
   }
@@ -157,7 +158,9 @@ export class StudyDesign {
   get b() {
     let b = this.isuFactors.outcomes.length;
     this.isuFactors.repeatedMeasures.forEach(measure => {
-      b = b * measure.valueNames.length;
+      if (measure.inHypothesis) {
+        b = b * measure.valueNames.length;
+      }
     });
     return b;
   }
