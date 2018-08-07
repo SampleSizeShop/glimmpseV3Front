@@ -163,7 +163,9 @@ export class StudyDesign {
         c = c + 1;
       }
     });
-    b = b * c
+    if (c > 0) {
+      b = b * c
+    }
     return b;
   }
 
