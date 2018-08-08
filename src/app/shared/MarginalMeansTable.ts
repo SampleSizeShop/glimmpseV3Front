@@ -16,13 +16,14 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
 
   populateTable(factors: ISUFactors) {
     this.table = [];
-    const colIds = this.getColumnIds(factors.repeatedMeasures);
-    if (this._containsPredictor(factors.hypothesis)) {
-      this.getRows(factors.predictors, colIds);
+    const repMeasuresInHypothesis = factors.repeatedMeasures.filter( measure => measure.inHypothesis === true);
+    const predictorsInHypothesis = factors.predictors.filter( predictor => predictor.inHypothesis === true );
+    const colIds = this.getColumnIds(repMeasuresInHypothesis);
+    if (predictorsInHypothesis.length > 0) {
+      this.getRows(predictorsInHypothesis, colIds);
     } else {
       this.table.push(this.getRow(new CombinationId('', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '', 0), colIds));
     }
-    const a = 1;
   }
 
   _containsPredictor(factors: Array<ISUFactor>) {
@@ -133,5 +134,13 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     factorsWithChildrenAssigned.push(parent);
     factorList = factorsWithChildrenAssigned;
     return factorList;
+  }
+
+  get size() {
+    let size = null;
+    if (!isNullOrUndefined(this.table)) {
+      size = this.table.length * this.table[0].length;
+    }
+    return size;
   }
 }

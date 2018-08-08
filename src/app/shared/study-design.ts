@@ -207,8 +207,7 @@ export class StudyDesign {
     };
 
     // Are marginal means factorName groups made up of hypothesis we have chosen
-    if (!isNullOrUndefined(this.isuFactors.hypothesis) &&
-      this.isuFactors.hypothesis.length > 0) {
+    if (!isNullOrUndefined(this.isuFactors.hypothesis)) {
       this.isuFactors.marginalMeans = this.generateMarginalMeansTables();
     }
 
