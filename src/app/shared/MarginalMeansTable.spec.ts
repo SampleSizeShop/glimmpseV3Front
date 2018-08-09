@@ -44,10 +44,10 @@ describe('MarginalMeansTable', () => {
   it('should correctly populate the marginal means table', () => {
     factors.variables = [outcomeA, outcomeB, repeatedMeasure, repeatedMeasure2, predictor, predictor2];
     const expectedTable = [
-      [new ISUFactorCombination([a, r3, p1]), new ISUFactorCombination([a, r5, p1]), new ISUFactorCombination([a, r7, p1]), new ISUFactorCombination([a, s2, p1]), new ISUFactorCombination([a, s4, p1]), new ISUFactorCombination([a, s6, p1])],
-      [new ISUFactorCombination([a, r3, p2]), new ISUFactorCombination([a, r5, p2]), new ISUFactorCombination([a, r7, p2]), new ISUFactorCombination([a, s2, p2]), new ISUFactorCombination([a, s4, p2]), new ISUFactorCombination([a, s6, p2])],
-      [new ISUFactorCombination([a, r3, q1]), new ISUFactorCombination([a, r5, q1]), new ISUFactorCombination([a, r7, q1]), new ISUFactorCombination([a, s2, q1]), new ISUFactorCombination([a, s4, q1]), new ISUFactorCombination([a, s6, q1])],
-      [new ISUFactorCombination([a, r3, q2]), new ISUFactorCombination([a, r5, q2]), new ISUFactorCombination([a, r7, q2]), new ISUFactorCombination([a, s2, q2]), new ISUFactorCombination([a, s4, q2]), new ISUFactorCombination([a, s6, q2])],
+      [new ISUFactorCombination([a, r3, s2, p1, q1]), new ISUFactorCombination([a, r3, s4, p1, q1]), new ISUFactorCombination([a, r3, s6, p1, q1]), new ISUFactorCombination([a, r5, s2, p1, q1]), new ISUFactorCombination([a, r5, s4, p1, q1]), new ISUFactorCombination([a, r5, s6, p1, q1]), new ISUFactorCombination([a, r7, s2, p1, q1]), new ISUFactorCombination([a, r7, s4, p1, q1]), new ISUFactorCombination([a, r7, s6, p1, q1]),],
+      [new ISUFactorCombination([a, r3, s2, p1, q2]), new ISUFactorCombination([a, r3, s4, p1, q2]), new ISUFactorCombination([a, r3, s6, p1, q2]), new ISUFactorCombination([a, r5, s2, p1, q2]), new ISUFactorCombination([a, r5, s4, p1, q2]), new ISUFactorCombination([a, r5, s6, p1, q2]), new ISUFactorCombination([a, r7, s2, p1, q2]), new ISUFactorCombination([a, r7, s4, p1, q2]), new ISUFactorCombination([a, r7, s6, p1, q2]),],
+      [new ISUFactorCombination([a, r3, s2, p2, q1]), new ISUFactorCombination([a, r3, s4, p2, q1]), new ISUFactorCombination([a, r3, s6, p2, q1]), new ISUFactorCombination([a, r5, s2, p2, q1]), new ISUFactorCombination([a, r5, s4, p2, q1]), new ISUFactorCombination([a, r5, s6, p2, q1]), new ISUFactorCombination([a, r7, s2, p2, q1]), new ISUFactorCombination([a, r7, s4, p2, q1]), new ISUFactorCombination([a, r7, s6, p2, q1]),],
+      [new ISUFactorCombination([a, r3, s2, p2, q2]), new ISUFactorCombination([a, r3, s4, p2, q2]), new ISUFactorCombination([a, r3, s6, p2, q2]), new ISUFactorCombination([a, r5, s2, p2, q2]), new ISUFactorCombination([a, r5, s4, p2, q2]), new ISUFactorCombination([a, r5, s6, p2, q2]), new ISUFactorCombination([a, r7, s2, p2, q2]), new ISUFactorCombination([a, r7, s4, p2, q2]), new ISUFactorCombination([a, r7, s6, p2, q2]),]
     ];
     const expected = new MarginalMeansTable(new ISUFactorCombination([a]), expectedTable);
     const actual = new MarginalMeansTable(new ISUFactorCombination([a]))
@@ -72,7 +72,12 @@ describe('MarginalMeansTable', () => {
   it('should correctly populate the marginal means table with only repeated measures', () => {
     factors.variables = [outcomeA, outcomeB, repeatedMeasure, repeatedMeasure2];
     const expectedTable = [
-      [new ISUFactorCombination([a, r3]), new ISUFactorCombination([a, r5]), new ISUFactorCombination([a, r7]), new ISUFactorCombination([a, s2]), new ISUFactorCombination([a, s4]), new ISUFactorCombination([a, s6])],
+      [
+        new ISUFactorCombination([a, r3, s2]), new ISUFactorCombination([a, r3, s4]),
+        new ISUFactorCombination([a, r3, s6]), new ISUFactorCombination([a, r5, s2]),
+        new ISUFactorCombination([a, r5, s4]), new ISUFactorCombination([a, r5, s6]),
+        new ISUFactorCombination([a, r7, s2]), new ISUFactorCombination([a, r7, s4]),
+        new ISUFactorCombination([a, r7, s6])],
     ];
     const expected = new MarginalMeansTable(new ISUFactorCombination([a]), expectedTable);
     const actual = new MarginalMeansTable(new ISUFactorCombination([a]))

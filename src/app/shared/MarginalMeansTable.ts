@@ -22,7 +22,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     if (predictorsInHypothesis.length > 0) {
       this.getRows(predictorsInHypothesis, colIds);
     } else {
-      this.table.push(this.getRow(new CombinationId('', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '', 0), colIds));
+      this.table.push(this.getRow([new CombinationId('', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '', 0)], colIds));
     }
   }
 
@@ -82,11 +82,11 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     return cols;
   }
 
-  private getRow(rowId: Array<CombinationId>, colIds: Array<CombinationId>): Array<ISUFactorCombination> {
+  private getRow(rowId: Array<CombinationId>, colIds: Array<ISUFactorCombination>): Array<ISUFactorCombination> {
     const row = new Array<ISUFactorCombination>();
     if (colIds.length > 0) {
       colIds.forEach(col => {
-        const id = [this.tableId.id[0]].concat(rowId, col)
+        const id = [this.tableId.id[0]].concat(rowId, col.id)
         row.push( new ISUFactorCombination(id, 1))
       })
     } else {
@@ -96,7 +96,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     return row;
   }
 
-  private getRows(predictors: Array<Predictor>, colIds: Array<CombinationId>) {
+  private getRows(predictors: Array<Predictor>, colIds: Array<ISUFactorCombination>) {
     const rowsIds = this.generateCombinations(predictors);
     rowsIds.forEach( rowId => {
       this.table.push(this.getRow(rowId.id, colIds));
