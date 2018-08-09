@@ -1,0 +1,413 @@
+{
+  "_isuFactors": {
+    "variables": [
+      {
+        "valueNames": [
+          
+        ],
+        "name": "Alcohol Use Score",
+        "inHypothesis": false,
+        "isuFactorNature": "GLOBAL_TRENDS",
+        "nature": "Within",
+        "origin": "Outcome",
+        "standardDeviation": 4
+      },
+      {
+        "valueNames": [
+          0,
+          1,
+          3,
+          5
+        ],
+        "inHypothesis": true,
+        "isuFactorNature": "GLOBAL_TRENDS",
+        "nature": "Within",
+        "origin": "Repeated Measure",
+        "units": "",
+        "type": "Numeric",
+        "_noRepeats": 4,
+        "partialUMatrix": {
+          "name": "",
+          "logger": null,
+          "_values": {
+            "mathjs": "DenseMatrix",
+            "data": [
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                -1,
+                0,
+                0
+              ],
+              [
+                0,
+                -1,
+                0
+              ],
+              [
+                0,
+                0,
+                -1
+              ]
+            ],
+            "size": [
+              4,
+              3
+            ]
+          },
+          "_type": "MAIN_EFFECT"
+        },
+        "correlationMatrix": {
+          "_values": {
+            "mathjs": "DenseMatrix",
+            "data": [
+              [
+                1,
+                0.6,
+                0.50176941771016,
+                0.41962091424866
+              ],
+              [
+                0.6,
+                1,
+                0.54869085159687,
+                0.45886048184776
+              ],
+              [
+                0.50176941771016,
+                0.54869085159687,
+                1,
+                0.54869085159687
+              ],
+              [
+                0.41962091424866,
+                0.45886048184776,
+                0.54869085159687,
+                1
+              ]
+            ],
+            "size": [
+              4,
+              4
+            ]
+          },
+          "_names": [
+            0,
+            1,
+            3,
+            5
+          ]
+        },
+        "name": "HalfYear",
+        "child": null
+      },
+      {
+        "valueNames": [
+          
+        ],
+        "inHypothesis": false,
+        "isuFactorNature": "GLOBAL_TRENDS",
+        "levels": [
+          {
+            "levelName": "classroom",
+            "noElements": 20,
+            "intraClassCorellation": 1
+          },
+          {
+            "levelName": "school",
+            "noElements": 3,
+            "intraClassCorellation": 1
+          },
+          {
+            "levelName": "neighborhood",
+            "noElements": 2,
+            "intraClassCorellation": 1
+          }
+        ],
+        "nature": "Within",
+        "origin": "Cluster",
+        "name": "student"
+      },
+      {
+        "valueNames": [
+          "Alcohol Education Program",
+          "Standard Of Care"
+        ],
+        "inHypothesis": true,
+        "isuFactorNature": "GLOBAL_TRENDS",
+        "nature": "Between",
+        "origin": "Between ISU Predictor",
+        "name": "treatment",
+        "child": {
+          "valueNames": [
+            0,
+            1,
+            3,
+            5
+          ],
+          "inHypothesis": true,
+          "isuFactorNature": "GLOBAL_TRENDS",
+          "nature": "Within",
+          "origin": "Repeated Measure",
+          "units": "",
+          "type": "Numeric",
+          "_noRepeats": 4,
+          "partialUMatrix": {
+            "name": "",
+            "logger": null,
+            "_values": {
+              "mathjs": "DenseMatrix",
+              "data": [
+                [
+                  1,
+                  1,
+                  1
+                ],
+                [
+                  -1,
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  0,
+                  -1
+                ]
+              ],
+              "size": [
+                4,
+                3
+              ]
+            },
+            "_type": "MAIN_EFFECT"
+          },
+          "correlationMatrix": {
+            "_values": {
+              "mathjs": "DenseMatrix",
+              "data": [
+                [
+                  1,
+                  0.6,
+                  0.50176941771016,
+                  0.41962091424866
+                ],
+                [
+                  0.6,
+                  1,
+                  0.54869085159687,
+                  0.45886048184776
+                ],
+                [
+                  0.50176941771016,
+                  0.54869085159687,
+                  1,
+                  0.54869085159687
+                ],
+                [
+                  0.41962091424866,
+                  0.45886048184776,
+                  0.54869085159687,
+                  1
+                ]
+              ],
+              "size": [
+                4,
+                4
+              ]
+            },
+            "_names": [
+              0,
+              1,
+              3,
+              5
+            ]
+          },
+          "name": "HalfYear",
+          "child": null
+        }
+      }
+    ],
+    "betweenIsuRelativeGroupSizes": {
+      
+    },
+    "marginalMeans": [
+      {
+        "name": "Alcohol Education Program0",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Alcohol Education Program"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 0
+            }
+          ],
+          "size": 5.2
+        }
+      },
+      {
+        "name": "Alcohol Education Program1",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Alcohol Education Program"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 1
+            }
+          ],
+          "size": 5.3
+        }
+      },
+      {
+        "name": "Alcohol Education Program3",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Alcohol Education Program"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 3
+            }
+          ],
+          "size": 5.3
+        }
+      },
+      {
+        "name": "Alcohol Education Program5",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Alcohol Education Program"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 5
+            }
+          ],
+          "size": 5.3
+        }
+      },
+      {
+        "name": "Standard Of Care0",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Standard Of Care"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 0
+            }
+          ],
+          "size": 5.2
+        }
+      },
+      {
+        "name": "Standard Of Care1",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Standard Of Care"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 1
+            }
+          ],
+          "size": 5.5
+        }
+      },
+      {
+        "name": "Standard Of Care3",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Standard Of Care"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 3
+            }
+          ],
+          "size": 5.9
+        }
+      },
+      {
+        "name": "Standard Of Care5",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "Standard Of Care"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 5
+            }
+          ],
+          "size": 6.2
+        }
+      }
+    ],
+    "smallestGroupSize": [
+      
+    ],
+    "outcomeCorrelationMatrix": {
+      "_values": {
+        "mathjs": "DenseMatrix",
+        "data": [
+          [
+            1
+          ]
+        ],
+        "size": [
+          1,
+          1
+        ]
+      }
+    },
+    "outcomeRepeatedMeasureStDevs": [
+      {
+        "outcome": "Alcohol Use Score",
+        "repMeasure": "HalfYear",
+        "values": {
+          
+        }
+      }
+    ]
+  },
+  "_targetEvent": "REJECTION",
+  "_solveFor": "SAMPLESIZE",
+  "_samplesize": 10,
+  "_ciwidth": 1,
+  "_power": 0.9,
+  "_selectedTests": [
+    "Hotelling Lawley Trace"
+  ],
+  "_typeOneErrorRate": 0.05,
+  "_gaussianCovariate": null,
+  "_scaleFactor": 1,
+  "_varianceScaleFactors": [
+    1
+  ],
+  "_powerCurve": null
+}

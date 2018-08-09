@@ -1,0 +1,82 @@
+{
+    "MODE": "guided",
+
+    "TARGET_EVENT": "rejection",
+
+    "SOLVE_FOR":
+    {
+        "samplesize": 10, 
+        "solve_for": "power"   
+    },
+
+    "STATISTICAL_TESTS": "hlt",
+
+    "TYPE_ONE_ERROR":
+    {
+        "typeoneerror": 0.05 
+    },
+
+    "WITHIN_ISU_OUTCOMES":
+    {
+        "outcomes": ["GRADE difference score", "LSK difference score", "CTOPP difference score"]
+    },
+    
+    "WITHIN_ISU_REPEATED_MEASURES": null,
+    
+    "WITHIN_ISU_CLUSTERS": 
+    {
+        "name": "student",
+        "level name": ["School", "Classroom"],
+        "elements": [4, 5]
+    },
+    
+    "BETWEEN_ISU_PREDICTORS":
+    {
+        "name": "LiteracyProgram",
+        "groups": ["ABRACADABRA", "English Arts Program", "bi-lingual education"]
+    },
+
+    "BETWEEN_ISU_GROUPS":
+    {
+        "smallest group": 15
+    },
+
+    "GAUSSIAN_COVARIATE": null,
+
+    "HYPOTHESIS_EFFECT_CHOICE":
+    {
+        "effect": ""
+    },
+
+    "HYPOTHESIS_BETWEEN": null,
+
+    "HYPOTHESIS_WITHIN": null,
+    
+    "PARAMETERS_MARGINAL_MEANS":
+    {
+        "SensoryFocus":
+        {
+            "1": 3.6, "2": 2.8, "3": 0.9
+        },
+        
+        "StandardOfCare":
+        {
+            "1": 4.5, "2": 4.3, "3": 3
+        }
+    },
+
+    "PARAMETERS_SCALE_FACTOR": 1,
+
+    "PARAMETERS_STANDARD_DEVIATION": 0.9,
+
+    "PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV/MemoryOfPai/HalfYear": "no inputs from version2",
+
+    "PARAMETERS_REPEATED_MEASURE_CORRELATION/HalfYear":
+    {
+        "1-0": 0.5, "2-0": 0.4, "2-1": 0.5
+    },
+    
+    "PARAMETERS_SCALE_FACTOR_VARIANCE": 1,
+
+    "OPTIONAL_SPECS_POWER_CURVE_CHOICE": null
+}
