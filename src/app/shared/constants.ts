@@ -1,3 +1,5 @@
+import {TargetEventComponent} from '../study-form/target-event/target-event.component';
+
 export const constants = {
   // Guided mode stages and ordering
   STAGES: {
