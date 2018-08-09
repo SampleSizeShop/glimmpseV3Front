@@ -151,8 +151,12 @@ export class ISUFactors {
     return measure
   }
 
-  get repeatedMeasuresInHypothesis(): Array<Predictor> {
+  get repeatedMeasuresInHypothesis(): Array<RepeatedMeasure> {
     return this.getFactorsinHypothesisByType(RepeatedMeasure);
+  }
+
+  get predictorsInHypothesis(): Array<Predictor> {
+    return this.getFactorsinHypothesisByType(Predictor);
   }
 
   updateRepeatedMeasures(newRepeatedMeasures: Array<RepeatedMeasure>) {
