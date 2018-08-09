@@ -28,6 +28,7 @@ export class ISUFactors {
         betweenIsuRelativeGroupSizes: this.betweenIsuRelativeGroupSizes,
         marginalMeans: this.marginalMeans,
         smallestGroupSize: this.smallestGroupSize,
+        theta0: this.theta0,
         outcomeCorrelationMatrix: this.outcomeCorrelationMatrix,
         outcomeRepeatedMeasureStDevs: this.outcomeRepeatedMeasureStDevs };
   }
@@ -150,8 +151,12 @@ export class ISUFactors {
     return measure
   }
 
-  get repeatedMeasuresInHypothesis(): Array<Predictor> {
+  get repeatedMeasuresInHypothesis(): Array<RepeatedMeasure> {
     return this.getFactorsinHypothesisByType(RepeatedMeasure);
+  }
+
+  get predictorsInHypothesis(): Array<Predictor> {
+    return this.getFactorsinHypothesisByType(Predictor);
   }
 
   updateRepeatedMeasures(newRepeatedMeasures: Array<RepeatedMeasure>) {

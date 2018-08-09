@@ -1,7 +1,8 @@
 <div *ngIf="hasTable" id="tableControls">
   <form [formGroup]="marginalMeansForm" id="marginalMeansForm">
     <div class="container-fluid">
-      <h5>Tell us about the marginal means for you hypothesis in relation to outcome {{table.name}}</h5>
+      <h5 *ngIf="!grandMean">Tell us about the marginal means for you hypothesis in relation to outcome {{table.name}}</h5>
+      <h5 *ngIf="grandMean">What is the mean value for outcome {{table.name}}?</h5>
 
       <div class="col col-md-auto">
         <table>

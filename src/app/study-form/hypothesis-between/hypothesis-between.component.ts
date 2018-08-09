@@ -8,8 +8,6 @@ import * as math from 'mathjs';
 import {PartialMatrix} from '../../shared/PartialMatrix';
 import {Router} from '@angular/router';
 import {Predictor} from '../../shared/Predictor';
-
-import {ActivatedRoute} from '@angular/router';
 import {NGXLogger} from 'ngx-logger';
 
 @Component({
