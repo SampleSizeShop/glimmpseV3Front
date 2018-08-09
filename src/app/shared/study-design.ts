@@ -149,16 +149,23 @@ export class StudyDesign {
   get a() {
     let a = 1;
     this.isuFactors.predictors.forEach(predictor => {
-      a = a * (predictor.valueNames.length -1);
+      if (predictor.inHypothesis) {a = a * (predictor.valueNames.length - 1);
+      }
     });
     return a;
   }
 
   get b() {
     let b = this.isuFactors.outcomes.length;
+    let c = 0
     this.isuFactors.repeatedMeasures.forEach(measure => {
-      b = b * measure.valueNames.length;
+      if (measure.inHypothesis) {
+        c = c + 1;
+      }
     });
+    if (c > 0) {
+      b = b * c
+    }
     return b;
   }
 
@@ -200,8 +207,7 @@ export class StudyDesign {
     };
 
     // Are marginal means factorName groups made up of hypothesis we have chosen
-    if (!isNullOrUndefined(this.isuFactors.hypothesis) &&
-      this.isuFactors.hypothesis.length > 0) {
+    if (!isNullOrUndefined(this.isuFactors.hypothesis)) {
       this.isuFactors.marginalMeans = this.generateMarginalMeansTables();
     }
 

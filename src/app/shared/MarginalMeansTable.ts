@@ -16,13 +16,14 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
 
   populateTable(factors: ISUFactors) {
     this.table = [];
-    const colIds = this.getColumnIds(factors.repeatedMeasures);
-    if (this._containsPredictor(factors.hypothesis)) {
-      this.getRows(factors.predictors, colIds);
+    const repMeasuresInHypothesis = factors.repeatedMeasures.filter( measure => measure.inHypothesis === true);
+    const predictorsInHypothesis = factors.predictors.filter( predictor => predictor.inHypothesis === true );
+    const colIds = this.getColumnIds(repMeasuresInHypothesis);
+    if (predictorsInHypothesis.length > 0) {
+      this.getRows(predictorsInHypothesis, colIds);
     } else {
-      this.table.push(this.getRow(new CombinationId('', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '', 0), colIds));
+      this.table.push(this.getRow([new CombinationId('', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '', 0)], colIds));
     }
-    const a = 1;
   }
 
   _containsPredictor(factors: Array<ISUFactor>) {
@@ -52,7 +53,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     let label = '';
     element.id.forEach( factor => {
       if (factor.factorType === constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR) {
-        label = factor.factorName + ' : ' + factor.value;
+        label = label + ' ' + factor.factorName + ' : ' + factor.value;
       }
     });
     return label;
@@ -62,7 +63,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     let label = '';
     element.id.forEach( factor => {
       if (factor.factorType === constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE) {
-        label = factor.factorName + ' : ' + factor.value;
+        label = label + factor.factorName + ' : ' + factor.value;
       }
     });
     return label;
@@ -77,39 +78,69 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
   }
 
   private getColumnIds(repeatedMeasures: Array<RepeatedMeasure>) {
-    const cols = new Array<CombinationId>();
-    if (!isNullOrUndefined(repeatedMeasures) && repeatedMeasures.length > 0) {
-      repeatedMeasures.forEach(measure => {
-        if (measure.inHypothesis) {
-          measure.valueNames.forEach(val => {
-            cols.push(new CombinationId(measure.name, constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE, val));
-          });
-        }
-      });
-    }
+    const cols = this.generateCombinations(repeatedMeasures)
     return cols;
   }
 
-  private getRow(rowId: CombinationId, colIds: Array<CombinationId>): Array<ISUFactorCombination> {
+  private getRow(rowId: Array<CombinationId>, colIds: Array<ISUFactorCombination>): Array<ISUFactorCombination> {
     const row = new Array<ISUFactorCombination>();
     if (colIds.length > 0) {
       colIds.forEach(col => {
-        row.push( new ISUFactorCombination([this.tableId.id[0], rowId, col], 1))
+        const id = [this.tableId.id[0]].concat(rowId, col.id)
+        row.push( new ISUFactorCombination(id, 1))
       })
     } else {
-      row.push(new ISUFactorCombination([this.tableId.id[0], rowId], 1));
+      const id = [this.tableId.id[0]].concat(rowId)
+      row.push(new ISUFactorCombination(id, 1));
     }
     return row;
   }
 
-  private getRows(predictors: Array<Predictor>, colIds: Array<CombinationId>) {
-    predictors.forEach(predictor => {
-      if (predictor.inHypothesis) {
-        predictor.valueNames.forEach(value => {
-          const rowId = new CombinationId(predictor.name, constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, value);
-          this.table.push(this.getRow(rowId, colIds));
-        });
-      }
+  private getRows(predictors: Array<Predictor>, colIds: Array<ISUFactorCombination>) {
+    const rowsIds = this.generateCombinations(predictors);
+    rowsIds.forEach( rowId => {
+      this.table.push(this.getRow(rowId.id, colIds));
     });
+  }
+
+  generateCombinations(factorList: Array<ISUFactor>): Array<ISUFactorCombination> {
+    let combinations = new Array<ISUFactorCombination>();
+
+    if (!isNullOrUndefined(factorList) && factorList.length > 0) {
+      let factors = new Array<ISUFactor>();
+      factorList.forEach( factor => {
+        if (factor.inHypothesis) {
+          factors.push(factor);
+        }
+      });
+      factors = this.assignChildren(factors);
+      combinations = factors[0].mapCombinations();
+    }
+    return combinations
+  }
+
+  assignChildren(factorList: ISUFactor[]) {
+    const factorsWithChildrenAssigned = [];
+    factorList.forEach( factor => {
+      factor.child = null;
+    })
+    let parent = factorList.shift();
+    while (factorList.length > 0) {
+      const child = factorList.shift();
+      parent.child = child
+      factorsWithChildrenAssigned.push(parent);
+      parent = child;
+    }
+    factorsWithChildrenAssigned.push(parent);
+    factorList = factorsWithChildrenAssigned;
+    return factorList;
+  }
+
+  get size() {
+    let size = null;
+    if (!isNullOrUndefined(this.table)) {
+      size = this.table.length * this.table[0].length;
+    }
+    return size;
   }
 }

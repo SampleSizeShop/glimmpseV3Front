@@ -163,4 +163,14 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
     }
     return hasTable;
   }
+
+  get grandMean(): boolean{
+    let grandMean = false;
+    if (!isNullOrUndefined(this._table)) {
+      if (this._table.size === 1) {
+        grandMean = true;
+      }
+    }
+    return grandMean;
+  }
 }
