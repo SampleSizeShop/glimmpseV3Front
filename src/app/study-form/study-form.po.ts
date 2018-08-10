@@ -52,43 +52,43 @@ export class StudyFormComponentPage {
     return browser.get(subURL);
   };
 
-  next(){
+  next() {
     element(by.id('navigate_next')).click();
   };
 
-  prev(){
+  prev() {
     element(by.id('navigate_before')).click();
   };
 
-  refresh(){
+  refresh() {
     browser.refresh();
   };
 
-  browserBack(){
+  browserBack() {
     browser.navigate().back();
   };
 
-  browserForward(){
+  browserForward() {
     browser.navigate().forward();
   };
 
-  getRouterURLString(){
+  getRouterURLString() {
     return browser.getCurrentUrl().then(url => url.split('/').pop());
   };
 
-  getElementClass(cid: string){
+  getElementClass(cid: string) {
     return element(by.id(cid)).getAttribute('class')
   };
 
-  findContentById(cid: string){
+  findContentById(cid: string) {
     return element(by.id(cid))
   };
 
-  findContentByClass(ccls: string){
+  findContentByClass(ccls: string) {
     return element(by.className(ccls));
   };
 
-  findAllcontentById(cid: string){
+  findAllcontentById(cid: string) {
     return element.all(by.id(cid));
   };
 
@@ -96,31 +96,31 @@ export class StudyFormComponentPage {
     browser.sleep(ms);
   };
 
-  findAllByClass(ccls: string){
+  findAllByClass(ccls: string) {
     return element.all(by.className(ccls));
   };
 
-  findAllByTag(tag: string){
+  findAllByTag(tag: string) {
     return element.all(by.tagName(tag));
   };
 
-  findByTag(tag: string){
+  findByTag(tag: string) {
     return element(by.tagName(tag));
   };
 
-  findByCssWithText(cls: string, txt: string){
+  findByCssWithText(cls: string, txt: string) {
     return element(by.cssContainingText(cls, txt))
   };
 
-  findContentByCss(ccss: string){
+  findContentByCss(ccss: string) {
     return element(by.css(ccss));
   };
 
-  clickEnterKey(){
+  clickEnterKey() {
     browser.actions().sendKeys(protractor.Key.ENTER).perform();
   };
 
-  findByPartialLinkText(txt: string){
+  findByPartialLinkText(txt: string) {
     return element(by.partialLinkText(txt));
   };
 }
