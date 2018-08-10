@@ -10,6 +10,7 @@ import {WithinIsuClustersPo} from './within-isu-clusters/within-isu-clusters.po'
 import {BetweenIsuPredictorsPo} from './between-isu-predictors/between-isu-predictors.po';
 import {BetweenIsuSmallestGroupPo} from './between-isu-smallest-group/between-isu-smallest-group.po';
 import {BetweenIsuGroupsPo} from './between-isu-groups/between-isu-groups.po';
+import {GaussianCovariatePo} from "./gaussian-covariate/gaussian-covariate.po";
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -23,6 +24,7 @@ export class StudyFormComponentPage {
   predictors: BetweenIsuPredictorsPo;
   smallest_group: BetweenIsuSmallestGroupPo;
   groups: BetweenIsuGroupsPo;
+  gaussian_covatiate: GaussianCovariatePo;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -36,6 +38,7 @@ export class StudyFormComponentPage {
     this.predictors = new BetweenIsuPredictorsPo();
     this.smallest_group = new BetweenIsuSmallestGroupPo();
     this.groups = new BetweenIsuGroupsPo();
+    this.gaussian_covatiate= new GaussianCovariatePo()
   }
 
   fromJSON(input) {
@@ -71,6 +74,9 @@ export class StudyFormComponentPage {
     this.next();
     this.sleep(100);
     this.groups.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.gaussian_covatiate.fromJSON(input);
     this.sleep(4000);
   }
 
