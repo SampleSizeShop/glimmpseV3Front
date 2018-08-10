@@ -8,6 +8,7 @@ import {WithinIsuOutcomesPo} from './within-isu-outcomes/within-isu-outcomes.po'
 import {WithinIsuRepeatedMeasuresPo} from './within-isu-repeated-measures/within-isu-repeated-measures.po';
 import {WithinIsuClustersPo} from './within-isu-clusters/within-isu-clusters.po';
 import {BetweenIsuPredictorsPo} from './between-isu-predictors/between-isu-predictors.po';
+import {BetweenIsuSmallestGroupPo} from './between-isu-smallest-group/between-isu-smallest-group.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -19,6 +20,7 @@ export class StudyFormComponentPage {
   repeated_measures: WithinIsuRepeatedMeasuresPo;
   cluster: WithinIsuClustersPo;
   predictors: BetweenIsuPredictorsPo;
+  smallest_group: BetweenIsuSmallestGroupPo;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -30,6 +32,7 @@ export class StudyFormComponentPage {
     this.repeated_measures = new WithinIsuRepeatedMeasuresPo();
     this.cluster = new WithinIsuClustersPo();
     this.predictors = new BetweenIsuPredictorsPo();
+    this.smallest_group = new BetweenIsuSmallestGroupPo();
   }
 
   fromJSON(input) {
@@ -59,6 +62,9 @@ export class StudyFormComponentPage {
     this.next();
     this.sleep(100);
     this.predictors.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.smallest_group.fromJSON(input);
     this.sleep(4000);
   }
 
