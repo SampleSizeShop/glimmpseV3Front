@@ -3,18 +3,21 @@ import {UserModePo} from './user-mode/user-mode.po';
 import {TargetEventPo} from './target-event/target-event.po';
 import {SolveForPo} from './solve-for/solve-for.po';
 import {StatisticalTestsPo} from './statistical-tests/statistical-tests.po';
+import {TypeOneErrorPo} from './type-one-error/type-one-error.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
   target_event: TargetEventPo;
   solve_for: SolveForPo;
   statistical_tests: StatisticalTestsPo;
+  type_one_error: TypeOneErrorPo;
 
   constructor() {
     this.user_mode = new UserModePo();
     this.target_event = new TargetEventPo();
     this.solve_for = new SolveForPo();
     this.statistical_tests = new StatisticalTestsPo();
+    this.type_one_error = new TypeOneErrorPo();
   }
 
   fromJSON(input) {
@@ -29,6 +32,9 @@ export class StudyFormComponentPage {
     this.next();
     this.sleep(100);
     this.statistical_tests.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.type_one_error.fromJSON(input);
     this.sleep(4000);
   }
 

@@ -25,7 +25,8 @@ describe('demo-front-app short course homework test', () => {
         constants.STATISTICAL_TESTS.UNCORRECTED,
         constants.STATISTICAL_TESTS.UNIREP,
         constants.STATISTICAL_TESTS.MULTIREP
-      ]
+      ],
+      type_one_error: 0.06
     }
     page.fromJSON(input);
   });
