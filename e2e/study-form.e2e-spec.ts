@@ -27,7 +27,11 @@ describe('demo-front-app short course homework test', () => {
         constants.STATISTICAL_TESTS.MULTIREP
       ],
       type_one_error: 0.06,
-      outcomes: ['a', 'b', 'c', 'd']
+      outcomes: ['a', 'b', 'c', 'd'],
+      repeated_measures: [
+        {dimension: 'Time', units: 'days', type: constants.REPEATED_MEASURE_TYPES[0], values: [1, 7, 15]},
+        {dimension: 'Arm', type: constants.REPEATED_MEASURE_TYPES[1], values: [1, 3]}
+        ]
     }
     page.fromJSON(input);
   });

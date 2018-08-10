@@ -5,6 +5,7 @@ import {SolveForPo} from './solve-for/solve-for.po';
 import {StatisticalTestsPo} from './statistical-tests/statistical-tests.po';
 import {TypeOneErrorPo} from './type-one-error/type-one-error.po';
 import {WithinIsuOutcomesPo} from './within-isu-outcomes/within-isu-outcomes.po';
+import {WithinIsuRepeatedMeasuresPo} from './within-isu-repeated-measures/within-isu-repeated-measures.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -13,6 +14,7 @@ export class StudyFormComponentPage {
   statistical_tests: StatisticalTestsPo;
   type_one_error: TypeOneErrorPo;
   outcomes: WithinIsuOutcomesPo;
+  repeated_measures: WithinIsuRepeatedMeasuresPo;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -21,6 +23,7 @@ export class StudyFormComponentPage {
     this.statistical_tests = new StatisticalTestsPo();
     this.type_one_error = new TypeOneErrorPo();
     this.outcomes = new WithinIsuOutcomesPo();
+    this.repeated_measures = new WithinIsuRepeatedMeasuresPo();
   }
 
   fromJSON(input) {
@@ -41,6 +44,9 @@ export class StudyFormComponentPage {
     this.next();
     this.sleep(100);
     this.outcomes.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.repeated_measures.fromJSON(input);
     this.sleep(4000);
   }
 
