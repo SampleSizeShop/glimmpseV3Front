@@ -1,7 +1,7 @@
 import { NavigationE2E } from './navigation.po';
 
 describe('demo-front-app navigation test', () => {
-    let page: NavigationE2E;
+let page: NavigationE2E;
 
     // var input_complex = require("./test_inputs/complex_sample.json")
     // console.log(input_complex.MODE)
@@ -38,7 +38,7 @@ describe('demo-front-app navigation test', () => {
         page.sleep(500);
         expect(page.findContentById("typeoneerrorinput").isDisplayed()).toBeTruthy();
         page.next();
-        
+
         page.sleep(500);
         expect(page.getRouterURLString()).toBe('WITHIN_ISU_OUTCOMES');
         expect(page.findContentById("outcomes").isDisplayed()).toBeTruthy();
@@ -64,7 +64,7 @@ describe('demo-front-app navigation test', () => {
         expect(page.findContentById("rejectionbtn").isDisplayed()).toBeTruthy();
         expect(page.findContentById("ciwidthbtn").isDisplayed()).toBeTruthy();
         expect(page.findContentById("wavrbtn").isDisplayed()).toBeTruthy();
-        
+
         page.prev();
         page.sleep(500);
         expect(page.getRouterURLString()).toBe('MODE');
@@ -77,7 +77,7 @@ describe('demo-front-app navigation test', () => {
         page.sleep(500);
         expect(page.getRouterURLString()).toBe('MODE');
         page.next();
-        
+
         page.refresh();
 
         page.sleep(500);
@@ -227,7 +227,7 @@ describe('demo-front-app navigation test', () => {
         page.next();
         page.sleep(100)
         page.next();
-        
+
         //PARAMETERS_SCALE_FACTOR_VARIANCE
         page.sleep(100);
         page.findContentById('scaleFactors').clear();
@@ -661,3 +661,5 @@ describe('demo-front-app navigation test', () => {
         //TODO another way to test is go backward to the MODE page and check all the fields along the line
     });
 });
+
+

@@ -2,9 +2,9 @@ import { NavigationE2E } from './navigation.po';
 import { HomeworkDataModelE2E } from './homeworks.po';
 
 describe('demo-front-app short course homework test', () => {
-    let page: NavigationE2E;
+  let page: NavigationE2E;
     let hdm: HomeworkDataModelE2E;
-    
+
     beforeEach(() => {
         page = new NavigationE2E();
         hdm = new HomeworkDataModelE2E();
@@ -12,13 +12,13 @@ describe('demo-front-app short course homework test', () => {
         page.navigateTo('/design/MODE');
     });
 
-    it('Create a test case for Homework 1 from the short course', () => {
+   it('Create a test case for Homework 1 from the short course', () => {
         //MODE
         page.sleep(100);
         //expect(page.getElementClass(input_complex.MODE)).toContain('active');
         expect(page.getElementClass('guidedbtn')).toContain('active');
         page.next();
- 
+
         //TARGET_EVENT
         page.sleep(100);
         //expect(page.getElementClass(input_complex.TARGET_EVENT)).toContain('active');
@@ -27,8 +27,6 @@ describe('demo-front-app short course homework test', () => {
 
         //SOLVE_FOR
         page.sleep(100);
-        page.findContentById('samplesize').clear();
-        page.findContentById('samplesize').sendKeys(20);
         page.findContentById('powerbtn').click();
         expect(page.getElementClass('powerbtn')).toContain('active');
         page.next();
@@ -96,7 +94,7 @@ describe('demo-front-app short course homework test', () => {
 
         //HYPOTHESIS_EFFECT_CHOICE
         page.sleep(100);
-        page.findAllByClass('form-check-input').get(1).click();
+        //page.findAllByClass('form-check-input').get(0).click();
         page.next();
 
         //HYPOTHESIS_BETWEEN
@@ -147,13 +145,13 @@ describe('demo-front-app short course homework test', () => {
         //OPTIONAL_SPECS_POWER_CURVE_CHOICE
         page.sleep(100);
         page.next();
-        
+
         // page.sleep(20000);
 
         //CALCULATE
         // id='reviewDataModel'
         // file='./gold_standard_data_model_for_homeworks/hw1_data_model.json'
-        // test the input data are stored in a right format in the frontend compared with gold standard data model revised by statician 
+        // test the input data are stored in a right format in the frontend compared with gold standard data model revised by statician
         var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw1_data_model.json');
         var tdm = hdm.getOutputDataModel('reviewDataModel');
         // expect(hdm.getOutputDataModelValue('reviewDataModel', '_solveFor')).toEqual(dm['_solveFor'])
@@ -170,7 +168,7 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_varianceScaleFactors'])).toEqual(dm['_varianceScaleFactors']);
         expect(tdm.then(x => x['_selectedTests'])).toEqual(dm['_selectedTests']);
         expect(tdm.then(x => x['_power'])).toEqual(dm['_power']);
-        
+
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['valueNames'])).toEqual(dm['_isuFactors']['variables'][0]['valueNames']);
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['name'])).toEqual(dm['_isuFactors']['variables'][0]['name']);
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['inHypothesis'])).toEqual(dm['_isuFactors']['variables'][0]['inHypothesis']);
@@ -201,7 +199,7 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['size'])).toEqual(dm['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['size']);
         expect(tdm.then(x => x['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['id'][0]['factorName'])).toEqual(dm['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['id'][0]['factorName']);
         expect(tdm.then(x => x['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['id'][0]['value'])).toEqual(dm['_isuFactors']['marginalMeans'][0]['ISUFactorCombination']['id'][0]['value']);
-    
+
         expect(tdm.then(x => x['_isuFactors']['outcomeRepeatedMeasureStDevs'])).toEqual(dm['_isuFactors']['outcomeRepeatedMeasureStDevs']);
         expect(tdm.then(x => x['_isuFactors']['betweenIsuRelativeGroupSizes'])).toEqual(dm['_isuFactors']['betweenIsuRelativeGroupSizes']);
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['data']);
@@ -214,7 +212,7 @@ describe('demo-front-app short course homework test', () => {
         //expect(page.getElementClass(input_complex.MODE)).toContain('active');
         expect(page.getElementClass('guidedbtn')).toContain('active');
         page.next();
- 
+
         //TARGET_EVENT
         page.sleep(100);
         //expect(page.getElementClass(input_complex.TARGET_EVENT)).toContain('active');
@@ -327,7 +325,7 @@ describe('demo-front-app short course homework test', () => {
         page.findAllByTag('input').get(5).clear();
         page.findAllByTag('input').get(5).sendKeys(3);
         page.next();
-        
+
         //PARAMETERS_SCALE_FACTOR
         page.sleep(50);
         page.findContentById('scalefactor').clear();
@@ -395,7 +393,7 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['nature'])).toEqual(dm['_isuFactors']['variables'][0]['nature']);
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['origin'])).toEqual(dm['_isuFactors']['variables'][0]['origin']);
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['standardDeviation'])).toEqual(dm['_isuFactors']['variables'][0]['standardDeviation']);
-        
+
         expect(tdm.then(x => x['_isuFactors']['variables'][1]['valueNames'])).toEqual(dm['_isuFactors']['variables'][1]['valueNames']);
         expect(tdm.then(x => x['_isuFactors']['variables'][1]['name'])).toEqual(dm['_isuFactors']['variables'][1]['name']);
         expect(tdm.then(x => x['_isuFactors']['variables'][1]['child'])).toEqual(dm['_isuFactors']['variables'][1]['child']);
@@ -439,7 +437,7 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['smallestGroupSize'])).toEqual(dm['_isuFactors']['smallestGroupSize']);
         expect(tdm.then(x => x['_isuFactors']['marginalMeans'])).toEqual(dm['_isuFactors']['marginalMeans']);//TODO expand the expect based on data model
         expect(tdm.then(x => x['_isuFactors']['betweenIsuRelativeGroupSizes'])).toEqual(dm['_isuFactors']['betweenIsuRelativeGroupSizes']);
-        
+
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['data']);
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['size'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['size']);
 
@@ -554,8 +552,8 @@ describe('demo-front-app short course homework test', () => {
         //HYPOTHESIS_WITHIN
         page.sleep(300);
         page.next();
-    
-        //TODO 
+
+        //TODO
         //PARAMETERS_MARGINAL_MEANS
         //  page.sleep(100);
         //  page.findAllByTag('input').get(0).clear();
@@ -563,43 +561,43 @@ describe('demo-front-app short course homework test', () => {
         //  page.findAllByTag('input').get(1).clear();
         //  page.findAllByTag('input').get(1).sendKeys(0.73);
         //  page.next();
- 
+
         //  //PARAMETERS_SCALE_FACTOR
         //  page.sleep(100);
         //  page.findContentById('scalefactor').clear();
         //  page.findContentById('scalefactor').sendKeys(1);
         //  page.next();
- 
+
         //  //PARAMETERS_STANDARD_DEVIATION
         //  page.sleep(100);
         //  page.findByTag('input').clear();
         //  page.findByTag('input').sendKeys(1);
         //  page.next();
- 
+
         //  //PARAMETERS_OUTCOME_CORRELATION
         //  page.sleep(100);
         //  page.next();
- 
+
         //  //PARAMETERS_INTRA_CLASS_CORRELATION
         //  page.sleep(100);
         //  page.findByTag('input').clear();
         //  page.findByTag('input').sendKeys('0.13');
         //  page.next();
- 
+
         //  //PARAMETERS_SCALE_FACTOR_VARIANCE
         //  page.sleep(100);
         //  page.findContentById('scaleFactors').clear();
         //  page.findContentById('scaleFactors').sendKeys(1);
         //  page.findContentById('addscaleFactor').click();
         //  page.next();
- 
+
         //  //OPTIONAL_SPECS_POWER_CURVE_CHOICE
         //  page.sleep(100);
         //  page.next();
- 
+
         //CALCULATE
         //TODO fill toEqual('') with expected output data model
-        
+
     });
 
     it('Create a test case for Homework 4 from the short course', () => {
@@ -639,7 +637,7 @@ describe('demo-front-app short course homework test', () => {
         page.findContentById('outcomes').sendKeys('Alcohol Use Score');
         page.findContentById('addoutcome').click();
         page.next();
- 
+
          //WITHIN_ISU_REPEATED_MEASURES
         page.sleep(100);
         page.findContentById('includerptmeasuresbtn').click();
@@ -664,7 +662,7 @@ describe('demo-front-app short course homework test', () => {
         page.next();
         page.sleep(50);
         page.next();
- 
+
         //WITHIN_ISU_CLUSTERS
         page.sleep(100);
         page.findContentById('includerptmeasuresbtn').click();
@@ -832,7 +830,7 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['nature'])).toEqual(dm['_isuFactors']['variables'][0]['nature']);
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['origin'])).toEqual(dm['_isuFactors']['variables'][0]['origin']);
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['standardDeviation'])).toEqual(dm['_isuFactors']['variables'][0]['standardDeviation']);
-        
+
         expect(tdm.then(x => x['_isuFactors']['variables'][1]['valueNames'])).toEqual(dm['_isuFactors']['variables'][1]['valueNames']);
         expect(tdm.then(x => x['_isuFactors']['variables'][1]['name'])).toEqual(dm['_isuFactors']['variables'][1]['name']);
         expect(tdm.then(x => x['_isuFactors']['variables'][1]['child'])).toEqual(dm['_isuFactors']['variables'][1]['child']);
@@ -888,14 +886,14 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['variables'][3]['child']['correlationMatrix']['_names'])).toEqual(dm['_isuFactors']['variables'][3]['child']['correlationMatrix']['_names']);
         expect(tdm.then(x => x['_isuFactors']['variables'][3]['child']['correlationMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['variables'][3]['child']['correlationMatrix']['_values']['data']);
         expect(tdm.then(x => x['_isuFactors']['variables'][3]['child']['correlationMatrix']['_values']['size'])).toEqual(dm['_isuFactors']['variables'][3]['child']['correlationMatrix']['_values']['size']);
-       
+
         expect(tdm.then(x => x['_isuFactors']['smallestGroupSize'])).toEqual(dm['_isuFactors']['smallestGroupSize']);
         expect(tdm.then(x => x['_isuFactors']['marginalMeans'])).toEqual(dm['_isuFactors']['marginalMeans']);//TODO expand the expect based on data model
         expect(tdm.then(x => x['_isuFactors']['betweenIsuRelativeGroupSizes'])).toEqual(dm['_isuFactors']['betweenIsuRelativeGroupSizes']);
 
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['data']);
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['size'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['size']);
-        
+
         expect(tdm.then(x => x['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['outcome'])).toEqual(dm['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['outcome']);
         expect(tdm.then(x => x['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['repMeasure'])).toEqual(dm['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['repMeasure']);
         expect(tdm.then(x => x['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['values'])).toEqual(dm['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['values']);
@@ -907,7 +905,7 @@ describe('demo-front-app short course homework test', () => {
         //expect(page.getElementClass(input_complex.MODE)).toContain('active');
         expect(page.getElementClass('guidedbtn')).toContain('active');
         page.next();
- 
+
         //TARGET_EVENT
         page.sleep(100);
         //expect(page.getElementClass(input_complex.TARGET_EVENT)).toContain('active');
@@ -1076,7 +1074,7 @@ describe('demo-front-app short course homework test', () => {
         page.next();
 
         // page.sleep(20000);
-        
+
         //CALCULATE
         var dm = hdm.loadGoldStandard('./gold_standard_data_model_for_homeworks/hw5_data_model.json');
         var tdm = hdm.getOutputDataModel('reviewDataModel');
@@ -1099,7 +1097,7 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['nature'])).toEqual(dm['_isuFactors']['variables'][0]['nature']);
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['origin'])).toEqual(dm['_isuFactors']['variables'][0]['origin']);
         expect(tdm.then(x => x['_isuFactors']['variables'][0]['standardDeviation'])).toEqual(dm['_isuFactors']['variables'][0]['standardDeviation']);
-        
+
         expect(tdm.then(x => x['_isuFactors']['variables'][1]['valueNames'])).toEqual(dm['_isuFactors']['variables'][1]['valueNames']);
         expect(tdm.then(x => x['_isuFactors']['variables'][1]['name'])).toEqual(dm['_isuFactors']['variables'][1]['name']);
         expect(tdm.then(x => x['_isuFactors']['variables'][1]['inHypothesis'])).toEqual(dm['_isuFactors']['variables'][1]['inHypothesis']);
@@ -1137,16 +1135,17 @@ describe('demo-front-app short course homework test', () => {
         expect(tdm.then(x => x['_isuFactors']['variables'][3]['child']['isuFactorNature'])).toEqual(dm['_isuFactors']['variables'][3]['child']['isuFactorNature']);
         expect(tdm.then(x => x['_isuFactors']['variables'][3]['child']['nature'])).toEqual(dm['_isuFactors']['variables'][3]['child']['nature']);
         expect(tdm.then(x => x['_isuFactors']['variables'][3]['child']['origin'])).toEqual(dm['_isuFactors']['variables'][3]['child']['origin']);
-       
+
         expect(tdm.then(x => x['_isuFactors']['smallestGroupSize'])).toEqual(dm['_isuFactors']['smallestGroupSize']);
         expect(tdm.then(x => x['_isuFactors']['marginalMeans'])).toEqual(dm['_isuFactors']['marginalMeans']);//TODO expand the expect based on data model
         expect(tdm.then(x => x['_isuFactors']['betweenIsuRelativeGroupSizes'])).toEqual(dm['_isuFactors']['betweenIsuRelativeGroupSizes']);
 
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['data'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['data']);
         expect(tdm.then(x => x['_isuFactors']['outcomeCorrelationMatrix']['_values']['size'])).toEqual(dm['_isuFactors']['outcomeCorrelationMatrix']['_values']['size']);
-        
+
         expect(tdm.then(x => x['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['outcome'])).toEqual(dm['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['outcome']);
         expect(tdm.then(x => x['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['repMeasure'])).toEqual(dm['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['repMeasure']);
         expect(tdm.then(x => x['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['values'])).toEqual(dm['_isuFactors']['outcomeRepeatedMeasureStDevs'][0]['values']);
     });
 });
+
