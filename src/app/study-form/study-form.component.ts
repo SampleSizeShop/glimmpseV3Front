@@ -288,7 +288,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   getComponentName(stage: number) {
-    return this._stageNames[stage];
+    return constants.GET_COMPONENT_NAME(constants.STAGES, stage);
   }
 
   setNextBack(): void {
