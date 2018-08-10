@@ -186,5 +186,9 @@ export const constants = {
     REJECT_NULL: 'REJECT NULL',
     CI_WIDTH: 'CI WIDTH',
     WAVR: 'WAVR'
+  },
+  SOLVE_FOR: {
+    POWER: 'POWER',
+    SAMPLE_SIZE: 'SAMPLE SIZE'
   }
 };

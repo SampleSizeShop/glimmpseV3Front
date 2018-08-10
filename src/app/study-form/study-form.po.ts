@@ -1,14 +1,17 @@
 import { browser, by, element, protractor } from 'protractor';
 import {UserModePo} from './user-mode/user-mode.po';
 import {TargetEventPo} from './target-event/target-event.po';
+import {SolveForPo} from './solve-for/solve-for.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
-  target_event: TargetEventPo
+  target_event: TargetEventPo;
+  solve_for: SolveForPo;
 
   constructor() {
     this.user_mode = new UserModePo();
     this.target_event = new TargetEventPo()
+    this.solve_for = new SolveForPo()
   }
 
   fromJSON(input) {
@@ -17,7 +20,10 @@ export class StudyFormComponentPage {
     this.next();
     this.sleep(100);
     this.target_event.fromJSON(input);
+    this.next();
     this.sleep(100);
+    this.solve_for.fromJSON(input);
+    this.sleep(4000);
   }
 
   navigateToHome() {
@@ -49,7 +55,7 @@ export class StudyFormComponentPage {
   };
 
   getRouterURLString(){
-    return browser.getCurrentUrl().then(url => url.split("/").pop());
+    return browser.getCurrentUrl().then(url => url.split('/').pop());
   };
 
   getElementClass(cid: string){

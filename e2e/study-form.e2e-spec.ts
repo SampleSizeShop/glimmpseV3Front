@@ -13,7 +13,8 @@ describe('demo-front-app short course homework test', () => {
     // MODE
     const input = {
       user_mode: constants.USER_MODE.GUIDED,
-      target_event: constants.TARGET_EVENT.WAVR
+      target_event: constants.TARGET_EVENT.WAVR,
+      solve_for: {solve_for: constants.SOLVE_FOR.SAMPLE_SIZE, power: 0.9, ci_width: 0.1}
     }
     page.fromJSON(input);
   });
