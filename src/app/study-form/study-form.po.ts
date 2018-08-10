@@ -6,6 +6,7 @@ import {StatisticalTestsPo} from './statistical-tests/statistical-tests.po';
 import {TypeOneErrorPo} from './type-one-error/type-one-error.po';
 import {WithinIsuOutcomesPo} from './within-isu-outcomes/within-isu-outcomes.po';
 import {WithinIsuRepeatedMeasuresPo} from './within-isu-repeated-measures/within-isu-repeated-measures.po';
+import {WithinIsuClustersPo} from './within-isu-clusters/within-isu-clusters.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -15,6 +16,7 @@ export class StudyFormComponentPage {
   type_one_error: TypeOneErrorPo;
   outcomes: WithinIsuOutcomesPo;
   repeated_measures: WithinIsuRepeatedMeasuresPo;
+  cluster: WithinIsuClustersPo;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -24,6 +26,7 @@ export class StudyFormComponentPage {
     this.type_one_error = new TypeOneErrorPo();
     this.outcomes = new WithinIsuOutcomesPo();
     this.repeated_measures = new WithinIsuRepeatedMeasuresPo();
+    this.cluster = new WithinIsuClustersPo();
   }
 
   fromJSON(input) {
@@ -47,6 +50,9 @@ export class StudyFormComponentPage {
     this.next();
     this.sleep(100);
     this.repeated_measures.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.cluster.fromJSON(input);
     this.sleep(4000);
   }
 

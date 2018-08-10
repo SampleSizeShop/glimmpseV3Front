@@ -31,7 +31,8 @@ describe('demo-front-app short course homework test', () => {
       repeated_measures: [
         {dimension: 'Time', units: 'days', type: constants.REPEATED_MEASURE_TYPES[0], values: [1, 7, 15]},
         {dimension: 'Arm', type: constants.REPEATED_MEASURE_TYPES[1], values: [1, 3]}
-        ]
+        ],
+      cluster: {element: 'Class', levels: [{name: 'level1', no_elements: 10}, {name: 'level2', no_elements: 20}]}
     }
     page.fromJSON(input);
   });
