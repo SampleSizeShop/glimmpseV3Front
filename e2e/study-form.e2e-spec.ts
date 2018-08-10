@@ -26,7 +26,8 @@ describe('demo-front-app short course homework test', () => {
         constants.STATISTICAL_TESTS.UNIREP,
         constants.STATISTICAL_TESTS.MULTIREP
       ],
-      type_one_error: 0.06
+      type_one_error: 0.06,
+      outcomes: ['a', 'b', 'c', 'd']
     }
     page.fromJSON(input);
   });

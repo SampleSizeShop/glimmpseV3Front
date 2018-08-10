@@ -1,6 +1,5 @@
 import { by, element } from 'protractor';
 import {isNullOrUndefined} from 'util';
-import {constants} from '../../shared/constants';
 
 export class TypeOneErrorPo {
 
