@@ -1,6 +1,20 @@
 import { browser, by, element, protractor } from 'protractor';
+import {UserModeComponentPage} from './user-mode/user-mode.po';
 
 export class StudyFormComponentPage {
+  user_mode: UserModeComponentPage
+
+  constructor() {
+    this.user_mode = new UserModeComponentPage()
+  }
+
+  fromJSON(input) {
+    this.sleep(100);
+    this.user_mode.fromJSON(input);
+    this.next();
+    this.sleep(100);
+  }
+
   navigateToHome() {
     return browser.get('/design');
   };
@@ -49,7 +63,7 @@ export class StudyFormComponentPage {
     return element.all(by.id(cid));
   };
 
-  sleep(ms: number){
+  sleep(ms: number) {
     browser.sleep(ms);
   };
 

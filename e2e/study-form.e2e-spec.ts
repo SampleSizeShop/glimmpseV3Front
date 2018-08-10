@@ -10,8 +10,7 @@ describe('demo-front-app short course homework test', () => {
 
   it('Create a test case for Homework 1 from the short course', () => {
     // MODE
-    page.sleep(100);
-    expect(page.getElementClass('guidedbtn')).toContain('active');
-    page.next();
+    const input = {user_mode: 'GUIDED'}
+    page.fromJSON(input);
   });
 });
