@@ -38,9 +38,16 @@ describe('demo-front-app short course homework test', () => {
         {name: 'colour', groups: ['red', 'green', 'blue']},
         {name: 'c', groups: ['red', 'green', 'blue']}],
       smallest_group: 10,
-      groups: [{group: '', table: [[2, 3, 4], [5, 6, 7]]}, {group: '', table: [[2, 3, 4], [5, 6, 9]]}, {group: '', table: [[2, 3, 4], [5, 7, 9]]}],
+      groups: [
+        {group: '', table: [[2, 3, 4], [5, 6, 7]]},
+        {group: '', table: [[2, 3, 4], [5, 6, 9]]},
+        {group: '', table: [[2, 3, 4], [5, 7, 9]]}
+        ],
       gaussian_covariate: 3,
-      hypothesis: 'gender x colour'
+      hypothesis: 'gender x colour',
+      hypothesis_between: null,
+      hypothesis_within: null,
+      theta0: null
     }
     page.fromJSON(input);
   });

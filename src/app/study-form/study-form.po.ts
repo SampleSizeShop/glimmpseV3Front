@@ -12,6 +12,9 @@ import {BetweenIsuSmallestGroupPo} from './between-isu-smallest-group/between-is
 import {BetweenIsuGroupsPo} from './between-isu-groups/between-isu-groups.po';
 import {GaussianCovariatePo} from './gaussian-covariate/gaussian-covariate.po';
 import {HypothesisEffectChoicePo} from './hypothesis-effect-choice/hypothesis-effect-choice.po';
+import {HypothesisBetweenPo} from './hypothesis-between/hypothesis-between.po';
+import {HypothesisTheta0Po} from './hypothesis-theta-0/hypothesis-theta0.po';
+import {HypothesisWithinPo} from './hypothesis-within/hypothesis-within.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -26,7 +29,10 @@ export class StudyFormComponentPage {
   smallest_group: BetweenIsuSmallestGroupPo;
   groups: BetweenIsuGroupsPo;
   gaussian_covatiate: GaussianCovariatePo;
-  hypothesis: HypothesisEffectChoicePo
+  hypothesis: HypothesisEffectChoicePo;
+  hypothesis_between: HypothesisBetweenPo;
+  hypothesis_within: HypothesisWithinPo;
+  theta0: HypothesisTheta0Po;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -42,6 +48,9 @@ export class StudyFormComponentPage {
     this.groups = new BetweenIsuGroupsPo();
     this.gaussian_covatiate = new GaussianCovariatePo();
     this.hypothesis = new HypothesisEffectChoicePo();
+    this.hypothesis_between = new HypothesisBetweenPo();
+    this.hypothesis_within = new HypothesisWithinPo();
+    this.theta0 = new HypothesisTheta0Po();
   }
 
   fromJSON(input) {
@@ -83,6 +92,15 @@ export class StudyFormComponentPage {
     this.next();
     this.sleep(100);
     this.hypothesis.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.hypothesis_between.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.hypothesis_within.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.theta0.fromJSON(input);
     this.sleep(4000);
   }
 
