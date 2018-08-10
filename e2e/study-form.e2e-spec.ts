@@ -1,4 +1,5 @@
 import {StudyFormComponentPage} from '../src/app/study-form/study-form.po';
+import {constants} from '../src/app/shared/constants';
 
 describe('demo-front-app short course homework test', () => {
   let page: StudyFormComponentPage;
@@ -10,7 +11,10 @@ describe('demo-front-app short course homework test', () => {
 
   it('Create a test case for Homework 1 from the short course', () => {
     // MODE
-    const input = {user_mode: 'GUIDED'}
+    const input = {
+      user_mode: constants.USER_MODE.GUIDED,
+      target_event: constants.TARGET_EVENT.WAVR
+    }
     page.fromJSON(input);
   });
 });

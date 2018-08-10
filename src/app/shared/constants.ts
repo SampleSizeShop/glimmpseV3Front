@@ -181,5 +181,10 @@ export const constants = {
   USER_MODE: {
     GUIDED: 'GUIDED',
     FLEX: 'FLEX'
+  },
+  TARGET_EVENT: {
+    REJECT_NULL: 'REJECT NULL',
+    CI_WIDTH: 'CI WIDTH',
+    WAVR: 'WAVR'
   }
 };

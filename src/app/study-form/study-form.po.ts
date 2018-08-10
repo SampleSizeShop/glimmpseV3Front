@@ -1,17 +1,22 @@
 import { browser, by, element, protractor } from 'protractor';
-import {UserModeComponentPage} from './user-mode/user-mode.po';
+import {UserModePo} from './user-mode/user-mode.po';
+import {TargetEventPo} from './target-event/target-event.po';
 
 export class StudyFormComponentPage {
-  user_mode: UserModeComponentPage
+  user_mode: UserModePo;
+  target_event: TargetEventPo
 
   constructor() {
-    this.user_mode = new UserModeComponentPage()
+    this.user_mode = new UserModePo();
+    this.target_event = new TargetEventPo()
   }
 
   fromJSON(input) {
     this.sleep(100);
     this.user_mode.fromJSON(input);
     this.next();
+    this.sleep(100);
+    this.target_event.fromJSON(input);
     this.sleep(100);
   }
 

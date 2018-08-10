@@ -1,8 +1,8 @@
-import { by, element, protractor } from 'protractor';
+import { by, element } from 'protractor';
 import {isNullOrUndefined} from 'util';
 import {constants} from '../../shared/constants';
 
-export class UserModeComponentPage {
+export class UserModePo {
 
   fromJSON(source) {
     if (!isNullOrUndefined(source) && !isNullOrUndefined(source.user_mode)) {
