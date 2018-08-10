@@ -9,10 +9,6 @@ export class WithinIsuRepeatedMeasuresPo {
     }
   }
 
-  selectSampleSize() {
-    element(by.id('samplesizebtn')).click();
-  }
-
   fillForm(input) {
     if (!isNullOrUndefined(input)) {
       input.forEach(repeatedMeasure => {

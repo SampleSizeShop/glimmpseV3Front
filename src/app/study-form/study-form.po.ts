@@ -7,6 +7,7 @@ import {TypeOneErrorPo} from './type-one-error/type-one-error.po';
 import {WithinIsuOutcomesPo} from './within-isu-outcomes/within-isu-outcomes.po';
 import {WithinIsuRepeatedMeasuresPo} from './within-isu-repeated-measures/within-isu-repeated-measures.po';
 import {WithinIsuClustersPo} from './within-isu-clusters/within-isu-clusters.po';
+import {BetweenIsuPredictorsPo} from './between-isu-predictors/between-isu-predictors.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -17,6 +18,7 @@ export class StudyFormComponentPage {
   outcomes: WithinIsuOutcomesPo;
   repeated_measures: WithinIsuRepeatedMeasuresPo;
   cluster: WithinIsuClustersPo;
+  predictors: BetweenIsuPredictorsPo;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -27,6 +29,7 @@ export class StudyFormComponentPage {
     this.outcomes = new WithinIsuOutcomesPo();
     this.repeated_measures = new WithinIsuRepeatedMeasuresPo();
     this.cluster = new WithinIsuClustersPo();
+    this.predictors = new BetweenIsuPredictorsPo();
   }
 
   fromJSON(input) {
@@ -53,6 +56,9 @@ export class StudyFormComponentPage {
     this.next();
     this.sleep(100);
     this.cluster.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.predictors.fromJSON(input);
     this.sleep(4000);
   }
 

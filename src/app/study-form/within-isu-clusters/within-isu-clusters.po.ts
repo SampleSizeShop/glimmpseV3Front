@@ -9,10 +9,6 @@ export class WithinIsuClustersPo {
     }
   }
 
-  selectSampleSize() {
-    element(by.id('samplesizebtn')).click();
-  }
-
   fillForm(input) {
     if (!isNullOrUndefined(input)) {
       this.clickCreateBtn();
