@@ -33,8 +33,9 @@ describe('demo-front-app short course homework test', () => {
         {dimension: 'Arm', type: constants.REPEATED_MEASURE_TYPES[1], values: [1, 3]}
         ],
       cluster: {element: 'Class', levels: [{name: 'level1', no_elements: 10}, {name: 'level2', no_elements: 20}]},
-      predictors: [{name: 'gender', groups: ['m', 'f']}, {name: 'colour', groups: ['red', 'green', 'blue']}],
-      smallest_group: 10
+      predictors: [{name: 'gender', groups: ['m', 'f']}, {name: 'colour', groups: ['red', 'green', 'blue']}, {name: 'c', groups: ['red', 'green', 'blue']}],
+      smallest_group: 10,
+      groups: [{group: '', table: [[2, 3, 4], [5, 6, 7]]}, {group: '', table: [[2, 3, 4], [5, 6, 9]]}]
     }
     page.fromJSON(input);
   });
