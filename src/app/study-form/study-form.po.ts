@@ -16,6 +16,7 @@ import {HypothesisBetweenPo} from './hypothesis-between/hypothesis-between.po';
 import {HypothesisTheta0Po} from './hypothesis-theta-0/hypothesis-theta0.po';
 import {HypothesisWithinPo} from './hypothesis-within/hypothesis-within.po';
 import {ParametersMarginalMeansPo} from "./parameters-marginal-means/parameters-marginal-means.po";
+import {ParametersScaleFactorPo} from "./parameters-scale-factor/parameters-scale-factor.po";
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -35,6 +36,7 @@ export class StudyFormComponentPage {
   hypothesis_within: HypothesisWithinPo;
   theta0: HypothesisTheta0Po;
   marginal_means: ParametersMarginalMeansPo;
+  parameters_scale_factor: ParametersScaleFactorPo;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -54,6 +56,7 @@ export class StudyFormComponentPage {
     this.hypothesis_within = new HypothesisWithinPo();
     this.theta0 = new HypothesisTheta0Po();
     this.marginal_means = new ParametersMarginalMeansPo();
+    this.parameters_scale_factor = new ParametersScaleFactorPo();
   }
 
   fromJSON(input) {
@@ -107,6 +110,9 @@ export class StudyFormComponentPage {
     this.next();
     this.sleep(100);
     this.marginal_means.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.parameters_scale_factor.fromJSON(input);
     this.sleep(4000);
   }
 

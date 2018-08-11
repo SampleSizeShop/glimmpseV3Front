@@ -48,7 +48,13 @@ describe('demo-front-app short course homework test', () => {
       hypothesis_between: null,
       hypothesis_within: null,
       theta0: null,
-      marginal_means: [{means: [[1], [2], [3], [4], [5], [6]]}]
+      marginal_means: [
+        {means: [[1], [2], [3], [4], [5], [6]]},
+        {means: [[1], [2], [3], [4], [5], [6]]},
+        {means: [[1], [2], [3], [4], [5], [6]]},
+        {means: [[4], [5], [6], [7], [8], [9]]}
+        ],
+      parameters_scale_factor: 2
     }
     page.fromJSON(input);
   });
