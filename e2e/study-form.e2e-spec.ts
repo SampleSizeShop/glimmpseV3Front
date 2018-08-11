@@ -61,7 +61,37 @@ describe('demo-front-app short course homework test', () => {
         {outcome: 'c', st_dev: 3},
         {outcome: 'd', st_dev: 4}
         ],
-      parameters_outcome_correlation: [[null, null, null, null], [0.07, null, null, null], [0, 0, null, null], [0, 0, 0, null]]
+      parameters_outcome_correlation: [
+        [null, null, null, null],
+        [0.07, null, null, null],
+        [0, 0, null, null],
+        [0, 0, 0, null]
+      ],
+      parameters_outcome_repeated_measure_stdev: [
+        {stdevs: [1, 2, 3]},
+        {stdevs: [1, 2]},
+        {stdevs: [1, 2, 3]},
+        {stdevs: [1, 2]},
+        {stdevs: [1, 2, 3]},
+        {stdevs: [1, 2]},
+        {stdevs: [1, 2, 3]},
+        {stdevs: [1, 2]}
+      ],
+      parameters_repeated_measure_correlations: [
+        {table: [
+        [null, null, null],
+        [0.07, null, null],
+        [0, 0, null]
+      ]},
+        {table: [
+        [null, null],
+        [0.5, null]
+      ]},
+      ],
+      parameters_intra_class_correlation: [2, 3],
+      parameters_gaussian_covariate_variance: 2,
+      parameters_gaussian_covariate_correlation: [1, 2, 3, 4],
+      parameters_scale_factor_variance: [1, 2, 3, 4]
     }
     page.fromJSON(input);
   });

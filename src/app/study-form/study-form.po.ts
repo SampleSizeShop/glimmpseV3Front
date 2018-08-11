@@ -19,6 +19,12 @@ import {ParametersMarginalMeansPo} from './parameters-marginal-means/parameters-
 import {ParametersScaleFactorPo} from './parameters-scale-factor/parameters-scale-factor.po';
 import {ParametersStandardDeviationPo} from './parameters-standard-deviation/parameters-standard-deviation.po';
 import {ParametersOutcomeCorrelationsPo} from './parameters-outcome-correlations/parameters-outcome-correlations.po';
+import {ParametersVarianceScaleFactorsPo} from './parameters-variance-scale-factors/parameters-variance-scale-factors.po';
+import {ParametersRepeatedMeasureOutcomeStdevPo} from './parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.po';
+import {ParametersRepeatedMeasureCorellationsPo} from "./parameters-repeated-measure-correlations/parameters-repeated-measure-corellations.po";
+import {ParametersIntraClassCorellationPo} from "./parameters-intra-class-correlation/parameters-intra-class-corellation.po";
+import {ParametersGaussianCovariateVariancePo} from "./parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.po";
+import {ParametersGaussianCovariateCorellationPo} from "./parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-corellation.po";
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -41,6 +47,12 @@ export class StudyFormComponentPage {
   parameters_scale_factor: ParametersScaleFactorPo;
   parameters_standard_deviation: ParametersStandardDeviationPo;
   parameters_outcome_correlation: ParametersOutcomeCorrelationsPo;
+  parameters_outcome_repeated_measure_stdev: ParametersRepeatedMeasureOutcomeStdevPo;
+  parameters_repeated_measure_correlations: ParametersRepeatedMeasureCorellationsPo;
+  parameters_intra_class_correlation: ParametersIntraClassCorellationPo;
+  parameters_gaussian_covariate_variance: ParametersGaussianCovariateVariancePo;
+  parameters_gaussian_covariate_correlation: ParametersGaussianCovariateCorellationPo;
+  parameters_scale_factor_variance: ParametersVarianceScaleFactorsPo;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -63,69 +75,66 @@ export class StudyFormComponentPage {
     this.parameters_scale_factor = new ParametersScaleFactorPo();
     this.parameters_standard_deviation = new ParametersStandardDeviationPo();
     this.parameters_outcome_correlation = new ParametersOutcomeCorrelationsPo();
+    this.parameters_outcome_repeated_measure_stdev = new ParametersRepeatedMeasureOutcomeStdevPo();
+    this.parameters_repeated_measure_correlations = new ParametersRepeatedMeasureCorellationsPo();
+    this.parameters_intra_class_correlation = new ParametersIntraClassCorellationPo();
+    this.parameters_gaussian_covariate_variance = new ParametersGaussianCovariateVariancePo();
+    this.parameters_gaussian_covariate_correlation = new ParametersGaussianCovariateCorellationPo();
+    this.parameters_scale_factor_variance = new ParametersVarianceScaleFactorsPo();
   }
 
   fromJSON(input) {
-    this.sleep(100);
     this.user_mode.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.target_event.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.solve_for.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.statistical_tests.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.type_one_error.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.outcomes.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.repeated_measures.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.cluster.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.predictors.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.smallest_group.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.groups.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.gaussian_covatiate.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.hypothesis.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.hypothesis_between.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.hypothesis_within.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.theta0.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.marginal_means.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.parameters_scale_factor.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.parameters_standard_deviation.fromJSON(input);
     this.next();
-    this.sleep(100);
     this.parameters_outcome_correlation.fromJSON(input);
-    this.sleep(4000);
+    this.next();
+    this.parameters_outcome_repeated_measure_stdev.fromJSON(input);
+    this.next();
+    this.parameters_repeated_measure_correlations.fromJSON(input);
+    this.next();
+    this.parameters_intra_class_correlation.fromJSON(input);
+    this.next();
+    this.parameters_gaussian_covariate_variance.fromJSON(input);
+    this.next();
+    this.parameters_gaussian_covariate_correlation.fromJSON(input);
+    this.next();
+    this.parameters_scale_factor_variance.fromJSON(input);
   }
 
   navigateToHome() {
