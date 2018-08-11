@@ -15,9 +15,10 @@ import {HypothesisEffectChoicePo} from './hypothesis-effect-choice/hypothesis-ef
 import {HypothesisBetweenPo} from './hypothesis-between/hypothesis-between.po';
 import {HypothesisTheta0Po} from './hypothesis-theta-0/hypothesis-theta0.po';
 import {HypothesisWithinPo} from './hypothesis-within/hypothesis-within.po';
-import {ParametersMarginalMeansPo} from "./parameters-marginal-means/parameters-marginal-means.po";
-import {ParametersScaleFactorPo} from "./parameters-scale-factor/parameters-scale-factor.po";
-import {ParametersStandardDeviationPo} from "./parameters-standard-deviation/parameters-standard-deviation.po";
+import {ParametersMarginalMeansPo} from './parameters-marginal-means/parameters-marginal-means.po';
+import {ParametersScaleFactorPo} from './parameters-scale-factor/parameters-scale-factor.po';
+import {ParametersStandardDeviationPo} from './parameters-standard-deviation/parameters-standard-deviation.po';
+import {ParametersOutcomeCorrelationsPo} from './parameters-outcome-correlations/parameters-outcome-correlations.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -39,6 +40,7 @@ export class StudyFormComponentPage {
   marginal_means: ParametersMarginalMeansPo;
   parameters_scale_factor: ParametersScaleFactorPo;
   parameters_standard_deviation: ParametersStandardDeviationPo;
+  parameters_outcome_correlation: ParametersOutcomeCorrelationsPo;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -60,6 +62,7 @@ export class StudyFormComponentPage {
     this.marginal_means = new ParametersMarginalMeansPo();
     this.parameters_scale_factor = new ParametersScaleFactorPo();
     this.parameters_standard_deviation = new ParametersStandardDeviationPo();
+    this.parameters_outcome_correlation = new ParametersOutcomeCorrelationsPo();
   }
 
   fromJSON(input) {
@@ -119,6 +122,9 @@ export class StudyFormComponentPage {
     this.next();
     this.sleep(100);
     this.parameters_standard_deviation.fromJSON(input);
+    this.next();
+    this.sleep(100);
+    this.parameters_outcome_correlation.fromJSON(input);
     this.sleep(4000);
   }
 

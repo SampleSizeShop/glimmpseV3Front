@@ -60,7 +60,8 @@ describe('demo-front-app short course homework test', () => {
         {outcome: 'b', st_dev: 2},
         {outcome: 'c', st_dev: 3},
         {outcome: 'd', st_dev: 4}
-        ]
+        ],
+      parameters_outcome_correlation: [[null, null, null, null], [0.07, null, null, null], [0, 0, null, null], [0, 0, 0, null]]
     }
     page.fromJSON(input);
   });
