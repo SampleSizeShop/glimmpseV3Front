@@ -91,7 +91,8 @@ describe('demo-front-app short course homework test', () => {
       parameters_intra_class_correlation: [2, 3],
       parameters_gaussian_covariate_variance: 2,
       parameters_gaussian_covariate_correlation: [1, 2, 3, 4],
-      parameters_scale_factor_variance: [1, 2, 3, 4]
+      parameters_scale_factor_variance: [1, 2, 3, 4],
+      power_curve: null
     }
     page.fromJSON(input);
   });

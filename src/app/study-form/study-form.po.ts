@@ -21,10 +21,11 @@ import {ParametersStandardDeviationPo} from './parameters-standard-deviation/par
 import {ParametersOutcomeCorrelationsPo} from './parameters-outcome-correlations/parameters-outcome-correlations.po';
 import {ParametersVarianceScaleFactorsPo} from './parameters-variance-scale-factors/parameters-variance-scale-factors.po';
 import {ParametersRepeatedMeasureOutcomeStdevPo} from './parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.po';
-import {ParametersRepeatedMeasureCorellationsPo} from "./parameters-repeated-measure-correlations/parameters-repeated-measure-corellations.po";
-import {ParametersIntraClassCorellationPo} from "./parameters-intra-class-correlation/parameters-intra-class-corellation.po";
-import {ParametersGaussianCovariateVariancePo} from "./parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.po";
-import {ParametersGaussianCovariateCorellationPo} from "./parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-corellation.po";
+import {ParametersRepeatedMeasureCorellationsPo} from './parameters-repeated-measure-correlations/parameters-repeated-measure-corellations.po';
+import {ParametersIntraClassCorellationPo} from './parameters-intra-class-correlation/parameters-intra-class-corellation.po';
+import {ParametersGaussianCovariateVariancePo} from './parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.po';
+import {ParametersGaussianCovariateCorellationPo} from './parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-corellation.po';
+import {OptionalSpecsPowerCurveChoicePo} from './optional-specs-power-curve-choice/optional-specs-power-curve-choice.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -53,6 +54,7 @@ export class StudyFormComponentPage {
   parameters_gaussian_covariate_variance: ParametersGaussianCovariateVariancePo;
   parameters_gaussian_covariate_correlation: ParametersGaussianCovariateCorellationPo;
   parameters_scale_factor_variance: ParametersVarianceScaleFactorsPo;
+  optional_specs_power_curve_choice: OptionalSpecsPowerCurveChoicePo;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -81,6 +83,7 @@ export class StudyFormComponentPage {
     this.parameters_gaussian_covariate_variance = new ParametersGaussianCovariateVariancePo();
     this.parameters_gaussian_covariate_correlation = new ParametersGaussianCovariateCorellationPo();
     this.parameters_scale_factor_variance = new ParametersVarianceScaleFactorsPo();
+    this.optional_specs_power_curve_choice = new OptionalSpecsPowerCurveChoicePo();
   }
 
   fromJSON(input) {
@@ -135,6 +138,9 @@ export class StudyFormComponentPage {
     this.parameters_gaussian_covariate_correlation.fromJSON(input);
     this.next();
     this.parameters_scale_factor_variance.fromJSON(input);
+    this.next();
+    this.optional_specs_power_curve_choice.fromJSON(input);
+    this.next();
   }
 
   navigateToHome() {
