@@ -47,7 +47,8 @@ describe('demo-front-app short course homework test', () => {
       hypothesis: 'gender x colour',
       hypothesis_between: null,
       hypothesis_within: null,
-      theta0: null
+      theta0: null,
+      marginal_means: [{means: [[1], [2], [3], [4], [5], [6]]}]
     }
     page.fromJSON(input);
   });
