@@ -54,7 +54,13 @@ describe('demo-front-app short course homework test', () => {
         {means: [[1], [2], [3], [4], [5], [6]]},
         {means: [[4], [5], [6], [7], [8], [9]]}
         ],
-      parameters_scale_factor: 2
+      parameters_scale_factor: 2,
+      parameters_standard_deviation: [
+        {outcome: 'a', st_dev: 1},
+        {outcome: 'b', st_dev: 2},
+        {outcome: 'c', st_dev: 3},
+        {outcome: 'd', st_dev: 4}
+        ]
     }
     page.fromJSON(input);
   });
