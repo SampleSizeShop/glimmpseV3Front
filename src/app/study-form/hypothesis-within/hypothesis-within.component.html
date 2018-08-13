@@ -53,19 +53,19 @@
       <br>
 
       <h6>Uo</h6>
-      <div [mathJaxExpr]="uOutcomes.toTeX()"></div>
+      <div *ngIf=false [mathJaxExpr]="uOutcomes.toTeX()"></div>
       <br>
 
       <h6>Uc</h6>
-      <div [mathJaxExpr]="uCluster"></div>
+      <div *ngIf=false [mathJaxExpr]="uCluster"></div>
       <br>
 
       <h6>Ur</h6>
-      <div [mathJaxExpr]="uRepeatedMeasures.toTeX()"></div>
+      <div *ngIf=false [mathJaxExpr]="uRepeatedMeasures.toTeX()"></div>
 
       <br>
       <h6>U Matrix</h6>
-      <div [mathJaxExpr]="uMatrix"></div>
+      <div *ngIf=false [mathJaxExpr]="uMatrix"></div>
 
     </div>
     <div class="col">

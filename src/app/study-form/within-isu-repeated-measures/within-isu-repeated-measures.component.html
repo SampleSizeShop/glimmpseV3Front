@@ -103,7 +103,7 @@
                     Measurement #{{space + 1}} at
                   </div>
                   <div class="col">
-                    <input type="number" class="form-control" id="spacing" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
+                    <input type="number" class="form-control" id="spacing-{{space}}" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
                     <div *ngIf="formErrors.valueNames" class="form-group has-danger">
                       <div class="form-control-feedback">{{formErrors.valueNames}}</div>
                     </div>

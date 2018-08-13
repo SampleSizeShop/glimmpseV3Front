@@ -1,0 +1,83 @@
+{
+    "MODE": "guided",
+
+    "TARGET_EVENT": "rejection",
+
+    "SOLVE_FOR":
+    {
+        "samplesize": 10, 
+        "solve_for": "power"   
+    },
+
+    "STATISTICAL_TESTS": "hlt",
+
+    "TYPE_ONE_ERROR":
+    {
+        "typeoneerror": 0.05 
+    },
+
+    "WITHIN_ISU_OUTCOMES":
+    {
+        "outcomes": "SOAM1"
+    },
+    
+    "WITHIN_ISU_REPEATED_MEASURES": 
+    {
+        "Dimension": "HalfYear",
+        "Units": null,
+        "type": "Categortical", 
+        "times": 2,
+        "res": [1,2]
+    },
+    
+    "WITHIN_ISU_CLUSTERS": null,
+    
+    "BETWEEN_ISU_PREDICTORS":
+    [ 
+        {
+            "name": "treatment",
+            "groups": ["Placebo", "Chemotherapy"]
+        },
+        { 
+            "name": "Genotype",
+            "groups": ["GenotypeA", "GenotypeB", "GenotypeC", "GenotypeD"]
+        }
+    ],
+
+    "BETWEEN_ISU_GROUPS":
+    {
+        "smallest group": [5, 4, 3]
+    },
+
+    "GAUSSIAN_COVARIATE": null,
+
+    "HYPOTHESIS_EFFECT_CHOICE":
+    {
+        "effect": "treatment x Genotype: Interaction"
+    },
+
+    "HYPOTHESIS_BETWEEN": null,
+
+    "HYPOTHESIS_WITHIN": null,
+    
+    "PARAMETERS_MARGINAL_MEANS":
+    {
+        "placebo":{"GenotypeA":3.145, "GenotypeB":3.145, "GenotypeC":3.145, "GenotypeD":3.145},
+        "Chemothrepy":{"GenotypeA":2.123, "GenotypeB":2.325, "GenotypeC":2.525, "GenotypeD":2.975}
+    },
+
+    "PARAMETERS_SCALE_FACTOR": 1,
+
+    "PARAMETERS_STANDARD_DEVIATION": 0.3,
+
+    "PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV/SOAM1/BrainRegion": "no inputs from version2",
+
+    "PARAMETERS_REPEATED_MEASURE_CORRELATION/BrainRegion":
+    {
+        "1-0": 0.53
+    },
+    
+    "PARAMETERS_SCALE_FACTOR_VARIANCE": 1,
+
+    "OPTIONAL_SPECS_POWER_CURVE_CHOICE": null
+}
