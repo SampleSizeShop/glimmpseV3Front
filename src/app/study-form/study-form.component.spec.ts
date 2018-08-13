@@ -44,12 +44,13 @@ import {OptionalSpecsPowerCurveChoiceComponent} from './optional-specs-power-cur
 import {OptionalSpecsPowerCurveAxesComponent} from './optional-specs-power-curve-axes/optional-specs-power-curve-axes.component';
 import {OptionalSpecsPowerCurveDataSeriesComponent} from './optional-specs-power-curve-data-series/optional-specs-power-curve-data-series.component';
 import {CalculateComponent} from './calculate/calculate.component';
-import {testEnvironment} from "../../environments/environment.test";
+import {testEnvironment} from '../../environments/environment.test';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
   let fixture: ComponentFixture<StudyFormComponent>;
   let getSpy;
+  let stagename;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

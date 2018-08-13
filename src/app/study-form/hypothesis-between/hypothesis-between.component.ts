@@ -136,7 +136,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   advancedOptions(name: string) {
-    this.router.navigate(['design', constants.STAGES.HYPOTHESIS_BETWEEN, name])
+    this.router.navigate(['design', constants.getStageName(constants.STAGES.HYPOTHESIS_BETWEEN), name])
   }
 
   getMarginalCMatrix (predictor: Predictor): PartialMatrix {
