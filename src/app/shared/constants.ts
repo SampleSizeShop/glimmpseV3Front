@@ -180,10 +180,10 @@ export const constants = {
      [-5,  7,   4, -4, -7, 5],
      [ 1, -3,   2,  2, -3, 1],
      [-1,  5, -10, 10, -5, 1]],
-  GET_COMPONENT_NAME:
-    function(obj: Object, value: number){
-      let listObj = [];
-      Object.keys(obj).forEach( key => {listObj.push(key)});
+  getStageName:
+    function(value: number){
+      const listObj = [];
+      Object.keys(this.STAGES).forEach( key => {listObj.push(key)});
       return listObj[value];
     }
 };

@@ -172,12 +172,4 @@ describe('StudyFormComponent', () => {
     expect(!component.hasNext)
   });
 
-  it('Should correctly match address and routing name', () => {
-    stagename = []
-    Object.keys(component.stages).forEach( key => { stagename.push(key) });
-    stagename.forEach( function (value, i){
-      expect(component.getComponentName(i)).toBe(value);
-    })
-  });
-
 });
