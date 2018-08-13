@@ -3,7 +3,10 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
+import {minMaxValidator} from '../../shared/minmax.validator';
+import {NGXLogger} from 'ngx-logger';
+import {constants} from '../../shared/constants';
 
 @Component({
   selector: 'app-between-isu-smallest-group',
@@ -15,9 +18,12 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
   private _isuFactors: ISUFactors;
   private _groupSizeForm: FormGroup;
   private _isuFactorsSubscription: Subscription;
+  private _formErrors = constants.BETWEEN_ISU_ERRORS;
+  private _validationMessages = constants.BETWEEN_ISU_VALIDATION_MESSAGES;
 
   constructor(private _fb: FormBuilder,
-              private _study_service: StudyService) {}
+              private _study_service: StudyService,
+              private logger: NGXLogger) {}
 
   ngOnInit() {
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
@@ -36,11 +42,32 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
   }
 
   buildForm() {
-    this.groupSizeForm = this.fb.group( this.updateSmallestGroupSizeControls()  );
+    this.groupSizeForm = this.fb.group( this.updateSmallestGroupSizeControls() );
+
+    this.groupSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged(); // (re)set validation messages now
+  }
+
+  onValueChanged(data?: any) {
+    if (!this.groupSizeForm) {
+      return;
+    }
+    const form = this.groupSizeForm;
+
+    for (const field in this.formErrors) {
+      this.formErrors[field] = '';
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
   }
 
   updateSmallestGroupSizeControls() {
-    return { smallestGroupSize: [ this._isuFactors.smallestGroupSize ] }
+    return { smallestGroupSize: [ this.isuFactors.smallestGroupSize, minMaxValidator(0, 100000000000, this.logger) ] }
   }
 
   updateSmallestGroupSize() {
@@ -63,6 +90,27 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
 
   set groupSizeForm(value: FormGroup) {
     this._groupSizeForm = value;
+  }
+
+  get formErrors(): { smallestgroup: string; } {
+    return this._formErrors;
+  }
+
+  set formErrors(value: { smallestgroup: string; }) {
+    this._formErrors = value;
+  }
+
+  get validationMessages(): {
+    smallestgroup: { minval: string; };
+  }
+  {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value: {
+    smallestgroup: { minval: string; };
+  }) {
+    this._validationMessages = value;
   }
 
   get isuFactorsSubscription(): Subscription {
