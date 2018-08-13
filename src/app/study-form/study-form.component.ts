@@ -45,7 +45,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _validSubscription: Subscription;
 
   private _stages;
-  private _stageNames;
   private _noStages: number;
   private _childComponentNav: boolean;
   private parameters = [];
@@ -167,7 +166,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   private navigate(stage: number, direction: string) {
-    let params = ['design', this._stageNames[stage]];
+    let params = ['design', constants.getStageName(stage)];
     params = params.concat(this.parameters);
     this.log.debug(params);
     const success = this.router.navigate(params);
@@ -303,9 +302,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   ngOnInit() {
     this._stages = constants.STAGES;
-    this._stageNames = [];
-    Object.keys(this.stages).forEach( key => {this._stageNames.push(key)});
-    this._noStages = this._stageNames.length;
+    this._noStages = Object.keys(this._stages).length;
     this.hasNext = true;
     this.hasBack = false;
   }
@@ -349,7 +346,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   getStageName(): string {
-    return this._stageNames[this.study_service.stage];
+    return constants.getStageName(this.study_service.stage);
   }
 
   getStage(): number {
