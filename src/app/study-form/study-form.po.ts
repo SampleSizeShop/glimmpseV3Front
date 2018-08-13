@@ -26,6 +26,7 @@ import {ParametersIntraClassCorellationPo} from './parameters-intra-class-correl
 import {ParametersGaussianCovariateVariancePo} from './parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.po';
 import {ParametersGaussianCovariateCorellationPo} from './parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-corellation.po';
 import {OptionalSpecsPowerCurveChoicePo} from './optional-specs-power-curve-choice/optional-specs-power-curve-choice.po';
+import {OptionalSpecsPowerMethodPo} from './optional-specs-power-method/optional-specs-power-method.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -54,6 +55,7 @@ export class StudyFormComponentPage {
   parameters_gaussian_covariate_variance: ParametersGaussianCovariateVariancePo;
   parameters_gaussian_covariate_correlation: ParametersGaussianCovariateCorellationPo;
   parameters_scale_factor_variance: ParametersVarianceScaleFactorsPo;
+  optional_specs_power_method: OptionalSpecsPowerMethodPo;
   optional_specs_power_curve_choice: OptionalSpecsPowerCurveChoicePo;
 
   constructor() {
@@ -83,6 +85,7 @@ export class StudyFormComponentPage {
     this.parameters_gaussian_covariate_variance = new ParametersGaussianCovariateVariancePo();
     this.parameters_gaussian_covariate_correlation = new ParametersGaussianCovariateCorellationPo();
     this.parameters_scale_factor_variance = new ParametersVarianceScaleFactorsPo();
+    this.optional_specs_power_method = new OptionalSpecsPowerMethodPo();
     this.optional_specs_power_curve_choice = new OptionalSpecsPowerCurveChoicePo();
   }
 
@@ -139,8 +142,15 @@ export class StudyFormComponentPage {
     this.next();
     this.parameters_scale_factor_variance.fromJSON(input);
     this.next();
+    this.optional_specs_power_method.fromJSON(input);
+    this.next();
     this.optional_specs_power_curve_choice.fromJSON(input);
     this.next();
+  }
+
+  calculate() {
+    element(by.id('calculate')).click();
+    browser.sleep(4000);
   }
 
   navigateToHome() {
@@ -157,69 +167,5 @@ export class StudyFormComponentPage {
 
   prev() {
     element(by.id('navigate_before')).click();
-  };
-
-  refresh() {
-    browser.refresh();
-  };
-
-  browserBack() {
-    browser.navigate().back();
-  };
-
-  browserForward() {
-    browser.navigate().forward();
-  };
-
-  getRouterURLString() {
-    return browser.getCurrentUrl().then(url => url.split('/').pop());
-  };
-
-  getElementClass(cid: string) {
-    return element(by.id(cid)).getAttribute('class')
-  };
-
-  findContentById(cid: string) {
-    return element(by.id(cid))
-  };
-
-  findContentByClass(ccls: string) {
-    return element(by.className(ccls));
-  };
-
-  findAllcontentById(cid: string) {
-    return element.all(by.id(cid));
-  };
-
-  sleep(ms: number) {
-    browser.sleep(ms);
-  };
-
-  findAllByClass(ccls: string) {
-    return element.all(by.className(ccls));
-  };
-
-  findAllByTag(tag: string) {
-    return element.all(by.tagName(tag));
-  };
-
-  findByTag(tag: string) {
-    return element(by.tagName(tag));
-  };
-
-  findByCssWithText(cls: string, txt: string) {
-    return element(by.cssContainingText(cls, txt))
-  };
-
-  findContentByCss(ccss: string) {
-    return element(by.css(ccss));
-  };
-
-  clickEnterKey() {
-    browser.actions().sendKeys(protractor.Key.ENTER).perform();
-  };
-
-  findByPartialLinkText(txt: string) {
-    return element(by.partialLinkText(txt));
   };
 }
