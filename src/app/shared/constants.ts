@@ -1,3 +1,5 @@
+import {TargetEventComponent} from '../study-form/target-event/target-event.component';
+
 export const constants = {
   // Guided mode stages and ordering
   STAGES: {
@@ -177,5 +179,11 @@ export const constants = {
      [ 5, -1,  -4, -4, -1, 5],
      [-5,  7,   4, -4, -7, 5],
      [ 1, -3,   2,  2, -3, 1],
-     [-1,  5, -10, 10, -5, 1]]
+     [-1,  5, -10, 10, -5, 1]],
+  getStageName:
+    function(value: number){
+      const listObj = [];
+      Object.keys(this.STAGES).forEach( key => {listObj.push(key)});
+      return listObj[value];
+    }
 };
