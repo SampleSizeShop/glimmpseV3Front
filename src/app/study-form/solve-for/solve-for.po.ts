@@ -19,8 +19,7 @@ export class SolveForPo {
   selectPower() {
     if (!isNullOrUndefined(element(by.id('powerbtn')))) {
       element(by.id('powerbtn')).click();
-    }
-    if (!isNullOrUndefined(element(by.id('probabilitybtn')))) {
+    } else if (!isNullOrUndefined(element(by.id('probabilitybtn')))) {
       element(by.id('probabilitybtn')).click();
     }
   }

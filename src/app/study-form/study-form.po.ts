@@ -1,4 +1,4 @@
-import { browser, by, element, protractor } from 'protractor';
+import { browser, by, element } from 'protractor';
 import {UserModePo} from './user-mode/user-mode.po';
 import {TargetEventPo} from './target-event/target-event.po';
 import {SolveForPo} from './solve-for/solve-for.po';
@@ -27,6 +27,7 @@ import {ParametersGaussianCovariateVariancePo} from './parameters-gaussian-covar
 import {ParametersGaussianCovariateCorellationPo} from './parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-corellation.po';
 import {OptionalSpecsPowerCurveChoicePo} from './optional-specs-power-curve-choice/optional-specs-power-curve-choice.po';
 import {OptionalSpecsPowerMethodPo} from './optional-specs-power-method/optional-specs-power-method.po';
+import {constants} from '../shared/constants';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -90,62 +91,82 @@ export class StudyFormComponentPage {
   }
 
   fromJSON(input) {
-    this.user_mode.fromJSON(input);
-    this.next();
-    this.target_event.fromJSON(input);
-    this.next();
-    this.solve_for.fromJSON(input);
-    this.next();
-    this.statistical_tests.fromJSON(input);
-    this.next();
-    this.type_one_error.fromJSON(input);
-    this.next();
-    this.outcomes.fromJSON(input);
-    this.next();
-    this.repeated_measures.fromJSON(input);
-    this.next();
-    this.cluster.fromJSON(input);
-    this.next();
-    this.predictors.fromJSON(input);
-    this.next();
-    this.smallest_group.fromJSON(input);
-    this.next();
-    this.groups.fromJSON(input);
-    this.next();
-    this.gaussian_covatiate.fromJSON(input);
-    this.next();
-    this.hypothesis.fromJSON(input);
-    this.next();
-    this.hypothesis_between.fromJSON(input);
-    this.next();
-    this.hypothesis_within.fromJSON(input);
-    this.next();
-    this.theta0.fromJSON(input);
-    this.next();
-    this.marginal_means.fromJSON(input);
-    this.next();
-    this.parameters_scale_factor.fromJSON(input);
-    this.next();
-    this.parameters_standard_deviation.fromJSON(input);
-    this.next();
-    this.parameters_outcome_correlation.fromJSON(input);
-    this.next();
-    this.parameters_outcome_repeated_measure_stdev.fromJSON(input);
-    this.next();
-    this.parameters_repeated_measure_correlations.fromJSON(input);
-    this.next();
-    this.parameters_intra_class_correlation.fromJSON(input);
-    this.next();
-    this.parameters_gaussian_covariate_variance.fromJSON(input);
-    this.next();
-    this.parameters_gaussian_covariate_correlation.fromJSON(input);
-    this.next();
-    this.parameters_scale_factor_variance.fromJSON(input);
-    this.next();
-    this.optional_specs_power_method.fromJSON(input);
-    this.next();
-    this.optional_specs_power_curve_choice.fromJSON(input);
-    this.next();
+    // Tried to do this with a while loop, but it didn't work. this.next() didn't function. Not sure why.
+    Object.keys(input).forEach(key => {
+      browser.getCurrentUrl().then(value => {
+        if (this.fillCurrentComponent(value, input)) {
+          this.next();
+        }
+      });
+    });
+  }
+
+  isStage(url, stage):boolean {
+  return url.split('/')[4] === constants.getStageName(stage)
+  }
+
+  fillCurrentComponent(url, input): boolean {
+    let ret = true
+    if ( this.isStage(url, constants.STAGES.MODE)) {
+      this.user_mode.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.TARGET_EVENT))  {
+      this.target_event.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.SOLVE_FOR))  {
+      this.solve_for.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.STATISTICAL_TESTS))  {
+      this.statistical_tests.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.TYPE_ONE_ERROR))  {
+      this.type_one_error.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.WITHIN_ISU_OUTCOMES))  {
+      this.outcomes.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.WITHIN_ISU_REPEATED_MEASURES))  {
+      this.repeated_measures.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.WITHIN_ISU_CLUSTERS))  {
+      this.cluster.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.BETWEEN_ISU_PREDICTORS))  {
+      this.predictors.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.BETWEEN_ISU_SMALLEST_GROUP))  {
+      this.smallest_group.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.BETWEEN_ISU_GROUPS))  {
+      this.groups.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.GAUSSIAN_COVARIATE))  {
+      this.gaussian_covatiate.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.HYPOTHESIS_EFFECT_CHOICE))  {
+      this.hypothesis.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.HYPOTHESIS_BETWEEN))  {
+      this.hypothesis_between.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.HYPOTHESIS_WITHIN))  {
+      this.hypothesis_within.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.HYPOTHESIS_THETA_0))  {
+      this.theta0.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_MARGINAL_MEANS))  {
+      this.marginal_means.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_SCALE_FACTOR))  {
+      this.parameters_scale_factor.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_STANDARD_DEVIATION))  {
+      this.parameters_standard_deviation.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_OUTCOME_CORRELATION))  {
+      this.parameters_outcome_correlation.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV))  {
+      this.parameters_outcome_repeated_measure_stdev.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_REPEATED_MEASURE_CORRELATION))  {
+      this.parameters_repeated_measure_correlations.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_INTRA_CLASS_CORRELATION))  {
+      this.parameters_intra_class_correlation.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE))  {
+      this.parameters_gaussian_covariate_variance.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION))  {
+      this.parameters_gaussian_covariate_correlation.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_SCALE_FACTOR_VARIANCE))  {
+      this.parameters_scale_factor_variance.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.OPTIONAL_SPECS_POWER_METHOD))  {
+      this.optional_specs_power_method.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_CHOICE))  {
+      this.optional_specs_power_curve_choice.fromJSON(input);
+    } else {
+      ret = false;
+    }
+    return ret;
   }
 
   calculate() {
