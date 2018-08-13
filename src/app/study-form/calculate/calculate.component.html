@@ -6,7 +6,7 @@
   <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate!</button>
 </div>
 <div *ngIf="hasResults">
-  <div>{{resultString | json}}</div>
+  <div id="results">{{resultString | json}}</div>
   <tr>
     <td><h6>Power</h6></td>
     <td>{{resultString.power}}</td>

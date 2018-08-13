@@ -28,6 +28,7 @@ import {ParametersGaussianCovariateCorellationPo} from './parameters-gaussian-co
 import {OptionalSpecsPowerCurveChoicePo} from './optional-specs-power-curve-choice/optional-specs-power-curve-choice.po';
 import {OptionalSpecsPowerMethodPo} from './optional-specs-power-method/optional-specs-power-method.po';
 import {constants} from '../shared/constants';
+import {CalculatePo} from './calculate/calculate.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -58,6 +59,7 @@ export class StudyFormComponentPage {
   parameters_scale_factor_variance: ParametersVarianceScaleFactorsPo;
   optional_specs_power_method: OptionalSpecsPowerMethodPo;
   optional_specs_power_curve_choice: OptionalSpecsPowerCurveChoicePo;
+  calculate_component: CalculatePo;
 
   constructor() {
     this.user_mode = new UserModePo();
@@ -88,21 +90,26 @@ export class StudyFormComponentPage {
     this.parameters_scale_factor_variance = new ParametersVarianceScaleFactorsPo();
     this.optional_specs_power_method = new OptionalSpecsPowerMethodPo();
     this.optional_specs_power_curve_choice = new OptionalSpecsPowerCurveChoicePo();
+    this.calculate_component = new CalculatePo();
   }
 
-  fromJSON(input) {
+  fromJSON(input): Promise<any> {
     // Tried to do this with a while loop, but it didn't work. this.next() didn't function. Not sure why.
-    Object.keys(input).forEach(key => {
-      browser.getCurrentUrl().then(value => {
-        if (this.fillCurrentComponent(value, input)) {
-          this.next();
-        }
+    return new Promise((resolve, reject) => {
+      Object.keys(input).forEach(key => {
+        browser.getCurrentUrl().then(value => {
+          if (this.fillCurrentComponent(value, input)) {
+            this.next();
+          } else {
+            resolve(true);
+          }
+        });
       });
     });
   }
 
-  isStage(url, stage):boolean {
-  return url.split('/')[4] === constants.getStageName(stage)
+  isStage(url, stage): boolean {
+    return url.split('/')[4] === constants.getStageName(stage)
   }
 
   fillCurrentComponent(url, input): boolean {
@@ -169,9 +176,20 @@ export class StudyFormComponentPage {
     return ret;
   }
 
-  calculate() {
-    element(by.id('calculate')).click();
-    browser.sleep(4000);
+  calculate(): Promise<any> {
+    browser.sleep(1000);
+    return new Promise((resolve, reject) => {
+      element(by.id('calculate')).click().then(val => {
+        setTimeout(() => {
+          // resolve once the results are back. I don't like the sleep above.
+          resolve(true);
+        }, 1000)
+      });
+    });
+  }
+
+  output(): Promise<string> {
+    return this.calculate_component.readOutput();
   }
 
   navigateToHome() {

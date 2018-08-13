@@ -1,5 +1,5 @@
 import {StudyFormComponentPage} from '../src/app/study-form/study-form.po';
-import {example_1} from './test_inputs/example_1';
+import {example_1_input, example_1_output} from './test_inputs/example_1_input';
 import {generic_model} from './test_inputs/generic_test_data_model';
 
 describe('demo-front-app short course homework test', () => {
@@ -11,13 +11,20 @@ describe('demo-front-app short course homework test', () => {
     page.navigateTo('/design/MODE');
   });
 
-  it('Should fill out the study form', () => {
-    page.fromJSON(example_1);
-    page.calculate();
+  it('Should fill out the study form', async function() {
+    const expected = example_1_output;
+    let actual = null;
+    await page.fromJSON(example_1_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+    expect(actual.model).toEqual(expected.model);
+    expect(actual.power).toEqual(expected.power);
   });
 
   it('Should fill out the study form', () => {
     page.fromJSON(generic_model);
-    page.calculate();
   });
 });
