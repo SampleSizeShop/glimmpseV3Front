@@ -67,7 +67,7 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
   }
 
   updateSmallestGroupSizeControls() {
-    return { smallestGroupSize: [ this.isuFactors.smallestGroupSize, minMaxValidator(0, 100000000000, this.logger) ] }
+    return { smallestGroupSize: [ this.isuFactors.smallestGroupSize, minMaxValidator(0, Number.MAX_VALUE, this.logger) ] }
   }
 
   updateSmallestGroupSize() {
@@ -92,23 +92,23 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
     this._groupSizeForm = value;
   }
 
-  get formErrors(): { smallestgroup: string; } {
+  get formErrors(): { smallestGroupSize: string; } {
     return this._formErrors;
   }
 
-  set formErrors(value: { smallestgroup: string; }) {
+  set formErrors(value: { smallestGroupSize: string; }) {
     this._formErrors = value;
   }
 
   get validationMessages(): {
-    smallestgroup: { minval: string; };
+    smallestGroupSize: { minval: string; };
   }
   {
     return this._validationMessages;
   }
 
   set validationMessages(value: {
-    smallestgroup: { minval: string; };
+    smallestGroupSize: { minval: string; };
   }) {
     this._validationMessages = value;
   }

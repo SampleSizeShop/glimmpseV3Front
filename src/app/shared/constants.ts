@@ -53,7 +53,7 @@ export const constants = {
     'singleoutcomeerror': ''
   },
   BETWEEN_ISU_ERRORS: {
-    'smallestgroup': ''
+    'smallestGroupSize': ''
   },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
@@ -72,7 +72,7 @@ export const constants = {
     }
   },
   BETWEEN_ISU_VALIDATION_MESSAGES: {
-    'smallestgroup': {
+    'smallestGroupSize': {
       'minval': 'Value too low.'
     },
   },

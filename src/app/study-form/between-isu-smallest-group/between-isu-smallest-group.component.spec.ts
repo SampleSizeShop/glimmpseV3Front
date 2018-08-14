@@ -10,6 +10,7 @@ import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
 import {StudyService} from '../study.service';
+import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
 
 describe('BetweenIsuSmallestGroupComponent', () => {
   let component: BetweenIsuSmallestGroupComponent;
@@ -22,7 +23,8 @@ describe('BetweenIsuSmallestGroupComponent', () => {
       providers: [
         StudyService,
         { provide: HttpClient, useClass: MockBackend },
-        {provide: ActivatedRoute, useClass: ActivatedRouteStub }
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub },
+        {provide: NGXLogger, useClass: NGXLoggerMock}
       ]
     })
     .compileComponents();
