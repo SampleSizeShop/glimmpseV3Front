@@ -7,7 +7,7 @@
   <div *ngFor="let effect of possibleEffects; let i = index" class="row" [ngStyle]="{'background-color': rowStyle(i)}">
       <div class="col-sm-1">
         <div class="form-check" style="margin-bottom: 1px">
-          <label class="form-check-label">
+          <label class="form-check-label" id="{{effect.name}}">
             <input type="radio" (click)="selectEffect(effect)" class="form-check-input" [checked]="isSelected(effect)">
           </label>
         </div>

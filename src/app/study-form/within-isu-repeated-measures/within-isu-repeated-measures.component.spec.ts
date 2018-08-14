@@ -69,7 +69,7 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.setStage(2);
     component.internallyNavigate('NEXT');
     fixture.detectChanges();
-    const desc: DebugElement = fixture.debugElement.query(By.css('#spacing'));
+    const desc: DebugElement = fixture.debugElement.query(By.css('#spacinginput'));
     const el = desc.nativeElement;
     expect(el).toBeTruthy();
   });

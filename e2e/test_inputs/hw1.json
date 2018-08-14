@@ -1,0 +1,70 @@
+{
+    "MODE": "guided",
+
+    "TARGET_EVENT": "rejection",
+
+    "SOLVE_FOR":
+    {
+        "samplesize": 20, 
+        "solve_for": "power"   
+    },
+
+    "STATISTICAL_TESTS": "hlt",
+
+    "TYPE_ONE_ERROR":
+    {
+        "typeoneerror": 0.05 
+    },
+
+    "WITHIN_ISU_OUTCOMES":
+    {
+        "outcomes": "DrinkingFrequency"
+    },
+    
+    "WITHIN_ISU_REPEATED_MEASURES": null,
+    
+    "WITHIN_ISU_CLUSTERS":
+    {
+        "name": "worker",
+        "level name": "Workplace",
+        "elements": 15
+    },
+    
+    "BETWEEN_ISU_PREDICTORS":
+    {
+        "name": "treatment",
+        "groups": ["ControlGroup", "WorkplaceTreatmentProgram"]
+    },
+
+    "BETWEEN_ISU_GROUPS":
+    {
+        "smallest group": 20
+    },
+
+    "GAUSSIAN_COVARIATE": null,
+
+    "HYPOTHESIS_EFFECT_CHOICE":
+    {
+        "effect": "choose the second"
+    },
+
+    "HYPOTHESIS_BETWEEN": null,
+
+    "HYPOTHESIS_WITHIN": null,
+    
+    "PARAMETERS_MARGINAL_MEANS":
+    {
+        "ControlGroup": 1.24,
+        "WorkplaceTreatmentProgram": 0.73
+    },
+
+    "PARAMETERS_SCALE_FACTOR": 1,
+
+    "PARAMETERS_STANDARD_DEVIATION": 1.1,
+
+    "PARAMETERS_INTRA_CLASS_CORRELATION": 0.13,
+    
+    "PARAMETERS_SCALE_FACTOR_VARIANCE": 1,
+
+    "OPTIONAL_SPECS_POWER_CURVE_CHOICE": null
+}

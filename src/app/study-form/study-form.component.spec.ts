@@ -50,7 +50,6 @@ describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
   let fixture: ComponentFixture<StudyFormComponent>;
   let getSpy;
-  let stagename;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

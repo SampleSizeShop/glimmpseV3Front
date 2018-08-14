@@ -1,5 +1,3 @@
-import {TargetEventComponent} from '../study-form/target-event/target-event.component';
-
 export const constants = {
   // Guided mode stages and ordering
   STAGES: {
@@ -188,6 +186,19 @@ export const constants = {
      [-5,  7,   4, -4, -7, 5],
      [ 1, -3,   2,  2, -3, 1],
      [-1,  5, -10, 10, -5, 1]],
+  USER_MODE: {
+    GUIDED: 'GUIDED',
+    FLEX: 'FLEX'
+  },
+  TARGET_EVENT: {
+    REJECT_NULL: 'REJECT NULL',
+    CI_WIDTH: 'CI WIDTH',
+    WAVR: 'WAVR'
+  },
+  SOLVE_FOR: {
+    POWER: 'POWER',
+    SAMPLE_SIZE: 'SAMPLE SIZE'
+  },
   getStageName:
     function(value: number){
       const listObj = [];
