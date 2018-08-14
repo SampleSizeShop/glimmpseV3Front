@@ -9,7 +9,7 @@ import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {LoggerModule, NGXLogger} from 'ngx-logger';
 import {NGXLoggerMock} from 'ngx-logger';
-import {testEnvironment} from "../../../environments/environment.test";
+import {testEnvironment} from '../../../environments/environment.test';
 
 describe('SolveForComponent', () => {
   let component: SolveForComponent;
