@@ -9,10 +9,13 @@
             <label>{{val}}:</label>
           </div>
           <div class="col-md-auto">
-            <input class="form-control" formControlName="{{val}}" id="{{i}}" type="number" step="0.01">
+            <input class="form-control" formControlName="{{val}}" id="{{i}}" type="number" step="0.01" required>
           </div>
         </div>
       </form>
+    </div>
+    <div *ngIf="formErrors.vectorofstandarddeviations" class="form-group has-danger">
+      <div class="form-control-feedback">{{formErrors.vectorofstandarddeviations}}</div>
     </div>
   </div>
 </div>

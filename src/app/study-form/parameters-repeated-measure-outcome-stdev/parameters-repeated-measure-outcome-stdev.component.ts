@@ -6,9 +6,10 @@ import {Outcome} from '../../shared/Outcome';
 import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {OutcomeRepMeasStDev} from "../../shared/OutcomeRepMeasStDev";
-import {isNullOrUndefined} from "util";
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {OutcomeRepMeasStDev} from '../../shared/OutcomeRepMeasStDev';
+import {isNullOrUndefined} from 'util';
+import {constants} from '../../shared/constants';
 
 @Component({
   selector: 'app-parameters-repeated-measure-outcome-stdev',
@@ -21,6 +22,8 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, D
   private _outcome$: Observable<Outcome>;
   private _measure$: Observable<RepeatedMeasure>;
   private _stdevForm: FormGroup;
+  private _formErrors = constants.PARAMETERS_STANDARD_DEVIATION_ERRORS;
+  private _validationMessages = constants.PARAMETERS_STANDARD_DEVIATION_VALIDATION_MESSAGES;
 
   private _measure: RepeatedMeasure;
   private _outcome: Outcome;
@@ -55,7 +58,27 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, D
 
   buildForm() {
     this.stdevForm = this.fb.group(this.getStDevControls());
+    this.stdevForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged(); // (re)set validation messages now
   };
+
+  onValueChanged(data?: any) {
+    if (!this.stdevForm) {
+      return;
+    }
+    const form = this.stdevForm;
+
+    this.formErrors['vectorofstandarddeviations'] = '';
+    for (const field in this.stdevForm.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages['vectorofstandarddeviations'];
+        for (const key in control.errors) {
+          this.formErrors['vectorofstandarddeviations'] = messages[key];
+        }
+      }
+    }
+  }
 
   getStDevControls() {
     const controlDefs = {};
@@ -167,6 +190,27 @@ export class ParametersRepeatedMeasureOutcomeStDevComponent implements OnInit, D
 
   set stdevForm(value: FormGroup) {
     this._stdevForm = value;
+  }
+
+  get formErrors(): { vectorofstandarddeviations: string; } {
+    return this._formErrors;
+  }
+
+  set formErrors(value: { vectorofstandarddeviations: string; }) {
+    this._formErrors = value;
+  }
+
+  get validationMessages(): {
+    vectorofstandarddeviations: { required: string; };
+  }
+  {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value: {
+    vectorofstandarddeviations: { required: string; };
+  }) {
+    this._validationMessages = value;
   }
 
   get measure(): RepeatedMeasure {

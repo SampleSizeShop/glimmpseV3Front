@@ -59,6 +59,9 @@ export const constants = {
   PARAMETERS_STANDARD_DEVIATION_ERRORS: {
     'vectorofstandarddeviations': ''
   },
+  PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV_ERRORS: {
+    'vectorofstandarddeviations': ''
+  },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
       'minval': 'Value too low.',
@@ -87,6 +90,11 @@ export const constants = {
     },
   },
   PARAMETERS_STANDARD_DEVIATION_VALIDATION_MESSAGES: {
+    'vectorofstandarddeviations': {
+      'required': 'ALL values need to be filled in.'
+    },
+  },
+  PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV_VALIDATION_MESSAGES: {
     'vectorofstandarddeviations': {
       'required': 'ALL values need to be filled in.'
     },
