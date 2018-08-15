@@ -9,6 +9,9 @@ import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/of';
+import {minMaxValidator} from '../../shared/minmax.validator';
+import {NGXLogger} from 'ngx-logger';
+import {constants} from '../../shared/constants';
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -21,12 +24,15 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   private _relativeGroupSizeForm: FormGroup;
   private _table$: Observable<RelativeGroupSizeTable>;
   private _table: RelativeGroupSizeTable;
+  private _formErrors = constants.BETWEEN_ISU_RELATIVE_GROUP_ERRORS;
+  private _validationMessages = constants.BETWEEN_ISU_RELATIVE_GROUP_VALIDATION_MESSAGES;
 
   private _isuFactorsSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
               private route: ActivatedRoute,
-              private _study_service: StudyService) {
+              private _study_service: StudyService,
+              private logger: NGXLogger) {
     this.table$ = this.route.paramMap.switchMap(
       (params: ParamMap) => this.getTableFromIndex(params.get('index'))
     );
@@ -67,6 +73,26 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   buildForm() {
     this.relativeGroupSizeForm = this.fb.group( {} );
     this.updateGroupsizeFormControls();
+    this.relativeGroupSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged(); // (re)set validation messages now
+  }
+
+  onValueChanged(data?: any) {
+    if (!this.relativeGroupSizeForm) {
+      return;
+    }
+    const form = this.relativeGroupSizeForm;
+
+    this.formErrors['relativegroupsizes'] = '';
+    for (const field in this.relativeGroupSizeForm.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages['relativegroupsizes'];
+        for (const key in control.errors) {
+          this.formErrors['relativegroupsizes'] = messages[key];
+        }
+      }
+    }
   }
 
   resetForms() {
@@ -102,7 +128,8 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
           let c = 0;
           row.forEach( group => {
             const name = r.toString() + '-' + c.toString();
-            this.relativeGroupSizeForm[name] = [group.value];
+            this.relativeGroupSizeForm[name] = group.value;
+            this.relativeGroupSizeForm.controls[name].setValidators(minMaxValidator(0, Number.MAX_VALUE, this.logger));
             c = c + 1;
           });
           r = r + 1;
@@ -141,6 +168,27 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   set fb(value: FormBuilder) {
     this._fb = value;
+  }
+
+  get formErrors(): { relativegroupsizes: string; } {
+    return this._formErrors;
+  }
+
+  set formErrors(value: { relativegroupsizes: string; }) {
+    this._formErrors = value;
+  }
+
+  get validationMessages(): {
+    relativegroupsizes: { minval: string; };
+  }
+  {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value: {
+    relativegroupsizes: { minval: string; };
+  }) {
+    this._validationMessages = value;
   }
 
   get study_service(): StudyService {
