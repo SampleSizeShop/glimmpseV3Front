@@ -7,10 +7,10 @@
 </div>
 <div *ngIf="hasResults">
   <div id="results">{{resultString | json}}</div>
-  <div *ngFor="let results of resultString.results">
+  <div *ngFor="let result of resultString.results">
     <tr>
-      <td><h6>Power: </h6></td>
-      <td><h6>{{results.test}} : {{results.power}}</h6></td>
+      <td><h6>{{result.test}}</h6></td>
+      <td><h6>{{getOutput(result)}}</h6></td>
     </tr>
   </div>
   <tr>
