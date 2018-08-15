@@ -41,7 +41,11 @@ export const example_1_output = {
   message: "OK",
   status: 200,
   mimetype: "application/json",
-  power: 0.05,
+  results: [
+    {
+      test: "Hotelling Lawley Trace",
+      power: 0.05
+    }],
   model: {
     essence_design_matrix: [ [ 1 ] ],
     repeated_rows_in_design_matrix: 10,
