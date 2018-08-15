@@ -11,7 +11,7 @@ export function minMaxValidator(min: number, max: number, log?: NGXLogger): Vali
       return { 'minval': val }
     } else if ( val > max ) {
       if (log) {
-        log.debug('value greater less than max ' + max )
+        log.debug('value greater than max ' + max )
       }
       return { 'maxval': val }
     } else {

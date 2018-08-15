@@ -1,4 +1,4 @@
-<h5>Define the standard deviations for your outcomes:</h5>
+ <h5>Define the standard deviations for your outcomes:</h5>
 <div class="container">
   <form [formGroup]="stDevForm">
     <div *ngFor="let outcome of isuFactors.outcomes" class="row">
@@ -6,8 +6,11 @@
         {{outcome.name}}:
       </div>
       <div class="col-9 justify-content-start">
-        <input type="number" class="form-control" id="{{outcome.name}}" formControlName="{{outcome.name}}" value="{{outcome.standardDeviation}}">
+        <input type="number" class="form-control" id="{{outcome.name}}" formControlName="{{outcome.name}}" value="{{outcome.standardDeviation}}" required>
       </div>
+    </div>
+    <div *ngIf="formErrors.vectorofstandarddeviations" class="form-group has-danger">
+      <div class="form-control-feedback">{{formErrors.vectorofstandarddeviations}}</div>
     </div>
   </form>
 </div>

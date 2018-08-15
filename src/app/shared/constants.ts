@@ -56,6 +56,9 @@ export const constants = {
   BETWEEN_ISU_RELATIVE_GROUP_ERRORS: {
     'relativegroupsizes': ''
   },
+  PARAMETERS_STANDARD_DEVIATION_ERRORS: {
+    'vectorofstandarddeviations': ''
+  },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
       'minval': 'Value too low.',
@@ -79,7 +82,13 @@ export const constants = {
   },
   BETWEEN_ISU_RELATIVE_GROUP_VALIDATION_MESSAGES: {
     'relativegroupsizes': {
-      'minval': 'ALL values need to be >= 0.'
+      'minval': 'ALL values need to be filled in and >= 0.',
+      'required': 'ALL values need to be filled in and >= 0.'
+    },
+  },
+  PARAMETERS_STANDARD_DEVIATION_VALIDATION_MESSAGES: {
+    'vectorofstandarddeviations': {
+      'required': 'ALL values need to be filled in.'
     },
   },
   WITHIN_ISU_VALIDATION_MESSAGES: {
