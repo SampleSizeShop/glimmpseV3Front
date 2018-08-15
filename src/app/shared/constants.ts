@@ -53,6 +53,9 @@ export const constants = {
   BETWEEN_ISU_ERRORS: {
     'smallestGroupSize': ''
   },
+  BETWEEN_ISU_RELATIVE_GROUP_ERRORS: {
+    'relativegroupsizes': ''
+  },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
       'minval': 'Value too low.',
@@ -72,6 +75,11 @@ export const constants = {
   BETWEEN_ISU_VALIDATION_MESSAGES: {
     'smallestGroupSize': {
       'minval': 'Value too low.'
+    },
+  },
+  BETWEEN_ISU_RELATIVE_GROUP_VALIDATION_MESSAGES: {
+    'relativegroupsizes': {
+      'minval': 'ALL values need to be >= 0.'
     },
   },
   WITHIN_ISU_VALIDATION_MESSAGES: {
