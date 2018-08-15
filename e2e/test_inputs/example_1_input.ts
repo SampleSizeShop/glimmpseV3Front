@@ -44,7 +44,7 @@ export const example_1_output = {
   results: [
     {
       test: "Hotelling Lawley Trace",
-      power: 0.05
+      power: 1.0
     }],
   model: {
     essence_design_matrix: [ [ 1 ] ],
@@ -59,7 +59,7 @@ export const example_1_output = {
     theta: [ [ 80 ] ],
     m: [ [ 1 ] ],
     nu_e: 9,
-    hypothesis_sum_square: [ [ 6400 ] ],
+    hypothesis_sum_square: [ [ 64000 ] ],
     error_sum_square: [ [ 2025 ] ]
   }
 }

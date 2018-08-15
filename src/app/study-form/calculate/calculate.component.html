@@ -7,14 +7,12 @@
 </div>
 <div *ngIf="hasResults">
   <div id="results">{{resultString | json}}</div>
-  <tr>
-    <td><h6>Power</h6></td>
-    <td>{{resultString.power}}</td>
-  </tr>
-  <tr>
-    <td><h6>Samplesize</h6></td>
-    <td>{{resultString.samplesize}}</td>
-  </tr>
+  <div *ngFor="let results of resultString.results">
+    <tr>
+      <td><h6>Power: </h6></td>
+      <td><h6>{{results.test}} : {{results.power}}</h6></td>
+    </tr>
+  </div>
   <tr>
     <td><h6>es X</h6></td>
     <td><div [mathJaxExpr]="toTex(resultString.model.essence_design_matrix)"></div></td>
