@@ -1,7 +1,7 @@
 import {StudyFormComponentPage} from '../src/app/study-form/study-form.po';
 import {example_1_input, example_1_output} from './test_inputs/example_1_input';
 import {generic_model} from './test_inputs/generic_test_data_model';
-import {Qian_Ex_1, Qian_Ex_1_input, Qian_Ex_1_output} from './test_inputs/Qian_Ex_1';
+import {Qian_Ex_1_input, Qian_Ex_1_output} from './test_inputs/Qian_Ex_1';
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -16,6 +16,9 @@ describe('Glimmpse v3 automated integration tests', () => {
     const expected = Qian_Ex_1_output;
     let actual = null;
     await page.fromJSON(Qian_Ex_1_input);
+    await page.modelText().then(text => {
+      console.log(text);
+    });
     await page.calculate();
     await page.output().then(text => {
       console.log(text);

@@ -192,6 +192,10 @@ export class StudyFormComponentPage {
     return this.calculate_component.readOutput();
   }
 
+  modelText(): Promise<string> {
+    return this.calculate_component.readPost();
+  }
+
   navigateToHome() {
     return browser.get('/design');
   };
