@@ -1,4 +1,5 @@
 import {ISUFactors} from './ISUFactors';
+import * as math from 'mathjs';
 import {GaussianCovariate} from './GaussianCovariate';
 import {HypothesisEffect} from './HypothesisEffect';
 import {isNullOrUndefined} from 'util';
@@ -157,15 +158,15 @@ export class StudyDesign {
 
   get b() {
     let b = this.isuFactors.outcomes.length;
-    let c = 0
+    const c = []
     this.isuFactors.repeatedMeasures.forEach(measure => {
       if (measure.inHypothesis) {
-        c = c + 1;
+        c.push(measure.partialUMatrix.values.size()[1]);
       }
     });
-    if (c > 0) {
-      b = b * c
-    }
+    c.forEach(noCols => {
+      b = b * noCols;
+    });
     return b;
   }
 
