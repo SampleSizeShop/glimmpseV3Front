@@ -1,7 +1,7 @@
 import {by, element} from 'protractor';
 import {isNullOrUndefined} from 'util';
 
-export class ParametersRepeatedMeasureOutcomeStdevPo {
+export class ParametersRepeatedMeasureStdevPo {
 
   fromJSON(source) {
     if (!isNullOrUndefined(source) && !isNullOrUndefined(source.parameters_outcome_repeated_measure_stdev)) {

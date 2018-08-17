@@ -37,7 +37,7 @@ import { ParametersStandardDeviationComponent } from './study-form/parameters-st
 import { ParametersOutcomeCorrelationsComponent } from './study-form/parameters-outcome-correlations/parameters-outcome-correlations.component';
 import { ParametersRepeatedMeasureCorrelationsComponent } from './study-form/parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component';
 import {StudyFormRoutingModule} from './study-form/study-form-routing.module';
-import {ParametersRepeatedMeasureOutcomeStDevComponent} from './study-form/parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.component';
+import {ParametersRepeatedMeasureStdevComponent} from './study-form/parameters-repeated-measure-stdev/parameters-repeated-measure-stdev.component';
 import { ParametersIntraClassCorrelationComponent } from './study-form/parameters-intra-class-correlation/parameters-intra-class-correlation.component';
 import { ParametersGaussianCovariateCorrelationComponent } from './study-form/parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-correlation.component';
 import { ParametersVarianceScaleFactorsComponent } from './study-form/parameters-variance-scale-factors/parameters-variance-scale-factors.component';
@@ -84,7 +84,7 @@ import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypot
     ParametersScaleFactorComponent,
     ParametersStandardDeviationComponent,
     ParametersOutcomeCorrelationsComponent,
-    ParametersRepeatedMeasureOutcomeStDevComponent,
+    ParametersRepeatedMeasureStdevComponent,
     ParametersRepeatedMeasureCorrelationsComponent,
     ParametersIntraClassCorrelationComponent,
     ParametersGaussianCovariateCorrelationComponent,

@@ -16,9 +16,9 @@ describe('Glimmpse v3 automated integration tests', () => {
     const expected = Qian_Ex_1_output;
     let actual = null;
     await page.fromJSON(Qian_Ex_1_input);
-    await page.modelText().then(text => {
-      console.log(text);
-    });
+    // await page.modelText().then(text => {
+    //   console.log(text);
+    // });
     await page.calculate();
     await page.output().then(text => {
       console.log(text);

@@ -20,7 +20,7 @@ import {ParametersScaleFactorPo} from './parameters-scale-factor/parameters-scal
 import {ParametersStandardDeviationPo} from './parameters-standard-deviation/parameters-standard-deviation.po';
 import {ParametersOutcomeCorrelationsPo} from './parameters-outcome-correlations/parameters-outcome-correlations.po';
 import {ParametersVarianceScaleFactorsPo} from './parameters-variance-scale-factors/parameters-variance-scale-factors.po';
-import {ParametersRepeatedMeasureOutcomeStdevPo} from './parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.po';
+import {ParametersRepeatedMeasureStdevPo} from './parameters-repeated-measure-stdev/parameters-repeated-measure-stdev.po';
 import {ParametersRepeatedMeasureCorellationsPo} from './parameters-repeated-measure-correlations/parameters-repeated-measure-corellations.po';
 import {ParametersIntraClassCorellationPo} from './parameters-intra-class-correlation/parameters-intra-class-corellation.po';
 import {ParametersGaussianCovariateVariancePo} from './parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.po';
@@ -51,7 +51,7 @@ export class StudyFormComponentPage {
   parameters_scale_factor: ParametersScaleFactorPo;
   parameters_standard_deviation: ParametersStandardDeviationPo;
   parameters_outcome_correlation: ParametersOutcomeCorrelationsPo;
-  parameters_outcome_repeated_measure_stdev: ParametersRepeatedMeasureOutcomeStdevPo;
+  parameters_outcome_repeated_measure_stdev: ParametersRepeatedMeasureStdevPo;
   parameters_repeated_measure_correlations: ParametersRepeatedMeasureCorellationsPo;
   parameters_intra_class_correlation: ParametersIntraClassCorellationPo;
   parameters_gaussian_covariate_variance: ParametersGaussianCovariateVariancePo;
@@ -82,7 +82,7 @@ export class StudyFormComponentPage {
     this.parameters_scale_factor = new ParametersScaleFactorPo();
     this.parameters_standard_deviation = new ParametersStandardDeviationPo();
     this.parameters_outcome_correlation = new ParametersOutcomeCorrelationsPo();
-    this.parameters_outcome_repeated_measure_stdev = new ParametersRepeatedMeasureOutcomeStdevPo();
+    this.parameters_outcome_repeated_measure_stdev = new ParametersRepeatedMeasureStdevPo();
     this.parameters_repeated_measure_correlations = new ParametersRepeatedMeasureCorellationsPo();
     this.parameters_intra_class_correlation = new ParametersIntraClassCorellationPo();
     this.parameters_gaussian_covariate_variance = new ParametersGaussianCovariateVariancePo();
@@ -154,7 +154,7 @@ export class StudyFormComponentPage {
       this.parameters_standard_deviation.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.PARAMETERS_OUTCOME_CORRELATION))  {
       this.parameters_outcome_correlation.fromJSON(input);
-    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV))  {
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_REPEATED_MEASURE_ST_DEV))  {
       this.parameters_outcome_repeated_measure_stdev.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.PARAMETERS_REPEATED_MEASURE_CORRELATION))  {
       this.parameters_repeated_measure_correlations.fromJSON(input);

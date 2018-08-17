@@ -74,7 +74,7 @@ export class CalculateComponent implements OnInit {
     if (!isNullOrUndefined(result.power)) {
       value = ': Power - ' + result.power;
     } else if (!isNullOrUndefined(result.samplesize)) {
-      value = ': Sample size - ' + result.samplesize;
+      value = ': Sample size -> ' + result.samplesize;
     }
     return value;
   }

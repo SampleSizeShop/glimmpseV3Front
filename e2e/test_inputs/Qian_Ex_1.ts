@@ -80,8 +80,6 @@ export const Qian_Ex_1_input = {
   ],
   parameters_outcome_repeated_measure_stdev: [
     {stdevs: [1, 1, 1, 1]},
-    {stdevs: [1, 1]},
-    {stdevs: [1, 1, 1, 1]},
     {stdevs: [1, 1]}
   ],
   parameters_repeated_measure_correlations: [

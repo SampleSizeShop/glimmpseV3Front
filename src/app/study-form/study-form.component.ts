@@ -108,36 +108,26 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
             this.setStage(this.stages.PARAMETERS_SCALE_FACTOR);
           }
         } else if (
-          current === this.stages.PARAMETERS_OUTCOME_CORRELATION
+          current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV - 1
           && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
           && this.study.isuFactors.repeatedMeasures.length > 0) {
-          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV);
+          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
           this.parameters = [];
-          this.parameters.push(this.study.isuFactors.firstOutcome.name);
           this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
         } else if (
-            current === this.stages.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV
+            current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV
             && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
             && this.study.isuFactors.repeatedMeasures.length > 0) {
 
           const currentMeasureName = this.parameters.pop();
           const nextMeasure = this.study.isuFactors.getNextRepeatedMeasure(currentMeasureName);
-          const currentOutcomeName = this.parameters.pop();
-          const nextOutcome = this.study.isuFactors.getNextOutcome(currentOutcomeName);
           this.parameters = [];
           if (!isNullOrUndefined(nextMeasure)) {
-            // next outcome/repeates measure standard deviation
-            this.parameters.push(currentOutcomeName);
             this.parameters.push(nextMeasure.name);
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV);
-          } else if (!isNullOrUndefined(nextOutcome)) {
-            // next outcome/repeates measure standard deviation
-            this.parameters.push(nextOutcome.name);
-            this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV);
+            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
           } else {
             // first repeated measure correlation
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
+            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV + 1);
             this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
           }
         } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION) {
@@ -233,20 +223,13 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
           this.parameters = [];
           this.parameters.push(this.study.isuFactors.marginalMeans.length - 1);
-        } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV) {
+        } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV) {
           const currentMeasure = this.parameters.pop();
-          const currentOutcome = this.parameters.pop();
           const previousMeasure = this.study.isuFactors.getPreviousRepeatedMeasure(currentMeasure);
-          const previousOutcome = this.study.isuFactors.getPreviousOutcome(currentOutcome);
           this.parameters = [];
           if (!isNullOrUndefined(previousMeasure)) {
-            this.parameters.push(currentOutcome);
             this.parameters.push(previousMeasure.name);
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV);
-          } else if (!isNullOrUndefined(previousOutcome)) {
-            this.parameters.push(previousOutcome.name);
-            this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV);
+            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
           } else {
             this.setStage(this.stages.PARAMETERS_OUTCOME_CORRELATION);
           }
@@ -258,15 +241,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
             this.parameters.push(previous.name);
             this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
           } else {
-            const lastOutcome = this.study.isuFactors.lastOutcome;
             const lastMeasure = this.study.isuFactors.lastRepeatedMeasure;
             if (
-              !isNullOrUndefined(lastOutcome) &&
               !isNullOrUndefined(lastMeasure)) {
-              this.parameters.push(lastOutcome.name);
               this.parameters.push(lastMeasure.name);
             }
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV);
+            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
           }
         } else if (current === this.stages.PARAMETERS_INTRA_CLASS_CORRELATION
           && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)

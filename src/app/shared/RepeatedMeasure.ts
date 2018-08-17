@@ -9,6 +9,7 @@ export class RepeatedMeasure extends ISUFactor {
   private _noRepeats: number;
   partialUMatrix: PartialMatrix;
   correlationMatrix: CorrelationMatrix;
+  standard_deviations: Array<number>;
 
   constructor(name?: string) {
     super(name);
@@ -20,6 +21,7 @@ export class RepeatedMeasure extends ISUFactor {
     this._noRepeats = 0;
     this.partialUMatrix = new PartialMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
     this.correlationMatrix = new CorrelationMatrix(this.valueNames);
+    this.standard_deviations = [];
   }
 
   get noRepeats(): number {

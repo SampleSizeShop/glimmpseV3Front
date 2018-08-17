@@ -8,7 +8,6 @@ import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
 import {HypothesisEffect} from './HypothesisEffect';
 import {CorrelationMatrix} from './CorrelationMatrix';
-import {OutcomeRepMeasStDev} from './OutcomeRepMeasStDev';
 import {Group} from './Group';
 import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
 import {MarginalMeansTable} from './MarginalMeansTable';
@@ -20,7 +19,6 @@ export class ISUFactors {
   marginalMeans = new Array<MarginalMeansTable>();
   smallestGroupSize: number[] = [];
   outcomeCorrelationMatrix: CorrelationMatrix = new CorrelationMatrix();
-  outcomeRepeatedMeasureStDevs = Array<OutcomeRepMeasStDev>();
 
   toJSON() {
     return {
@@ -29,8 +27,7 @@ export class ISUFactors {
         marginalMeans: this.marginalMeans,
         smallestGroupSize: this.smallestGroupSize,
         theta0: this.theta0,
-        outcomeCorrelationMatrix: this.outcomeCorrelationMatrix,
-        outcomeRepeatedMeasureStDevs: this.outcomeRepeatedMeasureStDevs };
+        outcomeCorrelationMatrix: this.outcomeCorrelationMatrix };
   }
 
   get hypothesisName(): string {
@@ -39,7 +36,7 @@ export class ISUFactors {
       name = name.concat(variable.name, ' x ');
     });
     name = name.substring(0, name.length - 3 );
-    if (name.length == 0) {
+    if (name.length === 0) {
       name = 'grand mean';
     }
     return name;

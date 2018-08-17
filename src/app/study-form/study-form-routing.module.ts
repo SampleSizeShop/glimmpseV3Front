@@ -19,7 +19,7 @@ import {ParametersMarginalMeansComponent} from './parameters-marginal-means/para
 import {ParametersScaleFactorComponent} from './parameters-scale-factor/parameters-scale-factor.component';
 import {ParametersStandardDeviationComponent} from './parameters-standard-deviation/parameters-standard-deviation.component';
 import {ParametersOutcomeCorrelationsComponent} from './parameters-outcome-correlations/parameters-outcome-correlations.component';
-import {ParametersRepeatedMeasureOutcomeStDevComponent} from './parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.component';
+import {ParametersRepeatedMeasureStdevComponent} from './parameters-repeated-measure-stdev/parameters-repeated-measure-stdev.component';
 import {ParametersRepeatedMeasureCorrelationsComponent} from './parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component';
 import {NgModule} from '@angular/core';
 import {StudyFormGuard} from './study-form-guard.service';
@@ -95,12 +95,12 @@ const studyFormRoutes: Routes = [
             {path: names[constants.STAGES.PARAMETERS_STANDARD_DEVIATION], component: ParametersStandardDeviationComponent},
             {path: names[constants.STAGES.PARAMETERS_OUTCOME_CORRELATION], component: ParametersOutcomeCorrelationsComponent},
             {
-              path: names[constants.STAGES.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV] + '/:outcome/:measure',
-              component: ParametersRepeatedMeasureOutcomeStDevComponent,
+              path: names[constants.STAGES.PARAMETERS_REPEATED_MEASURE_ST_DEV] + '/:measure',
+              component: ParametersRepeatedMeasureStdevComponent,
               canActivate: [ RepeatedMeasureGuard ] },
             {
-              path: names[constants.STAGES.PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV],
-              component: ParametersRepeatedMeasureOutcomeStDevComponent,
+              path: names[constants.STAGES.PARAMETERS_REPEATED_MEASURE_ST_DEV],
+              component: ParametersRepeatedMeasureStdevComponent,
               canActivate: [ RepeatedMeasureGuard ] },
             {
               path: names[constants.STAGES.PARAMETERS_REPEATED_MEASURE_CORRELATION] + '/:measure',

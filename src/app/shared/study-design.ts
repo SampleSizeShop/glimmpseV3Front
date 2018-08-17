@@ -215,35 +215,6 @@ export class StudyDesign {
     if (this._isuFactors.theta0.length !== this.a || this._isuFactors.theta0[0].length !== this.b) {
       this._isuFactors.theta0 = this.generateDefaultTheta0();
     }
-
-    // Do all of our OutcomeRepMeasStDev still exist
-    if (
-      !isNullOrUndefined(this.isuFactors)
-      && !isNullOrUndefined(this.isuFactors.outcomeRepeatedMeasureStDevs)) {
-      const toRemove = [];
-      for ( const stDev of this.isuFactors.outcomeRepeatedMeasureStDevs ) {
-        let outcomeMatch = false;
-        let measureMatch = false;
-        for (const outcome of this.isuFactors.outcomes) {
-          if (outcome.name === stDev.outcome) {
-            outcomeMatch = true;
-          }
-        }
-        for (const measure of this.isuFactors.repeatedMeasures) {
-          if (measure.name === stDev.repMeasure) {
-            measureMatch = true;
-          }
-        }
-        if (!outcomeMatch || !measureMatch) {
-          toRemove.push(this.isuFactors.outcomeRepeatedMeasureStDevs.indexOf(stDev));
-        }
-      }
-      for (const index of toRemove.reverse()) {
-        if (index > -1) {
-          this.isuFactors.outcomeRepeatedMeasureStDevs.splice(index, 1)
-        }
-      }
-    }
   }
 
   get variables() {
