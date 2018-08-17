@@ -15,4 +15,17 @@ export class CalculatePo {
       }
     });
   }
+  readPost(): Promise<string> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('reviewDataModel')).isDisplayed()) {
+        element(by.id('reviewDataModel')).getText().then(text => {
+          const str = text;
+          resolve(str);
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
 }

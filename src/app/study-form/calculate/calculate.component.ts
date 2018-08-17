@@ -72,9 +72,9 @@ export class CalculateComponent implements OnInit {
   getOutput(result) {
     let value = result.test;
     if (!isNullOrUndefined(result.power)) {
-      value = ': Power - ' + result.power;
+      value = ': Power -> ' + result.power;
     } else if (!isNullOrUndefined(result.samplesize)) {
-      value = ': Sample size - ' + result.samplesize;
+      value = ': Sample size -> ' + result.samplesize;
     }
     return value;
   }
