@@ -1,71 +1,99 @@
-import {Component, DoCheck, Input, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ISUFactors} from '../../shared/ISUFactors';
-import {ISUFactorCombinationTable} from '../../shared/ISUFactorCombinationTable';
 import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from 'rxjs/Subscription';
+import {Observable} from 'rxjs/Observable';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import {MarginalMeansTable} from '../../shared/MarginalMeansTable';
 
 @Component({
   selector: 'app-parameters-marginal-means',
   templateUrl: './parameters-marginal-means.component.html',
   styleUrls: ['./parameters-marginal-means.component.css']
 })
-export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
+export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDestroy {
   private _isuFactors: ISUFactors;
-  private _tables: Array<ISUFactorCombinationTable>;
   private _marginalMeansForm: FormGroup;
+  private _table$: Observable<MarginalMeansTable>;
+  private _table: MarginalMeansTable;
 
   private _isuFactorsSubscription: Subscription;
 
-  constructor(private fb: FormBuilder, private _study_service: StudyService) {
-    this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
-      this.isuFactors = isuFactors;
-    } );}
+  constructor(private _fb: FormBuilder, private _route: ActivatedRoute, private _study_service: StudyService) {
+    this.table$ = this.route.paramMap.switchMap(
+      (params: ParamMap) => this.getTableFromIndex(params.get('index'))
+    );
+  }
 
   ngOnInit() {
-    this.updateMarginalMeansFormControls();
+    this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    } );
+    this.table$.subscribe(
+      table => {
+        this._table = table;
+        this.buildForm();
+      }
+    );
   }
+
+  ngOnDestroy() {}
 
   ngDoCheck() {
     this.updateMarginalMeans();
     this._study_service.updateIsuFactors(this.isuFactors);
   }
 
+  getRelativeGroupSizeTables() { return Observable.of(this.isuFactors.marginalMeans); }
+
+  getTableFromIndex(index: string | any) {
+    return this.getRelativeGroupSizeTables().map(
+      tables => tables.find(
+        table => this.isuFactors.marginalMeans.indexOf(table).toString() === index
+      ));
+  }
+
+  buildForm() {
+    this.marginalMeansForm = this.fb.group( {} );
+    this.updateMarginalMeansFormControls();
+  }
+
   updateMarginalMeans() {
-    if ( this.isuFactors ) {
-      this.isuFactors.marginalMeans.forEach(marginalMean => {
-        const value = this.marginalMeansForm.get(marginalMean.name).value;
-        marginalMean.size = value;
+    if ( !isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this.table)) {
+      let r = 0;
+      this.table.table.forEach( row => {
+        let c = 0;
+        row.forEach( group => {
+          const name = r.toString() + '-' + c.toString();
+          group.value = this.marginalMeansForm.controls[name].value;
+          c = c + 1;
+        });
+        r = r + 1;
       });
     }
   }
 
   updateMarginalMeansFormControls() {
-    if (isNullOrUndefined( this._isuFactors.marginalMeans ) || this._isuFactors.marginalMeans.size === 0) {
-      this._isuFactors.marginalMeans = this._isuFactors.generateCombinations(this._isuFactors.hypothesis);
-    }
-
-    this.tables = this.isuFactors.groupCombinations(
-      this.isuFactors.marginalMeans,
-      this.isuFactors.hypothesis);
-
-    const controlDefs = {};
-    this.tables.forEach(table => {
-      const names = table.table.keys();
-      let done = false;
-      let next = names.next();
-      while (!done) {
-        const key = next.value;
-        const combination = table.table.get(key);
-        if (!isNullOrUndefined(combination)) {
-          controlDefs[combination.name] = [combination.size];
-        }
-        next = names.next();
-        done = next.done;
+    if (!this.hasTable) {
+      this.marginalMeansForm = this.fb.group({});
+    } else {
+      const controlDefs = this._table.controlDefs;
+      this.marginalMeansForm = this.fb.group(controlDefs);
+      if (!isNullOrUndefined(this.table)) {
+        let r = 0;
+        this.table.table.forEach( row => {
+          let c = 0;
+          row.forEach( group => {
+            const name = r.toString() + '-' + c.toString();
+            this.marginalMeansForm[name] = [group.value];
+            c = c + 1;
+          });
+          r = r + 1;
+        });
       }
-    });
-    this.marginalMeansForm = this.fb.group(controlDefs);
+    }
   }
 
   get isuFactors(): ISUFactors {
@@ -74,14 +102,6 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
 
   set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
-  }
-
-  get tables(): Array<ISUFactorCombinationTable> {
-    return this._tables;
-  }
-
-  set tables(value: Array<ISUFactorCombinationTable>) {
-    this._tables = value;
   }
 
   get marginalMeansForm(): FormGroup {
@@ -94,5 +114,63 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck {
 
   set isuFactorsSubscription(value: Subscription) {
     this._isuFactorsSubscription = value;
+  }
+
+  get table$(): Observable<MarginalMeansTable> {
+    return this._table$;
+  }
+
+  set table$(value: Observable<MarginalMeansTable>) {
+    this._table$ = value;
+  }
+
+  get table(): MarginalMeansTable {
+    return this._table;
+  }
+
+  set table(value: MarginalMeansTable) {
+    this._table = value;
+  }
+
+  get fb(): FormBuilder {
+    return this._fb;
+  }
+
+  set fb(value: FormBuilder) {
+    this._fb = value;
+  }
+
+  get route(): ActivatedRoute {
+    return this._route;
+  }
+
+  set route(value: ActivatedRoute) {
+    this._route = value;
+  }
+
+  get study_service(): StudyService {
+    return this._study_service;
+  }
+
+  set study_service(value: StudyService) {
+    this._study_service = value;
+  }
+
+  get hasTable(): boolean {
+    let hasTable = true;
+    if (isNullOrUndefined(this.table)) {
+      hasTable = false;
+    }
+    return hasTable;
+  }
+
+  get grandMean(): boolean{
+    let grandMean = false;
+    if (!isNullOrUndefined(this._table)) {
+      if (this._table.size === 1) {
+        grandMean = true;
+      }
+    }
+    return grandMean;
   }
 }

@@ -1,46 +1,47 @@
 export const constants = {
   // Guided mode stages and ordering
   STAGES: {
-    '1':  'MODE',
-    '2':  'TARGET_EVENT',
-    '3':  'SOLVE_FOR',
-    '4':  'STATISTICAL_TESTS',
-    '5':  'TYPE_ONE_ERROR',
-    '6':  'WITHIN_ISU_OUTCOMES',
-    '7':  'WITHIN_ISU_REPEATED_MEASURES',
-    '8':  'WITHIN_ISU_CLUSTERS',
-    '9':  'BETWEEN_ISU_PREDICTORS',
-    '10': 'BETWEEN_ISU_GROUPS',
-    '11': 'GAUSSIAN_COVARIATE',
-    '12': 'HYPOTHESIS_EFFECT_CHOICE',
-    '13': 'HYPOTHESIS_BETWEEN',
-    '14': 'HYPOTHESIS_WITHIN',
-    '15': 'PARAMETERS_MARGINAL_MEANS',
-    '16': 'PARAMETERS_SCALE_FACTOR',
-    '17': 'PARAMETERS_STANDARD_DEVIATION',
-    '18': 'PARAMETERS_OUTCOME_CORRELATION',
-    '19': 'PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV',
-    '20': 'PARAMETERS_REPEATED_MEASURE_CORRELATION',
-    '21': 'PARAMETERS_INTRA_CLASS_CORRELATION',
-    '22': 'PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE',
-    '23': 'PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION',
-    '24': 'PARAMETERS_SCALE_FACTOR_VARIANCE',
-    '25': 'OPTIONAL_SPECS_POWER_METHOD',
-    '26': 'OPTIONAL_SPECS_POWER_CURVE_CHOICE',
-    '27': 'OPTIONAL_SPECS_POWER_CURVE_AXES',
-    '28': 'OPTIONAL_SPECS_POWER_CURVE_DATA_SERIES',
-    '29': 'OPTIONAL_SPECS_CI_CHOICE',
-    '30': 'OPTIONAL_SPECS_CI_ASSUMPTIONS',
-    '31': 'OPTIONAL_SPECS_CI_LOWER_TAIL',
-    '32': 'OPTIONAL_SPECS_CI_UPPER_TAIL',
-    '33': 'OPTIONAL_SPECS_CI_BETA_SAMPLE_SIZE',
-    '34': 'OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK',
-    '35': 'CALCULATE'
+    MODE: 0,
+    TARGET_EVENT: 1,
+    SOLVE_FOR: 2,
+    STATISTICAL_TESTS: 3,
+    TYPE_ONE_ERROR: 4,
+    WITHIN_ISU_OUTCOMES: 5,
+    WITHIN_ISU_REPEATED_MEASURES: 6,
+    WITHIN_ISU_CLUSTERS: 7,
+    BETWEEN_ISU_PREDICTORS: 8,
+    BETWEEN_ISU_SMALLEST_GROUP: 9,
+    BETWEEN_ISU_GROUPS: 10,
+    GAUSSIAN_COVARIATE: 11,
+    HYPOTHESIS_EFFECT_CHOICE: 12,
+    HYPOTHESIS_BETWEEN: 13,
+    HYPOTHESIS_WITHIN: 14,
+    HYPOTHESIS_THETA_0: 15,
+    PARAMETERS_MARGINAL_MEANS: 16,
+    PARAMETERS_SCALE_FACTOR: 17,
+    PARAMETERS_STANDARD_DEVIATION: 18,
+    PARAMETERS_OUTCOME_CORRELATION: 19,
+    PARAMETERS_REPEATED_MEASURE_ST_DEV: 20,
+    PARAMETERS_REPEATED_MEASURE_CORRELATION: 21,
+    PARAMETERS_INTRA_CLASS_CORRELATION: 22,
+    PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE: 23,
+    PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION: 24,
+    PARAMETERS_SCALE_FACTOR_VARIANCE: 25,
+    OPTIONAL_SPECS_POWER_METHOD: 26,
+    OPTIONAL_SPECS_POWER_CURVE_CHOICE: 27,
+    OPTIONAL_SPECS_POWER_CURVE_AXES: 28,
+    OPTIONAL_SPECS_POWER_CURVE_DATA_SERIES: 29,
+    OPTIONAL_SPECS_CI_CHOICE: 30,
+    OPTIONAL_SPECS_CI_ASSUMPTIONS: 31,
+    OPTIONAL_SPECS_CI_LOWER_TAIL: 32,
+    OPTIONAL_SPECS_CI_UPPER_TAIL: 33,
+    OPTIONAL_SPECS_CI_BETA_SAMPLE_SIZE: 34,
+    OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK: 35,
+    CALCULATE: 36
   },
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
     'power': '',
-    'samplesize': '',
     'ciwidth': ''
   },
   TYPE_ONE_ERROR_ERRORS: {
@@ -49,12 +50,14 @@ export const constants = {
   WITHIN_ISU_ERRORS: {
     'singleoutcomeerror': ''
   },
+  BETWEEN_ISU_ERRORS: {
+    'smallestGroupSize': ''
+  },
+  BETWEEN_ISU_RELATIVE_GROUP_ERRORS: {
+    'relativegroupsizes': ''
+  },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
-      'minval': 'Value too low.',
-      'maxval': 'Value too high'
-    },
-    'samplesize': {
       'minval': 'Value too low.',
       'maxval': 'Value too high'
     },
@@ -68,6 +71,16 @@ export const constants = {
       'minval': 'Value too low.',
       'maxval': 'Value too high'
     }
+  },
+  BETWEEN_ISU_VALIDATION_MESSAGES: {
+    'smallestGroupSize': {
+      'minval': 'Value too low.'
+    },
+  },
+  BETWEEN_ISU_RELATIVE_GROUP_VALIDATION_MESSAGES: {
+    'relativegroupsizes': {
+      'minval': 'ALL values need to be >= 0.'
+    },
   },
   WITHIN_ISU_VALIDATION_MESSAGES: {
     'singleoutcome': {}
@@ -180,5 +193,24 @@ export const constants = {
      [ 5, -1,  -4, -4, -1, 5],
      [-5,  7,   4, -4, -7, 5],
      [ 1, -3,   2,  2, -3, 1],
-     [-1,  5, -10, 10, -5, 1]]
+     [-1,  5, -10, 10, -5, 1]],
+  USER_MODE: {
+    GUIDED: 'GUIDED',
+    FLEX: 'FLEX'
+  },
+  TARGET_EVENT: {
+    REJECT_NULL: 'REJECT NULL',
+    CI_WIDTH: 'CI WIDTH',
+    WAVR: 'WAVR'
+  },
+  SOLVE_FOR: {
+    POWER: 'POWER',
+    SAMPLE_SIZE: 'SAMPLE SIZE'
+  },
+  getStageName:
+    function(value: number){
+      const listObj = [];
+      Object.keys(this.STAGES).forEach( key => {listObj.push(key)});
+      return listObj[value];
+    }
 };

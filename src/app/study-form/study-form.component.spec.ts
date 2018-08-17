@@ -26,7 +26,7 @@ import {ParametersMarginalMeansComponent} from './parameters-marginal-means/para
 import {RouterTestingModule} from '@angular/router/testing';
 import {ParametersScaleFactorComponent} from './parameters-scale-factor/parameters-scale-factor.component';
 import {ParametersOutcomeCorrelationsComponent} from './parameters-outcome-correlations/parameters-outcome-correlations.component';
-import {ParametersRepeatedMeasureOutcomeStDevComponent} from './parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.component';
+import {ParametersRepeatedMeasureStdevComponent} from './parameters-repeated-measure-stdev/parameters-repeated-measure-stdev.component';
 import {ParametersRepeatedMeasureCorrelationsComponent} from './parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component';
 import {ParametersStandardDeviationComponent} from './parameters-standard-deviation/parameters-standard-deviation.component';
 import {ParametersIntraClassCorrelationComponent} from './parameters-intra-class-correlation/parameters-intra-class-correlation.component';
@@ -44,7 +44,7 @@ import {OptionalSpecsPowerCurveChoiceComponent} from './optional-specs-power-cur
 import {OptionalSpecsPowerCurveAxesComponent} from './optional-specs-power-curve-axes/optional-specs-power-curve-axes.component';
 import {OptionalSpecsPowerCurveDataSeriesComponent} from './optional-specs-power-curve-data-series/optional-specs-power-curve-data-series.component';
 import {CalculateComponent} from './calculate/calculate.component';
-import {testEnvironment} from "../../environments/environment.test";
+import {testEnvironment} from '../../environments/environment.test';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -82,7 +82,7 @@ describe('StudyFormComponent', () => {
         ParametersScaleFactorComponent,
         CorrelationMatrixComponent,
         ParametersOutcomeCorrelationsComponent,
-        ParametersRepeatedMeasureOutcomeStDevComponent,
+        ParametersRepeatedMeasureStdevComponent,
         ParametersRepeatedMeasureCorrelationsComponent,
         ParametersStandardDeviationComponent,
         ParametersIntraClassCorrelationComponent,

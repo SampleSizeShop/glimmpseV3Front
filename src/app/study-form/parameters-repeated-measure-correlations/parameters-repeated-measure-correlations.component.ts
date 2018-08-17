@@ -10,9 +10,8 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
 import {StudyService} from '../study.service';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
-import {PartialMatrix} from "../../shared/PartialMatrix";
-import {isNullOrUndefined} from "util";
-import {CorrelationMatrix} from "../../shared/CorrelationMatrix";
+import {isNullOrUndefined} from 'util';
+import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
 
 @Component({
   selector: 'app-parameters-repeated-measure-correlations',

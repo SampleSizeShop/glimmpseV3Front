@@ -8,8 +8,6 @@ import * as math from 'mathjs';
 import {PartialMatrix} from '../../shared/PartialMatrix';
 import {Router} from '@angular/router';
 import {Predictor} from '../../shared/Predictor';
-
-import {ActivatedRoute} from '@angular/router';
 import {NGXLogger} from 'ngx-logger';
 
 @Component({
@@ -138,7 +136,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   advancedOptions(name: string) {
-    this.router.navigate(['design', constants.STAGES[13], name])
+    this.router.navigate(['design', constants.getStageName(constants.STAGES.HYPOTHESIS_BETWEEN), name])
   }
 
   getMarginalCMatrix (predictor: Predictor): PartialMatrix {

@@ -1,6 +1,5 @@
 import {Predictor} from './Predictor';
-import {CombinationId, ISUFactorCombination} from './ISUFactorCombination';
-import {ISUFactorCombinationTable} from './ISUFactorCombinationTable';
+import {ISUFactorCombination} from './ISUFactorCombination';
 import {Outcome} from './Outcome';
 import {RepeatedMeasure} from './RepeatedMeasure';
 import {Cluster} from './Cluster';
@@ -9,15 +8,27 @@ import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
 import {HypothesisEffect} from './HypothesisEffect';
 import {CorrelationMatrix} from './CorrelationMatrix';
-import {OutcomeRepMeasStDev} from "./OutcomeRepMeasStDev";
+import {Group} from './Group';
+import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
+import {MarginalMeansTable} from './MarginalMeansTable';
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
-  betweenIsuRelativeGroupSizes = new Map<string, ISUFactorCombination>();
-  marginalMeans = new Map<string, ISUFactorCombination>();
+  theta0 = [[0]];
+  betweenIsuRelativeGroupSizes = new Array<RelativeGroupSizeTable>();
+  marginalMeans = new Array<MarginalMeansTable>();
   smallestGroupSize: number[] = [];
   outcomeCorrelationMatrix: CorrelationMatrix = new CorrelationMatrix();
-  outcomeRepeatedMeasureStDevs = Array<OutcomeRepMeasStDev>();
+
+  toJSON() {
+    return {
+        variables: this.variables,
+        betweenIsuRelativeGroupSizes: this.betweenIsuRelativeGroupSizes,
+        marginalMeans: this.marginalMeans,
+        smallestGroupSize: this.smallestGroupSize,
+        theta0: this.theta0,
+        outcomeCorrelationMatrix: this.outcomeCorrelationMatrix };
+  }
 
   get hypothesisName(): string {
     let name = '';
@@ -25,6 +36,9 @@ export class ISUFactors {
       name = name.concat(variable.name, ' x ');
     });
     name = name.substring(0, name.length - 3 );
+    if (name.length === 0) {
+      name = 'grand mean';
+    }
     return name;
   }
 
@@ -134,8 +148,12 @@ export class ISUFactors {
     return measure
   }
 
-  get repeatedMeasuresInHypothesis(): Array<Predictor> {
+  get repeatedMeasuresInHypothesis(): Array<RepeatedMeasure> {
     return this.getFactorsinHypothesisByType(RepeatedMeasure);
+  }
+
+  get predictorsInHypothesis(): Array<Predictor> {
+    return this.getFactorsinHypothesisByType(Predictor);
   }
 
   updateRepeatedMeasures(newRepeatedMeasures: Array<RepeatedMeasure>) {
@@ -203,6 +221,7 @@ export class ISUFactors {
 
   updatePredictors(newPredictors: Array<Predictor>) {
     this.variables = this._updateListOfISUFactors(newPredictors, 'Predictor');
+    this.populateRelativeGroupSizes();
   }
 
   getFactorsByType( type ) {
@@ -276,91 +295,37 @@ export class ISUFactors {
     });
   }
 
-  generateCombinations(factorList: Array<ISUFactor>): Map<string, ISUFactorCombination> {
-    const combinations = new Map<string, ISUFactorCombination>();
+  generateCombinations(factorList: Array<ISUFactor>): Array<ISUFactorCombination> {
+    let combinations = new Array<ISUFactorCombination>();
 
     if (!isNullOrUndefined(factorList) && factorList.length > 0) {
       let factors = new Array<ISUFactor>();
-      factors = factors.concat(factorList);
+      factorList.forEach( factor => {
+        factors.push(factor);
+      });
       factors = this.assignChildren(factors);
-      const combinationList = factors[0].mapCombinations();
-      combinationList.forEach(combination => {
-        combinations.set(combination.name, combination);
+      combinations = factors[0].mapCombinations();
+      combinations.forEach( combination => {
+        this.orderCombination(combination);
       });
     }
     return combinations
   }
 
-  groupCombinations(combinationMap: Map<string, ISUFactorCombination>, factors: Array<ISUFactor>): Array<ISUFactorCombinationTable> {
-    const names = [];
-    const tableDimensions = [];
-
-    factors.forEach( factor => {
-      names.push(factor.name);
-    });
-    if ( names.length > 0 ) { tableDimensions.push(names.pop()); }
-    if ( names.length > 0 ) { tableDimensions.push(names.pop()); }
-
-    const subGroupCombinations = this.getSubGroupCombinations(names, factors);
-    const subGroups = [];
-    const tables = [];
-
-    if ( subGroupCombinations.length > 0 ) {
-      subGroupCombinations.forEach(subGroup => {
-        const group = [];
-
-        combinationMap.forEach(combination => {
-          if (this.isElementinSubGroup(combination, subGroup)) {
-            group.push(combination);
-          }
-        });
-
-        subGroups.push([subGroup, group]);
-      });
-
-      subGroups.forEach(subGroup => {
-        const table = new ISUFactorCombinationTable(subGroup[1], tableDimensions, subGroup[0].id);
-        tables.push(table);
-      });
-    } else {
-      const combinations = [];
-      combinationMap.forEach(combination => {
-        combinations.push( combination );
-      } );
-      const table = new ISUFactorCombinationTable(combinations, tableDimensions, []);
-      tables.push(table);
-    }
-
-    return tables;
-  }
-
-  isElementinSubGroup(combination: ISUFactorCombination, subGroup: ISUFactorCombination) {
-    let include = true;
-    combination.id.forEach(value => {
-      subGroup.id.forEach( element => {
-        if ( value.id === element.id && value.value !== element.value ) {
-          include = false;
+  orderCombination(combination: ISUFactorCombination) {
+    if (!isNullOrUndefined(combination.id)) {
+      combination.id.forEach( factor => {
+        if (factor.factorType === constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR) {
+          // get predictor by name
+          // apply order from value list
+          this.predictors.forEach( predictor => {
+            if (predictor.name === factor.factorName) {
+              factor.order = predictor.valueNames.indexOf(factor.value)
+            }
+          });
         }
       });
-    });
-    return include;
-  }
-
-  getSubGroupCombinations(names: string[], factors: Array<ISUFactor>): ISUFactorCombination[] {
-    let groups = [];
-    names.forEach( name => {
-      factors.forEach( factor => {
-        if (factor.name === name) {
-          groups.push(factor);
-        }
-      })
-    });
-    if ( groups.length === 0 ) {
-      return [];
     }
-    groups = this.assignChildren(groups);
-    const subgroups = groups[0].mapCombinations();
-    return subgroups;
   }
 
   assignChildren(factorList: ISUFactor[]) {
@@ -368,9 +333,9 @@ export class ISUFactors {
     factorList.forEach( factor => {
       factor.child = null;
     })
-    let parent = factorList.pop();
+    let parent = factorList.shift();
     while (factorList.length > 0) {
-      const child = factorList.pop();
+      const child = factorList.shift();
       parent.child = child
       factorsWithChildrenAssigned.push(parent);
       parent = child;
@@ -379,4 +344,77 @@ export class ISUFactors {
     factorList = factorsWithChildrenAssigned;
     return factorList;
   }
+
+  populateRelativeGroupSizes() {
+    const tableIds = this.getRelativeGroupSizeTableNames();
+    const groups = this.generateCombinations(this.predictors) as Array<Group>;
+    tableIds.forEach(tableId => {
+        const table = new RelativeGroupSizeTable( tableId, null );
+        table.populateTable(groups);
+        this.betweenIsuRelativeGroupSizes.push(table);
+    });
+  }
+
+  getRelativeGroupSizeTableNames(): ISUFactorCombination[] {
+    const names = [];
+    this.predictors.forEach( predictor => {
+      names.push(predictor.name);
+    });
+    names.pop();
+    names.pop();
+
+    let groups = [];
+    names.forEach( name => {
+      this.predictors.forEach( predictor => {
+        if (predictor.name === name) {
+          groups.push(predictor);
+        }
+      })
+    });
+    if ( groups.length === 0 ) {
+      return [];
+    }
+    groups = this.assignChildren(groups);
+    const tableNames = groups[0].mapCombinations();
+    return tableNames;
+  }
+
+  get firstRelativeGroupSizeTable(): RelativeGroupSizeTable {
+    let table: RelativeGroupSizeTable = null;
+    if (!isNullOrUndefined(this.betweenIsuRelativeGroupSizes) && this.betweenIsuRelativeGroupSizes.length > 0) {
+      table = this.betweenIsuRelativeGroupSizes[0];
+    }
+    return table;
+  }
+
+  getNextRelativeGroupSizeTable(index: number): RelativeGroupSizeTable {
+    let table: RelativeGroupSizeTable = null;
+    const nextIndex = index + 1;
+    if (nextIndex < this.betweenIsuRelativeGroupSizes.length) {
+      table = this.betweenIsuRelativeGroupSizes[nextIndex];
+    } else {
+      table = null;
+    }
+    return table
+  }
+
+  get firstMarginalMeansTable(): MarginalMeansTable {
+    let table: MarginalMeansTable = null;
+    if (!isNullOrUndefined(this.marginalMeans) && this.marginalMeans.length > 0) {
+      table = this.marginalMeans[0];
+    }
+    return table;
+  }
+
+  getNextMarginalMeansTable(index: number): MarginalMeansTable {
+    let table: MarginalMeansTable = null;
+    const nextIndex = index + 1;
+    if (nextIndex < this.marginalMeans.length) {
+      table = this.marginalMeans[nextIndex];
+    } else {
+      table = null;
+    }
+    return table
+  }
+
 }

@@ -1,0 +1,316 @@
+{
+  "_isuFactors": {
+    "variables": [
+      {
+        "valueNames": [
+          
+        ],
+        "name": "MemoryOfPai",
+        "inHypothesis": false,
+        "isuFactorNature": "GLOBAL_TRENDS",
+        "nature": "Within",
+        "origin": "Outcome",
+        "standardDeviation": 0.9
+      },
+      {
+        "valueNames": [
+          1,
+          2,
+          3
+        ],
+        "inHypothesis": true,
+        "isuFactorNature": "GLOBAL_TRENDS",
+        "nature": "Within",
+        "origin": "Repeated Measure",
+        "units": "",
+        "type": "Numeric",
+        "_noRepeats": 3,
+        "partialUMatrix": {
+          "name": "",
+          "logger": null,
+          "_values": {
+            "mathjs": "DenseMatrix",
+            "data": [
+              [
+                1,
+                1
+              ],
+              [
+                -1,
+                0
+              ],
+              [
+                0,
+                -1
+              ]
+            ],
+            "size": [
+              3,
+              2
+            ]
+          },
+          "_type": "MAIN_EFFECT"
+        },
+        "correlationMatrix": {
+          "_values": {
+            "mathjs": "DenseMatrix",
+            "data": [
+              [
+                1,
+                0.5,
+                0.4
+              ],
+              [
+                0.5,
+                1,
+                0.5
+              ],
+              [
+                0.4,
+                0.5,
+                1
+              ]
+            ],
+            "size": [
+              3,
+              3
+            ]
+          },
+          "_names": [
+            1,
+            2,
+            3
+          ]
+        },
+        "name": "HalfYear",
+        "child": null
+      },
+      {
+        "valueNames": [
+          "SensoryFocus",
+          "StandardOfCare"
+        ],
+        "inHypothesis": true,
+        "isuFactorNature": "GLOBAL_TRENDS",
+        "nature": "Between",
+        "origin": "Between ISU Predictor",
+        "name": "treatment",
+        "child": {
+          "valueNames": [
+            1,
+            2,
+            3
+          ],
+          "inHypothesis": true,
+          "isuFactorNature": "GLOBAL_TRENDS",
+          "nature": "Within",
+          "origin": "Repeated Measure",
+          "units": "",
+          "type": "Numeric",
+          "_noRepeats": 3,
+          "partialUMatrix": {
+            "name": "",
+            "logger": null,
+            "_values": {
+              "mathjs": "DenseMatrix",
+              "data": [
+                [
+                  1,
+                  1
+                ],
+                [
+                  -1,
+                  0
+                ],
+                [
+                  0,
+                  -1
+                ]
+              ],
+              "size": [
+                3,
+                2
+              ]
+            },
+            "_type": "MAIN_EFFECT"
+          },
+          "correlationMatrix": {
+            "_values": {
+              "mathjs": "DenseMatrix",
+              "data": [
+                [
+                  1,
+                  0.5,
+                  0.4
+                ],
+                [
+                  0.5,
+                  1,
+                  0.5
+                ],
+                [
+                  0.4,
+                  0.5,
+                  1
+                ]
+              ],
+              "size": [
+                3,
+                3
+              ]
+            },
+            "_names": [
+              1,
+              2,
+              3
+            ]
+          },
+          "name": "HalfYear",
+          "child": null
+        }
+      }
+    ],
+    "betweenIsuRelativeGroupSizes": {
+      
+    },
+    "marginalMeans": [
+      {
+        "name": "SensoryFocus1",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "SensoryFocus"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 1
+            }
+          ],
+          "size": 3.6
+        }
+      },
+      {
+        "name": "SensoryFocus2",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "SensoryFocus"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 2
+            }
+          ],
+          "size": 2.8
+        }
+      },
+      {
+        "name": "SensoryFocus3",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "SensoryFocus"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 3
+            }
+          ],
+          "size": 0.9
+        }
+      },
+      {
+        "name": "StandardOfCare1",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "StandardOfCare"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 1
+            }
+          ],
+          "size": 4.5
+        }
+      },
+      {
+        "name": "StandardOfCare2",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "StandardOfCare"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 2
+            }
+          ],
+          "size": 4.3
+        }
+      },
+      {
+        "name": "StandardOfCare3",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "StandardOfCare"
+            },
+            {
+              "factorName": "HalfYear",
+              "value": 3
+            }
+          ],
+          "size": 3
+        }
+      }
+    ],
+    "smallestGroupSize": [
+      
+    ],
+    "outcomeCorrelationMatrix": {
+      "_values": {
+        "mathjs": "DenseMatrix",
+        "data": [
+          [
+            1
+          ]
+        ],
+        "size": [
+          1,
+          1
+        ]
+      }
+    },
+    "outcomeRepeatedMeasureStDevs": [
+      {
+        "outcome": "MemoryOfPai",
+        "repMeasure": "HalfYear",
+        "values": {
+          
+        }
+      }
+    ]
+  },
+  "_targetEvent": "REJECTION",
+  "_solveFor": "SAMPLESIZE",
+  "_samplesize": 10,
+  "_ciwidth": 1,
+  "_power": 0.85,
+  "_selectedTests": [
+    "Hotelling Lawley Trace"
+  ],
+  "_typeOneErrorRate": 0.05,
+  "_gaussianCovariate": null,
+  "_scaleFactor": 1,
+  "_varianceScaleFactors": [
+    1
+  ],
+  "_powerCurve": null
+}

@@ -1,11 +1,11 @@
 <h5>Define the correlations between your gaussian covariate and your outcomes:</h5>
 <div class="container">
-  <div *ngFor="let outcome of isuFactors.outcomes" class="row">
+  <div *ngFor="let outcome of isuFactors.outcomes; let i = index" class="row">
     <div class="col-1" >
       {{outcome.name}}:
     </div>
     <div class="col-9 justify-content-start">
-      <input type="number" value="{{outcome.standardDeviation}}">
+      <input type="number" value="{{outcome.standardDeviation}}" id="{{i}}">
     </div>
   </div>
 </div>

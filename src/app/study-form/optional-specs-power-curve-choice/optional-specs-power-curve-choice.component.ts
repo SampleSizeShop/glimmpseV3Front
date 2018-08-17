@@ -30,11 +30,11 @@ export class OptionalSpecsPowerCurveChoiceComponent implements OnInit {
 
   createPowerCurve() {
     this.study_service.updatePowerCurve(new PowerCurve());
-    this.router.navigate(['design', constants.STAGES[27]]);
+    this.router.navigate(['design', constants.getStageName(constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_AXES)]);
   }
 
   editPowerCurve() {
-    this.router.navigate(['design', constants.STAGES[27]]);
+    this.router.navigate(['design', constants.getStageName(constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_AXES)]);
   }
 
   removePowerCurve() {

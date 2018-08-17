@@ -1,0 +1,108 @@
+{
+  "_isuFactors": {
+    "variables": [
+      {
+        "valueNames": [
+          
+        ],
+        "name": "DrinkingFrequency",
+        "inHypothesis": false,
+        "isuFactorNature": "GLOBAL_TRENDS",
+        "nature": "Within",
+        "origin": "Outcome",
+        "standardDeviation": 1.1
+      },
+      {
+        "valueNames": [
+          
+        ],
+        "inHypothesis": false,
+        "isuFactorNature": "GLOBAL_TRENDS",
+        "levels": [
+          {
+            "levelName": "Workplace",
+            "noElements": 15,
+            "intraClassCorellation": 1
+          }
+        ],
+        "nature": "Within",
+        "origin": "Cluster",
+        "name": "worker"
+      },
+      {
+        "valueNames": [
+          "ControlGroup",
+          "WorkplaceTreatmentProgram"
+        ],
+        "inHypothesis": true,
+        "isuFactorNature": "GLOBAL_TRENDS",
+        "nature": "Between",
+        "origin": "Between ISU Predictor",
+        "name": "treatment",
+        "child": null
+      }
+    ],
+    "betweenIsuRelativeGroupSizes": {
+      
+    },
+    "marginalMeans": [
+      {
+        "name": "ControlGroup",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "ControlGroup"
+            }
+          ],
+          "size": 1.24
+        }
+      },
+      {
+        "name": "WorkplaceTreatmentProgram",
+        "ISUFactorCombination": {
+          "id": [
+            {
+              "factorName": "treatment",
+              "value": "WorkplaceTreatmentProgram"
+            }
+          ],
+          "size": 0.73
+        }
+      }
+    ],
+    "smallestGroupSize": 20,
+    "outcomeCorrelationMatrix": {
+      "_values": {
+        "mathjs": "DenseMatrix",
+        "data": [
+          [
+            1
+          ]
+        ],
+        "size": [
+          1,
+          1
+        ]
+      }
+    },
+    "outcomeRepeatedMeasureStDevs": [
+      
+    ]
+  },
+  "_targetEvent": "REJECTION",
+  "_solveFor": "POWER",
+  "_samplesize": 20,
+  "_ciwidth": 1,
+  "_power": 0.5,
+  "_selectedTests": [
+    "Hotelling Lawley Trace"
+  ],
+  "_typeOneErrorRate": 0.05,
+  "_gaussianCovariate": null,
+  "_scaleFactor": 1,
+  "_varianceScaleFactors": [
+    1
+  ],
+  "_powerCurve": null
+}

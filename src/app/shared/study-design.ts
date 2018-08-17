@@ -1,17 +1,21 @@
 import {ISUFactors} from './ISUFactors';
+import * as math from 'mathjs';
 import {GaussianCovariate} from './GaussianCovariate';
 import {HypothesisEffect} from './HypothesisEffect';
 import {isNullOrUndefined} from 'util';
 import {ISUFactor} from './ISUFactor';
 import {constants} from './constants';
 import {PowerCurve} from './PowerCurve';
+import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
+import {MarginalMeansTable} from './MarginalMeansTable';
+import {ISUFactorCombination} from './ISUFactorCombination';
+import {CombinationId} from './CombinationId';
 
 export class StudyDesign {
   private _name: string;
   private _targetEvent: string;
   private _solveFor: string;
   private _power: number;
-  private _samplesize: number;
   private _ciwidth: number;
   private _selectedTests: string[];
   private _typeOneErrorRate: number;
@@ -26,7 +30,6 @@ export class StudyDesign {
               targetEvent?: string,
               solveFor?: string,
               power?: number,
-              samplesize?: number,
               ciwidth?: number,
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
@@ -40,21 +43,144 @@ export class StudyDesign {
     this.isuFactors = new ISUFactors();
   }
 
-  checkDependencies() {
-    // Are id groups made up of predictors we have defined
-    if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE &&
-      !isNullOrUndefined(this.isuFactors.predictors) &&
-      this.isuFactors.predictors.length > 0) {
-        const groups = this.isuFactors.betweenIsuRelativeGroupSizes
-        const combinations = this.isuFactors.generateCombinations(this.isuFactors.predictors);
-        if (groups.size !== combinations.size) {
-          this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
-        }
-        groups.forEach(key => {
-          if (!combinations.has(key.name) ) {
-            this.isuFactors.betweenIsuRelativeGroupSizes = combinations;
+  get relativeGroupSizes() {
+    const groups = [];
+    this.isuFactors.betweenIsuRelativeGroupSizes.forEach( relativeGroupSizeTable => {
+      relativeGroupSizeTable.table.forEach( row => {
+        row.forEach(group => {
+          groups.push(group);
+        });
+      });
+    });
+    return groups;
+  }
+
+  _getRelativeGroupSizeTableIds() {
+    let tableIds = [null];
+    const factors = this.isuFactors.predictors;
+    factors.shift();
+    factors.shift();
+    if (factors.length > 0) {
+      tableIds = this.isuFactors.generateCombinations(factors);
+    }
+    return tableIds;
+  }
+
+  _getMarginalMeansTableIds() {
+    const tableIds = [];
+    this.isuFactors.outcomes.forEach( outcome => {
+      tableIds.push(new ISUFactorCombination(
+        [
+          new CombinationId(
+            outcome.name,
+            constants.HYPOTHESIS_ORIGIN.OUTCOME,
+          '',
+          0
+          )],
+        1
+      ));
+    });
+    return tableIds;
+  }
+
+  generateGroupSizeTables() {
+    const tables = Array<RelativeGroupSizeTable>();
+    if (this.isuFactors.predictors.length > 0) {
+      const tableIds = this._getRelativeGroupSizeTableIds();
+      tableIds.forEach( tableId => {
+        const table = new RelativeGroupSizeTable(tableId);
+        table.populateTable(this.isuFactors.generateCombinations(this.isuFactors.predictors));
+        let pushed = false;
+        this.isuFactors.betweenIsuRelativeGroupSizes.forEach( existingTable => {
+          if (existingTable.compareSizeAndDimensions(table)) {
+            tables.push(existingTable);
+            pushed = true;
           }
         });
+        if (!pushed) {
+          tables.push(table);
+        }
+      });
+    } else {
+      const interceptId = new CombinationId('Intercept', 'Intercept' ,  'Intercept');
+      const intercept = new ISUFactorCombination([interceptId]);
+      const interceptTable = new RelativeGroupSizeTable(intercept, [[intercept]]);
+      tables.push(interceptTable);
+    }
+    return tables;
+  }
+
+  generateMarginalMeansTables() {
+    const tables = Array<MarginalMeansTable>();
+
+    const tableIds = this._getMarginalMeansTableIds();
+    tableIds.forEach( tableId => {
+      const table = new MarginalMeansTable(tableId);
+      table.populateTable(this.isuFactors);
+      let pushed = false;
+      this.isuFactors.marginalMeans.forEach( existingTable => {
+        if (existingTable.compareSizeAndDimensions(table)) {
+          tables.push(existingTable);
+          pushed = true;
+        }
+      });
+      if (!pushed) {
+        tables.push(table);
+      }
+    });
+    return tables;
+  }
+
+  generateDefaultTheta0() {
+    const theta0Array = [];
+    for (let i = 0; i < this.a; i++) {
+      theta0Array.push(this.theta0DefaultRow);
+    }
+    return theta0Array
+  }
+
+  get theta0DefaultRow(): Array<number> {
+    const row = [];
+    for (let i = 0; i < this.b; i++) {
+      row.push(0);
+    }
+    return row;
+  }
+
+  get a() {
+    let a = 1;
+    this.isuFactors.predictors.forEach(predictor => {
+      if (predictor.inHypothesis) {a = a * (predictor.valueNames.length - 1);
+      }
+    });
+    return a;
+  }
+
+  get b() {
+    let b = this.isuFactors.outcomes.length;
+    const c = []
+    this.isuFactors.repeatedMeasures.forEach(measure => {
+      if (measure.inHypothesis) {
+        c.push(measure.partialUMatrix.values.size()[1]);
+      }
+    });
+    c.forEach(noCols => {
+      b = b * noCols;
+    });
+    return b;
+  }
+
+  checkDependencies() {
+    // Are factorName groups made up of predictors we have defined
+    if (!isNullOrUndefined(this.isuFactors.predictors) &&
+      this.isuFactors.predictors.length > 0) {
+        const groups = this.relativeGroupSizes;
+        const combinations = this.isuFactors.generateCombinations(this.isuFactors.predictors);
+        if (groups.length !== combinations.length) {
+          this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables();
+        }
+    } else if (isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes) || this.isuFactors.betweenIsuRelativeGroupSizes.length < 1) {
+      this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables()
     }
 
     // is our hypothesis effect made up of isuFactors we have defined
@@ -81,48 +207,13 @@ export class StudyDesign {
       }
     };
 
-    // Are marginal means id groups made up of hypothesis we have chosen
-    if (!isNullOrUndefined(this.isuFactors.hypothesis) &&
-      this.isuFactors.hypothesis.length > 0) {
-      const groups = this.isuFactors.marginalMeans
-      const combinations = this.isuFactors.generateCombinations(this.isuFactors.hypothesis);
-      if (groups.size !== combinations.size) {
-        this.isuFactors.marginalMeans = combinations;
-      }
-      groups.forEach(key => {
-        if (!combinations.has(key.name) ) {
-          this.isuFactors.marginalMeans = combinations;
-        }
-      });
+    // Are marginal means factorName groups made up of hypothesis we have chosen
+    if (!isNullOrUndefined(this.isuFactors.hypothesis)) {
+      this.isuFactors.marginalMeans = this.generateMarginalMeansTables();
     }
 
-    // Do all of our OutcomeRepMeasStDev still exist
-    if (
-      !isNullOrUndefined(this.isuFactors)
-      && !isNullOrUndefined(this.isuFactors.outcomeRepeatedMeasureStDevs)) {
-      const toRemove = [];
-      for ( const stDev of this.isuFactors.outcomeRepeatedMeasureStDevs ) {
-        let outcomeMatch = false;
-        let measureMatch = false;
-        for (const outcome of this.isuFactors.outcomes) {
-          if (outcome.name === stDev.outcome) {
-            outcomeMatch = true;
-          }
-        }
-        for (const measure of this.isuFactors.repeatedMeasures) {
-          if (measure.name === stDev.repMeasure) {
-            measureMatch = true;
-          }
-        }
-        if (!outcomeMatch || !measureMatch) {
-          toRemove.push(this.isuFactors.outcomeRepeatedMeasureStDevs.indexOf(stDev));
-        }
-      }
-      for (const index of toRemove.reverse()) {
-        if (index > -1) {
-          this.isuFactors.outcomeRepeatedMeasureStDevs.splice(index, 1)
-        }
-      }
+    if (this._isuFactors.theta0.length !== this.a || this._isuFactors.theta0[0].length !== this.b) {
+      this._isuFactors.theta0 = this.generateDefaultTheta0();
     }
   }
 
@@ -184,14 +275,6 @@ export class StudyDesign {
 
   set power(value: number) {
     this._power = value;
-  }
-
-  get samplesize(): number {
-    return this._samplesize;
-  }
-
-  set samplesize(value: number) {
-    this._samplesize = value;
   }
 
   get ciwidth(): number {

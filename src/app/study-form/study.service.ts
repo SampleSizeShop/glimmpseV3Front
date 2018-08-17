@@ -34,9 +34,6 @@ export class StudyService {
   private _powerSource = new BehaviorSubject<number>(0.5);
   private _power$ = this._powerSource.asObservable();
 
-  private _samplesizeSource = new BehaviorSubject<number>(10);
-  private _samplesize$ = this._samplesizeSource.asObservable();
-
   private _ciwidthSource = new BehaviorSubject<number>(1);
   private _ciwidth$ = this._ciwidthSource.asObservable();
 
@@ -100,10 +97,6 @@ export class StudyService {
 
   updatePower(power: number) {
     this._powerSource.next(power);
-  }
-
-  updateSamplesize(samplesize: number) {
-    this._samplesizeSource.next(samplesize);
   }
 
   updateCiWidth(ciWidth: number) {
@@ -176,7 +169,7 @@ export class StudyService {
 
   constructor(private  http: HttpClient) {
     this._stages = constants.STAGES;
-    this._stage = 1;
+    this._stage = 0;
   }
 
   get stage(): number {
@@ -259,14 +252,6 @@ export class StudyService {
 
   set power$(value: Observable<number>) {
     this._power$ = value;
-  }
-
-  get samplesize$(): Observable<number> {
-    return this._samplesize$;
-  }
-
-  set samplesize$(value: Observable<number>) {
-    this._samplesize$ = value;
   }
 
   get ciwidth$(): Observable<number> {

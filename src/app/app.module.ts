@@ -37,7 +37,7 @@ import { ParametersStandardDeviationComponent } from './study-form/parameters-st
 import { ParametersOutcomeCorrelationsComponent } from './study-form/parameters-outcome-correlations/parameters-outcome-correlations.component';
 import { ParametersRepeatedMeasureCorrelationsComponent } from './study-form/parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component';
 import {StudyFormRoutingModule} from './study-form/study-form-routing.module';
-import {ParametersRepeatedMeasureOutcomeStDevComponent} from './study-form/parameters-repeated-measure-outcome-stdev/parameters-repeated-measure-outcome-stdev.component';
+import {ParametersRepeatedMeasureStdevComponent} from './study-form/parameters-repeated-measure-stdev/parameters-repeated-measure-stdev.component';
 import { ParametersIntraClassCorrelationComponent } from './study-form/parameters-intra-class-correlation/parameters-intra-class-correlation.component';
 import { ParametersGaussianCovariateCorrelationComponent } from './study-form/parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-correlation.component';
 import { ParametersVarianceScaleFactorsComponent } from './study-form/parameters-variance-scale-factors/parameters-variance-scale-factors.component';
@@ -53,6 +53,8 @@ import { OptionalSpecsPowerCurveChoiceComponent } from './study-form/optional-sp
 import { OptionalSpecsPowerCurveAxesComponent } from './study-form/optional-specs-power-curve-axes/optional-specs-power-curve-axes.component';
 import { OptionalSpecsPowerCurveDataSeriesComponent } from './study-form/optional-specs-power-curve-data-series/optional-specs-power-curve-data-series.component';
 import { CalculateComponent } from './study-form/calculate/calculate.component';
+import { BetweenIsuSmallestGroupComponent } from './study-form/between-isu-smallest-group/between-isu-smallest-group.component';
+import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypothesis-theta-0.component';
 
 
 @NgModule({
@@ -72,15 +74,17 @@ import { CalculateComponent } from './study-form/calculate/calculate.component';
     WithinIsuClustersComponent,
     BetweenIsuPredictorsComponent,
     BetweenIsuGroupsComponent,
+    BetweenIsuSmallestGroupComponent,
     GaussianCovariateComponent,
     HypothesisEffectChoiceComponent,
     HypothesisBetweenComponent,
     HypothesisWithinComponent,
+    HypothesisTheta0Component,
     ParametersMarginalMeansComponent,
     ParametersScaleFactorComponent,
     ParametersStandardDeviationComponent,
     ParametersOutcomeCorrelationsComponent,
-    ParametersRepeatedMeasureOutcomeStDevComponent,
+    ParametersRepeatedMeasureStdevComponent,
     ParametersRepeatedMeasureCorrelationsComponent,
     ParametersIntraClassCorrelationComponent,
     ParametersGaussianCovariateCorrelationComponent,
@@ -96,7 +100,8 @@ import { CalculateComponent } from './study-form/calculate/calculate.component';
     OptionalSpecsPowerCurveChoiceComponent,
     OptionalSpecsPowerCurveAxesComponent,
     OptionalSpecsPowerCurveDataSeriesComponent,
-    CalculateComponent
+    CalculateComponent,
+    BetweenIsuSmallestGroupComponent
   ],
   imports: [
     NgbModule.forRoot(),

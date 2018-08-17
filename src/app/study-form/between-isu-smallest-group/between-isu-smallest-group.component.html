@@ -1,0 +1,9 @@
+<form [formGroup]="groupSizeForm" class="form-horizontal" id="groupSizeForm">
+  <div class="container-fluid">
+    <h5>What size is your smallest group?</h5>
+    <input type="number" class="form-control" id="smallestgroupsize" formControlName="smallestGroupSize" required>
+    <div *ngIf="formErrors.smallestGroupSize" class="form-group has-danger">
+      <div class="form-control-feedback">{{formErrors.smallestGroupSize}}</div>
+    </div>
+  </div>
+</form>

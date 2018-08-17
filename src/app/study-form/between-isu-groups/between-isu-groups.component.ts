@@ -1,10 +1,16 @@
-import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
-import {ISUFactorCombinationTable} from '../../shared/ISUFactorCombinationTable';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
+import {RelativeGroupSizeTable} from '../../shared/RelativeGroupSizeTable';
+import {Observable} from 'rxjs/Observable';
+import {ActivatedRoute, ParamMap} from '@angular/router';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/of';
+import {minMaxValidator} from '../../shared/minmax.validator';
+import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
 
 @Component({
@@ -15,112 +21,121 @@ import {constants} from '../../shared/constants';
 export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   private _isuFactors: ISUFactors;
-  private _groupSizeForm: FormGroup;
   private _relativeGroupSizeForm: FormGroup;
-  private _solveFor: string;
-
-  private _tables: Array<ISUFactorCombinationTable>;
+  private _table$: Observable<RelativeGroupSizeTable>;
+  private _table: RelativeGroupSizeTable;
+  private _formErrors = constants.BETWEEN_ISU_RELATIVE_GROUP_ERRORS;
+  private _validationMessages = constants.BETWEEN_ISU_RELATIVE_GROUP_VALIDATION_MESSAGES;
 
   private _isuFactorsSubscription: Subscription;
-  private _solveForSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
-              private _study_service: StudyService) {
-
-    this.solveForSubscription = this.study_service.solveForSelected$.subscribe( solveFor => {
-      this.solveFor = solveFor;
-    })
-    this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
-      this.isuFactors = isuFactors;
-    } );
+              private route: ActivatedRoute,
+              private _study_service: StudyService,
+              private logger: NGXLogger) {
+    this.table$ = this.route.paramMap.switchMap(
+      (params: ParamMap) => this.getTableFromIndex(params.get('index'))
+    );
   }
 
   ngOnInit() {
-    this.buildForm();
+    this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
+      this.isuFactors = isuFactors;
+    } );
+    this.table$.subscribe(
+      table => {
+        this._table = table;
+        this.buildForm();
+      }
+    );
   }
 
   ngDoCheck() {
-    if (this.solveFor === 'SAMPLESIZE') {
+    if (!this.isIntercept) {
       this.updateCombinations();
+      this.study_service.updateIsuFactors(this.isuFactors);
     }
-    if (this.solveFor === 'POWER') {
-      this.updateSmallestGroupSize();
-    }
-    this.study_service.updateIsuFactors(this.isuFactors);
   }
 
   ngOnDestroy() {
-    this.solveForSubscription.unsubscribe();
+    this.isuFactorsSubscription.unsubscribe();
+  }
+
+  getRelativeGroupSizeTables() { return Observable.of(this.isuFactors.betweenIsuRelativeGroupSizes); }
+
+  getTableFromIndex(index: string | any) {
+    return this.getRelativeGroupSizeTables().map(
+      tables => tables.find(
+        table => this.isuFactors.betweenIsuRelativeGroupSizes.indexOf(table).toString() === index
+      ));
   }
 
   buildForm() {
-    this.groupSizeForm = this.fb.group( this.updateSmallestGroupSizeControls()  );
     this.relativeGroupSizeForm = this.fb.group( {} );
-    if (this.solveFor === constants.SOLVE_FOR_SAMPLESIZE) {
-      this.updateGroupsizeFormControls();
+    this.updateGroupsizeFormControls();
+    this.relativeGroupSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged(); // (re)set validation messages now
+  }
+
+  onValueChanged(data?: any) {
+    if (!this.relativeGroupSizeForm) {
+      return;
+    }
+    const form = this.relativeGroupSizeForm;
+
+    this.formErrors['relativegroupsizes'] = '';
+    for (const field in this.relativeGroupSizeForm.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages['relativegroupsizes'];
+        for (const key in control.errors) {
+          this.formErrors['relativegroupsizes'] = messages[key];
+        }
+      }
     }
   }
 
   resetForms() {
     this.relativeGroupSizeForm.reset();
-    this.groupSizeForm.reset();
     this.buildForm();
   }
 
-  updateSmallestGroupSize() {
-    if ( this.isuFactors ) {
-      this.isuFactors.smallestGroupSize = this.groupSizeForm.value.smallestGroupSize;
-    }
-  }
 
   updateCombinations() {
-    if ( this.isuFactors ) {
-      this.isuFactors.betweenIsuRelativeGroupSizes.forEach(combination => {
-        const value = this.relativeGroupSizeForm.get(combination.name).value;
-        combination.size = value;
+    if ( !isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this.table)) {
+      let r = 0;
+      this.table.table.forEach( row => {
+        let c = 0;
+        row.forEach( group => {
+          const name = r.toString() + '-' + c.toString();
+          group.value = this.relativeGroupSizeForm.controls[name].value;
+          c = c + 1;
+        });
+        r = r + 1;
       });
     }
-  }
-
-  updateSmallestGroupSizeControls() {
-    if (this.solveFor === constants.SOLVE_FOR_POWER) {
-      return { smallestGroupSize: [ this._isuFactors.smallestGroupSize ] }
-    } else {
-      return { smallestGroupSize: [1] }
-    };
   }
 
   updateGroupsizeFormControls() {
-    if (isNullOrUndefined(this.isuFactors) || isNullOrUndefined(this.isuFactors.predictors)) {
+    if (this.isIntercept) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
-      this.study_service.updateIsuFactors(this.isuFactors);
-      this.tables = this.isuFactors.groupCombinations(
-        this.isuFactors.betweenIsuRelativeGroupSizes,
-        this.isuFactors.predictors);
-      const controlDefs = {};
-      this.tables.forEach(table => {
-        const names = table.table.keys();
-        let done = false;
-        let next = names.next();
-        while (!done) {
-          const key = next.value;
-          const combination = table.table.get(key);
-          controlDefs[combination.name] = [combination.size];
-          next = names.next();
-          done = next.done;
-        }
-      });
+      const controlDefs = this._table.controlDefs;
       this.relativeGroupSizeForm = this.fb.group(controlDefs);
+      if (!isNullOrUndefined(this.table)) {
+        let r = 0;
+        this.table.table.forEach( row => {
+          let c = 0;
+          row.forEach( group => {
+            const name = r.toString() + '-' + c.toString();
+            this.relativeGroupSizeForm[name] = group.value;
+            this.relativeGroupSizeForm.controls[name].setValidators(minMaxValidator(0, Number.MAX_VALUE, this.logger));
+            c = c + 1;
+          });
+          r = r + 1;
+        });
+      }
     }
-  }
-
-  get groupSizeForm(): FormGroup {
-    return this._groupSizeForm;
-  }
-
-  set groupSizeForm(value: FormGroup) {
-    this._groupSizeForm = value;
   }
 
   get relativeGroupSizeForm(): FormGroup {
@@ -139,30 +154,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this._isuFactors = value;
   }
 
-  get solveFor(): string {
-    return this._solveFor;
-  }
-
-  set solveFor(value: string) {
-    this._solveFor = value;
-  }
-
-  get tables(): ISUFactorCombinationTable[] {
-    return this._tables;
-  }
-
-  set tables(value: ISUFactorCombinationTable[]) {
-    this._tables = value;
-  }
-
-  get solveForSubscription(): Subscription {
-    return this._solveForSubscription;
-  }
-
-  set solveForSubscription(value: Subscription) {
-    this._solveForSubscription = value;
-  }
-
   get isuFactorsSubscription(): Subscription {
     return this._isuFactorsSubscription;
   }
@@ -179,11 +170,64 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this._fb = value;
   }
 
+  get formErrors(): { relativegroupsizes: string; } {
+    return this._formErrors;
+  }
+
+  set formErrors(value: { relativegroupsizes: string; }) {
+    this._formErrors = value;
+  }
+
+  get validationMessages(): {
+    relativegroupsizes: { minval: string; };
+  }
+  {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value: {
+    relativegroupsizes: { minval: string; };
+  }) {
+    this._validationMessages = value;
+  }
+
   get study_service(): StudyService {
     return this._study_service;
   }
 
   set study_service(value: StudyService) {
     this._study_service = value;
+  }
+
+  get table$(): Observable<RelativeGroupSizeTable> {
+    return this._table$;
+  }
+
+  set table$(value: Observable<RelativeGroupSizeTable>) {
+    this._table$ = value;
+  }
+
+  get table(): RelativeGroupSizeTable {
+    return this._table;
+  }
+
+  set table(value: RelativeGroupSizeTable) {
+    this._table = value;
+  }
+
+  get displayName() {
+    let name = '';
+    if (!isNullOrUndefined(this.table) && !isNullOrUndefined(this.table.tableId)) {
+      name = this.table.tableId.name;
+    }
+    return name;
+  }
+
+  get isIntercept(): boolean {
+    let isIntercept = false;
+    if (!isNullOrUndefined(this.table) && !isNullOrUndefined(this.table.tableId) && this.table.tableId.name === 'InterceptIntercept') {
+      isIntercept = true;
+    }
+    return isIntercept;
   }
 }
