@@ -12,7 +12,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     page.navigateTo('/design/MODE');
   });
 
-  it('Should fill out the study form', async function() {
+  it('Should calculate a power of alpha', async function() {
     const expected = Qian_Ex_1_output;
     let actual = null;
     await page.fromJSON(Qian_Ex_1_input);
@@ -25,7 +25,7 @@ describe('Glimmpse v3 automated integration tests', () => {
       actual = JSON.parse(text);
     });
     expect(actual.model).toEqual(expected.model);
-    expect(actual.results[0].power).toEqual(expected.results[0].power);
+    expect(Math.round(actual.results[0].power * 1000000) / 1000000).toEqual(Math.round(expected.results[0].power * 1000000) / 1000000);
   });
 
   it('Should calculate a power of 1 for Grand Mean with only one outcome', async function() {
