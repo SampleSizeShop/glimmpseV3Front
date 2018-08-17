@@ -17,7 +17,6 @@ export class RepeatedMeasure extends ISUFactor {
     this.origin = constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE;
 
     this.units = '';
-    this.units = '';
     this.type = '';
     this._noRepeats = 0;
     this.partialUMatrix = new PartialMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
