@@ -58,12 +58,6 @@ export const generic_model = {
   ],
   parameters_outcome_repeated_measure_stdev: [
     {stdevs: [1, 2, 3]},
-    {stdevs: [1, 2]},
-    {stdevs: [1, 2, 3]},
-    {stdevs: [1, 2]},
-    {stdevs: [1, 2, 3]},
-    {stdevs: [1, 2]},
-    {stdevs: [1, 2, 3]},
     {stdevs: [1, 2]}
   ],
   parameters_repeated_measure_correlations: [
