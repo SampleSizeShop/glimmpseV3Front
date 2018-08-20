@@ -39,10 +39,10 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
   }
 
   buildForm() {
-    this._intraClassCorrForm = this.fb.group(
+    this.intraClassCorrForm = this.fb.group(
       this._defineControls()
     );
-    this._intraClassCorrForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.intraClassCorrForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set validation messages now
   }
 
@@ -76,7 +76,7 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
 
   _updateIntraCorrelation() {
     this.isuFactors.cluster.levels.forEach( level => {
-      level.intraClassCorellation = this._intraClassCorrForm.get(level.levelName).value;
+      level.intraClassCorellation = this.intraClassCorrForm.get(level.levelName).value;
     });
     this.study_service.updateIsuFactors(this.isuFactors);
   }
