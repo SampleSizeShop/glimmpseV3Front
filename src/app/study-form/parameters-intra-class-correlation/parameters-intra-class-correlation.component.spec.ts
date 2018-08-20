@@ -7,6 +7,8 @@ import {MockBackend} from '@angular/http/testing';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {ReactiveFormsModule} from '@angular/forms';
 import {testEnvironment} from '../../../environments/environment.test';
+import {Outcome} from '../../shared/Outcome';
+import {Cluster} from '../../shared/Cluster';
 
 describe('ParametersIntraClassCorrelationComponent', () => {
   let component: ParametersIntraClassCorrelationComponent;
@@ -37,6 +39,7 @@ describe('ParametersIntraClassCorrelationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ParametersIntraClassCorrelationComponent);
     component = fixture.componentInstance;
+    component.isuFactors.variables.push(new Cluster('cluster'));
     fixture.detectChanges();
   });
 
