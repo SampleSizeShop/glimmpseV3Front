@@ -33,15 +33,15 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
               private route: ActivatedRoute,
               private _study_service: StudyService,
               private logger: NGXLogger) {
-    this.table$ = this.route.paramMap.switchMap(
-      (params: ParamMap) => this.getTableFromIndex(params.get('index'))
-    );
   }
 
   ngOnInit() {
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
+    this.table$ = this.route.paramMap.switchMap(
+      (params: ParamMap) => this.getTableFromIndex(params.get('index'))
+    );
     this.table$.subscribe(
       table => {
         this._table = table;
@@ -61,7 +61,9 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this.isuFactorsSubscription.unsubscribe();
   }
 
-  getRelativeGroupSizeTables() { return Observable.of(this.isuFactors.betweenIsuRelativeGroupSizes); }
+  getRelativeGroupSizeTables() {
+    return Observable.of(this.isuFactors.betweenIsuRelativeGroupSizes);
+  }
 
   getTableFromIndex(index: string | any) {
     return this.getRelativeGroupSizeTables().map(
@@ -82,7 +84,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
       return;
     }
     const form = this.relativeGroupSizeForm;
-
     this.formErrors['relativegroupsizes'] = '';
     for (const field in this.relativeGroupSizeForm.value) {
       const control = form.get(field);
@@ -102,7 +103,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
 
   updateCombinations() {
-    if ( !isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this.table)) {
+    if ( !isNullOrUndefined(this.isuFactors) && !isNullOrUndefined(this._table)) {
       let r = 0;
       this.table.table.forEach( row => {
         let c = 0;
@@ -117,7 +118,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   updateGroupsizeFormControls() {
-    if (this.isIntercept) {
+    if (this.isIntercept  || isNullOrUndefined(this._table)) {
       this.relativeGroupSizeForm = this.fb.group({});
     } else {
       const controlDefs = this._table.controlDefs;
@@ -225,7 +226,11 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   get isIntercept(): boolean {
     let isIntercept = false;
-    if (!isNullOrUndefined(this.table) && !isNullOrUndefined(this.table.tableId) && this.table.tableId.name === 'InterceptIntercept') {
+    if ( isNullOrUndefined(this.table) ||
+        (!isNullOrUndefined(this.table)
+          && !isNullOrUndefined(this.table.tableId)
+          && this.table.tableId.name === 'InterceptIntercept'
+    )) {
       isIntercept = true;
     }
     return isIntercept;
