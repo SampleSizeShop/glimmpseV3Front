@@ -3,6 +3,8 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {Subscription} from 'rxjs/Subscription';
 import {StudyService} from '../study.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {constants} from '../../shared/constants';
+import {minMaxValidator} from '../../shared/minmax.validator';
 
 @Component({
   selector: 'app-parameters-standard-deviation',
@@ -13,6 +15,8 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _stDevForm: FormGroup;
+  private _formErrors = constants.PARAMETERS_STANDARD_DEVIATION_ERRORS;
+  private _validationMessages = constants.PARAMETERS_STANDARD_DEVIATION_VALIDATION_MESSAGES;
 
   constructor(private study_service: StudyService, private _fb: FormBuilder) {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
@@ -36,16 +40,36 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
     this.stDevForm = this.fb.group(
       this._defineControls()
     );
+    this.stDevForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged(); // (re)set validation messages now
   }
 
   _defineControls() {
     const controlArray = {};
     this.isuFactors.outcomes.forEach(
       outcome => {
-        controlArray[outcome.name] = [outcome.standardDeviation]
+        controlArray[outcome.name] = [outcome.standardDeviation];
       }
     );
     return controlArray;
+  }
+
+  onValueChanged(data?: any) {
+    if (!this.stDevForm) {
+      return;
+    }
+    const form = this.stDevForm;
+
+    this.formErrors['vectorofstandarddeviations'] = '';
+    for (const field in this.stDevForm.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages['vectorofstandarddeviations'];
+        for (const key in control.errors) {
+          this.formErrors['vectorofstandarddeviations'] = messages[key];
+        }
+      }
+    }
   }
 
   _updateStandardDeviations() {
@@ -73,6 +97,27 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
 
   get fb(): FormBuilder {
     return this._fb;
+  }
+
+  get formErrors(): { vectorofstandarddeviations: string; } {
+    return this._formErrors;
+  }
+
+  set formErrors(value: { vectorofstandarddeviations: string; }) {
+    this._formErrors = value;
+  }
+
+  get validationMessages(): {
+    vectorofstandarddeviations: { required: string; };
+  }
+  {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value: {
+    vectorofstandarddeviations: { required: string; };
+  }) {
+    this._validationMessages = value;
   }
 
   get stDevForm(): FormGroup {

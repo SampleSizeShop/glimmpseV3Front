@@ -1,13 +1,18 @@
-<div *ngIf="cluster">
-  <h5>Define the intra class corellation for cluster {{cluster.name}}</h5>
-  <div *ngFor="let level of cluster.levels; let i = index">
-    <div class="row">
-      <div class="col-md-auto">
-        {{level.levelName}}
-      </div>
-      <div class="col-md-auto">
-        <input type="number" value="1" id="{{i}}">
+<div *ngIf="isuFactors.cluster">
+  <form [formGroup]="intraClassCorrForm">
+    <h5>Define the intra class corellation for cluster {{cluster.name}}</h5>
+    <div *ngFor="let level of isuFactors.cluster.levels; let i = index">
+      <div class="row">
+        <div class="col-md-auto">
+          {{level.levelName}}
+        </div>
+        <div class="col-md-auto">
+          <input type="number" value="{{level.intraClassCorellation}}" id="{{level.levelName}}" formControlName="{{level.levelName}}"  required>
+        </div>
       </div>
     </div>
-  </div>
+    <div *ngIf="formErrors.vectorofcorrelation" class="form-group has-danger">
+      <div class="form-control-feedback">{{formErrors.vectorofcorrelation}}</div>
+    </div>
+  </form>
 </div>
