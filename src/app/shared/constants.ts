@@ -62,6 +62,12 @@ export const constants = {
   PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV_ERRORS: {
     'vectorofstandarddeviations': ''
   },
+  PARAMETERS_INTRA_CLASS_CORRELATION_ERRORS: {
+    'vectorofcorrelation': ''
+  },
+  PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE_ERRORS: {
+    'vectorofcovariatevariance': ''
+  },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
       'minval': 'Value too low.',
@@ -96,6 +102,16 @@ export const constants = {
   },
   PARAMETERS_REPEATED_MEASURE_OUTCOME_ST_DEV_VALIDATION_MESSAGES: {
     'vectorofstandarddeviations': {
+      'required': 'ALL values need to be filled in.'
+    },
+  },
+  PARAMETERS_INTRA_CLASS_CORRELATION_VALIDATION_MESSAGES: {
+    'vectorofcorrelation': {
+      'required': 'ALL values need to be filled in.'
+    },
+  },
+  PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE_VALIDATION_MESSAGES: {
+    'vectorofcovariatevariance': {
       'required': 'ALL values need to be filled in.'
     },
   },
