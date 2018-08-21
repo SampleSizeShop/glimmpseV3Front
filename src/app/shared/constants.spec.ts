@@ -1,4 +1,4 @@
-import {constants} from './constants';
+import {constants, getStageName} from './constants';
 
 describe('ISUFactors', () => {
 
@@ -6,7 +6,7 @@ describe('ISUFactors', () => {
     const stagename = []
     Object.keys(constants.STAGES).forEach( key => { stagename.push(key) });
     stagename.forEach( function (value, i){
-      expect(constants.getStageName(i)).toBe(value);
+      expect(getStageName(i)).toBe(value);
     });
   });
 

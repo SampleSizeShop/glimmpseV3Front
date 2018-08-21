@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {constants} from '../../shared/constants';
+import {constants, getStageName} from '../../shared/constants';
 import {StudyService} from '../study.service';
 import {PowerCurve} from '../../shared/PowerCurve';
 import {Subscription} from 'rxjs/Subscription';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-optional-specs-power-curve-choice',
@@ -30,11 +30,11 @@ export class OptionalSpecsPowerCurveChoiceComponent implements OnInit {
 
   createPowerCurve() {
     this.study_service.updatePowerCurve(new PowerCurve());
-    this.router.navigate(['design', constants.getStageName(constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_AXES)]);
+    this.router.navigate(['design', getStageName(constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_AXES)]);
   }
 
   editPowerCurve() {
-    this.router.navigate(['design', constants.getStageName(constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_AXES)]);
+    this.router.navigate(['design', getStageName(constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_AXES)]);
   }
 
   removePowerCurve() {

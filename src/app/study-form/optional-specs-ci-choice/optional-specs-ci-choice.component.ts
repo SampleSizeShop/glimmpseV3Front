@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {constants} from '../../shared/constants';
+import {constants, getStageName} from '../../shared/constants';
 import {PowerCurve} from '../../shared/PowerCurve';
 import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
@@ -28,11 +28,11 @@ export class OptionalSpecsCiChoiceComponent implements OnInit {
   addConfidenceInterval() {
     this._powerCurve.confidenceInterval = new PowerCurveConfidenceInterval();
     this.study_service.updatePowerCurve(this._powerCurve);
-    this.router.navigate(['design', constants.getStageName(constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS)]);
+    this.router.navigate(['design', getStageName(constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS)]);
   }
 
   editConfidenceInterval() {
-    this.router.navigate(['design', constants.getStageName(constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS)]);
+    this.router.navigate(['design', getStageName(constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS)]);
   }
 
   removeConfidenceInterval() {
