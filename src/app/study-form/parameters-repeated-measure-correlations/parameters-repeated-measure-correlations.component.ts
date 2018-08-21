@@ -63,7 +63,9 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit, D
 
   ngOnDestroy() {
     this._isuFactorsSubscription.unsubscribe();
-    this.correlationMatrixSubscription.unsubscribe();
+    if (!isNullOrUndefined(this.correlationMatrixSubscription)) {
+      this.correlationMatrixSubscription.unsubscribe();
+    }
   }
 
   getRepeatedMeasures() { return Observable.of(this.isuFactors.repeatedMeasures); }

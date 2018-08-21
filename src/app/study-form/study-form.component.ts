@@ -25,7 +25,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _targetEventSubscription: Subscription;
   private _solveForSubscription: Subscription;
   private _powerSubscription: Subscription;
-  private _samplesizeSubscription: Subscription;
   private _ciwidthSubscription: Subscription;
   private _selectedTestsSubscription: Subscription;
   private _typeOneErrorRateSubscription: Subscription;
@@ -440,14 +439,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._powerSubscription = value;
   }
 
-  get samplesizeSubscription(): Subscription {
-    return this._samplesizeSubscription;
-  }
-
-  set samplesizeSubscription(value: Subscription) {
-    this._samplesizeSubscription = value;
-  }
-
   get ciwidthSubscription(): Subscription {
     return this._ciwidthSubscription;
   }
@@ -678,7 +669,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.targetEventSubscription.unsubscribe();
     this.solveForSubscription.unsubscribe();
     this.powerSubscription.unsubscribe();
-    this.samplesizeSubscription.unsubscribe();
     this.ciwidthSubscription.unsubscribe();
     this.selectedTestsSubscription.unsubscribe();
     this.typeOneErrorRateSubscription.unsubscribe();
@@ -691,6 +681,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.hypothesisEffectSubscription.unsubscribe();
     this.scaleFactorSubscription.unsubscribe();
     this.varianceScaleFactorsSubscription.unsubscribe();
+    this.powerCurveSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {
