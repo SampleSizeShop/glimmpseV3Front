@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParametersGaussianCovariateCorrelationComponent } from './parameters-gaussian-covariate-correlation.component';
-import {MockBackend} from "@angular/http/testing";
+import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
-import {StudyService} from "../study.service";
+import {StudyService} from '../study.service';
+import {ReactiveFormsModule} from '@angular/forms';
 
 describe('ParametersGaussianCovariateCorrelationComponent', () => {
   let component: ParametersGaussianCovariateCorrelationComponent;
@@ -11,6 +12,9 @@ describe('ParametersGaussianCovariateCorrelationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        ReactiveFormsModule,
+      ],
       declarations: [ ParametersGaussianCovariateCorrelationComponent ],
       providers: [
         StudyService,
