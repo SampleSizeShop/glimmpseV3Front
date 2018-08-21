@@ -4,6 +4,11 @@ import { ParametersIntraClassCorrelationComponent } from './parameters-intra-cla
 import {StudyService} from '../study.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
+import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {ReactiveFormsModule} from '@angular/forms';
+import {testEnvironment} from '../../../environments/environment.test';
+import {Outcome} from '../../shared/Outcome';
+import {Cluster} from '../../shared/Cluster';
 
 describe('ParametersIntraClassCorrelationComponent', () => {
   let component: ParametersIntraClassCorrelationComponent;
@@ -11,10 +16,21 @@ describe('ParametersIntraClassCorrelationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ParametersIntraClassCorrelationComponent ],
+      imports: [
+        ReactiveFormsModule,
+        LoggerModule.forRoot({
+          serverLoggingUrl: testEnvironment.serverLoggingUrl,
+          level: testEnvironment.loglevel,
+          serverLogLevel: testEnvironment.loglevel
+        })
+      ],
+      declarations: [
+        ParametersIntraClassCorrelationComponent
+      ],
       providers: [
         StudyService,
-        { provide: HttpClient, useClass: MockBackend}
+        {provide: HttpClient, useClass: MockBackend},
+        {provide: NGXLogger, useClass: NGXLoggerMock}
         ]
     })
     .compileComponents();
@@ -23,6 +39,7 @@ describe('ParametersIntraClassCorrelationComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ParametersIntraClassCorrelationComponent);
     component = fixture.componentInstance;
+    component.isuFactors.variables.push(new Cluster('cluster'));
     fixture.detectChanges();
   });
 

@@ -180,14 +180,14 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   get validationMessages(): {
-    relativegroupsizes: { minval: string; };
+    relativegroupsizes: { minval: string; required: string; };
   }
   {
     return this._validationMessages;
   }
 
   set validationMessages(value: {
-    relativegroupsizes: { minval: string; };
+    relativegroupsizes: { minval: string; required: string; };
   }) {
     this._validationMessages = value;
   }
