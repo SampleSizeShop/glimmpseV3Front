@@ -70,6 +70,7 @@ jobs:
       - docker push $REPO/$IMAGE:latest
       - docker push $REPO/$IMAGE:$VERSION
     - stage: deploy
+      if: False
       script:
       - ./scripts/docker_deploy.sh
 after_success:
