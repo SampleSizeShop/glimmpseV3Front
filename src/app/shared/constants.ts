@@ -66,7 +66,10 @@ export const constants = {
     'vectorofcorrelation': ''
   },
   PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE_ERRORS: {
-    'vectorofcovariatevariance': ''
+    'covariatevariance': ''
+  },
+  PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_ERRORS: {
+    'covariatecorrelation': ''
   },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
@@ -111,7 +114,12 @@ export const constants = {
     },
   },
   PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE_VALIDATION_MESSAGES: {
-    'vectorofcovariatevariance': {
+    'covariatevariance': {
+      'required': 'Value needs to be filled in.'
+    },
+  },
+  PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_VALIDATION_MESSAGES: {
+    'covariatecorrelation': {
       'required': 'ALL values need to be filled in.'
     },
   },
