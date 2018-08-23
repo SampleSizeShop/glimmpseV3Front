@@ -56,7 +56,7 @@ jobs:
       - git remote set-url origin git@github.com:${GIT_USER}/${GIT_REPO}.git
       - sudo pip install --upgrade pip
       - npm version $BUILD_TYPE -m "updating version and deploying [skip ci]"
-      - ng build
+      - ng build -aot=false
       - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
       - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
       - sudo apt-get update
