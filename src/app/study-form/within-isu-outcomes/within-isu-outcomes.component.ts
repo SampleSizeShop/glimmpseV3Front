@@ -7,6 +7,7 @@ import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/Subscription';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
 import {Outcome} from '../../shared/Outcome';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-within-isu-outcomes',
@@ -110,6 +111,10 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
       return true;
     }
     return false;
+  }
+
+  get outcomes$(): Observable<Outcome[]> {
+    return Observable.of(this._outcomes);
   }
 
   get outcomes(): Outcome[] {
