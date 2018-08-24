@@ -3,7 +3,7 @@ import {constants, getStageName} from '../../shared/constants';
 import {PowerCurve} from '../../shared/PowerCurve';
 import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {Router} from '@angular/router';
 import {PowerCurveConfidenceInterval} from '../../shared/PowerCurveConfidenceInterval';
 

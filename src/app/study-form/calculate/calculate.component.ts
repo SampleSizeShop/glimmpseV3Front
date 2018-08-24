@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {StudyDesign} from '../../shared/study-design';
 import {isNullOrUndefined} from 'util';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {StudyService} from '../study-form/study.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {PowerCurve} from './PowerCurve';
 import {isNullOrUndefined} from 'util';
 import {NGXLogger} from 'ngx-logger';

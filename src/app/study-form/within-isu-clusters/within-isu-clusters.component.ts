@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
 import {NavigationService} from '../../shared/navigation.service';
 import {constants} from '../../shared/constants';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {ClusterLevel} from '../../shared/ClusterLevel';
 

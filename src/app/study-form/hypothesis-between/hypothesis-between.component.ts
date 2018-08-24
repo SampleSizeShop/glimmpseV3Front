@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {constants, getStageName} from 'app/shared/constants';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';

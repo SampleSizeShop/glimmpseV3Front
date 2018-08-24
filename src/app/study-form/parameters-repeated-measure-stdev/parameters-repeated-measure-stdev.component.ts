@@ -1,8 +1,7 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription, Observable} from 'rxjs';
 import {StudyService} from '../study.service';
-import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {FormBuilder, FormGroup} from '@angular/forms';

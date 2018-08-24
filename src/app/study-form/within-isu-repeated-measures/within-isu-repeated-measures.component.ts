@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {constants} from '../../shared/constants';
 import {NavigationService} from 'app/shared/navigation.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {CorrelationMatrix} from '../../shared/CorrelationMatrix';

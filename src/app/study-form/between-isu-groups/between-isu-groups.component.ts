@@ -1,14 +1,16 @@
+
+import {of as observableOf, Subscription, Observable} from 'rxjs';
+
+import {map, switchMap} from 'rxjs/operators';
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs/Subscription';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import {RelativeGroupSizeTable} from '../../shared/RelativeGroupSizeTable';
-import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute, ParamMap} from '@angular/router';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
+
+
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
@@ -39,9 +41,9 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
-    this.table$ = this.route.paramMap.switchMap(
+    this.table$ = this.route.paramMap.pipe(switchMap(
       (params: ParamMap) => this.getTableFromIndex(params.get('index'))
-    );
+    ));
     this.table$.subscribe(
       table => {
         this._table = table;
@@ -62,14 +64,14 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   getRelativeGroupSizeTables() {
-    return Observable.of(this.isuFactors.betweenIsuRelativeGroupSizes);
+    return observableOf(this.isuFactors.betweenIsuRelativeGroupSizes);
   }
 
   getTableFromIndex(index: string | any) {
-    return this.getRelativeGroupSizeTables().map(
+    return this.getRelativeGroupSizeTables().pipe(map(
       tables => tables.find(
         table => this.isuFactors.betweenIsuRelativeGroupSizes.indexOf(table).toString() === index
-      ));
+      )));
   }
 
   buildForm() {

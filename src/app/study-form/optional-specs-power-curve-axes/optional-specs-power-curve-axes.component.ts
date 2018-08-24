@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Subscription} from "rxjs/Subscription";
+import {Subscription} from "rxjs";
 import {StudyService} from "../study.service";
 import {constants} from "../../shared/constants";
 

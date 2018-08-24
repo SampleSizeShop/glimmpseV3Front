@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 import {constants} from '../../shared/constants';
 import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {NGXLogger} from 'ngx-logger';
 

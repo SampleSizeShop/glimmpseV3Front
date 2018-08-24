@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {constants, getStageName} from '../../shared/constants';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {PartialMatrix} from '../../shared/PartialMatrix';

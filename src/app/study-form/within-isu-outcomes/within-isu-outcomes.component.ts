@@ -1,13 +1,13 @@
+
+import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {Component, DoCheck, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../../shared/constants';
 import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../../shared/navigation.service';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs/Subscription';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
 import {Outcome} from '../../shared/Outcome';
-import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-within-isu-outcomes',
@@ -114,7 +114,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   }
 
   get outcomes$(): Observable<Outcome[]> {
-    return Observable.of(this._outcomes);
+    return observableOf(this._outcomes);
   }
 
   get outcomes(): Outcome[] {

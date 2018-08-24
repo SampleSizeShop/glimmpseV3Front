@@ -1,4 +1,4 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { convertToParamMap, ParamMap, NavigationExtras } from '@angular/router';
 import { Injectable } from '@angular/core';
 

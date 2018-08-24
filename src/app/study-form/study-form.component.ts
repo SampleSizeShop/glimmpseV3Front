@@ -1,6 +1,6 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from './study.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
 import {constants, getStageName} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
