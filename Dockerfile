@@ -6,7 +6,7 @@ COPY package.json /app/
 RUN npm install
 COPY ./ /app/
 ARG env=prod
-RUN npm run build -- --no-aot --no-build-optimizer --environment $env
+RUN npm run build -- --no-aot --no-build-optimizer
 
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
