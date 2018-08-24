@@ -6,6 +6,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-parameters-repeated-measure-outcome-stdev',
@@ -21,8 +22,9 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck 
   private _measure: RepeatedMeasure;
 
   constructor(private study_service: StudyService, private route: ActivatedRoute, private fb: FormBuilder) {
-    this.measure$ = this.route.paramMap.switchMap(
+    this.measure$ = this.route.paramMap.pipe(switchMap(
       (params: ParamMap) => this.getMeasure(params.get('measure'))
+      )
     );
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
