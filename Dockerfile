@@ -1,12 +1,12 @@
 # Stage 0, based on Node.js, to build and compile Angular
-FROM node:8.7 as node
+FROM node:10.8.0 as node
 ENV NPM_CONFIG_LOGLEVEL warn
 WORKDIR /app
 COPY package.json /app/
 RUN npm install
 COPY ./ /app/
 ARG env=prod
-RUN npm run build -- --prod --environment $env
+RUN npm run build -- --no-aot --no-build-optimizer --environment $env
 
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
