@@ -165,9 +165,25 @@ export const constants = {
     '3': 'SPACING'
   },
   REPEATED_MEASURE_TYPES: ['Numeric', 'Categorical', 'Ordinal'],
-  REPEATED_MEASURE_FORM_ERRORS: {'duplicates': ''},
+  REPEATED_MEASURE_FORM_ERRORS: {
+    'space': 'Your repeated measures cannot be duplicates.',
+    'dimensionunits': 'Value needs to be filled in.',
+    'repeatsform': ''
+  },
   REPEATED_MEASURE_FORM_VALIDATION_MESSAGES: {
-    'duplicates': {'duplicates': 'Your repeated measures cannot be duplicates.'}
+    'dimensionunits':{
+      'required': 'Value needs to be filled in.'
+    },
+    'space': {
+      'duplicates': 'Your repeated measures cannot be duplicates.\n',
+      'required': 'Your repeated measures need to be filled in.\n',
+      'minval': 'Value too low.\n'
+    },
+    'repeatsform': {
+      'minval': 'Value too low.',
+      'maxval': 'Value too high',
+      'required': 'Value needs to be filled in.'
+    }
   },
   MAX_LEVELS: 10,
   MAX_ELEMENTS: 10,

@@ -48,8 +48,8 @@
       <div class="form-group">
         <label for="dimension">Dimension:</label>
         <input class="form-control" formControlName="dimension" id="dimension" required>
-        <div *ngIf="formErrors.name" class="form-group has-danger">
-          <div class="form-control-feedback" id="outcomeserr">{{formErrors.name}}</div>
+        <div *ngIf="formErrors.dimensionunits" class="form-group has-danger">
+          <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensionunits}}</div>
         </div>
       </div>
       <div class="form-group">
@@ -79,8 +79,8 @@
     <form [formGroup]="repeatsForm">
       <div class="form-group" id="repeatsinput">
         <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
-        <div *ngIf="formErrors.repeats" class="form-group has-danger">
-          <div class="form-control-feedback">{{formErrors.repeats}}</div>
+        <div *ngIf="formErrors.repeatsform" class="form-group has-danger">
+          <div class="form-control-feedback">{{formErrors.repeatsform}}</div>
         </div>
         <small id="repeatshelp" class="form-text text-muted">You must have between 2 and 10 repeats (inclusive)</small>
       </div>
@@ -114,8 +114,8 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="spacingForm.errors" class="form-group has-danger">
-              <div class="form-control-feedback">{{spacingForm.errors | json}}</div>
+            <div *ngIf="formErrors.space" class="form-group has-danger">
+              <div class="form-control-feedback">{{formErrors.space}}</div>
             </div>
           </div>
 

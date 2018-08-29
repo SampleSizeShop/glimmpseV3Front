@@ -66,27 +66,78 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       dimension: [''],
       units: ['']
     });
+    this.dimensionForm.valueChanges.subscribe(data => this.onValueChangedDimensionForm(data));
     this.typeForm = this.fb.group({
       type: [this.types[0]]
     });
     this.repeatsForm = this.fb.group({
       repeats: [2, minMaxValidator(2, 10)]
     });
+    this.repeatsForm.valueChanges.subscribe(data => this.onValueChangedRepeatsForm(data));
     this.spacingForm = this.fb.group({
       spacing: this.fb.array([]),
       first: [0],
       interval: [0]
     },{ validator: noDuplicatesValidator(this.spacingControlNames) });
-    this.spacingForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
   };
 
-  onValueChanged(data?: any) {
+  onValueChangedDimensionForm(data?: any) {
+    if (!this.dimensionForm) {
+      return;
+    }
+    const form = this.dimensionForm;
+
+    this.formErrors['dimensionunits'] = '';
+    for (const field in this.dimensionForm.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages['dimensionunits'];
+        for (const key in control.errors ) {
+          this.formErrors['dimensionunits'] = messages[key];
+        }
+      }
+    }
+  }
+  onValueChangedRepeatsForm(data?: any) {
+    if (!this.repeatsForm) {
+      return;
+    }
+    const form = this.repeatsForm;
+
+    this.formErrors['repeatsform'] = '';
+    for (const field in form.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages['repeatsform'];
+        for (const key in control.errors ) {
+          this.formErrors['repeatsform'] = messages[key];
+        }
+      }
+    }
+  }
+
+  onValueChangedSpacingForm(data?: any) {
     if (!this.spacingForm) {
       return;
     }
     const form = this.spacingForm;
 
-    // TODO: fix up more nicely...
+    this.formErrors['space'] = '';
+    const messages = this.validationMessages['space'];
+    for (const field in form.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        for (const key in control.errors ) {
+          if (!this.formErrors['space'].includes(messages[key])) {
+            this.formErrors['space'] += messages[key];
+          }
+        }
+      }
+    }
+    if (this.spacingForm.errors) {
+      this.formErrors['space'] += messages['duplicates'];
+    }
   }
 
   ngOnInit() {
@@ -150,7 +201,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy, Do
       controlDefs['interval'] = this.spacingForm.value.interval;
 
       this.spacingForm = this._fb.group(controlDefs, {validator: noDuplicatesValidator(this.spacingControlNames)});
-      this.spacingForm.valueChanges.subscribe(data => this.onValueChanged(data));
+      this.spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
       this.spacingValues = [];
     }
   }
