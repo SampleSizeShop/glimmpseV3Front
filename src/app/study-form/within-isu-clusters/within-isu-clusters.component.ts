@@ -6,6 +6,7 @@ import {NavigationService} from '../../shared/navigation.service';
 import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs/Subscription';
 import {minMaxValidator} from '../../shared/minmax.validator';
+import {clusterValidator} from './cluster.validator';
 import {ClusterLevel} from '../../shared/ClusterLevel';
 
 @Component({
@@ -59,10 +60,13 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this.elementForm = this.fb.group({
       name: ['']
     });
+    this.elementForm.valueChanges.subscribe(data => this.onValueChangedElementForm(data));
     this.clusterLevelForm = this.fb.group({
-      levelName: [''],
+      levelName: ['', clusterValidator(this.levels)],
       noElements: [0, minMaxValidator(2, 10000)]
     })
+    this.clusterLevelForm.valueChanges.subscribe(data => this.onValueChangedClusterLevelForm(data));
+    this.initClusterLevelFormValidMessage();
   }
 
   ngOnInit() {
@@ -80,8 +84,10 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     if (this.stage === 1) {
       if (this.levels && this.levels.length > 0) {
         this.updateStudyFormStatus('VALID');
+        this.formErrors.clusterlevelrequired = ''
       } else {
         this.updateStudyFormStatus('INVALID');
+        this.formErrors.clusterlevelrequired = 'Need to specify at least one cluster level.'
       }
     }
     this.study_service.updateWithinIsuCluster(this.cluster);
@@ -91,6 +97,55 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this.navigationSubscription.unsubscribe();
   }
 
+  onValueChangedElementForm(data?: any) {
+    if (!this.elementForm) {
+      return;
+    }
+    const form = this.elementForm;
+
+    this.formErrors['cluster'] = '';
+    for (const field in form.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages['cluster'];
+        for (const key in control.errors ) {
+          this.formErrors['cluster'] = messages[key];
+        }
+      }
+    }
+  }
+
+  onValueChangedClusterLevelForm(data?: any) {
+    if (!this.elementForm) {
+      return;
+    }
+    const form = this.clusterLevelForm;
+    let control = form.get('levelName');
+    if (control.dirty) {
+      this.formErrors['clusterlevelname'] = '';
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages['clusterlevelname'];
+        for (const key in control.errors ) {
+          this.formErrors['clusterlevelname'] = messages[key];
+        }
+      }
+    }
+    control = form.get('noElements');
+    if (control.dirty) {
+      this.formErrors['elementnumber'] = '';
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages['elementnumber'];
+        for (const key in control.errors ) {
+          this.formErrors['elementnumber'] += messages[key];
+        }
+      }
+    }
+  }
+
+  initClusterLevelFormValidMessage() {
+    this.formErrors.clusterlevelname = 'Value needs to be filled in.';
+    this.formErrors.elementnumber = 'Value too low.';
+  }
   addCluster() {
     this.cluster = new Cluster();
     this.cluster.name = this.elementForm.value.name;

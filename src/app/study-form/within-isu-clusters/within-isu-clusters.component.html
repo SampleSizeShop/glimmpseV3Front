@@ -24,8 +24,8 @@
     <form [formGroup]="elementForm">
       <div class="form-group">
         <input class="form-control" formControlName="name" id="name" required>
-        <div *ngIf="formErrors.name" class="form-group has-danger">
-          <div class="form-control-feedback" id="nameerr">{{formErrors.name}}</div>
+        <div *ngIf="formErrors.cluster" class="form-group has-danger">
+          <div class="form-control-feedback" id="nameerr">{{formErrors.cluster}}</div>
         </div>
       </div>
     </form>
@@ -40,8 +40,8 @@
             <div class="form-group">
               <label for="levelName">Name:</label>
               <input class="form-control" formControlName="levelName" id="levelName" required>
-              <div *ngIf="formErrors.levelName" class="form-group has-danger">
-                <div class="form-control-feedback" id="levelnameerr">{{formErrors.levelName}}</div>
+              <div *ngIf="formErrors.clusterlevelname" class="form-group has-danger">
+                <div class="form-control-feedback" id="levelnameerr">{{formErrors.clusterlevelname}}</div>
               </div>
             </div>
           </div>
@@ -49,8 +49,8 @@
             <div class="form-group">
               <label for="noElements"># Elements:</label>
               <input class="form-control" formControlName="noElements" type="number" id="noElements" required>
-              <div *ngIf="formErrors.noElements" class="form-group has-danger">
-                <div class="form-control-feedback" id="noelementserr">{{formErrors.noElements}}</div>
+              <div *ngIf="formErrors.elementnumber" class="form-group has-danger">
+                <div class="form-control-feedback" id="noelementserr">{{formErrors.elementnumber}}</div>
               </div>
               <small id="noElementsHelp" class="form-text text-muted"># Elements must be an integer between 2 and 10000 (inclusive)</small>
             </div>
@@ -67,6 +67,9 @@
     <small>Levels:</small>
     <div *ngFor="let level of levels; let i = index">
       {{levels[i] | json}}
+    </div>
+    <div *ngIf="formErrors.clusterlevelrequired" class="form-group has-danger">
+      <div class="form-control-feedback">{{formErrors.clusterlevelrequired}}</div>
     </div>
   </div>
 
