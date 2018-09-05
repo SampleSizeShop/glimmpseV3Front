@@ -71,6 +71,12 @@ export const constants = {
   PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_ERRORS: {
     'covariatecorrelation': ''
   },
+  BETWEEN_ISU_PREDICTORS_ERRORS:{
+    'predictorform': 'Value needs to be filled in.',
+    'predictorformduplicated': '',
+    'groupsformduplicated': '',
+    'groupsformtwogroups': 'Need to specify at least two groups.',
+  },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
       'minval': 'Value too low.',
@@ -121,6 +127,17 @@ export const constants = {
   PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_VALIDATION_MESSAGES: {
     'covariatecorrelation': {
       'required': 'ALL values need to be filled in.'
+    },
+  },
+  BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES:{
+    'predictorform': {
+      'required': 'Value needs to be filled in.'
+    },
+    'groupsformduplicated': {
+      'duplicate': 'You have already added that group name.'
+    },
+    'predictorformduplicated': {
+      'duplicate': 'You have already added that predictor name.'
     },
   },
   WITHIN_ISU_VALIDATION_MESSAGES: {
