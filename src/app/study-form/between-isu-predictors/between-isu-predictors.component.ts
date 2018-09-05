@@ -20,7 +20,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _maxGroups: number;
   private _maxPredictors: number;
   private _betweenIsuPredictors: Array<Predictor>;
-
+  private _validationMessages;
+  private _formErrors;
   private _editing: boolean;
   private _stages;
   private _stage: number;
@@ -35,6 +36,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.stages = constants.BETWEEN_ISU_STAGES;
     this.stage = -1;
 
+    this.validationMessages = constants.BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES;
+    this.formErrors = constants.BETWEEN_ISU_PREDICTORS_ERRORS;
     this.groups = [];
     this.maxGroups = constants.MAX_GROUPS;
     this.maxPredictors = constants.MAX_PREDICTORS;
@@ -67,9 +70,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.predictorForm = this.fb.group({
       predictorName: ['', predictorValidator(this.betweenIsuPredictors)]
     });
+    this.predictorForm.valueChanges.subscribe(data => this.onValueChangedPredictorForm(data));
     this.groupsForm = this.fb.group({
       group: ['', groupValidator(this.groups)]
     });
+    this.groupsForm.valueChanges.subscribe(data => this.onValueChangedGroupsForm(data));
   }
 
   private updateFormStatus() {
@@ -79,14 +84,60 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     if (this.stage === 1) {
       if (this.groups && this.groups.length >= 2) {
         this.setNextEnabled(this.groupsForm.status);
+        this.formErrors.groupsformtwogroups = '';
       } else {
+        this.formErrors.groupsformtwogroups = 'Need to specify at least two groups.';
         this.setNextEnabled('INVALID');
       }
     }
     this.study_service.updateBetweenIsuPredictors(this.betweenIsuPredictors);
   }
+  onValueChangedPredictorForm(data?: any) {
+    if (!this.predictorForm) {
+      return;
+    }
+    const form = this.predictorForm;
 
+    this.formErrors['predictorform'] = '';
+    const messages = this.validationMessages['predictorform'];
+    for (const field in form.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        for (const key in control.errors ) {
+            this.formErrors['predictorform'] = messages[key];
+        }
+      }
+    }
+    if (this.hasPredictors()){
+      this.formErrors['predictorformduplicated'] = '';
+      const messages = this.validationMessages['predictorformduplicated'];
+      for (const field in form.value) {
+        const control = form.get(field);
+        if (control && control.dirty && !control.valid) {
+          for (const key in control.errors ) {
+            this.formErrors['predictorformduplicated'] = messages[key];
+          }
+        }
+      }
+    }
+  }
+  onValueChangedGroupsForm(data?: any) {
+    if (!this.groupsForm) {
+      return;
+    }
+    const form = this.groupsForm;
 
+    this.formErrors['groupsformduplicated'] = '';
+    const messages = this.validationMessages['groupsformduplicated'];
+    for (const field in form.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        for (const key in control.errors ) {
+          this.formErrors['groupsformduplicated'] = messages[key];
+        }
+      }
+    }
+  }
   firstGroup(): boolean {
     return this.groups.length === 0 ? true : false;
   }
@@ -342,5 +393,21 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set groups(value: string[]) {
     this._groups = value;
+  }
+
+  get validationMessages() {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value) {
+    this._validationMessages = value;
+  }
+
+  get formErrors() {
+    return this._formErrors;
+  }
+
+  set formErrors(value) {
+    this._formErrors = value;
   }
 }
