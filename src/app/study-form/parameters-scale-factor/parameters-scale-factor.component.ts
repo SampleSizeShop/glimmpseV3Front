@@ -15,8 +15,8 @@ export class ParametersScaleFactorComponent implements DoCheck {
 
   private _scaleFactor: number;
   private _scaleFactorForm: FormGroup;
-  private _formErrors = constants.TYPE_ONE_ERROR_ERRORS;
-  private _validationMessages = constants.TYPE_ONE_ERROR_VALIDATION_MESSAGES;
+  private _formErrors = constants.PARAMETERS_SCALE_FACTOR_ERRORS;
+  private _validationMessages = constants.PARAMETERS_SCALE_FACTOR_VALIDATION_MESSAGES;
 
   private _scaleFactorSubscription: Subscription;
 
@@ -50,7 +50,7 @@ export class ParametersScaleFactorComponent implements DoCheck {
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[field];
         for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
+          this.formErrors[field] = messages[key];
         }
       }
     }

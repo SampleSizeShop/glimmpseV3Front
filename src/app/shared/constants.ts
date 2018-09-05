@@ -80,6 +80,9 @@ export const constants = {
   GAUSSIAN_COVARIATE_ERRORS: {
     'gaussiancovariate': ''
   },
+  PARAMETERS_SCALE_FACTOR_ERRORS: {
+    'scalefactor': ''
+  },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
       'minval': 'Value too low.',
@@ -151,6 +154,13 @@ export const constants = {
     'gaussiancovariate': {
       'required': 'Value needs to be filled in.',
       'minval': 'Value too low.'
+    }
+  },
+  PARAMETERS_SCALE_FACTOR_VALIDATION_MESSAGES: {
+    'scalefactor': {
+      'required': 'Value needs to be filled in.',
+      'minval': 'Value too low.',
+      'maxval': 'Value too high'
     }
   },
   REJECTION_EVENT: 'REJECTION',
