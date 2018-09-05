@@ -19,7 +19,10 @@
   <form [formGroup]="gaussianCovariateForm">
     <div class="container-fluid">
       <label for="variance">Gaussian Covariate Variance:</label>
-      <input type="number" class="form-control" formControlName="variance" id="variance" >
+      <input type="number" class="form-control" formControlName="variance" id="variance" required>
+    </div>
+    <div *ngIf="formErrors.gaussiancovariate" class="form-group has-danger">
+      <div class="form-control-feedback">{{formErrors.gaussiancovariate}}</div>
     </div>
   </form>
   <br>

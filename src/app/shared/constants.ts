@@ -71,11 +71,14 @@ export const constants = {
   PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_ERRORS: {
     'covariatecorrelation': ''
   },
-  BETWEEN_ISU_PREDICTORS_ERRORS:{
+  BETWEEN_ISU_PREDICTORS_ERRORS: {
     'predictorform': 'Value needs to be filled in.',
     'predictorformduplicated': '',
     'groupsformduplicated': '',
     'groupsformtwogroups': 'Need to specify at least two groups.',
+  },
+  GAUSSIAN_COVARIATE_ERRORS: {
+    'gaussiancovariate': ''
   },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
@@ -130,7 +133,7 @@ export const constants = {
       'required': 'ALL values need to be filled in.'
     },
   },
-  BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES:{
+  BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES: {
     'predictorform': {
       'required': 'Value needs to be filled in.'
     },
@@ -143,6 +146,12 @@ export const constants = {
   },
   WITHIN_ISU_VALIDATION_MESSAGES: {
     'singleoutcome': {}
+  },
+  GAUSSIAN_COVARIATE_VALIDATION_MESSAGES: {
+    'gaussiancovariate': {
+      'required': 'Value needs to be filled in.',
+      'minval': 'Value too low.'
+    }
   },
   REJECTION_EVENT: 'REJECTION',
   CIWIDTH_EVENT: 'CIWIDTH',
@@ -189,7 +198,7 @@ export const constants = {
     'repeatsform': ''
   },
   REPEATED_MEASURE_FORM_VALIDATION_MESSAGES: {
-    'dimensionunits':{
+    'dimensionunits': {
       'required': 'Value needs to be filled in.'
     },
     'space': {
@@ -218,7 +227,7 @@ export const constants = {
     'outcomes': {
       'duplicate': 'You have already added that outcome.'
     },
-    'clusterlevelname':{
+    'clusterlevelname': {
       'required': 'Value needs to be filled in.',
       'duplicate': 'You have already added that cluster.'
     },
