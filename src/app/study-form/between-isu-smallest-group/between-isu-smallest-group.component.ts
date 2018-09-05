@@ -45,7 +45,6 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
     this.groupSizeForm = this.fb.group( this.updateSmallestGroupSizeControls() );
 
     this.groupSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
-    this.onValueChanged(); // (re)set validation messages now
   }
 
   onValueChanged(data?: any) {
@@ -101,14 +100,14 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
   }
 
   get validationMessages(): {
-    smallestGroupSize: { minval: string; };
+    smallestGroupSize: { minval: string; 'required': string; };
   }
   {
     return this._validationMessages;
   }
 
   set validationMessages(value: {
-    smallestGroupSize: { minval: string; };
+    smallestGroupSize: { minval: string; 'required': string; };
   }) {
     this._validationMessages = value;
   }
