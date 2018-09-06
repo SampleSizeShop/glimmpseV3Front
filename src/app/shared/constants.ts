@@ -72,10 +72,9 @@ export const constants = {
     'covariatecorrelation': ''
   },
   BETWEEN_ISU_PREDICTORS_ERRORS: {
-    'predictorform': 'Value needs to be filled in.',
-    'predictorformduplicated': '',
+    'predictorform': '',
     'groupsformduplicated': '',
-    'groupsformtwogroups': 'Need to specify at least two groups.',
+    'groupsformtwogroups': '',
   },
   GAUSSIAN_COVARIATE_ERRORS: {
     'gaussiancovariate': ''
@@ -138,13 +137,11 @@ export const constants = {
   },
   BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES: {
     'predictorform': {
-      'required': 'Value needs to be filled in.'
+      'empty': 'Value needs to be filled in.',
+      'duplicate': 'You have already added that predictor name.'
     },
     'groupsformduplicated': {
       'duplicate': 'You have already added that group name.'
-    },
-    'predictorformduplicated': {
-      'duplicate': 'You have already added that predictor name.'
     },
   },
   WITHIN_ISU_VALIDATION_MESSAGES: {

@@ -23,13 +23,10 @@
     <div class="container-fluid">
       <div class="form-group">
         <h5>Name your predictor:</h5>
-        <input class="form-control" formControlName="predictorName" required>
+        <input class="form-control" formControlName="predictorName">
       </div>
       <div *ngIf="formErrors.predictorform" class="form-group has-danger">
         <div class="form-control-feedback">{{formErrors.predictorform}}</div>
-      </div>
-      <div *ngIf="formErrors.predictorformduplicated" class="form-group has-danger">
-        <div class="form-control-feedback">{{formErrors.predictorformduplicated}}</div>
       </div>
     </div>
   </form>
@@ -45,9 +42,6 @@
         </div>
         <div class="col">
           <i class="material-icons" (click)="addGroup()" style="margin-top: 10px" id="addgroup">add</i>
-        </div>
-        <div *ngIf="formErrors.groupsformduplicated" class="form-group has-danger">
-          <div class="form-control-feedback">{{formErrors.groupsformduplicated}}</div>
         </div>
       </div>
       <br>
@@ -66,6 +60,9 @@
       </div>
       <div *ngIf="formErrors.groupsformtwogroups" class="form-group has-danger">
         <div class="form-control-feedback">{{formErrors.groupsformtwogroups}}</div>
+      </div>
+      <div *ngIf="formErrors.groupsformduplicated" class="form-group has-danger">
+        <div class="form-control-feedback">{{formErrors.groupsformduplicated}}</div>
       </div>
     </div>
   </form>
