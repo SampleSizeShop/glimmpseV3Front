@@ -4,6 +4,7 @@ ENV NPM_CONFIG_LOGLEVEL warn
 WORKDIR /app
 COPY package.json /app/
 RUN npm install
+EXPOSE 4200
 COPY ./ /app/
 ARG env=prod
 RUN npm run build -- --no-aot --no-build-optimizer
