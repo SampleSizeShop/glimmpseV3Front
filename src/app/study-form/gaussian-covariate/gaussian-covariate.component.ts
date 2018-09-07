@@ -4,6 +4,7 @@ import {GaussianCovariate} from '../../shared/GaussianCovariate';
 import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
 import {minMaxValidator} from '../../shared/minmax.validator';
+import {constants} from '../../shared/constants';
 
 @Component({
   selector: 'app-gaussian-covariate',
@@ -14,6 +15,8 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
   private _gaussianCovariateForm: FormGroup;
   private _gaussianCovariatesSubscription;
   private _gaussianCovariate: GaussianCovariate;
+  private _formErrors = constants.GAUSSIAN_COVARIATE_ERRORS;
+  private _validationMessages = constants.GAUSSIAN_COVARIATE_VALIDATION_MESSAGES;
 
   constructor(private _fb: FormBuilder, private study_service: StudyService) {
     this.gaussianCovariatesSubscription = this.study_service.gaussianCovariate$.subscribe(gaussianCovariate => {
@@ -40,8 +43,27 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
       variance = this.gaussianCovariate.variance;
     }
     this.gaussianCovariateForm = this.fb.group({
-      variance: [variance, minMaxValidator(0, 999999999999999999)]
+      variance: [variance, minMaxValidator(0, Number.MAX_VALUE)]
     });
+    this.gaussianCovariateForm.valueChanges.subscribe(data => this.onValueChanged(data));
+  }
+
+  onValueChanged(data?: any) {
+    if (!this.gaussianCovariateForm) {
+      return;
+    }
+    const form = this.gaussianCovariateForm;
+
+    this.formErrors['gaussiancovariate'] = '';
+    const messages = this.validationMessages['gaussiancovariate'];
+    for (const field in form.value) {
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        for (const key in control.errors ) {
+          this.formErrors['gaussiancovariate'] = messages[key];
+        }
+      }
+    }
   }
 
   hasGaussianCovariate() {
@@ -97,5 +119,21 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
 
   set gaussianCovariate(value: GaussianCovariate) {
     this._gaussianCovariate = value;
+  }
+
+  get validationMessages() {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value) {
+    this._validationMessages = value;
+  }
+
+  get formErrors() {
+    return this._formErrors;
+  }
+
+  set formErrors(value) {
+    this._formErrors = value;
   }
 }

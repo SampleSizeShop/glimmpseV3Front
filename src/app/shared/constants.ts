@@ -51,7 +51,7 @@ export const constants = {
     'singleoutcomeerror': ''
   },
   BETWEEN_ISU_ERRORS: {
-    'smallestGroupSize': ''
+    'smallestGroupSize': 'Value needs to be filled in.'
   },
   BETWEEN_ISU_RELATIVE_GROUP_ERRORS: {
     'relativegroupsizes': ''
@@ -71,11 +71,16 @@ export const constants = {
   PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_ERRORS: {
     'covariatecorrelation': ''
   },
-  BETWEEN_ISU_PREDICTORS_ERRORS:{
-    'predictorform': 'Value needs to be filled in.',
-    'predictorformduplicated': '',
+  BETWEEN_ISU_PREDICTORS_ERRORS: {
+    'predictorform': '',
     'groupsformduplicated': '',
-    'groupsformtwogroups': 'Need to specify at least two groups.',
+    'groupsformtwogroups': '',
+  },
+  GAUSSIAN_COVARIATE_ERRORS: {
+    'gaussiancovariate': ''
+  },
+  PARAMETERS_SCALE_FACTOR_ERRORS: {
+    'scalefactor': ''
   },
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
@@ -95,7 +100,8 @@ export const constants = {
   },
   BETWEEN_ISU_VALIDATION_MESSAGES: {
     'smallestGroupSize': {
-      'minval': 'Value too low.'
+      'minval': 'Value too low.',
+      'required': 'Value need to be filled in.'
     },
   },
   BETWEEN_ISU_RELATIVE_GROUP_VALIDATION_MESSAGES: {
@@ -129,19 +135,30 @@ export const constants = {
       'required': 'ALL values need to be filled in.'
     },
   },
-  BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES:{
+  BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES: {
     'predictorform': {
-      'required': 'Value needs to be filled in.'
+      'empty': 'Value needs to be filled in.',
+      'duplicate': 'You have already added that predictor name.'
     },
     'groupsformduplicated': {
       'duplicate': 'You have already added that group name.'
     },
-    'predictorformduplicated': {
-      'duplicate': 'You have already added that predictor name.'
-    },
   },
   WITHIN_ISU_VALIDATION_MESSAGES: {
     'singleoutcome': {}
+  },
+  GAUSSIAN_COVARIATE_VALIDATION_MESSAGES: {
+    'gaussiancovariate': {
+      'required': 'Value needs to be filled in.',
+      'minval': 'Value too low.'
+    }
+  },
+  PARAMETERS_SCALE_FACTOR_VALIDATION_MESSAGES: {
+    'scalefactor': {
+      'required': 'Value needs to be filled in.',
+      'minval': 'Value too low.',
+      'maxval': 'Value too high'
+    }
   },
   REJECTION_EVENT: 'REJECTION',
   CIWIDTH_EVENT: 'CIWIDTH',
@@ -188,7 +205,7 @@ export const constants = {
     'repeatsform': ''
   },
   REPEATED_MEASURE_FORM_VALIDATION_MESSAGES: {
-    'dimensionunits':{
+    'dimensionunits': {
       'required': 'Value needs to be filled in.'
     },
     'space': {
@@ -217,7 +234,7 @@ export const constants = {
     'outcomes': {
       'duplicate': 'You have already added that outcome.'
     },
-    'clusterlevelname':{
+    'clusterlevelname': {
       'required': 'Value needs to be filled in.',
       'duplicate': 'You have already added that cluster.'
     },

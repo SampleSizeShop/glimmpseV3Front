@@ -70,29 +70,26 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.predictorForm = this.fb.group({
       predictorName: ['', predictorValidator(this.betweenIsuPredictors)]
     });
-    this.predictorForm.valueChanges.subscribe(data => this.onValueChangedPredictorForm(data));
+    this.predictorForm.valueChanges.subscribe(data => this.emptyPredictorFormErrMsg());
     this.groupsForm = this.fb.group({
       group: ['', groupValidator(this.groups)]
     });
-    this.groupsForm.valueChanges.subscribe(data => this.onValueChangedGroupsForm(data));
+    this.groupsForm.valueChanges.subscribe(data => this.emptyGroupsFormErrMsg());
+    this.setNextEnabled('VALID');
   }
-
   private updateFormStatus() {
     if (this.stage === 0) {
-      this.setNextEnabled(this.predictorForm.status);
+      this.setNextEnabled('VALID');
     }
     if (this.stage === 1) {
+      this.setNextEnabled('VALID');
       if (this.groups && this.groups.length >= 2) {
-        this.setNextEnabled(this.groupsForm.status);
         this.formErrors.groupsformtwogroups = '';
-      } else {
-        this.formErrors.groupsformtwogroups = 'Need to specify at least two groups.';
-        this.setNextEnabled('INVALID');
       }
     }
     this.study_service.updateBetweenIsuPredictors(this.betweenIsuPredictors);
   }
-  onValueChangedPredictorForm(data?: any) {
+  onAddedPredictorForm(data?: any) {
     if (!this.predictorForm) {
       return;
     }
@@ -102,26 +99,17 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     const messages = this.validationMessages['predictorform'];
     for (const field in form.value) {
       const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
+      if (control && !control.valid) {
         for (const key in control.errors ) {
-            this.formErrors['predictorform'] = messages[key];
-        }
-      }
-    }
-    if (this.hasPredictors()){
-      this.formErrors['predictorformduplicated'] = '';
-      const messages = this.validationMessages['predictorformduplicated'];
-      for (const field in form.value) {
-        const control = form.get(field);
-        if (control && control.dirty && !control.valid) {
-          for (const key in control.errors ) {
-            this.formErrors['predictorformduplicated'] = messages[key];
-          }
+          this.formErrors['predictorform'] += messages[key] + ' ';
         }
       }
     }
   }
-  onValueChangedGroupsForm(data?: any) {
+  emptyPredictorFormErrMsg() {
+    this.formErrors['predictorform'] = '';
+  }
+  onAddedGroupsForm(data?: any) {
     if (!this.groupsForm) {
       return;
     }
@@ -138,6 +126,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       }
     }
   }
+  emptyGroupsFormErrMsg() {
+    this.formErrors['groupsformduplicated'] = '';
+  }
   firstGroup(): boolean {
     return this.groups.length === 0 ? true : false;
   }
@@ -150,6 +141,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   addGroup() {
+    this.onAddedGroupsForm();
     if (this.groupsForm.status === 'VALID' && this.groupsForm.value.group && this.groupsForm.value.group.trim() !== '' ) {
       this.groups.push(this.groupsForm.value.group);
       this.groupsForm.reset();
@@ -168,7 +160,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.editing = true;
     this.navigation_service.updateNavigationMode(true);
     this.navigation_service.updateNextEnabled( true );
-    this.navigation_service.updateValid(false);
+    this.navigation_service.updateValid(true);
     if (!this.betweenIsuPredictors) {
       this.betweenIsuPredictors = new Array<Predictor>();
     }
@@ -226,10 +218,22 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   internallyNavigate(direction: string): void {
     let next = this.stage;
     if ( direction === 'BACK' ) {
+      this.formErrors.groupsformtwogroups = '';
       next = this.stage - 1;
     }
     if ( direction === 'NEXT' ) {
-      next = this.stage + 1;
+      if (next === 0) {
+        this.onAddedPredictorForm();
+        if (this.formErrors.predictorform === '') {
+          next = this.stage + 1;
+        }
+      } else if (next === 1) {
+        if (this.groups && this.groups.length >= 2) {
+          next = this.stage + 1;
+        } else {
+          this.formErrors.groupsformtwogroups = 'Need to specify at least two groups.';
+        }
+      }
     }
     if ( next < 0) {
       this.resetForms();
@@ -410,4 +414,5 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   set formErrors(value) {
     this._formErrors = value;
   }
+
 }
