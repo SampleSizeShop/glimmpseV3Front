@@ -188,7 +188,8 @@ export const constants = {
   OUTCOME_FORM_ERRORS: {},
   OUTCOME_FORM_VALIDATION_MESSAGES: {
     'outcomes': {
-      'duplicate': 'You have already added that outcome.'
+      'duplicate': 'You have already added that outcome.',
+      'nooutcome': 'Need to specify at least one outcome.'
     }
   },
   MAX_REPEATED_MEASURES: 5,
