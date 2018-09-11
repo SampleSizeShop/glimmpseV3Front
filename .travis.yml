@@ -61,7 +61,7 @@ jobs:
       - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
       - sudo apt-get update
       - sudo apt-get install -y docker-ce
-      - sudo pip install awscli --upgrade
+      - sudo -H pip install awscli --upgrade --ignore-installed six
       - export PATH=~/.local/bin:$PATH
       - mkdir -p ~/.aws
       - ./scripts/ecr_user.sh
