@@ -1,19 +1,24 @@
 <fieldset>
 <h5>Choose study design mode:</h5>
+<div>
+  <p>
+    Welcome to GLIMMPSE. The GLIMMPSE software calculates power and sample size for study designs with normally distributed outcomes. Select one of the options below to begin your power or sample size calculation.
+  </p>
+</div>
 <div class="btn-group" data-toggle="buttons">
   <label aria-pressed="true" class="btn btn-primary" [class.active]="guided" id="guidedbtn">
-    <input type="radio" id="GUIDED" (click)="selectGuided()"> Guided Mode
+    <input type="radio" id="GUIDED" (click)="selectGuided()"> Guided Study Design
   </label>
   <label class="btn btn-primary" aria-pressed="true" [class.active]="!guided" id="flexbtn">
-    <input type="radio" id="FLEXIBLE" (click)="selectFlex()"> Flexible Mode
+    <input type="radio" id="FLEXIBLE" (click)="selectFlex()"> Matrix Study Design
   </label>
 </div>
 <div>
   <p *ngIf="!guided" id="flexdesc">
-    Enter the features of your study design in any order you choose.
+    Directly enter the matrices for the general linear model. This mode is designed for users with advanced statistical training.
   </p>
   <p *ngIf="guided" id="guideddesc">
-    Let us walk you through the steps required to design your study.
+    Build common study designs including ANOVA, ANCOVA, and regression with guidance from the study design wizard. This mode is designed for applied researchers including physicians, nurses, and other investigators.
   </p>
 </div>
 </fieldset>

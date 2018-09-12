@@ -1,10 +1,19 @@
 <div *ngIf="!hasCluster() && !editing" id="firstcluster">
   <div class="container-fluid">
     <div class="row">
-      <div class="col">
+      <div class="row">
         <h5>Are your outcomes measured in a cluster?</h5>
       </div>
-      <div class="col">
+      <div class="row">
+        <p>
+          In a clustered design, the independent sampling unit is a cluster, such as a community, school, or classroom. Observations within a cluster are correlated. The labels for observations within a cluster must be exchangeable. For example, child "id" within classroom can be reassigned arbitrarily. In contrast, observations across time cannot be reassigned and should not be considered clustered observations. Clustering, or repeated measures, or a combination, creates a multilevel design. The common correlation between any pair of cluster members is termed the intraclass correlation or intracluster correlation. <br /><br />
+
+          To include clustering in the study, click "Add Clustering" and follow the prompts. <br /><br />
+
+          You may specify up to 3 levels of clustering. <br /><br />
+        </p>
+      </div>
+      <div class="row">
         <div class="btn-group" data-toggle="buttons">
           <label [class.active]="included" id="includerptmeasuresbtn" class="btn btn-primary">
             <input type="radio" id="includerptmeasuresradio" (click)="includeClusters()">Define Clustering
@@ -19,7 +28,7 @@
 
   <div *ngIf="stages[0] === stageName">
     <div id="clustersheader">
-      <h5>Name the element in your cluster:</h5>
+      <h5>What term would you like to use for a participant in the study? (For example, student.)</h5>
     </div>
     <form [formGroup]="elementForm">
       <div class="form-group">
@@ -38,7 +47,7 @@
         <div class="row">
           <div class="col col-md-auto">
             <div class="form-group">
-              <label for="levelName">Name:</label>
+              <label for="levelName">Clustering level name:</label>
               <input class="form-control" formControlName="levelName" id="levelName" required>
               <div *ngIf="formErrors.clusterlevelname" class="form-group has-danger">
                 <div class="form-control-feedback" id="levelnameerr">{{formErrors.clusterlevelname}}</div>
@@ -47,7 +56,7 @@
           </div>
           <div class="col col-md-auto">
             <div class="form-group">
-              <label for="noElements"># Elements:</label>
+              <label for="noElements">Number of element:</label>
               <input class="form-control" formControlName="noElements" type="number" id="noElements" required>
               <div *ngIf="formErrors.elementnumber" class="form-group has-danger">
                 <div class="form-control-feedback" id="noelementserr">{{formErrors.elementnumber}}</div>

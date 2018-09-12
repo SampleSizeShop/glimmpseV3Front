@@ -1,5 +1,14 @@
 <form [formGroup]="powerSampleSizeForm" novalidate>
   <h5>Solve for:</h5>
+  <div>
+    <p>
+      To begin your calculation, please indicate whether you would like to solve for power or total sample size.<br />
+
+      If you have a rough idea of the number of research participants you will be able to recruit, then solving for power may be more beneficial.<br />
+
+      If you have fewer restrictions on recruitment and would like to ensure a well-powered study, then solving for sample size is likely to be more useful.<br />
+    </p>
+  </div>
   <div class="container-fluid">
     <div class="btn-group" data-toggle="buttons">
       <label *ngIf="isRejection()" aria-pressed="true" class="btn btn-primary" [class.active]="isPower()" id="powerbtn">
@@ -13,31 +22,8 @@
       </label>
     </div>
     <div>
-      <div *ngIf="isPower()" id="samplesizedesc">
-        <p>
-          I am just a poor boy
-          Though my story's seldom told
-          I have squandered my resistance
-          For a pocketful of mumbles
-          Such are promises
-          All lies and jest
-          Still, a man hears what he wants to hear
-          And disregards the rest
-        </p>
-      </div>
-      <div *ngIf="isSampleSize()" id="powerdesc">
-        <p>
-          In the clearing stands a boxer
-          And a fighter by his trade
-          And he carries the remainders
-          Of every glove that laid him down
-          And cut him till he cried out
-          In his anger and his shame
-          “I am leaving, I am leaving”
-          But the fighter still remains
-          Still remains
-        </p>
-      </div>
+      <div *ngIf="isPower()" id="samplesizedesc"></div>
+      <div *ngIf="isSampleSize()" id="powerdesc"></div>
       <div class="form-group" *ngIf="isSampleSize()" id="powerinput">
         <label for="power" ng-non-bindable *ngIf="isRejection()" id="rejectnulllbl">Probability &#123;Reject null&#125;:</label>
         <label for="power" ng-non-bindable *ngIf="isCIWidth()" id="achieveciwidthlbl">Probability &#123;achieve CI Width&#125;:</label>

@@ -17,6 +17,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   private _variables: ISUFactor[];
   private _possibleEffects: HypothesisEffect[];
   private _selected: HypothesisEffect;
+  private _showInfo: boolean;
 
   private _hypothesisEffectSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
@@ -30,6 +31,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     this.hypothesisEffectSubscription = this._study_service.hypothesisEffect$.subscribe( effect => {
       this._selected = effect;
     });
+    this.showInfo = false;
   }
 
   ngOnInit() {
@@ -139,12 +141,24 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     return effect.type === constants.HYPOTHESIS_EFFECT_TYPE.GRAND_MAEN ? true : false;
   }
 
+  showOrCloseInfo() {
+    this.showInfo = !this.showInfo;
+  }
+
   get possibleEffects(): HypothesisEffect[] {
     return this._possibleEffects;
   }
 
   set possibleEffects(value: HypothesisEffect[]) {
     this._possibleEffects = value;
+  }
+
+  get showInfo(): boolean {
+    return this._showInfo;
+  }
+
+  set showInfo(value: boolean) {
+    this._showInfo = value;
   }
 
   set hypothesisEffectSubscription(value: Subscription) {

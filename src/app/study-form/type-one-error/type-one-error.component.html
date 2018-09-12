@@ -1,19 +1,19 @@
 <form [formGroup]="typeOneErrorRateForm" novalidate>
-  <h5>Specify Type One Error Rate:</h5>
+  <h5>Type I Error Rates</h5>
   <fieldset>
     <div>
       <div id="typeoneerrordesc">
         <p>
-          Here lives a  useful description of type one error rate and how you'd pick one:
+          A Type I error occurs when a scientist declares a difference when none is actually present. The Type I error rate is the probability of a Type I error occurring, and is often referred to as α (alpha). Type I error rates range from 0 to 1. The most commonly used values are 0.01, 0.05, and 0.1.
         </p>
       </div>
       <div class="form-group" id="typeoneerrorinput">
-        <label for="typeoneerror">Enter your desired type one error rate:</label>
+        <label for="typeoneerror">Enter your Type I Error Rate:</label>
         <input type="number" class="form-control" id="typeoneerror" aria-describedby="typeoneerrorhelp" placeholder="Choose a number 0 > x > 1" formControlName="typeoneerror" required>
         <div *ngIf="formErrors.typeoneerror" class="form-group has-danger">
           <div class="form-control-feedback">{{formErrors.typeoneerror}}</div>
         </div>
-        <small id="typeoneerrorhelp" class="form-text text-muted">Sample size must be an integer between 0 > x > 1</small>
+        <small id="typeoneerrorhelp" class="form-text text-muted">Type I Error Rates must be an integer between 0 > x > 1</small>
       </div>
     </div>
   </fieldset>

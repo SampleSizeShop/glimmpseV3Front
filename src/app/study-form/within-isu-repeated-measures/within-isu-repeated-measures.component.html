@@ -2,13 +2,24 @@
 <div *ngIf="!hasRepeatedMeasures() && !editing" id="firstrepmeasure">
   <div class="container-fluid">
     <div class="row">
-      <div class="col">
-        <h5>Are you taking repeated measures?</h5>
+      <div class="row">
+        <h5>Repeated Measures</h5>
       </div>
-      <div class="col">
+      <div class="row">
+        <p>
+          GLIMMPSE allows you to define within-participant factors, specified as repeated measures. Repeated measures are present when a response variable is measured on each independent sampling unit on two or more occasions or under two or more conditions. The values of the repeated measures (that is, the levels of the within-participant factors) distinguish the occasions or conditions. <br /><br />
+
+          If the study includes repeated measures, click "Add Repeated Measure" and follow the prompts. The text entered in the "Dimension" text box indicates the dimension over which measures were taken (e.g. time, days, locations, etc.). The choice of "Type" indicates whether the repeated measures are numeric (e.g. time), ordinal (e.g. 1st, 2nd, 3rd), or categorical (e.g. arm, leg, hand). <br /><br />
+
+          If the repeated measures are numeric, the spacing values must be unique nonnegative integers, in ascending order. <br /><br />
+
+          You may specify up to 3 repeated measures. <br /><br />
+        </p>
+      </div>
+      <div class="row">
         <div class="btn-group" data-toggle="buttons">
           <label id="includerptmeasuresbtn" class="btn btn-primary">
-            <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">define repeated measurement
+            <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
           </label>
         </div>
       </div>
@@ -47,7 +58,7 @@
     <div class="container-fluid">
       <div class="form-group">
         <label for="dimension">Dimension:</label>
-        <input class="form-control" formControlName="dimension" id="dimension" required>
+        <input class="form-control" formControlName="dimension" id="dimension" placeholder="Enter the dimension for this repeated measure (time, scenarios, etc.)" required>
         <div *ngIf="formErrors.dimensionunits" class="form-group has-danger">
           <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensionunits}}</div>
         </div>
@@ -75,7 +86,7 @@
 
 <div *ngIf="stages[2] === stageName">
   <div id="repeatesheader">
-    <h5>How many times are you measuring {{dimensionForm.value.name}}?</h5>
+    <h5>Number of measurements of {{dimensionForm.value.name}}?</h5>
     <form [formGroup]="repeatsForm">
       <div class="form-group" id="repeatsinput">
         <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
@@ -90,7 +101,7 @@
 
 <div *ngIf="stages[3] === stageName">
   <div id="spacingheader">
-    <h5>At which values of {{dimensionForm.value.name}} will you be taking measurements?</h5>
+    <h5>Spacing</h5>
     <form [formGroup]="spacingForm">
       <div class="container-fluid">
         <div class="row">
