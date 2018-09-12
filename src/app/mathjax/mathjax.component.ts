@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {MathJaxService} from './mathjax.service';
-import 'rxjs/add/operator/map';
+
 import {FormControl} from '@angular/forms';
 
 /**

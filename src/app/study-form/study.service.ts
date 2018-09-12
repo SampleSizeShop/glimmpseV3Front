@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import 'rxjs/add/operator/toPromise';
-import {Subject} from 'rxjs/Subject';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+
+import {Subject, BehaviorSubject, Observable} from 'rxjs';
 import {constants} from '../shared/constants';
 import {RepeatedMeasure} from '../shared/RepeatedMeasure';
 import {Cluster} from '../shared/Cluster';

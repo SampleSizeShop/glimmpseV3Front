@@ -1,10 +1,10 @@
+import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../../shared/constants';
 import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../../shared/navigation.service';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs/Subscription';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
 import {Outcome} from '../../shared/Outcome';
 
@@ -139,6 +139,10 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     const valid = status === 'VALID' ? true : false;
     this.navigation_service.updateValid(valid);
   }
+  get outcomes$(): Observable<Outcome[]> {
+    return observableOf(this._outcomes);
+  }
+
   get outcomes(): Outcome[] {
     return this._outcomes;
   }

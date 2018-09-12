@@ -116,59 +116,37 @@ describe('StudyFormComponent', () => {
     spyOn(component, 'setStage');
   }));
 
-  it('should be created', () => {
-    expect(component).toBeTruthy();
-  });
-  /**
-  // TODO: Still valid?
-  it('Should set the stage when next is called', () => {
-    if ( component.stages ) {
-      for ( let i = 1 ; i <= component.noStages; i++ ) {
-        getSpy.and.returnValue(i)
-        component.next();
-      }
-      expect(component.setStage).toHaveBeenCalledTimes(component.noStages );
-    } else {
-      expect(false)
-    }
-  });
-
-  // TODO: Still valid?
-  it('Should set the stage when back is called unless we are ate stage 1', () => {
-    if ( component.stages ) {
-      for ( let i = 1 ; i <= component.noStages; i++ ) {
-        getSpy.and.returnValue(i)
-        component.next();
-      }
-      expect(component.setStage).toHaveBeenCalledTimes(component.noStages );
-    } else {
-      expect(false)
-    }
-  }); **/
-
   it('Should correctly set next and back boolean flags for the first stage', () => {
     getSpy.and.returnValue(1);
-    component.setNextBack()
-    expect(component.hasBack)
-    expect(component.hasNext)
+    component.setNextBack();
+    expect(component.hasBack);
+    expect(component.hasNext);
+    fixture.detectChanges();
+  });
+
+  it('should be created', () => {
+    expect(component).toBeTruthy();
+    fixture.detectChanges();
   });
 
   it('Should correctly set next and back boolean flags for the middle stages', () => {
     if ( component.noStages > 2 ) {
       for ( let i = 2 ; i <= component.noStages; i++ ) {
-        getSpy.and.returnValue(i)
-        component.setNextBack()
-        expect(component.hasBack)
-        expect(component.hasNext)
+        getSpy.and.returnValue(i);
+        component.setNextBack();
+        expect(component.hasBack);
+        expect(component.hasNext);
+        fixture.detectChanges();
       }
     }
   });
 
   it('Should correctly set next and back boolean flags for the last stage', () => {
     getSpy.and.returnValue(component.noStages);
-    component.setNextBack()
-    expect(component.hasBack)
-    expect(!component.hasNext)
+    component.setNextBack();
+    expect(component.hasBack);
+    expect(!component.hasNext);
+    fixture.detectChanges();
   });
 
 });

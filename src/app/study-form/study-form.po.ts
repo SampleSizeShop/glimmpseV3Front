@@ -27,7 +27,7 @@ import {ParametersGaussianCovariateVariancePo} from './parameters-gaussian-covar
 import {ParametersGaussianCovariateCorellationPo} from './parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-corellation.po';
 import {OptionalSpecsPowerCurveChoicePo} from './optional-specs-power-curve-choice/optional-specs-power-curve-choice.po';
 import {OptionalSpecsPowerMethodPo} from './optional-specs-power-method/optional-specs-power-method.po';
-import {constants} from '../shared/constants';
+import {constants, getStageName} from '../shared/constants';
 import {CalculatePo} from './calculate/calculate.po';
 
 export class StudyFormComponentPage {
@@ -109,7 +109,7 @@ export class StudyFormComponentPage {
   }
 
   isStage(url, stage): boolean {
-    return url.split('/')[4] === constants.getStageName(stage)
+    return url.split('/')[4] === getStageName(stage)
   }
 
   fillCurrentComponent(url, input): boolean {

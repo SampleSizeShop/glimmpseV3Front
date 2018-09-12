@@ -1,7 +1,7 @@
 import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from './correlationMatrix.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {constants} from '../../shared/constants';
 import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
 import * as math from 'mathjs';

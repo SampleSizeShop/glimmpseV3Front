@@ -1,12 +1,12 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription, Observable, of} from 'rxjs';
 import {StudyService} from '../study.service';
-import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {isNull, isNullOrUndefined} from 'util';
+import {isNullOrUndefined} from 'util';
+import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-parameters-repeated-measure-outcome-stdev',
@@ -22,8 +22,9 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck 
   private _measure: RepeatedMeasure;
 
   constructor(private study_service: StudyService, private route: ActivatedRoute, private fb: FormBuilder) {
-    this.measure$ = this.route.paramMap.switchMap(
+    this.measure$ = this.route.paramMap.pipe(switchMap(
       (params: ParamMap) => this.getMeasure(params.get('measure'))
+      )
     );
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
@@ -70,7 +71,7 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck 
     this.study_service.updateIsuFactors(this.isuFactors);
   }
 
-  getMeasures() { return Observable.of(this.isuFactors.repeatedMeasures); }
+  getMeasures() { return of(this.isuFactors.repeatedMeasures); }
 
   private getMeasure(name: string | any) {
     return this.getMeasures().map(

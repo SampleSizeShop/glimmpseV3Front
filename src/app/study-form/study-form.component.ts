@@ -1,8 +1,8 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from './study.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
-import {constants} from '../shared/constants';
+import {constants, getStageName} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
@@ -26,7 +26,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _targetEventSubscription: Subscription;
   private _solveForSubscription: Subscription;
   private _powerSubscription: Subscription;
-  private _samplesizeSubscription: Subscription;
   private _ciwidthSubscription: Subscription;
   private _selectedTestsSubscription: Subscription;
   private _typeOneErrorRateSubscription: Subscription;
@@ -159,7 +158,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   private navigate(stage: number, direction: string) {
-    let params = ['design', constants.getStageName(stage)];
+    let params = ['design', getStageName(stage)];
     params = params.concat(this.parameters);
     this.log.debug(params);
     const success = this.router.navigate(params);
@@ -293,7 +292,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   ngDoCheck() {
     const name = this.router.url.replace('/design/', '');
-    if (name !== this.getStageName()) {
+    if (name !== this.getCurrentStageName()) {
       if (isNullOrUndefined(name) || name === '/design') {
         this.setStage(1);
       } else {
@@ -329,8 +328,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._guided = value;
   }
 
-  getStageName(): string {
-    return constants.getStageName(this.study_service.stage);
+  getCurrentStageName(): string {
+    return getStageName(this.study_service.stage);
   }
 
   getStage(): number {
@@ -442,14 +441,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   set powerSubscription(value: Subscription) {
     this._powerSubscription = value;
-  }
-
-  get samplesizeSubscription(): Subscription {
-    return this._samplesizeSubscription;
-  }
-
-  set samplesizeSubscription(value: Subscription) {
-    this._samplesizeSubscription = value;
   }
 
   get ciwidthSubscription(): Subscription {
@@ -682,7 +673,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.targetEventSubscription.unsubscribe();
     this.solveForSubscription.unsubscribe();
     this.powerSubscription.unsubscribe();
-    this.samplesizeSubscription.unsubscribe();
     this.ciwidthSubscription.unsubscribe();
     this.selectedTestsSubscription.unsubscribe();
     this.typeOneErrorRateSubscription.unsubscribe();
@@ -695,6 +685,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.hypothesisEffectSubscription.unsubscribe();
     this.scaleFactorSubscription.unsubscribe();
     this.varianceScaleFactorsSubscription.unsubscribe();
+    this.powerCurveSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {

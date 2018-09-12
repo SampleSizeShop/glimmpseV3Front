@@ -7,12 +7,17 @@ import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
 import {ActivatedRoute} from '@angular/router';
+import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {ISUFactors} from '../../shared/ISUFactors';
+import {RelativeGroupSizeTable} from '../../shared/RelativeGroupSizeTable';
+import {ISUFactorCombination} from '../../shared/ISUFactorCombination';
+import {CombinationId} from '../../shared/CombinationId';
 
 describe('BetweenIsuGroupsComponent', () => {
   let component: BetweenIsuGroupsComponent;
   let fixture: ComponentFixture<BetweenIsuGroupsComponent>;
   let activatedRoute: ActivatedRouteStub;
-  /**
+
   beforeEach(async(() => {
     activatedRoute = new ActivatedRouteStub();
     activatedRoute.testParamMap = {index: '0'};
@@ -22,7 +27,8 @@ describe('BetweenIsuGroupsComponent', () => {
       providers: [
         StudyService,
         { provide: HttpClient, useClass: MockBackend },
-        {provide: ActivatedRoute, useClass: ActivatedRouteStub }
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub },
+        {provide: NGXLogger, useClass: NGXLoggerMock}
         ]
     })
     .compileComponents();
@@ -31,10 +37,15 @@ describe('BetweenIsuGroupsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BetweenIsuGroupsComponent);
     component = fixture.componentInstance;
+    const interceptId = new CombinationId('Intercept', 'Intercept' ,  'Intercept');
+    const intercept = new ISUFactorCombination([interceptId]);
+    const interceptTable = new RelativeGroupSizeTable(intercept, [[intercept]]);
+    component.isuFactors = new ISUFactors();
+    component.isuFactors.betweenIsuRelativeGroupSizes.push(interceptTable);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  }); **/
+  });
 });

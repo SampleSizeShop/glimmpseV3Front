@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {constants} from 'app/shared/constants';
+import {constants, getStageName} from 'app/shared/constants';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';
@@ -136,7 +136,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   advancedOptions(name: string) {
-    this.router.navigate(['design', constants.getStageName(constants.STAGES.HYPOTHESIS_BETWEEN), name])
+    this.router.navigate(['design', getStageName(constants.STAGES.HYPOTHESIS_BETWEEN), name])
   }
 
   getMarginalCMatrix (predictor: Predictor): PartialMatrix {

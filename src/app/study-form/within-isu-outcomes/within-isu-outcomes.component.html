@@ -25,7 +25,7 @@
   </div>
   <br>
   <small *ngIf="!firstOutcome()">Outcomes:</small>
-  <div *ngFor="let outcome of outcomes" id="outcomelist">
+  <div *ngFor="let outcome of outcomes$ | async" id="outcomelist">
     <div class="container-fluid">
       <div class="row">
         <div class="col col-md-auto">

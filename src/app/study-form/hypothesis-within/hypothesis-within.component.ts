@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {constants} from '../../shared/constants';
-import {Subscription} from 'rxjs/Subscription';
+import {constants, getStageName} from '../../shared/constants';
+import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {PartialMatrix} from '../../shared/PartialMatrix';
@@ -82,7 +82,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   }
 
   advancedOptions(name: string) {
-    this.router.navigate(['design', constants.getStageName(constants.STAGES.HYPOTHESIS_WITHIN), name])
+    this.router.navigate(['design', getStageName(constants.STAGES.HYPOTHESIS_WITHIN), name])
   }
 
   setNature(name: string, nature: string) {
