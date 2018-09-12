@@ -2,7 +2,7 @@ import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
 import {isNull, isNullOrUndefined} from 'util';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {FormBuilder} from '@angular/forms';
 import {CorrelationMatrix} from '../../shared/CorrelationMatrix';

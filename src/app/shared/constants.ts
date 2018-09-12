@@ -314,11 +314,11 @@ export const constants = {
   SOLVE_FOR: {
     POWER: 'POWER',
     SAMPLE_SIZE: 'SAMPLE SIZE'
-  },
-  getStageName:
-    function(value: number){
-      const listObj = [];
-      Object.keys(this.STAGES).forEach( key => {listObj.push(key)});
-      return listObj[value];
-    }
+  }
 };
+
+export function getStageName(value: number) {
+  const listObj = [];
+  Object.keys(constants.STAGES).forEach( key => {listObj.push(key)});
+  return listObj[value];
+}

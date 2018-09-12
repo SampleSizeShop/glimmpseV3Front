@@ -1,10 +1,12 @@
+
+import {of as observableOf, Subscription, Observable} from 'rxjs';
+
+import {map, switchMap} from 'rxjs/operators';
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {MarginalMeansTable} from '../../shared/MarginalMeansTable';
 
@@ -22,9 +24,9 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
   private _isuFactorsSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private _route: ActivatedRoute, private _study_service: StudyService) {
-    this.table$ = this.route.paramMap.switchMap(
+    this.table$ = this.route.paramMap.pipe(switchMap(
       (params: ParamMap) => this.getTableFromIndex(params.get('index'))
-    );
+    ));
   }
 
   ngOnInit() {
@@ -46,13 +48,13 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
     this._study_service.updateIsuFactors(this.isuFactors);
   }
 
-  getRelativeGroupSizeTables() { return Observable.of(this.isuFactors.marginalMeans); }
+  getRelativeGroupSizeTables() { return observableOf(this.isuFactors.marginalMeans); }
 
   getTableFromIndex(index: string | any) {
-    return this.getRelativeGroupSizeTables().map(
+    return this.getRelativeGroupSizeTables().pipe(map(
       tables => tables.find(
         table => this.isuFactors.marginalMeans.indexOf(table).toString() === index
-      ));
+      )));
   }
 
   buildForm() {

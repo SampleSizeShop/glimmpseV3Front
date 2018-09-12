@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
 import {FormBuilder, FormGroup} from '@angular/forms';

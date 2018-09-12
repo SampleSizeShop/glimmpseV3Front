@@ -1,6 +1,6 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {NavigationService} from '../../shared/navigation.service';
 import {Predictor} from '../../shared/Predictor';

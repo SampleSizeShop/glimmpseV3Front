@@ -1,10 +1,9 @@
+
+import {of as observableOf, Observable, Subscription} from 'rxjs';
+
+import {map, switchMap} from 'rxjs/operators';
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
-
-import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/of';
-import {Subscription} from 'rxjs/Subscription';
 
 import {ISUFactors} from '../../shared/ISUFactors';
 import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
@@ -31,9 +30,9 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit, D
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
-    this.repeatedMeasure$ = this.route.paramMap.switchMap(
+    this.repeatedMeasure$ = this.route.paramMap.pipe(switchMap(
       (params: ParamMap) => this.getRepeatedMeasure(params.get('measure'))
-    );
+    ));
   }
 
   ngOnInit() {
@@ -63,16 +62,18 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit, D
 
   ngOnDestroy() {
     this._isuFactorsSubscription.unsubscribe();
-    this.correlationMatrixSubscription.unsubscribe();
+    if (!isNullOrUndefined(this.correlationMatrixSubscription)) {
+      this.correlationMatrixSubscription.unsubscribe();
+    }
   }
 
-  getRepeatedMeasures() { return Observable.of(this.isuFactors.repeatedMeasures); }
+  getRepeatedMeasures() { return observableOf(this.isuFactors.repeatedMeasures); }
 
   private getRepeatedMeasure(name: string | any) {
-    return this.getRepeatedMeasures().map(
+    return this.getRepeatedMeasures().pipe(map(
       measures => measures.find(
         measure => measure.name === name
-      ));
+      )));
   }
 
   set repeatedMeasure$(value: Observable<RepeatedMeasure>) {

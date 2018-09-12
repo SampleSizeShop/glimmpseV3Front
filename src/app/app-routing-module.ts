@@ -1,10 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {MathJaxComponent} from './mathjax/mathjax.component';
 
 const routes: Routes = [
-  {path: 'mathjax', component: MathJaxComponent},
-
+  { path: '',   redirectTo: '/design/MODE', pathMatch: 'full' },
+  { path: '**',   redirectTo: '/design/MODE', pathMatch: 'full' }
 ];
 
 @NgModule({

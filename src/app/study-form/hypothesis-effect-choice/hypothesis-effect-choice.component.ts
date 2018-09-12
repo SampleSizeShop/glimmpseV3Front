@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ISUFactor} from '../../shared/ISUFactor';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
 import {FormBuilder} from '@angular/forms';

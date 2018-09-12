@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';

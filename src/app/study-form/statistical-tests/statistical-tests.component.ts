@@ -1,7 +1,7 @@
 import {Component, DoCheck, OnInit} from '@angular/core';
 import {constants} from '../../shared/constants';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-statistical-tests',

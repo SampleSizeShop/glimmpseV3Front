@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {StudyDesign} from '../../shared/study-design';
 import {isNullOrUndefined} from 'util';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {testEnvironment} from '../../../environments/environment.test';
 
 @Component({
   selector: 'app-calculate',
@@ -34,7 +35,7 @@ export class CalculateComponent implements OnInit {
   postModel() {
     const output = this.outputString;
     this.http.post(
-      'http://127.0.0.1:5000/api/calculate',
+      testEnvironment.calculateUrl,
       output,
       this.jsonHeader()).toPromise().then(response => this.resultString = response).catch(this.handleError);
   }

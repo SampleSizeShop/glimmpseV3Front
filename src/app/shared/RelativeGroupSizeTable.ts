@@ -59,11 +59,13 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
 
   getDimensions(element: ISUFactorCombination): Array<CombinationId> {
     let dimensions = [];
-    if (isNullOrUndefined(this.tableId)) {
-      dimensions = element.id
-    } else {
-      dimensions = element.id.filter( factor =>
-        this.tableId.id.indexOf(factor) < 0);
+    if (!isNullOrUndefined(element) && !isNullOrUndefined(element.id)) {
+      if (isNullOrUndefined(this.tableId)) {
+        dimensions = element.id
+      } else {
+        dimensions = element.id.filter( factor =>
+          this.tableId.id.indexOf(factor) < 0);
+      }
     }
     return dimensions;
   }
