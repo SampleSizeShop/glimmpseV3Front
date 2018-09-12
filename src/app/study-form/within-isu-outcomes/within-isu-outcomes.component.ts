@@ -58,7 +58,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   buildForm() {
-    this.formErrors = {};
+    this.emptyErrMsg();
     this.outcomesForm = this.fb.group({
       outcomes: ['', outcomeValidator(this.outcomes)]
     });

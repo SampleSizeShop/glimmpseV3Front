@@ -1,6 +1,5 @@
 import {AbstractControl, ValidatorFn} from '@angular/forms';
 import {Outcome} from '../../shared/Outcome';
-import {isNullOrUndefined} from 'util';
 
 export function outcomeValidator(outcomes: Outcome[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
@@ -10,16 +9,14 @@ export function outcomeValidator(outcomes: Outcome[]): ValidatorFn {
       names.push(outcome.name);
     });
 
-    const validResultContainer = {};
+    if (outcomes.length < 1) {
+      return {'nooutcome': 'Need an outcome to go to next step.'};
+    }
+
     if (names.indexOf(val) !== -1) {
-      validResultContainer['duplicate'] = val;
-    } else if (outcomes.length < 1) {
-      validResultContainer['nooutcome'] = 'Need an outcome to go to next step.';
+      return {'duplicate': val};
     }
-    if (validResultContainer) {
-      return validResultContainer;
-    } else {
-      return null;
-    }
+
+    return null;
   }
 }
