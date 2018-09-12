@@ -7,6 +7,19 @@
       <div class="col" *ngIf="hasPredictors()">
         <h5>Would you like to add another Predictor?</h5>
       </div>
+      <div>
+        <p>
+          GLIMMPSE allows you to define between-participant factors, specified as fixed predictors. The values of the fixed predictors (that is, the levels of the between-participant factors) divide the independent sampling units into groups. The choice of study design determines the fixed predictors and their values. One common example of a fixed predictor is treatment, with values placebo and active, for which the independent sampling unit is randomized to a placebo group or an active drug group. Another is gender, with values male and female, for which the independent sampling unit is randomized to a male group or a female group. <br /><br />
+
+          To define predictors: For each predictor, enter the predictor name into the "Predictors" list box and click "enter" on your keyboard. For example, you might enter "treatment" as a predictor. <br /><br />
+
+          To define values for a predictor: Select the predictor. For each of its values, enter the value into the "Values" list box and click "enter" on your keyboard. For example, you might select "treatment", and then enter "placebo" and "active" as its values. <br /><br />
+
+          To remove an item, click the "x" next to the item. <br /><br />
+
+          For a design with no between-participant factors, don't define any predictors.
+        </p>
+      </div>
       <div class="col">
         <button id="addbetweenbtn" (click)="includePredictors()" class="btn btn-primary">Define Between ISU Factors</button>
       </div>

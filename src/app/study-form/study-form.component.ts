@@ -7,6 +7,7 @@ import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
 import {Router} from '@angular/router';
+import {Subject} from 'rxjs/Subject';
 
 @Component({
   selector: 'app-study-form',
@@ -39,6 +40,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _varianceScaleFactorsSubscription: Subscription;
   private _powerCurveSubscription: Subscription;
 
+
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
   private _validSubscription: Subscription;
@@ -60,6 +62,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   next(stage?: number): void {
+    this.study_service.updateDirection('NEXT');
     if (this.childComponentNav &&  this.valid) {
       this.navigation_service.updateNavigation('NEXT');
     } else {
@@ -171,6 +174,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   back(stage?: number): void {
+    this.study_service.updateDirection('BACK');
     if (this.childComponentNav) {
       this.navigation_service.updateNavigation('BACK');
     } else {

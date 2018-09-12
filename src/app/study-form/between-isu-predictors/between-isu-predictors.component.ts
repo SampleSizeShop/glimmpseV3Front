@@ -77,6 +77,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.groupsForm.valueChanges.subscribe(data => this.emptyGroupsFormErrMsg());
     this.setNextEnabled('VALID');
   }
+
   private updateFormStatus() {
     if (this.stage === 0) {
       this.setNextEnabled('VALID');

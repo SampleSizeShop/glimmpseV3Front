@@ -13,6 +13,7 @@ import {Predictor} from '../shared/Predictor';
 import {ISUFactors} from '../shared/ISUFactors';
 import {PowerCurve} from '../shared/PowerCurve';
 import {StudyDesign} from '../shared/study-design';
+import {Subscription} from 'rxjs/Subscription';
 
 @Injectable()
 export class StudyService {
@@ -82,6 +83,9 @@ export class StudyService {
 
   private _studyDesignSource = new BehaviorSubject<StudyDesign>(null);
   private _studyDesign$ = this._studyDesignSource.asObservable();
+
+  private _navigationDirectionSource = new Subject<string>();
+  private _navigationDirection$ = this.navigationDirectionSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -163,6 +167,10 @@ export class StudyService {
 
   updateStudyDesign(studyDesign: StudyDesign) {
     this._studyDesignSource.next(studyDesign);
+  }
+
+  updateDirection(direction: string) {
+    this.navigationDirectionSource.next(direction);
   }
 
   constructor(private  http: HttpClient) {
@@ -383,6 +391,14 @@ export class StudyService {
 
   get studyDesign$(): Observable<StudyDesign> {
     return this._studyDesign$;
+  }
+
+  get navigationDirectionSource(): Subject<string> {
+    return this._navigationDirectionSource;
+  }
+
+  get navigationDirection$(): Observable<string> {
+    return this._navigationDirection$;
   }
 }
 

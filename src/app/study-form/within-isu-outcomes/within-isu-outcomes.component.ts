@@ -1,6 +1,5 @@
-
 import {of as observableOf, Subscription, Observable} from 'rxjs';
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../../shared/constants';
 import {outcomeValidator} from './outcome.validator';
@@ -14,7 +13,7 @@ import {Outcome} from '../../shared/Outcome';
   templateUrl: './within-isu-outcomes.component.html',
   styleUrls: ['./within-isu-outcomes.scss']
 })
-export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
+export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   private _outcomesForm: FormGroup;
   private _outcomes: Outcome[];
   private _max: number;
@@ -23,6 +22,8 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   private _outcomeSubscription: Subscription;
   private _hypothesisEffectSubscription: Subscription;
   private _hypothesisEffect: HypothesisEffect;
+  private _directionCommand: string;
+  private _navigationSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
@@ -40,22 +41,37 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
         this._hypothesisEffect = effect;
       }
     );
+    this.navigationSubscription = this.study_service.navigationDirection$.subscribe(
+      direction => {
+        this.directionCommand = direction;
+        this.checkValidBeforeNavigation(this.directionCommand);
+      }
+    );
   }
 
   ngOnInit() {
     this.buildForm();
   }
 
+  ngOnDestroy() {
+    this.navigationSubscription.unsubscribe();
+  }
+
   buildForm() {
+    this.emptyErrMsg();
     this.outcomesForm = this.fb.group({
       outcomes: ['', outcomeValidator(this.outcomes)]
     });
 
-    this.outcomesForm.valueChanges.subscribe(data => this.onValueChanged(data));
-    this.onValueChanged();
+    this.outcomesForm.valueChanges.subscribe(data => this.emptyErrMsg());
+    this.setNextEnabled('INVALID');
   }
 
-  onValueChanged(data?: any) {
+  emptyErrMsg() {
+    this.formErrors = {};
+  }
+
+  checkValidator(data?: any) {
     if (!this.outcomesForm) {
       return;
     }
@@ -65,7 +81,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
       this.formErrors[field] = '';
       const control = form.get(field);
 
-      if (control && control.dirty && !control.valid) {
+      if (control && !control.valid) {
         const messages = this.validationMessages[field];
         for (const key in control.errors) {
           this.formErrors[field] += messages[key] + ' ';
@@ -75,23 +91,20 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
   }
 
   ngDoCheck() {
-    if (this.outcomes) {
-      this.study_service.updateWthinIsuOutcomes(this.outcomes);
-    }
-    if (!this.outcomes || this.outcomes.length < 1) {
-      this.navigation_service.updateValid(false);
-    }
-    if (this.outcomes && this.outcomes.length >= 1) {
-      this.navigation_service.updateValid(true );
-    }
+    this.study_service.updateWthinIsuOutcomes(this.outcomes);
   }
 
   addOutcome() {
-    if (this.outcomesForm.status === 'VALID' && this.outcomesForm.value.outcomes && this.outcomesForm.value.outcomes.trim() !== '' ) {
+    this.checkValidator();
+    if (!this.isDuplicateErr() && this.outcomesForm.value.outcomes && this.outcomesForm.value.outcomes.trim() !== '' ) {
       const outcome = new Outcome(this.outcomesForm.value.outcomes.trim())
       this.outcomes.push(outcome);
       this.outcomesForm.reset();
     }
+  }
+
+  isDuplicateErr() {
+    return this.formErrors.outcomes.includes(this.validationMessages.outcomes.duplicate);
   }
 
   removeOutcome(value: Outcome) {
@@ -113,6 +126,19 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
     return false;
   }
 
+  checkValidBeforeNavigation(direction: string): void {
+    if ( direction === 'NEXT' ) {
+      this.checkValidator();
+      if (this.outcomes && !this.formErrors.outcomes) {
+        this.setNextEnabled('VALID');
+      }
+    }
+  }
+
+  setNextEnabled(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this.navigation_service.updateValid(valid);
+  }
   get outcomes$(): Observable<Outcome[]> {
     return observableOf(this._outcomes);
   }
@@ -179,5 +205,21 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck {
 
   set hypothesisEffectSubscription(value: Subscription) {
     this._hypothesisEffectSubscription = value;
+  }
+
+  get navigationSubscription(): Subscription {
+    return this._navigationSubscription;
+  }
+
+  set navigationSubscription(value: Subscription) {
+    this._navigationSubscription = value;
+  }
+
+  get directionCommand(): string {
+    return this._directionCommand;
+  }
+
+  set directionCommand(value: string) {
+    this._directionCommand = value;
   }
 }
