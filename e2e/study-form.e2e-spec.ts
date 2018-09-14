@@ -25,7 +25,7 @@ describe('Glimmpse v3 automated integration tests', () => {
       actual = JSON.parse(text);
     });
     for (let i of actual.model) {
-      expect(actual.model.i).toBeCloseTo(expected.model.i, 6);
+      expect(actual.model.i).toBeCloseTo(expected.model.i,  6);
     }
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 3);
   });
