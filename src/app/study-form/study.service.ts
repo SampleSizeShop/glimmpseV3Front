@@ -39,7 +39,7 @@ export class StudyService {
   private _selectedTestsSource = new BehaviorSubject<string[]>([constants.STATISTICAL_TESTS.HOTELLING_LAWLEY]);
   private _selectdTests$ = this._selectedTestsSource.asObservable();
 
-  private _typeOneErrorRateSource = new BehaviorSubject<number>(0.05);
+  private _typeOneErrorRateSource = new BehaviorSubject<number>(0.01);
   private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
 
   private _withinIsuOutcomesSource = new BehaviorSubject<Outcome[]>([]);
