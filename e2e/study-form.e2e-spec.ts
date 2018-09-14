@@ -30,18 +30,18 @@ describe('Glimmpse v3 automated integration tests', () => {
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 3);
   });
 
-  // it('Should calculate a power of 1 for Grand Mean with only one outcome', async function() {
-  //   const expected = example_1_output;
-  //   let actual = null;
-  //   await page.fromJSON(example_1_input);
-  //   await page.calculate();
-  //   await page.output().then(text => {
-  //     console.log(text);
-  //     actual = JSON.parse(text);
-  //   });
-  //   expect(actual.model).toEqual(expected.model);
-  //   expect(actual.results[0].power).toEqual(expected.results[0].power);
-  // });
+  it('Should calculate a power of 1 for Grand Mean with only one outcome', async function() {
+    const expected = example_1_output;
+    let actual = null;
+    await page.fromJSON(example_1_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+    expect(actual.model).toEqual(expected.model);
+    expect(actual.results[0].power).toEqual(expected.results[0].power);
+  });
   //
   // it('Should fill out the study form: Nonsense example designed to hit every page in glimmpse v3 front end', () => {
   //   page.fromJSON(generic_model);
