@@ -163,7 +163,7 @@ export const constants = {
   },
   STATISTICAL_TESTS_VALIDATION_MESSAGES: {
     'statisticaltestsoptions': {
-      'notest': 'Need to choose at least one test to go to next step.'
+      'notestselected': 'You must select at least one statistical test, in order to continue.'
     }
   },
   REJECTION_EVENT: 'REJECTION',

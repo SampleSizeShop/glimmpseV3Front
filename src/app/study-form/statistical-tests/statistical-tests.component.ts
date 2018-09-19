@@ -62,6 +62,7 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnDestroy() {
     this.navigationSubscription.unsubscribe();
+    this.selectedTestsSubscription.unsubscribe();
   }
 
   buildForm() {
