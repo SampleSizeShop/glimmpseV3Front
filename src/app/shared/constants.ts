@@ -82,6 +82,7 @@ export const constants = {
   PARAMETERS_SCALE_FACTOR_ERRORS: {
     'scalefactor': ''
   },
+  STATISTICAL_TESTS_ERRORS: {},
   TARGET_EVENT_VALIDATION_MESSAGES: {
     'power': {
       'minval': 'Value too low.',
@@ -158,6 +159,11 @@ export const constants = {
       'required': 'Value needs to be filled in.',
       'minval': 'Value too low.',
       'maxval': 'Value too high'
+    }
+  },
+  STATISTICAL_TESTS_VALIDATION_MESSAGES: {
+    'statisticaltestsoptions': {
+      'notest': 'Need to choose at least one test to go to next step.'
     }
   },
   REJECTION_EVENT: 'REJECTION',

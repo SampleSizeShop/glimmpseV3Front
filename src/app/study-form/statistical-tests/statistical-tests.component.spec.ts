@@ -4,8 +4,10 @@ import { StatisticalTestsComponent } from './statistical-tests.component';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 import {StudyService} from '../study.service';
+import {NavigationService} from '../../shared/navigation.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
+import {ReactiveFormsModule} from '@angular/forms';
 
 describe('StatisticalTestsComponent', () => {
   let component: StatisticalTestsComponent;
@@ -13,8 +15,9 @@ describe('StatisticalTestsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule],
       declarations: [ StatisticalTestsComponent ],
-      providers: [ StudyService, {provide: HttpClient, useClass: MockBackend} ]
+      providers: [ StudyService, {provide: HttpClient, useClass: MockBackend}, NavigationService]
     })
     .compileComponents();
   }));
