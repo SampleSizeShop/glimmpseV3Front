@@ -8,7 +8,7 @@ import {NavigationService} from '../../shared/navigation.service';
 import {StudyService} from '../study.service';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
-import {Outcome} from "../../shared/Outcome";
+import {Outcome} from '../../shared/Outcome';
 
 describe('WithinIsuOutcomesComponent', () => {
   let component: WithinIsuOutcomesComponent;
