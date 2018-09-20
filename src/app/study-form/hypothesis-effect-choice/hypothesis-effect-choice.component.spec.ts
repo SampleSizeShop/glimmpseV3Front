@@ -136,4 +136,34 @@ describe('HypothesisEffectChoiceComponent', () => {
     component.determinePossibleEffects();
     expect(component.possibleEffects.length).toEqual(1);
   });
+
+  it('Should sort correctly. 1', () => {
+    const A = new Predictor('A');
+    const B = new RepeatedMeasure('B');
+    component.variables.push(A, B);
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects[0].nature).toEqual('Between');
+    expect(component.possibleEffects[1].nature).toEqual('Between');
+    expect(component.possibleEffects[2].nature).toEqual('Within');
+    expect(component.possibleEffects[3].nature).toEqual('Between x Within');
+  });
+
+  it('Should sort correctly. 2', () => {
+    const A = new Predictor('A');
+    const B = new Predictor('B');
+    const C = new Predictor('C');
+    component.variables.push(A, B, C);
+    component.determinePossibleEffects();
+
+    expect(component.possibleEffects.length).toEqual(8);
+    expect(component.possibleEffects[0].nature).toEqual('Between');
+    expect(component.possibleEffects[1].nature).toEqual('Between');
+    expect(component.possibleEffects[2].nature).toEqual('Between');
+    expect(component.possibleEffects[3].nature).toEqual('Between');
+    expect(component.possibleEffects[4].nature).toEqual('Between x Between');
+    expect(component.possibleEffects[5].nature).toEqual('Between x Between');
+    expect(component.possibleEffects[6].nature).toEqual('Between x Between');
+    expect(component.possibleEffects[7].nature).toEqual('Between x Between x Between');
+  });
 });
