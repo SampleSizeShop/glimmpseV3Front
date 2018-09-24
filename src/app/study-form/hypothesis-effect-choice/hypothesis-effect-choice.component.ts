@@ -199,7 +199,6 @@ export class HypothesisEffectChoiceComponent implements OnInit {
             ret = 1;
           }
           if (a.variables.length === b.variables.length) {
-            console.log(aNaturesArray, bNaturesArray);
             for (const i of Object.keys(aNaturesArray)) {
               const aNature = aNaturesArray[i] === constants.HYPOTHESIS_NATURE.BETWEEN ? 2 : 1;
               const bNature = bNaturesArray[i] === constants.HYPOTHESIS_NATURE.BETWEEN ? 2 : 1;
