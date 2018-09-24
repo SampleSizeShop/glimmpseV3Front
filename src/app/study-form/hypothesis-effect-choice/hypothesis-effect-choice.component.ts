@@ -59,6 +59,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   determinePossibleEffects() {
     const grandMean = new HypothesisEffect();
     this.addEffectToList(grandMean);
+    this.variables.sort(this.compareVariables);
     let filteredVariables = this.deepCopyList(this.variables);
     filteredVariables = this.filterVariables(filteredVariables);
 
@@ -198,6 +199,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
             ret = 1;
           }
           if (a.variables.length === b.variables.length) {
+            console.log(aNaturesArray, bNaturesArray);
             for (const i of Object.keys(aNaturesArray)) {
               const aNature = aNaturesArray[i] === constants.HYPOTHESIS_NATURE.BETWEEN ? 2 : 1;
               const bNature = bNaturesArray[i] === constants.HYPOTHESIS_NATURE.BETWEEN ? 2 : 1;
@@ -215,6 +217,22 @@ export class HypothesisEffectChoiceComponent implements OnInit {
         }
       }
     }
+    return ret;
+  }
+
+  compareVariables(a: ISUFactor, b: ISUFactor) {
+    let ret = 0;
+
+    const aNature = a.nature === constants.HYPOTHESIS_NATURE.BETWEEN ? 2 : 1;
+    const bNature = b.nature === constants.HYPOTHESIS_NATURE.BETWEEN ? 2 : 1;
+
+    if (aNature < bNature) {
+      ret = 1;
+    }
+    if (aNature > bNature) {
+      ret = -1;
+    }
+
     return ret;
   }
 
