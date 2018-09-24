@@ -145,6 +145,79 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     this.showInfo = !this.showInfo;
   }
 
+  compare(a: HypothesisEffect, b: HypothesisEffect) {
+    let ret = 0;
+
+    if (!a.equals(b)) {
+      const aNaturesArray: string[] = [];
+      a.variables.forEach(variable => {
+        aNaturesArray.push(variable.nature);
+      });
+      const aNaturesSet = new Set(aNaturesArray);
+      const aAmountOfNatureType = aNaturesSet.size;
+
+      const bNaturesArray: string[] = [];
+      b.variables.forEach(variable => {
+        bNaturesArray.push(variable.nature);
+      });
+      const bNaturesSet = new Set(bNaturesArray);
+      const bAmountOfNatureType = bNaturesSet.size;
+
+      if (aAmountOfNatureType < bAmountOfNatureType) {
+        ret = -1;
+      }
+      if (aAmountOfNatureType > bAmountOfNatureType) {
+        ret = 1;
+      }
+      if (aAmountOfNatureType === bAmountOfNatureType) {
+        if (aAmountOfNatureType === 1) {
+          const aNature = aNaturesSet.has(constants.HYPOTHESIS_NATURE.BETWEEN) ? 2 : 1;
+          const bNature = bNaturesSet.has(constants.HYPOTHESIS_NATURE.BETWEEN) ? 2 : 1;
+
+          if (aNature < bNature) {
+            ret = 1;
+          }
+          if (aNature > bNature) {
+            ret = -1;
+          }
+          if (aNature === bNature) {
+            if (a.variables.length < b.variables.length) {
+              ret = -1;
+            }
+            if (a.variables.length > b.variables.length) {
+              ret = 1;
+            }
+          }
+        }
+
+        if (aAmountOfNatureType === 2) {
+          if (a.variables.length < b.variables.length) {
+            ret = -1;
+          }
+          if (a.variables.length > b.variables.length) {
+            ret = 1;
+          }
+          if (a.variables.length === b.variables.length) {
+            for (const i of Object.keys(aNaturesArray)) {
+              const aNature = aNaturesArray[i] === constants.HYPOTHESIS_NATURE.BETWEEN ? 2 : 1;
+              const bNature = bNaturesArray[i] === constants.HYPOTHESIS_NATURE.BETWEEN ? 2 : 1;
+
+              if (aNature < bNature) {
+                ret = 1;
+                break;
+              }
+              if (aNature > bNature) {
+                ret = -1;
+                break;
+              }
+            }
+          }
+        }
+      }
+    }
+    return ret;
+  }
+
   get possibleEffects(): HypothesisEffect[] {
     return this._possibleEffects;
   }
@@ -184,76 +257,5 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   set variables(value: ISUFactor[]) {
     this._variables = value;
   }
-
-  compare(a: HypothesisEffect, b: HypothesisEffect) {
-    const alphabetScore = {
-      a: 1,
-      b: 2,
-      c: 3,
-      d: 4,
-      e: 5,
-      f: 6,
-      g: 7,
-      h: 8,
-      i: 9,
-      j: 10,
-      k: 11,
-      l: 12,
-      m: 13,
-      n: 14,
-      o: 15,
-      p: 16,
-      q: 17,
-      r: 18,
-      s: 19,
-      t: 20,
-      u: 21,
-      v: 22,
-      w: 23,
-      x: 24,
-      y: 25,
-      z: 26
-    };
-
-    let ret = 0;
-    if (!a.equals(b)) {
-      if (a.variables.length < b.variables.length) {
-        ret = -1;
-      }
-      if (a.variables.length > b.variables.length) {
-        ret = 1;
-      }
-      if (a.variables.length === b.variables.length) {
-        const aNames: string[] = [];
-        const bNames: string[] = [];
-
-        a.variables.forEach(variable => {
-          aNames.push(variable.name);
-        });
-        b.variables.forEach(variable => {
-          bNames.push(variable.name);
-        });
-
-        let aScore = 0;
-        aNames.forEach( name => {
-          const char1 = name.substring(0, 1).toLowerCase();
-          const sc = alphabetScore[char1];
-          aScore = aScore + sc;
-        });
-        let bScore = 0;
-        bNames.forEach( name => {
-          const char1 = name.substring(0, 1).toLowerCase();
-          const sc = alphabetScore[char1];
-          bScore = bScore + sc;
-        });
-
-        if ( aScore === bScore ) {
-          ret = 0;
-        } else {
-          ret = aScore > bScore ? 1 : -1;
-        }
-      }
-    }
-    return ret;
-  }
 }
+
