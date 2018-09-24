@@ -48,6 +48,9 @@ import {ConfidenceIntervalGuard} from '../shared/ci-guard.service';
 import {MarginalMeansGuard} from './parameters-marginal-means/marginal-means-guard.service';
 import {BetweenIsuSmallestGroupComponent} from './between-isu-smallest-group/between-isu-smallest-group.component';
 import {HypothesisTheta0Component} from './hypothesis-theta-0/hypothesis-theta-0.component';
+import {BetweenIsuPredictorsGroupsComponent} from './between-isu-predictors-groups/between-isu-predictors-groups.component';
+import {BetweenIsuPredictorsTypeComponent} from './between-isu-predictors-type/between-isu-predictors-type.component';
+import {BetweenIsuPredictorsNameComponent} from './between-isu-predictors-name/between-isu-predictors-name.component';
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -69,6 +72,9 @@ const studyFormRoutes: Routes = [
             {path: names[constants.STAGES.WITHIN_ISU_REPEATED_MEASURES], component: WithinIsuRepeatedMeasuresComponent},
             {path: names[constants.STAGES.WITHIN_ISU_CLUSTERS], component: WithinIsuClustersComponent},
             {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS], component: BetweenIsuPredictorsComponent},
+            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS_NAME], component: BetweenIsuPredictorsNameComponent},
+            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS_TYPE], component: BetweenIsuPredictorsTypeComponent},
+            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS_GROUPS], component: BetweenIsuPredictorsGroupsComponent},
             {path: names[constants.STAGES.BETWEEN_ISU_SMALLEST_GROUP], component: BetweenIsuSmallestGroupComponent},
             {
               path: names[constants.STAGES.BETWEEN_ISU_GROUPS] + '/:index',

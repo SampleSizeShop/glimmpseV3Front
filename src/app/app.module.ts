@@ -55,6 +55,9 @@ import { OptionalSpecsPowerCurveDataSeriesComponent } from './study-form/optiona
 import { CalculateComponent } from './study-form/calculate/calculate.component';
 import { BetweenIsuSmallestGroupComponent } from './study-form/between-isu-smallest-group/between-isu-smallest-group.component';
 import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypothesis-theta-0.component';
+import { BetweenIsuPredictorsNameComponent } from './study-form/between-isu-predictors-name/between-isu-predictors-name.component';
+import { BetweenIsuPredictorsTypeComponent } from './study-form/between-isu-predictors-type/between-isu-predictors-type.component';
+import { BetweenIsuPredictorsGroupsComponent } from './study-form/between-isu-predictors-groups/between-isu-predictors-groups.component';
 
 
 @NgModule({
@@ -101,7 +104,10 @@ import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypot
     OptionalSpecsPowerCurveAxesComponent,
     OptionalSpecsPowerCurveDataSeriesComponent,
     CalculateComponent,
-    BetweenIsuSmallestGroupComponent
+    BetweenIsuSmallestGroupComponent,
+    BetweenIsuPredictorsNameComponent,
+    BetweenIsuPredictorsTypeComponent,
+    BetweenIsuPredictorsGroupsComponent
   ],
   imports: [
     NgbModule.forRoot(),
