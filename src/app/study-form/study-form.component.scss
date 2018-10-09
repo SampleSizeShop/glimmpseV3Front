@@ -5,3 +5,16 @@
 .ng-invalid:not(form)  {
   border-left: 5px solid #a94442; /* red */
 }
+
+i.icon-green {
+  color: forestgreen;
+  font-size: 112px;
+  opacity: 0.5;
+}
+
+i.icon-disabled {
+  color: darkgrey;
+  font-size: 92px;
+  opacity: 0.2;
+  padding-top: 0%;
+}

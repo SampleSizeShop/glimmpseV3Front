@@ -7,13 +7,23 @@ import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-study-form',
   templateUrl: './study-form.component.html',
   styleUrls: ['./study-form.component.scss'],
-  providers: [NGXLogger, NavigationService]
+  providers: [NGXLogger, NavigationService],
+  animations: [
+    trigger('validInvalid',
+      [
+        state('valid', style({ color: 'forestgreen', fontSize: '112px', opacity: 0.5, verticalAlign: 'middle'})),
+        state('invalid', style({color: 'darkgrey', fontSize: '92px', opacity: 0.5, verticalAlign: 'middle'})),
+        transition('invalid => valid', [animate('1s')]),
+        transition('valid => invalid', [animate('1s')])
+      ]
+    )
+  ]
 })
 export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _valid = false;
@@ -714,4 +724,18 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.childNavigationModeSubscription.unsubscribe();
     this.validSubscription.unsubscribe();
   };
+
+  mouseEnterNext(val) {
+    this._valid = true;
+  }
+
+  mouseLeaveNext(val) {
+    this._valid = false;
+  }
+
+  mouseEnterBack(val) {
+  }
+
+  mouseLeaveBack(val) {
+  }
 }
