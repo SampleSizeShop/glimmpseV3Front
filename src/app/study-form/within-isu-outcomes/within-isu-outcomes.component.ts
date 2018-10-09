@@ -14,6 +14,13 @@ import {Outcome} from '../../shared/Outcome';
   styleUrls: ['./within-isu-outcomes.scss']
 })
 export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
+  get statusSubscription(): Subscription {
+    return this._statusSubscription;
+  }
+
+  set statusSubscription(value: Subscription) {
+    this._statusSubscription = value;
+  }
   private _outcomesForm: FormGroup;
   private _outcomes: Outcome[];
   private _max: number;
@@ -24,6 +31,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   private _hypothesisEffect: HypothesisEffect;
   private _directionCommand: string;
   private _navigationSubscription: Subscription;
+  private _statusSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
@@ -64,6 +72,9 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     });
 
     this.outcomesForm.valueChanges.subscribe(data => this.emptyErrMsg());
+    this.statusSubscription = this.outcomesForm.statusChanges.subscribe(
+      result => {if (this.outcomes && !this.formErrors.outcomes) {this.setNextEnabled(result)}}
+    );
     this.setNextEnabled('INVALID');
   }
 
