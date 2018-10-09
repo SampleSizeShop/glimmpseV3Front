@@ -27,6 +27,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _valid = false;
+  private _nextValid = false;
   private _hasNext: boolean;
   private _hasBack: boolean;
   private _guided: boolean;
@@ -709,6 +710,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.validSubscription = this.navigation_service.valid$.subscribe(
       valid => {
         this.valid = valid;
+        this.nextValid = valid;
       }
     );
 
@@ -726,16 +728,28 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   };
 
   mouseEnterNext(val) {
-    this._valid = true;
+    if (this.valid) {
+      this.nextValid = true;
+    }
   }
 
   mouseLeaveNext(val) {
-    this._valid = false;
+    if (this.valid) {
+      this.nextValid = false;
+    }
   }
 
   mouseEnterBack(val) {
   }
 
   mouseLeaveBack(val) {
+  }
+
+  get nextValid(): boolean {
+    return this._nextValid;
+  }
+
+  set nextValid(value: boolean) {
+    this._nextValid = value;
   }
 }
