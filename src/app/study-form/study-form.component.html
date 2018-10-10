@@ -15,8 +15,8 @@
                     padding-top: 50%"
            id="navigate_before">navigate_before</i>
       </div>
-      <div class="col-8">
-        <router-outlet></router-outlet>
+      <div [@routeAnimations]="study_service.navDirection$ | async" class="col-8">
+        <router-outlet #outlet="outlet"></router-outlet>
       </div>
       <div class="col-2 justify-content-end" (mouseenter) ="mouseEnterNext('div a')"  (mouseleave) ="mouseLeaveNext('div A')">
         <i class="material-icons"

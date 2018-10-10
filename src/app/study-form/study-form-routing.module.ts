@@ -63,124 +63,144 @@ const studyFormRoutes: Routes = [
           {
             path: '',
             children: [
-            {path: names[constants.STAGES.MODE], component: UserModeComponent},
-            {path: names[constants.STAGES.TARGET_EVENT], component: TargetEventComponent},
-            {path: names[constants.STAGES.SOLVE_FOR], component: SolveForComponent},
-            {path: names[constants.STAGES.STATISTICAL_TESTS], component: StatisticalTestsComponent},
-            {path: names[constants.STAGES.TYPE_ONE_ERROR], component: TypeOneErrorComponent},
-            {path: names[constants.STAGES.WITHIN_ISU_OUTCOMES], component: WithinIsuOutcomesComponent},
-            {path: names[constants.STAGES.WITHIN_ISU_REPEATED_MEASURES], component: WithinIsuRepeatedMeasuresComponent},
-            {path: names[constants.STAGES.WITHIN_ISU_CLUSTERS], component: WithinIsuClustersComponent},
-            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS], component: BetweenIsuPredictorsComponent},
-            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS_NAME], component: BetweenIsuPredictorsNameComponent},
-            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS_TYPE], component: BetweenIsuPredictorsTypeComponent},
-            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS_GROUPS], component: BetweenIsuPredictorsGroupsComponent},
-            {path: names[constants.STAGES.BETWEEN_ISU_SMALLEST_GROUP], component: BetweenIsuSmallestGroupComponent},
+            {path: names[constants.STAGES.MODE], component: UserModeComponent, data: {animation: constants.STAGES.MODE}},
+            {path: names[constants.STAGES.TARGET_EVENT], component: TargetEventComponent, data: {animation: constants.STAGES.TARGET_EVENT}},
+            {path: names[constants.STAGES.SOLVE_FOR], component: SolveForComponent, data: {animation: constants.STAGES.SOLVE_FOR}},
+            {path: names[constants.STAGES.STATISTICAL_TESTS], component: StatisticalTestsComponent, data: {animation: constants.STAGES.STATISTICAL_TESTS}},
+            {path: names[constants.STAGES.TYPE_ONE_ERROR], component: TypeOneErrorComponent, data: {animation: constants.STAGES.TYPE_ONE_ERROR}},
+            {path: names[constants.STAGES.WITHIN_ISU_OUTCOMES], component: WithinIsuOutcomesComponent, data: {animation: constants.STAGES.WITHIN_ISU_OUTCOMES}},
+            {path: names[constants.STAGES.WITHIN_ISU_REPEATED_MEASURES], component: WithinIsuRepeatedMeasuresComponent, data: {animation: constants.STAGES.WITHIN_ISU_REPEATED_MEASURES}},
+            {path: names[constants.STAGES.WITHIN_ISU_CLUSTERS], component: WithinIsuClustersComponent, data: {animation: constants.STAGES.WITHIN_ISU_CLUSTERS}},
+            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS], component: BetweenIsuPredictorsComponent, data: {animation: constants.STAGES.BETWEEN_ISU_PREDICTORS}},
+            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS_NAME], component: BetweenIsuPredictorsNameComponent, data: {animation: constants.STAGES.BETWEEN_ISU_PREDICTORS_NAME}},
+            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS_TYPE], component: BetweenIsuPredictorsTypeComponent, data: {animation: constants.STAGES.BETWEEN_ISU_PREDICTORS_TYPE}},
+            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS_GROUPS], component: BetweenIsuPredictorsGroupsComponent, data: {animation: constants.STAGES.BETWEEN_ISU_PREDICTORS_GROUPS}},
+            {path: names[constants.STAGES.BETWEEN_ISU_SMALLEST_GROUP], component: BetweenIsuSmallestGroupComponent, data: {animation: constants.STAGES.BETWEEN_ISU_SMALLEST_GROUP}},
             {
               path: names[constants.STAGES.BETWEEN_ISU_GROUPS] + '/:index',
-              component: BetweenIsuGroupsComponent
+              component: BetweenIsuGroupsComponent,
+              data: {animation: constants.STAGES.BETWEEN_ISU_GROUPS}
             },
             {
               path: names[constants.STAGES.BETWEEN_ISU_GROUPS],
-              component: BetweenIsuGroupsComponent
+              component: BetweenIsuGroupsComponent,
+              data: {animation: constants.STAGES.BETWEEN_ISU_GROUPS}
             },
-            {path: names[constants.STAGES.GAUSSIAN_COVARIATE], component: GaussianCovariateComponent},
-            {path: names[constants.STAGES.HYPOTHESIS_EFFECT_CHOICE], component: HypothesisEffectChoiceComponent},
-            {path: names[constants.STAGES.HYPOTHESIS_BETWEEN], component: HypothesisBetweenComponent},
-            {path: names[constants.STAGES.HYPOTHESIS_WITHIN], component: HypothesisWithinComponent},
-            {path: names[constants.STAGES.HYPOTHESIS_THETA_0], component: HypothesisTheta0Component},
+            {path: names[constants.STAGES.GAUSSIAN_COVARIATE], component: GaussianCovariateComponent, data: {animation: constants.STAGES.GAUSSIAN_COVARIATE}},
+            {path: names[constants.STAGES.HYPOTHESIS_EFFECT_CHOICE], component: HypothesisEffectChoiceComponent, data: {animation: constants.STAGES.HYPOTHESIS_EFFECT_CHOICE}},
+            {path: names[constants.STAGES.HYPOTHESIS_BETWEEN], component: HypothesisBetweenComponent, data: {animation: constants.STAGES.HYPOTHESIS_BETWEEN}},
+            {path: names[constants.STAGES.HYPOTHESIS_WITHIN], component: HypothesisWithinComponent, data: {animation: constants.STAGES.HYPOTHESIS_WITHIN}},
+            {path: names[constants.STAGES.HYPOTHESIS_THETA_0], component: HypothesisTheta0Component, data: {animation: constants.STAGES.HYPOTHESIS_THETA_0}},
             {
               path: names[constants.STAGES.PARAMETERS_MARGINAL_MEANS] + '/:index',
               component: ParametersMarginalMeansComponent,
+              data: {animation: constants.STAGES.PARAMETERS_MARGINAL_MEANS},
               canActivate: [ MarginalMeansGuard ]
             },
             {
               path: names[constants.STAGES.PARAMETERS_SCALE_FACTOR],
               component: ParametersScaleFactorComponent,
+              data: {animation: constants.STAGES.PARAMETERS_SCALE_FACTOR},
               canActivate: [MarginalMeansGuard]},
-            {path: names[constants.STAGES.PARAMETERS_STANDARD_DEVIATION], component: ParametersStandardDeviationComponent},
-            {path: names[constants.STAGES.PARAMETERS_OUTCOME_CORRELATION], component: ParametersOutcomeCorrelationsComponent},
+            {path: names[constants.STAGES.PARAMETERS_STANDARD_DEVIATION], component: ParametersStandardDeviationComponent, data: {animation: constants.STAGES.PARAMETERS_STANDARD_DEVIATION}},
+            {path: names[constants.STAGES.PARAMETERS_OUTCOME_CORRELATION], component: ParametersOutcomeCorrelationsComponent, data: {animation: constants.STAGES.PARAMETERS_OUTCOME_CORRELATION}},
             {
               path: names[constants.STAGES.PARAMETERS_REPEATED_MEASURE_ST_DEV] + '/:measure',
               component: ParametersRepeatedMeasureStdevComponent,
+              data: {animation: constants.STAGES.PARAMETERS_REPEATED_MEASURE_ST_DEV},
               canActivate: [ RepeatedMeasureGuard ] },
             {
               path: names[constants.STAGES.PARAMETERS_REPEATED_MEASURE_ST_DEV],
               component: ParametersRepeatedMeasureStdevComponent,
+              data: {animation: constants.STAGES.PARAMETERS_REPEATED_MEASURE_ST_DEV},
               canActivate: [ RepeatedMeasureGuard ] },
             {
               path: names[constants.STAGES.PARAMETERS_REPEATED_MEASURE_CORRELATION] + '/:measure',
               component: ParametersRepeatedMeasureCorrelationsComponent,
+              data: {animation: constants.STAGES.PARAMETERS_REPEATED_MEASURE_CORRELATION},
               canActivate: [ RepeatedMeasureGuard ]
             },
             {
               path: names[constants.STAGES.PARAMETERS_REPEATED_MEASURE_CORRELATION],
               component: ParametersRepeatedMeasureCorrelationsComponent,
+              data: {animation: constants.STAGES.PARAMETERS_REPEATED_MEASURE_CORRELATION},
               canActivate: [ RepeatedMeasureGuard ]
             },
             {
               path: names[constants.STAGES.PARAMETERS_INTRA_CLASS_CORRELATION],
               component: ParametersIntraClassCorrelationComponent,
+              data: {animation: constants.STAGES.PARAMETERS_INTRA_CLASS_CORRELATION},
               canActivate: [ ClusterGuard ]
             },
             {
               path: names[constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE],
               component: ParametersGaussianCovariateVarianceComponent,
+              data: {animation: constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE},
               canActivate: [ GaussianCovariateGuard ]
             },
             {
               path: names[constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION],
               component: ParametersGaussianCovariateCorrelationComponent,
+              data: {animation: constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION},
               canActivate: [ GaussianCovariateGuard ]
             },
-            {path: names[constants.STAGES.PARAMETERS_SCALE_FACTOR_VARIANCE], component: ParametersVarianceScaleFactorsComponent},
+            {path: names[constants.STAGES.PARAMETERS_SCALE_FACTOR_VARIANCE], component: ParametersVarianceScaleFactorsComponent, data: {animation: constants.STAGES.PARAMETERS_SCALE_FACTOR_VARIANCE}},
             {
               path: names[constants.STAGES.OPTIONAL_SPECS_POWER_METHOD],
               component: OptionalSpecsPowerMethodComponent,
+              data: {animation: constants.STAGES.OPTIONAL_SPECS_POWER_METHOD},
               canActivate: [ GaussianCovariateGuard ]
             },
-              {path: names[constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_CHOICE], component: OptionalSpecsPowerCurveChoiceComponent},
+              {path: names[constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_CHOICE], component: OptionalSpecsPowerCurveChoiceComponent, data: {animation: constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_CHOICE}},
               {
                 path: names[constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_AXES],
                 component: OptionalSpecsPowerCurveAxesComponent,
+                data: {animation: constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_AXES},
                 canActivate: [ PowerCurveGuard ]
               },
               {
                 path: names[constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_DATA_SERIES],
                 component: OptionalSpecsPowerCurveDataSeriesComponent,
+                data: {animation: constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_DATA_SERIES},
                 canActivate: [ PowerCurveGuard ]
               },
             {
               path: names[constants.STAGES.OPTIONAL_SPECS_CI_CHOICE],
               component: OptionalSpecsCiChoiceComponent,
+              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_CHOICE},
               canActivate: [ PowerCurveGuard ]
             },
             {
               path: names[constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS],
               component: OptionalSpecsCiAssumptionsComponent,
+              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS},
               canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
               path: names[constants.STAGES.OPTIONAL_SPECS_CI_LOWER_TAIL],
               component: OptionalSpecsCiLowerTailComponent,
+              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_LOWER_TAIL},
               canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
               path: names[constants.STAGES.OPTIONAL_SPECS_CI_UPPER_TAIL],
               component: OptionalSpecsCiUpperTailComponent,
+              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_UPPER_TAIL},
               canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
               path: names[constants.STAGES.OPTIONAL_SPECS_CI_BETA_SAMPLE_SIZE],
               component: OptionalSpecsCiBetaSampleSizeComponent,
+              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_BETA_SAMPLE_SIZE},
               canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
             {
               path: names[constants.STAGES.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK],
               component: OptionalSpecsCiBetaDesignMatrixRankComponent,
+              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK},
               canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
             },
-            {path: names[constants.STAGES.CALCULATE], component: CalculateComponent}
+            {path: names[constants.STAGES.CALCULATE], component: CalculateComponent, data: {animation: constants.STAGES.CALCULATE}}
             ]
           }
         ]

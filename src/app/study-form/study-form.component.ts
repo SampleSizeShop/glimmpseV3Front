@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ɵisListLikeIterable} from '@angular/core';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
@@ -6,8 +6,12 @@ import {constants, getStageName} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
-import {Router} from '@angular/router';
+import {Router, RouterOutlet} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {slideForwardAnimation} from '../animations';
+import {Observable} from 'rxjs/Observable';
+import {map, pairwise, startWith} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-study-form',
@@ -15,9 +19,10 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
   styleUrls: ['./study-form.component.scss'],
   providers: [NGXLogger, NavigationService],
   animations: [
+    slideForwardAnimation,
     trigger('validInvalid',
       [
-        state('valid', style({ color: 'forestgreen', fontSize: '112px', opacity: 0.5, verticalAlign: 'middle'})),
+        state('valid', style({ color: 'yellowgreen', fontSize: '112px', opacity: 0.8, verticalAlign: 'middle'})),
         state('invalid', style({color: 'darkgrey', fontSize: '92px', opacity: 0.5, verticalAlign: 'middle'})),
         transition('invalid => valid', [animate('1s')]),
         transition('valid => invalid', [animate('1s')])
@@ -51,7 +56,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _varianceScaleFactorsSubscription: Subscription;
   private _powerCurveSubscription: Subscription;
 
-
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
   private _validSubscription: Subscription;
@@ -60,16 +64,22 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _noStages: number;
   private _childComponentNav: boolean;
   private parameters = [];
+  private _navDirection: string;
 
   constructor(
-    private study_service: StudyService,
+    public study_service: StudyService,
     private log: NGXLogger,
-    private navigation_service: NavigationService,
+    public navigation_service: NavigationService,
     private router: Router
   ) {
     this.study = new StudyDesign();
     this.subscribeToStudyService();
     this.subscribeToNavigationService();
+  }
+
+  prepareRoute(outlet: RouterOutlet) {
+    console.log(outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation']);
+    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 
   next(stage?: number): void {
@@ -172,6 +182,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     let params = ['design', getStageName(stage)];
     params = params.concat(this.parameters);
     this.log.debug(params);
+    this.navDirection = direction;
     const success = this.router.navigate(params);
     success.then( loaded => {
       if ( !loaded) {
@@ -751,5 +762,13 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   set nextValid(value: boolean) {
     this._nextValid = value;
+  }
+
+  get navDirection(): string {
+    return this._navDirection;
+  }
+
+  set navDirection(value: string) {
+    this._navDirection = value;
   }
 }
