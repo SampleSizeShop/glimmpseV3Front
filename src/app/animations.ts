@@ -1,6 +1,6 @@
 import {animate, animateChild, group, query, style, transition, trigger} from '@angular/animations';
 
-export const slideForwardAnimation =
+export const routeSlideAnimation =
   trigger('routeSlide', [
     transition('* <=> *', [
       style({ position: 'relative' }),
@@ -21,7 +21,7 @@ export const slideForwardAnimation =
           animate('500ms ease-out', style({ left: '{{offsetEnter}}%'}))
         ], {optional: true}),
         query(':enter', [
-          animate('500ms ease-out', style({ left: '{{offsetLeave}}%'}))
+          animate('500ms ease-out', style({ left: '0%'}))
         ])
       ]),
       query(':enter', animateChild()),

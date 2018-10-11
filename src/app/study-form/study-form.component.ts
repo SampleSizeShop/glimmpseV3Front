@@ -8,7 +8,7 @@ import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
 import {Router, RouterOutlet} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {slideForwardAnimation} from '../animations';
+import {routeSlideAnimation} from '../animations';
 import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
 
@@ -19,7 +19,7 @@ import {map, pairwise, share, startWith} from 'rxjs/operators';
   styleUrls: ['./study-form.component.scss'],
   providers: [NGXLogger, NavigationService],
   animations: [
-    slideForwardAnimation,
+    routeSlideAnimation,
     trigger('validInvalid',
       [
         state('valid', style({ color: 'yellowgreen', fontSize: '112px', opacity: 0.8, verticalAlign: 'middle'})),
