@@ -18,10 +18,10 @@ export const routeSlideAnimation =
       query(':leave', animateChild(), {optional: true}),
       group([
         query(':leave', [
-          animate('500ms ease-out', style({ left: '{{offsetEnter}}%'}))
+          animate('450ms ease-out', style({ left: '{{offsetEnter}}%'}))
         ], {optional: true}),
         query(':enter', [
-          animate('500ms ease-out', style({ left: '0%'}))
+          animate('450ms ease-out', style({ left: '0%'}))
         ])
       ]),
       query(':enter', animateChild()),
