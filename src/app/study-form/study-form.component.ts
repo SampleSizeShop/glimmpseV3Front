@@ -101,7 +101,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           value: +curr,
           params: {
             offsetEnter: prev > curr ? 100 : -100,
-            offsetLeave: prev > curr ? 100 : 100
+            offsetLeave: prev > curr ? -100 : 100
           }
         }))
       );
