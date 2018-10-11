@@ -14,7 +14,6 @@ import {ISUFactors} from '../shared/ISUFactors';
 import {PowerCurve} from '../shared/PowerCurve';
 import {StudyDesign} from '../shared/study-design';
 import {of} from 'rxjs';
-import {map, pairwise} from "rxjs/operators";
 
 @Injectable()
 export class StudyService {
@@ -22,8 +21,8 @@ export class StudyService {
   private _next: string;
   private _stages;
 
-  private _stage$ = of(this._stage);
-  private _navDirection$: Observable<any>
+  private _stageSource = new BehaviorSubject<number>(0);
+  private _stage$ = this._stageSource.asObservable();
 
   private _modeSelectedSource = new Subject<boolean>();
   private _modeSelected$ = this._modeSelectedSource.asObservable();
@@ -180,16 +179,6 @@ export class StudyService {
   constructor(private  http: HttpClient) {
     this._stages = constants.STAGES;
     this._stage = 0;
-
-    this.navDirection$ = this.stage$.pipe(
-      pairwise(), map(([prev, curr]) => ({
-        value: +curr,
-        params: {
-          offsetEnter: +prev > +curr ? 100 : -100,
-          offsetLeave: +prev > +curr ? 100 : 100
-        }
-      }))
-    );
   }
 
   get stage(): number {
@@ -208,6 +197,7 @@ export class StudyService {
 
   set stage(value: number) {
     this._stage = value;
+    this._stageSource.next(value);
   }
 
   get next(): string {
@@ -415,21 +405,8 @@ export class StudyService {
     return this._navigationDirection$;
   }
 
-
   get stage$(): any {
     return this._stage$;
-  }
-
-  set stage$(value: any) {
-    this._stage$ = value;
-  }
-
-  get navDirection$(): Observable<any> {
-    return this._navDirection$;
-  }
-
-  set navDirection$(value: Observable<any>) {
-    this._navDirection$ = value;
   }
 }
 

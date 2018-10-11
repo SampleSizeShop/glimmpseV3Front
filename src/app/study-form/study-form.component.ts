@@ -10,7 +10,7 @@ import {Router, RouterOutlet} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {slideForwardAnimation} from '../animations';
 import {Observable} from 'rxjs/Observable';
-import {map, pairwise, startWith} from 'rxjs/operators';
+import {map, pairwise, share, startWith} from 'rxjs/operators';
 
 
 @Component({
@@ -60,26 +60,51 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _childNavigationModeSubscription: Subscription;
   private _validSubscription: Subscription;
 
+  private next$: Observable<number>;
+  private prev$: Observable<number>;
+  private _navDirection$: Observable<any>;
+
   private _stages;
   private _noStages: number;
   private _childComponentNav: boolean;
   private parameters = [];
-  private _navDirection: string;
 
   constructor(
-    public study_service: StudyService,
+    private study_service: StudyService,
     private log: NGXLogger,
-    public navigation_service: NavigationService,
+    private navigation_service: NavigationService,
     private router: Router
   ) {
     this.study = new StudyDesign();
     this.subscribeToStudyService();
     this.subscribeToNavigationService();
+    this.setupRouting();
   }
 
-  prepareRoute(outlet: RouterOutlet) {
-    console.log(outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation']);
-    return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
+  private setupRouting() {
+    this.prev$ = this.study_service.stage$
+      .pipe(
+        map(index => index === 0 ? index : +index - 1),
+        share()
+      );
+    this.next$ = this.study_service.stage$
+      .pipe(
+        map(index =>  +index + 1),
+        share()
+      );
+
+    this.navDirection$ = this.study_service.stage$
+      .pipe(
+        startWith(0),
+        pairwise(),
+        map(([prev, curr]) => ({
+          value: +curr,
+          params: {
+            offsetEnter: prev > curr ? 100 : -100,
+            offsetLeave: prev > curr ? 100 : 100
+          }
+        }))
+      );
   }
 
   next(stage?: number): void {
@@ -182,7 +207,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     let params = ['design', getStageName(stage)];
     params = params.concat(this.parameters);
     this.log.debug(params);
-    this.navDirection = direction;
     const success = this.router.navigate(params);
     success.then( loaded => {
       if ( !loaded) {
@@ -764,11 +788,11 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._nextValid = value;
   }
 
-  get navDirection(): string {
-    return this._navDirection;
+  get navDirection$(): Observable<any> {
+    return this._navDirection$;
   }
 
-  set navDirection(value: string) {
-    this._navDirection = value;
+  set navDirection$(value: Observable<any>) {
+    this._navDirection$ = value;
   }
 }

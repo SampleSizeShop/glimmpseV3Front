@@ -1,27 +1,27 @@
 import {animate, animateChild, group, query, style, transition, trigger} from '@angular/animations';
 
 export const slideForwardAnimation =
-  trigger('routeAnimations', [
+  trigger('routeSlide', [
     transition('* <=> *', [
       style({ position: 'relative' }),
       query(':enter, :leave', [
         style({
           position: 'absolute',
           top: 0,
-          right: 0,
-          width: '{{offsetEnter}}%'
+          left: 0,
+          width: '100%'
         })
       ]),
       query(':enter', [
-        style({ right: '{{offsetLeave}}%'})
+        style({ left: '{{offsetLeave}}%'})
       ]),
       query(':leave', animateChild(), {optional: true}),
       group([
         query(':leave', [
-          animate('500ms ease-out', style({ right: '{{offsetEnter}}%'}))
+          animate('500ms ease-out', style({ left: '{{offsetEnter}}%'}))
         ], {optional: true}),
         query(':enter', [
-          animate('500ms ease-out', style({ right: '0%'}))
+          animate('500ms ease-out', style({ left: '{{offsetLeave}}%'}))
         ])
       ]),
       query(':enter', animateChild()),
