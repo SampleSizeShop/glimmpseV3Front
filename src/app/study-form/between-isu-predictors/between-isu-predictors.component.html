@@ -1,21 +1,89 @@
-<div *ngIf="!editing && stage === -1 && nextPredictors()" id="firstPredictor">
+<div>
   <div class="container-fluid">
     <div class="row">
-      <div class="col" *ngIf="!hasPredictors()">
-        <h5>Do you have any Between ISU Factors?</h5>
-      </div>
-      <div class="col" *ngIf="hasPredictors()">
-        <h5>Would you like to add another Predictor?</h5>
-      </div>
-      <div>
-        <p>
-          GLIMMPSE allows you to define between-participant factors, specified as fixed predictors. The values of the fixed predictors (that is, the levels of the between-participant factors) divide the independent sampling units into groups. The choice of study design determines the fixed predictors and their values. One common example of a fixed predictor is treatment, with values placebo and active, for which the independent sampling unit is randomized to a placebo group or an active drug group. Another is gender, with values male and female, for which the independent sampling unit is randomized to a male group or a female group. <br /><br />
-
-          For a design with no between-participant factors, don't define any predictors.
-        </p>
+      <div *ngIf="!editing" class="col">
+        <h5  *ngIf="!hasPredictors()">Do you have any Between ISU Factors?</h5>
+        <h5 *ngIf="hasPredictors()">Would you like to add another Predictor?</h5>
+        <div>
+          <p>
+            GLIMMPSE allows you to define between-participant factors, specified as fixed predictors. The values of the fixed predictors (that is, the levels of the between-participant factors) divide the independent sampling units into groups. The choice of study design determines the fixed predictors and their values. One common example of a fixed predictor is treatment, with values placebo and active, for which the independent sampling unit is randomized to a placebo group or an active drug group. Another is gender, with values male and female, for which the independent sampling unit is randomized to a male group or a female group.
+          </p>
+        </div>
       </div>
       <div class="col">
-        <button id="addbetweenbtn" (click)="includePredictors()" class="btn btn-primary">Define Between ISU Factor</button>
+        <div *ngIf="!editing"><button id="addbetweenbtn" (click)="includePredictors()" class="btn btn-primary">Define Between ISU Factor</button>
+          <div>
+            <p>
+              If your design has no between-participant factors, don't define any predictors.
+            </p>
+          </div></div>
+        <div *ngIf="editing && isStage(stages.NAME)">
+          <div>
+            <form [formGroup]="predictorForm" id="predictorForm">
+              <div class="container-fluid">
+                <div class="form-group">
+                  <h5>Name your predictor:</h5>
+                  <input class="form-control" formControlName="predictorName">
+                </div>
+                <div *ngIf="formErrors.predictorform" class="form-group has-danger">
+                  <div class="form-control-feedback">{{formErrors.predictorform}}</div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div>
+            <div id="predictorType">
+              <h5>What type of data is {{predictorForm.value.name}}?</h5>
+              <form [formGroup]="typeForm">
+                <div class="form-group">
+                  <select class="form-control" id="type" formControlName="type">
+                    <option *ngFor="let t of types" [value]="t">{{t}}</option>
+                  </select>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div>
+            <form [formGroup]="groupsForm" id="groupsForm">
+              <div class="container-fluid">
+                <div class="row" *ngIf="firstGroup() || nextGroup()">
+                  <h5>Name at least two groups:</h5>
+                  <div class="col">
+                    <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">
+                  </div>
+                  <div class="col">
+                    <i class="material-icons" (click)="addGroup()" style="margin-top: 10px" id="addgroup">add</i>
+                  </div>
+                </div>
+                <br>
+                <small *ngIf="!firstGroup()">Outcomes:</small>
+                <div *ngFor="let grp of groups" id="grouplist">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col col-md-auto">
+                        <i class="material-icons" (click)="removeGroup(grp)" style="margin-bottom: 5px" id="removeoutcome">remove</i>
+                      </div>
+                      <div class="col">
+                        {{grp}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div *ngIf="formErrors.groupsformtwogroups" class="form-group has-danger">
+                  <div class="form-control-feedback">{{formErrors.groupsformtwogroups}}</div>
+                </div>
+                <div *ngIf="formErrors.groupsformduplicated" class="form-group has-danger">
+                  <div class="form-control-feedback">{{formErrors.groupsformduplicated}}</div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <button id="cancelbetweenbtn" (click)="cancelPredictor()" class="btn btn-primary">Cancel</button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -23,56 +91,6 @@
 
 <div *ngIf="!editing && stage === -1 && !nextPredictors()" id="maxPredictors">
   <h5>Maximum number of BetweenISU predictors for GLIMMPSE added.</h5>
-</div>
-
-<div *ngIf="stages[0] === stageName">
-  <form [formGroup]="predictorForm" id="predictorForm">
-    <div class="container-fluid">
-      <div class="form-group">
-        <h5>Name your predictor:</h5>
-        <input class="form-control" formControlName="predictorName">
-      </div>
-      <div *ngIf="formErrors.predictorform" class="form-group has-danger">
-        <div class="form-control-feedback">{{formErrors.predictorform}}</div>
-      </div>
-    </div>
-  </form>
-</div>
-
-<div *ngIf="stages[1] === stageName">
-  <form [formGroup]="groupsForm" id="groupsForm">
-    <div class="container-fluid">
-      <div class="row" *ngIf="firstGroup() || nextGroup()">
-        <h5>Name at least two groups:</h5>
-        <div class="col">
-          <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">
-        </div>
-        <div class="col">
-          <i class="material-icons" (click)="addGroup()" style="margin-top: 10px" id="addgroup">add</i>
-        </div>
-      </div>
-      <br>
-      <small *ngIf="!firstGroup()">Outcomes:</small>
-      <div *ngFor="let grp of groups" id="grouplist">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col col-md-auto">
-              <i class="material-icons" (click)="removeGroup(grp)" style="margin-bottom: 5px" id="removeoutcome">remove</i>
-            </div>
-            <div class="col">
-              {{grp}}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="formErrors.groupsformtwogroups" class="form-group has-danger">
-        <div class="form-control-feedback">{{formErrors.groupsformtwogroups}}</div>
-      </div>
-      <div *ngIf="formErrors.groupsformduplicated" class="form-group has-danger">
-        <div class="form-control-feedback">{{formErrors.groupsformduplicated}}</div>
-      </div>
-    </div>
-  </form>
 </div>
 
 <div *ngIf="hasPredictors()">

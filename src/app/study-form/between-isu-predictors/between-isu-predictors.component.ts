@@ -2,7 +2,6 @@ import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
-import {NavigationService} from '../../shared/navigation.service';
 import {Predictor} from '../../shared/Predictor';
 import {constants} from '../../shared/constants';
 import {predictorValidator} from './predictor.validator';
@@ -22,32 +21,24 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _betweenIsuPredictors: Array<Predictor>;
   private _validationMessages;
   private _formErrors;
+
   private _editing: boolean;
+
   private _stages;
   private _stage: number;
-  private _directionCommand: string;
-  private _navigationSubscription: Subscription;
 
   private _betweenIsuPredictorsSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
-              private _study_service: StudyService,
-              private navigation_service: NavigationService) {
-    this.stages = constants.BETWEEN_ISU_STAGES;
-    this.stage = -1;
+              private _study_service: StudyService) {
+    this._stages = constants.BETWEEN_ISU_STAGES;
+    this.stage = this.stages.INFO;
 
     this.validationMessages = constants.BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES;
     this.formErrors = constants.BETWEEN_ISU_PREDICTORS_ERRORS;
     this.groups = [];
     this.maxGroups = constants.MAX_GROUPS;
     this.maxPredictors = constants.MAX_PREDICTORS;
-
-    this.navigationSubscription = this.navigation_service.navigation$.subscribe(
-      direction => {
-        this.directionCommand = direction;
-        this.internallyNavigate(this.directionCommand);
-      }
-    );
 
     this.betweenIsuPredictorsSubscription = this.study_service.betweenIsuPredictors$.subscribe(betweenIsuFactors => {
       this.betweenIsuPredictors = betweenIsuFactors;
@@ -63,7 +54,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   ngOnDestroy() {
-    this.navigationSubscription.unsubscribe();
+    this.betweenIsuPredictorsSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -75,15 +66,12 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       group: ['', groupValidator(this.groups)]
     });
     this.groupsForm.valueChanges.subscribe(data => this.emptyGroupsFormErrMsg());
-    this.setNextEnabled('VALID');
   }
 
   private updateFormStatus() {
     if (this.stage === 0) {
-      this.setNextEnabled('VALID');
     }
     if (this.stage === 1) {
-      this.setNextEnabled('VALID');
       if (this.groups && this.groups.length >= 2) {
         this.formErrors.groupsformtwogroups = '';
       }
@@ -159,27 +147,18 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   includePredictors(predictor?: Predictor) {
     this.editing = true;
-    this.navigation_service.updateNavigationMode(true);
-    this.navigation_service.updateNextEnabled( true );
-    this.navigation_service.updateValid(true);
     if (!this.betweenIsuPredictors) {
       this.betweenIsuPredictors = new Array<Predictor>();
     }
     if ( predictor ) {
       this.predictorForm.get('predictorName').setValue(predictor.name)
       this.groups = predictor.valueNames;
-      if ( this.predictorForm.status === 'VALID' ) {
-        this.navigation_service.updateValid( true );
-      }
     }
-    this.stage = 0;
+    this.stage = this.stages.NAME;
   }
 
-  resetNavigation() {
-    this.stage = -1;
+  cancelPredictor() {
     this.editing = false;
-    this.navigation_service.updateNavigationMode(false);
-    this.navigation_service.updateValid(true);
   }
 
   addPredictor() {
@@ -238,12 +217,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     }
     if ( next < 0) {
       this.resetForms();
-      this.resetNavigation();
     }
     if ( next >= Object.keys(this.stages).length ) {
       this.addPredictor();
       this.resetForms();
-      this.resetNavigation();
     }
     if (this.stages[next]) {
       this.setStage(next);
@@ -252,15 +229,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   setStage(next: number) {
     this.stage = next;
-    this.setNextEnabled(this.getStageStatus(this.stage));
-    if (this.stage === -1 ) {
-      this.setNextEnabled('VALID');
-    }
-  }
-
-  setNextEnabled(status: string) {
-    const valid = status === 'VALID' ? true : false;
-    this.navigation_service.updateValid(valid);
   }
 
   resetForms() {
@@ -336,28 +304,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._study_service = value;
   }
 
-  get navigationSubscription(): Subscription {
-    return this._navigationSubscription;
-  }
-
-  set navigationSubscription(value: Subscription) {
-    this._navigationSubscription = value;
-  }
-
-  get directionCommand(): string {
-    return this._directionCommand;
-  }
-
-  set directionCommand(value: string) {
-    this._directionCommand = value;
-  }
-
   get stages() {
     return this._stages;
-  }
-
-  set stages(value) {
-    this._stages = value;
   }
 
   get stage(): number {
@@ -366,6 +314,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set stage(value: number) {
     this._stage = value;
+  }
+
+  isStage(stage: number) {
+    return this.stage === stage ? true : false;
   }
 
   get editing(): boolean {
