@@ -6,14 +6,33 @@ import {Predictor} from '../../shared/Predictor';
 import {constants} from '../../shared/constants';
 import {predictorValidator} from './predictor.validator';
 import {groupValidator} from './group.validator';
+import {slideInRight, slideInLeft, slideOutRight, slideOutLeft, fadeOut, fadeIn} from 'ng-animate';
+import {trigger, transition, useAnimation, query, style, stagger, sequence} from '@angular/animations';
 
 @Component({
   selector: 'app-between-isu',
   templateUrl: './between-isu-predictors.component.html',
+  animations: [
+    trigger('fade', [
+      transition('* => *', [
+        query(':enter',
+          useAnimation(fadeIn, {
+            params: { timing: 0.2}
+          }), {optional: true}
+        ),
+        query(':leave',
+            useAnimation(fadeOut, {
+              params: { timing: 0.2}
+            }), {optional: true})
+        ]
+      )
+    ])
+  ],
   styleUrls: ['./between-isu-predictors.component.css']
 })
 export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy {
   private _predictorForm: FormGroup;
+  private _typeForm: FormGroup;
   private _groupsForm: FormGroup;
   private _groups: string[];
   private _maxGroups: number;
@@ -26,11 +45,13 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   private _stages;
   private _stage: number;
+  private _next: number;
 
   private _betweenIsuPredictorsSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService) {
+    this._next = 0;
     this._stages = constants.BETWEEN_ISU_STAGES;
     this.stage = this.stages.INFO;
 
@@ -60,6 +81,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   buildForm() {
     this.predictorForm = this.fb.group({
       predictorName: ['', predictorValidator(this.betweenIsuPredictors)]
+    });
+    this.typeForm = this.fb.group({
+      predictorType: ['']
     });
     this.predictorForm.valueChanges.subscribe(data => this.emptyPredictorFormErrMsg());
     this.groupsForm = this.fb.group({
@@ -115,6 +139,12 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       }
     }
   }
+
+  addName() {
+    this._next = this.stages.TYPE
+    this.stage = -1;
+  }
+
   emptyGroupsFormErrMsg() {
     this.formErrors['groupsformduplicated'] = '';
   }
@@ -146,7 +176,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   includePredictors(predictor?: Predictor) {
-    this.editing = true;
     if (!this.betweenIsuPredictors) {
       this.betweenIsuPredictors = new Array<Predictor>();
     }
@@ -154,11 +183,15 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       this.predictorForm.get('predictorName').setValue(predictor.name)
       this.groups = predictor.valueNames;
     }
-    this.stage = this.stages.NAME;
+
+    this._next = 1;
+    this.stage = -1;
   }
 
   cancelPredictor() {
     this.editing = false;
+    this._next = 0;
+    this.stage = -1;
   }
 
   addPredictor() {
@@ -272,6 +305,14 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._groupsForm = value;
   }
 
+  get typeForm(): FormGroup {
+    return this._typeForm;
+  }
+
+  set typeForm(value: FormGroup) {
+    this._typeForm = value;
+  }
+
   get betweenIsuPredictors(): Array<Predictor> {
     return this._betweenIsuPredictors;
   }
@@ -368,4 +409,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._formErrors = value;
   }
 
+  startTransition(event) {
+  }
+
+  doneTransition(event) {
+    this.setStage(this._next);
+  }
 }

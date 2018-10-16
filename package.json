@@ -41,6 +41,7 @@
     "karma-firefox-launcher": "^1.0.1",
     "mathjax": "^2.7.5",
     "mathjs": "^3.17.0",
+    "ng-animate": "^0.3.4",
     "ngx-bootstrap": "^3.0.1",
     "ngx-logger": "^1.1.2",
     "npm": "^5.6.0",
