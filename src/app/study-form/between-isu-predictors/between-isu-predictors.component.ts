@@ -3,11 +3,11 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {Predictor} from '../../shared/Predictor';
-import {constants} from '../../shared/constants';
+import {constants, getName} from '../../shared/constants';
 import {predictorValidator} from './predictor.validator';
 import {groupValidator} from './group.validator';
-import {slideInRight, slideInLeft, slideOutRight, slideOutLeft, fadeOut, fadeIn} from 'ng-animate';
-import {trigger, transition, useAnimation, query, style, stagger, sequence} from '@angular/animations';
+import {fadeOut, fadeIn} from 'ng-animate';
+import {trigger, transition, useAnimation, query} from '@angular/animations';
 
 @Component({
   selector: 'app-between-isu',
@@ -32,7 +32,7 @@ import {trigger, transition, useAnimation, query, style, stagger, sequence} from
 })
 export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy {
   private _predictorForm: FormGroup;
-  private _typeForm: FormGroup;
+  private _type: string;
   private _groupsForm: FormGroup;
   private _groups: string[];
   private _maxGroups: number;
@@ -40,8 +40,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _betweenIsuPredictors: Array<Predictor>;
   private _validationMessages;
   private _formErrors;
-
-  private _editing: boolean;
 
   private _stages;
   private _stage: number;
@@ -66,6 +64,25 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     });
   }
 
+  selectNominal() {
+    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL)
+  }
+  selectOrdinal() {
+    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL)
+  }
+  selectContinuous() {
+    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS)
+  }
+  isNominal() {
+    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL) ? true : false;
+  }
+  isOrdinal() {
+    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL) ? true : false;
+  }
+  isContinuous() {
+    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ? true : false;
+  }
+
   ngOnInit() {
     this.buildForm();
   }
@@ -82,20 +99,19 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.predictorForm = this.fb.group({
       predictorName: ['', predictorValidator(this.betweenIsuPredictors)]
     });
-    this.typeForm = this.fb.group({
-      predictorType: ['']
-    });
     this.predictorForm.valueChanges.subscribe(data => this.emptyPredictorFormErrMsg());
+    this.selectNominal();
     this.groupsForm = this.fb.group({
+      units: [''],
       group: ['', groupValidator(this.groups)]
     });
     this.groupsForm.valueChanges.subscribe(data => this.emptyGroupsFormErrMsg());
   }
 
   private updateFormStatus() {
-    if (this.stage === 0) {
+    if (this.stage === this.stages.INFO) {
     }
-    if (this.stage === 1) {
+    if (this.stage === this.stages.GROUPS) {
       if (this.groups && this.groups.length >= 2) {
         this.formErrors.groupsformtwogroups = '';
       }
@@ -122,6 +138,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   emptyPredictorFormErrMsg() {
     this.formErrors['predictorform'] = '';
   }
+
   onAddedGroupsForm(data?: any) {
     if (!this.groupsForm) {
       return;
@@ -138,11 +155,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
         }
       }
     }
-  }
-
-  addName() {
-    this._next = this.stages.TYPE
-    this.stage = -1;
   }
 
   emptyGroupsFormErrMsg() {
@@ -189,8 +201,17 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   cancelPredictor() {
-    this.editing = false;
     this._next = 0;
+    this.stage = -1;
+  }
+
+  addName() {
+    this._next = this.stages.TYPE;
+    this.stage = -1;
+  }
+
+  addType() {
+    this._next = this.stages.GROUPS;
     this.stage = -1;
   }
 
@@ -200,7 +221,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     predictor.valueNames = this.groups;
 
     this.betweenIsuPredictors.push(predictor);
-    this.editing = false;
+    this.stage = -1;
+    this._next = this.stages.INFO;
   }
 
   removePredictor(predictor: Predictor) {
@@ -219,45 +241,13 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   getStageStatus(stage: number): string {
-    if (stage === 0) {
+    if (stage === this.stages.NAME) {
       return this.predictorForm.status;
     }
-    if (stage === 1) {
+    if (stage === this.stages.GROUPS) {
       return this.groupsForm.status;
     }
     return 'INVALID';
-  }
-
-  internallyNavigate(direction: string): void {
-    let next = this.stage;
-    if ( direction === 'BACK' ) {
-      this.formErrors.groupsformtwogroups = '';
-      next = this.stage - 1;
-    }
-    if ( direction === 'NEXT' ) {
-      if (next === 0) {
-        this.onAddedPredictorForm();
-        if (this.formErrors.predictorform === '') {
-          next = this.stage + 1;
-        }
-      } else if (next === 1) {
-        if (this.groups && this.groups.length >= 2) {
-          next = this.stage + 1;
-        } else {
-          this.formErrors.groupsformtwogroups = 'Need to specify at least two groups.';
-        }
-      }
-    }
-    if ( next < 0) {
-      this.resetForms();
-    }
-    if ( next >= Object.keys(this.stages).length ) {
-      this.addPredictor();
-      this.resetForms();
-    }
-    if (this.stages[next]) {
-      this.setStage(next);
-    }
   }
 
   setStage(next: number) {
@@ -303,14 +293,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   set groupsForm(value: FormGroup) {
     this._groupsForm = value;
-  }
-
-  get typeForm(): FormGroup {
-    return this._typeForm;
-  }
-
-  set typeForm(value: FormGroup) {
-    this._typeForm = value;
   }
 
   get betweenIsuPredictors(): Array<Predictor> {
@@ -359,14 +341,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   isStage(stage: number) {
     return this.stage === stage ? true : false;
-  }
-
-  get editing(): boolean {
-    return this._editing;
-  }
-
-  set editing(value: boolean) {
-    this._editing = value;
   }
 
   get maxGroups(): number {

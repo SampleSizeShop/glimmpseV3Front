@@ -29,9 +29,6 @@
                 <div class="col">
                   <input class="form-control" formControlName="predictorName">
                 </div>
-                <div class="col">
-                  <i class="material-icons" (click)="addName()" style="margin-top: 10px" id="addName">add</i>
-                </div>
               </div>
             </div>
             <div *ngIf="formErrors.predictorform" class="form-group has-danger">
@@ -39,27 +36,60 @@
             </div>
           </div>
         </form>
-
+        <div class="row" *ngIf="stage > 0">
+          <div class="col">
+            <div class = "btn-group-sm">
+              <button id="cancelbetweenbtn" (click)="cancelPredictor()" class="btn btn-danger btn-sm">Cancel</button>
+              <button id="addnamebtn"  (click)="addName()" class="btn btn-primary btn-sm"> Next: Data Type </button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div *ngIf="isStage(stages.TYPE)">
         <div id="type">
-          <h5>What type of data is {{predictorForm.value.name}}?</h5>
-          <form [formGroup]="typeForm">
+          <h5>What type of data is {{predictorForm.value.predictorName}}?</h5>
             <div class="form-group">
-              <select class="form-control" id="predictorType" formControlName="predictorType">
-                <option *ngFor="let t of types" [value]="t">{{t}}</option>
-              </select>
+              <div class="btn-group" data-toggle="buttons">
+                <label aria-pressed="true" class="btn btn-secondary" [class.active]="isNominal()" id="nominalbtn">
+                  <input type="radio" id="nominal" (click)="selectNominal()"> Nominal
+                </label>
+                <label class="btn btn-secondary" aria-pressed="true" [class.active]="isOrdinal()" id="ordinalbtn">
+                  <input type="radio" id="ordinal" (click)="selectOrdinal()"> Ordinal
+                </label>
+                <label class="btn btn-secondary" aria-pressed="true" [class.active]="isContinuous()" id="continuousbtn">
+                  <input type="radio" id="continuous" (click)="selectContinuous()"> Continuous
+                </label>
+              </div>
             </div>
-          </form>
+        </div>
+        <div class="row" *ngIf="stage > 0">
+          <div class = "col">
+            <div class="btn-group-sm">
+              <button id="canceltypebtn" (click)="cancelPredictor()" class="btn btn-danger btn-sm">Cancel</button>
+              <button id="addnamebackbtn"  (click)="includePredictors()" class="btn btn-primary btn-sm"> Back: Data Type </button>
+              <button id="addtypebtn"  (click)="addType()" class="btn btn-primary btn-sm">Next: Groups</button>
+            </div>
+          </div>
         </div>
       </div>
 
       <div *ngIf="isStage(stages.GROUPS)">
         <form [formGroup]="groupsForm" id="groupsForm">
           <div class="container-fluid">
+            <div class="row">
+              <div class="col">
+                <h5>Which units is {{predictorForm.value.predictorName}} measured in?</h5>
+              </div>
+              <div class="col" *ngIf="!isOrdinal()">
+                <input class="form-control" formControlName="units" (keyup.enter)="addGroup()" id="units">
+              </div>
+              <div class="col"></div>
+            </div>
             <div class="row" *ngIf="firstGroup() || nextGroup()">
-              <h5>Name at least two groups:</h5>
+              <div class="col">
+                <h5>Name at least two groups:</h5>
+              </div>
               <div class="col">
                 <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">
               </div>
@@ -73,7 +103,7 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col col-md-auto">
-                    <i class="material-icons" (click)="removeGroup(grp)" style="margin-bottom: 5px" id="removeoutcome">remove</i>
+                    <i class="material-icons" (click)="removeGroup(grp)" style="margin-bottom: 5px" id="removegroup">remove</i>
                   </div>
                   <div class="col">
                     {{grp}}
@@ -84,16 +114,20 @@
             <div *ngIf="formErrors.groupsformtwogroups" class="form-group has-danger">
               <div class="form-control-feedback">{{formErrors.groupsformtwogroups}}</div>
             </div>
-            <div *ngIf="formErrors.groupsformduplicated" class="form-group has-danger">
-              <div class="form-control-feedback">{{formErrors.groupsformduplicated}}</div>
-            </div>
           </div>
         </form>
+
+        <div class="row" *ngIf="stage > 0">
+          <div class = "col">
+            <div class="btn-group-sm">
+              <button id="cancelpredictorbtn" (click)="cancelPredictor()" class="btn btn-danger btn-sm">Cancel</button>
+              <button id="addtypebackbtn"  (click)="addName()" class="btn btn-primary btn-sm">Back: Type</button>
+              <button id="addpredictorbtn"  (click)="addPredictor()" class="btn btn-primary btn-sm">Add Predictor</button>
+            </div>
+          </div>
+        </div>
       </div>
 
-    </div>
-    <div class="row" *ngIf="stage > 0">
-      <button id="cancelbetweenbtn" (click)="cancelPredictor()" class="btn btn-primary">Cancel</button>
     </div>
   </div>
 </div>
