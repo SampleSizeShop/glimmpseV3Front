@@ -16,6 +16,8 @@ export class NavigationService {
   private _validSource = new BehaviorSubject<boolean>(true);
   private _valid$ = this.validSource.asObservable();
 
+  private _navigateAwaySelection$: Subject<boolean> = new Subject<boolean>();
+
 
   updateNavigation(direction: string) {
     this.navigationSource.next(direction);
@@ -71,5 +73,9 @@ export class NavigationService {
 
   set valid$(value: Observable<boolean>) {
     this._valid$ = value;
+  }
+
+  get navigateAwaySelection$(): Subject<boolean> {
+    return this._navigateAwaySelection$;
   }
 }

@@ -10,6 +10,7 @@ import {fadeOut, fadeIn} from 'ng-animate';
 import {trigger, transition, useAnimation, query} from '@angular/animations';
 import {NavigationService} from '../../shared/navigation.service';
 import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-between-isu',
@@ -269,6 +270,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   resetForms() {
     this.groups = [];
     this.groupsForm.reset();
+    this.selectNominal();
     this.predictorForm.reset();
     this.buildForm();
   }
@@ -402,7 +404,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.setStage(this._next);
   }
 
-  canDeactivate() {
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
     console.log('hello!!!')
     if (this.stage === this.stages.INFO) {
       console.log('onward!!!')
@@ -412,7 +414,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       console.log('cancel');
       this.showModal(this.contentModal);
       this._study_service.updateDirection('CANCEL');
-      return false;
+      return this.navigation_service.navigateAwaySelection$;
     }
   }
 
@@ -432,8 +434,12 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       })
   }
 
-  discardChanges(message) {
-    console.log(message);
+  modalChoice(choice: boolean) {
     this.modalReference.close();
+    if (choice) {
+      this.resetForms();
+      this.navigation_service.updateValid(true);
+    }
+    this.navigation_service.navigateAwaySelection$.next(choice);
   }
 }
