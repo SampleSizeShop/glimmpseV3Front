@@ -9,7 +9,7 @@ import {groupValidator} from './group.validator';
 import {fadeOut, fadeIn} from 'ng-animate';
 import {trigger, transition, useAnimation, query} from '@angular/animations';
 import {NavigationService} from '../../shared/navigation.service';
-import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-between-isu',
@@ -48,6 +48,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _next: number;
 
   private _betweenIsuPredictorsSubscription: Subscription;
+
+  @ViewChild('content') contentModal;
+  private modalReference: any;
 
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService,
@@ -413,9 +416,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     }
   }
 
-  @ViewChild('content') contentModal;
   showModal(content) {
-    this.modalService.open(content).result.then(
+    this.modalReference = this.modalService.open(content)
+    this.modalReference.result.then(
       (closeResult) => {
         console.log('modal closed : ', closeResult);
       }, (dismissReason) => {
@@ -427,5 +430,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
           console.log(dismissReason);
         }
       })
+  }
+
+  discardChanges(message) {
+    console.log(message);
+    this.modalReference.close();
   }
 }
