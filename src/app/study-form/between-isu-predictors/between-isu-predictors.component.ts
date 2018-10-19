@@ -253,6 +253,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   setStage(next: number) {
+    if (next === this.stages.INFO) {
+      this.navigation_service.updateValid(true);
+    } else {
+      this.navigation_service.updateValid(false);
+    }
     this.stage = next;
   }
 
@@ -396,9 +401,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     console.log('hello!!!')
     if (this.stage === this.stages.INFO) {
       console.log('onward!!!')
+      this.navigation_service.updateValid(true);
       return true;
     } else {
       console.log('cancel');
+      alert('NOOOOO!');
       this._study_service.updateDirection('CANCEL');
       return false;
     }

@@ -11,7 +11,6 @@ export class CanDeactivatePredictorsGuardService implements CanDeactivate<Betwee
                 currentRoute: ActivatedRouteSnapshot,
                 currentState: RouterStateSnapshot,
                 nextState: RouterStateSnapshot): Observable<boolean>|Promise<boolean>|boolean {
-    console.log('canDeactivate called');
     return component.canDeactivate();
   }
 }

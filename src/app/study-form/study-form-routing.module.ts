@@ -48,10 +48,7 @@ import {ConfidenceIntervalGuard} from '../shared/ci-guard.service';
 import {MarginalMeansGuard} from './parameters-marginal-means/marginal-means-guard.service';
 import {BetweenIsuSmallestGroupComponent} from './between-isu-smallest-group/between-isu-smallest-group.component';
 import {HypothesisTheta0Component} from './hypothesis-theta-0/hypothesis-theta-0.component';
-import {
-  CanDeactivatePredictorsGuardService,
-  IsEditing
-} from './between-isu-predictors/can-deactivate-predictors-guard.service';
+import {CanDeactivatePredictorsGuardService} from './between-isu-predictors/can-deactivate-predictors-guard.service';
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
