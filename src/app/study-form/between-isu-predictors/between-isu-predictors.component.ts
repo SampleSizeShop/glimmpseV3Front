@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
@@ -8,7 +8,8 @@ import {predictorValidator} from './predictor.validator';
 import {groupValidator} from './group.validator';
 import {fadeOut, fadeIn} from 'ng-animate';
 import {trigger, transition, useAnimation, query} from '@angular/animations';
-import {NavigationService} from "../../shared/navigation.service";
+import {NavigationService} from '../../shared/navigation.service';
+import { NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-between-isu',
@@ -50,7 +51,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService,
-              private navigation_service: NavigationService) {
+              private navigation_service: NavigationService,
+              private modalService: NgbModal) {
     this._next = 0;
     this._stages = constants.BETWEEN_ISU_STAGES;
     this.stage = this.stages.INFO;
@@ -405,9 +407,25 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       return true;
     } else {
       console.log('cancel');
-      alert('NOOOOO!');
+      this.showModal(this.contentModal);
       this._study_service.updateDirection('CANCEL');
       return false;
     }
+  }
+
+  @ViewChild('content') contentModal;
+  showModal(content) {
+    this.modalService.open(content).result.then(
+      (closeResult) => {
+        console.log('modal closed : ', closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          console.log('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          console.log('modal dismissed when used pressed backdrop');
+        } else {
+          console.log(dismissReason);
+        }
+      })
   }
 }

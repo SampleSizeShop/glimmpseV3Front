@@ -160,3 +160,20 @@
     </div>
   </div>
 </div>
+
+<ng-template #content let-cl="close" let-di="dismiss">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Are you sure?</h5> <button type="button" class="close" (click)="cl('Closed from Close button')">
+
+      <span aria-hidden="true">×</span>
+
+    </button> </div>
+    <div class="modal-body">
+      <p>You are trying to navigate away from this page. Do you wish to discard changes and continue?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="di('Dismissed from dismiss button')">Continue editing</button>
+      <button type="button" class="btn btn-primary" (click)="cl('Closed from Close button')">Discard changes</button> </div>
+  </div>
+</ng-template>
