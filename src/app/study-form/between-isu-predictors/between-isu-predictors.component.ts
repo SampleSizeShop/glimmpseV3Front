@@ -406,9 +406,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
-    console.log('hello!!!')
     if (this.stage === this.stages.INFO) {
-      console.log('onward!!!')
       this.navigation_service.updateValid(true);
       return true;
     } else {
