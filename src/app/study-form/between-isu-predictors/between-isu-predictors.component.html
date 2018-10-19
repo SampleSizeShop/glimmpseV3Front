@@ -42,7 +42,7 @@
         <div class="row" *ngIf="stage > 0">
           <div class="col">
             <div class = "btn-group-sm">
-              <button id="cancelbetweenbtn" (click)="cancelPredictor()" class="btn btn-danger btn-sm">Cancel</button>
+              <button id="cancelbetweenbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
               <button id="addnamebtn"  (click)="addName()" class="btn btn-primary btn-sm"> Next: Data Type </button>
             </div>
           </div>
@@ -70,7 +70,7 @@
         <div class="row" *ngIf="stage > 0">
           <div class = "col">
             <div class="btn-group-sm">
-              <button id="canceltypebtn" (click)="cancelPredictor()" class="btn btn-danger btn-sm">Cancel</button>
+              <button id="canceltypebtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
               <button id="addnamebackbtn"  (click)="includePredictors()" class="btn btn-secondary btn-sm"> Back: Data Type </button>
               <button id="addtypebtn"  (click)="addType()" class="btn btn-primary btn-sm">Next: Groups</button>
             </div>
@@ -125,8 +125,8 @@
         <div class="row" *ngIf="stage > 0">
           <div class = "col">
             <div class="btn-group-sm">
-              <button id="cancelpredictorbtn" (click)="cancelPredictor()" class="btn btn-danger btn-sm">Cancel</button>
-              <button id="addtypebackbtn"  (click)="addName()" class="btn btn-primary btn-sm">Back: Type</button>
+              <button id="cancelpredictorbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
+              <button id="addtypebackbtn"  (click)="addName()" class="btn btn-secondary btn-sm">Back: Type</button>
               <button id="addpredictorbtn"  (click)="addPredictor()" class="btn btn-primary btn-sm">Add Predictor</button>
             </div>
           </div>
