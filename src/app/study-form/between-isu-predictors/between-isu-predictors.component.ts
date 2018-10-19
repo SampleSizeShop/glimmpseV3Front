@@ -108,23 +108,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     }
     this.study_service.updateBetweenIsuPredictors(this.betweenIsuPredictors);
   }
-  onAddedPredictorForm(data?: any) {
-    if (!this.predictorForm) {
-      return;
-    }
-    const form = this.predictorForm;
 
-    this.formErrors['predictorform'] = '';
-    const messages = this.validationMessages['predictorform'];
-    for (const field in form.value) {
-      const control = form.get(field);
-      if (control && !control.valid) {
-        for (const key in control.errors ) {
-          this.formErrors['predictorform'] += messages[key] + ' ';
-        }
-      }
-    }
-  }
   emptyPredictorFormErrMsg() {
     this.formErrors['predictorform'] = '';
   }
@@ -165,7 +149,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.onAddedGroupsForm();
     if (this.groupsForm.status === 'VALID' && this.groupsForm.value.group && this.groupsForm.value.group.trim() !== '' ) {
       this.groups.push(this.groupsForm.value.group);
+      const units = this.groupsForm.controls.units.value;
       this.groupsForm.reset();
+      this.groupsForm.controls.units.setValue(units);
     }
   }
 
@@ -208,9 +194,12 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   addPredictor() {
     const predictor = new Predictor();
     predictor.name = this.predictorForm.value.predictorName;
+    predictor.type = this._type;
+    predictor.units = this.groupsForm.value.units;
     predictor.valueNames = this.groups;
 
     this.betweenIsuPredictors.push(predictor);
+    this.resetForms();
     this.stage = -1;
     this._next = this.stages.INFO;
   }
@@ -444,9 +433,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   groupsValid() {
     if (this.groupsForm.status === 'VALID' && !isNullOrUndefined(this.groups) && this.groups.length >= 2) {
-      return false;
-    } else {
       return true;
+    } else {
+      return false;
     }
   }
 }

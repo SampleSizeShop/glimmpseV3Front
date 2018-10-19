@@ -127,7 +127,7 @@
             <div class="btn-group-sm">
               <button id="cancelpredictorbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
               <button id="addtypebackbtn"  (click)="addName()" class="btn btn-secondary btn-sm">Back: Type</button>
-              <button id="addpredictorbtn"  (click)="addPredictor()" class="btn btn-primary btn-sm" [disabled]="groupsValid()">Add Predictor</button>
+              <button id="addpredictorbtn"  (click)="addPredictor()" class="btn btn-primary btn-sm" [disabled]="!groupsValid()">Add Predictor</button>
             </div>
           </div>
         </div>
