@@ -21,7 +21,7 @@
       </div>
 
       <div *ngIf="isStage(stages.NAME)">
-        <h5>Defining Predictor:</h5>
+        <h5>Define Predictor</h5>
         <form [formGroup]="predictorForm" id="predictorForm">
           <div class="container-fluid">
             <div class="form-group">
@@ -43,7 +43,7 @@
           <div class="col">
             <div class = "btn-group-sm">
               <button id="cancelbetweenbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
-              <button id="addnamebtn"  (click)="addName()" class="btn btn-primary btn-sm"> Next: Data Type </button>
+              <button id="addnamebtn"  (click)="addName()" class="btn btn-primary btn-sm" [disabled]="predictorForm.status === 'INVALID'"> Next: Data Type </button>
             </div>
           </div>
         </div>
@@ -127,7 +127,7 @@
             <div class="btn-group-sm">
               <button id="cancelpredictorbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
               <button id="addtypebackbtn"  (click)="addName()" class="btn btn-secondary btn-sm">Back: Type</button>
-              <button id="addpredictorbtn"  (click)="addPredictor()" class="btn btn-primary btn-sm">Add Predictor</button>
+              <button id="addpredictorbtn"  (click)="addPredictor()" class="btn btn-primary btn-sm" [disabled]="groupsValid()">Add Predictor</button>
             </div>
           </div>
         </div>

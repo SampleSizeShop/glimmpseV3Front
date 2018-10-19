@@ -9,8 +9,9 @@ import {groupValidator} from './group.validator';
 import {fadeOut, fadeIn} from 'ng-animate';
 import {trigger, transition, useAnimation, query} from '@angular/animations';
 import {NavigationService} from '../../shared/navigation.service';
-import {NgbModal, ModalDismissReasons, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {Observable} from "rxjs/Observable";
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {Observable} from 'rxjs/Observable';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-between-isu',
@@ -70,25 +71,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.betweenIsuPredictorsSubscription = this.study_service.betweenIsuPredictors$.subscribe(betweenIsuFactors => {
       this.betweenIsuPredictors = betweenIsuFactors;
     });
-  }
-
-  selectNominal() {
-    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL)
-  }
-  selectOrdinal() {
-    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL)
-  }
-  selectContinuous() {
-    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS)
-  }
-  isNominal() {
-    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL) ? true : false;
-  }
-  isOrdinal() {
-    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL) ? true : false;
-  }
-  isContinuous() {
-    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ? true : false;
   }
 
   ngOnInit() {
@@ -397,6 +379,25 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._formErrors = value;
   }
 
+  selectNominal() {
+    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL)
+  }
+  selectOrdinal() {
+    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL)
+  }
+  selectContinuous() {
+    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS)
+  }
+  isNominal() {
+    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL) ? true : false;
+  }
+  isOrdinal() {
+    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL) ? true : false;
+  }
+  isContinuous() {
+    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ? true : false;
+  }
+
   startTransition(event) {
   }
 
@@ -441,5 +442,13 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       this.navigation_service.updateValid(true);
     }
     this.navigation_service.navigateAwaySelection$.next(choice);
+  }
+
+  groupsValid() {
+    if (this.groupsForm.status === 'VALID' && !isNullOrUndefined(this.groups) && this.groups.length >= 2) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
