@@ -438,4 +438,12 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       return false;
     }
   }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
+  }
 }

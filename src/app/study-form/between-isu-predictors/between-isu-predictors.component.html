@@ -165,7 +165,7 @@
     </th>
   </thead>
   <tbody>
-    <tr *ngFor="let predictor of betweenIsuPredictors; let i = index">
+    <tr *ngFor="let predictor of betweenIsuPredictors; let i = index" [class]="rowStyle(i)">
           <td class="col col-md-auto">
             <i class="material-icons" (click)="removePredictor(predictor)" style="margin-bottom: 5px" id="removepredictor">remove</i>
           </td>
