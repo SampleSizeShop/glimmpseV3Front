@@ -8,6 +8,7 @@ import {predictorValidator} from './predictor.validator';
 import {groupValidator} from './group.validator';
 import {fadeOut, fadeIn} from 'ng-animate';
 import {trigger, transition, useAnimation, query} from '@angular/animations';
+import {NavigationService} from "../../shared/navigation.service";
 
 @Component({
   selector: 'app-between-isu',
@@ -48,7 +49,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _betweenIsuPredictorsSubscription: Subscription;
 
   constructor(private _fb: FormBuilder,
-              private _study_service: StudyService) {
+              private _study_service: StudyService,
+              private navigation_service: NavigationService) {
     this._next = 0;
     this._stages = constants.BETWEEN_ISU_STAGES;
     this.stage = this.stages.INFO;
@@ -388,5 +390,17 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   doneTransition(event) {
     this.setStage(this._next);
+  }
+
+  canDeactivate() {
+    console.log('hello!!!')
+    if (this.stage === this.stages.INFO) {
+      console.log('onward!!!')
+      return true;
+    } else {
+      console.log('cancel');
+      this._study_service.updateDirection('CANCEL');
+      return false;
+    }
   }
 }

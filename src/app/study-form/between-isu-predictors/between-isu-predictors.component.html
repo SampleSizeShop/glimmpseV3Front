@@ -21,11 +21,14 @@
       </div>
 
       <div *ngIf="isStage(stages.NAME)">
+        <h5>Defining Predictor:</h5>
         <form [formGroup]="predictorForm" id="predictorForm">
           <div class="container-fluid">
             <div class="form-group">
-              <h5>Name your predictor:</h5>
               <div class="row">
+                <div class="col">
+                  <h6>Name your predictor:</h6>
+                </div>
                 <div class="col">
                   <input class="form-control" formControlName="predictorName">
                 </div>
@@ -47,8 +50,9 @@
       </div>
 
       <div *ngIf="isStage(stages.TYPE)">
+        <h5>Defining Predictor:</h5>
         <div id="type">
-          <h5>What type of data is {{predictorForm.value.predictorName}}?</h5>
+          <h6>What type of data is {{predictorForm.value.predictorName}}?</h6>
             <div class="form-group">
               <div class="btn-group" data-toggle="buttons">
                 <label aria-pressed="true" class="btn btn-secondary" [class.active]="isNominal()" id="nominalbtn">
@@ -67,7 +71,7 @@
           <div class = "col">
             <div class="btn-group-sm">
               <button id="canceltypebtn" (click)="cancelPredictor()" class="btn btn-danger btn-sm">Cancel</button>
-              <button id="addnamebackbtn"  (click)="includePredictors()" class="btn btn-primary btn-sm"> Back: Data Type </button>
+              <button id="addnamebackbtn"  (click)="includePredictors()" class="btn btn-secondary btn-sm"> Back: Data Type </button>
               <button id="addtypebtn"  (click)="addType()" class="btn btn-primary btn-sm">Next: Groups</button>
             </div>
           </div>
@@ -75,11 +79,12 @@
       </div>
 
       <div *ngIf="isStage(stages.GROUPS)">
+        <h5>Defining Predictor:</h5>
         <form [formGroup]="groupsForm" id="groupsForm">
           <div class="container-fluid">
             <div class="row">
-              <div class="col">
-                <h5>Which units is {{predictorForm.value.predictorName}} measured in?</h5>
+              <div class="col" *ngIf="!isOrdinal()">
+                <h6>Which units is {{predictorForm.value.predictorName}} measured in?</h6>
               </div>
               <div class="col" *ngIf="!isOrdinal()">
                 <input class="form-control" formControlName="units" (keyup.enter)="addGroup()" id="units">
@@ -88,7 +93,7 @@
             </div>
             <div class="row" *ngIf="firstGroup() || nextGroup()">
               <div class="col">
-                <h5>Name at least two groups:</h5>
+                <h6>Name at least two groups:</h6>
               </div>
               <div class="col">
                 <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">

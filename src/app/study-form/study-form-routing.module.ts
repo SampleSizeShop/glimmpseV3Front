@@ -48,6 +48,10 @@ import {ConfidenceIntervalGuard} from '../shared/ci-guard.service';
 import {MarginalMeansGuard} from './parameters-marginal-means/marginal-means-guard.service';
 import {BetweenIsuSmallestGroupComponent} from './between-isu-smallest-group/between-isu-smallest-group.component';
 import {HypothesisTheta0Component} from './hypothesis-theta-0/hypothesis-theta-0.component';
+import {
+  CanDeactivatePredictorsGuardService,
+  IsEditing
+} from './between-isu-predictors/can-deactivate-predictors-guard.service';
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -68,7 +72,12 @@ const studyFormRoutes: Routes = [
             {path: names[constants.STAGES.WITHIN_ISU_OUTCOMES], component: WithinIsuOutcomesComponent, data: {animation: constants.STAGES.WITHIN_ISU_OUTCOMES}},
             {path: names[constants.STAGES.WITHIN_ISU_REPEATED_MEASURES], component: WithinIsuRepeatedMeasuresComponent, data: {animation: constants.STAGES.WITHIN_ISU_REPEATED_MEASURES}},
             {path: names[constants.STAGES.WITHIN_ISU_CLUSTERS], component: WithinIsuClustersComponent, data: {animation: constants.STAGES.WITHIN_ISU_CLUSTERS}},
-            {path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS], component: BetweenIsuPredictorsComponent, data: {animation: constants.STAGES.BETWEEN_ISU_PREDICTORS}},
+            {
+              path: names[constants.STAGES.BETWEEN_ISU_PREDICTORS],
+              component: BetweenIsuPredictorsComponent,
+              canDeactivate: [CanDeactivatePredictorsGuardService],
+              data: {animation: constants.STAGES.BETWEEN_ISU_PREDICTORS}
+            },
             {path: names[constants.STAGES.BETWEEN_ISU_SMALLEST_GROUP], component: BetweenIsuSmallestGroupComponent, data: {animation: constants.STAGES.BETWEEN_ISU_SMALLEST_GROUP}},
             {
               path: names[constants.STAGES.BETWEEN_ISU_GROUPS] + '/:index',
@@ -209,6 +218,7 @@ const studyFormRoutes: Routes = [
     RouterModule
   ],
   providers: [
+    CanDeactivatePredictorsGuardService,
     StudyService,
     NavigationService,
     StudyFormGuard,

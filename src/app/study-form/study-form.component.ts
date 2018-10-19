@@ -55,6 +55,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _scaleFactorSubscription: Subscription;
   private _varianceScaleFactorsSubscription: Subscription;
   private _powerCurveSubscription: Subscription;
+  private _navDirectionSubsctiption: Subscription;
+  private _direction: string;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
@@ -108,7 +110,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   next(stage?: number): void {
-    this.study_service.updateDirection('NEXT');
+    //this.study_service.updateDirection('NEXT');
     if (this.childComponentNav &&  this.valid) {
       this.navigation_service.updateNavigation('NEXT');
     } else {
@@ -195,7 +197,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         } else if (current === this.stages.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK) {
           this.setStage(this.stages.OPTIONAL_SPECS_CI_CHOICE);
         } else {
-          this.setStage( current + 1 );
+          if (this._direction !== 'CANCEL') {
+            this.setStage( current + 1 );
+          }
         }
         this.navigate(this.study_service.stage, 'NEXT');
         this.setNextBack();
@@ -209,7 +213,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.log.debug(params);
     const success = this.router.navigate(params);
     success.then( loaded => {
-      if ( !loaded) {
+      if ( !loaded && this._direction !== 'CANCEL') {
         if (direction === 'NEXT') {
           this.next( stage );
         } else if ( direction === 'BACK') {
@@ -708,7 +712,13 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.study.powerCurve = powerCurve;
       }
     );
-  };
+
+    this._navDirectionSubsctiption = this.study_service.navigationDirection$.subscribe(
+      direction => {
+        this._direction = direction;
+      }
+    );
+  }
 
   updateISUFactors() {
     this.study_service.updateIsuFactors(this.study.isuFactors);
