@@ -117,7 +117,7 @@ export const O2R2P2C0_input = {
     {group: '', table: [[1, 1, 1], [1, 1, 1]]}
   ],
   gaussian_covariate: null,
-  hypothesis: 'Time x Device x gender x race',
+  hypothesis: 'gender x race x Time x Device',
   hypothesis_between: null,
   hypothesis_within: null,
   theta0: null,
