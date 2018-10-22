@@ -1,6 +1,6 @@
 import {by, element} from 'protractor';
 import {isNullOrUndefined} from 'util';
-import {constants} from "../../shared/constants";
+import {constants} from '../../shared/constants';
 
 export class BetweenIsuPredictorsPo {
 
@@ -27,22 +27,20 @@ export class BetweenIsuPredictorsPo {
 
   fillPredictorName(name) {
     const noRepeatsInput = element(by.formControlName('predictorName'));
-    noRepeatsInput.clear().then(() => noRepeatsInput.sendKeys(name))
+    noRepeatsInput.clear().then(() => noRepeatsInput.sendKeys(name));
+    element(by.id('addnamebtn')).click();
   }
 
   fillType(predictorType) {
     const noRepeatsInput = element(by.formControlName('predictorName'));
-    let btn;
     if (predictorType === constants.BETWEEN_ISU_TYPES.NOMINAL) {
-      btn = element(by.formControlName('nominalbtn'));
+      element(by.id('nominalbtn')).click();
     } else if (predictorType === constants.BETWEEN_ISU_TYPES.ORDINAL) {
-      btn = element(by.formControlName('ordinalbtn'));
+      element(by.id('ordinalbtn')).click();
     } else {
-      btn = element(by.formControlName('continuousbtn'));
+      element(by.id('continuousbtn')).click();
     }
-    btn.click();
-    const next = btn = element(by.formControlName('addtypebtn'));
-    next.click();
+    element(by.id('addtypebtn')).click();
   }
 
   fillGroups(groups) {
@@ -51,5 +49,6 @@ export class BetweenIsuPredictorsPo {
       nameInput.clear().then(() => nameInput.sendKeys(group));
       element(by.id('addgroup')).click();
     });
+    element(by.id('addpredictorbtn')).click();
   }
 }
