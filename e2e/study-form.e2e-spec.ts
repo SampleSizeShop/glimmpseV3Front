@@ -42,8 +42,8 @@ describe('Glimmpse v3 automated integration tests', () => {
     expect(actual.model).toEqual(expected.model);
     expect(actual.results[0].power).toEqual(expected.results[0].power);
   });
-  //
-  // it('Should fill out the study form: Nonsense example designed to hit every page in glimmpse v3 front end', () => {
-  //   page.fromJSON(generic_model);
-  // });
+
+  it('Should fill out the study form: Nonsense example designed to hit every page in glimmpse v3 front end', () => {
+    page.fromJSON(generic_model);
+  });
 });
