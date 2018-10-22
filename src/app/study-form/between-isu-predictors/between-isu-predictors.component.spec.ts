@@ -5,11 +5,13 @@ import {StudyService} from '../study.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
-import {ISUFactors} from '../../shared/ISUFactors';
 import {Predictor} from '../../shared/Predictor';
 import {NavigationService} from '../../shared/navigation.service';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalStack} from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
 describe('BetweenIsuPredictorsComponent', () => {
@@ -34,9 +36,14 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, BrowserAnimationsModule],
       declarations: [ BetweenIsuPredictorsComponent ],
-      providers: [StudyService, { provide: HttpClient, useClass: MockBackend }, NavigationService]
+      providers: [
+        StudyService,
+        { provide: HttpClient, useClass: MockBackend },
+        NavigationService,
+        NgbModal,
+        NgbModalStack]
     })
     .compileComponents();
   }));
@@ -52,8 +59,7 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should show the add BetweenIsuPredictor Button if we are not currently editing a factorName', () => {
-    component.editing = false;
-    component.setStage(-1);
+    component.setStage(component.stages.INFO);
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#addbetweenbtn'));
     const el = desc.nativeElement;
@@ -61,9 +67,8 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should not the add BetweenIsuPredictor Button if we have reached the predictors limit', () => {
-    component.editing = false;
     component.betweenIsuPredictors = new Array<Predictor>();
-    component.setStage(-1);
+    component.setStage(component.stages.INFO);
     for ( let i = 0; i < component.maxPredictors; i++ ) {
       component.betweenIsuPredictors.push(new Predictor());
     }
@@ -75,10 +80,9 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  it('Should show the predictorForm when we click the add BetweenIsuPredictor.', () => {
-    component.editing = false;
-    component.setStage(-1);
-    component.includePredictors();
+  it('Should show the predictorForm when we click the add BetweenIsuPredictor.', async () => {
+    component.setStage(component.stages.INFO);
+    await component.includePredictors();
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#predictorForm'));
     const el = desc.nativeElement;
@@ -86,11 +90,11 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should show the groupsForm when we click the next after adding a factorName value', () => {
-    component.editing = false;
-    component.setStage(-1);
+    component.setStage(component.stages.INFO);
     component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
-    component.internallyNavigate('NEXT');
+    component.addName();
+    component.addType();
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#groupsForm'));
     const el = desc.nativeElement;
@@ -98,11 +102,11 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should add a group when we click add group', () => {
-    component.editing = false;
-    component.setStage(-1);
+    component.setStage(component.stages.INFO);
     component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
-    component.internallyNavigate('NEXT');
+    component.addName();
+    component.addType();
     component.groupsForm.get('group').setValue('a1');
     component.addGroup();
     fixture.detectChanges();
@@ -110,11 +114,11 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should add a group when we click add group', () => {
-    component.editing = false;
-    component.setStage(-1);
+    component.setStage(component.stages.INFO);
     component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
-    component.internallyNavigate('NEXT');
+    component.addName();
+    component.addType();
     component.groupsForm.get('group').setValue('a1');
     component.addGroup();
     component.removeGroup('a1')
@@ -124,17 +128,17 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   it('Should add a BetweenIsuPredictor to the study design and give the option to add another,' +
     ' once we have added valueNames and clicked next', () => {
-    component.editing = false;
-    component.setStage(-1);
+    component.setStage(component.stages.INFO);
     component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
-    component.internallyNavigate('NEXT');
+    component.addName();
+    component.addType();
     component.groupsForm.get('group').setValue('a1');
     component.addGroup();
     component.groupsForm.get('group').setValue('a2');
     component.addGroup();
     fixture.detectChanges();
-    component.internallyNavigate('NEXT');
+    component.addPredictor();
     fixture.detectChanges();
     expect(component.betweenIsuPredictors.length).toEqual(1);
     const desc: DebugElement = fixture.debugElement.query(By.css('#addbetweenbtn'));
@@ -143,34 +147,34 @@ describe('BetweenIsuPredictorsComponent', () => {
   });
 
   it('Should remove a BetweenIsuPredictor when we click the remove button', () => {
-    component.editing = false;
-    component.setStage(-1);
+    component.setStage(component.stages.INFO);
     component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
-    component.internallyNavigate('NEXT');
+    component.addName();
+    component.addType();
     component.groupsForm.get('group').setValue('a1');
     component.addGroup();
     component.groupsForm.get('group').setValue('a2');
     component.addGroup();
     fixture.detectChanges();
-    component.internallyNavigate('NEXT');
+    component.addPredictor();
     fixture.detectChanges();
     component.removePredictor(component.betweenIsuPredictors[0]);
     expect(component.betweenIsuPredictors.length).toEqual(0);
   });
 
   it('Should allow us to edit a BetweenIsuPredictor when we click the edit button', () => {
-    component.editing = false;
-    component.setStage(-1);
+    component.setStage(component.stages.INFO);
     component.includePredictors();
     component.predictorForm.get('predictorName').setValue('A');
-    component.internallyNavigate('NEXT');
+    component.addName();
+    component.addType();
     component.groupsForm.get('group').setValue('a1');
     component.addGroup();
     component.groupsForm.get('group').setValue('a2');
     component.addGroup();
     fixture.detectChanges();
-    component.internallyNavigate('NEXT');
+    component.addPredictor()
     const predictor = component.betweenIsuPredictors[0];
     component.editPredictor(predictor);
     fixture.detectChanges();
@@ -178,73 +182,4 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(component.groups.length).toEqual(predictor.valueNames.length)
     expect(component.predictorForm.value.predictorName).toEqual(predictor.name);
   });
-  /**
-  it('should assemble the betweenIsuRelativeGroupSizes of > 2 betweenISU valueNames', () => {
-    const x = new ISUFactors();
-    x.variables.push(gender);
-    x.variables.push(dose);
-    x.variables.push(three);
-    x.variables.push(five);
-    x.betweenIsuRelativeGroupSizes = x.generateCombinations(x.predictors);
-    x.betweenIsuRelativeGroupSizes.forEach(combination => {
-      expect(combination.id.length).toEqual(x.predictors.length);
-    });
-    expect(x.betweenIsuRelativeGroupSizes.size).toEqual(72);
-  });
-
-  it('should assemble the betweenIsuRelativeGroupSizes of 2 betweenISU valueNames', () => {
-    const x = new ISUFactors();
-    x.variables.push(gender);
-    x.variables.push(dose);
-    x.betweenIsuRelativeGroupSizes = x.generateCombinations(x.predictors);
-    x.betweenIsuRelativeGroupSizes.forEach(combination => {
-      expect(combination.id.length).toEqual(x.predictors.length);
-    });
-    expect(x.betweenIsuRelativeGroupSizes.size).toEqual(6);
-  });
-
-  it('should assemble the betweenIsuRelativeGroupSizes of 1 betweenISU valueNames', () => {
-    const x = new ISUFactors();
-    x.variables.push(gender);
-    x.betweenIsuRelativeGroupSizes = x.generateCombinations(x.predictors);
-    x.betweenIsuRelativeGroupSizes.forEach(combination => {
-      expect(combination.id.length).toEqual(x.predictors.length);
-    });
-    expect(x.betweenIsuRelativeGroupSizes.size).toEqual(2);
-  });
-
-  it('Should get the correct ISUFactorCombination from a map', () => {
-    const x = new ISUFactors();
-    x.variables.push(gender);
-    const tables = x.groupCombinations(x.generateCombinations(x.predictors), x.predictors);
-    const member = tables[0].getMember('m', null).name;
-    expect(member).toEqual('m');
-  });
-
-  it('Should return the expected group value for the special case - one factorName', () => {
-    const x = new ISUFactors();
-    x.variables.push(gender);
-    const tables = x.groupCombinations(x.generateCombinations(x.predictors), x.predictors);
-    const groupName = tables[0].groupName;
-    expect(groupName).toEqual('' );
-  });
-
-  it('Should return the expected group value for special case - two predictors', () => {
-    const x = new ISUFactors();
-    x.variables.push(gender);
-    x.variables.push(dose);
-    const tables = x.groupCombinations(x.generateCombinations(x.predictors), x.predictors);
-    const groupNmae = tables[0].groupName;
-    expect(groupNmae).toEqual('');
-  });
-
-  it('Should return the expected group names for > 2 predictors', () => {
-    const x = new ISUFactors();
-    x.variables.push(gender);
-    x.variables.push(dose);
-    x.variables.push(three);
-    const tables = x.groupCombinations(x.generateCombinations(x.predictors), x.predictors);
-    const groupNmae = tables[0].groupName;
-    expect(groupNmae).toEqual('Gender:m');
-  }); **/
 });

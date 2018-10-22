@@ -11,10 +11,10 @@ export const routeSlideAnimation =
           left: 0,
           width: '100%'
         })
-      ]),
+      ], { optional: true }),
       query(':enter', [
         style({ left: '{{offsetLeave}}%'})
-      ]),
+      ], { optional: true }),
       query(':leave', animateChild(), {optional: true}),
       group([
         query(':leave', [
@@ -22,8 +22,8 @@ export const routeSlideAnimation =
         ], {optional: true}),
         query(':enter', [
           animate('450ms ease-out', style({ left: '0%'}))
-        ])
+        ], { optional: true })
       ]),
-      query(':enter', animateChild()),
+      query(':enter', animateChild(),{ optional: true }),
     ])
   ]);

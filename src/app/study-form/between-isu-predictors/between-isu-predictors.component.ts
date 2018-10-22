@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
@@ -34,7 +34,7 @@ import {isNullOrUndefined} from "util";
   ],
   styleUrls: ['./between-isu-predictors.component.css']
 })
-export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy {
+export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy {
   private _predictorForm: FormGroup;
   private _type: string;
   private _groupsForm: FormGroup;
@@ -83,6 +83,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
 
   ngOnDestroy() {
     this.betweenIsuPredictorsSubscription.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    this.stage = this._next;
   }
 
   buildForm() {
