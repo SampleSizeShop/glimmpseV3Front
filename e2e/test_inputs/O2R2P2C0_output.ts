@@ -5,10 +5,13 @@ export const O2R2P2C0_output = {
   status: 200,
   mimetype: 'application/json',
   results: [
-    {test: 'Hotelling Lawley Trace', power: 0.925},
-    {test: 'Pillai-Bartlett Trace', power: 0.757},
-    {test: 'Wilks Likelihood Ratio', power: 0.909},
-    {test: 'Repeated Measures: Geisser-Greenhouse Correction', power: 0.169}
+    {test: 'Hotelling Lawley Trace', power: 0.925148507438},
+    {test: 'Pillai-Bartlett Trace', power: 0.756772616724},
+    {test: 'Wilks Likelihood Ratio', power: 0.908569684049},
+    {test: 'Repeated Measures: Box Correction', power: 0.0927413},
+    {test: 'Repeated Measures: Geisser-Greenhouse Correction', power: 0.1686649},
+    {test: 'Repeated Measures: Huynh-Feldt Correction', power: 0.1793055},
+    {test: 'Repeated Measure: uncorrected', power: 0.431803}
     ],
   model: {
     essence_design_matrix: [
@@ -90,7 +93,7 @@ export const O2R2P2C0_output = {
       [4.7496327, 12.958911, 17.708544, 2.3748163, 6.4794557,  8.854272]
     ]
   }
-}
+};
 
 export const O2R2P2C0_input = {
   user_mode: constants.USER_MODE.GUIDED,
@@ -100,7 +103,10 @@ export const O2R2P2C0_input = {
     constants.STATISTICAL_TESTS.HOTELLING_LAWLEY,
     constants.STATISTICAL_TESTS.PILLAI_BARTLET,
     constants.STATISTICAL_TESTS.WILKS_LIKLIEHOOD,
-    constants.STATISTICAL_TESTS.GEISSER_GREENHOUSE
+    constants.STATISTICAL_TESTS.BOX_CORRECTION,
+    constants.STATISTICAL_TESTS.GEISSER_GREENHOUSE,
+    constants.STATISTICAL_TESTS.HUYNH_FELDT,
+    constants.STATISTICAL_TESTS.UNCORRECTED
   ],
   type_one_error: 0.05,
   outcomes: ['hr', 'Vo'],
@@ -168,4 +174,4 @@ export const O2R2P2C0_input = {
   parameters_scale_factor_variance: [1],
   power_method: null,
   power_curve: null
-}
+};
