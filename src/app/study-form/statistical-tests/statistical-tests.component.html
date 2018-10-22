@@ -10,44 +10,50 @@
 </div>
 <div class="container-fluid">
   <div class="row">
+    <form [formGroup]="statisticalTestsForm">
+      <div *ngIf="formErrors.statisticaltestsoptions" class="form-group has-danger">
+        <div class="form-control-feedback" id="outcomeserr">{{formErrors.statisticaltestsoptions}}</div>
+      </div>
       <div class="col">
-      <div>Multivariate:</div>
-      <div class="btn-group-vertical btn-block" data-toggle="buttons">
-        <label class="btn btn-primary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(statisticalTests.HOTELLING_LAWLEY)">
-          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.HOTELLING_LAWLEY)">{{statisticalTests.HOTELLING_LAWLEY}}
-        </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;" id="pb" [class.active]="isSelected(statisticalTests.PILLAI_BARTLET)">
-          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.PILLAI_BARTLET)">{{statisticalTests.PILLAI_BARTLET}}
-        </label>
-        <label class="btn btn-primary" [class.active]="isSelected(statisticalTests.WILKS_LIKLIEHOOD)" id="wl">
-          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.WILKS_LIKLIEHOOD)">{{statisticalTests.WILKS_LIKLIEHOOD}}
-        </label>
+        <div>Multivariate:</div>
+        <div class="btn-group-vertical btn-block" data-toggle="buttons">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(statisticalTests.HOTELLING_LAWLEY)">
+            <input formControlName="0" type="checkbox" (click)="selectTest(statisticalTests.HOTELLING_LAWLEY)">
+            {{statisticalTests.HOTELLING_LAWLEY}}
+          </label>
+          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" id="pb" [class.active]="isSelected(statisticalTests.PILLAI_BARTLET)">
+            <input formControlName="1" type="checkbox" (click)="selectTest(statisticalTests.PILLAI_BARTLET)">{{statisticalTests.PILLAI_BARTLET}}
+          </label>
+          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" [class.active]="isSelected(statisticalTests.WILKS_LIKLIEHOOD)" id="wl">
+            <input formControlName="2" type="checkbox" (click)="selectTest(statisticalTests.WILKS_LIKLIEHOOD)">{{statisticalTests.WILKS_LIKLIEHOOD}}
+          </label>
+        </div>
+        <div>Univariate:</div>
+        <div class="btn-group-vertical  btn-block" data-toggle="buttons">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.BOX_CORRECTION)" id="bc">
+            <input formControlName="3" type="checkbox" (click)="selectTest(statisticalTests.BOX_CORRECTION)">{{statisticalTests.BOX_CORRECTION}}
+          </label>
+          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.GEISSER_GREENHOUSE)" id="gg">
+            <input formControlName="4" type="checkbox" (click)="selectTest(statisticalTests.GEISSER_GREENHOUSE)">{{statisticalTests.GEISSER_GREENHOUSE}}
+          </label>
+          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.HUYNH_FELDT)" id="hf">
+            <input formControlName="5" type="checkbox" (click)="selectTest(statisticalTests.HUYNH_FELDT)">{{statisticalTests.HUYNH_FELDT}}
+          </label>
+          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" [class.active]="isSelected(statisticalTests.UNCORRECTED)" id="uc">
+            <input formControlName="6" type="checkbox" (click)="selectTest(statisticalTests.UNCORRECTED)">{{statisticalTests.UNCORRECTED}}
+          </label>
+        </div>
+        <div>Future:</div>
+        <div class="btn-group-vertical btn-block" data-toggle="buttons">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.UNIREP)" id="urp">
+            <input formControlName="7" type="checkbox" (click)="selectTest(statisticalTests.UNIREP)">{{statisticalTests.UNIREP}}
+          </label>
+          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" [class.active]="isSelected(statisticalTests.MULTIREP)" id="mrp">
+            <input formControlName="8" type="checkbox" (click)="selectTest(statisticalTests.MULTIREP)">{{statisticalTests.MULTIREP}}
+          </label>
+        </div>
       </div>
-      <div>Univariate:</div>
-      <div class="btn-group-vertical  btn-block" data-toggle="buttons">
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.BOX_CORRECTION)" id="bc">
-          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.BOX_CORRECTION)">{{statisticalTests.BOX_CORRECTION}}
-        </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.GEISSER_GREENHOUSE)" id="gg">
-          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.GEISSER_GREENHOUSE)">{{statisticalTests.GEISSER_GREENHOUSE}}
-        </label>
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.HUYNH_FELDT)" id="hf">
-          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.HUYNH_FELDT)">{{statisticalTests.HUYNH_FELDT}}
-        </label>
-        <label class="btn btn-primary" [class.active]="isSelected(statisticalTests.UNCORRECTED)" id="uc">
-          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.UNCORRECTED)">{{statisticalTests.UNCORRECTED}}
-        </label>
-      </div>
-      <div>Future:</div>
-      <div class="btn-group-vertical btn-block" data-toggle="buttons">
-        <label class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.UNIREP)" id="urp">
-          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.UNIREP)">{{statisticalTests.UNIREP}}
-        </label>
-        <label class="btn btn-primary" [class.active]="isSelected(statisticalTests.MULTIREP)" id="mrp">
-          <input type="checkbox" checked="" (click)="selectTest(statisticalTests.MULTIREP)">{{statisticalTests.MULTIREP}}
-        </label>
-      </div>
-    </div>
+    </form>
     <div class="col">
       <div class="card">
         <h3 class="card-header">Repeated Measures: Geisser Greenhouse Correction</h3>
