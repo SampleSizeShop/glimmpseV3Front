@@ -80,27 +80,6 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  // it('Should show the predictorForm when we click the add BetweenIsuPredictor.', async () => {
-  //   component.setStage(component.stages.INFO);
-  //   await component.includePredictors();
-  //   fixture.detectChanges();
-  //   const desc: DebugElement = fixture.debugElement.query(By.css('#predictorForm'));
-  //   const el = desc.nativeElement;
-  //   expect(el).toBeTruthy();
-  // });
-
-  // it('Should show the groupsForm when we click the next after adding a factorName value', () => {
-  //   component.setStage(component.stages.INFO);
-  //   component.includePredictors();
-  //   component.predictorForm.get('predictorName').setValue('A');
-  //   component.addName();
-  //   component.addType();
-  //   fixture.detectChanges();
-  //   const desc: DebugElement = fixture.debugElement.query(By.css('#groupsForm'));
-  //   const el = desc.nativeElement;
-  //   expect(el).toBeTruthy();
-  // });
-
   it('Should add a group when we click add group', () => {
     component.setStage(component.stages.INFO);
     component.includePredictors();
@@ -126,25 +105,22 @@ describe('BetweenIsuPredictorsComponent', () => {
     expect(component.groups.length).toEqual(0);
   });
 
-  // it('Should add a BetweenIsuPredictor to the study design and give the option to add another,' +
-  //   ' once we have added valueNames and clicked next', () => {
-  //   component.setStage(component.stages.INFO);
-  //   component.includePredictors();
-  //   component.predictorForm.get('predictorName').setValue('A');
-  //   component.addName();
-  //   component.addType();
-  //   component.groupsForm.get('group').setValue('a1');
-  //   component.addGroup();
-  //   component.groupsForm.get('group').setValue('a2');
-  //   component.addGroup();
-  //   fixture.detectChanges();
-  //   component.addPredictor();
-  //   fixture.detectChanges();
-  //   expect(component.betweenIsuPredictors.length).toEqual(1);
-  //   const desc: DebugElement = fixture.debugElement.query(By.css('#addbetweenbtn'));
-  //   const el = desc.nativeElement;
-  //   expect(el).toBeTruthy();
-  // });
+  it('Should add a BetweenIsuPredictor to the study design and give the option to add another,' +
+    ' once we have added valueNames and clicked next', () => {
+    component.setStage(component.stages.INFO);
+    component.includePredictors();
+    component.predictorForm.get('predictorName').setValue('A');
+    component.addName();
+    component.addType();
+    component.groupsForm.get('group').setValue('a1');
+    component.addGroup();
+    component.groupsForm.get('group').setValue('a2');
+    component.addGroup();
+    fixture.detectChanges();
+    component.addPredictor();
+    fixture.detectChanges();
+    expect(component.betweenIsuPredictors.length).toEqual(1);
+  });
 
   it('Should remove a BetweenIsuPredictor when we click the remove button', () => {
     component.setStage(component.stages.INFO);
