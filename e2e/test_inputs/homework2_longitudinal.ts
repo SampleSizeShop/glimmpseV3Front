@@ -16,20 +16,20 @@ export const hw2_input = {
   cluster: null,
   predictors: [
     {name: 'Treatment', groups: ['SensoryFocus', 'StandardCare']}
-    ],
+  ],
   smallest_group: 15,
   groups: [
-    {group: '', table: [[1], [1]]},
+    {group: '', table: [[1], [1]]}
   ],
   gaussian_covariate: null,
-  hypothesis: 'Time x Treatment',
+  hypothesis: 'Treatment x Time',
   hypothesis_between: null,
   hypothesis_within: null,
   theta0: null,
   marginal_means: [
     {means: [[3.6, 2.8, 0.9],
-            [4.5, 4.3, 3.0]]
-        }
+        [4.5, 4.3, 3.0]]
+    }
   ],
   parameters_scale_factor: null,
   parameters_standard_deviation: [
