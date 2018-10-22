@@ -55,14 +55,14 @@
           <h6>What type of data is {{predictorForm.value.predictorName}}?</h6>
             <div class="form-group">
               <div class="btn-group" data-toggle="buttons">
-                <label aria-pressed="true" class="btn btn-secondary" [class.active]="isNominal()" id="nominalbtn">
-                  <input type="radio" id="nominal" (click)="selectNominal()"> Nominal
+                <label aria-pressed="true" class="btn btn-secondary" [class.active]="isNominal()">
+                  <input type="radio" id="nominal" (click)="selectNominal()" id="nominalbtn"> Nominal
                 </label>
-                <label class="btn btn-secondary" aria-pressed="true" [class.active]="isOrdinal()" id="ordinalbtn">
-                  <input type="radio" id="ordinal" (click)="selectOrdinal()"> Ordinal
+                <label class="btn btn-secondary" aria-pressed="true" [class.active]="isOrdinal()">
+                  <input type="radio" id="ordinal" (click)="selectOrdinal()" id="ordinalbtn"> Ordinal
                 </label>
-                <label class="btn btn-secondary" aria-pressed="true" [class.active]="isContinuous()" id="continuousbtn">
-                  <input type="radio" id="continuous" (click)="selectContinuous()"> Continuous
+                <label class="btn btn-secondary" aria-pressed="true" [class.active]="isContinuous()">
+                  <input type="radio" id="continuous" (click)="selectContinuous()" id="continuousbtn"> Continuous
                 </label>
               </div>
             </div>
