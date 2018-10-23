@@ -49,7 +49,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _isuFactorsSubscription: Subscription;
   texString = '';
 
-  @ViewChild('content') contentModal;
+  @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
 
   constructor(private study_service: StudyService,
@@ -291,7 +291,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       return true;
     } else {
       console.log('cancel');
-      this.showModal(this.contentModal);
+      this.showModal(this.canDeactivateModal);
       this.study_service.updateDirection('CANCEL');
       return this.navigation_service.navigateAwaySelection$;
     }

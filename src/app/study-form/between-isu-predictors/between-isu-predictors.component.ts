@@ -51,7 +51,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
 
   private _betweenIsuPredictorsSubscription: Subscription;
 
-  @ViewChild('content') contentModal;
+  @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
 
   constructor(private _fb: FormBuilder,
@@ -404,7 +404,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
       return true;
     } else {
       console.log('cancel');
-      this.showModal(this.contentModal);
+      this.showModal(this.canDeactivateModal);
       this._study_service.updateDirection('CANCEL');
       return this.navigation_service.navigateAwaySelection$;
     }
