@@ -10,5 +10,5 @@ export const environment = {
   serverLoggingUrl: 'http://127.0.0.1:5000/api/clientsidelog',
   loglevel: NgxLoggerLevel.DEBUG,
   serverLoglevel: NgxLoggerLevel.WARN,
-  disableAnimations: true
+  disableAnimations: false
 };
