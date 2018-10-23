@@ -21,6 +21,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _isuFactors: ISUFactors;
   private _marginalsIn: Array<PartialMatrix>;
   private _marginalsOut: Array<PartialMatrix>;
+  private _editCustom: boolean;
 
 
   private _isuFactorsSubscription: Subscription;
@@ -32,6 +33,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.marginalsIn = [];
     this.marginalsOut = [];
     this.showAdvancedOptions = false;
+    this._editCustom = false;
 
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
@@ -135,8 +137,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.calculateCMatrix();
   }
 
-  advancedOptions(name: string) {
-    this.router.navigate(['design', getStageName(constants.STAGES.HYPOTHESIS_BETWEEN), name])
+  advancedOptions() {
+    console.log('1');
+    this.toggleEditCustom();
   }
 
   getMarginalCMatrix (predictor: Predictor): PartialMatrix {
@@ -157,6 +160,16 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       }
       marginalMatrix.name = predictor.name;
     return marginalMatrix;
+  }
+
+  toggleEditCustom() {
+    if (isNullOrUndefined(this._editCustom)) {
+      console.log('2');
+      this._editCustom = false;
+    } else {
+      console.log('3');
+      this._editCustom = !this._editCustom;
+    }
   }
 
   get showAdvancedOptions(): boolean {
@@ -205,5 +218,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set isuFactors(value: ISUFactors) {
     this._isuFactors = value;
+  }
+
+  get editCustom(): boolean {
+    return this._editCustom;
   }
 }

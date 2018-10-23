@@ -1,4 +1,5 @@
-<h5>What is the nature of your between hypothesis?</h5>
+<div *ngIf="!editCustom">
+  <h5>What is the nature of your between hypothesis?</h5>
   <div class="container-fluid">
     <div class="row">
       <div class="col">
@@ -41,7 +42,7 @@
                   </div>
                 </div>
                 <div class="col  col-md-auto">
-                  <i class="material-icons" (click)="advancedOptions(predictor.name)" style="margin-bottom: 5px" id="editpredictor">create</i>
+                  <i class="material-icons" (click)="advancedOptions()" style="margin-bottom: 5px" id="editpredictor">create</i>
                 </div>
               </div>
             </div>
@@ -108,3 +109,9 @@
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="editCustom">
+  <app-custom-matrix></app-custom-matrix>
+  <button class="btn btn-secondary" (click)="toggleEditCustom()">Back</button>
+</div>
