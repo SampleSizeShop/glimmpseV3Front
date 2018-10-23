@@ -1,20 +1,42 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
-import {NavigationService} from '../../shared/navigation.service';
 import {Predictor} from '../../shared/Predictor';
-import {constants} from '../../shared/constants';
+import {constants, getName} from '../../shared/constants';
 import {predictorValidator} from './predictor.validator';
 import {groupValidator} from './group.validator';
+import {fadeOut, fadeIn} from 'ng-animate';
+import {trigger, transition, useAnimation, query} from '@angular/animations';
+import {NavigationService} from '../../shared/navigation.service';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {Observable} from 'rxjs/Observable';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-between-isu',
   templateUrl: './between-isu-predictors.component.html',
+  animations: [
+    trigger('fade', [
+      transition('* => *', [
+        query(':enter',
+          useAnimation(fadeIn, {
+            params: { timing: 0.2}
+          }), {optional: true}
+        ),
+        query(':leave',
+            useAnimation(fadeOut, {
+              params: { timing: 0.2}
+            }), {optional: true})
+        ]
+      )
+    ])
+  ],
   styleUrls: ['./between-isu-predictors.component.css']
 })
-export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy {
+export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy {
   private _predictorForm: FormGroup;
+  private _type: string;
   private _groupsForm: FormGroup;
   private _groups: string[];
   private _maxGroups: number;
@@ -22,32 +44,29 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   private _betweenIsuPredictors: Array<Predictor>;
   private _validationMessages;
   private _formErrors;
-  private _editing: boolean;
+
   private _stages;
   private _stage: number;
-  private _directionCommand: string;
-  private _navigationSubscription: Subscription;
+  private _next: number;
 
   private _betweenIsuPredictorsSubscription: Subscription;
 
+  @ViewChild('content') contentModal;
+  private modalReference: any;
+
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService,
-              private navigation_service: NavigationService) {
-    this.stages = constants.BETWEEN_ISU_STAGES;
-    this.stage = -1;
+              private navigation_service: NavigationService,
+              private modalService: NgbModal) {
+    this._next = 0;
+    this._stages = constants.BETWEEN_ISU_STAGES;
+    this.stage = this.stages.INFO;
 
     this.validationMessages = constants.BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES;
     this.formErrors = constants.BETWEEN_ISU_PREDICTORS_ERRORS;
     this.groups = [];
     this.maxGroups = constants.MAX_GROUPS;
     this.maxPredictors = constants.MAX_PREDICTORS;
-
-    this.navigationSubscription = this.navigation_service.navigation$.subscribe(
-      direction => {
-        this.directionCommand = direction;
-        this.internallyNavigate(this.directionCommand);
-      }
-    );
 
     this.betweenIsuPredictorsSubscription = this.study_service.betweenIsuPredictors$.subscribe(betweenIsuFactors => {
       this.betweenIsuPredictors = betweenIsuFactors;
@@ -63,7 +82,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   ngOnDestroy() {
-    this.navigationSubscription.unsubscribe();
+    this.betweenIsuPredictorsSubscription.unsubscribe();
+  }
+
+  ngAfterViewInit() {
+    this.stage = this._next;
   }
 
   buildForm() {
@@ -71,45 +94,29 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       predictorName: ['', predictorValidator(this.betweenIsuPredictors)]
     });
     this.predictorForm.valueChanges.subscribe(data => this.emptyPredictorFormErrMsg());
+    this.selectNominal();
     this.groupsForm = this.fb.group({
+      units: [''],
       group: ['', groupValidator(this.groups)]
     });
     this.groupsForm.valueChanges.subscribe(data => this.emptyGroupsFormErrMsg());
-    this.setNextEnabled('VALID');
   }
 
   private updateFormStatus() {
-    if (this.stage === 0) {
-      this.setNextEnabled('VALID');
+    if (this.stage === this.stages.INFO) {
     }
-    if (this.stage === 1) {
-      this.setNextEnabled('VALID');
+    if (this.stage === this.stages.GROUPS) {
       if (this.groups && this.groups.length >= 2) {
         this.formErrors.groupsformtwogroups = '';
       }
     }
     this.study_service.updateBetweenIsuPredictors(this.betweenIsuPredictors);
   }
-  onAddedPredictorForm(data?: any) {
-    if (!this.predictorForm) {
-      return;
-    }
-    const form = this.predictorForm;
 
-    this.formErrors['predictorform'] = '';
-    const messages = this.validationMessages['predictorform'];
-    for (const field in form.value) {
-      const control = form.get(field);
-      if (control && !control.valid) {
-        for (const key in control.errors ) {
-          this.formErrors['predictorform'] += messages[key] + ' ';
-        }
-      }
-    }
-  }
   emptyPredictorFormErrMsg() {
     this.formErrors['predictorform'] = '';
   }
+
   onAddedGroupsForm(data?: any) {
     if (!this.groupsForm) {
       return;
@@ -127,6 +134,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
       }
     }
   }
+
   emptyGroupsFormErrMsg() {
     this.formErrors['groupsformduplicated'] = '';
   }
@@ -145,7 +153,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this.onAddedGroupsForm();
     if (this.groupsForm.status === 'VALID' && this.groupsForm.value.group && this.groupsForm.value.group.trim() !== '' ) {
       this.groups.push(this.groupsForm.value.group);
+      const units = this.groupsForm.controls.units.value;
       this.groupsForm.reset();
+      this.groupsForm.controls.units.setValue(units);
     }
   }
 
@@ -158,37 +168,44 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   includePredictors(predictor?: Predictor) {
-    this.editing = true;
-    this.navigation_service.updateNavigationMode(true);
-    this.navigation_service.updateNextEnabled( true );
-    this.navigation_service.updateValid(true);
     if (!this.betweenIsuPredictors) {
       this.betweenIsuPredictors = new Array<Predictor>();
     }
     if ( predictor ) {
       this.predictorForm.get('predictorName').setValue(predictor.name)
       this.groups = predictor.valueNames;
-      if ( this.predictorForm.status === 'VALID' ) {
-        this.navigation_service.updateValid( true );
-      }
     }
-    this.stage = 0;
+
+    this._next = 1;
+    this.stage = -1;
   }
 
-  resetNavigation() {
+  cancelPredictor() {
+    this._next = 0;
     this.stage = -1;
-    this.editing = false;
-    this.navigation_service.updateNavigationMode(false);
-    this.navigation_service.updateValid(true);
+  }
+
+  addName() {
+    this._next = this.stages.TYPE;
+    this.stage = -1;
+  }
+
+  addType() {
+    this._next = this.stages.GROUPS;
+    this.stage = -1;
   }
 
   addPredictor() {
     const predictor = new Predictor();
     predictor.name = this.predictorForm.value.predictorName;
+    predictor.type = this._type;
+    predictor.units = this.groupsForm.value.units;
     predictor.valueNames = this.groups;
 
     this.betweenIsuPredictors.push(predictor);
-    this.editing = false;
+    this.resetForms();
+    this.stage = -1;
+    this._next = this.stages.INFO;
   }
 
   removePredictor(predictor: Predictor) {
@@ -207,65 +224,28 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
   }
 
   getStageStatus(stage: number): string {
-    if (stage === 0) {
+    if (stage === this.stages.NAME) {
       return this.predictorForm.status;
     }
-    if (stage === 1) {
+    if (stage === this.stages.GROUPS) {
       return this.groupsForm.status;
     }
     return 'INVALID';
   }
 
-  internallyNavigate(direction: string): void {
-    let next = this.stage;
-    if ( direction === 'BACK' ) {
-      this.formErrors.groupsformtwogroups = '';
-      next = this.stage - 1;
-    }
-    if ( direction === 'NEXT' ) {
-      if (next === 0) {
-        this.onAddedPredictorForm();
-        if (this.formErrors.predictorform === '') {
-          next = this.stage + 1;
-        }
-      } else if (next === 1) {
-        if (this.groups && this.groups.length >= 2) {
-          next = this.stage + 1;
-        } else {
-          this.formErrors.groupsformtwogroups = 'Need to specify at least two groups.';
-        }
-      }
-    }
-    if ( next < 0) {
-      this.resetForms();
-      this.resetNavigation();
-    }
-    if ( next >= Object.keys(this.stages).length ) {
-      this.addPredictor();
-      this.resetForms();
-      this.resetNavigation();
-    }
-    if (this.stages[next]) {
-      this.setStage(next);
-    }
-  }
-
   setStage(next: number) {
-    this.stage = next;
-    this.setNextEnabled(this.getStageStatus(this.stage));
-    if (this.stage === -1 ) {
-      this.setNextEnabled('VALID');
+    if (next === this.stages.INFO) {
+      this.navigation_service.updateValid(true);
+    } else {
+      this.navigation_service.updateValid(false);
     }
-  }
-
-  setNextEnabled(status: string) {
-    const valid = status === 'VALID' ? true : false;
-    this.navigation_service.updateValid(valid);
+    this.stage = next;
   }
 
   resetForms() {
     this.groups = [];
     this.groupsForm.reset();
+    this.selectNominal();
     this.predictorForm.reset();
     this.buildForm();
   }
@@ -336,28 +316,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._study_service = value;
   }
 
-  get navigationSubscription(): Subscription {
-    return this._navigationSubscription;
-  }
-
-  set navigationSubscription(value: Subscription) {
-    this._navigationSubscription = value;
-  }
-
-  get directionCommand(): string {
-    return this._directionCommand;
-  }
-
-  set directionCommand(value: string) {
-    this._directionCommand = value;
-  }
-
   get stages() {
     return this._stages;
-  }
-
-  set stages(value) {
-    this._stages = value;
   }
 
   get stage(): number {
@@ -368,12 +328,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._stage = value;
   }
 
-  get editing(): boolean {
-    return this._editing;
-  }
-
-  set editing(value: boolean) {
-    this._editing = value;
+  isStage(stage: number) {
+    return this.stage === stage ? true : false;
   }
 
   get maxGroups(): number {
@@ -416,4 +372,82 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, OnDestroy
     this._formErrors = value;
   }
 
+  selectNominal() {
+    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL)
+  }
+  selectOrdinal() {
+    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL)
+  }
+  selectContinuous() {
+    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS)
+  }
+  isNominal() {
+    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL) ? true : false;
+  }
+  isOrdinal() {
+    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL) ? true : false;
+  }
+  isContinuous() {
+    return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ? true : false;
+  }
+
+  startTransition(event) {
+  }
+
+  doneTransition(event) {
+    this.setStage(this._next);
+  }
+
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (this.stage === this.stages.INFO) {
+      this.navigation_service.updateValid(true);
+      return true;
+    } else {
+      console.log('cancel');
+      this.showModal(this.contentModal);
+      this._study_service.updateDirection('CANCEL');
+      return this.navigation_service.navigateAwaySelection$;
+    }
+  }
+
+  showModal(content) {
+    this.modalReference = this.modalService.open(content)
+    this.modalReference.result.then(
+      (closeResult) => {
+        console.log('modal closed : ', closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          console.log('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          console.log('modal dismissed when used pressed backdrop');
+        } else {
+          console.log(dismissReason);
+        }
+      })
+  }
+
+  modalChoice(choice: boolean) {
+    this.modalReference.close();
+    if (choice) {
+      this.resetForms();
+      this.navigation_service.updateValid(true);
+    }
+    this.navigation_service.navigateAwaySelection$.next(choice);
+  }
+
+  groupsValid() {
+    if (this.groupsForm.status === 'VALID' && !isNullOrUndefined(this.groups) && this.groups.length >= 2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
+  }
 }

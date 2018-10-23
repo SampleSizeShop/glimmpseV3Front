@@ -13,13 +13,16 @@ import {Predictor} from '../shared/Predictor';
 import {ISUFactors} from '../shared/ISUFactors';
 import {PowerCurve} from '../shared/PowerCurve';
 import {StudyDesign} from '../shared/study-design';
-import {Subscription} from 'rxjs/Subscription';
+import {of} from 'rxjs';
 
 @Injectable()
 export class StudyService {
   private _stage: number;
   private _next: string;
   private _stages;
+
+  private _stageSource = new BehaviorSubject<number>(0);
+  private _stage$ = this._stageSource.asObservable();
 
   private _modeSelectedSource = new Subject<boolean>();
   private _modeSelected$ = this._modeSelectedSource.asObservable();
@@ -194,6 +197,7 @@ export class StudyService {
 
   set stage(value: number) {
     this._stage = value;
+    this._stageSource.next(value);
   }
 
   get next(): string {
@@ -399,6 +403,10 @@ export class StudyService {
 
   get navigationDirection$(): Observable<string> {
     return this._navigationDirection$;
+  }
+
+  get stage$(): any {
+    return this._stage$;
   }
 }
 

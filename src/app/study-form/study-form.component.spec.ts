@@ -45,6 +45,7 @@ import {OptionalSpecsPowerCurveAxesComponent} from './optional-specs-power-curve
 import {OptionalSpecsPowerCurveDataSeriesComponent} from './optional-specs-power-curve-data-series/optional-specs-power-curve-data-series.component';
 import {CalculateComponent} from './calculate/calculate.component';
 import {testEnvironment} from '../../environments/environment.test';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -55,6 +56,7 @@ describe('StudyFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         RouterTestingModule.withRoutes([
           { path: 'design/MODE', component: UserModeComponent}
         ]),

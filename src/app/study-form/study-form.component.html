@@ -2,17 +2,30 @@
   <h4>New Study</h4>
   <hr>
 </div>
-  <div class="container-fluid">
+  <div class="container-fluid" style="vertical-align: middle">
 
     <div class="row">
-      <div class="col-2 justify-content-start">
-        <i class="material-icons" *ngIf="hasBack" (click)="back()" (keyup.ArrowLeft)="back()" style="font-size: 192px; opacity: 0.4;" id="navigate_before">navigate_before</i>
+      <div class="col-2 justify-content-start" (mouseenter) ="mouseEnterBack('div a')"  (mouseleave) ="mouseLeaveBack('div A')">
+        <i class="material-icons"
+           *ngIf="hasBack"
+           (click)="back()"
+           (keyup.ArrowLeft)="back()"
+           style="  font-size: 92px;
+                    opacity: 0.2;
+                    padding-top: 50%"
+           id="navigate_before">navigate_before</i>
       </div>
-      <div class="col-8">
-        <router-outlet></router-outlet>
+      <div [@routeSlide]="navDirection$ | async" class="col-8">
+        <router-outlet #outlet="outlet"></router-outlet>
       </div>
-      <div class="col-2 justify-content-end">
-        <i class="material-icons" *ngIf="hasNext" (click)="next()" (keyup.ArrowRight)="next()" style="font-size: 192px; opacity: 0.4;" id="navigate_next" [class.disabled]="!valid">navigate_next</i>
+      <div class="col-2 justify-content-end" (mouseenter) ="mouseEnterNext('div a')"  (mouseleave) ="mouseLeaveNext('div A')">
+        <i class="material-icons"
+           *ngIf="hasNext"
+           (click)="next()"
+           (keyup.ArrowRight)="next()"
+           style="font-size:
+           92px; opacity: 0.2; padding-top: 50%;" id="navigate_next"
+           [class.disabled]="!valid" [@validInvalid]="nextValid? 'valid': 'invalid'">navigate_next</i>
       </div>
     </div>
 

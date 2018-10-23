@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ɵisListLikeIterable} from '@angular/core';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
@@ -6,17 +6,33 @@ import {constants, getStageName} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
-import {Router} from '@angular/router';
-import {Subject} from 'rxjs/Subject';
+import {Router, RouterOutlet} from '@angular/router';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {routeSlideAnimation} from '../animations';
+import {Observable} from 'rxjs/Observable';
+import {map, pairwise, share, startWith} from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-study-form',
   templateUrl: './study-form.component.html',
   styleUrls: ['./study-form.component.scss'],
-  providers: [NGXLogger, NavigationService]
+  providers: [NGXLogger, NavigationService],
+  animations: [
+    routeSlideAnimation,
+    trigger('validInvalid',
+      [
+        state('valid', style({ color: 'yellowgreen', fontSize: '112px', opacity: 0.8, verticalAlign: 'middle'})),
+        state('invalid', style({color: 'darkgrey', fontSize: '92px', opacity: 0.5, verticalAlign: 'middle'})),
+        transition('invalid => valid', [animate('0.4s')]),
+        transition('valid => invalid', [animate('0.4s')])
+      ]
+    )
+  ]
 })
 export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _valid = false;
+  private _nextValid = false;
   private _hasNext: boolean;
   private _hasBack: boolean;
   private _guided: boolean;
@@ -39,11 +55,16 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _scaleFactorSubscription: Subscription;
   private _varianceScaleFactorsSubscription: Subscription;
   private _powerCurveSubscription: Subscription;
-
+  private _navDirectionSubsctiption: Subscription;
+  private _direction: string;
 
   private _nextEnabledSubscription: Subscription;
   private _childNavigationModeSubscription: Subscription;
   private _validSubscription: Subscription;
+
+  private next$: Observable<number>;
+  private prev$: Observable<number>;
+  private _navDirection$: Observable<any>;
 
   private _stages;
   private _noStages: number;
@@ -59,10 +80,37 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.study = new StudyDesign();
     this.subscribeToStudyService();
     this.subscribeToNavigationService();
+    this.setupRouting();
+  }
+
+  private setupRouting() {
+    this.prev$ = this.study_service.stage$
+      .pipe(
+        map(index => index === 0 ? index : +index - 1),
+        share()
+      );
+    this.next$ = this.study_service.stage$
+      .pipe(
+        map(index =>  +index + 1),
+        share()
+      );
+
+    this.navDirection$ = this.study_service.stage$
+      .pipe(
+        startWith(0),
+        pairwise(),
+        map(([prev, curr]) => ({
+          value: +curr,
+          params: {
+            offsetEnter: prev > curr ? 100 : -100,
+            offsetLeave: prev > curr ? -100 : 100
+          }
+        }))
+      );
   }
 
   next(stage?: number): void {
-    this.study_service.updateDirection('NEXT');
+    //this.study_service.updateDirection('NEXT');
     if (this.childComponentNav &&  this.valid) {
       this.navigation_service.updateNavigation('NEXT');
     } else {
@@ -149,7 +197,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         } else if (current === this.stages.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK) {
           this.setStage(this.stages.OPTIONAL_SPECS_CI_CHOICE);
         } else {
-          this.setStage( current + 1 );
+          if (this._direction !== 'CANCEL') {
+            this.setStage( current + 1 );
+          }
         }
         this.navigate(this.study_service.stage, 'NEXT');
         this.setNextBack();
@@ -163,7 +213,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.log.debug(params);
     const success = this.router.navigate(params);
     success.then( loaded => {
-      if ( !loaded) {
+      if ( !loaded && this._direction !== 'CANCEL') {
         if (direction === 'NEXT') {
           this.next( stage );
         } else if ( direction === 'BACK') {
@@ -662,7 +712,13 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.study.powerCurve = powerCurve;
       }
     );
-  };
+
+    this._navDirectionSubsctiption = this.study_service.navigationDirection$.subscribe(
+      direction => {
+        this._direction = direction;
+      }
+    );
+  }
 
   updateISUFactors() {
     this.study_service.updateIsuFactors(this.study.isuFactors);
@@ -699,6 +755,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.validSubscription = this.navigation_service.valid$.subscribe(
       valid => {
         this.valid = valid;
+        this.nextValid = valid;
       }
     );
 
@@ -714,4 +771,38 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.childNavigationModeSubscription.unsubscribe();
     this.validSubscription.unsubscribe();
   };
+
+  mouseEnterNext(val) {
+    if (this.valid) {
+      this.nextValid = true;
+    }
+  }
+
+  mouseLeaveNext(val) {
+    if (this.valid) {
+      this.nextValid = false;
+    }
+  }
+
+  mouseEnterBack(val) {
+  }
+
+  mouseLeaveBack(val) {
+  }
+
+  get nextValid(): boolean {
+    return this._nextValid;
+  }
+
+  set nextValid(value: boolean) {
+    this._nextValid = value;
+  }
+
+  get navDirection$(): Observable<any> {
+    return this._navDirection$;
+  }
+
+  set navDirection$(value: Observable<any>) {
+    this._navDirection$ = value;
+  }
 }

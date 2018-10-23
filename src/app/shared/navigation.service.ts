@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject, Observable} from 'rxjs';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class NavigationService {
@@ -12,8 +13,10 @@ export class NavigationService {
   private _nextEnabledSource = new Subject<boolean>();
   private _nextEnabled$ = this.nextEnabledSource.asObservable();
 
-  private _validSource = new Subject<boolean>();
+  private _validSource = new BehaviorSubject<boolean>(true);
   private _valid$ = this.validSource.asObservable();
+
+  private _navigateAwaySelection$: Subject<boolean> = new Subject<boolean>();
 
 
   updateNavigation(direction: string) {
@@ -56,11 +59,11 @@ export class NavigationService {
     return this._nextEnabled$;
   }
 
-  get validSource(): Subject<boolean> {
+  get validSource(): BehaviorSubject<boolean> {
     return this._validSource;
   }
 
-  set validSource(value: Subject<boolean>) {
+  set validSource(value: BehaviorSubject<boolean>) {
     this._validSource = value;
   }
 
@@ -70,5 +73,9 @@ export class NavigationService {
 
   set valid$(value: Observable<boolean>) {
     this._valid$ = value;
+  }
+
+  get navigateAwaySelection$(): Subject<boolean> {
+    return this._navigateAwaySelection$;
   }
 }

@@ -78,7 +78,7 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
 
   setNextEnabled(status: string) {
     const valid = status === 'VALID' ? true : false;
-    this.navigation_service.updateValid(valid);
+    // this.navigation_service.updateValid(valid);
   }
 
   selectTest(value: string) {

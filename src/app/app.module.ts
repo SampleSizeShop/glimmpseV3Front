@@ -101,7 +101,7 @@ import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypot
     OptionalSpecsPowerCurveAxesComponent,
     OptionalSpecsPowerCurveDataSeriesComponent,
     CalculateComponent,
-    BetweenIsuSmallestGroupComponent
+    BetweenIsuSmallestGroupComponent,
   ],
   imports: [
     NgbModule.forRoot(),

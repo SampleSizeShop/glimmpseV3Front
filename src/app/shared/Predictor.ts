@@ -4,7 +4,8 @@ import {constants} from './constants';
 import {CombinationId} from './CombinationId';
 
 export class Predictor extends ISUFactor {
-
+  units: string;
+  type: string;
   constructor(name?: string) {
     if (name) {
       super(name);

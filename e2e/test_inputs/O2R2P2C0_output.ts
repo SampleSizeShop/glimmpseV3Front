@@ -116,8 +116,8 @@ export const O2R2P2C0_input = {
   ],
   cluster: null,
   predictors: [
-    {name: 'gender', groups: ['m', 'f']},
-    {name: 'race', groups: ['b', 'w', 'h']}],
+    {name: 'gender', type: constants.BETWEEN_ISU_TYPES.NOMINAL,  groups: ['m', 'f']},
+    {name: 'race', type: constants.BETWEEN_ISU_TYPES.NOMINAL, groups: ['b', 'w', 'h']}],
   smallest_group: 5,
   groups: [
     {group: '', table: [[1, 1, 1], [1, 1, 1]]}

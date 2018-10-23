@@ -256,8 +256,15 @@ export const constants = {
     '1': 'LEVELS',
   },
   BETWEEN_ISU_STAGES: {
-    '0': 'PREDICTOR',
-    '1': 'GROUPS',
+    INFO: 0,
+    NAME: 1,
+    TYPE: 2,
+    GROUPS: 3
+  },
+  BETWEEN_ISU_TYPES: {
+    NOMINAL: 0,
+    ORDINAL: 1,
+    CONTINUOUS: 2
   },
   MAX_PREDICTORS: 5,
   MAX_GROUPS: 10,
@@ -327,5 +334,11 @@ export const constants = {
 export function getStageName(value: number) {
   const listObj = [];
   Object.keys(constants.STAGES).forEach( key => {listObj.push(key)});
+  return listObj[value];
+}
+
+export function getName(object: Object, value: number) {
+  const listObj = [];
+  Object.keys(object).forEach( key => {listObj.push(key)});
   return listObj[value];
 }

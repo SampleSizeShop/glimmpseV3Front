@@ -1,13 +1,4 @@
 <h5>Choose your statistical tests:</h5>
-<div>
-  <p>
-    Select the statistical tests to include in your calculations. For study designs with a single outcome, power is the same regardless of the test selected. <br /><br />
-
-    Note that only the Hotelling-Lawley Trace and the Univariate Approach to Repeated Measures are supported for designs that include a baseline covariate. <br /><br />
-
-    Click <a href="https://samplesizeshop.org/files/2012/12/Tutorial_SelectingATest.pdf" target="_blank">here</a> to learn more about selecting an appropriate test.
-  </p>
-</div>
 <div class="container-fluid">
   <div class="row">
     <form [formGroup]="statisticalTestsForm">
@@ -17,38 +8,38 @@
       <div class="col">
         <div>Multivariate:</div>
         <div class="btn-group-vertical btn-block" data-toggle="buttons">
-          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(statisticalTests.HOTELLING_LAWLEY)">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(statisticalTests.HOTELLING_LAWLEY)">
             <input formControlName="0" type="checkbox" (click)="selectTest(statisticalTests.HOTELLING_LAWLEY)">
             {{statisticalTests.HOTELLING_LAWLEY}}
           </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" id="pb" [class.active]="isSelected(statisticalTests.PILLAI_BARTLET)">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" id="pb" [class.active]="isSelected(statisticalTests.PILLAI_BARTLET)">
             <input formControlName="1" type="checkbox" (click)="selectTest(statisticalTests.PILLAI_BARTLET)">{{statisticalTests.PILLAI_BARTLET}}
           </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" [class.active]="isSelected(statisticalTests.WILKS_LIKLIEHOOD)" id="wl">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" [class.active]="isSelected(statisticalTests.WILKS_LIKLIEHOOD)" id="wl">
             <input formControlName="2" type="checkbox" (click)="selectTest(statisticalTests.WILKS_LIKLIEHOOD)">{{statisticalTests.WILKS_LIKLIEHOOD}}
           </label>
         </div>
         <div>Univariate:</div>
         <div class="btn-group-vertical  btn-block" data-toggle="buttons">
-          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.BOX_CORRECTION)" id="bc">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.BOX_CORRECTION)" id="bc">
             <input formControlName="3" type="checkbox" (click)="selectTest(statisticalTests.BOX_CORRECTION)">{{statisticalTests.BOX_CORRECTION}}
           </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.GEISSER_GREENHOUSE)" id="gg">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.GEISSER_GREENHOUSE)" id="gg">
             <input formControlName="4" type="checkbox" (click)="selectTest(statisticalTests.GEISSER_GREENHOUSE)">{{statisticalTests.GEISSER_GREENHOUSE}}
           </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.HUYNH_FELDT)" id="hf">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.HUYNH_FELDT)" id="hf">
             <input formControlName="5" type="checkbox" (click)="selectTest(statisticalTests.HUYNH_FELDT)">{{statisticalTests.HUYNH_FELDT}}
           </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" [class.active]="isSelected(statisticalTests.UNCORRECTED)" id="uc">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" [class.active]="isSelected(statisticalTests.UNCORRECTED)" id="uc">
             <input formControlName="6" type="checkbox" (click)="selectTest(statisticalTests.UNCORRECTED)">{{statisticalTests.UNCORRECTED}}
           </label>
         </div>
         <div>Future:</div>
         <div class="btn-group-vertical btn-block" data-toggle="buttons">
-          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.UNIREP)" id="urp">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.UNIREP)" id="urp">
             <input formControlName="7" type="checkbox" (click)="selectTest(statisticalTests.UNIREP)">{{statisticalTests.UNIREP}}
           </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-primary" [class.active]="isSelected(statisticalTests.MULTIREP)" id="mrp">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" [class.active]="isSelected(statisticalTests.MULTIREP)" id="mrp">
             <input formControlName="8" type="checkbox" (click)="selectTest(statisticalTests.MULTIREP)">{{statisticalTests.MULTIREP}}
           </label>
         </div>
@@ -63,7 +54,13 @@
         </div>
         <img style="height: 200px; width: 100%; display: block;" src="../../../assets/images/geisser-greenhouse-correction.jpg" alt="Card image">
         <div class="card-block">
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <p>
+              Select the statistical tests to include in your calculations. For study designs with a single outcome, power is the same regardless of the test selected. <br /><br />
+
+              Note that only the Hotelling-Lawley Trace and the Univariate Approach to Repeated Measures are supported for designs that include a baseline covariate. <br /><br />
+
+              Click <a href="https://samplesizeshop.org/files/2012/12/Tutorial_SelectingATest.pdf" target="_blank">here</a> to learn more about selecting an appropriate test.
+            </p>
           <a href="#" class="card-link">Card link</a>
           <a href="#" class="card-link">Another link</a>
         </div>
