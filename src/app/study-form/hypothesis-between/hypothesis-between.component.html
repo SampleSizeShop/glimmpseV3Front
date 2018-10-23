@@ -112,9 +112,24 @@
     </div>
   </div>
 
+  <div *ngIf="isRows()">
+    <h6>How many rows would you like in your custom C matrix?</h6>
+    <div class="row">
+      <div class="col col-md-auto">
+        No. rows:
+      </div>
+      <div class="col col-md-auto">
+        <input type="number">1
+      </div>
+    </div>
+    <button class="btn btn-secondary" (click)="showInfo()">Back</button>
+    <button class="btn btn-secondary" (click)="editCustom()">Next: Matrix</button>
+  </div>
+
   <div *ngIf="isEditCustom()">
     <app-custom-matrix></app-custom-matrix>
-    <button class="btn btn-secondary" (click)="showInfo()">Back</button>
+    <button class="btn btn-secondary" (click)="advancedOptions()">Back</button>
+    <button class="btn btn-secondary" (click)="showInfo()">Done</button>
   </div>
 </div>
 

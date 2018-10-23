@@ -280,7 +280,8 @@ export const constants = {
   },
   HYPOTHESIS_BETWEEN_STAGES: {
     INFO: 0,
-    EDIT_CUSTOM: 1
+    ROWS: 1,
+    EDIT_CUSTOM: 2
   },
   HYPOTHESIS_ORIGIN: {
     OUTCOME: 'Outcome',

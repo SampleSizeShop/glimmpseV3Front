@@ -164,7 +164,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   advancedOptions() {
-    this.editCustom();
+    this.rows();
+  }
+
+  rows() {
+    this._next = this.stages.ROWS;
+    this._stage = -1;
   }
 
   editCustom() {
@@ -245,7 +250,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._isuFactors = value;
   }
 
-  get stages(): { INFO: number; EDIT_CUSTOM: number } {
+  get stages() {
     return this._stages;
   }
 
@@ -264,6 +269,14 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   isInfo() {
     if (this._stage === this.stages.INFO) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  isRows() {
+    if (this._stage === this.stages.ROWS) {
       return true;
     } else {
       return false
