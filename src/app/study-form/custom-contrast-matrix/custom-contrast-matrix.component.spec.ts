@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomMatrixComponent } from './custom-matrix.component';
+import { CustomContrastMatrixComponent } from './custom-contrast-matrix.component';
 
 describe('CustomMatrixComponent', () => {
-  let component: CustomMatrixComponent;
-  let fixture: ComponentFixture<CustomMatrixComponent>;
+  let component: CustomContrastMatrixComponent;
+  let fixture: ComponentFixture<CustomContrastMatrixComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CustomMatrixComponent ]
+      declarations: [ CustomContrastMatrixComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CustomMatrixComponent);
+    fixture = TestBed.createComponent(CustomContrastMatrixComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
