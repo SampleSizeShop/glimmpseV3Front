@@ -283,6 +283,15 @@ export const constants = {
     ROWS: 1,
     EDIT_CUSTOM: 2
   },
+  HYPOTHESIS_BETWEEN_FORM_ERRORS: {
+    'norows': ''
+  },
+  HYPOTHESIS_BETWEEN_VALIDATION_MESSAGES: {
+    'norows': {
+      'minval': 'Value too low.',
+      'maxval': 'Value too high'
+    }
+  },
   HYPOTHESIS_ORIGIN: {
     OUTCOME: 'Outcome',
     REPEATED_MEASURE: 'Repeated Measure',

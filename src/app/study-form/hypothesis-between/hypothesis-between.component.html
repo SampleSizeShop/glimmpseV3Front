@@ -116,10 +116,16 @@
     <h6>How many rows would you like in your custom C matrix?</h6>
     <div class="row">
       <div class="col col-md-auto">
-        No. rows:
-      </div>
-      <div class="col col-md-auto">
-        <input type="number">1
+        <form [formGroup]="noRowsForm" novalidate>
+        <div class="form-group">
+          <label for="norows">No. rows:</label>
+          <input type="number" class="form-control" id="norows" placeholder="Choose a number between 0 -> {{maxRows}}" formControlName="norows" required>
+          <div *ngIf="formErrors.norows" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.norows}}</div>
+          </div>
+          <small id="norowshelp" class="form-text text-muted">you must have 1 > x > {{maxRows}} rows</small>
+        </div>
+        </form>
       </div>
     </div>
     <button class="btn btn-secondary btn-sm" (click)="showInfo()">Back</button>

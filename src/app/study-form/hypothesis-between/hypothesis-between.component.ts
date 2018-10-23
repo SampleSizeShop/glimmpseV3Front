@@ -14,6 +14,8 @@ import {fadeIn, fadeOut} from 'ng-animate';
 import {NavigationService} from '../../shared/navigation.service';
 import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {minMaxValidator} from '../../shared/minmax.validator';
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -45,6 +47,11 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _isuFactors: ISUFactors;
   private _marginalsIn: Array<PartialMatrix>;
   private _marginalsOut: Array<PartialMatrix>;
+  private _formErrors = constants.HYPOTHESIS_BETWEEN_FORM_ERRORS;
+  private _validationMessages = constants.HYPOTHESIS_BETWEEN_VALIDATION_MESSAGES;
+  private _noRowsForm: FormGroup;
+  private _maxRows: number;
+  private _numCustomRows: number;
 
   private _isuFactorsSubscription: Subscription;
   texString = '';
@@ -54,6 +61,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   constructor(private study_service: StudyService,
               private navigation_service: NavigationService,
+              private fb: FormBuilder,
               private router: Router,
               private modalService: NgbModal,
               private log: NGXLogger) {
@@ -64,6 +72,34 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
+    this.buildForm();
+  }
+
+  buildForm(): void {
+    this.noRowsForm = this.fb.group({
+      norows: [this._numCustomRows, minMaxValidator(1, this.maxRows)]
+    });
+
+    this.noRowsForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged(); // (re)set validation messages now
+  }
+
+  onValueChanged(data?: any) {
+    if (!this.noRowsForm) {
+      return;
+    }
+    const form = this.noRowsForm;
+
+    for (const field in this.formErrors) {
+      this.formErrors[field] = '';
+      const control = form.get(field);
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
   }
 
   ngOnInit() {
@@ -333,5 +369,37 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       this.navigation_service.updateValid(true);
     }
     this.navigation_service.navigateAwaySelection$.next(choice);
+  }
+
+  get formErrors(): { norows: string } {
+    return this._formErrors;
+  }
+
+  set formErrors(value: { norows: string }) {
+    this._formErrors = value;
+  }
+
+  get noRowsForm(): FormGroup {
+    return this._noRowsForm;
+  }
+
+  set noRowsForm(value: FormGroup) {
+    this._noRowsForm = value;
+  }
+
+  get maxRows(): number {
+    return this._maxRows;
+  }
+
+  set maxRows(value: number) {
+    this._maxRows = value;
+  }
+
+  get validationMessages(): { norows: { minval: string; maxval: string } } {
+    return this._validationMessages;
+  }
+
+  set validationMessages(value: { norows: { minval: string; maxval: string } }) {
+    this._validationMessages = value;
   }
 }
