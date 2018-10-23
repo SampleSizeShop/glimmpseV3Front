@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {constants, getStageName} from 'app/shared/constants';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
@@ -12,6 +12,8 @@ import {NGXLogger} from 'ngx-logger';
 import {query, transition, trigger, useAnimation} from '@angular/animations';
 import {fadeIn, fadeOut} from 'ng-animate';
 import {NavigationService} from '../../shared/navigation.service';
+import {Observable} from 'rxjs/Observable';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -47,9 +49,13 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _isuFactorsSubscription: Subscription;
   texString = '';
 
+  @ViewChild('content') contentModal;
+  private modalReference: any;
+
   constructor(private study_service: StudyService,
               private navigation_service: NavigationService,
               private router: Router,
+              private modalService: NgbModal,
               private log: NGXLogger) {
     this.marginalsIn = [];
     this.marginalsOut = [];
@@ -277,5 +283,42 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   doneTransition(event) {
     this.setStage(this._next);
+  }
+
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (this.stage === this.stages.INFO) {
+      this.navigation_service.updateValid(true);
+      return true;
+    } else {
+      console.log('cancel');
+      this.showModal(this.contentModal);
+      this.study_service.updateDirection('CANCEL');
+      return this.navigation_service.navigateAwaySelection$;
+    }
+  }
+
+  showModal(content) {
+    this.modalReference = this.modalService.open(content)
+    this.modalReference.result.then(
+      (closeResult) => {
+        console.log('modal closed : ', closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          console.log('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          console.log('modal dismissed when used pressed backdrop');
+        } else {
+          console.log(dismissReason);
+        }
+      })
+  }
+
+  modalChoice(choice: boolean) {
+    this.modalReference.close();
+    if (choice) {
+      // this.resetForms();
+      this.navigation_service.updateValid(true);
+    }
+    this.navigation_service.navigateAwaySelection$.next(choice);
   }
 }
