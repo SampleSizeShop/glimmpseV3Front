@@ -35,8 +35,9 @@ import {NavigationService} from '../../shared/navigation.service';
   styleUrls: ['./hypothesis-between.component.css']
 })
 export class HypothesisBetweenComponent implements OnInit, OnDestroy {
-  private _stage = constants.HYPOTHESIS_BETWEEN_STAGES.INFO;
-  private _next = constants.HYPOTHESIS_BETWEEN_STAGES.INFO;
+  private _stages = constants.HYPOTHESIS_BETWEEN_STAGES;
+  private _stage = this.stages.INFO;
+  private _next = this.stages.INFO;
   private _showAdvancedOptions: boolean;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _isuFactors: ISUFactors;
@@ -161,12 +162,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   editCustom() {
-    this._next = constants.HYPOTHESIS_BETWEEN_STAGES.EDIT_CUSTOM;
+    this._next = this.stages.EDIT_CUSTOM;
     this._stage = -1;
   }
 
   showInfo() {
-    this._next = constants.HYPOTHESIS_BETWEEN_STAGES.INFO;
+    this._next = this.stages.INFO;
     this._stage = -1;
   }
 
@@ -238,12 +239,16 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._isuFactors = value;
   }
 
+  get stages(): { INFO: number; EDIT_CUSTOM: number } {
+    return this._stages;
+  }
+
   get stage(): number {
     return this._stage;
   }
 
   setStage(next: number) {
-      if (next === constants.HYPOTHESIS_BETWEEN_STAGES.INFO) {
+      if (next === this.stages.INFO) {
         this.navigation_service.updateValid(true);
       } else {
         this.navigation_service.updateValid(false);
@@ -252,7 +257,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   isInfo() {
-    if (this._stage === constants.HYPOTHESIS_BETWEEN_STAGES.INFO) {
+    if (this._stage === this.stages.INFO) {
       return true;
     } else {
       return false
@@ -260,7 +265,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   isEditCustom() {
-    if (this._stage === constants.HYPOTHESIS_BETWEEN_STAGES.EDIT_CUSTOM) {
+    if (this._stage === this.stages.EDIT_CUSTOM) {
       return true;
     } else {
       return false
