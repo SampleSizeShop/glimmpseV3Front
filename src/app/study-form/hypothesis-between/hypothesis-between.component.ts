@@ -138,7 +138,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   advancedOptions() {
-    console.log('1');
     this.toggleEditCustom();
   }
 
@@ -164,10 +163,8 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   toggleEditCustom() {
     if (isNullOrUndefined(this._editCustom)) {
-      console.log('2');
       this._editCustom = false;
     } else {
-      console.log('3');
       this._editCustom = !this._editCustom;
     }
   }
