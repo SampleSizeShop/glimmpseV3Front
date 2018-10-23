@@ -9,31 +9,50 @@ import {PartialMatrix} from '../../shared/PartialMatrix';
 import {Router} from '@angular/router';
 import {Predictor} from '../../shared/Predictor';
 import {NGXLogger} from 'ngx-logger';
+import {query, transition, trigger, useAnimation} from '@angular/animations';
+import {fadeIn, fadeOut} from 'ng-animate';
+import {NavigationService} from '../../shared/navigation.service';
 
 @Component({
   selector: 'app-hypothesis-between',
   templateUrl: './hypothesis-between.component.html',
+  animations: [
+    trigger('fade', [
+      transition('* => *', [
+          query(':enter',
+            useAnimation(fadeIn, {
+              params: { timing: 0.2}
+            }), {optional: true}
+          ),
+          query(':leave',
+            useAnimation(fadeOut, {
+              params: { timing: 0.2}
+            }), {optional: true})
+        ]
+      )
+    ])
+  ],
   styleUrls: ['./hypothesis-between.component.css']
 })
 export class HypothesisBetweenComponent implements OnInit, OnDestroy {
+  private _stage = constants.HYPOTHESIS_BETWEEN_STAGES.INFO;
+  private _next = constants.HYPOTHESIS_BETWEEN_STAGES.INFO;
   private _showAdvancedOptions: boolean;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _isuFactors: ISUFactors;
   private _marginalsIn: Array<PartialMatrix>;
   private _marginalsOut: Array<PartialMatrix>;
-  private _editCustom: boolean;
-
 
   private _isuFactorsSubscription: Subscription;
   texString = '';
 
   constructor(private study_service: StudyService,
+              private navigation_service: NavigationService,
               private router: Router,
               private log: NGXLogger) {
     this.marginalsIn = [];
     this.marginalsOut = [];
     this.showAdvancedOptions = false;
-    this._editCustom = false;
 
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
@@ -138,7 +157,17 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   advancedOptions() {
-    this.toggleEditCustom();
+    this.editCustom();
+  }
+
+  editCustom() {
+    this._next = constants.HYPOTHESIS_BETWEEN_STAGES.EDIT_CUSTOM;
+    this._stage = -1;
+  }
+
+  showInfo() {
+    this._next = constants.HYPOTHESIS_BETWEEN_STAGES.INFO;
+    this._stage = -1;
   }
 
   getMarginalCMatrix (predictor: Predictor): PartialMatrix {
@@ -159,14 +188,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       }
       marginalMatrix.name = predictor.name;
     return marginalMatrix;
-  }
-
-  toggleEditCustom() {
-    if (isNullOrUndefined(this._editCustom)) {
-      this._editCustom = false;
-    } else {
-      this._editCustom = !this._editCustom;
-    }
   }
 
   get showAdvancedOptions(): boolean {
@@ -217,7 +238,39 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._isuFactors = value;
   }
 
-  get editCustom(): boolean {
-    return this._editCustom;
+  get stage(): number {
+    return this._stage;
+  }
+
+  setStage(next: number) {
+      if (next === constants.HYPOTHESIS_BETWEEN_STAGES.INFO) {
+        this.navigation_service.updateValid(true);
+      } else {
+        this.navigation_service.updateValid(false);
+      }
+      this._stage = next;
+  }
+
+  isInfo() {
+    if (this._stage === constants.HYPOTHESIS_BETWEEN_STAGES.INFO) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  isEditCustom() {
+    if (this._stage === constants.HYPOTHESIS_BETWEEN_STAGES.EDIT_CUSTOM) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  startTransition(event) {
+  }
+
+  doneTransition(event) {
+    this.setStage(this._next);
   }
 }

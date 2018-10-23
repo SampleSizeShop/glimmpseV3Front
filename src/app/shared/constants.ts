@@ -278,6 +278,10 @@ export const constants = {
     POLYNOMIAL: 'POLYNOMIAL',
     USER_DEFINED: 'USER_DEFINED',
   },
+  HYPOTHESIS_BETWEEN_STAGES: {
+    INFO: 0,
+    EDIT_CUSTOM: 1
+  },
   HYPOTHESIS_ORIGIN: {
     OUTCOME: 'Outcome',
     REPEATED_MEASURE: 'Repeated Measure',
