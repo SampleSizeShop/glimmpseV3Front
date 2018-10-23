@@ -122,14 +122,14 @@
         <input type="number">1
       </div>
     </div>
-    <button class="btn btn-secondary" (click)="showInfo()">Back</button>
-    <button class="btn btn-secondary" (click)="editCustom()">Next: Matrix</button>
+    <button class="btn btn-secondary btn-sm" (click)="showInfo()">Back</button>
+    <button class="btn btn-secondary btn-sm" (click)="editCustom()">Next: Matrix</button>
   </div>
 
   <div *ngIf="isEditCustom()">
     <app-custom-matrix></app-custom-matrix>
-    <button class="btn btn-secondary" (click)="advancedOptions()">Back</button>
-    <button class="btn btn-secondary" (click)="showInfo()">Done</button>
+    <button class="btn btn-secondary btn-sm" (click)="advancedOptions()">Back</button>
+    <button class="btn btn-secondary btn-sm" (click)="showInfo()">Done</button>
   </div>
 </div>
 
