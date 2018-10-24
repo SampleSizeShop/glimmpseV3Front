@@ -5,45 +5,45 @@ import {ContrastMatrix} from '../../shared/ContrastMatrix';
 @Injectable()
 export class ContrastMatrixService {
   // Correlation matrix observable stream
-  private _contrastMatrixSource = new BehaviorSubject<ContrastMatrix>(new ContrastMatrix());
-  private _contrastMatrix$ = this.contrastMatrixSource.asObservable();
+  private _contrast_matrix_source = new BehaviorSubject<ContrastMatrix>(new ContrastMatrix());
+  private _contrast_matrix$ = this.contrast_matrix_source.asObservable();
 
-  private _sizeSource = new BehaviorSubject<number>(-1);
-  private _size$ = this.sizeSource.asObservable();
+  private _size_source = new BehaviorSubject<number>(-1);
+  private _size$ = this.size_source.asObservable();
 
-  private _validSource = new BehaviorSubject<boolean>(true);
-  private _valid$ = this.validSource.asObservable();
+  private _valid_source = new BehaviorSubject<boolean>(true);
+  private _valid$ = this.valid_source.asObservable();
 
-  updateCorrelationMatrix(contrastMatrix: ContrastMatrix) {
-    this.contrastMatrixSource.next(contrastMatrix);
+  update_contrast_matrix(contrastMatrix: ContrastMatrix) {
+    this.contrast_matrix_source.next(contrastMatrix);
   }
 
-  updateSize(size: number) {
-    this.sizeSource.next(size);
+  update_size(size: number) {
+    this.size_source.next(size);
   }
 
-  updateValid(valid: boolean) {
-    this.validSource.next(valid);
+  update_valid(valid: boolean) {
+    this.valid_source.next(valid);
   }
 
-  get contrastMatrixSource(): BehaviorSubject<ContrastMatrix> {
-    return this._contrastMatrixSource;
+  get contrast_matrix_source(): BehaviorSubject<ContrastMatrix> {
+    return this._contrast_matrix_source;
   }
 
-  get contrastMatrix$(): Observable<ContrastMatrix> {
-    return this._contrastMatrix$;
+  get contrast_matrix$(): Observable<ContrastMatrix> {
+    return this._contrast_matrix$;
   }
 
-  get sizeSource(): Subject<number> {
-    return this._sizeSource;
+  get size_source(): Subject<number> {
+    return this._size_source;
   }
 
   get size$(): Observable<number> {
     return this._size$;
   }
 
-  get validSource(): BehaviorSubject<boolean> {
-    return this._validSource;
+  get valid_source(): BehaviorSubject<boolean> {
+    return this._valid_source;
   }
 
   get valid$(): Observable<boolean> {

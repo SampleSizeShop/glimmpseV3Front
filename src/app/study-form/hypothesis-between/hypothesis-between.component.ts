@@ -16,10 +16,12 @@ import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/minmax.validator';
+import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
 
 @Component({
   selector: 'app-hypothesis-between',
   templateUrl: './hypothesis-between.component.html',
+  providers: [ContrastMatrixService],
   animations: [
     trigger('fade', [
       transition('* => *', [
