@@ -27,7 +27,7 @@
           <div class="btn-group-vertical btn-block" data-toggle="buttons" *ngIf="showAdvancedOptions">
             <h6>Click on any of the marginal C matrices below to customise them:</h6>
             <div class="container-fluid">
-              <div *ngFor="let predictor of marginalsIn">
+              <div *ngFor="let predictor of predictorsIn">
                 <div class="row">
                   <div class="col  col-md-auto">
                     <h6>{{predictor.name}}:</h6>
@@ -53,7 +53,7 @@
           <br>
           <br>
           <h6>Marginals in effect:</h6>
-          <div *ngFor="let m of marginalsIn">
+          <div *ngFor="let m of predictorsIn">
             <div>Predictor Name: {{m.name}}</div>
             <div *ngIf=false [mathJaxExpr]="m.toTeX()"></div>
           </div>

@@ -48,7 +48,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _isuFactors: ISUFactors;
-  private _marginalsIn: Array<Predictor>;
+  private _predictorsIn: Array<Predictor>;
   private _marginalsOut: Array<PartialMatrix>;
   private _formErrors = constants.HYPOTHESIS_BETWEEN_FORM_ERRORS;
   private _validationMessages = constants.HYPOTHESIS_BETWEEN_VALIDATION_MESSAGES;
@@ -70,7 +70,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
               private router: Router,
               private modalService: NgbModal,
               private log: NGXLogger) {
-    this.marginalsIn = [];
+    this.predictorsIn = [];
     this.marginalsOut = [];
     this.showAdvancedOptions = false;
 
@@ -128,7 +128,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   calculateCMatrix() {
     if (!isNullOrUndefined( this._isuFactors )) {
-      this.marginalsIn = [];
+      this.predictorsIn = [];
       this.marginalsOut = [];
       // work out which between factors are in the hypothesis
       const marginalMatrices = [];
@@ -175,7 +175,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
           const marginalMatrix = this.getMarginalCMatrix(value);
           marginalMatrices.push(marginalMatrix);
           marginalMatrix.name = name;
-          this.marginalsIn.push(marginalMatrix);
+          this.predictorsIn.push(marginalMatrix);
         }
       });
     });
@@ -276,12 +276,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     return this._isuFactorsSubscription;
   }
 
-  get marginalsIn(): Array<Predictor> {
-    return this._marginalsIn;
+  get predictorsIn(): Array<Predictor> {
+    return this._predictorsIn;
   }
 
-  set marginalsIn(value: Array<Predictor>) {
-    this._marginalsIn = value;
+  set predictorsIn(value: Array<Predictor>) {
+    this._predictorsIn = value;
   }
 
   get marginalsOut(): Array<PartialMatrix> {
