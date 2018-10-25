@@ -35,13 +35,16 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
     private contrast_matrix_service: ContrastMatrixService,
     private log: NGXLogger
   ) {
+    this.contrast_matrix = new ContrastMatrix();
+    this.contrast_matrix.values = math.matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]);
     this.contrast_matrix_subscription = this.contrast_matrix_service.contrast_matrix$.subscribe(
       contrast_matrix => {
         this.contrast_matrix = contrast_matrix;
       }
     );
-    this.contrast_matrix = new ContrastMatrix();
-    this.contrast_matrix.values = math.matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]);
+    this.size_subscription = this.contrast_matrix_service.size$.subscribe(size => {
+      this.contrast_matrix.values.resize([size, 3]);
+    });
     this._initializeProperties()
     this.buildForm();
   }

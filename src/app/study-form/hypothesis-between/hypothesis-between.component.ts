@@ -217,6 +217,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   editCustom() {
+    this.contrast_matrix_service.update_size(this.noRowsForm.get('norows').value);
     this._next = this.stages.EDIT_CUSTOM;
     this._stage = -1;
   }
