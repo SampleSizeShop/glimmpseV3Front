@@ -413,7 +413,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   get_contrast_matrix(): string {
-    return this._contrast_matrix.toTeX();
+    return this._contrast_matrix;
   }
 
   set contrast_matrix(value: ContrastMatrix) {
