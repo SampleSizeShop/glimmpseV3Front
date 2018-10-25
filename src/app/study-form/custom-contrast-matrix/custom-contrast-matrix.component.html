@@ -1,9 +1,10 @@
 <div class="container-fluid">
-  <h5 style="padding: 0">Define your title contrast matrix:</h5>
+  <h5 style="padding: 0">Define your contrast matrix for {{name}}:</h5>
   <div style="padding: 15px">
     <form [formGroup]="contrast_matrix_form">
       <div *ngFor="let r of getRowsArray(); let a=index" class="row">
         <div *ngFor="let c of getColsArray(); let b=index" class="col" style="padding: 0">
+          <div *ngIf="a === 0">{{labels[c]}}</div>
           <input type="number" class="form-control" formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}" step="1" min={{min}} max="{{max}}">
         </div>
       </div>

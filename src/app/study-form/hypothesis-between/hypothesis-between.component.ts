@@ -48,7 +48,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _isuFactors: ISUFactors;
-  private _marginalsIn: Array<PartialMatrix>;
+  private _marginalsIn: Array<Predictor>;
   private _marginalsOut: Array<PartialMatrix>;
   private _formErrors = constants.HYPOTHESIS_BETWEEN_FORM_ERRORS;
   private _validationMessages = constants.HYPOTHESIS_BETWEEN_VALIDATION_MESSAGES;
@@ -168,7 +168,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     });
   }
 
-  private populateMarginalMatrices(betweenFactorsInHypothesis: Array<string>, marginalMatrices: Array<PartialMatrix>) {
+  private populateMarginalMatrices(betweenFactorsInHypothesis: Array<string>, marginalMatrices: Array<Predictor>) {
     betweenFactorsInHypothesis.forEach(name => {
       this._isuFactors.predictors.forEach(value => {
         if (value.name === name) {
@@ -207,7 +207,11 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.calculateCMatrix();
   }
 
-  advancedOptions() {
+  advancedOptions(predictor: Predictor) {
+    if (!isNullOrUndefined(predictor)) {
+      this.contrast_matrix_service.update_factor(predictor);
+      this.contrast_matrix_service.update_cols(predictor.valueNames.length);
+    }
     this.rows();
   }
 
@@ -217,7 +221,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   editCustom() {
-    this.contrast_matrix_service.update_size(this.noRowsForm.get('norows').value);
+    this.contrast_matrix_service.update_rows(this.noRowsForm.get('norows').value);
     this._next = this.stages.EDIT_CUSTOM;
     this._stage = -1;
   }
@@ -227,7 +231,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._stage = -1;
   }
 
-  getMarginalCMatrix (predictor: Predictor): PartialMatrix {
+  getMarginalCMatrix (predictor: Predictor): Predictor {
     const noGroups = predictor.valueNames.length;
     const marginalMatrix = new PartialMatrix();
     if (isNullOrUndefined(predictor.isuFactorNature)) {
@@ -243,8 +247,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
         marginalMatrix.type = constants.C_MATRIX_TYPE.IDENTITY;
         marginalMatrix.populateIdentityMatrix(noGroups);
       }
-      marginalMatrix.name = predictor.name;
-    return marginalMatrix;
+    marginalMatrix.name = predictor.name;
+    predictor.partialMatrix = marginalMatrix;
+    return predictor;
   }
 
   get showAdvancedOptions(): boolean {
@@ -271,11 +276,11 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     return this._isuFactorsSubscription;
   }
 
-  get marginalsIn(): Array<PartialMatrix> {
+  get marginalsIn(): Array<Predictor> {
     return this._marginalsIn;
   }
 
-  set marginalsIn(value: Array<PartialMatrix>) {
+  set marginalsIn(value: Array<Predictor>) {
     this._marginalsIn = value;
   }
 
@@ -412,7 +417,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._validationMessages = value;
   }
 
-  get_contrast_matrix(): string {
+  get contrast_matrix(): ContrastMatrix {
     return this._contrast_matrix;
   }
 

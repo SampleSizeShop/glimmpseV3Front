@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {ContrastMatrix} from '../../shared/ContrastMatrix';
+import {ISUFactor} from "../../shared/ISUFactor";
 
 @Injectable()
 export class ContrastMatrixService {
@@ -8,8 +9,14 @@ export class ContrastMatrixService {
   private _contrast_matrix_source = new BehaviorSubject<ContrastMatrix>(new ContrastMatrix());
   private _contrast_matrix$ = this.contrast_matrix_source.asObservable();
 
-  private _size_source = new BehaviorSubject<number>(-1);
-  private _size$ = this.size_source.asObservable();
+  private _rows_source = new BehaviorSubject<number>(-1);
+  private _rows$ = this.rows_source.asObservable();
+
+  private _cols_source = new BehaviorSubject<number>(-1);
+  private _cols$ = this.cols_source.asObservable();
+
+  private _factor_source = new BehaviorSubject<ISUFactor>(null);
+  private _factor$ = this._factor_source.asObservable();
 
   private _valid_source = new BehaviorSubject<boolean>(true);
   private _valid$ = this.valid_source.asObservable();
@@ -18,8 +25,16 @@ export class ContrastMatrixService {
     this.contrast_matrix_source.next(contrastMatrix);
   }
 
-  update_size(size: number) {
-    this.size_source.next(size);
+  update_rows(rows: number) {
+    this.rows_source.next(rows);
+  }
+
+  update_cols(cols: number) {
+    this.cols_source.next(cols);
+  }
+
+  update_factor(factor: ISUFactor) {
+    this.factor_source.next(factor);
   }
 
   update_valid(valid: boolean) {
@@ -34,12 +49,28 @@ export class ContrastMatrixService {
     return this._contrast_matrix$;
   }
 
-  get size_source(): Subject<number> {
-    return this._size_source;
+  get rows_source(): Subject<number> {
+    return this._rows_source;
   }
 
-  get size$(): Observable<number> {
-    return this._size$;
+  get rows$(): Observable<number> {
+    return this._rows$;
+  }
+
+  get cols_source(): BehaviorSubject<number> {
+    return this._cols_source;
+  }
+
+  get cols$(): Observable<number> {
+    return this._cols$;
+  }
+
+  get factor_source(): BehaviorSubject<ISUFactor> {
+    return this._factor_source;
+  }
+
+  get factor$(): Observable<ISUFactor> {
+    return this._factor$;
   }
 
   get valid_source(): BehaviorSubject<boolean> {

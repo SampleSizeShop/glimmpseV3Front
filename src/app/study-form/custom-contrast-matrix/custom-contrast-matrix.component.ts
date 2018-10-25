@@ -21,6 +21,8 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   private controlDefs: {};
   private _min: number;
   private _max: number;
+  private _name: string;
+  private _labels: Array<string>;
 
   private formErrors = constants.CORRELATION_MATRIX_FORM_ERRORS;
   private messages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
@@ -28,7 +30,9 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   private _contrast_matrix: ContrastMatrix;
   private _contrast_matrix_form: FormGroup;
   private contrast_matrix_subscription: Subscription;
-  private size_subscription: Subscription;
+  private rows_subscription: Subscription;
+  private cols_subscription: Subscription;
+  private factor_subscription: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -42,8 +46,23 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
         this.contrast_matrix = contrast_matrix;
       }
     );
-    this.size_subscription = this.contrast_matrix_service.size$.subscribe(size => {
-      this.contrast_matrix.values.resize([size, 3]);
+    this.rows_subscription = this.contrast_matrix_service.rows$.subscribe(rows => {
+      if (!isNullOrUndefined(this.contrast_matrix)) {
+        const dimensions = this.contrast_matrix.values.size();
+        dimensions[0] = rows;
+        this.contrast_matrix.values.resize(dimensions);
+      }
+    });
+    this.cols_subscription = this.contrast_matrix_service.cols$.subscribe(cols => {
+      if (!isNullOrUndefined(this.contrast_matrix)) {
+        const dimensions = this.contrast_matrix.values.size();
+        dimensions[1] = cols;
+        this.contrast_matrix.values.resize(dimensions);
+      }
+    });
+    this.factor_subscription = this.contrast_matrix_service.factor$.subscribe(factor => {
+      this._name = factor.name;
+      this._labels = factor.valueNames;
     });
     this._initializeProperties()
     this.buildForm();
@@ -138,5 +157,13 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
 
   get max(): number {
     return this._max;
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  get labels(): Array<string> {
+    return this._labels;
   }
 }
