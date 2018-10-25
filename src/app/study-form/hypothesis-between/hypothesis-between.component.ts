@@ -17,6 +17,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
+import {ContrastMatrix} from '../../shared/ContrastMatrix';
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -54,6 +55,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _noRowsForm: FormGroup;
   private _maxRows: number;
   private _numCustomRows: number;
+  private _contrast_matrix: ContrastMatrix;
 
   private _isuFactorsSubscription: Subscription;
   texString = '';
@@ -63,6 +65,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   constructor(private study_service: StudyService,
               private navigation_service: NavigationService,
+              private contrast_matrix_service: ContrastMatrixService,
               private fb: FormBuilder,
               private router: Router,
               private modalService: NgbModal,
@@ -74,6 +77,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
+    this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
+      this.contrast_matrix = contrast_matrix;
+    });
     this.buildForm();
   }
 
@@ -403,5 +409,13 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set validationMessages(value: { norows: { minval: string; maxval: string } }) {
     this._validationMessages = value;
+  }
+
+  get_contrast_matrix(): string {
+    return this._contrast_matrix.toTeX();
+  }
+
+  set contrast_matrix(value: ContrastMatrix) {
+    this._contrast_matrix = value;
   }
 }

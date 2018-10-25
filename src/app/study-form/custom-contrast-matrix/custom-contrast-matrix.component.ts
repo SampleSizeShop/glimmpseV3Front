@@ -95,7 +95,7 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   _setContrastMatrixFromForm() {
     Object.keys(this._contrast_matrix_form.controls).forEach(control => {
       const loc = this.splitName(control);
-      this.contrast_matrix.values.set([+loc[0], +loc[1]], this._contrast_matrix_form.get(control));
+      this.contrast_matrix.values.set([+loc[0], +loc[1]], this._contrast_matrix_form.get(control).value);
     });
   }
 
