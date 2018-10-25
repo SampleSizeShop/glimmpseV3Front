@@ -55,13 +55,7 @@
           <h6>Marginals in effect:</h6>
           <div *ngFor="let m of predictorsIn">
             <div>Predictor Name: {{m.name}}</div>
-            <div *ngIf=false [mathJaxExpr]="m.toTeX()"></div>
-          </div>
-          <hr>
-          <h6>Marginals for factors not in chosen effect:</h6>
-          <div *ngFor="let m of marginalsOut">
-            <div>Predictor Name: {{m.name}}</div>
-            <div *ngIf=false [mathJaxExpr]="m.toTeX()"></div>
+            <div *ngIf=false [mathJaxExpr]="m.partialMatrix.toTeX()"></div>
           </div>
           <hr>
           <h6>C Matrix</h6>

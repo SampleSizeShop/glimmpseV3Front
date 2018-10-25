@@ -49,7 +49,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _isuFactors: ISUFactors;
   private _predictorsIn: Array<Predictor>;
-  private _marginalsOut: Array<PartialMatrix>;
   private _formErrors = constants.HYPOTHESIS_BETWEEN_FORM_ERRORS;
   private _validationMessages = constants.HYPOTHESIS_BETWEEN_VALIDATION_MESSAGES;
   private _noRowsForm: FormGroup;
@@ -71,7 +70,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
               private modalService: NgbModal,
               private log: NGXLogger) {
     this.predictorsIn = [];
-    this.marginalsOut = [];
     this.showAdvancedOptions = false;
 
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
@@ -129,14 +127,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   calculateCMatrix() {
     if (!isNullOrUndefined( this._isuFactors )) {
       this.predictorsIn = [];
-      this.marginalsOut = [];
       // work out which between factors are in the hypothesis
       const marginalMatrices = [];
       const betweenFactorsInHypothesis = [];
       const betweenFactorsNotInHypothesis = [];
       this.determineBetweenFactorsinHypothesis(betweenFactorsInHypothesis, betweenFactorsNotInHypothesis);
       this.populateMarginalMatrices(betweenFactorsInHypothesis, marginalMatrices);
-      this.populateAverageMatrices(betweenFactorsNotInHypothesis, marginalMatrices);
 
       const cMatrix = new PartialMatrix(constants.C_MATRIX_TYPE.CMATRIX);
       let first = marginalMatrices.pop();
@@ -152,20 +148,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       }
       this.texString = cMatrix.toTeX();
     };
-  }
-
-  private populateAverageMatrices(betweenFactorsNotInHypothesis: Array<string>, marginalMatrices: Array<PartialMatrix>) {
-    betweenFactorsNotInHypothesis.forEach(name => {
-      this._isuFactors.predictors.forEach(value => {
-        if (value.name === name) {
-          const marginalMatrix = new PartialMatrix(constants.C_MATRIX_TYPE.AVERAGE);
-          marginalMatrix.poopulateAverageMatrix(value.valueNames.length);
-          marginalMatrices.push(marginalMatrix);
-          marginalMatrix.name = name;
-          this.marginalsOut.push(marginalMatrix);
-        }
-      });
-    });
   }
 
   private populateMarginalMatrices(betweenFactorsInHypothesis: Array<string>, marginalMatrices: Array<Predictor>) {
@@ -282,14 +264,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   set predictorsIn(value: Array<Predictor>) {
     this._predictorsIn = value;
-  }
-
-  get marginalsOut(): Array<PartialMatrix> {
-    return this._marginalsOut;
-  }
-
-  set marginalsOut(value: Array<PartialMatrix>) {
-    this._marginalsOut = value;
   }
 
   get isuFactors(): ISUFactors {
