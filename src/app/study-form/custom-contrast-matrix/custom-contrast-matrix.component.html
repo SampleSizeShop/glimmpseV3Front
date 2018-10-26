@@ -2,8 +2,15 @@
   <h5 style="padding: 0">Define your contrast matrix for {{name}}:</h5>
     <div style="padding: 15px">
       <div class="row justify-content-center" style="padding: 0px 15px">
-        <div *ngFor="let c of getColsArray(); let b=index" class="col-md-1" style="padding: 0">
-          {{labels[c]}}
+        <div class="d-inline-flex">
+          <div *ngFor="let c of getColsArray(); let b=index" class="p-2" style="padding: 0">
+            <input style="border-bottom: none!important;
+                                box-shadow: none!important;
+                                text-align: center;"
+                    type="number"
+                    placeholder="{{labels[c]}}"
+                    disabled="true">
+          </div>
         </div>
       </div>
       <div class="row">
@@ -27,17 +34,19 @@
                 padding: 5px 15px;
                 margin: 20px;">
               <div *ngFor="let r of getRowsArray(); let a=index" class="row justify-content-center">
-                <div *ngFor="let c of getColsArray(); let b=index" class="col-md-1" style="padding: 0">
-                  <input style="border-bottom: none!important;
+                <div class="d-inline-flex">
+                  <div *ngFor="let c of getColsArray(); let b=index" class="p-2" style="padding: 0">
+                    <input style="border-bottom: none!important;
                                 box-shadow: none!important;
                                 text-align: center;"
-                                type="number"
-                                class="form-control"
-                                formControlName="{{r}}-{{c}}"
-                                id="{{r}}-{{c}}"
-                         step="1"
-                         min={{min}}
-                         max="{{max}}">
+                           type="number"
+                           class="form-control"
+                           formControlName="{{r}}-{{c}}"
+                           id="{{r}}-{{c}}"
+                           step="1"
+                           min={{min}}
+                           max="{{max}}">
+                  </div>
                 </div>
               </div>
             </form>
