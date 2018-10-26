@@ -1,20 +1,15 @@
 <div class="container-fluid">
   <h5 style="padding: 0">Define your contrast matrix for {{name}}:</h5>
     <div style="padding: 15px">
-      <div class="row">
-        <div class="col" *ngIf="false"></div>
-        <div class="col">
-          <div class="row">
-            <div *ngFor="let c of getColsArray(); let b=index" class="col" style="padding: 0">
-              <div>{{labels[c]}}</div>
-            </div>
-          </div>
+      <div class="row justify-content-center" style="padding: 0px 15px">
+        <div *ngFor="let c of getColsArray(); let b=index" class="col-md-1" style="padding: 0">
+          {{labels[c]}}
         </div>
       </div>
       <div class="row">
         <div class="col" *ngIf="false"></div>
         <div class="col">
-          <div class="row">
+          <div class="row justify-content-center">
             <form [formGroup]="contrast_matrix_form" style="background-image: linear-gradient(#69696b, #69696b),
                 linear-gradient(#69696b, #69696b),
                 linear-gradient(#69696b, #69696b),
@@ -31,9 +26,18 @@
                 vertical-align: top;
                 padding: 5px 15px;
                 margin: 20px;">
-              <div *ngFor="let r of getRowsArray(); let a=index" class="row">
-                <div *ngFor="let c of getColsArray(); let b=index" class="col" style="padding: 0">
-                  <input style=" border-bottom: none!important; box-shadow: none!important; text-align: center;" type="number" class="form-control" formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}" step="1" min={{min}} max="{{max}}">
+              <div *ngFor="let r of getRowsArray(); let a=index" class="row justify-content-center">
+                <div *ngFor="let c of getColsArray(); let b=index" class="col-md-1" style="padding: 0">
+                  <input style="border-bottom: none!important;
+                                box-shadow: none!important;
+                                text-align: center;"
+                                type="number"
+                                class="form-control"
+                                formControlName="{{r}}-{{c}}"
+                                id="{{r}}-{{c}}"
+                         step="1"
+                         min={{min}}
+                         max="{{max}}">
                 </div>
               </div>
             </form>
