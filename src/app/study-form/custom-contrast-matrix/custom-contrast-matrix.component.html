@@ -1,12 +1,19 @@
 <div class="container-fluid">
   <h5 style="padding: 0">Define your contrast matrix for {{name}}:</h5>
     <div style="padding: 15px">
-      <div class="row justify-content-center" style="padding: 0px 15px">
+      <div *ngIf="false" class="row justify-content-center" style="padding: 0px 15px; height: 140px">
         <div class="d-inline-flex">
           <div *ngFor="let c of getColsArray(); let b=index" class="p-2" style="padding: 0">
-            <input style="border-bottom: none!important;
+            <input style="transform:
+                                /* Magic Numbers */
+                                translate(25px, 51px)
+                                /* 45 is really 360 - 45 */
+                                rotate(315deg);
+                                overflow: visible;
+                                border-bottom: none!important;
                                 box-shadow: none!important;
-                                text-align: center;"
+                                text-align: center;
+                                width: 30px;"
                     type="number"
                     placeholder="{{labels[c]}}"
                     disabled="true">
@@ -36,16 +43,17 @@
               <div *ngFor="let r of getRowsArray(); let a=index" class="row justify-content-center">
                 <div class="d-inline-flex">
                   <div *ngFor="let c of getColsArray(); let b=index" class="p-2" style="padding: 0">
-                    <input style="border-bottom: none!important;
+                      <input style="border-bottom: none!important;
                                 box-shadow: none!important;
                                 text-align: center;"
-                           type="number"
-                           class="form-control"
-                           formControlName="{{r}}-{{c}}"
-                           id="{{r}}-{{c}}"
-                           step="1"
-                           min={{min}}
-                           max="{{max}}">
+                             type="number"
+                             class="form-control"
+                             formControlName="{{r}}-{{c}}"
+                             id="{{r}}-{{c}}"
+                             step="1"
+                             min={{min}}
+                             max="{{max}}"
+                             matTooltip="{{labels[c]}}" >
                   </div>
                 </div>
               </div>
