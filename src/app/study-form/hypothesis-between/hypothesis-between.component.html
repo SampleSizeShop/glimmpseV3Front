@@ -14,17 +14,15 @@
           </div>
           <br>
           <br>
-          <div class="btn-group-vertical btn-block" data-toggle="buttons">
-            <label class="btn btn-secondary" style="margin-bottom: 0px;" id="pb" [class.active]="false" *ngIf="!showAdvancedOptions">
-              <input type="checkbox" (click)="toggleAdvancedOptions()">Show Advanced Options
-            </label>
-            <label class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
-              <input type="checkbox" (click)="toggleAdvancedOptions()">Hide Advanced Options
-            </label>
-          </div>
+          <button class="btn btn-secondary btn-sm" style="margin-bottom: 0px;" id="pb" [class.active]="false" *ngIf="!showAdvancedOptions"  (click)="toggleAdvancedOptions()">
+            Show Advanced Options
+          </button>
+          <button class="btn btn-secondary btn-sm" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions" (click)="toggleAdvancedOptions()">
+            Hide Advanced Options
+          </button>
           <br>
           <br>
-          <div class="btn-group-vertical btn-block" data-toggle="buttons" *ngIf="showAdvancedOptions">
+          <div *ngIf="showAdvancedOptions">
             <h6>Click on any of the marginal C matrices below to customise them:</h6>
             <div class="container-fluid">
               <div *ngFor="let predictor of predictorsIn">
@@ -39,10 +37,11 @@
                         <button class="dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
                         <button class="dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
                         <button class="dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.POLYNOMIAL)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+                        <button class="dropdown-item" (click)="advancedOptions(predictor)">{{HYPOTHESIS_NATURE.CUSTOM}}</button>
                       </div>
                     </div>
                   </div>
-                  <div class="col  col-md-auto">
+                  <div class="col  col-md-auto" *ngIf="predictor.nature === HYPOTHESIS_NATURE.CUSTOM">
                     <i class="material-icons" (click)="advancedOptions(predictor)" style="margin-bottom: 5px" id="editpredictor">create</i>
                   </div>
                 </div>
@@ -50,57 +49,19 @@
             </div>
           </div>
 
-          <br>
-          <br>
-          <h6>Marginals in effect:</h6>
-          <div *ngFor="let m of predictorsIn">
-            <div>Predictor Name: {{m.name}}</div>
-            <div *ngIf=false [mathJaxExpr]="m.partialMatrix.toTeX()"></div>
+          <div *ngIf=false>
+            <br>
+            <br>
+            <h6>Marginals in effect:</h6>
+            <div *ngFor="let m of predictorsIn">
+              <div>Predictor Name: {{m.name}}</div>
+              <div *ngIf=false [mathJaxExpr]="m.partialMatrix.toTeX()"></div>
+            </div>
+            <hr>
+            <h6>C Matrix</h6>
+            <div *ngIf=false [mathJaxExpr]="texString" style="padding-top: 10px"></div>
           </div>
-          <hr>
-          <h6>C Matrix</h6>
-          <div *ngIf=false [mathJaxExpr]="texString" style="padding-top: 10px"></div>
 
-
-        </div>
-
-        <div class="col">
-          <div class="card">
-            <h3 class="card-header">Global Trends</h3>
-            <div class="card-block">
-              <h5 class="card-title">Rodriguez</h5>
-              <h6 class="card-subtitle text-muted">Sugar Man</h6>
-            </div>
-            <div class="card-block">
-              <p class="card-text">Sugar man, won't you hurry
-                'Cos I'm tired of these scenes
-                For a blue coin won't you bring back
-                All those colors to my dreams
-              </p>
-              <p class="card-text">
-                Silver magic ships you carry
-                Jumpers, coke, sweet Mary Jane
-                Sugar man met a false friend
-                On a lonely dusty road
-                Lost my heart when I found it
-                It had turned to dead black coal
-              </p>
-              <p class="card-text">
-                Silver magic ships you carry
-                Jumpers, coke, sweet Mary Jane
-                Sugar man you're the answer
-                That makes my questions disappear
-                Sugar man 'cos I'm weary
-                Of those double games I hear
-                Sugar man, Sugar man, Sugar man, Sugar man,
-                Sugar man, Sugar man, Sugar man</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-            <div class="card-footer text-muted text-xs-center">
-              1970
-            </div>
-          </div>
         </div>
       </div>
     </div>
