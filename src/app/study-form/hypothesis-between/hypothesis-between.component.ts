@@ -18,7 +18,6 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
 import {ContrastMatrix} from '../../shared/ContrastMatrix';
-import {predictorValidator} from "../between-isu-predictors/predictor.validator";
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -117,7 +116,11 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.isuFactorsSubscription.unsubscribe();
   }
 
-  selectHypothesisNature(type: string) {
+  selectHypothesisNature(nature: string) {
+    this.isuFactors.predictors.forEach( predictor => {
+        predictor.isuFactorNature = nature;
+      }
+    );
     this.calculateCMatrix();
   }
 
@@ -190,12 +193,29 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.calculateCMatrix();
   }
 
-  advancedOptions(predictor: Predictor) {
+  setCustomPartialCMatrix(predictor: Predictor) {
     if (!isNullOrUndefined(predictor)) {
       this.maxRows = predictor.valueNames.length;
       this.buildForm();
       this.contrast_matrix_service.update_factor(predictor);
       this.contrast_matrix_service.update_cols(predictor.valueNames.length);
+    }
+    this.rows();
+  }
+
+  setCustomCMatrix() {
+    const hack = new Predictor()
+    hack.name = 'HACKityHaCk';
+    this.isuFactors.predictors.forEach(predictor => {
+      predictor.valueNames.forEach(name => {
+        hack.valueNames.push(name);
+      });
+    });
+    if (!isNullOrUndefined(hack)) {
+      this.maxRows = hack.valueNames.length;
+      this.buildForm();
+      this.contrast_matrix_service.update_factor(hack);
+      this.contrast_matrix_service.update_cols(hack.valueNames.length);
     }
     this.rows();
   }
