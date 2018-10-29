@@ -33,7 +33,7 @@
                   </div>
                   <div class="col  col-md-auto">
                     <div ngbDropdown class="h-25 d-inline-block">
-                      <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{predictor.type}}</button>
+                      <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{predictor.isuFactorNature}}</button>
                       <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
                         <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
                         <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>

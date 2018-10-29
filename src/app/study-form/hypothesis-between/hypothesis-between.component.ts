@@ -213,7 +213,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
         hack.valueNames.push(name);
       });
     });
-    hack.name = hack.name.slice(0, hack.name.length -2 );
+    hack.name = hack.name.slice(0, hack.name.length - 2);
     hack.name = hack.name + 'hypothesis'
     if (!isNullOrUndefined(hack)) {
       this.maxRows = hack.valueNames.length;
