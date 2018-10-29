@@ -18,6 +18,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
 import {ContrastMatrix} from '../../shared/ContrastMatrix';
+import {predictorValidator} from "../between-isu-predictors/predictor.validator";
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -191,6 +192,8 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   advancedOptions(predictor: Predictor) {
     if (!isNullOrUndefined(predictor)) {
+      this.maxRows = predictor.valueNames.length;
+      this.buildForm();
       this.contrast_matrix_service.update_factor(predictor);
       this.contrast_matrix_service.update_cols(predictor.valueNames.length);
     }

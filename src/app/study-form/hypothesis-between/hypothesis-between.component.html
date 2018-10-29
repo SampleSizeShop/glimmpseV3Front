@@ -113,7 +113,7 @@
         <form [formGroup]="noRowsForm" novalidate>
         <div class="form-group">
           <label for="norows">No. rows:</label>
-          <input type="number" class="form-control" id="norows" placeholder="Choose a number between 0 -> {{maxRows}}" formControlName="norows" required>
+          <input type="number" class="form-control" id="norows" placeholder="Choose a number between 0 -> {{maxRows}}" formControlName="norows" required min="1" max="{{maxRows}}">
           <div *ngIf="formErrors.norows" class="form-group has-danger">
             <div class="form-control-feedback">{{formErrors.norows}}</div>
           </div>
@@ -123,7 +123,7 @@
       </div>
     </div>
     <button class="btn btn-secondary btn-sm" (click)="showInfo()">Back</button>
-    <button class="btn btn-secondary btn-sm" (click)="editCustom()">Next: Matrix</button>
+    <button class="btn btn-secondary btn-sm" (click)="editCustom()" [disabled]="!this.noRowsForm.valid">Next: Matrix</button>
   </div>
 
   <div *ngIf="isEditCustom()">
