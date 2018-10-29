@@ -204,13 +204,17 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   setCustomCMatrix() {
-    const hack = new Predictor()
-    hack.name = 'HACKityHaCk';
+    const hack = new Predictor();
+    hack.name = 'your ';
+
     this.isuFactors.predictors.forEach(predictor => {
+      hack.name = hack.name + predictor.name + ' x '
       predictor.valueNames.forEach(name => {
         hack.valueNames.push(name);
       });
     });
+    hack.name = hack.name.slice(0, hack.name.length -2 );
+    hack.name = hack.name + 'hypothesis'
     if (!isNullOrUndefined(hack)) {
       this.maxRows = hack.valueNames.length;
       this.buildForm();
