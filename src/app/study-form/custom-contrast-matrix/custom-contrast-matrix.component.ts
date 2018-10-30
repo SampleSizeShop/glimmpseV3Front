@@ -8,6 +8,8 @@ import {ContrastMatrix} from '../../shared/ContrastMatrix';
 import {ContrastMatrixService} from './contrast-matrix.service';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
+import {TooltipPosition} from '@angular/material';
+import {zeroColsValidator} from './zerocols.validator';
 
 @Component({
   selector: 'app-custom-matrix',
@@ -33,12 +35,16 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   private rows_subscription: Subscription;
   private cols_subscription: Subscription;
   private factor_subscription: Subscription;
+  left: TooltipPosition;
+  below: TooltipPosition;
 
   constructor(
     private fb: FormBuilder,
     private contrast_matrix_service: ContrastMatrixService,
     private log: NGXLogger
   ) {
+    this.left = 'left';
+    this.below = 'below';
     this.contrast_matrix = new ContrastMatrix();
     this.contrast_matrix.values = math.matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]);
     this.contrast_matrix_subscription = this.contrast_matrix_service.contrast_matrix$.subscribe(
@@ -83,11 +89,12 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this._defineFormControls();
-    this._contrast_matrix_form = this.fb.group(this.controlDefs);
+    this._contrast_matrix_form = this.fb.group(this.controlDefs, {validator: zeroColsValidator(this.contrast_matrix.values)});
+    this.contrast_matrix_form.valueChanges.subscribe(data => this.onValueChangedContrastMatrixForm(data));
   }
 
   _defineFormControls() {
-    this.validationMessages = {};
+    this.validationMessages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
     const rowsArray = this.getRowsArray();
     const colsArray = this.getColsArray();
     for (const r of rowsArray) {
@@ -97,6 +104,19 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
         this.controlDefs[name] = [this._contrast_matrix.values.get([r, c]), minMaxValidator(this._min, this._max, this.log)];
       }
     };
+  }
+
+  onValueChangedContrastMatrixForm(data?: any) {
+    if (!this.contrast_matrix_form) {
+      return;
+    }
+    const form = this.contrast_matrix_form;
+
+    this.formErrors['zeroCol'] = '';
+
+    if (this.contrast_matrix_form.errors) {
+      this.formErrors['zeroCol'] += this.validationMessages['zeroCol'];
+    }
   }
 
   private getColsArray() {

@@ -187,6 +187,7 @@ export const constants = {
   CORRELATION_MAX: 1,
   CORRELATION_MATRIX_FORM_ERRORS: {},
   CORRELATION_MATRIX_VALIDATION_MESSAGES: {
+    'zeroCol': 'You cannot have a column of zeroes',
     'minval': 'Value too low.',
     'maxval': 'Value too high'
   },

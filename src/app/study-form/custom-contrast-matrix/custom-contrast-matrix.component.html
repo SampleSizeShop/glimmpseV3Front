@@ -1,31 +1,27 @@
 <div class="container-fluid">
   <h5 style="padding: 0">Define your contrast matrix for {{name}}:</h5>
-    <div style="padding: 15px">
-      <div class="row">
-        <div class="col" *ngIf="false"></div>
-        <div class="col">
-          <div class="row justify-content-center">
-            <form [formGroup]="contrast_matrix_form" class="matrix-input-brackets">
-              <div *ngFor="let r of getRowsArray(); let a=index" class="row justify-content-center">
-                <div class="d-inline-flex">
-                  <div *ngFor="let c of getColsArray(); let b=index" class="p-2" style="padding: 0">
-                      <input type="number"
-                             class="form-control matrix-input-control"
-                             formControlName="{{r}}-{{c}}"
-                             id="{{r}}-{{c}}"
-                             step="1"
-                             min={{min}}e
-                             max="{{max}}"
-                             matTooltip="{{labels[c]}}" >
-                  </div>
-                </div>
-              </div>
-            </form>
-            <div *ngIf="getFormErrors()" class="form-group has-danger">
-              <div class="form-control-feedback">Correlation matrix elements must have values between {{min}} and {{max}}.</div>
-            </div>
+  <div style="padding: 15px">
+    <form [formGroup]="contrast_matrix_form" class="matrix-input-brackets">
+      <div *ngFor="let r of getRowsArray(); let a=index" class="row justify-content-center">
+        <div class="d-inline-flex">
+          <div *ngFor="let c of getColsArray(); let b=index"
+               class="p-2"
+               style="padding: 0"
+               matTooltip="{{labels[c]}}"
+               [matTooltipPosition]="left">
+              <input type="number"
+                     class="form-control matrix-input-control"
+                     formControlName="{{r}}-{{c}}"
+                     id="{{r}}-{{c}}"
+                     step="1"
+                     min={{min}}e
+                     max="{{max}}">
           </div>
         </div>
       </div>
+    </form>
+    <div *ngIf="getFormErrors()" class="form-group has-danger">
+      <div class="form-control-feedback">You cannot have a column of zeroes</div>
+    </div>
   </div>
 </div>
