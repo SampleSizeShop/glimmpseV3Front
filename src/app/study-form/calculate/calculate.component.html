@@ -4,6 +4,18 @@
   <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate!</button>
 </div>
 <div *ngIf="hasResults">
+  <div *ngIf="resultString.model.errors">
+    <table border="1">
+      <tr>
+        <th>Error name</th>
+        <th>Error message</th>
+      </tr>
+      <tr *ngFor="let error of resultString.model.errors">
+        <td>{{error.errorname}}</td>
+        <td>{{error.errormessage}}</td>
+      </tr>
+    </table>
+  </div>
   <div *ngFor="let result of resultString.results">
     <tr>
       <td><h6>{{result.test}}</h6></td>
@@ -68,6 +80,6 @@
       <td>{{resultString.model.error_sum_square}}</td>
     </tr>
   </table>
-  <div id="results">{{resultString | json}}</div>
+  <div id="results" hidden>{{resultString | json}}</div>
 </div>
 <div id="reviewDataModel" hidden>{{outputString}}</div>
