@@ -3,6 +3,7 @@ import {FormGroup, ValidatorFn} from '@angular/forms';
 import {constants} from '../../shared/constants';
 import {isNullOrUndefined} from 'util';
 import Matrix = mathjs.Matrix;
+import * as math from 'mathjs';
 
 /** Validator function which takes a Math.js matrix and returns an error if we have a columns of zeroes**/
 export function zeroColsValidator(matrix: Matrix, log?: NGXLogger): ValidatorFn {
@@ -18,7 +19,7 @@ export function zeroColsValidator(matrix: Matrix, log?: NGXLogger): ValidatorFn 
     for (let c = 0; c < dimensions[1]; c++) {
       let count = 0;
       for (let r = 0; r < dimensions[0]; r++) {
-        count = count + matrix.get([r, c]);
+        count = count + math.abs(matrix.get([r, c]));
       }
       if (count === 0) {
         zeroCol = true;
