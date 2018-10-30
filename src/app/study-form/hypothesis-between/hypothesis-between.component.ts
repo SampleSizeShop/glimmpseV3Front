@@ -78,15 +78,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
       this.contrast_matrix = contrast_matrix;
     });
-    // TODO: remove hack
-    // hack for dev purposes
-    this.isuFactors = new ISUFactors();
-    const pred = new Predictor();
-    pred.name = 'gender';
-    pred.valueNames.push('male');
-    pred.valueNames.push('female');
-    this.isuFactors.variables.push(pred);
-    // end hack
     this.buildForm();
   }
 
