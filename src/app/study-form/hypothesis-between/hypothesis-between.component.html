@@ -10,15 +10,15 @@
               <button class="dropdown-item" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.GLOBAL_TRENDS)">{{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
               <button class="dropdown-item" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)">{{HYPOTHESIS_NATURE.IDENTITY}}</button>
               <button class="dropdown-item" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)">{{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
-              <button class="dropdown-item" (click)="setCustomCMatrix()">{{HYPOTHESIS_NATURE.CUSTOM}}</button>
+              <button class="dropdown-item" (click)="setCustomCMatrix()" *ngIf="predictorsInHypothesis()">{{HYPOTHESIS_NATURE.CUSTOM}}</button>
             </div>
           </div>
           <br>
           <br>
-          <button class="btn btn-secondary btn-sm" style="margin-bottom: 0px;" id="pb" [class.active]="false" *ngIf="!showAdvancedOptions"  (click)="toggleAdvancedOptions()">
+          <button class="btn btn-secondary btn-sm" style="margin-bottom: 0px;" id="pb" [class.active]="false" *ngIf="predictorsInHypothesis() && !showAdvancedOptions"  (click)="toggleAdvancedOptions()">
             Show Advanced Options
           </button>
-          <button class="btn btn-secondary btn-sm" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions" (click)="toggleAdvancedOptions()">
+          <button class="btn btn-secondary btn-sm" style="margin-bottom: 0px;" [class.active]="false" *ngIf="predictorsInHypothesis() && showAdvancedOptions" (click)="toggleAdvancedOptions()">
             Hide Advanced Options
           </button>
           <br>

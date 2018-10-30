@@ -425,4 +425,14 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   set contrast_matrix(value: ContrastMatrix) {
     this._contrast_matrix = value;
   }
+
+  predictorsInHypothesis(): boolean {
+    if (!isNullOrUndefined(this.isuFactors)
+      && !isNullOrUndefined(this.isuFactors.predictorsInHypothesis)
+      && this.isuFactors.predictorsInHypothesis.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
