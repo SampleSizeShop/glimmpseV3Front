@@ -55,6 +55,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _maxRows: number;
   private _numCustomRows: number;
   private _contrast_matrix: ContrastMatrix;
+  private _contrast_matrix_for: string;
 
   private _isuFactorsSubscription: Subscription;
   texString = '';
@@ -76,9 +77,23 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       this.isuFactors = isuFactors;
     } );
     this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
-      this.contrast_matrix = contrast_matrix;
+      this.setContrastMatrix(contrast_matrix);
     });
     this.buildForm();
+  }
+
+  private setContrastMatrix(contrast_matrix) {
+    this.contrast_matrix = contrast_matrix;
+    if (this._contrast_matrix_for === 'CMATRIX') {
+      this.isuFactors.cMatrix = new PartialMatrix();
+      this.isuFactors.cMatrix.values = this.contrast_matrix.values;
+    } else {
+      this.isuFactors.predictorsInHypothesis.forEach(predictor => {
+        if (predictor.name === this._contrast_matrix_for) {
+          predictor.partialMatrix.values = this.contrast_matrix.values;
+        }
+      });
+    }
   }
 
   buildForm(): void {
@@ -147,10 +162,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       cMatrix.values = first.values;
       if (!isNullOrUndefined(marginalMatrices) && marginalMatrices.length > 0) {
         marginalMatrices.forEach( matrix => {
-          cMatrix.values = cMatrix.kronecker(matrix);
+          // cMatrix.values = cMatrix.kronecker(matrix.values);
         });
       }
-      this.texString = cMatrix.toTeX();
+      // this.texString = cMatrix.toTeX();
     };
   }
 
@@ -194,6 +209,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   setCustomPartialCMatrix(predictor: Predictor) {
+    this._contrast_matrix_for = predictor.name;
     if (!isNullOrUndefined(predictor)) {
       this.maxRows = predictor.valueNames.length;
       this.buildForm();
@@ -204,6 +220,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   setCustomCMatrix() {
+    this._contrast_matrix_for = 'CMATRIX';
     const hack = new Predictor();
     hack.name = 'your ';
 
