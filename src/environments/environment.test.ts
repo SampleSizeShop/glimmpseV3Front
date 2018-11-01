@@ -8,6 +8,6 @@ export const testEnvironment = {
   production: false,
   name: 'dev',
   serverLoggingUrl: 'fake/api/clientsidelog',
-  calculateUrl: 'http://54.161.9.34:5000/api/calculate',
+  calculateUrl: 'http://127.0.0.1:5000/api/calculate',
   loglevel: NgxLoggerLevel.DEBUG
 };

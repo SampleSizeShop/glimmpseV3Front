@@ -2,7 +2,7 @@
   <div *ngIf="isInfo()">
     <h5>What is the nature of your between hypothesis?</h5>
     <div class="container-fluid">
-      <div class="btn-group" data-toggle="buttons">
+      <div ngClass="{{getButtonClass()}}" data-toggle="buttons">
         <label aria-pressed="true"
                class="btn btn-secondary"
                [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS">

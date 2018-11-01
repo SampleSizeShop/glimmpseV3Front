@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {constants} from 'app/shared/constants';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
@@ -57,12 +57,18 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _numCustomRows: number;
   private _contrast_matrix: ContrastMatrix;
   private _contrast_matrix_for: string;
+  private screenWidth;
 
   private _isuFactorsSubscription: Subscription;
   texString = '';
 
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event?) {
+    this.screenWidth = window.innerWidth;
+  }
 
   constructor(private study_service: StudyService,
               private navigation_service: NavigationService,
@@ -82,6 +88,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     });
     this.buildForm();
     this.setSelectedHypothesis();
+    this.onResize();
   }
 
   private setContrastMatrix(contrast_matrix) {
@@ -488,6 +495,14 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     });
     if (!set) {
       this.selectedHypothesis = previous;
+    }
+  }
+
+  getButtonClass() {
+    if (this.screenWidth < 601 ) {
+      return 'btn-group-vertical';
+    } else {
+      return 'btn-group';
     }
   }
 }
