@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {constants, getStageName} from 'app/shared/constants';
+import {constants} from 'app/shared/constants';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
 import {ISUFactors} from '../../shared/ISUFactors';
@@ -47,6 +47,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _next = this.stages.INFO;
   private _showAdvancedOptions: boolean;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
+  private _selectedHypothesis: string;
   private _isuFactors: ISUFactors;
   private _predictorsIn: Array<Predictor>;
   private _formErrors = constants.HYPOTHESIS_BETWEEN_FORM_ERRORS;
@@ -80,6 +81,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       this.setContrastMatrix(contrast_matrix);
     });
     this.buildForm();
+    this.setSelectedHypothesis();
   }
 
   private setContrastMatrix(contrast_matrix) {
@@ -111,13 +113,17 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     }
     const form = this.noRowsForm;
 
-    for (const field in this.formErrors) {
-      this.formErrors[field] = '';
-      const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
-        const messages = this.validationMessages[field];
-        for (const key in control.errors) {
-          this.formErrors[field] += messages[key] + ' ';
+    for (const field in this._formErrors) {
+      if (this._formErrors.hasOwnProperty(field)) {
+        this.formErrors[field] = '';
+        const control = form.get(field);
+        if (control && control.dirty && !control.valid) {
+          const messages = this.validationMessages[field];
+          for (const key in control.errors) {
+            if (control.errors.hasOwnProperty(key)) {
+              this.formErrors[field] += messages[key] + ' ';
+            }
+          }
         }
       }
     }
@@ -132,10 +138,18 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   selectHypothesisNature(nature: string) {
-    this.isuFactors.predictors.forEach( predictor => {
-        predictor.isuFactorNature = nature;
-      }
-    );
+    if (nature === this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS) {
+      this.selectedHypothesis = this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS;
+    } else if (nature === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
+      this.setCustomCMatrix();
+      this.selectedHypothesis = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
+    } else {
+      this.isuFactors.predictors.forEach( predictor => {
+          predictor.isuFactorNature = nature;
+        }
+      );
+      this.setSelectedHypothesis();
+    }
     this.calculateCMatrix();
   }
 
@@ -200,15 +214,16 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   setNature(name: string, nature: string) {
     this.log.debug( name + ' set: ' + nature );
     this.isuFactors.predictors.forEach( predictor => {
-        if (predictor.name === name) {
-          predictor.isuFactorNature = nature;
-        }
+      if (predictor.name === name) {
+        predictor.isuFactorNature = nature;
       }
-    );
+    });
+
     this.calculateCMatrix();
   }
 
   setCustomPartialCMatrix(predictor: Predictor) {
+    predictor.isuFactorNature = this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS;
     this._contrast_matrix_for = predictor.name;
     if (!isNullOrUndefined(predictor)) {
       this.maxRows = predictor.valueNames.length;
@@ -450,6 +465,29 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
       return true;
     } else {
       return false;
+    }
+  }
+
+  get selectedHypothesis(): string {
+    return this._selectedHypothesis;
+  }
+
+  set selectedHypothesis(value: string) {
+    this._selectedHypothesis = value;
+  }
+
+  setSelectedHypothesis() {
+    let previous = null;
+    let set = false;
+    this.isuFactors.predictors.forEach( predictor => {
+      if (!isNullOrUndefined(previous) && previous !== predictor.isuFactorNature) {
+        this.selectHypothesisNature(this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS);
+        set = true;
+      }
+      previous = predictor.isuFactorNature;
+    });
+    if (!set) {
+      this.selectedHypothesis = previous;
     }
   }
 }

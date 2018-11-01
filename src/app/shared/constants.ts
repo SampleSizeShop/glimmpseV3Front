@@ -274,10 +274,11 @@ export const constants = {
     BETWEEN: 'Between'
   },
   HYPOTHESIS_BETWEEN_NATURE: {
-    GLOBAL_TRENDS: 'GLOBAL_TRENDS',
-    IDENTITY: 'IDENTITY',
-    POLYNOMIAL: 'POLYNOMIAL',
-    CUSTOM: 'CUSTOM',
+    GLOBAL_TRENDS: 'Global Trends',
+    IDENTITY: 'Identity',
+    POLYNOMIAL: 'Polynomial',
+    USER_DEFINED_PARTIALS: 'Define partial C Matrix',
+    CUSTOM_C_MATRIX: 'Define hypothesis C Matrix',
   },
   HYPOTHESIS_BETWEEN_STAGES: {
     INFO: 0,
