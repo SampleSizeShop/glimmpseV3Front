@@ -46,6 +46,8 @@ import {OptionalSpecsPowerCurveDataSeriesComponent} from './optional-specs-power
 import {CalculateComponent} from './calculate/calculate.component';
 import {testEnvironment} from '../../environments/environment.test';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {CustomContrastMatrixComponent} from "./custom-contrast-matrix/custom-contrast-matrix.component";
+import {MatTooltip} from "@angular/material";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -102,7 +104,9 @@ describe('StudyFormComponent', () => {
         OptionalSpecsPowerCurveAxesComponent,
         OptionalSpecsPowerCurveDataSeriesComponent,
         CalculateComponent,
-        MathJaxDirective],
+        MathJaxDirective,
+        CustomContrastMatrixComponent,
+        MatTooltip],
       providers: [ StudyService,
         { provide: HttpClient, useClass: MockBackend },
         {provide: NGXLogger, useClass: NGXLoggerMock},

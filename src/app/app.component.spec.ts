@@ -5,13 +5,17 @@ import {MathJaxComponent} from './mathjax/mathjax.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MathJaxDirective} from './mathjax/mathjax.directive';
 import {RouterTestingModule} from '@angular/router/testing';
+import {MatTooltipModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        RouterTestingModule
+        RouterTestingModule,
+        MatTooltipModule,
+        BrowserAnimationsModule,
       ],
       declarations: [
         AppComponent,

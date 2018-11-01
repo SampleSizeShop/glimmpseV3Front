@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {ContrastMatrix} from '../../shared/ContrastMatrix';
-import {ISUFactor} from "../../shared/ISUFactor";
+import {ISUFactor} from '../../shared/ISUFactor';
 
 @Injectable()
 export class ContrastMatrixService {

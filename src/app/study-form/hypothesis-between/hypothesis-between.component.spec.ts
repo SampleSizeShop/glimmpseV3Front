@@ -13,6 +13,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
 import {LoggerModule} from 'ngx-logger';
+import {CustomContrastMatrixComponent} from '../custom-contrast-matrix/custom-contrast-matrix.component';
+import {MatTooltip} from '@angular/material';
+import {NavigationService} from '../../shared/navigation.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalStack} from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('HypothesisBetweenComponent no factors', () => {
   let component: HypothesisBetweenComponent;
@@ -22,6 +28,7 @@ describe('HypothesisBetweenComponent no factors', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
@@ -30,10 +37,15 @@ describe('HypothesisBetweenComponent no factors', () => {
       ],
       declarations: [
         MathJaxDirective,
-        HypothesisBetweenComponent
+        HypothesisBetweenComponent,
+        CustomContrastMatrixComponent,
+        MatTooltip,
          ],
       providers: [
         StudyService,
+        NavigationService,
+        NgbModal,
+        NgbModalStack,
         {provide: HttpClient, useClass: MockBackend},
         {provide: Router, useClass: RouterStub}
         ]
@@ -83,6 +95,7 @@ describe('HypothesisBetweenComponent with Factors', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
@@ -91,13 +104,18 @@ describe('HypothesisBetweenComponent with Factors', () => {
       ],
       declarations: [
         MathJaxDirective,
-        HypothesisBetweenComponent
-         ],
-      providers: [ StudyService,
+        HypothesisBetweenComponent,
+        CustomContrastMatrixComponent,
+        MatTooltip,
+      ],
+      providers: [
+        StudyService,
+        NavigationService,
+        NgbModal,
+        NgbModalStack,
         {provide: HttpClient, useClass: MockBackend},
-        {provide: ISUFactors, useClass: MockISUFactors},
-        {provide: Router, useClass: RouterStub},
-        {provide: ActivatedRoute, useClass: ActivatedRouteStub }]
+        {provide: Router, useClass: RouterStub}
+      ]
     })
     .compileComponents();
   }));

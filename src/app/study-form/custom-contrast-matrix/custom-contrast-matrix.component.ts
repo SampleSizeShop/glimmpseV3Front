@@ -46,7 +46,6 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
     this.left = 'left';
     this.below = 'below';
     this.contrast_matrix = new ContrastMatrix();
-    this.contrast_matrix.values = math.matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]);
     this.contrast_matrix_subscription = this.contrast_matrix_service.contrast_matrix$.subscribe(
       contrast_matrix => {
         this.contrast_matrix = contrast_matrix;
@@ -95,15 +94,19 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
 
   _defineFormControls() {
     this.validationMessages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
-    const rowsArray = this.getRowsArray();
-    const colsArray = this.getColsArray();
-    for (const r of rowsArray) {
-      for (const c of colsArray) {
-        const name = this.buildName(r.toString(), c.toString());
-        this.validationMessages[name] = this.messages;
-        this.controlDefs[name] = [this._contrast_matrix.values.get([r, c]), minMaxValidator(this._min, this._max, this.log)];
-      }
-    };
+    if (!isNullOrUndefined(this.contrast_matrix)
+      && !isNullOrUndefined(this.contrast_matrix.values)
+      && this.contrast_matrix.values.size()[0] > 0) {
+      const rowsArray = this.getRowsArray();
+      const colsArray = this.getColsArray();
+      for (const r of rowsArray) {
+        for (const c of colsArray) {
+          const name = this.buildName(r.toString(), c.toString());
+          this.validationMessages[name] = this.messages;
+          this.controlDefs[name] = [this._contrast_matrix.values.get([r, c]), minMaxValidator(this._min, this._max, this.log)];
+        }
+      };
+    }
   }
 
   onValueChangedContrastMatrixForm(data?: any) {
@@ -125,8 +128,12 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   }
 
   private getRowsArray() {
-    const rowsArray = Array.from(Array(this.contrast_matrix.values.size()[0]).keys());
-    return rowsArray;
+    if (this.contrast_matrix.values.size()[0] > 0) {
+      const rowsArray = Array.from(Array(this.contrast_matrix.values.size()[0]).keys());
+      return rowsArray;
+    } else {
+      return [];
+    }
   }
 
   updateMatrix() {
