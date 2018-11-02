@@ -124,6 +124,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    if (this.isuFactors.cMatrix.type === this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS ||
+      this.isuFactors.cMatrix.type === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
+      this.toggleAdvancedOptions();
+    }
   }
 
   ngOnDestroy() {
