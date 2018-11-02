@@ -34,7 +34,7 @@
       <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
         <h6>Click on any of the marginal C matrices below to customise them:</h6>
         <div class="container-fluid">
-          <div *ngFor="let predictor of predictorsIn">
+          <div *ngFor="let predictor of isuFactors.predictorsInHypothesis">
             <div class="row">
               <div class="col  col-md-auto">
                 <h6>{{predictor.name}}:</h6>
@@ -58,7 +58,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX">
+      <div *ngIf="isuFactors.cMatrix.type === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX">
         <br>
         <div class="row justify-content-center">
           <div class="col-md-auto"><h6>Your custom C Matrix:</h6></div>
@@ -127,3 +127,5 @@
       <button type="button" class="btn btn-primary" (click)="modalChoice(true)">Discard changes</button> </div>
   </div>
 </ng-template>
+<div *ngFor="let predictor of isuFactors.predictorsInHypothesis"><div *ngIf="hasPartial(predictor)">{{predictor.name}}{{predictor.partialMatrix.values | json}}</div></div>
+{{isuFactors.cMatrix.type}}

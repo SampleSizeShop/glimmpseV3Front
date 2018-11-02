@@ -47,7 +47,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _next = this.stages.INFO;
   private _showAdvancedOptions: boolean;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
-  private _selectedHypothesis: string;
   private _isuFactors: ISUFactors;
   private _predictorsIn: Array<Predictor>;
   private _formErrors = constants.HYPOTHESIS_BETWEEN_FORM_ERRORS;
@@ -81,28 +80,16 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.showAdvancedOptions = false;
 
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
-      this.isuFactors = isuFactors;
+        this.isuFactors = isuFactors;
+      if (isNullOrUndefined(this.isuFactors.cMatrix)) {
+        this.isuFactors.cMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
+      }
     } );
     this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
       this.setContrastMatrix(contrast_matrix);
     });
     this.buildForm();
-    this.setSelectedHypothesis();
     this.onResize();
-  }
-
-  private setContrastMatrix(contrast_matrix) {
-    this.contrast_matrix = contrast_matrix;
-    if (this._contrast_matrix_for === 'CMATRIX') {
-      this.isuFactors.cMatrix = new PartialMatrix();
-      this.isuFactors.cMatrix.values = this.contrast_matrix.values;
-    } else {
-      this.isuFactors.predictorsInHypothesis.forEach(predictor => {
-        if (predictor.name === this._contrast_matrix_for) {
-          predictor.partialMatrix.values = this.contrast_matrix.values;
-        }
-      });
-    }
   }
 
   buildForm(): void {
@@ -137,7 +124,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.calculateCMatrix();
   }
 
   ngOnDestroy() {
@@ -145,77 +131,37 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   selectHypothesisNature(nature: string) {
-    if (nature === this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS) {
-      this.selectedHypothesis = this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS;
-    } else if (nature === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
+    this.isuFactors.cMatrix.type = nature;
+    if (nature === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
       this.setCustomCMatrix();
-      this.selectedHypothesis = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
-    } else {
+    } else if (nature !== this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS) {
       this.isuFactors.predictors.forEach( predictor => {
           predictor.isuFactorNature = nature;
         }
       );
-      this.setSelectedHypothesis();
     }
-    this.calculateCMatrix();
+  }
+
+  private setContrastMatrix(contrast_matrix) {
+    this.contrast_matrix = contrast_matrix;
+    if (this._contrast_matrix_for === 'CMATRIX') {
+      this.isuFactors.cMatrix = new PartialMatrix();
+      this.isuFactors.cMatrix.values = this.contrast_matrix.values;
+      this.isuFactors.cMatrix.type = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
+    } else {
+      this.isuFactors.predictorsInHypothesis.forEach(predictor => {
+        if (predictor.name === this._contrast_matrix_for) {
+          if (isNullOrUndefined(predictor.partialMatrix)) {
+            predictor.partialMatrix = new PartialMatrix(this.selectedHypothesis);
+          }
+          predictor.partialMatrix.values = this.contrast_matrix.values;
+        }
+      });
+    }
   }
 
   toggleAdvancedOptions() {
     this.showAdvancedOptions = !this.showAdvancedOptions;
-  }
-
-  calculateCMatrix() {
-    if (!isNullOrUndefined( this._isuFactors )) {
-      this.predictorsIn = [];
-      // work out which between factors are in the hypothesis
-      const marginalMatrices = [];
-      const betweenFactorsInHypothesis = [];
-      const betweenFactorsNotInHypothesis = [];
-      this.determineBetweenFactorsinHypothesis(betweenFactorsInHypothesis, betweenFactorsNotInHypothesis);
-      this.populateMarginalMatrices(betweenFactorsInHypothesis, marginalMatrices);
-
-      const cMatrix = new PartialMatrix(constants.C_MATRIX_TYPE.CMATRIX);
-      let first = marginalMatrices.pop();
-      if (isNullOrUndefined(first) || isNullOrUndefined(first.values)) {
-        first = new PartialMatrix(constants.C_MATRIX_TYPE.AVERAGE);
-        first.values = math.matrix([[1]]);
-      }
-      cMatrix.values = first.values;
-      if (!isNullOrUndefined(marginalMatrices) && marginalMatrices.length > 0) {
-        marginalMatrices.forEach( matrix => {
-          // cMatrix.values = cMatrix.kronecker(matrix.values);
-        });
-      }
-      // this.texString = cMatrix.toTeX();
-    };
-  }
-
-  private populateMarginalMatrices(betweenFactorsInHypothesis: Array<string>, marginalMatrices: Array<Predictor>) {
-    betweenFactorsInHypothesis.forEach(name => {
-      this._isuFactors.predictors.forEach(value => {
-        if (value.name === name) {
-          const marginalMatrix = this.getMarginalCMatrix(value);
-          marginalMatrices.push(marginalMatrix);
-          marginalMatrix.name = name;
-          this.predictorsIn.push(marginalMatrix);
-        }
-      });
-    });
-  }
-
-  private determineBetweenFactorsinHypothesis( inHypothesis: Array<string>, outOfHypothesis: Array<string> ) {
-    this._isuFactors.predictors.forEach(predictor => {
-      let inEffect = false;
-      this._isuFactors.hypothesis.forEach(variable => {
-        if ( predictor.compare(variable) ) {
-          inHypothesis.push(predictor.name);
-          inEffect = true;
-        }
-      });
-      if (inEffect === false) {
-        outOfHypothesis.push(predictor.name);
-      }
-    });
   }
 
   setNature(name: string, nature: string) {
@@ -225,20 +171,29 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
         predictor.isuFactorNature = nature;
       }
     });
-
-    this.calculateCMatrix();
   }
 
   setCustomPartialCMatrix(predictor: Predictor) {
     predictor.isuFactorNature = this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS;
     this._contrast_matrix_for = predictor.name;
     if (!isNullOrUndefined(predictor)) {
+      const contrast_matrix = this.updateContrastMatrix(predictor);
+      this.contrast_matrix_service.update_contrast_matrix(contrast_matrix)
+      this.contrast_matrix_service.update_factor(predictor);
       this.maxRows = predictor.valueNames.length;
       this.buildForm();
-      this.contrast_matrix_service.update_factor(predictor);
       this.contrast_matrix_service.update_cols(predictor.valueNames.length);
     }
     this.rows();
+  }
+
+  private updateContrastMatrix(predictor: Predictor) {
+    const contrast_matrix = new ContrastMatrix();
+    if (isNullOrUndefined(predictor.partialMatrix) || isNullOrUndefined(predictor.partialMatrix.values)) {
+      predictor.partialMatrix = new PartialMatrix();
+    }
+    contrast_matrix.values = predictor.partialMatrix.values;
+    return contrast_matrix;
   }
 
   setCustomCMatrix() {
@@ -255,6 +210,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     hack.name = hack.name.slice(0, hack.name.length - 2);
     hack.name = hack.name + 'hypothesis'
     if (!isNullOrUndefined(hack)) {
+      this.updateContrastMatrix(hack);
       this.maxRows = hack.valueNames.length;
       this.buildForm();
       this.contrast_matrix_service.update_factor(hack);
@@ -275,35 +231,16 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   showInfo() {
-    if (!isNullOrUndefined(this.selectedHypothesis) &&
-      this.selectedHypothesis === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
-      this.isuFactors.cMatrix = new PartialMatrix();
-      this.isuFactors.cMatrix.values = this.contrast_matrix.values;
-      this.isuFactors.cMatrix.name = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
-    }
+    // if (!isNullOrUndefined(this.selectedHypothesis) &&
+    //   this.selectedHypothesis === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
+    //   this.isuFactors.cMatrix = new PartialMatrix();
+    //   this.isuFactors.cMatrix.values = this.contrast_matrix.values;
+    //   this.isuFactors.cMatrix.name = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
+    //   this.isuFactors.cMatrix.type = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
+    //
+    // }
     this._next = this.stages.INFO;
     this._stage = -1;
-  }
-
-  getMarginalCMatrix (predictor: Predictor): Predictor {
-    const noGroups = predictor.valueNames.length;
-    const marginalMatrix = new PartialMatrix();
-    if (isNullOrUndefined(predictor.isuFactorNature)) {
-      predictor.isuFactorNature = constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS;
-    }
-    if (predictor.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS) {
-        marginalMatrix.type = constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS;
-        marginalMatrix.populateCMainEffect(noGroups);
-      } else if (predictor.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.POLYNOMIAL) {
-        marginalMatrix.type = constants.C_MATRIX_TYPE.POLYNOMIAL;
-        marginalMatrix.populatePolynomialEvenSpacing(noGroups);
-      } else if (predictor.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.IDENTITY) {
-        marginalMatrix.type = constants.C_MATRIX_TYPE.IDENTITY;
-        marginalMatrix.populateIdentityMatrix(noGroups);
-      }
-    marginalMatrix.name = predictor.name;
-    predictor.partialMatrix = marginalMatrix;
-    return predictor;
   }
 
   get showAdvancedOptions(): boolean {
@@ -471,6 +408,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._contrast_matrix = value;
   }
 
+  get selectedHypothesis() {
+    return this.isuFactors.cMatrix.type;
+  }
+
   predictorsInHypothesis(): boolean {
     if (!isNullOrUndefined(this.isuFactors)
       && !isNullOrUndefined(this.isuFactors.predictorsInHypothesis)
@@ -481,34 +422,15 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     }
   }
 
-  get selectedHypothesis(): string {
-    return this._selectedHypothesis;
-  }
-
-  set selectedHypothesis(value: string) {
-    this._selectedHypothesis = value;
-  }
-
-  setSelectedHypothesis() {
-    let previous = null;
-    let set = false;
-    this.isuFactors.predictors.forEach( predictor => {
-      if (!isNullOrUndefined(previous) && previous !== predictor.isuFactorNature) {
-        this.selectHypothesisNature(this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS);
-        set = true;
-      }
-      previous = predictor.isuFactorNature;
-    });
-    if (!set) {
-      this.selectedHypothesis = previous;
-    }
-  }
-
   getButtonClass() {
     if (this.screenWidth < 601 ) {
       return 'btn-group-vertical';
     } else {
       return 'btn-group';
     }
+  }
+
+  hasPartial(predictor: Predictor) {
+    if (isNullOrUndefined(predictor.partialMatrix)) { return false; } else {return true; }
   }
 }

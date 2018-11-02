@@ -84,6 +84,9 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.updateMatrix();
     this.contrast_matrix_subscription.unsubscribe();
+    this.rows_subscription.unsubscribe();
+    this.cols_subscription.unsubscribe();
+    this.factor_subscription.unsubscribe();
   }
 
   buildForm() {
