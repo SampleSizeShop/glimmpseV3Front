@@ -93,7 +93,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   buildForm(): void {
-    this.noRowsForm = this.fb.group({
+    this._noRowsForm = this.fb.group({
       norows: [this._numCustomRows, minMaxValidator(1, this.maxRows)]
     });
 
@@ -112,7 +112,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
         this.formErrors[field] = '';
         const control = form.get(field);
         if (control && control.dirty && !control.valid) {
-          const messages = this.validationMessages[field];
+          const messages = this._validationMessages[field];
           for (const key in control.errors) {
             if (control.errors.hasOwnProperty(key)) {
               this.formErrors[field] += messages[key] + ' ';
@@ -144,10 +144,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   private setContrastMatrix(contrast_matrix) {
-    this.contrast_matrix = contrast_matrix;
+    this._contrast_matrix = contrast_matrix;
     if (this._contrast_matrix_for === 'CMATRIX') {
       this.isuFactors.cMatrix = new PartialMatrix();
-      this.isuFactors.cMatrix.values = this.contrast_matrix.values;
+      this.isuFactors.cMatrix.values = this._contrast_matrix.values;
       this.isuFactors.cMatrix.type = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
     } else {
       this.isuFactors.predictorsInHypothesis.forEach(predictor => {
@@ -155,7 +155,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
           if (isNullOrUndefined(predictor.partialMatrix)) {
             predictor.partialMatrix = new PartialMatrix(this.selectedHypothesis);
           }
-          predictor.partialMatrix.values = this.contrast_matrix.values;
+          predictor.partialMatrix.values = this._contrast_matrix.values;
         }
       });
     }
@@ -203,7 +203,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.contrast_matrix_service.update_contrast_matrix(contrast_matrix);
     this.contrast_matrix_service.update_factor(predictor);
     this.contrast_matrix_service.update_cols(predictor.valueNames.length);
-    this.maxRows = predictor.valueNames.length;
+    this._maxRows = predictor.valueNames.length;
   }
 
   private createCustomCmatrixObject() {
@@ -366,40 +366,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     return this._formErrors;
   }
 
-  set formErrors(value: { norows: string }) {
-    this._formErrors = value;
-  }
-
   get noRowsForm(): FormGroup {
     return this._noRowsForm;
   }
 
-  set noRowsForm(value: FormGroup) {
-    this._noRowsForm = value;
-  }
-
   get maxRows(): number {
     return this._maxRows;
-  }
-
-  set maxRows(value: number) {
-    this._maxRows = value;
-  }
-
-  get validationMessages(): { norows: { minval: string; maxval: string } } {
-    return this._validationMessages;
-  }
-
-  set validationMessages(value: { norows: { minval: string; maxval: string } }) {
-    this._validationMessages = value;
-  }
-
-  get contrast_matrix(): PartialMatrix {
-    return this._contrast_matrix;
-  }
-
-  set contrast_matrix(value: PartialMatrix) {
-    this._contrast_matrix = value;
   }
 
   get selectedHypothesis() {
@@ -422,9 +394,5 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     } else {
       return 'btn-group';
     }
-  }
-
-  hasPartial(predictor: Predictor) {
-    if (isNullOrUndefined(predictor.partialMatrix)) { return false; } else {return true; }
   }
 }
