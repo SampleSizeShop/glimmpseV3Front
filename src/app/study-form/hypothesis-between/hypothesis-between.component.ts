@@ -146,15 +146,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private setContrastMatrix(contrast_matrix) {
     this._contrast_matrix = contrast_matrix;
     if (this._contrast_matrix_for === 'CMATRIX') {
-      this.isuFactors.cMatrix = new PartialMatrix();
+      this.isuFactors.cMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX);
       this.isuFactors.cMatrix.values = this._contrast_matrix.values;
-      this.isuFactors.cMatrix.type = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
     } else {
       this.isuFactors.predictorsInHypothesis.forEach(predictor => {
         if (predictor.name === this._contrast_matrix_for) {
-          if (isNullOrUndefined(predictor.partialMatrix)) {
-            predictor.partialMatrix = new PartialMatrix(this.selectedHypothesis);
-          }
+          predictor.partialMatrix = new PartialMatrix(this.selectedHypothesis);
           predictor.partialMatrix.values = this._contrast_matrix.values;
         }
       });
