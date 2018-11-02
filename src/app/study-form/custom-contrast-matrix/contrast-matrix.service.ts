@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {ContrastMatrix} from '../../shared/ContrastMatrix';
 import {ISUFactor} from '../../shared/ISUFactor';
+import {PartialMatrix} from '../../shared/PartialMatrix';
 
 @Injectable()
 export class ContrastMatrixService {
   // Correlation matrix observable stream
-  private _contrast_matrix_source = new BehaviorSubject<ContrastMatrix>(new ContrastMatrix());
+  private _contrast_matrix_source = new BehaviorSubject<PartialMatrix>(new PartialMatrix());
   private _contrast_matrix$ = this.contrast_matrix_source.asObservable();
 
   private _rows_source = new BehaviorSubject<number>(-1);
@@ -21,7 +21,7 @@ export class ContrastMatrixService {
   private _valid_source = new BehaviorSubject<boolean>(true);
   private _valid$ = this.valid_source.asObservable();
 
-  update_contrast_matrix(contrastMatrix: ContrastMatrix) {
+  update_contrast_matrix(contrastMatrix: PartialMatrix) {
     this.contrast_matrix_source.next(contrastMatrix);
   }
 
@@ -41,11 +41,11 @@ export class ContrastMatrixService {
     this.valid_source.next(valid);
   }
 
-  get contrast_matrix_source(): BehaviorSubject<ContrastMatrix> {
+  get contrast_matrix_source(): BehaviorSubject<PartialMatrix> {
     return this._contrast_matrix_source;
   }
 
-  get contrast_matrix$(): Observable<ContrastMatrix> {
+  get contrast_matrix$(): Observable<PartialMatrix> {
     return this._contrast_matrix$;
   }
 

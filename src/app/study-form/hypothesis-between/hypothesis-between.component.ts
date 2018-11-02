@@ -17,7 +17,6 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
-import {ContrastMatrix} from '../../shared/ContrastMatrix';
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -54,7 +53,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _noRowsForm: FormGroup;
   private _maxRows: number;
   private _numCustomRows: number;
-  private _contrast_matrix: ContrastMatrix;
+  private _contrast_matrix: PartialMatrix;
   private _contrast_matrix_for: string;
   private screenWidth;
 
@@ -177,46 +176,47 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     predictor.isuFactorNature = this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS;
     this._contrast_matrix_for = predictor.name;
     if (!isNullOrUndefined(predictor)) {
-      const contrast_matrix = this.updateContrastMatrix(predictor);
-      this.contrast_matrix_service.update_contrast_matrix(contrast_matrix)
-      this.contrast_matrix_service.update_factor(predictor);
-      this.maxRows = predictor.valueNames.length;
+      this.updateContrastMatrix(predictor);
       this.buildForm();
-      this.contrast_matrix_service.update_cols(predictor.valueNames.length);
+    }
+    this.rows();
+  }
+
+  setCustomCMatrix() {
+    this._contrast_matrix_for = 'CMATRIX';
+    const cMatrixObject = this.createCustomCmatrixObject();
+    if (!isNullOrUndefined(cMatrixObject)) {
+      this.updateContrastMatrix(cMatrixObject);
+      this.buildForm();
     }
     this.rows();
   }
 
   private updateContrastMatrix(predictor: Predictor) {
-    const contrast_matrix = new ContrastMatrix();
+    const contrast_matrix = new PartialMatrix();
     if (isNullOrUndefined(predictor.partialMatrix) || isNullOrUndefined(predictor.partialMatrix.values)) {
       predictor.partialMatrix = new PartialMatrix();
     }
     contrast_matrix.values = predictor.partialMatrix.values;
-    return contrast_matrix;
+    this.contrast_matrix_service.update_contrast_matrix(contrast_matrix);
+    this.contrast_matrix_service.update_factor(predictor);
+    this.contrast_matrix_service.update_cols(predictor.valueNames.length);
+    this.maxRows = predictor.valueNames.length;
   }
 
-  setCustomCMatrix() {
-    this._contrast_matrix_for = 'CMATRIX';
-    const hack = new Predictor();
-    hack.name = 'your ';
+  private createCustomCmatrixObject() {
+    const cMatrixObject = new Predictor();
+    cMatrixObject.name = 'your ';
 
     this.isuFactors.predictors.forEach(predictor => {
-      hack.name = hack.name + predictor.name + ' x '
+      cMatrixObject.name = cMatrixObject.name + predictor.name + ' x '
       predictor.valueNames.forEach(name => {
-        hack.valueNames.push(name);
+        cMatrixObject.valueNames.push(name);
       });
     });
-    hack.name = hack.name.slice(0, hack.name.length - 2);
-    hack.name = hack.name + 'hypothesis'
-    if (!isNullOrUndefined(hack)) {
-      this.updateContrastMatrix(hack);
-      this.maxRows = hack.valueNames.length;
-      this.buildForm();
-      this.contrast_matrix_service.update_factor(hack);
-      this.contrast_matrix_service.update_cols(hack.valueNames.length);
-    }
-    this.rows();
+    cMatrixObject.name = cMatrixObject.name.slice(0, cMatrixObject.name.length - 2);
+    cMatrixObject.name = cMatrixObject.name + 'hypothesis'
+    return cMatrixObject;
   }
 
   rows() {
@@ -400,11 +400,11 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._validationMessages = value;
   }
 
-  get contrast_matrix(): ContrastMatrix {
+  get contrast_matrix(): PartialMatrix {
     return this._contrast_matrix;
   }
 
-  set contrast_matrix(value: ContrastMatrix) {
+  set contrast_matrix(value: PartialMatrix) {
     this._contrast_matrix = value;
   }
 

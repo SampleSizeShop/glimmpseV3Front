@@ -4,12 +4,12 @@ import {NGXLogger} from 'ngx-logger';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/index';
 import {isNullOrUndefined} from 'util';
-import {ContrastMatrix} from '../../shared/ContrastMatrix';
 import {ContrastMatrixService} from './contrast-matrix.service';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
 import {TooltipPosition} from '@angular/material';
 import {zeroColsValidator} from './zerocols.validator';
+import {PartialMatrix} from '../../shared/PartialMatrix';
 
 @Component({
   selector: 'app-custom-matrix',
@@ -29,7 +29,7 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   private formErrors = constants.CORRELATION_MATRIX_FORM_ERRORS;
   private messages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
 
-  private _contrast_matrix: ContrastMatrix;
+  private _contrast_matrix: PartialMatrix;
   private _contrast_matrix_form: FormGroup;
   private contrast_matrix_subscription: Subscription;
   private rows_subscription: Subscription;
@@ -45,7 +45,7 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   ) {
     this.left = 'left';
     this.below = 'below';
-    this.contrast_matrix = new ContrastMatrix();
+    this.contrast_matrix = new PartialMatrix();
     this.contrast_matrix_subscription = this.contrast_matrix_service.contrast_matrix$.subscribe(
       contrast_matrix => {
         this.contrast_matrix = contrast_matrix;
@@ -169,11 +169,11 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
     return messages;
   }
 
-  get contrast_matrix(): ContrastMatrix {
+  get contrast_matrix(): PartialMatrix {
     return this._contrast_matrix;
   }
 
-  set contrast_matrix(value: ContrastMatrix) {
+  set contrast_matrix(value: PartialMatrix) {
     this._contrast_matrix = value;
   }
 

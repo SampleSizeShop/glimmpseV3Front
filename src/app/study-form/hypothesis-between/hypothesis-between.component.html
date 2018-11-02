@@ -127,5 +127,3 @@
       <button type="button" class="btn btn-primary" (click)="modalChoice(true)">Discard changes</button> </div>
   </div>
 </ng-template>
-<div *ngFor="let predictor of isuFactors.predictorsInHypothesis"><div *ngIf="hasPartial(predictor)">{{predictor.name}}{{predictor.partialMatrix.values | json}}</div></div>
-{{isuFactors.cMatrix.type}}
