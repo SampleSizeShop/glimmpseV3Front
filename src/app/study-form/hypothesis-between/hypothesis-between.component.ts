@@ -58,6 +58,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private screenWidth;
 
   private _isuFactorsSubscription: Subscription;
+  private _contrastMatrixSubscription: Subscription;
   texString = '';
 
   @ViewChild('canDeactivate') canDeactivateModal;
@@ -84,7 +85,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
         this.isuFactors.cMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
       }
     } );
-    this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
+    this._contrastMatrixSubscription = this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
       this.setContrastMatrix(contrast_matrix);
     });
     this.buildForm();
@@ -127,6 +128,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.isuFactorsSubscription.unsubscribe();
+    this._contrastMatrixSubscription.unsubscribe();
   }
 
   selectHypothesisNature(nature: string) {
@@ -231,14 +233,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   showInfo() {
-    // if (!isNullOrUndefined(this.selectedHypothesis) &&
-    //   this.selectedHypothesis === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
-    //   this.isuFactors.cMatrix = new PartialMatrix();
-    //   this.isuFactors.cMatrix.values = this.contrast_matrix.values;
-    //   this.isuFactors.cMatrix.name = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
-    //   this.isuFactors.cMatrix.type = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
-    //
-    // }
     this._next = this.stages.INFO;
     this._stage = -1;
   }
