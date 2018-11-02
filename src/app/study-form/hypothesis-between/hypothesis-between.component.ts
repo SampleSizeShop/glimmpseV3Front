@@ -275,6 +275,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   showInfo() {
+    if (!isNullOrUndefined(this.selectedHypothesis) &&
+      this.selectedHypothesis === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
+      this.isuFactors.cMatrix = new PartialMatrix();
+      this.isuFactors.cMatrix.values = this.contrast_matrix.values;
+      this.isuFactors.cMatrix.name = this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX;
+    }
     this._next = this.stages.INFO;
     this._stage = -1;
   }

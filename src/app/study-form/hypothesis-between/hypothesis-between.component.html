@@ -50,15 +50,22 @@
                   </div>
                 </div>
               </div>
-              <div class="col  col-md-auto" *ngIf="predictor.nature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
-                <i class="material-icons" (click)="setCustomPartialCMatrix(predictor)" style="margin-bottom: 5px" id="editpredictor">create</i>
+              <div class="col  col-md-auto" *ngIf="predictor.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+                <div *ngIf="predictor.hasPartialMatrix()"
+                     [mathJaxExpr]="predictor.partialMatrix.toTeX()"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX">
-        <button class="btn btn-secondary" (click)="setCustomCMatrix()" *ngIf="predictorsInHypothesis()">Edit hypothesis C matrix</button>
+        <br>
+        <div class="row justify-content-center">
+          <div class="col-md-auto"><h6>Your custom C Matrix:</h6></div>
+          <div class="col-md-auto">
+            <div [mathJaxExpr]="isuFactors.cMatrix.toTeX()"></div>
+          </div>
+        </div>
       </div>
       <br>
       <br>
@@ -75,19 +82,6 @@
               [disabled]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS || selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX">
         Hide Advanced Options
       </button>
-
-      <div *ngIf=false>
-        <br>
-        <br>
-        <h6>Marginals in effect:</h6>
-        <div *ngFor="let m of predictorsIn">
-          <div>Predictor Name: {{m.name}}</div>
-          <div *ngIf=false [mathJaxExpr]="m.partialMatrix.toTeX()"></div>
-        </div>
-        <hr>
-        <h6>C Matrix</h6>
-        <div *ngIf=false [mathJaxExpr]="texString" style="padding-top: 10px"></div>
-      </div>
     </div>
   </div>
 
