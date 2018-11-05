@@ -6,32 +6,16 @@ import {Predictor} from '../../shared/Predictor';
 import {constants, getName} from '../../shared/constants';
 import {predictorValidator} from './predictor.validator';
 import {groupValidator} from './group.validator';
-import {fadeOut, fadeIn} from 'ng-animate';
-import {trigger, transition, useAnimation, query} from '@angular/animations';
 import {NavigationService} from '../../shared/navigation.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs/Observable';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
+import {fadeTransition} from '../../animations';
 
 @Component({
   selector: 'app-between-isu',
   templateUrl: './between-isu-predictors.component.html',
-  animations: [
-    trigger('fade', [
-      transition('* => *', [
-        query(':enter',
-          useAnimation(fadeIn, {
-            params: { timing: 0.2}
-          }), {optional: true}
-        ),
-        query(':leave',
-            useAnimation(fadeOut, {
-              params: { timing: 0.2}
-            }), {optional: true})
-        ]
-      )
-    ])
-  ],
+  animations: [fadeTransition],
   styleUrls: ['./between-isu-predictors.component.css']
 })
 export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy {

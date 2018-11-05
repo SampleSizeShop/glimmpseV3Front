@@ -15,29 +15,13 @@ import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.s
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {Observable} from 'rxjs/Observable';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
-import {query, transition, trigger, useAnimation} from '@angular/animations';
-import {fadeIn, fadeOut} from 'ng-animate';
+import {fadeTransition} from '../../animations';
 
 @Component({
   selector: 'app-hypothesis-within',
   templateUrl: './hypothesis-within.component.html',
   providers: [ContrastMatrixService],
-  animations: [
-    trigger('fade', [
-      transition('* => *', [
-          query(':enter',
-            useAnimation(fadeIn, {
-              params: { timing: 0.2}
-            }), {optional: true}
-          ),
-          query(':leave',
-            useAnimation(fadeOut, {
-              params: { timing: 0.2}
-            }), {optional: true})
-        ]
-      )
-    ])
-  ],
+  animations: [fadeTransition],
   styleUrls: ['./hypothesis-within.component.css']
 })
 export class HypothesisWithinComponent implements OnInit, OnDestroy {

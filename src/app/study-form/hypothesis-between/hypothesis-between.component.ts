@@ -9,35 +9,19 @@ import {PartialMatrix} from '../../shared/PartialMatrix';
 import {Router} from '@angular/router';
 import {Predictor} from '../../shared/Predictor';
 import {NGXLogger} from 'ngx-logger';
-import {query, transition, trigger, useAnimation} from '@angular/animations';
-import {fadeIn, fadeOut} from 'ng-animate';
 import {NavigationService} from '../../shared/navigation.service';
 import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
+import {fadeTransition} from '../../animations';
 
 @Component({
   selector: 'app-hypothesis-between',
   templateUrl: './hypothesis-between.component.html',
   providers: [ContrastMatrixService],
-  animations: [
-    trigger('fade', [
-      transition('* => *', [
-          query(':enter',
-            useAnimation(fadeIn, {
-              params: { timing: 0.2}
-            }), {optional: true}
-          ),
-          query(':leave',
-            useAnimation(fadeOut, {
-              params: { timing: 0.2}
-            }), {optional: true})
-        ]
-      )
-    ])
-  ],
+  animations: [fadeTransition],
   styleUrls: ['./hypothesis-between.component.css']
 })
 export class HypothesisBetweenComponent implements OnInit, OnDestroy {
