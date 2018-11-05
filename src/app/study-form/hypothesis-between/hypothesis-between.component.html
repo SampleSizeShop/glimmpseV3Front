@@ -34,7 +34,7 @@
       <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
         <h6>Click on any of the marginal C matrices below to customise them:</h6>
         <div class="container-fluid">
-          <div *ngFor="let predictor of isuFactors.predictorsInHypothesis">
+          <div *ngFor="let predictor of predictorsIn">
             <div class="row">
               <div class="col  col-md-auto">
                 <h6>{{predictor.name}}:</h6>
@@ -58,12 +58,12 @@
           </div>
         </div>
       </div>
-      <div *ngIf="isuFactors.cMatrix.type === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX">
+      <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX">
         <br>
         <div class="row justify-content-center">
           <div class="col-md-auto"><h6>Your custom C Matrix:</h6></div>
           <div class="col-md-auto">
-            <div [mathJaxExpr]="isuFactors.cMatrix.toTeX()"></div>
+            <div [mathJaxExpr]="cMatrixTex"></div>
           </div>
         </div>
       </div>

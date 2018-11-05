@@ -30,7 +30,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     this.showAdvancedOptions = false;
 
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
-      this.isuFactors = isuFactors;
+      this._isuFactors = isuFactors;
     } );
     this.withinHypothesisNatureSubscription = this.study_service.withinHypothesisNature$.subscribe(
       withinHypothesisNature => {
@@ -43,58 +43,21 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     if (this.withinHypothesisNature !== this.HYPOTHESIS_NATURE.GLOBAL_TRENDS) {
       this.showAdvancedOptions = true;
     }
-    this.populateUOutcomes();
-    this.populateUClusters();
-    this.populateURepeatedMeasures();
   }
 
   ngOnDestroy() {
     this.withinHypothesisNatureSubscription.unsubscribe();
   }
 
-  populateUOutcomes() {
-    this._uOutcomes = new PartialMatrix(constants.C_MATRIX_TYPE.IDENTITY);
-    this._uOutcomes.populateIdentityMatrix(this.isuFactors.outcomes.length);
-  }
-
-  populateUClusters() {
-    this._uCluster = 1;
-    if (!isNullOrUndefined(this.isuFactors.cluster)) {
-      this.isuFactors.cluster.levels.forEach( level => {
-        this._uCluster =
-          this._uCluster * ( 1 + (level.noElements - 1) * level.intraClassCorellation ) * (1 / level.noElements);
-      });
-    }
-  }
-
-  populateURepeatedMeasures() {
-    if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) &&
-    this.isuFactors.repeatedMeasures.length > 0) {
-      this._uRepeatedMeasures = new PartialMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
-      this._uRepeatedMeasures.populateIdentityMatrix(1);
-      this.isuFactors.repeatedMeasures.forEach( measure => {
-        this._uRepeatedMeasures.values = this._uRepeatedMeasures.kronecker(measure.partialUMatrix);
-      });
-    } else {
-      this._uRepeatedMeasures = new PartialMatrix(constants.C_MATRIX_TYPE.IDENTITY);
-      this._uRepeatedMeasures.populateIdentityMatrix(1);
-    }
-  }
-
-  advancedOptions(name: string) {
-    this.router.navigate(['design', getStageName(constants.STAGES.HYPOTHESIS_WITHIN), name])
-  }
-
   setNature(name: string, nature: string) {
     this.log.debug( name + ' set: ' + nature );
-    this.isuFactors.repeatedMeasures.forEach( measure => {
+    this._isuFactors.repeatedMeasures.forEach( measure => {
         if (measure.name === name) {
           measure.isuFactorNature = nature;
           measure.populatePartialMatrix();
         }
       }
     );
-    this.populateURepeatedMeasures();
   }
 
   isSelected(hypothesis: string): boolean {
@@ -141,29 +104,9 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     this._isuFactorsSubscription = value;
   }
 
-  get isuFactors(): ISUFactors {
-    return this._isuFactors;
-  }
-
-  set isuFactors(value: ISUFactors) {
-    this._isuFactors = value;
-  }
-
-  get uOutcomes(): PartialMatrix {
-    return this._uOutcomes;
-  }
-
-  get uRepeatedMeasures(): PartialMatrix {
-    return this._uRepeatedMeasures;
-  }
-
-  get uCluster(): number {
-    return this._uCluster;
-  }
-
   get uMatrix() {
-    let m = this.uOutcomes.kronecker(this.uRepeatedMeasures);
-    m = math.kron(m, math.matrix([this.uCluster]));
+    let m = this._uOutcomes.kronecker(this._uRepeatedMeasures);
+    m = math.kron(m, math.matrix([this._uCluster]));
     let texString = '$\\begin{bmatrix}';
     let row = 0;
     m.forEach(function (value, index, matrix) {

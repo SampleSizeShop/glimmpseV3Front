@@ -47,7 +47,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _showAdvancedOptions: boolean;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _isuFactors: ISUFactors;
-  private _predictorsIn: Array<Predictor>;
   private _formErrors = constants.HYPOTHESIS_BETWEEN_FORM_ERRORS;
   private _validationMessages = constants.HYPOTHESIS_BETWEEN_VALIDATION_MESSAGES;
   private _noRowsForm: FormGroup;
@@ -76,13 +75,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
               private router: Router,
               private modalService: NgbModal,
               private log: NGXLogger) {
-    this.predictorsIn = [];
-    this.showAdvancedOptions = false;
+    this._showAdvancedOptions = false;
 
-    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
-        this.isuFactors = isuFactors;
-      if (isNullOrUndefined(this.isuFactors.cMatrix)) {
-        this.isuFactors.cMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
+    this._isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
+        this._isuFactors = isuFactors;
+      if (isNullOrUndefined(this._isuFactors.cMatrix)) {
+        this._isuFactors.cMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
       }
     } );
     this._contrastMatrixSubscription = this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
@@ -124,23 +122,35 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.isuFactors.cMatrix.type === this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS ||
-      this.isuFactors.cMatrix.type === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
+    if (this._isuFactors.cMatrix.type === this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS ||
+      this._isuFactors.cMatrix.type === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
       this.toggleAdvancedOptions();
     }
   }
 
   ngOnDestroy() {
-    this.isuFactorsSubscription.unsubscribe();
+    this._isuFactorsSubscription.unsubscribe();
     this._contrastMatrixSubscription.unsubscribe();
   }
 
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (this.stage === this.stages.INFO) {
+      this.navigation_service.updateValid(true);
+      return true;
+    } else {
+      console.log('cancel');
+      this.showModal(this.canDeactivateModal);
+      this.study_service.updateDirection('CANCEL');
+      return this.navigation_service.navigateAwaySelection$;
+    }
+  }
+
   selectHypothesisNature(nature: string) {
-    this.isuFactors.cMatrix.type = nature;
+    this._isuFactors.cMatrix.type = nature;
     if (nature === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
       this.setCustomCMatrix();
     } else if (nature !== this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS) {
-      this.isuFactors.predictors.forEach( predictor => {
+      this._isuFactors.predictors.forEach( predictor => {
           predictor.isuFactorNature = nature;
         }
       );
@@ -150,10 +160,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private setContrastMatrix(contrast_matrix) {
     this._contrast_matrix = contrast_matrix;
     if (this._contrast_matrix_for === 'CMATRIX') {
-      this.isuFactors.cMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX);
-      this.isuFactors.cMatrix.values = this._contrast_matrix.values;
+      this._isuFactors.cMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX);
+      this._isuFactors.cMatrix.values = this._contrast_matrix.values;
     } else {
-      this.isuFactors.predictorsInHypothesis.forEach(predictor => {
+      this._isuFactors.predictorsInHypothesis.forEach(predictor => {
         if (predictor.name === this._contrast_matrix_for) {
           predictor.partialMatrix = new PartialMatrix(this.selectedHypothesis);
           predictor.partialMatrix.values = this._contrast_matrix.values;
@@ -163,12 +173,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   toggleAdvancedOptions() {
-    this.showAdvancedOptions = !this.showAdvancedOptions;
+    this._showAdvancedOptions = !this.showAdvancedOptions;
   }
 
   setNature(name: string, nature: string) {
     this.log.debug( name + ' set: ' + nature );
-    this.isuFactors.predictors.forEach( predictor => {
+    this._isuFactors.predictors.forEach( predictor => {
       if (predictor.name === name) {
         predictor.isuFactorNature = nature;
       }
@@ -211,7 +221,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     const cMatrixObject = new Predictor();
     cMatrixObject.name = 'your ';
 
-    this.isuFactors.predictors.forEach(predictor => {
+    this._isuFactors.predictors.forEach(predictor => {
       cMatrixObject.name = cMatrixObject.name + predictor.name + ' x '
       predictor.valueNames.forEach(name => {
         cMatrixObject.valueNames.push(name);
@@ -238,85 +248,21 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._stage = -1;
   }
 
-  get showAdvancedOptions(): boolean {
-    return this._showAdvancedOptions;
-  }
-
-  set showAdvancedOptions(value: boolean) {
-    this._showAdvancedOptions = value;
-  }
-
-  get HYPOTHESIS_NATURE() {
-    return this._HYPOTHESIS_NATURE;
-  }
-
-  set HYPOTHESIS_NATURE(value) {
-    this._HYPOTHESIS_NATURE = value;
-  }
-
-  set isuFactorsSubscription(value: Subscription) {
-    this._isuFactorsSubscription = value;
-  }
-
-  get isuFactorsSubscription(): Subscription {
-    return this._isuFactorsSubscription;
-  }
-
-  get predictorsIn(): Array<Predictor> {
-    return this._predictorsIn;
-  }
-
-  set predictorsIn(value: Array<Predictor>) {
-    this._predictorsIn = value;
-  }
-
-  get isuFactors(): ISUFactors {
-    return this._isuFactors;
-  }
-
-  set isuFactors(value: ISUFactors) {
-    this._isuFactors = value;
-  }
-
-  get stages() {
-    return this._stages;
-  }
-
-  get stage(): number {
-    return this._stage;
+  getButtonClass() {
+    if (this.screenWidth < 601 ) {
+      return 'btn-group-vertical';
+    } else {
+      return 'btn-group';
+    }
   }
 
   setStage(next: number) {
-      if (next === this.stages.INFO) {
-        this.navigation_service.updateValid(true);
-      } else {
-        this.navigation_service.updateValid(false);
-      }
-      this._stage = next;
-  }
-
-  isInfo() {
-    if (this._stage === this.stages.INFO) {
-      return true;
+    if (next === this.stages.INFO) {
+      this.navigation_service.updateValid(true);
     } else {
-      return false
+      this.navigation_service.updateValid(false);
     }
-  }
-
-  isRows() {
-    if (this._stage === this.stages.ROWS) {
-      return true;
-    } else {
-      return false
-    }
-  }
-
-  isEditCustom() {
-    if (this._stage === this.stages.EDIT_CUSTOM) {
-      return true;
-    } else {
-      return false
-    }
+    this._stage = next;
   }
 
   startTransition(event) {
@@ -324,18 +270,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   doneTransition(event) {
     this.setStage(this._next);
-  }
-
-  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
-    if (this.stage === this.stages.INFO) {
-      this.navigation_service.updateValid(true);
-      return true;
-    } else {
-      console.log('cancel');
-      this.showModal(this.canDeactivateModal);
-      this.study_service.updateDirection('CANCEL');
-      return this.navigation_service.navigateAwaySelection$;
-    }
   }
 
   showModal(content) {
@@ -363,6 +297,60 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this.navigation_service.navigateAwaySelection$.next(choice);
   }
 
+  predictorsInHypothesis(): boolean {
+    if (!isNullOrUndefined(this._isuFactors)
+      && !isNullOrUndefined(this._isuFactors.predictorsInHypothesis)
+      && this._isuFactors.predictorsInHypothesis.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isInfo() {
+    if (this._stage === this.stages.INFO) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  isRows() {
+    if (this._stage === this.stages.ROWS) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  isEditCustom() {
+    if (this._stage === this.stages.EDIT_CUSTOM) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  get showAdvancedOptions(): boolean {
+    return this._showAdvancedOptions;
+  }
+
+  get HYPOTHESIS_NATURE() {
+    return this._HYPOTHESIS_NATURE;
+  }
+
+  get predictorsIn(): Array<Predictor> {
+    return this._isuFactors.predictorsInHypothesis;
+  }
+
+  get stages() {
+    return this._stages;
+  }
+
+  get stage(): number {
+    return this._stage;
+  }
+
   get formErrors(): { norows: string } {
     return this._formErrors;
   }
@@ -376,24 +364,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   get selectedHypothesis() {
-    return this.isuFactors.cMatrix.type;
+    return this._isuFactors.cMatrix.type;
   }
 
-  predictorsInHypothesis(): boolean {
-    if (!isNullOrUndefined(this.isuFactors)
-      && !isNullOrUndefined(this.isuFactors.predictorsInHypothesis)
-      && this.isuFactors.predictorsInHypothesis.length > 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  getButtonClass() {
-    if (this.screenWidth < 601 ) {
-      return 'btn-group-vertical';
-    } else {
-      return 'btn-group';
-    }
+  get cMatrixTex() {
+    return this._isuFactors.cMatrix.toTeX();
   }
 }
