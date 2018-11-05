@@ -51,7 +51,6 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
-    this.checkValidBeforeNavigation('NEXT');
     if (isNullOrUndefined(this.outcomes) || this.outcomes.length === 0) {
       this.setNextEnabled('INVALID');
     }
@@ -97,6 +96,9 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck() {
+    if (this.outcomesForm.get('outcomes').pristine &&  this.outcomes.length === 0) {
+      this.checkValidator();
+    }
     this.study_service.updateWthinIsuOutcomes(this.outcomes);
   }
 
