@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {constants, getStageName} from '../../shared/constants';
+import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
