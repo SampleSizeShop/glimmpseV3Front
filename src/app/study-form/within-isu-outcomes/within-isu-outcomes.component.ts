@@ -6,6 +6,7 @@ import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../../shared/navigation.service';
 import {StudyService} from '../study.service';
 import {Outcome} from '../../shared/Outcome';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-within-isu-outcomes',
@@ -51,6 +52,9 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   ngOnInit() {
     this.buildForm();
     this.checkValidBeforeNavigation('NEXT');
+    if (isNullOrUndefined(this.outcomes) || this.outcomes.length === 0) {
+      this.setNextEnabled('INVALID');
+    }
   }
 
   ngOnDestroy() {
