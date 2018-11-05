@@ -42,8 +42,8 @@ import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.s
 })
 export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _stages = constants.HYPOTHESIS_BETWEEN_STAGES;
-  private _stage = this.stages.INFO;
-  private _next = this.stages.INFO;
+  private _stage = this._stages.INFO;
+  private _next = this._stages.INFO;
   private _showAdvancedOptions: boolean;
   private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
   private _isuFactors: ISUFactors;
@@ -134,7 +134,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
-    if (this.stage === this.stages.INFO) {
+    if (this.stage === this._stages.INFO) {
       this.navigation_service.updateValid(true);
       return true;
     } else {
@@ -233,18 +233,18 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   rows() {
-    this._next = this.stages.ROWS;
+    this._next = this._stages.ROWS;
     this._stage = -1;
   }
 
   editCustom() {
     this.contrast_matrix_service.update_rows(this.noRowsForm.get('norows').value);
-    this._next = this.stages.EDIT_CUSTOM;
+    this._next = this._stages.EDIT_CUSTOM;
     this._stage = -1;
   }
 
   showInfo() {
-    this._next = this.stages.INFO;
+    this._next = this._stages.INFO;
     this._stage = -1;
   }
 
@@ -257,7 +257,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   setStage(next: number) {
-    if (next === this.stages.INFO) {
+    if (next === this._stages.INFO) {
       this.navigation_service.updateValid(true);
     } else {
       this.navigation_service.updateValid(false);
@@ -308,7 +308,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   isInfo() {
-    if (this._stage === this.stages.INFO) {
+    if (this._stage === this._stages.INFO) {
       return true;
     } else {
       return false
@@ -316,7 +316,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   isRows() {
-    if (this._stage === this.stages.ROWS) {
+    if (this._stage === this._stages.ROWS) {
       return true;
     } else {
       return false
@@ -324,7 +324,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   isEditCustom() {
-    if (this._stage === this.stages.EDIT_CUSTOM) {
+    if (this._stage === this._stages.EDIT_CUSTOM) {
       return true;
     } else {
       return false
@@ -341,10 +341,6 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   get predictorsIn(): Array<Predictor> {
     return this._isuFactors.predictorsInHypothesis;
-  }
-
-  get stages() {
-    return this._stages;
   }
 
   get stage(): number {
