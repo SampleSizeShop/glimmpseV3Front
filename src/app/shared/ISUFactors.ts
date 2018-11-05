@@ -21,6 +21,7 @@ export class ISUFactors {
   smallestGroupSize: number[] = [];
   outcomeCorrelationMatrix: CorrelationMatrix = new CorrelationMatrix();
   cMatrix: PartialMatrix;
+  uMatrix: PartialMatrix;
 
   toJSON() {
     return {
@@ -30,7 +31,8 @@ export class ISUFactors {
         smallestGroupSize: this.smallestGroupSize,
         theta0: this.theta0,
         outcomeCorrelationMatrix: this.outcomeCorrelationMatrix,
-        cMatrix: this.cMatrix};
+        cMatrix: this.cMatrix,
+        uMatrix: this.uMatrix};
   }
 
   get hypothesisName(): string {

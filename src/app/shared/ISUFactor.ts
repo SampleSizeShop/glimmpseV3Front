@@ -36,7 +36,7 @@ export class ISUFactor {
       this.origin = origin;
     }
     this.inHypothesis = false;
-    this.isuFactorNature = constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS;
+    this.isuFactorNature = constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS;
   }
 
   /**

@@ -273,12 +273,13 @@ export const constants = {
     WITHIN: 'Within',
     BETWEEN: 'Between'
   },
-  HYPOTHESIS_BETWEEN_NATURE: {
+  CONTRAST_MATRIX_NATURE: {
     GLOBAL_TRENDS: 'Global Trends',
     IDENTITY: 'Identity',
     POLYNOMIAL: 'Polynomial',
-    USER_DEFINED_PARTIALS: 'Define partial C Matrix',
+    USER_DEFINED_PARTIALS: 'Define partial contrasts',
     CUSTOM_C_MATRIX: 'Define hypothesis C Matrix',
+    CUSTOM_U_MATRIX: 'Define hypothesis U Matrix',
   },
   HYPOTHESIS_BETWEEN_STAGES: {
     INFO: 0,
@@ -288,7 +289,16 @@ export const constants = {
   HYPOTHESIS_BETWEEN_FORM_ERRORS: {
     'norows': ''
   },
+  HYPOTHESIS_WITHIN_FORM_ERRORS: {
+    'nocols': ''
+  },
   HYPOTHESIS_BETWEEN_VALIDATION_MESSAGES: {
+    'norows': {
+      'minval': 'Value too low.',
+      'maxval': 'Value too high'
+    }
+  },
+  HYPOTHESIS_WITHIN_VALIDATION_MESSAGES: {
     'norows': {
       'minval': 'Value too low.',
       'maxval': 'Value too high'

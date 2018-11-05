@@ -66,10 +66,10 @@ export class StudyService {
   private _hypothesisEffectVariablesSource = new BehaviorSubject<Array<ISUFactor>>(null);
   private _hypothesisEffectVariables$ = this._hypothesisEffectVariablesSource.asObservable();
 
-  private _betweenHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS);
+  private _betweenHypothesisNatureSource = new BehaviorSubject<string>(constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS);
   private _betweenHypothesisNature$ = this._betweenHypothesisNatureSource.asObservable();
 
-  private _withinHypothesisNatureSource = new BehaviorSubject<string>(constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS);
+  private _withinHypothesisNatureSource = new BehaviorSubject<string>(constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS);
   private _withinHypothesisNature$ = this._withinHypothesisNatureSource.asObservable();
 
   private _hypothesisEffectSource = new BehaviorSubject<HypothesisEffect>(null);

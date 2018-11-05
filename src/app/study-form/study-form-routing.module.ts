@@ -140,6 +140,7 @@ const studyFormRoutes: Routes = [
             {
               path: names[constants.STAGES.HYPOTHESIS_WITHIN],
               component: HypothesisWithinComponent,
+              canDeactivate: [CanDeactivatePredictorsGuardService],
               data: {animation: constants.STAGES.HYPOTHESIS_WITHIN}
             },
             {

@@ -34,11 +34,11 @@ export class RepeatedMeasure extends ISUFactor {
   }
 
   populatePartialMatrix() {
-    if (this.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS) {
+    if (this.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS) {
       this.partialUMatrix.populateUMainEffect(this.noRepeats);
-    } else if (this.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.IDENTITY) {
+    } else if (this.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
       this.partialUMatrix.populateIdentityMatrix(this.noRepeats);
-    } else if (this.isuFactorNature === constants.HYPOTHESIS_BETWEEN_NATURE.POLYNOMIAL) {
+    } else if (this.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL) {
       this.partialUMatrix.populatePolynomialEvenSpacing(this.noRepeats);
     }
   }

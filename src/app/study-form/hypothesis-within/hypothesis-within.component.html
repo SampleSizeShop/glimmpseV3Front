@@ -1,121 +1,129 @@
-<h5>What is the nature of your within hypothesis?</h5>
-<div class="container-fluid">
-  <div class="row">
-    <div class="col">
-      <div class="btn-group-vertical btn-block" data-toggle="buttons">
-        <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-primary dropdown-toggle" id="dropdownBasic2" ngbDropdownToggle>{{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-            <button class="dropdown-item">{{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
-            <button class="dropdown-item">{{HYPOTHESIS_NATURE.IDENTITY}}</button>
-            <button class="dropdown-item">{{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
-          </div>
-        </div>
-      </div>
-      <br>
-      <br>
-      <div class="btn-group-vertical btn-block" data-toggle="buttons">
-        <label class="btn btn-secondary" style="margin-bottom: 0px;" id="pb" [class.active]="false" *ngIf="!showAdvancedOptions">
-          <input type="checkbox" (click)="toggleAdvancedOptions()">Show Advanced Options
+<div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)" >
+  <div *ngIf="isInfo()">
+    <h5>What is the nature of your between hypothesis?</h5>
+    <div class="container-fluid">
+      <div ngClass="{{getButtonClass()}}" data-toggle="buttons">
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS">
+          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.GLOBAL_TRENDS)"> {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}
         </label>
-        <label class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
-          <input type="checkbox" (click)="toggleAdvancedOptions()">Hide Advanced Options
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY">
+          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
+        </label>
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL">
+          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
+        </label>
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
+               *ngIf="showAdvancedOptions">
+          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> {{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}
+        </label>
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX"
+               *ngIf="showAdvancedOptions">
+          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_U_MATRIX)"> {{HYPOTHESIS_NATURE.CUSTOM_U_MATRIX}}
         </label>
       </div>
-      <br>
-      <br>
-      <div class="btn-group-vertical btn-block" data-toggle="buttons" *ngIf="showAdvancedOptions">
-        <h6>Click on any of the partials below to customise them:</h6>
+      <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+        <h6>Click on any of the marginal C matrices below to customise them:</h6>
         <div class="container-fluid">
-          <div class="row" *ngFor="let measure of isuFactors.repeatedMeasures">
-            <div class="col col-md-auto">
-              <h6>{{measure.name}}:</h6>
-            </div>
-            <div class="col col-md-auto">
-              <div ngbDropdown class="d-inline-block">
-                <button class="btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{measure.isuFactorNature}}</button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <button class="dropdown-item" (click)="setNature(measure.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
-                  <button class="dropdown-item" (click)="setNature(measure.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
-                  <button class="dropdown-item" (click)="setNature(measure.name, HYPOTHESIS_NATURE.POLYNOMIAL)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+          <div *ngFor="let repMeasure of repeatedMeasuresIn">
+            <div class="row">
+              <div class="col  col-md-auto">
+                <h6>{{repMeasure.name}}:</h6>
+              </div>
+              <div class="col  col-md-auto">
+                <div ngbDropdown class="h-25 d-inline-block">
+                  <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{repMeasure.isuFactorNature}}</button>
+                  <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
+                    <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
+                    <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
+                    <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.POLYNOMIAL)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+                    <button class="h-25 dropdown-item" (click)="setCustomPartialUMatrix(repMeasure)">{{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}</button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col  col-md-auto">
-              <i class="material-icons" (click)="advancedOptions(measure.name)" style="margin-bottom: 5px" id="editmeasure">create</i>
+              <div class="col  col-md-auto" *ngIf="repMeasure.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+                <div *ngIf="repMeasure.hasPartialMatrix()"
+                     [mathJaxExpr]="repMeasure.partialMatrix.toTeX()"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-
-      <br>
-      <br>
-
-      <h6>Uo</h6>
-      <div *ngIf=false [mathJaxExpr]="uOutcomes.toTeX()"></div>
-      <br>
-
-      <h6>Uc</h6>
-      <div *ngIf=false [mathJaxExpr]="uCluster"></div>
-      <br>
-
-      <h6>Ur</h6>
-      <div *ngIf=false [mathJaxExpr]="uRepeatedMeasures.toTeX()"></div>
-
-      <br>
-      <h6>U Matrix</h6>
-      <div *ngIf=false [mathJaxExpr]="uMatrix"></div>
-
-    </div>
-    <div class="col">
-      <div class="card">
-        <h3 class="card-header">Global Trends</h3>
-        <div class="card-block">
-          <h5 class="card-title">America</h5>
-          <h6 class="card-subtitle text-muted">Simon and Garfunkle</h6>
-        </div>
-        <div class="card-block">
-          <p class="card-text">"Let us be lovers, we'll marry our fortunes together"
-            "I've got some real estate here in my bag"
-            So we bought a pack of cigarettes and Mrs. Wagner pies
-            And walked off to look for America.
-          </p>
-          <p class="card-text">
-
-            "Kathy," I said as we boarded a Greyhound in Pittsburgh
-            "Michigan seems like a dream to me now"
-            It took me four days to hitchhike from Saginaw
-            I've gone to look for America
-          </p>
-          <p class="card-text">
-
-            Laughing on the bus
-            Playing games with the faces
-            She said the man in the gabardine suit was a spy
-            I said "Be careful his bowtie is really a camera"
-          </p>
-          <p class="card-text">
-
-            "Toss me a cigarette, I think there's one in my raincoat"
-            "We smoked the last one an hour ago"
-            So I looked at the scenery, she read her magazine
-            And the moon rose over an open field
-          </p>
-          <p class="card-text">
-            "Kathy, I'm lost," I said, though I knew she was sleeping
-            I'm empty and aching and I don't know why
-            Counting the cars on the New Jersey Turnpike
-            They've all come to look for America
-            All come to look for America
-            All come to look for America</p>
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div>
-        <div class="card-footer text-muted text-xs-center">
-          1968
+      <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX">
+        <br>
+        <div class="row justify-content-center">
+          <div class="col-md-auto"><h6>Your custom U Matrix:</h6></div>
+          <div class="col-md-auto">
+            <div [mathJaxExpr]="uMatrixTex"></div>
+          </div>
         </div>
       </div>
+      <br>
+      <br>
+      <button class="btn btn-secondary btn-sm"
+              style="margin-bottom: 0px;" id="pb" [class.active]="false"
+              *ngIf="repeatedMeasuresInHypothesis() && !showAdvancedOptions"
+              (click)="toggleAdvancedOptions()">
+        Show Advanced Options
+      </button>
+      <button class="btn btn-secondary btn-sm"
+              style="margin-bottom: 0px;" [class.active]="false"
+              *ngIf="repeatedMeasuresInHypothesis() && showAdvancedOptions"
+              (click)="toggleAdvancedOptions()"
+              [disabled]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS || selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX">
+        Hide Advanced Options
+      </button>
     </div>
   </div>
+
+  <div *ngIf="isRows()">
+    <h6>How many columns would you like in your custom U matrix?</h6>
+    <div class="row">
+      <div class="col col-md-auto">
+        <form [formGroup]="noRowsForm" novalidate>
+          <div class="form-group">
+            <label for="nocols">No. cols:</label>
+            <input type="number" class="form-control" id="nocols" placeholder="Choose a number between 0 -> {{maxCols}}" formControlName="nocols" required min="1" max="{{maxCols}}">
+            <div *ngIf="formErrors.nocols" class="form-group has-danger">
+              <div class="form-control-feedback">{{formErrors.nocols}}</div>
+            </div>
+            <small id="nocolshelp" class="form-text text-muted">you must have 1 > x > {{maxCols}} cols</small>
+          </div>
+        </form>
+      </div>
+    </div>
+    <button class="btn btn-secondary btn-sm" (click)="showInfo()">Back</button>
+    <button class="btn btn-secondary btn-sm" (click)="editCustom()" [disabled]="!this.noRowsForm.valid">Next: Matrix</button>
+  </div>
+
+  <div *ngIf="isEditCustom()">
+    <app-custom-matrix></app-custom-matrix>
+    <button class="btn btn-secondary btn-sm" (click)="cols()">Back</button>
+    <button class="btn btn-secondary btn-sm" (click)="showInfo()">Done</button>
+  </div>
 </div>
+
+<ng-template #canDeactivate>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Are you sure?</h5> <button type="button" class="close" (click)="modalChoice(false)">
+      <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      <p>You are trying to navigate away from this page. Do you wish to discard changes and continue?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalChoice(false)">Continue editing</button>
+      <button type="button" class="btn btn-primary" (click)="modalChoice(true)">Discard changes</button> </div>
+  </div>
+</ng-template>

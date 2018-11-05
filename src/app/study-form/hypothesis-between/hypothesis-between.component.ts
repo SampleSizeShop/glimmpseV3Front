@@ -45,7 +45,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _stage = this._stages.INFO;
   private _next = this._stages.INFO;
   private _showAdvancedOptions: boolean;
-  private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
+  private _HYPOTHESIS_NATURE = constants.CONTRAST_MATRIX_NATURE;
   private _isuFactors: ISUFactors;
   private _formErrors = constants.HYPOTHESIS_BETWEEN_FORM_ERRORS;
   private _validationMessages = constants.HYPOTHESIS_BETWEEN_VALIDATION_MESSAGES;
@@ -92,10 +92,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   buildForm(): void {
     this._noRowsForm = this.fb.group({
-      norows: [this._numCustomRows, minMaxValidator(1, this.maxRows)]
+      norows: [this._numCustomRows, minMaxValidator(1, this._maxRows)]
     });
 
-    this.noRowsForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this._noRowsForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set validation messages now
   }
 
@@ -134,7 +134,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
-    if (this.stage === this._stages.INFO) {
+    if (this._stage === this._stages.INFO) {
       this.navigation_service.updateValid(true);
       return true;
     } else {
@@ -238,7 +238,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   editCustom() {
-    this.contrast_matrix_service.update_rows(this.noRowsForm.get('norows').value);
+    this.contrast_matrix_service.update_rows(this._noRowsForm.get('norows').value);
     this._next = this._stages.EDIT_CUSTOM;
     this._stage = -1;
   }
