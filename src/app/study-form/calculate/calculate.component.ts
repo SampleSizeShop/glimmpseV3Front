@@ -76,8 +76,24 @@ export class CalculateComponent implements OnInit {
       value = ': Power -> ' + result.power;
     } else if (!isNullOrUndefined(result.samplesize)) {
       value = ': Sample size -> ' + result.samplesize;
+    } else {
+      const errors = this.resultString['model']['errors'];
+      for (const key in errors) {
+        if (errors[key]['errorname'] === value) {
+          value = ': ' + errors[key]['errormessage'];
+          break;
+        }
+      }
     }
+
     return value;
+  }
+
+  hasWarning(result) {
+    if (isNullOrUndefined(result.power) && isNullOrUndefined(result.samplesize) ) {
+      return true;
+    }
+    return false;
   }
 
   get outputString(): string {
