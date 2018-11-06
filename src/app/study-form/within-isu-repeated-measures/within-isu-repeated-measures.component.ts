@@ -394,6 +394,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     return this._spacingControlNames;
   }
 
+  get spacingValues(): string[] {
+    return this._spacingValues;
+  }
+
   get stage(): number {
     return this._stage;
   }

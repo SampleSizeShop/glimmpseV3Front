@@ -43,7 +43,7 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
   it('Should show the type form when the user clicks next after defining the name', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
-    component.internallyNavigate('NEXT');
+    component.setStage(2);
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#type'));
     const el = desc.nativeElement;
@@ -54,8 +54,8 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
-    component.setStage(1);
-    component.internallyNavigate('NEXT');
+    component.setStage(2);
+    component.setStage(3);
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#repeats'));
     const el = desc.nativeElement;
@@ -66,8 +66,7 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
-    component.setStage(2);
-    component.internallyNavigate('NEXT');
+    component.setStage(3);
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#spacinginput'));
     const el = desc.nativeElement;
@@ -80,7 +79,7 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.typeForm.get('type').setValue('Type1');
     component.spacingValues.push('1');
     component.setStage(3);
-    component.internallyNavigate('NEXT');
+    component.addRepeatedMeasure()
     fixture.detectChanges();
     expect(component.repeatedMeasures.length).toBe(1);
     const desc: DebugElement = fixture.debugElement.query(By.css('#nextrepmeasure'));
@@ -94,7 +93,6 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.typeForm.get('type').setValue('Type1');
     component.spacingValues.push('1');
     component.setStage(3);
-    component.internallyNavigate('NEXT');
     fixture.detectChanges();
     expect(component.repeatedMeasures.length).toBe(1);
     const desc: DebugElement = fixture.debugElement.query(By.css('#nextrepmeasure'));

@@ -316,6 +316,10 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     }
   }
 
+  get isuFactors(): ISUFactors {
+    return this._isuFactors;
+  }
+
   get showAdvancedOptions(): boolean {
     return this._showAdvancedOptions;
   }
