@@ -5,8 +5,8 @@ import {constants} from '../../shared/constants';
 import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../../shared/navigation.service';
 import {StudyService} from '../study.service';
-import {HypothesisEffect} from '../../shared/HypothesisEffect';
 import {Outcome} from '../../shared/Outcome';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-within-isu-outcomes',
@@ -27,8 +27,6 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   private _validationMessages;
   private _formErrors;
   private _outcomeSubscription: Subscription;
-  private _hypothesisEffectSubscription: Subscription;
-  private _hypothesisEffect: HypothesisEffect;
   private _directionCommand: string;
   private _navigationSubscription: Subscription;
   private _statusSubscription: Subscription;
@@ -43,12 +41,6 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
         this.outcomes = outcomes;
       }
     );
-
-    this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
-      effect => {
-        this._hypothesisEffect = effect;
-      }
-    );
     this.navigationSubscription = this.study_service.navigationDirection$.subscribe(
       direction => {
         this.directionCommand = direction;
@@ -59,6 +51,9 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
+    if (isNullOrUndefined(this.outcomes) || this.outcomes.length === 0) {
+      this.setNextEnabled('INVALID');
+    }
   }
 
   ngOnDestroy() {
@@ -75,7 +70,6 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     this.statusSubscription = this.outcomesForm.statusChanges.subscribe(
       result => {if (this.outcomes && !this.formErrors.outcomes) {this.setNextEnabled(result)}}
     );
-    this.setNextEnabled('INVALID');
   }
 
   emptyErrMsg() {
@@ -102,6 +96,9 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck() {
+    if (this.outcomesForm.get('outcomes').pristine &&  this.outcomes.length === 0) {
+      this.checkValidator();
+    }
     this.study_service.updateWthinIsuOutcomes(this.outcomes);
   }
 
@@ -138,8 +135,8 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   checkValidBeforeNavigation(direction: string): void {
+    this.checkValidator();
     if ( direction === 'NEXT' ) {
-      this.checkValidator();
       if (this.outcomes && !this.formErrors.outcomes) {
         this.setNextEnabled('VALID');
       }
@@ -208,14 +205,6 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
 
   set outcomeSubscription(value: Subscription) {
     this._outcomeSubscription = value;
-  }
-
-  get hypothesisEffectSubscription(): Subscription {
-    return this._hypothesisEffectSubscription;
-  }
-
-  set hypothesisEffectSubscription(value: Subscription) {
-    this._hypothesisEffectSubscription = value;
   }
 
   get navigationSubscription(): Subscription {

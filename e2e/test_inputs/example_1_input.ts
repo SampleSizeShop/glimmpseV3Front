@@ -47,6 +47,7 @@ export const example_1_output = {
       power: 1.0
     }],
   model: {
+    errors: [],
     essence_design_matrix: [ [ 1 ] ],
     repeated_rows_in_design_matrix: 10,
     hypothesis_beta: [ [ 80 ] ],

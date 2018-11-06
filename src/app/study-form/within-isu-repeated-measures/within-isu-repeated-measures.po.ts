@@ -35,16 +35,14 @@ export class WithinIsuRepeatedMeasuresPo {
       const dimensionInput = element(by.id('units'));
       dimensionInput.clear().then(() => dimensionInput.sendKeys(input.units));
     }
-    element(by.id('navigate_next')).click();
+    element(by.id('dimnextbtn')).click();
   }
 
   fillDataType(input) {
     if (!isNullOrUndefined(input.type)) {
-      const typeInput = element(by.id('type'));
-      typeInput.click()
-      typeInput.sendKeys(input.type.charAt(0));
+      element(by.id('0')).click();
     }
-    element(by.id('navigate_next')).click();
+    element(by.id('typenextbtn')).click();
   }
 
   fillNoRepeats(input) {
@@ -52,7 +50,7 @@ export class WithinIsuRepeatedMeasuresPo {
       const noRepeatsInput = element(by.id('repeats'));
       noRepeatsInput.clear().then(() => noRepeatsInput.sendKeys(input.values.length))
     }
-    element(by.id('navigate_next')).click();
+    element(by.id('repnextbtn')).click();
   }
 
   fillValues(input) {
@@ -62,6 +60,6 @@ export class WithinIsuRepeatedMeasuresPo {
         valueInput.clear().then(() => valueInput.sendKeys(value));
       });
     }
-    element(by.id('navigate_next')).click();
+    element(by.id('spacenextbtn')).click();
   }
 }

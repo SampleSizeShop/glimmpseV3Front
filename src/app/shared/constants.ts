@@ -187,6 +187,7 @@ export const constants = {
   CORRELATION_MAX: 1,
   CORRELATION_MATRIX_FORM_ERRORS: {},
   CORRELATION_MATRIX_VALIDATION_MESSAGES: {
+    'zeroCol': 'You cannot have a column of zeroes',
     'minval': 'Value too low.',
     'maxval': 'Value too high'
   },
@@ -200,12 +201,13 @@ export const constants = {
   },
   MAX_REPEATED_MEASURES: 5,
   REPEATED_MEASURE_STAGES: {
-    '0': 'DIMENSIONS',
-    '1': 'TYPE',
-    '2': 'REPEATS',
-    '3': 'SPACING'
+    INFO: 0,
+    DIMENSIONS: 1,
+    TYPE: 2,
+    REPEATS: 3,
+    SPACING: 4
   },
-  REPEATED_MEASURE_TYPES: ['Numeric', 'Categorical', 'Ordinal'],
+  REPEATED_MEASURE_TYPES: ['Categorical', 'Ordinal', 'Numeric'],
   REPEATED_MEASURE_FORM_ERRORS: {
     'space': 'Your repeated measures cannot be duplicates.',
     'dimensionunits': 'Value needs to be filled in.',
@@ -252,8 +254,9 @@ export const constants = {
     }
   },
   CLUSTER_STAGES: {
-    '0': 'ELEMENT_NAME',
-    '1': 'LEVELS',
+    INFO: 0,
+    ELEMENT_NAME: 1,
+    LEVELS: 2,
   },
   BETWEEN_ISU_STAGES: {
     INFO: 0,
@@ -272,11 +275,36 @@ export const constants = {
     WITHIN: 'Within',
     BETWEEN: 'Between'
   },
-  HYPOTHESIS_BETWEEN_NATURE: {
-    GLOBAL_TRENDS: 'GLOBAL_TRENDS',
-    IDENTITY: 'IDENTITY',
-    POLYNOMIAL: 'POLYNOMIAL',
-    USER_DEFINED: 'USER_DEFINED',
+  CONTRAST_MATRIX_NATURE: {
+    GLOBAL_TRENDS: 'Global Trends',
+    IDENTITY: 'Identity',
+    POLYNOMIAL: 'Polynomial',
+    USER_DEFINED_PARTIALS: 'Define partial contrasts',
+    CUSTOM_C_MATRIX: 'Define hypothesis C Matrix',
+    CUSTOM_U_MATRIX: 'Define hypothesis U Matrix',
+  },
+  HYPOTHESIS_BETWEEN_STAGES: {
+    INFO: 0,
+    ROWS: 1,
+    EDIT_CUSTOM: 2
+  },
+  HYPOTHESIS_BETWEEN_FORM_ERRORS: {
+    'norows': ''
+  },
+  HYPOTHESIS_WITHIN_FORM_ERRORS: {
+    'nocols': ''
+  },
+  HYPOTHESIS_BETWEEN_VALIDATION_MESSAGES: {
+    'norows': {
+      'minval': 'Value too low.',
+      'maxval': 'Value too high'
+    }
+  },
+  HYPOTHESIS_WITHIN_VALIDATION_MESSAGES: {
+    'norows': {
+      'minval': 'Value too low.',
+      'maxval': 'Value too high'
+    }
   },
   HYPOTHESIS_ORIGIN: {
     OUTCOME: 'Outcome',

@@ -1,3 +1,5 @@
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
 .ng-invalid:not(form)  {
   border-bottom: 2px solid #9a0200; /* red */
   color: #9a0200;
@@ -15,4 +17,28 @@ body{
 
 .material-icons:hover {
   color: #2196F3;
+}
+
+.matrix-input-brackets {
+  background-image: linear-gradient(#69696b, #69696b),
+  linear-gradient(#69696b, #69696b),
+  linear-gradient(#69696b, #69696b),
+  linear-gradient(#69696b, #69696b);
+
+  background-repeat: no-repeat;
+  background-size: 8px 1px;
+  background-position: top left, top right, bottom left, bottom right;
+
+  border: solid #69696b;
+  text-align: justify;
+  border-width: 0 1px;
+  display: inline-block;
+  vertical-align: top;
+  padding: 5px 15px;
+  margin: 20px;}
+
+.matrix-input-control {
+  border-bottom: none!important;
+  box-shadow: none!important;
+  text-align: center;
 }

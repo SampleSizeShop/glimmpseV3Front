@@ -1,110 +1,129 @@
-<h5>What is the nature of your between hypothesis?</h5>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col">
-        <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-primary dropdown-toggle" id="dropdownBasic2" ngbDropdownToggle>{{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-            <button class="dropdown-item">{{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
-            <button class="dropdown-item">{{HYPOTHESIS_NATURE.IDENTITY}}</button>
-            <button class="dropdown-item">{{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
-          </div>
-        </div>
-        <br>
-        <br>
-        <div class="btn-group-vertical btn-block" data-toggle="buttons">
-          <label class="btn btn-secondary" style="margin-bottom: 0px;" id="pb" [class.active]="false" *ngIf="!showAdvancedOptions">
-            <input type="checkbox" (click)="toggleAdvancedOptions()">Show Advanced Options
-          </label>
-          <label class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="false" *ngIf="showAdvancedOptions">
-            <input type="checkbox" (click)="toggleAdvancedOptions()">Hide Advanced Options
-          </label>
-        </div>
-        <br>
-        <br>
-        <div class="btn-group-vertical btn-block" data-toggle="buttons" *ngIf="showAdvancedOptions">
-          <h6>Click on any of the marginal C matrices below to customise them:</h6>
-          <div class="container-fluid">
-            <div *ngFor="let predictor of marginalsIn">
-              <div class="row">
-                <div class="col  col-md-auto">
-                  <h6>{{predictor.name}}:</h6>
-                </div>
-                <div class="col  col-md-auto">
-                  <div ngbDropdown class="d-inline-block">
-                    <button class="btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{predictor.type}}</button>
-                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                      <button class="dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
-                      <button class="dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
-                      <button class="dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.POLYNOMIAL)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
-                    </div>
+<div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)" >
+  <div *ngIf="isInfo()">
+    <h5>What is the nature of your between hypothesis?</h5>
+    <div class="container-fluid">
+      <div ngClass="{{getButtonClass()}}" data-toggle="buttons">
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS">
+          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.GLOBAL_TRENDS)"> {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}
+        </label>
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY">
+          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
+        </label>
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL">
+          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
+        </label>
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
+               *ngIf="showAdvancedOptions">
+          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> {{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}
+        </label>
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX"
+               *ngIf="showAdvancedOptions">
+          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_C_MATRIX)"> {{HYPOTHESIS_NATURE.CUSTOM_C_MATRIX}}
+        </label>
+      </div>
+      <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+        <h6>Click on any of the marginal C matrices below to customise them:</h6>
+        <div class="container-fluid">
+          <div *ngFor="let predictor of predictorsIn">
+            <div class="row">
+              <div class="col  col-md-auto">
+                <h6>{{predictor.name}}:</h6>
+              </div>
+              <div class="col  col-md-auto">
+                <div ngbDropdown class="h-25 d-inline-block">
+                  <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{predictor.isuFactorNature}}</button>
+                  <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
+                    <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
+                    <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
+                    <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.POLYNOMIAL)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+                    <button class="h-25 dropdown-item" (click)="setCustomPartialCMatrix(predictor)">{{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}</button>
                   </div>
                 </div>
-                <div class="col  col-md-auto">
-                  <i class="material-icons" (click)="advancedOptions(predictor.name)" style="margin-bottom: 5px" id="editpredictor">create</i>
-                </div>
+              </div>
+              <div class="col  col-md-auto" *ngIf="predictor.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+                <div *ngIf="predictor.hasPartialMatrix()"
+                     [mathJaxExpr]="predictor.partialMatrix.toTeX()"></div>
               </div>
             </div>
           </div>
         </div>
-
-        <br>
-        <br>
-        <h6>Marginals in effect:</h6>
-        <div *ngFor="let m of marginalsIn">
-          <div>Predictor Name: {{m.name}}</div>
-          <div *ngIf=false [mathJaxExpr]="m.toTeX()"></div>
-        </div>
-        <hr>
-        <h6>Marginals for factors not in chosen effect:</h6>
-        <div *ngFor="let m of marginalsOut">
-          <div>Predictor Name: {{m.name}}</div>
-          <div *ngIf=false [mathJaxExpr]="m.toTeX()"></div>
-        </div>
-        <hr>
-        <h6>C Matrix</h6>
-        <div *ngIf=false [mathJaxExpr]="texString" style="padding-top: 10px"></div>
-
-
       </div>
-
-      <div class="col">
-        <div class="card">
-          <h3 class="card-header">Global Trends</h3>
-          <div class="card-block">
-            <h5 class="card-title">Rodriguez</h5>
-            <h6 class="card-subtitle text-muted">Sugar Man</h6>
-          </div>
-          <div class="card-block">
-            <p class="card-text">Sugar man, won't you hurry
-              'Cos I'm tired of these scenes
-              For a blue coin won't you bring back
-              All those colors to my dreams
-            </p>
-            <p class="card-text">
-              Silver magic ships you carry
-              Jumpers, coke, sweet Mary Jane
-              Sugar man met a false friend
-              On a lonely dusty road
-              Lost my heart when I found it
-              It had turned to dead black coal
-            </p>
-            <p class="card-text">
-              Silver magic ships you carry
-              Jumpers, coke, sweet Mary Jane
-              Sugar man you're the answer
-              That makes my questions disappear
-              Sugar man 'cos I'm weary
-              Of those double games I hear
-              Sugar man, Sugar man, Sugar man, Sugar man,
-              Sugar man, Sugar man, Sugar man</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
-          </div>
-          <div class="card-footer text-muted text-xs-center">
-            1970
+      <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX">
+        <br>
+        <div class="row justify-content-center">
+          <div class="col-md-auto"><h6>Your custom C Matrix:</h6></div>
+          <div class="col-md-auto">
+            <div [mathJaxExpr]="cMatrixTex"></div>
           </div>
         </div>
       </div>
+      <br>
+      <br>
+      <button class="btn btn-secondary btn-sm"
+              style="margin-bottom: 0px;" id="pb" [class.active]="false"
+              *ngIf="predictorsInHypothesis() && !showAdvancedOptions"
+              (click)="toggleAdvancedOptions()">
+        Show Advanced Options
+      </button>
+      <button class="btn btn-secondary btn-sm"
+              style="margin-bottom: 0px;" [class.active]="false"
+              *ngIf="predictorsInHypothesis() && showAdvancedOptions"
+              (click)="toggleAdvancedOptions()"
+              [disabled]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS || selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX">
+        Hide Advanced Options
+      </button>
     </div>
   </div>
+
+  <div *ngIf="isRows()">
+    <h6>How many rows would you like in your custom C matrix?</h6>
+    <div class="row">
+      <div class="col col-md-auto">
+        <form [formGroup]="noRowsForm" novalidate>
+        <div class="form-group">
+          <label for="norows">No. rows:</label>
+          <input type="number" class="form-control" id="norows" placeholder="Choose a number between 0 -> {{maxRows}}" formControlName="norows" required min="1" max="{{maxRows}}">
+          <div *ngIf="formErrors.norows" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.norows}}</div>
+          </div>
+          <small id="norowshelp" class="form-text text-muted">you must have 1 > x > {{maxRows}} rows</small>
+        </div>
+        </form>
+      </div>
+    </div>
+    <button class="btn btn-secondary btn-sm" (click)="showInfo()">Back</button>
+    <button class="btn btn-secondary btn-sm" (click)="editCustom()" [disabled]="!this.noRowsForm.valid">Next: Matrix</button>
+  </div>
+
+  <div *ngIf="isEditCustom()">
+    <app-custom-matrix></app-custom-matrix>
+    <button class="btn btn-secondary btn-sm" (click)="rows()">Back</button>
+    <button class="btn btn-secondary btn-sm" (click)="showInfo()">Done</button>
+  </div>
+</div>
+
+<ng-template #canDeactivate>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Are you sure?</h5> <button type="button" class="close" (click)="modalChoice(false)">
+      <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p>You are trying to navigate away from this page. Do you wish to discard changes and continue?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalChoice(false)">Continue editing</button>
+      <button type="button" class="btn btn-primary" (click)="modalChoice(true)">Discard changes</button> </div>
+  </div>
+</ng-template>

@@ -7,7 +7,7 @@
   <div *ngFor="let result of resultString.results">
     <tr>
       <td><h6>{{result.test}}</h6></td>
-      <td><h6>{{getOutput(result)}}</h6></td>
+      <td><h6 [ngStyle]="{'color': hasWarning(result) ? 'red': 'green' }">{{getOutput(result)}}</h6></td>
     </tr>
   </div>
   <table>
@@ -68,6 +68,6 @@
       <td>{{resultString.model.error_sum_square}}</td>
     </tr>
   </table>
-  <div id="results">{{resultString | json}}</div>
+  <div id="results" [hidden]="!e2eTest">{{resultString | json}}</div>
 </div>
-<div id="reviewDataModel" hidden>{{outputString}}</div>
+<div id="reviewDataModel" [hidden]="!e2eTest">{{outputString}}</div>

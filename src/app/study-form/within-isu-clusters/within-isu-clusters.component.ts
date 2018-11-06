@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Cluster} from '../../shared/Cluster';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
@@ -8,10 +8,14 @@ import {Subscription} from 'rxjs';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {clusterValidator} from './cluster.validator';
 import {ClusterLevel} from '../../shared/ClusterLevel';
+import {Observable} from 'rxjs/Observable';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {fadeTransition} from '../../animations';
 
 @Component({
   selector: 'app-within-isu-clusters',
   templateUrl: './within-isu-clusters.component.html',
+  animations: [fadeTransition],
   styleUrls: ['./within-isu-clusters.component.scss']
 })
 export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
@@ -22,79 +26,68 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   private _max: number;
   private _stages;
   private _stage: number;
+  private _next: number;
   private _validationMessages;
+  private _validLevels;
   private _formErrors;
-  private _included: boolean;
-  private _editing: boolean;
   private _maxLevels: number;
   private _levels: ClusterLevel[];
-
-  private _directionCommand: string;
-  private _navigationSubscription: Subscription;
   private _clusterSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
+  @ViewChild('canDeactivate') canDeactivateModal;
+  private modalReference: any;
 
-    this.validationMessages = constants.CLUSTERS_FORM_VALIDATION_MESSAGES;
-    this.formErrors = constants.CLUSTERS_FORM_ERRORS;
-    this.max = constants.MAX_ELEMENTS;
-    this.maxLevels = constants.MAX_LEVELS;
-    this.levels = [];
-    this.stage = -1;
-    this.stages = constants.CLUSTER_STAGES;
+  constructor(private _fb: FormBuilder,
+              private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal) {
 
-    this.navigationSubscription = this.navigation_service.navigation$.subscribe(
-      direction => {
-        this.directionCommand = direction;
-        this.internallyNavigate(this.directionCommand);
-      }
-    );
-    this.clusterSubscription = this.study_service.withinIsuCluster$.subscribe(
+    this._validationMessages = constants.CLUSTERS_FORM_VALIDATION_MESSAGES;
+    this._formErrors = constants.CLUSTERS_FORM_ERRORS;
+    this._max = constants.MAX_ELEMENTS;
+    this._maxLevels = constants.MAX_LEVELS;
+    this._levels = [];
+    this._stages = constants.CLUSTER_STAGES;
+    this._stage = this._stages.INFO;
+    this._clusterSubscription = this.study_service.withinIsuCluster$.subscribe(
       cluster => {
-        this.cluster = cluster;
+        this._cluster = cluster;
       }
     );
   }
 
   buildForm() {
-    this.elementForm = this.fb.group({
+    this._elementForm = this._fb.group({
       name: ['']
     });
-    this.elementForm.valueChanges.subscribe(data => this.onValueChangedElementForm(data));
-    this.clusterLevelForm = this.fb.group({
+    this._elementForm.valueChanges.subscribe(data => this.onValueChangedElementForm(data));
+    this._clusterLevelForm = this._fb.group({
       levelName: ['', clusterValidator(this.levels)],
       noElements: [0, minMaxValidator(2, 10000)]
     })
-    this.clusterLevelForm.valueChanges.subscribe(data => this.onValueChangedClusterLevelForm(data));
+    this._clusterLevelForm.valueChanges.subscribe(data => this.onValueChangedClusterLevelForm(data));
     this.initClusterLevelFormValidMessage();
   }
 
   ngOnInit() {
     this.buildForm();
+    this.setStage(this._stages.INFO);
   }
 
   ngDoCheck() {
-    if (this.stage === 0) {
-      if (this.elementForm.status !== 'INVALID') {
-        this.updateStudyFormStatus('VALID');
+    if (this._stage === this._stages.LEVELS) {
+      if (this._levels && this.levels.length > 0) {
+        this._formErrors.clusterlevelrequired = ''
+        this._validLevels = true;
       } else {
-        this.updateStudyFormStatus('INVALID');
+        this._formErrors.clusterlevelrequired = 'Need to specify at least one cluster level.'
+        this._validLevels = false;
       }
     }
-    if (this.stage === 1) {
-      if (this.levels && this.levels.length > 0) {
-        this.updateStudyFormStatus('VALID');
-        this.formErrors.clusterlevelrequired = ''
-      } else {
-        this.updateStudyFormStatus('INVALID');
-        this.formErrors.clusterlevelrequired = 'Need to specify at least one cluster level.'
-      }
-    }
-    this.study_service.updateWithinIsuCluster(this.cluster);
   }
 
   ngOnDestroy() {
-    this.navigationSubscription.unsubscribe();
+    this._clusterSubscription.unsubscribe();
   }
 
   onValueChangedElementForm(data?: any) {
@@ -103,13 +96,13 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     }
     const form = this.elementForm;
 
-    this.formErrors['cluster'] = '';
-    for (const field in form.value) {
+    this._formErrors['cluster'] = '';
+    for (const field of Object.keys(form.value)) {
       const control = form.get(field);
       if (control && control.dirty && !control.valid) {
-        const messages = this.validationMessages['cluster'];
-        for (const key in control.errors ) {
-          this.formErrors['cluster'] = messages[key];
+        const messages = this._validationMessages['cluster'];
+        for (const key of Object.keys(control.errors)) {
+          this._formErrors['cluster'] = messages[key];
         }
       }
     }
@@ -122,48 +115,51 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     const form = this.clusterLevelForm;
     let control = form.get('levelName');
     if (control.dirty) {
-      this.formErrors['clusterlevelname'] = '';
+      this._formErrors['clusterlevelname'] = '';
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages['clusterlevelname'];
-        for (const key in control.errors ) {
-          this.formErrors['clusterlevelname'] = messages[key];
+        for (const key of Object.keys(control.errors)) {
+          this._formErrors['clusterlevelname'] = messages[key];
         }
       }
     }
     control = form.get('noElements');
     if (control.dirty) {
-      this.formErrors['elementnumber'] = '';
+      this._formErrors['elementnumber'] = '';
       if (control && control.dirty && !control.valid) {
-        const messages = this.validationMessages['elementnumber'];
-        for (const key in control.errors ) {
-          this.formErrors['elementnumber'] += messages[key];
+        const messages = this._validationMessages['elementnumber'];
+        for (const key of Object.keys(control.errors) ) {
+          this._formErrors['elementnumber'] += messages[key];
         }
       }
     }
   }
 
   initClusterLevelFormValidMessage() {
-    this.formErrors.clusterlevelname = 'Value needs to be filled in.';
-    this.formErrors.elementnumber = 'Value too low.';
+    this._formErrors.clusterlevelname = 'Value needs to be filled in.';
+    this._formErrors.elementnumber = 'Value too low.';
   }
+
   addCluster() {
-    this.cluster = new Cluster();
-    this.cluster.name = this.elementForm.value.name;
+    this._cluster = new Cluster();
+    this._cluster.name = this._elementForm.value.name;
 
     for (const level of this.levels) {
-      this.cluster.levels.push(level);
+      this._cluster.levels.push(level);
     }
+    this.study_service.updateWithinIsuCluster(this.cluster);
+    this.setStage(this._stages.INFO);
   }
 
-  editCluster(cluster: Cluster) {
-    this.removeCluster();
-    this.elementForm.get('name').setValue(cluster.name);
-    this.levels = cluster.levels;
-    this.includeClusters();
+  editCluster() {
+    this.elementForm.get('name').setValue(this._cluster.name);
+    this._levels = this._cluster.levels;
+    this.setStage(this._stages.ELEMENT_NAME);
   }
 
   removeCluster() {
-    this.cluster = null;
+    this._cluster = null;
+    this.study_service.updateWithinIsuCluster(this.cluster);
   }
 
   addLevel() {
@@ -177,44 +173,11 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   includeClusters(cluster?: Cluster) {
-    this.included = true;
-    this.editing = true;
-    this.navigation_service.updateNavigationMode(true);
-    this.navigation_service.updateNextEnabled(true);
     this.navigation_service.updateValid(false);
     if (cluster) {
-      this.cluster = cluster;
+      this._cluster = cluster;
     }
-    this.stage = this.stage = 0;
-  }
-
-  dontincludeClusters() {
-    this.navigation_service.updateNavigationMode(false);
-    this.included = false;
-    this.editing = false;
-    this.navigation_service.updateValid(true);
-    this.stage = -1;
-  }
-
-  internallyNavigate(direction: string) {
-    let next = this.stage;
-    if ( direction === 'BACK' ) {
-      next = this.stage - 1;
-    }
-    if ( direction === 'NEXT' ) {
-      next = this.stage + 1;
-    }
-    if ( next < 0) {
-      this.resetForms();
-      this.dontincludeClusters();
-    }
-    if ( next >= Object.keys(this.stages).length ) {
-      this.addCluster();
-      this.resetForms();
-    }
-    if (this.stages[next]) {
-      this.setStage(next);
-    }
+    this.setStage(this._stages.ELEMENT_NAME);
   }
 
   getStageStatus(stage: number): string {
@@ -228,69 +191,116 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   setStage(next: number) {
-    this.stage = next;
-    this.updateStudyFormStatus(this.getStageStatus(this.stage));
+    this._stage = next;
+    if (this.isInfo()) {
+      this.navigation_service.updateValid(true);
+    } else {
+      this.navigation_service.updateValid(false);
+    }
   }
 
-  updateStudyFormStatus(status: string) {
-    const valid = status === 'VALID' ? true : false;
-    this.navigation_service.updateValid(valid);
+  removeLevel(level: ClusterLevel) {
+    this.levels.forEach((lvl, index) => {
+      if (lvl.levelName === level.levelName) {
+        this._levels.splice(index, 1);
+      }
+    });
   }
 
-  resetForms() {
-    this.buildForm();
-    this.levels = [];
-    this.stage = -1;
-    this.editing = false;
-    this.navigation_service.updateNavigationMode(false);
+  startTransition(event) {
+  }
+
+  doneTransition(event) {
+    this.setStage(this._next);
+  }
+
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (this.isInfo()) {
+      this.navigation_service.updateValid(true);
+      return true;
+    } else {
+      console.log('cancel');
+      this.showModal(this.canDeactivateModal);
+      this.study_service.updateDirection('CANCEL');
+      return this.navigation_service.navigateAwaySelection$;
+    }
+  }
+
+  showModal(content) {
+    this.modalReference = this.modalService.open(content)
+    this.modalReference.result.then(
+      (closeResult) => {
+        console.log('modal closed : ', closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          console.log('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          console.log('modal dismissed when used pressed backdrop');
+        } else {
+          console.log(dismissReason);
+        }
+      })
+  }
+
+  modalChoice(choice: boolean) {
+    this.modalReference.close();
+    if (choice) {
+      this.buildForm();
+      this.navigation_service.updateValid(true);
+    }
+    this.navigation_service.navigateAwaySelection$.next(choice);
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
   }
 
   hasCluster(): boolean {
     return this.cluster ? true : false;
   }
 
+  hasLevels(): boolean {
+    return this.levels ? true : false;
+  }
+
+  isInfo() {
+    return this._stage === this._stages.INFO;
+  }
+
+  isElementName() {
+    return this._stage === this._stages.ELEMENT_NAME;
+  }
+
+  isLevels() {
+    return this._stage === this._stages.LEVELS;
+  }
+
   get stageName() {
-    return this.stages[this.stage]
+    return Object.keys(this._stages)[this.stage]
   }
 
   get elementForm(): FormGroup {
     return this._elementForm;
   }
 
-  set elementForm(value: FormGroup) {
-    this._elementForm = value;
-  }
-
   get clusterLevelForm(): FormGroup {
     return this._clusterLevelForm;
-  }
-
-  set clusterLevelForm(value: FormGroup) {
-    this._clusterLevelForm = value;
   }
 
   get cluster(): Cluster {
     return this._cluster;
   }
 
-  set cluster(value: Cluster) {
-    this._cluster = value;
-  }
-
   get max(): number {
     return this._max;
   }
 
-  set max(value: number) {
-    this._max = value;
-  }
-
   get stages() {
     return this._stages;
-  }
-
-  set stages(value) {
-    this._stages = value;
   }
 
   get stage(): number {
@@ -305,79 +315,19 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     return this._validationMessages;
   }
 
-  set validationMessages(value) {
-    this._validationMessages = value;
-  }
-
   get formErrors() {
     return this._formErrors;
-  }
-
-  set formErrors(value) {
-    this._formErrors = value;
-  }
-
-  get included(): boolean {
-    return this._included;
-  }
-
-  set included(value: boolean) {
-    this._included = value;
-  }
-
-  get editing(): boolean {
-    return this._editing;
-  }
-
-  set editing(value: boolean) {
-    this._editing = value;
   }
 
   get maxLevels(): number {
     return this._maxLevels;
   }
 
-  set maxLevels(value: number) {
-    this._maxLevels = value;
-  }
-
-  get directionCommand(): string {
-    return this._directionCommand;
-  }
-
-  set directionCommand(value: string) {
-    this._directionCommand = value;
-  }
-
-  get navigationSubscription(): Subscription {
-    return this._navigationSubscription;
-  }
-
-  set navigationSubscription(value: Subscription) {
-    this._navigationSubscription = value;
-  }
-
   get levels(): ClusterLevel[] {
     return this._levels;
   }
 
-  set levels(value: ClusterLevel[]) {
-    this._levels = value;
-  }
-
-  get fb(): FormBuilder {
-    return this._fb;
-  }
-
-  set fb(value: FormBuilder) {
-    this._fb = value;
-  }
-
-  get clusterSubscription(): Subscription {
-    return this._clusterSubscription;
-  }
-
-  set clusterSubscription(value: Subscription) {
-    this._clusterSubscription = value;
+  get validLevels() {
+    return this._validLevels;
   }
 }

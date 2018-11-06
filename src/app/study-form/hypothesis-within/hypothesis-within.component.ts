@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {constants, getStageName} from '../../shared/constants';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
@@ -8,172 +8,364 @@ import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';
 import {Router} from '@angular/router';
 import {NGXLogger} from 'ngx-logger';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {NavigationService} from '../../shared/navigation.service';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
+import {minMaxValidator} from '../../shared/minmax.validator';
+import {Observable} from 'rxjs/Observable';
+import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
+import {fadeTransition} from '../../animations';
 
 @Component({
   selector: 'app-hypothesis-within',
   templateUrl: './hypothesis-within.component.html',
+  providers: [ContrastMatrixService],
+  animations: [fadeTransition],
   styleUrls: ['./hypothesis-within.component.css']
 })
 export class HypothesisWithinComponent implements OnInit, OnDestroy {
+  private _stages = constants.HYPOTHESIS_BETWEEN_STAGES;
+  private _stage = this._stages.INFO;
+  private _next = this._stages.INFO;
   private _showAdvancedOptions: boolean;
-  private _withinHypothesisNature: string;
+  private _HYPOTHESIS_NATURE = constants.CONTRAST_MATRIX_NATURE;
   private _isuFactors: ISUFactors;
-  private _HYPOTHESIS_NATURE = constants.HYPOTHESIS_BETWEEN_NATURE;
-  private _withinHypothesisNatureSubscription: Subscription;
+  private _formErrors = constants.HYPOTHESIS_WITHIN_FORM_ERRORS;
+  private _validationMessages = constants.HYPOTHESIS_WITHIN_VALIDATION_MESSAGES;
+  private _noColsForm: FormGroup;
+  private _maxCols: number;
+  private _numCustomCols: number;
+  private _contrast_matrix: PartialMatrix;
+  private _contrast_matrix_for: string;
+  private screenWidth;
+
   private _isuFactorsSubscription: Subscription;
+  private _contrastMatrixSubscription: Subscription;
+  texString = '';
 
-  private _uOutcomes: PartialMatrix;
-  private _uRepeatedMeasures: PartialMatrix;
-  private _uCluster: number
+  @ViewChild('canDeactivate') canDeactivateModal;
+  private modalReference: any;
 
-  constructor(private study_service: StudyService, private router: Router, private log: NGXLogger) {
-    this.showAdvancedOptions = false;
+  @HostListener('window:resize', ['$event'])
+  onResize(event?) {
+    this.screenWidth = window.innerWidth;
+  }
 
-    this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
-      this.isuFactors = isuFactors;
-    } );
-    this.withinHypothesisNatureSubscription = this.study_service.withinHypothesisNature$.subscribe(
-      withinHypothesisNature => {
-        this.withinHypothesisNature = withinHypothesisNature;
+  constructor(private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private contrast_matrix_service: ContrastMatrixService,
+              private fb: FormBuilder,
+              private router: Router,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
+    this._showAdvancedOptions = false;
+
+    this._isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
+      this._isuFactors = isuFactors;
+
+      if (isNullOrUndefined(this._isuFactors.uMatrix)) {
+        this._isuFactors.uMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
       }
-    );
+    } );
+    this._contrastMatrixSubscription = this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
+      this.setContrastMatrix(contrast_matrix);
+    });
+    this.buildForm();
+    this.onResize();
+  }
+
+  buildForm(): void {
+    this._noColsForm = this.fb.group({
+      nocols: [this._numCustomCols, minMaxValidator(1, this._maxCols)]
+    });
+
+    this._noColsForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.onValueChanged(); // (re)set validation messages now
+  }
+
+  onValueChanged(data?: any) {
+    if (!this._noColsForm) {
+      return;
+    }
+    const form = this._noColsForm;
+
+    for (const field in this._formErrors) {
+      if (this._formErrors.hasOwnProperty(field)) {
+        this._formErrors[field] = '';
+        const control = form.get(field);
+        if (control && control.dirty && !control.valid) {
+          const messages = this._validationMessages[field];
+          for (const key in control.errors) {
+            if (control.errors.hasOwnProperty(key)) {
+              this._formErrors[field] += messages[key] + ' ';
+            }
+          }
+        }
+      }
+    }
   }
 
   ngOnInit() {
-    if (this.withinHypothesisNature !== this.HYPOTHESIS_NATURE.GLOBAL_TRENDS) {
-      this.showAdvancedOptions = true;
+    if (this._isuFactors.uMatrix.type === this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS ||
+      this._isuFactors.uMatrix.type === this.HYPOTHESIS_NATURE.CUSTOM_U_MATRIX) {
+      this.toggleAdvancedOptions();
     }
-    this.populateUOutcomes();
-    this.populateUClusters();
-    this.populateURepeatedMeasures();
   }
 
   ngOnDestroy() {
-    this.withinHypothesisNatureSubscription.unsubscribe();
+    this._isuFactorsSubscription.unsubscribe();
+    this._contrastMatrixSubscription.unsubscribe();
   }
 
-  populateUOutcomes() {
-    this._uOutcomes = new PartialMatrix(constants.C_MATRIX_TYPE.IDENTITY);
-    this._uOutcomes.populateIdentityMatrix(this.isuFactors.outcomes.length);
-  }
-
-  populateUClusters() {
-    this._uCluster = 1;
-    if (!isNullOrUndefined(this.isuFactors.cluster)) {
-      this.isuFactors.cluster.levels.forEach( level => {
-        this._uCluster =
-          this._uCluster * ( 1 + (level.noElements - 1) * level.intraClassCorellation ) * (1 / level.noElements);
-      });
-    }
-  }
-
-  populateURepeatedMeasures() {
-    if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) &&
-    this.isuFactors.repeatedMeasures.length > 0) {
-      this._uRepeatedMeasures = new PartialMatrix(constants.C_MATRIX_TYPE.MAIN_EFFECT);
-      this._uRepeatedMeasures.populateIdentityMatrix(1);
-      this.isuFactors.repeatedMeasures.forEach( measure => {
-        this._uRepeatedMeasures.values = this._uRepeatedMeasures.kronecker(measure.partialUMatrix);
-      });
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (this._stage === this._stages.INFO) {
+      this.navigation_service.updateValid(true);
+      return true;
     } else {
-      this._uRepeatedMeasures = new PartialMatrix(constants.C_MATRIX_TYPE.IDENTITY);
-      this._uRepeatedMeasures.populateIdentityMatrix(1);
+      console.log('cancel');
+      this.showModal(this.canDeactivateModal);
+      this.study_service.updateDirection('CANCEL');
+      return this.navigation_service.navigateAwaySelection$;
     }
   }
 
-  advancedOptions(name: string) {
-    this.router.navigate(['design', getStageName(constants.STAGES.HYPOTHESIS_WITHIN), name])
+  selectHypothesisNature(nature: string) {
+    this._isuFactors.uMatrix.type = nature;
+    if (nature === this.HYPOTHESIS_NATURE.CUSTOM_U_MATRIX) {
+      this.setCustomUMatrix();
+    } else if (nature !== this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS) {
+      this._isuFactors.repeatedMeasures.forEach( repMeasure => {
+          repMeasure.isuFactorNature = nature;
+        }
+      );
+    }
+  }
+
+  private setContrastMatrix(contrast_matrix) {
+    this._contrast_matrix = contrast_matrix;
+    if (this._contrast_matrix_for === 'UMATRIX') {
+      this._isuFactors.uMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.CUSTOM_U_MATRIX);
+      this._isuFactors.uMatrix.values = this._contrast_matrix.values;
+    } else {
+      this._isuFactors.repeatedMeasuresInHypothesis.forEach(repMeasure => {
+        if (repMeasure.name === this._contrast_matrix_for) {
+          repMeasure.partialMatrix = new PartialMatrix(this.selectedHypothesis);
+          repMeasure.partialMatrix.values = this._contrast_matrix.values;
+        }
+      });
+    }
+  }
+
+  toggleAdvancedOptions() {
+    this._showAdvancedOptions = !this.showAdvancedOptions;
   }
 
   setNature(name: string, nature: string) {
     this.log.debug( name + ' set: ' + nature );
-    this.isuFactors.repeatedMeasures.forEach( measure => {
-        if (measure.name === name) {
-          measure.isuFactorNature = nature;
-          measure.populatePartialMatrix();
-        }
+    this._isuFactors.repeatedMeasures.forEach( repMeasure => {
+      if (repMeasure.name === name) {
+        repMeasure.isuFactorNature = nature;
       }
-    );
-    this.populateURepeatedMeasures();
+    });
   }
 
-  isSelected(hypothesis: string): boolean {
-    return this.withinHypothesisNature === hypothesis;
+  setCustomPartialUMatrix(repMeasure: RepeatedMeasure) {
+    repMeasure.isuFactorNature = this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS;
+    this._contrast_matrix_for = repMeasure.name;
+    if (!isNullOrUndefined(repMeasure)) {
+      this.updateContrastMatrix(repMeasure);
+      this.buildForm();
+    }
+    this.cols();
   }
 
-  toggleAdvancedOptions() {
-    this.showAdvancedOptions = !this.showAdvancedOptions;
+  setCustomUMatrix() {
+    this._contrast_matrix_for = 'UMATRIX';
+    const uMatrixObject = this.createCustomUmatrixObject();
+    if (!isNullOrUndefined(uMatrixObject)) {
+      this.updateContrastMatrix(uMatrixObject);
+      this.buildForm();
+    }
+    this.cols();
   }
 
-  get showAdvancedOptions(): boolean {
-    return this._showAdvancedOptions;
+  private updateContrastMatrix(repMeasue: RepeatedMeasure) {
+    const contrast_matrix = new PartialMatrix();
+    if (isNullOrUndefined(repMeasue.partialMatrix) || isNullOrUndefined(repMeasue.partialMatrix.values)) {
+      repMeasue.partialMatrix = new PartialMatrix();
+    }
+    contrast_matrix.values = repMeasue.partialMatrix.values;
+    this.contrast_matrix_service.update_contrast_matrix(contrast_matrix);
+    this.contrast_matrix_service.update_factor(repMeasue);
+    this.contrast_matrix_service.update_rows(repMeasue.valueNames.length);
+    this._maxCols = repMeasue.valueNames.length;
   }
 
-  set showAdvancedOptions(value: boolean) {
-    this._showAdvancedOptions = value;
+  private createCustomUmatrixObject() {
+    const uMatrixObject = new RepeatedMeasure();
+    uMatrixObject.name = 'your ';
+
+    this._isuFactors.repeatedMeasures.forEach(repMeasure => {
+      uMatrixObject.name = uMatrixObject.name + repMeasure.name + ' x '
+      repMeasure.valueNames.forEach(name => {
+        uMatrixObject.valueNames.push(name);
+      });
+    });
+    uMatrixObject.name = uMatrixObject.name.slice(0, uMatrixObject.name.length - 2);
+    uMatrixObject.name = uMatrixObject.name + 'hypothesis'
+    return uMatrixObject;
   }
 
-  get withinHypothesisNature(): string {
-    return this._withinHypothesisNature;
+  cols() {
+    this._next = this._stages.ROWS;
+    this._stage = -1;
   }
 
-  set withinHypothesisNature(value: string) {
-    this._withinHypothesisNature = value;
+  editCustom() {
+    this.contrast_matrix_service.update_cols(this._noColsForm.get('nocols').value);
+    this._next = this._stages.EDIT_CUSTOM;
+    this._stage = -1;
   }
 
-  get HYPOTHESIS_NATURE(): { GLOBAL_TRENDS; ALL_PAIRWISE; SUCCESSIVE_PAIRS; IDENTITY; POLYNOMIAL; USER_DEFINED } | any {
-    return this._HYPOTHESIS_NATURE;
+  showInfo() {
+    this._next = this._stages.INFO;
+    this._stage = -1;
   }
 
-  set HYPOTHESIS_NATURE(value: { GLOBAL_TRENDS; ALL_PAIRWISE; SUCCESSIVE_PAIRS; IDENTITY; POLYNOMIAL; USER_DEFINED } | any) {
-    this._HYPOTHESIS_NATURE = value;
+  getButtonClass() {
+    if (this.screenWidth < 601 ) {
+      return 'btn-group-vertical';
+    } else {
+      return 'btn-group';
+    }
   }
 
-  get withinHypothesisNatureSubscription(): Subscription {
-    return this._withinHypothesisNatureSubscription;
+  setStage(next: number) {
+    if (next === this._stages.INFO) {
+      this.navigation_service.updateValid(true);
+    } else {
+      this.navigation_service.updateValid(false);
+    }
+    this._stage = next;
   }
 
-  set withinHypothesisNatureSubscription(value: Subscription) {
-    this._withinHypothesisNatureSubscription = value;
+  startTransition(event) {
   }
 
-  set isuFactorsSubscription(value: Subscription) {
-    this._isuFactorsSubscription = value;
+  doneTransition(event) {
+    this.setStage(this._next);
+  }
+
+  showModal(content) {
+    this.modalReference = this.modalService.open(content)
+    this.modalReference.result.then(
+      (closeResult) => {
+        console.log('modal closed : ', closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          console.log('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          console.log('modal dismissed when used pressed backdrop');
+        } else {
+          console.log(dismissReason);
+        }
+      })
+  }
+
+  modalChoice(choice: boolean) {
+    this.modalReference.close();
+    if (choice) {
+      // this.resetForms();
+      this.navigation_service.updateValid(true);
+    }
+    this.navigation_service.navigateAwaySelection$.next(choice);
+  }
+
+  repeatedMeasuresInHypothesis(): boolean {
+    if (!isNullOrUndefined(this._isuFactors)
+      && !isNullOrUndefined(this._isuFactors.repeatedMeasuresInHypothesis)
+      && this._isuFactors.repeatedMeasuresInHypothesis.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isInfo() {
+    if (this._stage === this._stages.INFO) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  isRows() {
+    if (this._stage === this._stages.ROWS) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  isEditCustom() {
+    if (this._stage === this._stages.EDIT_CUSTOM) {
+      return true;
+    } else {
+      return false
+    }
   }
 
   get isuFactors(): ISUFactors {
     return this._isuFactors;
   }
 
-  set isuFactors(value: ISUFactors) {
-    this._isuFactors = value;
+  get showAdvancedOptions(): boolean {
+    return this._showAdvancedOptions;
   }
 
-  get uOutcomes(): PartialMatrix {
-    return this._uOutcomes;
+  get HYPOTHESIS_NATURE(): { GLOBAL_TRENDS; ALL_PAIRWISE; SUCCESSIVE_PAIRS; IDENTITY; POLYNOMIAL; USER_DEFINED } | any {
+    return this._HYPOTHESIS_NATURE;
   }
 
-  get uRepeatedMeasures(): PartialMatrix {
-    return this._uRepeatedMeasures;
+  get selectedHypothesis() {
+    return this._isuFactors.uMatrix.type;
   }
 
-  get uCluster(): number {
-    return this._uCluster;
+  get repeatedMeasuresIn(): Array<RepeatedMeasure> {
+    return this._isuFactors.repeatedMeasuresInHypothesis;
   }
 
-  get uMatrix() {
-    let m = this.uOutcomes.kronecker(this.uRepeatedMeasures);
-    m = math.kron(m, math.matrix([this.uCluster]));
-    let texString = '$\\begin{bmatrix}';
-    let row = 0;
-    m.forEach(function (value, index, matrix) {
-      if (index[0] > row) {
-        row = index[0];
-        texString = texString.slice(0, texString.length - 2) + '\\\\';
-      }
-      texString = texString + value + ' & '
-    })
-    texString = texString.slice(0, texString.length - 2) + '\\end{bmatrix}$';
-    return texString;
+  get stage(): number {
+    return this._stage;
+  }
+
+  get formErrors(): { nocols: string } {
+    return this._formErrors;
+  }
+
+  get noRowsForm(): FormGroup {
+    return this._noColsForm;
+  }
+
+  get maxCols(): number {
+    return this._maxCols;
+  }
+
+  get uMatrixTex() {
+    return this._isuFactors.uMatrix.toTeX();
+    // let m = this._uOutcomes.kronecker(this._uRepeatedMeasures);
+    // m = math.kron(m, math.matrix([this._uCluster]));
+    // let texString = '$\\begin{bmatrix}';
+    // let row = 0;
+    // m.forEach(function (value, index, matrix) {
+    //   if (index[0] > row) {
+    //     row = index[0];
+    //     texString = texString.slice(0, texString.length - 2) + '\\\\';
+    //   }
+    //   texString = texString + value + ' & '
+    // })
+    // texString = texString.slice(0, texString.length - 2) + '\\end{bmatrix}$';
+    // return texString;
   }
 }
