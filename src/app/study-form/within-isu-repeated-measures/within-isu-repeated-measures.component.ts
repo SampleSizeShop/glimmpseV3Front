@@ -178,7 +178,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   addRepeatedMeasure() {
-    this.navigation_service.updateValid(false);
     const measure = new RepeatedMeasure();
     measure.name = this._dimensionForm.value.dimension;
     measure.units = this._dimensionForm.value.units;
@@ -196,7 +195,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   editRepeatedMeasure(measure: RepeatedMeasure) {
-    this.navigation_service.updateValid(false);
     this.removeRepeatedMeasure(measure);
 
     this._repMeasure = measure;
