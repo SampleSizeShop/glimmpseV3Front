@@ -23,6 +23,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   private _stages;
   private _stage: number;
   private _validationMessages;
+  private _validLevels;
   private _formErrors;
   private _maxLevels: number;
   private _levels: ClusterLevel[];
@@ -65,11 +66,12 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     if (this._stage === this._stages.LEVELS) {
       if (this._levels && this.levels.length > 0) {
         this._formErrors.clusterlevelrequired = ''
+        this._validLevels = true;
       } else {
         this._formErrors.clusterlevelrequired = 'Need to specify at least one cluster level.'
+        this._validLevels = false;
       }
     }
-    this.study_service.updateWithinIsuCluster(this.cluster);
   }
 
   ngOnDestroy() {
@@ -279,5 +281,9 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   get levels(): ClusterLevel[] {
     return this._levels;
+  }
+
+  get validLevels() {
+    return this._validLevels;
   }
 }

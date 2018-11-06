@@ -84,7 +84,7 @@
     </div>
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="levelscancelbtn">Cancel</button>
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.ELEMENT_NAME)" id="levelsbackbtn">Back</button>
-    <button class="btn btn-primary btn-sm" (click)="setStage(stages.INFO)" id="levelsnextbtn" [disabled]="!this.clusterLevelForm.valid">Finish</button>
+    <button class="btn btn-primary btn-sm" (click)="setStage(stages.INFO)" id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
   </div>
 
 <br>
