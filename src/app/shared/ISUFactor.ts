@@ -2,6 +2,7 @@ import {ISUFactorCombination} from './ISUFactorCombination';
 import {constants} from './constants';
 import {PartialMatrix} from './PartialMatrix';
 import {CombinationId} from './CombinationId';
+import {isNullOrUndefined} from "util";
 
 /**
  * Model class defining each independent sampling unit factor.
@@ -35,7 +36,7 @@ export class ISUFactor {
       this.origin = origin;
     }
     this.inHypothesis = false;
-    this.isuFactorNature = constants.HYPOTHESIS_BETWEEN_NATURE.GLOBAL_TRENDS;
+    this.isuFactorNature = constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS;
   }
 
   /**
@@ -115,6 +116,18 @@ export class ISUFactor {
       }
     );
     return newCombinations;
+  }
+
+  /**
+   * Function returning boolean value for whether Partial matrix is defined
+   * **/
+  hasPartialMatrix() {
+    if (!isNullOrUndefined(this.partialMatrix)  &&
+      !isNullOrUndefined(this.partialMatrix.values)) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**

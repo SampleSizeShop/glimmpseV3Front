@@ -11,6 +11,7 @@ import {CorrelationMatrix} from './CorrelationMatrix';
 import {Group} from './Group';
 import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
 import {MarginalMeansTable} from './MarginalMeansTable';
+import {PartialMatrix} from "./PartialMatrix";
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
@@ -19,6 +20,8 @@ export class ISUFactors {
   marginalMeans = new Array<MarginalMeansTable>();
   smallestGroupSize: number[] = [];
   outcomeCorrelationMatrix: CorrelationMatrix = new CorrelationMatrix();
+  cMatrix: PartialMatrix;
+  uMatrix: PartialMatrix;
 
   toJSON() {
     return {
@@ -27,7 +30,9 @@ export class ISUFactors {
         marginalMeans: this.marginalMeans,
         smallestGroupSize: this.smallestGroupSize,
         theta0: this.theta0,
-        outcomeCorrelationMatrix: this.outcomeCorrelationMatrix };
+        outcomeCorrelationMatrix: this.outcomeCorrelationMatrix,
+        cMatrix: this.cMatrix,
+        uMatrix: this.uMatrix};
   }
 
   get hypothesisName(): string {

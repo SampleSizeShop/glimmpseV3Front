@@ -8,6 +8,9 @@ import {MockBackend} from '@angular/http/testing';
 import {NavigationService} from '../../shared/navigation.service';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalStack} from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('WithinIsuRepeatedMeasuresComponent', () => {
   let component: WithinIsuRepeatedMeasuresComponent;
@@ -15,9 +18,14 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, BrowserAnimationsModule],
       declarations: [ WithinIsuRepeatedMeasuresComponent ],
-      providers: [StudyService, {provide: HttpClient, useClass: MockBackend}, NavigationService]
+      providers: [
+        StudyService,
+        {provide: HttpClient, useClass: MockBackend},
+        NavigationService,
+        NgbModal,
+        NgbModalStack]
     })
     .compileComponents();
   }));
@@ -35,6 +43,8 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
   it('Should show the dimension form when the user chooses to add a repeated measure', () => {
     component.includeRepeatedMeasures();
     fixture.detectChanges();
+    component.stage = component.stages.DIMENSIONS;
+    fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#dimension'));
     const el = desc.nativeElement;
     expect(el).toBeTruthy();
@@ -43,7 +53,9 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
   it('Should show the type form when the user clicks next after defining the name', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
-    component.internallyNavigate('NEXT');
+    component.setStage(component.stages.TYPE);
+    fixture.detectChanges();
+    component.stage = component.stages.TYPE;
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#type'));
     const el = desc.nativeElement;
@@ -54,8 +66,11 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
-    component.setStage(1);
-    component.internallyNavigate('NEXT');
+    component.setStage(component.stages.TYPE);
+    component.stage = component.stages.TYPE;
+    fixture.detectChanges();
+    component.setStage(component.stages.REPEATS);
+    component.stage = component.stages.REPEATS;
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#repeats'));
     const el = desc.nativeElement;
@@ -66,8 +81,8 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.includeRepeatedMeasures();
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
-    component.setStage(2);
-    component.internallyNavigate('NEXT');
+    component.setStage(component.stages.SPACING);
+    component.stage = component.stages.SPACING;
     fixture.detectChanges();
     const desc: DebugElement = fixture.debugElement.query(By.css('#spacinginput'));
     const el = desc.nativeElement;
@@ -79,8 +94,12 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
     component.spacingValues.push('1');
-    component.setStage(3);
-    component.internallyNavigate('NEXT');
+    component.setStage(component.stages.SPACING);
+    component.stage = component.stages.SPACING;
+    fixture.detectChanges();
+    component.addRepeatedMeasure();
+    fixture.detectChanges();
+    component.stage = component.stages.INFO;
     fixture.detectChanges();
     expect(component.repeatedMeasures.length).toBe(1);
     const desc: DebugElement = fixture.debugElement.query(By.css('#nextrepmeasure'));
@@ -93,14 +112,13 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     component.dimensionForm.get('dimension').setValue('Measure1');
     component.typeForm.get('type').setValue('Type1');
     component.spacingValues.push('1');
-    component.setStage(3);
-    component.internallyNavigate('NEXT');
-    fixture.detectChanges();
+    component.addRepeatedMeasure();
     expect(component.repeatedMeasures.length).toBe(1);
-    const desc: DebugElement = fixture.debugElement.query(By.css('#nextrepmeasure'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy()
     component.editRepeatedMeasure(component.repeatedMeasures[0]);
+    fixture.detectChanges();
+    component.setStage(component.stages.DIMENSIONS);
+    fixture.detectChanges();
+    component.stage = component.stages.DIMENSIONS;
     fixture.detectChanges();
     expect(component.dimensionForm.get('dimension').value).toBe('Measure1');
   });

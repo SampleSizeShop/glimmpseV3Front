@@ -36,7 +36,11 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   private _messages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
   private _validationMessages = {};
 
-  constructor(private _fb: FormBuilder, private _correlationMatrixService: CorrelationMatrixService, private log: NGXLogger) {
+  constructor(
+    private _fb: FormBuilder,
+    private _correlationMatrixService: CorrelationMatrixService,
+    private log: NGXLogger
+  ) {
     this.correlationMatrixSubscription = this._correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
         this.uMatrix = correlationMatrix;

@@ -1,4 +1,5 @@
-import {animate, animateChild, group, query, style, transition, trigger} from '@angular/animations';
+import {animate, animateChild, group, query, style, transition, trigger, useAnimation} from '@angular/animations';
+import {fadeIn, fadeOut} from 'ng-animate';
 
 export const routeSlideAnimation =
   trigger('routeSlide', [
@@ -27,3 +28,19 @@ export const routeSlideAnimation =
       query(':enter', animateChild(),{ optional: true }),
     ])
   ]);
+
+export const fadeTransition =
+  trigger('fade', [
+  transition('* => *', [
+      query(':enter',
+        useAnimation(fadeIn, {
+          params: { timing: 0.2}
+        }), {optional: true}
+      ),
+      query(':leave',
+        useAnimation(fadeOut, {
+          params: { timing: 0.2}
+        }), {optional: true})
+    ]
+  )
+]);
