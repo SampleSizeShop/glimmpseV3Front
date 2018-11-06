@@ -148,6 +148,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.study_service.updateWithinIsuRepeatedMeasures(this.repeatedMeasures);
     this._repeatedMeasuresSubscription.unsubscribe();
   }
 
