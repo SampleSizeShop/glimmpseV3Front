@@ -36,6 +36,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   private _type: string;
   private _repeats: number;
   private _spacingValues: string[];
+  private _autoFillbool: boolean;
 
   private _repeatedMeasuresSubscription: Subscription;
 
@@ -54,6 +55,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this._spacingControlNames = [0, 1];
     this._types = constants.REPEATED_MEASURE_TYPES;
     this._spacingValues = new Array<string>();
+    this._autoFillbool = false;
 
     this._repeatedMeasuresSubscription = this.study_service.withinIsuRepeatedMeasures$.subscribe( repeatedMeasures => {
       this.repeatedMeasures = repeatedMeasures;
@@ -196,6 +198,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
         const value = this._spacingForm.value.first + name * this._spacingForm.value.interval;
         this._spacingForm.get(name.toString()).setValue(value);
     }
+    this.toggleAutoFill();
   }
 
   addRepeatedMeasure() {
@@ -396,6 +399,14 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   get stages(): { INFO: number; DIMENSIONS: number; TYPE: number; REPEATS: number; SPACING: number } {
     return this._stages;
+  }
+
+  toggleAutoFill() {
+    this._autoFillbool = !this._autoFillbool;
+  }
+
+  isAutoFill() {
+    return this._autoFillbool;
   }
 
   isInfo() {
