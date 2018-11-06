@@ -9,5 +9,6 @@ export const testEnvironment = {
   name: 'dev',
   serverLoggingUrl: 'fake/api/clientsidelog',
   calculateUrl: 'http://127.0.0.1:5000/api/calculate',
-  loglevel: NgxLoggerLevel.DEBUG
+  loglevel: NgxLoggerLevel.DEBUG,
+  disableAnimations: true
 };

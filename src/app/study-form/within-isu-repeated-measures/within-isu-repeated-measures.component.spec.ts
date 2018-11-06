@@ -8,6 +8,9 @@ import {MockBackend} from '@angular/http/testing';
 import {NavigationService} from '../../shared/navigation.service';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalStack} from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('WithinIsuRepeatedMeasuresComponent', () => {
   let component: WithinIsuRepeatedMeasuresComponent;
@@ -15,9 +18,14 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, BrowserAnimationsModule],
       declarations: [ WithinIsuRepeatedMeasuresComponent ],
-      providers: [StudyService, {provide: HttpClient, useClass: MockBackend}, NavigationService]
+      providers: [
+        StudyService,
+        {provide: HttpClient, useClass: MockBackend},
+        NavigationService,
+        NgbModal,
+        NgbModalStack]
     })
     .compileComponents();
   }));

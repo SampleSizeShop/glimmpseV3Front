@@ -11,6 +11,13 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {Outcome} from '../../shared/Outcome';
 import {testEnvironment} from '../../../environments/environment.test';
 import {LoggerModule} from 'ngx-logger';
+import {MatTooltip} from '@angular/material';
+import {CustomContrastMatrixComponent} from '../custom-contrast-matrix/custom-contrast-matrix.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ReactiveFormsModule} from "@angular/forms";
+import {NavigationService} from "../../shared/navigation.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModalStack} from "@ng-bootstrap/ng-bootstrap/modal/modal-stack";
 
 describe('HypothesisWithinComponent', () => {
   let component: HypothesisWithinComponent;
@@ -27,6 +34,8 @@ describe('HypothesisWithinComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
@@ -35,9 +44,14 @@ describe('HypothesisWithinComponent', () => {
       ],
       declarations: [
         HypothesisWithinComponent,
-        MathJaxDirective ],
+        MathJaxDirective,
+        CustomContrastMatrixComponent,
+        MatTooltip ],
       providers: [
         StudyService,
+        NavigationService,
+        NgbModal,
+        NgbModalStack,
         {provide: HttpClient, useClass: MockBackend},
         {provide: ISUFactors, useClass: MockISUFactors},
         {provide: Router, useClass: RouterStub},

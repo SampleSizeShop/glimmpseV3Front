@@ -10,7 +10,7 @@ import {noDuplicatesValidator} from '../../shared/noduplicates.validator';
 import {NavigationService} from '../../shared/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
