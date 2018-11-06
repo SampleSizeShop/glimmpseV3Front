@@ -70,9 +70,9 @@
         </div>
       </div>
     </form>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Cancel</button>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Back</button>
-    <button class="btn btn-primary btn-sm" (click)="setStage(stages.TYPE)" [disabled]="!this.dimensionForm.valid">Next: Type</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="dimcancelbtn">Cancel</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="dimbackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="setStage(stages.TYPE)"   id="dimnextbtn" [disabled]="!this.dimensionForm.valid">Next: Type</button>
   </div>
 
   <div *ngIf="isType()">
@@ -80,17 +80,17 @@
       <h5>What type of data is {{dimensionForm.value.dimension}}?</h5>
       <form [formGroup]="typeForm">
         <div class="form-group">
-          <div class="btn-group" data-toggle="buttons" *ngFor="let t of types">
-            <label aria-pressed="true" class="btn btn-secondary" [class.active]="typeSelected(t)" id="typebtn">
+          <div class="btn-group" data-toggle="buttons" *ngFor="let t of types; let i = index">
+            <label aria-pressed="true" class="btn btn-secondary" [class.active]="typeSelected(t)" id="{{i}}">
               <input type="radio" id="nominal" (click)="selectType(t)" > {{t}}
             </label>
           </div>
         </div>
       </form>
     </div>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Cancel</button>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.DIMENSIONS)">Back</button>
-    <button class="btn btn-primary btn-sm" (click)="setStage(stages.REPEATS)" [disabled]="!this.typeForm.valid">Next: Repeats</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="typecancelbtn">Cancel</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.DIMENSIONS)" id="typebackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="setStage(stages.REPEATS)" id="typenextbtn" [disabled]="!this.typeForm.valid">Next: Repeats</button>
   </div>
 
   <div *ngIf="isRepeats()">
@@ -106,9 +106,9 @@
         </div>
       </form>
     </div>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Cancel</button>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)">Back</button>
-    <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)" [disabled]="!this.dimensionForm.valid">Next: Spacing</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="repcancelbtn">Cancel</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)" id="repbackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)" id="repnextbtn" [disabled]="!this.dimensionForm.valid">Next: Spacing</button>
   </div>
 
   <div *ngIf="isSpacing()">
@@ -164,11 +164,11 @@
         </div>
       </form>
     </div>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Cancel</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="spacecancelbtn">Cancel</button>
     <button class="btn btn-sm btn-secondary" *ngIf="!isAutoFill()" (click)="toggleAutoFill()">auto fill values</button>
     <button class="btn btn-sm btn-secondary" *ngIf="isAutoFill()" (click)="toggleAutoFill()">Set values myself</button>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)">Back</button>
-    <button class="btn btn-primary btn-sm" (click)="addRepeatedMeasure()" [disabled]="!this.spacingForm.valid">Finish</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)" id="spacebackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="addRepeatedMeasure()" id="spacenextbtn" [disabled]="!this.spacingForm.valid">Finish</button>
   </div>
 </div>
 
