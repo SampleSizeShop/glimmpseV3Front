@@ -225,7 +225,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     } else {
       this._repMeasure = new RepeatedMeasure();
     }
-    this._stage = this._stages.DIMENSIONS;
+    this.setStage(this._stages.DIMENSIONS);
   }
 
   getStageStatus(stage: number): string {
@@ -265,7 +265,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this._repMeasure = new RepeatedMeasure();
     this.updateSpacingFormControls(2, this._spacingValues);
 
-    this._stage = this._stages.INFO;
+    this.setStage(this._stages.INFO);
   }
 
   hasRepeatedMeasures(): boolean {
