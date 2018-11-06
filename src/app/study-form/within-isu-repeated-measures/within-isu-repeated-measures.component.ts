@@ -205,7 +205,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     measure.noRepeats = this._repeatsForm.value.repeats;
     measure.type = this._typeForm.value.type;
     for (const name of this._spacingControlNames) {
-      this._spacingValues.push(this._spacingForm.get(name.toString()).value);
+      this._spacingValues.push(this._spacingForm.get(name.toString()).value.toString());
     }
     measure.valueNames = this._spacingValues;
     measure.correlationMatrix = new CorrelationMatrix(measure.valueNames);
