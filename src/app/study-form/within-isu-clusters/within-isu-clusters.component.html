@@ -1,29 +1,28 @@
-<div *ngIf="isInfo()" id="firstcluster">
-  <div class="container-fluid">
-    <div class="row">
+ <div *ngIf="isInfo()" id="firstcluster">
+    <div class="container-fluid">
       <div class="row">
-        <h6>Are your outcomes measured in a cluster?</h6>
-      </div>
-      <div class="row">
-        <p>
-          In a clustered design, the independent sampling unit is a cluster, such as a community, school, or classroom. Observations within a cluster are correlated. The labels for observations within a cluster must be exchangeable. For example, child "id" within classroom can be reassigned arbitrarily. In contrast, observations across time cannot be reassigned and should not be considered clustered observations. Clustering, or repeated measures, or a combination, creates a multilevel design. The common correlation between any pair of cluster members is termed the intraclass correlation or intracluster correlation. <br /><br />
+        <div class="row">
+          <h6>Are your outcomes measured in a cluster?</h6>
+        </div>
+        <div class="row">
+          <p>
+            In a clustered design, the independent sampling unit is a cluster, such as a community, school, or classroom. Observations within a cluster are correlated. The labels for observations within a cluster must be exchangeable. For example, child "id" within classroom can be reassigned arbitrarily. In contrast, observations across time cannot be reassigned and should not be considered clustered observations. Clustering, or repeated measures, or a combination, creates a multilevel design. The common correlation between any pair of cluster members is termed the intraclass correlation or intracluster correlation. <br /><br />
 
-          To include clustering in the study, click "Add Clustering" and follow the prompts. <br /><br />
+            To include clustering in the study, click "Add Clustering" and follow the prompts. <br /><br />
 
-          You may specify up to 3 levels of clustering. <br /><br />
-        </p>
-      </div>
-      <div class="row" *ngIf="!hasCluster()">
-        <div class="btn-group" data-toggle="buttons">
-          <label id="includeclusterbtn" class="btn btn-primary">
-            <input type="radio" id="includeclusterradio" (click)="includeClusters()">Define Clustering
-          </label>
+            You may specify up to 3 levels of clustering. <br /><br />
+          </p>
+        </div>
+        <div class="row" *ngIf="!hasCluster()">
+          <div class="btn-group" data-toggle="buttons">
+            <label id="includeclusterbtn" class="btn btn-primary">
+              <input type="radio" id="includeclusterradio" (click)="includeClusters()">Define Clustering
+            </label>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
 
   <div *ngIf="isElementName()">
     <div id="clustersheader">
@@ -166,3 +165,20 @@
     </div>
   </div>
 </div>
+
+
+<ng-template #canDeactivate>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Are you sure?</h5> <button type="button" class="close" (click)="modalChoice(false)">
+      <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      <p>You are trying to navigate away from this page. Do you wish to discard changes and continue?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalChoice(false)">Continue editing</button>
+      <button type="button" class="btn btn-primary" (click)="modalChoice(true)">Discard changes</button> </div>
+  </div>
+</ng-template>

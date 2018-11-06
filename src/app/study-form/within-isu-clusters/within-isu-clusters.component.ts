@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Cluster} from '../../shared/Cluster';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
@@ -8,11 +8,14 @@ import {Subscription} from 'rxjs';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {clusterValidator} from './cluster.validator';
 import {ClusterLevel} from '../../shared/ClusterLevel';
-import {isNull} from "util";
+import {Observable} from 'rxjs/Observable';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {fadeTransition} from '../../animations';
 
 @Component({
   selector: 'app-within-isu-clusters',
   templateUrl: './within-isu-clusters.component.html',
+  animations: [fadeTransition],
   styleUrls: ['./within-isu-clusters.component.scss']
 })
 export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
@@ -23,6 +26,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   private _max: number;
   private _stages;
   private _stage: number;
+  private _next: number;
   private _validationMessages;
   private _validLevels;
   private _formErrors;
@@ -30,7 +34,13 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   private _levels: ClusterLevel[];
   private _clusterSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
+  @ViewChild('canDeactivate') canDeactivateModal;
+  private modalReference: any;
+
+  constructor(private _fb: FormBuilder,
+              private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal) {
 
     this._validationMessages = constants.CLUSTERS_FORM_VALIDATION_MESSAGES;
     this._formErrors = constants.CLUSTERS_FORM_ERRORS;
@@ -61,6 +71,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
+    this.setStage(this._stages.INFO);
   }
 
   ngDoCheck() {
@@ -169,12 +180,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this.setStage(this._stages.ELEMENT_NAME);
   }
 
-  dontincludeClusters() {
-    this.navigation_service.updateNavigationMode(false);
-    this.navigation_service.updateValid(true);
-    this.setStage(this._stages.INFO);
-  }
-
   getStageStatus(stage: number): string {
     if (stage === 0) {
       return this.elementForm.status;
@@ -194,18 +199,56 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  resetForms() {
-    this.buildForm();
-    this._levels = [];
-    this.setStage(this._stages.INFO);
-  }
-
   removeLevel(level: ClusterLevel) {
     this.levels.forEach((lvl, index) => {
       if (lvl.levelName === level.levelName) {
         this._levels.splice(index, 1);
       }
     });
+  }
+
+  startTransition(event) {
+  }
+
+  doneTransition(event) {
+    this.setStage(this._next);
+  }
+
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (this.isInfo()) {
+      this.navigation_service.updateValid(true);
+      return true;
+    } else {
+      console.log('cancel');
+      this.showModal(this.canDeactivateModal);
+      this.study_service.updateDirection('CANCEL');
+      return this.navigation_service.navigateAwaySelection$;
+    }
+  }
+
+  showModal(content) {
+    this.modalReference = this.modalService.open(content)
+    this.modalReference.result.then(
+      (closeResult) => {
+        console.log('modal closed : ', closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          console.log('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          console.log('modal dismissed when used pressed backdrop');
+        } else {
+          console.log(dismissReason);
+        }
+      })
+  }
+
+  modalChoice(choice: boolean) {
+    this.modalReference.close();
+    if (choice) {
+      this.buildForm();
+      this.navigation_service.updateValid(true);
+    }
+    this.navigation_service.navigateAwaySelection$.next(choice);
   }
 
   rowStyle(index: number) {

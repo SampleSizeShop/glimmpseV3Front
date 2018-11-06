@@ -8,6 +8,9 @@ import {MockBackend} from '@angular/http/testing';
 import {NavigationService} from '../../shared/navigation.service';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModalStack} from "@ng-bootstrap/ng-bootstrap/modal/modal-stack";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 describe('WithinIsuClustersComponent', () => {
   let component: WithinIsuClustersComponent;
@@ -16,10 +19,14 @@ describe('WithinIsuClustersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule
+        ReactiveFormsModule, BrowserAnimationsModule
       ],
       declarations: [ WithinIsuClustersComponent ],
-      providers: [ StudyService,  { provide: HttpClient, useClass: MockBackend}, NavigationService]
+      providers: [ StudyService,
+                  NgbModal,
+                  NgbModalStack,
+                  { provide: HttpClient, useClass: MockBackend},
+                  NavigationService]
     })
     .compileComponents();
   }));
@@ -32,13 +39,6 @@ describe('WithinIsuClustersComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should not show the Element form when the user chooses to add clustering', () => {
-    component.dontincludeClusters();
-    fixture.detectChanges();
-    const form: DebugElement = fixture.debugElement.query(By.css('#name'));
-    expect(form).toBeFalsy();
   });
 
   it('should show the Element form when the user chooses to add clustering', () => {
