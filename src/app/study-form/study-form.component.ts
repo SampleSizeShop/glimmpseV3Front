@@ -58,8 +58,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _navDirectionSubsctiption: Subscription;
   private _direction: string;
 
-  private _nextEnabledSubscription: Subscription;
-  private _childNavigationModeSubscription: Subscription;
   private _validSubscription: Subscription;
 
   private next$: Observable<number>;
@@ -68,7 +66,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   private _stages;
   private _noStages: number;
-  private _childComponentNav: boolean;
   private parameters = [];
 
   constructor(
@@ -110,100 +107,95 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   next(stage?: number): void {
-    //this.study_service.updateDirection('NEXT');
-    if (this.childComponentNav &&  this.valid) {
-      this.navigation_service.updateNavigation('NEXT');
-    } else {
-      let current = this.getStage();
-      if (stage) {
-        current = stage;
-      }
-      if ( current <= this._noStages &&  this.valid ) {
-        if (current === this.stages.BETWEEN_ISU_SMALLEST_GROUP
-          && (isNullOrUndefined(this.study.isuFactors)
+    let current = this.getStage();
+    if (stage) {
+      current = stage;
+    }
+    if ( current <= this._noStages &&  this.valid ) {
+      if (current === this.stages.BETWEEN_ISU_SMALLEST_GROUP
+        && (isNullOrUndefined(this.study.isuFactors)
+        || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
+        this.parameters = [];
+        this.parameters.push(this.study.isuFactors.betweenIsuRelativeGroupSizes.indexOf(
+          this.study.isuFactors.firstRelativeGroupSizeTable
+        ));
+        this.setStage(this.stages.BETWEEN_ISU_GROUPS);
+      } else if (current === this.stages.BETWEEN_ISU_GROUPS
+        && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
-          this.parameters = [];
-          this.parameters.push(this.study.isuFactors.betweenIsuRelativeGroupSizes.indexOf(
-            this.study.isuFactors.firstRelativeGroupSizeTable
-          ));
+        const currentIndex = this.parameters.pop();
+        const nextTable = this.study.isuFactors.getNextRelativeGroupSizeTable(currentIndex);
+        if (!isNullOrUndefined(nextTable)) {
+          this.parameters.push(currentIndex + 1);
           this.setStage(this.stages.BETWEEN_ISU_GROUPS);
-        } else if (current === this.stages.BETWEEN_ISU_GROUPS
-          && (isNullOrUndefined(this.study.isuFactors)
-            || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
-          const currentIndex = this.parameters.pop();
-          const nextTable = this.study.isuFactors.getNextRelativeGroupSizeTable(currentIndex);
-          if (!isNullOrUndefined(nextTable)) {
-            this.parameters.push(currentIndex + 1);
-            this.setStage(this.stages.BETWEEN_ISU_GROUPS);
-          } else {
-            this.setStage(this.stages.GAUSSIAN_COVARIATE);
-          }
-        } else if (
-        current === this.stages.HYPOTHESIS_THETA_0
+        } else {
+          this.setStage(this.stages.GAUSSIAN_COVARIATE);
+        }
+      } else if (
+      current === this.stages.HYPOTHESIS_THETA_0
+      && !isNullOrUndefined(this.study.isuFactors.outcomes)
+      && this.study.isuFactors.outcomes.length > 0) {
+        this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
+        this.parameters = [];
+        this.parameters.push(0);
+      } else if (
+        current === this.stages.PARAMETERS_MARGINAL_MEANS
         && !isNullOrUndefined(this.study.isuFactors.outcomes)
         && this.study.isuFactors.outcomes.length > 0) {
+        const currentIndex = this.parameters.pop();
+        const nextTable = this.study.isuFactors.getNextMarginalMeansTable(currentIndex);
+        if (!isNullOrUndefined(nextTable)) {
+          this.parameters.push(currentIndex + 1);
           this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
-          this.parameters = [];
-          this.parameters.push(0);
-        } else if (
-          current === this.stages.PARAMETERS_MARGINAL_MEANS
-          && !isNullOrUndefined(this.study.isuFactors.outcomes)
-          && this.study.isuFactors.outcomes.length > 0) {
-          const currentIndex = this.parameters.pop();
-          const nextTable = this.study.isuFactors.getNextMarginalMeansTable(currentIndex);
-          if (!isNullOrUndefined(nextTable)) {
-            this.parameters.push(currentIndex + 1);
-            this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
-          } else {
-            this.setStage(this.stages.PARAMETERS_SCALE_FACTOR);
-          }
-        } else if (
-          current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV - 1
+        } else {
+          this.setStage(this.stages.PARAMETERS_SCALE_FACTOR);
+        }
+      } else if (
+        current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV - 1
+        && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
+        && this.study.isuFactors.repeatedMeasures.length > 0) {
+        this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
+        this.parameters = [];
+        this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
+      } else if (
+          current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV
           && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
           && this.study.isuFactors.repeatedMeasures.length > 0) {
-          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
-          this.parameters = [];
-          this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
-        } else if (
-            current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV
-            && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
-            && this.study.isuFactors.repeatedMeasures.length > 0) {
 
-          const currentMeasureName = this.parameters.pop();
-          const nextMeasure = this.study.isuFactors.getNextRepeatedMeasure(currentMeasureName);
-          this.parameters = [];
-          if (!isNullOrUndefined(nextMeasure)) {
-            this.parameters.push(nextMeasure.name);
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
-          } else {
-            // first repeated measure correlation
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV + 1);
-            this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
-          }
-        } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION) {
-          const currentName = this.parameters.pop();
-          const next = this.study.isuFactors.getNextRepeatedMeasure(currentName);
-          if (!isNullOrUndefined(next)) {
-            this.parameters.push(next.name);
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
-          } else {
-            this.parameters = [];
-            this.setStage(this.stages.PARAMETERS_INTRA_CLASS_CORRELATION);
-          }
-        } else if (current === this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE) {
-          this.setStage(this.stages.CALCULATE);
-        } else if (current === this.stages.OPTIONAL_SPECS_CI_CHOICE) {
-          this.setStage(this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE);
-        } else if (current === this.stages.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK) {
-          this.setStage(this.stages.OPTIONAL_SPECS_CI_CHOICE);
+        const currentMeasureName = this.parameters.pop();
+        const nextMeasure = this.study.isuFactors.getNextRepeatedMeasure(currentMeasureName);
+        this.parameters = [];
+        if (!isNullOrUndefined(nextMeasure)) {
+          this.parameters.push(nextMeasure.name);
+          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
         } else {
-          if (this._direction !== 'CANCEL') {
-            this.setStage( current + 1 );
-          }
+          // first repeated measure correlation
+          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV + 1);
+          this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
         }
-        this.navigate(this.study_service.stage, 'NEXT');
-        this.setNextBack();
+      } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION) {
+        const currentName = this.parameters.pop();
+        const next = this.study.isuFactors.getNextRepeatedMeasure(currentName);
+        if (!isNullOrUndefined(next)) {
+          this.parameters.push(next.name);
+          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
+        } else {
+          this.parameters = [];
+          this.setStage(this.stages.PARAMETERS_INTRA_CLASS_CORRELATION);
+        }
+      } else if (current === this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE) {
+        this.setStage(this.stages.CALCULATE);
+      } else if (current === this.stages.OPTIONAL_SPECS_CI_CHOICE) {
+        this.setStage(this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE);
+      } else if (current === this.stages.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK) {
+        this.setStage(this.stages.OPTIONAL_SPECS_CI_CHOICE);
+      } else {
+        if (this._direction !== 'CANCEL') {
+          this.setStage( current + 1 );
+        }
       }
+      this.navigate(this.study_service.stage, 'NEXT');
+      this.setNextBack();
     }
   }
 
@@ -225,98 +217,94 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   back(stage?: number): void {
     this.study_service.updateDirection('BACK');
-    if (this.childComponentNav) {
-      this.navigation_service.updateNavigation('BACK');
-    } else {
-      let current = this.getStage();
-      if (stage) {
-        current = stage;
-      }
-      if (current > 0) {
-        if (current === this.stages.BETWEEN_ISU_GROUPS
-          && (isNullOrUndefined(this.study.isuFactors)
-            || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
-          const currentIndex = this.parameters.pop();
-          const previousIndex = currentIndex - 1;
-          if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
-            this.parameters.push(previousIndex);
-            this.setStage(this.stages.BETWEEN_ISU_GROUPS)
-          } else {
-            this.parameters = []
-            this.setStage(this.stages.BETWEEN_ISU_SMALLEST_GROUP)
-          }
-        } else if (current === this.stages.GAUSSIAN_COVARIATE
-          && (isNullOrUndefined(this.study.isuFactors)
-          || this.study.isuFactors.betweenIsuRelativeGroupSizes.length === 0)) {
-          this.setStage(this.stages.BETWEEN_ISU_SMALLEST_GROUP)
-        } else if  (current === this.stages.GAUSSIAN_COVARIATE
-          && (isNullOrUndefined(this.study.isuFactors)
-          || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
-          const currentIndex = this.study.isuFactors.betweenIsuRelativeGroupSizes.length - 1;
-          this.parameters = [];
-          this.parameters .push(currentIndex);
-          this.setStage(this.stages.BETWEEN_ISU_GROUPS)
-        } else if (
-          current === this.stages.PARAMETERS_MARGINAL_MEANS
-          && !isNullOrUndefined(this.study.isuFactors.outcomes)
-          && this.study.isuFactors.outcomes.length > 0) {
-          const currentIndex = this.parameters.pop();
-          const previousIndex = currentIndex - 1;
-          this.parameters = [];
-          if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
-            // next outcome marginal means
-            this.parameters.push(previousIndex);
-            this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
-          } else {
-            this.setStage(this.stages.HYPOTHESIS_THETA_0);
-          }
-        } else if (current === this.stages.PARAMETERS_SCALE_FACTOR
-          && !isNullOrUndefined(this.study.isuFactors.outcomes)
-          && this.study.isuFactors.marginalMeans.length > 0) {
-          this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
-          this.parameters = [];
-          this.parameters.push(this.study.isuFactors.marginalMeans.length - 1);
-        } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV) {
-          const currentMeasure = this.parameters.pop();
-          const previousMeasure = this.study.isuFactors.getPreviousRepeatedMeasure(currentMeasure);
-          this.parameters = [];
-          if (!isNullOrUndefined(previousMeasure)) {
-            this.parameters.push(previousMeasure.name);
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
-          } else {
-            this.setStage(this.stages.PARAMETERS_OUTCOME_CORRELATION);
-          }
-        } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION) {
-          const currentName = this.parameters.pop();
-          const previous = this.study.isuFactors.getPreviousRepeatedMeasure(currentName);
-          this.parameters = [];
-          if (!isNullOrUndefined(previous)) {
-            this.parameters.push(previous.name);
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
-          } else {
-            const lastMeasure = this.study.isuFactors.lastRepeatedMeasure;
-            if (
-              !isNullOrUndefined(lastMeasure)) {
-              this.parameters.push(lastMeasure.name);
-            }
-            this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
-          }
-        } else if (current === this.stages.PARAMETERS_INTRA_CLASS_CORRELATION
-          && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
-          && this.study.isuFactors.repeatedMeasures.length > 0 ) {
-          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
-          this.parameters = [];
-          this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
-        } else if (current === this.stages.CALCULATE) {
-          this.setStage(this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE);
-        } else {
-          this.setStage(current - 1);
-        }
-      }
-      this.navigate(this.study_service.stage, 'BACK');
-      this.setNextBack();
-      this.valid = true;
+    let current = this.getStage();
+    if (stage) {
+      current = stage;
     }
+    if (current > 0) {
+      if (current === this.stages.BETWEEN_ISU_GROUPS
+        && (isNullOrUndefined(this.study.isuFactors)
+          || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
+        const currentIndex = this.parameters.pop();
+        const previousIndex = currentIndex - 1;
+        if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
+          this.parameters.push(previousIndex);
+          this.setStage(this.stages.BETWEEN_ISU_GROUPS)
+        } else {
+          this.parameters = []
+          this.setStage(this.stages.BETWEEN_ISU_SMALLEST_GROUP)
+        }
+      } else if (current === this.stages.GAUSSIAN_COVARIATE
+        && (isNullOrUndefined(this.study.isuFactors)
+        || this.study.isuFactors.betweenIsuRelativeGroupSizes.length === 0)) {
+        this.setStage(this.stages.BETWEEN_ISU_SMALLEST_GROUP)
+      } else if  (current === this.stages.GAUSSIAN_COVARIATE
+        && (isNullOrUndefined(this.study.isuFactors)
+        || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
+        const currentIndex = this.study.isuFactors.betweenIsuRelativeGroupSizes.length - 1;
+        this.parameters = [];
+        this.parameters .push(currentIndex);
+        this.setStage(this.stages.BETWEEN_ISU_GROUPS)
+      } else if (
+        current === this.stages.PARAMETERS_MARGINAL_MEANS
+        && !isNullOrUndefined(this.study.isuFactors.outcomes)
+        && this.study.isuFactors.outcomes.length > 0) {
+        const currentIndex = this.parameters.pop();
+        const previousIndex = currentIndex - 1;
+        this.parameters = [];
+        if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
+          // next outcome marginal means
+          this.parameters.push(previousIndex);
+          this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
+        } else {
+          this.setStage(this.stages.HYPOTHESIS_THETA_0);
+        }
+      } else if (current === this.stages.PARAMETERS_SCALE_FACTOR
+        && !isNullOrUndefined(this.study.isuFactors.outcomes)
+        && this.study.isuFactors.marginalMeans.length > 0) {
+        this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
+        this.parameters = [];
+        this.parameters.push(this.study.isuFactors.marginalMeans.length - 1);
+      } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV) {
+        const currentMeasure = this.parameters.pop();
+        const previousMeasure = this.study.isuFactors.getPreviousRepeatedMeasure(currentMeasure);
+        this.parameters = [];
+        if (!isNullOrUndefined(previousMeasure)) {
+          this.parameters.push(previousMeasure.name);
+          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
+        } else {
+          this.setStage(this.stages.PARAMETERS_OUTCOME_CORRELATION);
+        }
+      } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION) {
+        const currentName = this.parameters.pop();
+        const previous = this.study.isuFactors.getPreviousRepeatedMeasure(currentName);
+        this.parameters = [];
+        if (!isNullOrUndefined(previous)) {
+          this.parameters.push(previous.name);
+          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
+        } else {
+          const lastMeasure = this.study.isuFactors.lastRepeatedMeasure;
+          if (
+            !isNullOrUndefined(lastMeasure)) {
+            this.parameters.push(lastMeasure.name);
+          }
+          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
+        }
+      } else if (current === this.stages.PARAMETERS_INTRA_CLASS_CORRELATION
+        && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
+        && this.study.isuFactors.repeatedMeasures.length > 0 ) {
+        this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
+        this.parameters = [];
+        this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
+      } else if (current === this.stages.CALCULATE) {
+        this.setStage(this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE);
+      } else {
+        this.setStage(current - 1);
+      }
+    }
+    this.navigate(this.study_service.stage, 'BACK');
+    this.setNextBack();
+    this.valid = true;
   }
 
   setNextBack(): void {
@@ -351,7 +339,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.setStage(stage);
         }
       }
-      this.childComponentNav = false;
     }
     this.setNextBack();
     this.study_service.updateStudyDesign(this.study);
@@ -443,30 +430,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   set solveForSubscription(value: Subscription) {
     this._solveForSubscription = value;
-  }
-
-  get childComponentNav(): boolean {
-    return this._childComponentNav;
-  }
-
-  set childComponentNav(value: boolean) {
-    this._childComponentNav = value;
-  }
-
-  get nextEnabledSubscription(): Subscription {
-    return this._nextEnabledSubscription;
-  }
-
-  set nextEnabledSubscription(value: Subscription) {
-    this._nextEnabledSubscription = value;
-  }
-
-  get childNavigationModeSubscription(): Subscription {
-    return this._childNavigationModeSubscription;
-  }
-
-  set childNavigationModeSubscription(value: Subscription) {
-    this._childNavigationModeSubscription = value;
   }
 
   get validSubscription(): Subscription {
@@ -745,12 +708,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   };
 
   subscribeToNavigationService() {
-    this.childComponentNav = false;
-    this.childNavigationModeSubscription = this.navigation_service.childNavigationMode$.subscribe(
-      childNavMode => {
-        this.childComponentNav = childNavMode;
-      }
-    );
 
     this.validSubscription = this.navigation_service.valid$.subscribe(
       valid => {
@@ -758,17 +715,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.nextValid = valid;
       }
     );
-
-    this.nextEnabledSubscription = this.navigation_service.nextEnabled$.subscribe(
-      enabled => {
-        this.hasNext = enabled;
-      }
-    );
   };
 
   unsubscribeFromNavigationService() {
-    this.nextEnabledSubscription.unsubscribe();
-    this.childNavigationModeSubscription.unsubscribe();
     this.validSubscription.unsubscribe();
   };
 
