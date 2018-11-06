@@ -1,5 +1,10 @@
- <h5>Define the standard deviations for your outcomes:</h5>
+<h5>Variability across Outcomes:</h5>
 <div class="container">
+  <div class="row">
+    <p>
+      Enter the standard deviation you expect to observe for each outcome. Note that GLIMMPSE currently assumes that the standard deviation is constant across repeated measurements.
+    </p>
+  </div>
   <form [formGroup]="stDevForm">
     <div *ngFor="let outcome of isuFactors.outcomes" class="row">
       <div class="col-1" >

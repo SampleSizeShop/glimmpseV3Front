@@ -1,7 +1,14 @@
 <div *ngIf="hasTable" id="tableControls">
   <form [formGroup]="marginalMeansForm" id="marginalMeansForm">
     <div class="container-fluid">
-      <h5 *ngIf="!grandMean">Tell us about the marginal means for you hypothesis in relation to outcome {{table.name}}</h5>
+      <div *ngIf="!grandMean">
+        <h5>Mean</h5>
+        <p>
+          The table below shows the mean values for outcome <b>{{table.name}}</b> within each group in the study. The groups are listed along the left-hand side of the table, and the repeated measure dimensions are listed across the top. <br /><br />
+
+          Enter the mean values you expect to observe for outcome <b>{{table.name}}</b> within each group. The table should contain at least one value that is non-zero. Also, at least two groups should have means which differ by a scientifically meaningful amount.
+        </p>
+      </div>
       <h5 *ngIf="grandMean">What is the mean value for outcome {{table.name}}?</h5>
 
       <div class="col col-md-auto">
