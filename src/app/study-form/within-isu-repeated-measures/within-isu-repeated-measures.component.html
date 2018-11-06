@@ -171,21 +171,51 @@
 
 
 <br>
-<small *ngIf="hasRepeatedMeasures()">Repeated Measures:</small>
-<div *ngFor="let repeatedMeasure of repeatedMeasures; let i = index">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col col-md-auto">
-        <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">remove</i>
-      </div>
-      <div class="col  col-md-auto">
-        <i class="material-icons" (click)="editRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="editrepeatedMeasure">create</i>
-      </div>
-      <div class="col">
-        {{repeatedMeasures[i] | json}}
-      </div>
-    </div>
-  </div>
+
+<div *ngIf="hasRepeatedMeasures()">
+  <small>Repeated Measures:</small>
+  <thead>
+  <th class="col col-md-auto">
+    Remove
+  </th>
+  <th class="col  col-md-auto">
+    Edit
+  </th>
+  <th class="col col-md-auto">
+    Name
+  </th>
+  <th class="col col-md-auto">
+    Type
+  </th>
+  <th class="col col-md-auto">
+    Units
+  </th>
+  <th class="col col-md-auto">
+    Groups
+  </th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let repeatedMeasure of repeatedMeasures; let i = index" [class]="rowStyle(i)">
+    <td class="col col-md-auto">
+      <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">remove</i>
+    </td>
+    <td class="col  col-md-auto">
+      <i class="material-icons" (click)="editRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="editrepeatedMeasure">create</i>
+    </td>
+    <td class="col col-md-auto">
+      {{repeatedMeasure.name}}
+    </td>
+    <td class="col col-md-auto">
+      {{repeatedMeasure.type}}
+    </td>
+    <td class="col col-md-auto">
+      {{repeatedMeasure.units}}
+    </td>
+    <td class="col col-md-auto">
+      {{repeatedMeasure.valueNames | json}}
+    </td>
+  </tr>
+  </tbody>
 </div>
 
 

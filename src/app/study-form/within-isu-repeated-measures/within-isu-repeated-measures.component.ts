@@ -338,6 +338,14 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this.navigation_service.navigateAwaySelection$.next(choice);
   }
 
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
+  }
+
   get stageName() {
     return Object.keys(this._stages)[this._stage];
   }
