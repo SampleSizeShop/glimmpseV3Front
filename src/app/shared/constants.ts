@@ -254,8 +254,9 @@ export const constants = {
     }
   },
   CLUSTER_STAGES: {
-    '0': 'ELEMENT_NAME',
-    '1': 'LEVELS',
+    INFO: 0,
+    ELEMENT_NAME: 1,
+    LEVELS: 2,
   },
   BETWEEN_ISU_STAGES: {
     INFO: 0,

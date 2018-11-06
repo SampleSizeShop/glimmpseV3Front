@@ -1,8 +1,8 @@
-<div *ngIf="!hasCluster() && !editing" id="firstcluster">
+<div *ngIf="isInfo()" id="firstcluster">
   <div class="container-fluid">
     <div class="row">
       <div class="row">
-        <h5>Are your outcomes measured in a cluster?</h5>
+        <h6>Are your outcomes measured in a cluster?</h6>
       </div>
       <div class="row">
         <p>
@@ -15,8 +15,8 @@
       </div>
       <div class="row">
         <div class="btn-group" data-toggle="buttons">
-          <label [class.active]="included" id="includerptmeasuresbtn" class="btn btn-primary">
-            <input type="radio" id="includerptmeasuresradio" (click)="includeClusters()">Define Clustering
+          <label id="includeclusterbtn" class="btn btn-primary">
+            <input type="radio" id="includeclusterradio" (click)="includeClusters()">Define Clustering
           </label>
         </div>
       </div>
@@ -24,11 +24,10 @@
   </div>
 </div>
 
-<div *ngIf="included">
 
-  <div *ngIf="stages[0] === stageName">
+  <div *ngIf="isElementName()">
     <div id="clustersheader">
-      <h5>What term would you like to use for a participant in the study? (For example, student.)</h5>
+      <h6>What term would you like to use for a participant in the study? (For example, student.)</h6>
     </div>
     <form [formGroup]="elementForm">
       <div class="form-group">
@@ -36,12 +35,15 @@
         <div *ngIf="formErrors.cluster" class="form-group has-danger">
           <div class="form-control-feedback" id="nameerr">{{formErrors.cluster}}</div>
         </div>
-      </div>
+      </div>name
     </form>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="namecancelbtn">Cancel</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="namebackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="setStage(stages.LEVELS)"   id="namenextbtn" [disabled]="!this.elementForm.valid">Next: Levels</button>
   </div>
 
-  <div *ngIf="stages[1] === stageName">
-    <h5>Name each level in the cluster and the number of elements in that level:</h5>
+  <div *ngIf="isLevels()">
+    <h6>Name each level in the cluster and the number of elements in that level:</h6>
     <form [formGroup]="clusterLevelForm" id="clusterLevelForm">
       <div class="container-fluid">
         <div class="row">
@@ -80,9 +82,10 @@
     <div *ngIf="formErrors.clusterlevelrequired" class="form-group has-danger">
       <div class="form-control-feedback">{{formErrors.clusterlevelrequired}}</div>
     </div>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="levelscancelbtn">Cancel</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.ELEMENT_NAME)" id="levelsbackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="setStage(stages.INFO)" id="levelsnextbtn" [disabled]="!this.clusterLevelForm.valid">Finish</button>
   </div>
-
-</div>
 
 <br>
 
