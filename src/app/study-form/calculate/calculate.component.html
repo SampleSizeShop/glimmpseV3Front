@@ -4,22 +4,10 @@
   <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate!</button>
 </div>
 <div *ngIf="hasResults">
-  <div *ngIf="resultString.model.errors">
-    <table border="1">
-      <tr>
-        <th>Error name</th>
-        <th>Error message</th>
-      </tr>
-      <tr *ngFor="let error of resultString.model.errors">
-        <td>{{error.errorname}}</td>
-        <td>{{error.errormessage}}</td>
-      </tr>
-    </table>
-  </div>
   <div *ngFor="let result of resultString.results">
     <tr>
       <td><h6>{{result.test}}</h6></td>
-      <td><h6>{{getOutput(result)}}</h6></td>
+      <td><h6 [ngStyle]="{'color': hasWarning(result) ? 'red': 'green' }">{{getOutput(result)}}</h6></td>
     </tr>
   </div>
   <table>
