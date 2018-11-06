@@ -14,7 +14,7 @@
 
             If the repeated measures are numeric, the spacing values must be unique nonnegative integers, in ascending order. <br /><br />
 
-            You may specify up to 3 repeated measures. <br /><br />
+            You may specify up to {{max}} repeated measures. <br /><br />
           </p>
         </div>
         <div class="row">
@@ -71,7 +71,8 @@
       </div>
     </div>
   </form>
-<button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Back</button>
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Cancel</button>
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Back</button>
   <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)" [disabled]="!this.dimensionForm.valid">Next: Type</button>
 </div>
 
@@ -86,6 +87,7 @@
       </div>
     </form>
   </div>
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Cancel</button>
   <button class="btn btn-secondary btn-sm" (click)="setStage(stages.DIMENSIONS)">Back</button>
   <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)" [disabled]="!this.typeForm.valid">Next: Repeats</button>
 </div>
@@ -103,6 +105,7 @@
       </div>
     </form>
   </div>
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Cancel</button>
   <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)">Back</button>
   <button class="btn btn-secondary btn-sm" (click)="setStage(stages.SPACING)" [disabled]="!this.dimensionForm.valid">Next: Spacing</button>
 </div>
@@ -159,7 +162,7 @@
       </div>
     </form>
   </div>
-
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Cancel</button>
   <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)">Back</button>
   <button class="btn btn-secondary btn-sm" (click)="addRepeatedMeasure()" [disabled]="!this.dimensionForm.valid">Finish</button>
 </div>
