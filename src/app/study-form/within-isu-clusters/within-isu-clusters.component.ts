@@ -136,6 +136,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     for (const level of this.levels) {
       this._cluster.levels.push(level);
     }
+    this.setStage(this._stages.INFO);
   }
 
   editCluster(cluster: Cluster) {

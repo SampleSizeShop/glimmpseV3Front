@@ -13,10 +13,17 @@
           You may specify up to 3 levels of clustering. <br /><br />
         </p>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="!hasCluster()">
         <div class="btn-group" data-toggle="buttons">
           <label id="includeclusterbtn" class="btn btn-primary">
             <input type="radio" id="includeclusterradio" (click)="includeClusters()">Define Clustering
+          </label>
+        </div>
+      </div>
+      <div class="row" *ngIf="hasCluster()">
+        <div class="btn-group" data-toggle="buttons">
+          <label id="editclusterbtn" class="btn btn-primary">
+            <input type="radio" id="editclusterradio" (click)="includeClusters()">Edit Clustering
           </label>
         </div>
       </div>
@@ -84,12 +91,12 @@
     </div>
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="levelscancelbtn">Cancel</button>
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.ELEMENT_NAME)" id="levelsbackbtn">Back</button>
-    <button class="btn btn-primary btn-sm" (click)="setStage(stages.INFO)" id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
+    <button class="btn btn-primary btn-sm" (click)="addCluster()" id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
   </div>
 
 <br>
 
-<div *ngIf="hasCluster()" >
+<div *ngIf="hasCluster() && isInfo()" >
   <small >Cluster:</small>
   <div class="container-fluid">
     <div class="row">
