@@ -1,56 +1,58 @@
 <script src="../study-form.component.spec.ts"></script>
-<div *ngIf="!hasRepeatedMeasures() && !editing" id="firstrepmeasure">
-  <div class="container-fluid">
-    <div class="row">
+<div *ngIf="isInfo()">
+  <div *ngIf="!hasRepeatedMeasures()" id="firstrepmeasure">
+    <div class="container-fluid">
       <div class="row">
-        <h5>Repeated Measures</h5>
-      </div>
-      <div class="row">
-        <p>
-          GLIMMPSE allows you to define within-participant factors, specified as repeated measures. Repeated measures are present when a response variable is measured on each independent sampling unit on two or more occasions or under two or more conditions. The values of the repeated measures (that is, the levels of the within-participant factors) distinguish the occasions or conditions. <br /><br />
+        <div class="row">
+          <h5>Repeated Measures</h5>
+        </div>
+        <div class="row">
+          <p>
+            GLIMMPSE allows you to define within-participant factors, specified as repeated measures. Repeated measures are present when a response variable is measured on each independent sampling unit on two or more occasions or under two or more conditions. The values of the repeated measures (that is, the levels of the within-participant factors) distinguish the occasions or conditions. <br /><br />
 
-          If the study includes repeated measures, click "Add Repeated Measure" and follow the prompts. The text entered in the "Dimension" text box indicates the dimension over which measures were taken (e.g. time, days, locations, etc.). The choice of "Type" indicates whether the repeated measures are numeric (e.g. time), ordinal (e.g. 1st, 2nd, 3rd), or categorical (e.g. arm, leg, hand). <br /><br />
+            If the study includes repeated measures, click "Add Repeated Measure" and follow the prompts. The text entered in the "Dimension" text box indicates the dimension over which measures were taken (e.g. time, days, locations, etc.). The choice of "Type" indicates whether the repeated measures are numeric (e.g. time), ordinal (e.g. 1st, 2nd, 3rd), or categorical (e.g. arm, leg, hand). <br /><br />
 
-          If the repeated measures are numeric, the spacing values must be unique nonnegative integers, in ascending order. <br /><br />
+            If the repeated measures are numeric, the spacing values must be unique nonnegative integers, in ascending order. <br /><br />
 
-          You may specify up to 3 repeated measures. <br /><br />
-        </p>
-      </div>
-      <div class="row">
-        <div class="btn-group" data-toggle="buttons">
-          <label id="includerptmeasuresbtn" class="btn btn-primary">
-            <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
-          </label>
+            You may specify up to 3 repeated measures. <br /><br />
+          </p>
+        </div>
+        <div class="row">
+          <div class="btn-group" data-toggle="buttons">
+            <label id="includerptmeasuresbtn" class="btn btn-primary">
+              <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
+            </label>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="nextRepeatedMeasure() && !editing" id="nextrepmeasure">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col">
-        <h5>Would you like to include repeated measurements on another dimension?</h5>
-      </div>
-      <div class="col">
-        <div class="btn-group" data-toggle="buttons">
-          <label [class.active]="included" id="includenextrptmeasuresbtn" class="btn btn-primary">
-            <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Define another set of repeated measurements.
-          </label>
+  <div *ngIf="nextRepeatedMeasure()" id="nextrepmeasure">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col">
+          <h5>Would you like to include repeated measurements on another dimension?</h5>
+        </div>
+        <div class="col">
+          <div class="btn-group" data-toggle="buttons">
+            <label id="includenextrptmeasuresbtn" class="btn btn-primary">
+              <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Define another set of repeated measurements.
+            </label>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure() && !editing" id="fullrepmeasure">
-  <div class="container-fluid">
-    <h5>That's all folks!</h5>
+  <div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure()" id="fullrepmeasure">
+    <div class="container-fluid">
+      <h5>That's all folks!</h5>
+    </div>
   </div>
 </div>
 
-<div *ngIf="stages[0] === stageName">
+<div *ngIf="isDimensions()">
   <div id="dimensionsheader">
     <h5>What is the name of the dimension you will be measuring and in what units (if applicable) is it measured?</h5>
   </div>
@@ -71,7 +73,7 @@
   </form>
 </div>
 
-<div *ngIf="stages[1] === stageName">
+<div *ngIf="isType()">
   <div id="typeheader">
     <h5>What type of data is {{dimensionForm.value.name}}?</h5>
     <form [formGroup]="typeForm">
@@ -84,7 +86,7 @@
   </div>
 </div>
 
-<div *ngIf="stages[2] === stageName">
+<div *ngIf="isRepeats()">
   <div id="repeatesheader">
     <h5>Number of measurements of {{dimensionForm.value.name}}?</h5>
     <form [formGroup]="repeatsForm">
@@ -99,7 +101,7 @@
   </div>
 </div>
 
-<div *ngIf="stages[3] === stageName">
+<div *ngIf="isSpacing()">
   <div id="spacingheader">
     <h5>Spacing</h5>
     <form [formGroup]="spacingForm">

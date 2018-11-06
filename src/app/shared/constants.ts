@@ -201,10 +201,11 @@ export const constants = {
   },
   MAX_REPEATED_MEASURES: 5,
   REPEATED_MEASURE_STAGES: {
-    '0': 'DIMENSIONS',
-    '1': 'TYPE',
-    '2': 'REPEATS',
-    '3': 'SPACING'
+    INFO: 0,
+    DIMENSIONS: 1,
+    TYPE: 2,
+    REPEATS: 3,
+    SPACING: 4
   },
   REPEATED_MEASURE_TYPES: ['Numeric', 'Categorical', 'Ordinal'],
   REPEATED_MEASURE_FORM_ERRORS: {
