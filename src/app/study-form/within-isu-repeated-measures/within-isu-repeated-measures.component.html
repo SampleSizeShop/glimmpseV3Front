@@ -77,7 +77,7 @@
 
   <div *ngIf="isType()">
     <div id="typeheader">
-      <h5>What type of data is {{dimensionForm.value.name}}?</h5>
+      <h5>What type of data is {{dimensionForm.value.dimension}}?</h5>
       <form [formGroup]="typeForm">
         <div class="form-group">
           <div class="btn-group" data-toggle="buttons" *ngFor="let t of types">
@@ -95,7 +95,7 @@
 
   <div *ngIf="isRepeats()">
     <div id="repeatesheader">
-      <h5>Number of measurements of {{dimensionForm.value.name}}?</h5>
+      <h5>Number of measurements of {{dimensionForm.value.dimension}}?</h5>
       <form [formGroup]="repeatsForm">
         <div class="form-group" id="repeatsinput">
           <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
@@ -107,7 +107,7 @@
       </form>
     </div>
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Cancel</button>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)">Back</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)">Back</button>
     <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)" [disabled]="!this.dimensionForm.valid">Next: Spacing</button>
   </div>
 
