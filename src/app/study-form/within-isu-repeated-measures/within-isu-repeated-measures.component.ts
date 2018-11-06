@@ -402,6 +402,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     return this._stage;
   }
 
+  set stage(value: number) {
+    this._stage = value;
+  }
+
   get stages(): { INFO: number; DIMENSIONS: number; TYPE: number; REPEATS: number; SPACING: number } {
     return this._stages;
   }
