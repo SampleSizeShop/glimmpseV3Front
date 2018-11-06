@@ -148,6 +148,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   removeCluster() {
     this._cluster = null;
+    this.study_service.updateWithinIsuCluster(this.cluster);
   }
 
   addLevel() {
