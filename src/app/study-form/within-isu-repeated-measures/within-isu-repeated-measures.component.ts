@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {constants} from '../../shared/constants';
@@ -8,10 +8,14 @@ import {minMaxValidator} from '../../shared/minmax.validator';
 import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
 import {noDuplicatesValidator} from '../../shared/noduplicates.validator';
 import {NavigationService} from '../../shared/navigation.service';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {fadeTransition} from '../../animations';
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
   templateUrl: './within-isu-repeated-measures.component.html',
+  animations: [fadeTransition],
   styleUrls: ['./within-isu-repeated-measures.component.scss']
 })
 export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
@@ -25,6 +29,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   private _max: number;
   private _stages = constants.REPEATED_MEASURE_STAGES;
   private _stage: number;
+  private _next = this._stages.INFO;
   private _validationMessages;
   private _formErrors;
   private _types: string[];
@@ -34,9 +39,13 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   private _repeatedMeasuresSubscription: Subscription;
 
+  @ViewChild('canDeactivate') canDeactivateModal;
+  private modalReference: any;
+
   constructor(private _fb: FormBuilder,
               private study_service: StudyService,
-              private navigation_service: NavigationService) {
+              private navigation_service: NavigationService,
+              private modalService: NgbModal) {
 
     this._validationMessages = constants.REPEATED_MEASURE_FORM_VALIDATION_MESSAGES;
     this._formErrors = constants.REPEATED_MEASURE_FORM_ERRORS;
@@ -138,6 +147,18 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._repeatedMeasuresSubscription.unsubscribe();
+  }
+
+  canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
+    if (this._stage === this._stages.INFO) {
+      this.navigation_service.updateValid(true);
+      return true;
+    } else {
+      console.log('cancel');
+      this.showModal(this.canDeactivateModal);
+      this.study_service.updateDirection('CANCEL');
+      return this.navigation_service.navigateAwaySelection$;
+    }
   }
 
   private updateRepeatsForm() {
@@ -251,7 +272,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     if (stage === this.stages.SPACING) {
       this.updateRepeatsForm();
     }
-    this._stage = stage;
+    this._next = stage;
+    this._stage = -1;
   }
 
   resetForms() {
@@ -275,6 +297,37 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       return true;
     }
     return false;
+  }
+
+  startTransition(event) {
+  }
+
+  doneTransition(event) {
+    this._stage = this._next;
+  }
+
+  showModal(content) {
+    this.modalReference = this.modalService.open(content)
+    this.modalReference.result.then(
+      (closeResult) => {
+        console.log('modal closed : ', closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          console.log('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          console.log('modal dismissed when used pressed backdrop');
+        } else {
+          console.log(dismissReason);
+        }
+      })
+  }
+
+  modalChoice(choice: boolean) {
+    this.modalReference.close();
+    if (choice) {
+      this.navigation_service.updateValid(true);
+    }
+    this.navigation_service.navigateAwaySelection$.next(choice);
   }
 
   get stageName() {
@@ -319,6 +372,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   get spacingControlNames(): number[] {
     return this._spacingControlNames;
+  }
+
+  get stage(): number {
+    return this._stage;
   }
 
   get stages(): { INFO: number; DIMENSIONS: number; TYPE: number; REPEATS: number; SPACING: number } {

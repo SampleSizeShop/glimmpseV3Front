@@ -94,6 +94,7 @@ const studyFormRoutes: Routes = [
             {
               path: names[constants.STAGES.WITHIN_ISU_REPEATED_MEASURES],
               component: WithinIsuRepeatedMeasuresComponent,
+              canDeactivate: [CanDeactivatePredictorsGuardService],
               data: {animation: constants.STAGES.WITHIN_ISU_REPEATED_MEASURES}
             },
             {
