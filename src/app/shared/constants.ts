@@ -207,7 +207,7 @@ export const constants = {
     REPEATS: 3,
     SPACING: 4
   },
-  REPEATED_MEASURE_TYPES: ['Numeric', 'Categorical', 'Ordinal'],
+  REPEATED_MEASURE_TYPES: ['Categorical', 'Ordinal', 'Numeric'],
   REPEATED_MEASURE_FORM_ERRORS: {
     'space': 'Your repeated measures cannot be duplicates.',
     'dimensionunits': 'Value needs to be filled in.',

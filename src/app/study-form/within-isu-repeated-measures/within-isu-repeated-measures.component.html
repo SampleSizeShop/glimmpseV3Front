@@ -80,9 +80,11 @@
       <h5>What type of data is {{dimensionForm.value.name}}?</h5>
       <form [formGroup]="typeForm">
         <div class="form-group">
-          <select class="form-control" id="type" formControlName="type">
-            <option *ngFor="let t of types" [value]="t">{{t}}</option>
-          </select>
+          <div class="btn-group" data-toggle="buttons" *ngFor="let t of types">
+            <label aria-pressed="true" class="btn btn-secondary" [class.active]="typeSelected(t)" id="typebtn">
+              <input type="radio" id="nominal" (click)="selectType(t)" > {{t}}
+            </label>
+          </div>
         </div>
       </form>
     </div>

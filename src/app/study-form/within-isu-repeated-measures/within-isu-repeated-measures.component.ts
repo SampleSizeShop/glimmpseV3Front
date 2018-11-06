@@ -299,6 +299,14 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  selectType(type: string) {
+    this._typeForm.setValue({type: type})
+  }
+
+  typeSelected(type: string) {
+    return this._typeForm.value.type === type;
+  }
+
   startTransition(event) {
   }
 
