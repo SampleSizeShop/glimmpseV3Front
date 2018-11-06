@@ -1,4 +1,5 @@
-<div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)"><div *ngIf="isInfo()">
+<div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)">
+  <div *ngIf="isInfo()">
   <div *ngIf="!hasRepeatedMeasures()" id="firstrepmeasure">
     <div class="container-fluid">
       <div class="row">

@@ -100,6 +100,7 @@ const studyFormRoutes: Routes = [
             {
               path: names[constants.STAGES.WITHIN_ISU_CLUSTERS],
               component: WithinIsuClustersComponent,
+              canDeactivate: [CanDeactivatePredictorsGuardService],
               data: {animation: constants.STAGES.WITHIN_ISU_CLUSTERS}
             },
             {

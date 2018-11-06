@@ -27,7 +27,8 @@ export class WithinIsuClustersPo {
       const noRepeatsInput = element(by.id('name'));
       noRepeatsInput.clear().then(() => noRepeatsInput.sendKeys(input.element))
     }
-    element(by.id('navigate_next')).click();
+    const nextBtn = element(by.css('.btn-primary'));
+    nextBtn.click();
   }
 
   fillLevels(input) {
@@ -42,6 +43,7 @@ export class WithinIsuClustersPo {
       }
       element(by.id('addLevel')).click();
     });
-    element(by.id('navigate_next')).click();
+    const nextBtn = element(by.css('.btn-primary'));
+    nextBtn.click();
   }
 }

@@ -1,34 +1,32 @@
-<div *ngIf="!hasCluster() && !editing" id="firstcluster">
-  <div class="container-fluid">
-    <div class="row">
+ <div *ngIf="isInfo()" id="firstcluster">
+    <div class="container-fluid">
       <div class="row">
-        <h5>Are your outcomes measured in a cluster?</h5>
-      </div>
-      <div class="row">
-        <p>
-          In a clustered design, the independent sampling unit is a cluster, such as a community, school, or classroom. Observations within a cluster are correlated. The labels for observations within a cluster must be exchangeable. For example, child "id" within classroom can be reassigned arbitrarily. In contrast, observations across time cannot be reassigned and should not be considered clustered observations. Clustering, or repeated measures, or a combination, creates a multilevel design. The common correlation between any pair of cluster members is termed the intraclass correlation or intracluster correlation. <br /><br />
+        <div class="row">
+          <h6>Are your outcomes measured in a cluster?</h6>
+        </div>
+        <div class="row">
+          <p>
+            In a clustered design, the independent sampling unit is a cluster, such as a community, school, or classroom. Observations within a cluster are correlated. The labels for observations within a cluster must be exchangeable. For example, child "id" within classroom can be reassigned arbitrarily. In contrast, observations across time cannot be reassigned and should not be considered clustered observations. Clustering, or repeated measures, or a combination, creates a multilevel design. The common correlation between any pair of cluster members is termed the intraclass correlation or intracluster correlation. <br /><br />
 
-          To include clustering in the study, click "Add Clustering" and follow the prompts. <br /><br />
+            To include clustering in the study, click "Add Clustering" and follow the prompts. <br /><br />
 
-          You may specify up to 3 levels of clustering. <br /><br />
-        </p>
-      </div>
-      <div class="row">
-        <div class="btn-group" data-toggle="buttons">
-          <label [class.active]="included" id="includerptmeasuresbtn" class="btn btn-primary">
-            <input type="radio" id="includerptmeasuresradio" (click)="includeClusters()">Define Clustering
-          </label>
+            You may specify up to 3 levels of clustering. <br /><br />
+          </p>
+        </div>
+        <div class="row" *ngIf="!hasCluster()">
+          <div class="btn-group" data-toggle="buttons">
+            <label id="includeclusterbtn" class="btn btn-primary">
+              <input type="radio" id="includeclusterradio" (click)="includeClusters()">Define Clustering
+            </label>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<div *ngIf="included">
-
-  <div *ngIf="stages[0] === stageName">
+  <div *ngIf="isElementName()">
     <div id="clustersheader">
-      <h5>What term would you like to use for a participant in the study? (For example, student.)</h5>
+      <h6>What term would you like to use for a participant in the study? (For example, student.)</h6>
     </div>
     <form [formGroup]="elementForm">
       <div class="form-group">
@@ -36,12 +34,15 @@
         <div *ngIf="formErrors.cluster" class="form-group has-danger">
           <div class="form-control-feedback" id="nameerr">{{formErrors.cluster}}</div>
         </div>
-      </div>
+      </div>name
     </form>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="namecancelbtn">Cancel</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="namebackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="setStage(stages.LEVELS)"   id="namenextbtn" [disabled]="!this.elementForm.valid">Next: Levels</button>
   </div>
 
-  <div *ngIf="stages[1] === stageName">
-    <h5>Name each level in the cluster and the number of elements in that level:</h5>
+  <div *ngIf="isLevels()">
+    <h6>Name each level in the cluster and the number of elements in that level:</h6>
     <form [formGroup]="clusterLevelForm" id="clusterLevelForm">
       <div class="container-fluid">
         <div class="row">
@@ -73,32 +74,111 @@
     </form>
 
     <br>
-    <small>Levels:</small>
-    <div *ngFor="let level of levels; let i = index">
-      {{levels[i] | json}}
+    <h6>Levels:</h6>
+    <div class="row">
+      <table class="table" *ngIf="hasLevels()" >
+        <thead>
+        <th class="col col-md-auto">
+          Remove
+        </th>
+        <th class="col col-md-auto">
+          Order
+        </th>
+        <th class="col col-md-auto">
+          Level Name
+        </th>
+        <th class="col col-md-auto">
+          No. Elements
+        </th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i)">
+          <td class="col col-md-auto">
+            <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">remove</i>
+          </td>
+          <td class="col col-md-auto">
+            {{i}}
+          </td>
+          <td class="col col-md-auto">
+            {{level.levelName}}
+          </td>
+          <td class="col col-md-auto">
+            {{level.noElements}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
     <div *ngIf="formErrors.clusterlevelrequired" class="form-group has-danger">
       <div class="form-control-feedback">{{formErrors.clusterlevelrequired}}</div>
     </div>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="levelscancelbtn">Cancel</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.ELEMENT_NAME)" id="levelsbackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="addCluster()" id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
   </div>
-
-</div>
 
 <br>
 
-<div *ngIf="hasCluster()" >
-  <small >Cluster:</small>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col col-md-auto">
-        <i class="material-icons" (click)="removeCluster(cluster)" style="margin-bottom: 5px" id="removecluster">remove</i>
-      </div>
-      <div class="col  col-md-auto">
-        <i class="material-icons" (click)="editCluster(cluster)" style="margin-bottom: 5px" id="editcluster">create</i>
-      </div>
-      <div class="col">
-        {{cluster | json}}
-      </div>
+<div *ngIf="hasCluster() && isInfo()" >
+  <div class="row">
+    <h6>Levels in cluster: {{cluster.name}}</h6>
+  </div>
+  <div class="row">
+    <table class="table">
+      <thead>
+      <th class="col col-md-auto">
+        Order
+      </th>
+      <th class="col col-md-auto">
+        Level Name
+      </th>
+      <th class="col col-md-auto">
+        No. Elements
+      </th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let level of cluster.levels; let i = index" [class]="rowStyle(i)">
+        <td class="col col-md-auto">
+          {{i}}
+        </td>
+        <td class="col col-md-auto">
+          {{level.levelName}}
+        </td>
+        <td class="col col-md-auto">
+          {{level.noElements}}
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <div class="row">
+    <div class="btn-group" data-toggle="buttons">
+      <label id="removeclusterbtn" class="btn btn-sm btn-secondary">
+        <input type="radio" id="removeclusterradio" (click)="removeCluster()">Remove Clustering
+      </label>
+    </div>
+    <div class="btn-group" data-toggle="buttons">
+      <label id="editclusterbtn" class="btn btn-sm btn-secondary">
+        <input type="radio" id="editclusterradio" (click)="editCluster()">Edit Clustering
+      </label>
     </div>
   </div>
 </div>
+
+
+<ng-template #canDeactivate>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Are you sure?</h5> <button type="button" class="close" (click)="modalChoice(false)">
+      <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      <p>You are trying to navigate away from this page. Do you wish to discard changes and continue?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modalChoice(false)">Continue editing</button>
+      <button type="button" class="btn btn-primary" (click)="modalChoice(true)">Discard changes</button> </div>
+  </div>
+</ng-template>
