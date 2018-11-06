@@ -7,6 +7,7 @@ import {StudyService} from '../study.service';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
 import {noDuplicatesValidator} from '../../shared/noduplicates.validator';
+import {NavigationService} from '../../shared/navigation.service';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -31,14 +32,15 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   private _repeats: number;
   private _spacingValues: string[];
 
-  private _navigationSubscription: Subscription;
   private _repeatedMeasuresSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder, private study_service: StudyService) {
+  constructor(private _fb: FormBuilder,
+              private study_service: StudyService,
+              private navigation_service: NavigationService) {
 
     this._validationMessages = constants.REPEATED_MEASURE_FORM_VALIDATION_MESSAGES;
     this._formErrors = constants.REPEATED_MEASURE_FORM_ERRORS;
-    this.max = constants.MAX_REPEATED_MEASURES;
+    this._max = constants.MAX_REPEATED_MEASURES;
     this._stage = this._stages.INFO;
     this._spacingControlNames = [0, 1];
     this._types = constants.REPEATED_MEASURE_TYPES;
@@ -176,6 +178,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   addRepeatedMeasure() {
+    this.navigation_service.updateValid(false);
     const measure = new RepeatedMeasure();
     measure.name = this._dimensionForm.value.dimension;
     measure.units = this._dimensionForm.value.units;
@@ -188,9 +191,12 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     measure.correlationMatrix = new CorrelationMatrix(measure.valueNames);
 
     this.repeatedMeasures.push(measure);
+    this.resetForms();
+    this.setStage(this.stages.INFO);
   }
 
   editRepeatedMeasure(measure: RepeatedMeasure) {
+    this.navigation_service.updateValid(false);
     this.removeRepeatedMeasure(measure);
 
     this._repMeasure = measure;
@@ -211,9 +217,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     if (index > -1) {
       this.repeatedMeasures.splice(index, 1);
     }
-    if ( !this.hasRepeatedMeasures() ) {
-      this.dontincludeRepeatedMeasures();
-    }
   }
 
   includeRepeatedMeasures(measure?: RepeatedMeasure) {
@@ -223,10 +226,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       this._repMeasure = new RepeatedMeasure();
     }
     this._stage = this._stages.DIMENSIONS;
-  }
-
-  dontincludeRepeatedMeasures() {
-    this._stage = this._stages.INFO;
   }
 
   getStageStatus(stage: number): string {
@@ -245,8 +244,16 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     return 'INVALID';
   }
 
-  setStage(next: number) {
-    this._stage = this._stages[next];
+  setStage(stage: number) {
+    if (stage === this._stages.INFO) {
+      this.navigation_service.updateValid(true);
+    } else {
+      this.navigation_service.updateValid(false);
+    }
+    if (stage === this.stages.SPACING) {
+      this.updateRepeatsForm();
+    }
+    this._stage = stage;
   }
 
   resetForms() {
@@ -266,7 +273,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   nextRepeatedMeasure(): boolean {
-    if (this.hasRepeatedMeasures() && this.repeatedMeasures.length < this.max ) {
+    if (this.hasRepeatedMeasures() && this.repeatedMeasures.length < this._max ) {
       return true;
     }
     return false;
@@ -284,14 +291,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this._repeatedMeasures = value;
   }
 
-  get max(): number {
-    return this._max;
-  }
-
-  set max(value: number) {
-    this._max = value;
-  }
-
   get types(): string[] {
     return this._types;
   }
@@ -302,6 +301,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   get dimensionForm(): FormGroup {
     return this._dimensionForm;
+  }
+
+  get max(): number {
+    return this._max;
   }
 
   get typeForm(): FormGroup {
@@ -318,6 +321,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   get spacingControlNames(): number[] {
     return this._spacingControlNames;
+  }
+
+  get stages(): { INFO: number; DIMENSIONS: number; TYPE: number; REPEATS: number; SPACING: number } {
+    return this._stages;
   }
 
   isInfo() {

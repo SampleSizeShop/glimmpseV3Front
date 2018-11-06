@@ -71,6 +71,8 @@
       </div>
     </div>
   </form>
+<button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)">Back</button>
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)" [disabled]="!this.dimensionForm.valid">Next: Type</button>
 </div>
 
 <div *ngIf="isType()">
@@ -84,6 +86,8 @@
       </div>
     </form>
   </div>
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.DIMENSIONS)">Back</button>
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)" [disabled]="!this.typeForm.valid">Next: Repeats</button>
 </div>
 
 <div *ngIf="isRepeats()">
@@ -95,10 +99,12 @@
         <div *ngIf="formErrors.repeatsform" class="form-group has-danger">
           <div class="form-control-feedback">{{formErrors.repeatsform}}</div>
         </div>
-        <small id="repeatshelp" class="form-text text-muted">You must have between 2 and 10 repeats (inclusive)</small>
+        <small id="repeatshelp" class="form-text text-muted">You must have between 2 and {{max}} repeats (inclusive)</small>
       </div>
     </form>
   </div>
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)">Back</button>
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.SPACING)" [disabled]="!this.dimensionForm.valid">Next: Spacing</button>
 </div>
 
 <div *ngIf="isSpacing()">
@@ -153,6 +159,9 @@
       </div>
     </form>
   </div>
+
+  <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)">Back</button>
+  <button class="btn btn-secondary btn-sm" (click)="addRepeatedMeasure()" [disabled]="!this.dimensionForm.valid">Finish</button>
 </div>
 
 <br>
