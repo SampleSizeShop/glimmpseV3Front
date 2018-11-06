@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
@@ -7,6 +7,7 @@ import {isNullOrUndefined} from 'util';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
+import {NavigationService} from "../../shared/navigation.service";
 
 @Component({
   selector: 'app-between-isu-smallest-group',
@@ -23,6 +24,7 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
 
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService,
+              private navigation_service: NavigationService,
               private logger: NGXLogger) {}
 
   ngOnInit() {
@@ -43,8 +45,8 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
 
   buildForm() {
     this.groupSizeForm = this.fb.group( this.updateSmallestGroupSizeControls() );
-
     this.groupSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this.checkValid();
   }
 
   onValueChanged(data?: any) {
@@ -63,10 +65,20 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
         }
       }
     }
+
+    this.checkValid()
+  }
+
+  checkValid() {
+    if (this.groupSizeForm.status === 'VALID') {
+      this.navigation_service.updateValid(true);
+    } else {
+      this.navigation_service.updateValid(false);
+    }
   }
 
   updateSmallestGroupSizeControls() {
-    return { smallestGroupSize: [ this.isuFactors.smallestGroupSize, minMaxValidator(0, Number.MAX_VALUE, this.logger) ] }
+    return { smallestGroupSize: [ this.isuFactors.smallestGroupSize, [Validators.required, minMaxValidator(0, Number.MAX_VALUE, this.logger)] ] }
   }
 
   updateSmallestGroupSize() {
