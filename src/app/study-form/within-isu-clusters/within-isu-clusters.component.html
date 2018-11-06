@@ -20,13 +20,6 @@
           </label>
         </div>
       </div>
-      <div class="row" *ngIf="hasCluster()">
-        <div class="btn-group" data-toggle="buttons">
-          <label id="editclusterbtn" class="btn btn-primary">
-            <input type="radio" id="editclusterradio" (click)="includeClusters()">Edit Clustering
-          </label>
-        </div>
-      </div>
     </div>
   </div>
 </div>
@@ -82,9 +75,40 @@
     </form>
 
     <br>
-    <small>Levels:</small>
-    <div *ngFor="let level of levels; let i = index">
-      {{levels[i] | json}}
+    <h6>Levels:</h6>
+    <div class="row">
+      <table class="table" *ngIf="hasLevels()" >
+        <thead>
+        <th class="col col-md-auto">
+          Remove
+        </th>
+        <th class="col col-md-auto">
+          Order
+        </th>
+        <th class="col col-md-auto">
+          Level Name
+        </th>
+        <th class="col col-md-auto">
+          No. Elements
+        </th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i)">
+          <td class="col col-md-auto">
+            <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">remove</i>
+          </td>
+          <td class="col col-md-auto">
+            {{i}}
+          </td>
+          <td class="col col-md-auto">
+            {{level.levelName}}
+          </td>
+          <td class="col col-md-auto">
+            {{level.noElements}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
     <div *ngIf="formErrors.clusterlevelrequired" class="form-group has-danger">
       <div class="form-control-feedback">{{formErrors.clusterlevelrequired}}</div>
@@ -97,18 +121,48 @@
 <br>
 
 <div *ngIf="hasCluster() && isInfo()" >
-  <small >Cluster:</small>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col col-md-auto">
-        <i class="material-icons" (click)="removeCluster(cluster)" style="margin-bottom: 5px" id="removecluster">remove</i>
-      </div>
-      <div class="col  col-md-auto">
-        <i class="material-icons" (click)="editCluster(cluster)" style="margin-bottom: 5px" id="editcluster">create</i>
-      </div>
-      <div class="col">
-        {{cluster | json}}
-      </div>
+  <div class="row">
+    <h6>Levels in cluster: {{cluster.name}}</h6>
+  </div>
+  <div class="row">
+    <table class="table">
+      <thead>
+      <th class="col col-md-auto">
+        Order
+      </th>
+      <th class="col col-md-auto">
+        Level Name
+      </th>
+      <th class="col col-md-auto">
+        No. Elements
+      </th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let level of cluster.levels; let i = index" [class]="rowStyle(i)">
+        <td class="col col-md-auto">
+          {{i}}
+        </td>
+        <td class="col col-md-auto">
+          {{level.levelName}}
+        </td>
+        <td class="col col-md-auto">
+          {{level.noElements}}
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <br>
+  <div class="row">
+    <div class="btn-group" data-toggle="buttons">
+      <label id="removeclusterbtn" class="btn btn-sm btn-secondary">
+        <input type="radio" id="removeclusterradio" (click)="removeCluster()">Remove Clustering
+      </label>
+    </div>
+    <div class="btn-group" data-toggle="buttons">
+      <label id="editclusterbtn" class="btn btn-sm btn-secondary">
+        <input type="radio" id="editclusterradio" (click)="editCluster()">Edit Clustering
+      </label>
     </div>
   </div>
 </div>

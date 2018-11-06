@@ -8,6 +8,7 @@ import {Subscription} from 'rxjs';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {clusterValidator} from './cluster.validator';
 import {ClusterLevel} from '../../shared/ClusterLevel';
+import {isNull} from "util";
 
 @Component({
   selector: 'app-within-isu-clusters',
@@ -75,7 +76,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.study_service.updateWithinIsuCluster(this.cluster);
     this._clusterSubscription.unsubscribe();
   }
 
@@ -136,14 +136,14 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     for (const level of this.levels) {
       this._cluster.levels.push(level);
     }
+    this.study_service.updateWithinIsuCluster(this.cluster);
     this.setStage(this._stages.INFO);
   }
 
-  editCluster(cluster: Cluster) {
-    this.removeCluster();
-    this.elementForm.get('name').setValue(cluster.name);
-    this._levels = cluster.levels;
-    this.includeClusters();
+  editCluster() {
+    this.elementForm.get('name').setValue(this._cluster.name);
+    this._levels = this._cluster.levels;
+    this.setStage(this._stages.ELEMENT_NAME);
   }
 
   removeCluster() {
@@ -174,27 +174,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this.setStage(this._stages.INFO);
   }
 
-  // internallyNavigate(direction: string) {
-  //   let next = this.stage;
-  //   if ( direction === 'BACK' ) {
-  //     next = this.stage - 1;
-  //   }
-  //   if ( direction === 'NEXT' ) {
-  //     next = this.stage + 1;
-  //   }
-  //   if ( next < 0) {
-  //     this.resetForms();
-  //     this.dontincludeClusters();
-  //   }
-  //   if ( next >= Object.keys(this.stages).length ) {
-  //     this.addCluster();
-  //     this.resetForms();
-  //   }
-  //   if (this.stages[next]) {
-  //     this.setStage(next);
-  //   }
-  // }
-
   getStageStatus(stage: number): string {
     if (stage === 0) {
       return this.elementForm.status;
@@ -206,12 +185,12 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   setStage(next: number) {
+    this._stage = next;
     if (this.isInfo()) {
       this.navigation_service.updateValid(true);
     } else {
       this.navigation_service.updateValid(false);
     }
-    this._stage = next;
   }
 
   resetForms() {
@@ -220,8 +199,28 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this.setStage(this._stages.INFO);
   }
 
+  removeLevel(level: ClusterLevel) {
+    this.levels.forEach((lvl, index) => {
+      if (lvl.levelName === level.levelName) {
+        this._levels.splice(index, 1);
+      }
+    });
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
+  }
+
   hasCluster(): boolean {
     return this.cluster ? true : false;
+  }
+
+  hasLevels(): boolean {
+    return this.levels ? true : false;
   }
 
   isInfo() {
