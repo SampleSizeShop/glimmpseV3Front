@@ -7,13 +7,13 @@
   </p>
 </div>
 <div *ngIf="firstOutcome()" id="firstoutcome">
-  <h5>Name your first outcome:</h5>
+  <h6>Name your first outcome:</h6>
 </div>
 <div *ngIf="nextOutcome()" id="nextoutcome">
-  <h5>Would you like to add another outcome?</h5>
+  <h6>Would you like to add another outcome?</h6>
 </div>
 <div *ngIf="!firstOutcome() && !nextOutcome()" id="outcomesfull">
-  <h5>Whoa! That's a lot of outcomes!! We'll handle this lot, but if you really, really want to analyse more than {{max}} outcomes, consult a statstician... and good luck...</h5>
+  <h6>Whoa! That's a lot of outcomes!! We'll handle this lot, but if you really, really want to analyse more than {{max}} outcomes, consult a statstician... and good luck...</h6>
 </div>
 <form [formGroup]="outcomesForm">
   <div class="container-fluid">

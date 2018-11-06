@@ -4,13 +4,13 @@
 
       <div *ngIf="isStage(stages.INFO)" >
         <div class="col">
-          <h5  *ngIf="!hasPredictors()">Do you have any Between ISU Factors?</h5>
-          <h5 *ngIf="hasPredictors()">Would you like to add another Predictor?</h5>
-          <div>
-            <p>
-              GLIMMPSE allows you to define between-participant factors, specified as fixed predictors. The values of the fixed predictors (that is, the levels of the between-participant factors) divide the independent sampling units into groups. The choice of study design determines the fixed predictors and their values. One common example of a fixed predictor is treatment, with values placebo and active, for which the independent sampling unit is randomized to a placebo group or an active drug group. Another is gender, with values male and female, for which the independent sampling unit is randomized to a male group or a female group.
-            </p>
-          </div>
+          <h6  *ngIf="!hasPredictors()">Do you have any Between ISU Factors?</h6>
+          <h6 *ngIf="hasPredictors()">Would you like to add another Predictor?</h6>
+        </div>
+        <div class="col">
+          <p>
+            GLIMMPSE allows you to define between-participant factors, specified as fixed predictors. The values of the fixed predictors (that is, the levels of the between-participant factors) divide the independent sampling units into groups. The choice of study design determines the fixed predictors and their values. One common example of a fixed predictor is treatment, with values placebo and active, for which the independent sampling unit is randomized to a placebo group or an active drug group. Another is gender, with values male and female, for which the independent sampling unit is randomized to a male group or a female group.
+          </p>
         </div>
         <div class="col">
           <button id="addbetweenbtn" (click)="includePredictors()" class="btn btn-primary">Define Between ISU Factor</button>
@@ -21,7 +21,7 @@
       </div>
 
       <div *ngIf="isStage(stages.NAME)">
-        <h5>Define Predictor</h5>
+        <h6>Define Predictor</h6>
         <form [formGroup]="predictorForm" id="predictorForm">
           <div class="container-fluid">
             <div class="form-group">
@@ -50,7 +50,7 @@
       </div>
 
       <div *ngIf="isStage(stages.TYPE)">
-        <h5>Defining Predictor:</h5>
+        <h6>Defining Predictor:</h6>
         <div id="type">
           <h6>What type of data is {{predictorForm.value.predictorName}}?</h6>
             <div class="form-group">
@@ -79,7 +79,7 @@
       </div>
 
       <div *ngIf="isStage(stages.GROUPS)">
-        <h5>Defining Predictor:</h5>
+        <h6>Defining Predictor:</h6>
         <form [formGroup]="groupsForm" id="groupsForm">
           <div class="container-fluid">
             <div class="row">
@@ -138,10 +138,10 @@
 </div>
 
 <div *ngIf="!nextPredictors()" id="maxPredictors">
-  <h5>Maximum number of BetweenISU predictors for GLIMMPSE added.</h5>
+  <h6>Maximum number of BetweenISU predictors for GLIMMPSE added.</h6>
 </div>
 
-<div *ngIf="hasPredictors()">
+<div class="col" *ngIf="hasPredictors()">
   <br>
   <small>Between ISU Predictors:</small>
   <thead>

@@ -5,6 +5,7 @@ import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {testEnvironment} from '../../../environments/environment.test';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-calculate',
@@ -16,11 +17,13 @@ export class CalculateComponent implements OnInit {
   private _studySubscription: Subscription;
   private _outputString: string;
   private _resultString;
+  private _e2eTest: boolean;
 
   constructor(private study_service: StudyService, private http: HttpClient) {
     this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
       this._studyDesign = study;
     });
+    this._e2eTest = environment.e2eTest;
   }
 
   ngOnInit() {
@@ -118,5 +121,9 @@ export class CalculateComponent implements OnInit {
 
   set resultString(value) {
     this._resultString = value;
+  }
+
+  get e2eTest(): boolean {
+    return this._e2eTest;
   }
 }

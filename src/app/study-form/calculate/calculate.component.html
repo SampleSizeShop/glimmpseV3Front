@@ -68,6 +68,6 @@
       <td>{{resultString.model.error_sum_square}}</td>
     </tr>
   </table>
-  <div id="results" hidden>{{resultString | json}}</div>
+  <div id="results" [hidden]="!e2eTest">{{resultString | json}}</div>
 </div>
-<div id="reviewDataModel" hidden>{{outputString}}</div>
+<div id="reviewDataModel" [hidden]="!e2eTest">{{outputString}}</div>
