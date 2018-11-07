@@ -71,7 +71,8 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
   }
 
   getRowLabel(element: ISUFactorCombination): String {
-    return this._getDimensionLabel(element, 0);
+    const label = this._getDimensionLabel(element, 0);
+    return label;
   }
 
   getColLabel(element: ISUFactorCombination): String {
@@ -87,7 +88,7 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
     let label = 'undefined';
     element.id.forEach( factor => {
       if (factorName === factor.factorName) {
-        label = factorName + factor.value;
+        label = factorName + ': ' + factor.value;
       }
     });
     return label;

@@ -1,8 +1,12 @@
-<div *ngIf="isIntercept" id="intercept">
-  We have added an intercept.
+<div *ngIf="isIntercept"
+     class="row"
+     id="intercept">
+  <div>We have added an intercept.</div>
 </div>
 
-<div *ngIf="!isIntercept" id="tableControls">
+<div *ngIf="!isIntercept"
+     class="row"
+     id="tableControls">
   <form [formGroup]="relativeGroupSizeForm" id="relativeGroupSizeForm">
     <div class="container-fluid">
       <h5>Specify the relative sizes of the groups.</h5>
