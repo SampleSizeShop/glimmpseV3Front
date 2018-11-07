@@ -5,7 +5,7 @@ import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {testEnvironment} from '../../../environments/environment.test';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-calculate',
@@ -18,17 +18,24 @@ export class CalculateComponent implements OnInit {
   private _outputString: string;
   private _resultString;
   private _e2eTest: boolean;
+  private _isShowDetail: boolean;
+  private _detailPower: number;
+  private _detailClusterLevels;
+  private _detailClusterName: string;
 
   constructor(private study_service: StudyService, private http: HttpClient) {
     this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
       this._studyDesign = study;
     });
     this._e2eTest = environment.e2eTest;
+    this._isShowDetail = false;
   }
 
   ngOnInit() {
     if (!isNullOrUndefined(this._studyDesign)) {
       this.outputString = JSON.stringify(this._studyDesign);
+      this.detailClusterLevels = this.getClusterLevels();
+      this.detailClusterName = this.getClusterName();
     } else {
       this.outputString = 'HMMM......';
       this.resultString = 'no results yet';
@@ -76,14 +83,14 @@ export class CalculateComponent implements OnInit {
   getOutput(result) {
     let value = result.test;
     if (!isNullOrUndefined(result.power)) {
-      value = ': Power -> ' + result.power;
+      value = result.power;
     } else if (!isNullOrUndefined(result.samplesize)) {
-      value = ': Sample size -> ' + result.samplesize;
+      value = result.samplesize;
     } else {
       const errors = this.resultString['model']['errors'];
       for (const key in errors) {
         if (errors[key]['errorname'] === value) {
-          value = ': ' + errors[key]['errormessage'];
+          value = errors[key]['errormessage'];
           break;
         }
       }
@@ -97,6 +104,41 @@ export class CalculateComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  showDetail(power) { // , totalSampleSize) {
+    this.isShowDetail = true;
+    this.detailPower = power;
+  }
+
+  getClusterLevels() {
+    for ( const variable of this.studyDesign['_isuFactors']['variables']) {
+      if (variable['origin'] === 'Cluster') {
+        return variable['levels'];
+      }
+    }
+    return null
+  }
+
+  getClusterName() {
+    for ( const variable of this.studyDesign['_isuFactors']['variables']) {
+      if (variable['origin'] === 'Cluster') {
+        return this.detailClusterName = variable['name']
+      }
+    }
+    return null
+  }
+
+  showLevelRelation(level1, level2, relationNumber) {
+    return relationNumber + ' ' + level2 + ' in each ' + level1;
+  }
+
+  showLevelConclusion() {
+    let totalCluster = 1;
+    for (const level of this.detailClusterLevels) {
+      totalCluster *= level['noElements'];
+    }
+    return '(a total of ' + totalCluster + ' ' + this.detailClusterName + ' in each ' + this.detailClusterLevels[0]['levelName'] + ')';
   }
 
   get outputString(): string {
@@ -125,5 +167,41 @@ export class CalculateComponent implements OnInit {
 
   get e2eTest(): boolean {
     return this._e2eTest;
+  }
+
+  get studyDesign() {
+    return this._studyDesign;
+  }
+
+  get isShowDetail(): boolean {
+    return this._isShowDetail;
+  }
+
+  set isShowDetail(value) {
+    this._isShowDetail = value;
+  }
+
+  get detailPower(): number {
+    return this._detailPower;
+  }
+
+  set detailPower(value) {
+    this._detailPower = value;
+  }
+
+  get detailClusterLevels() {
+    return this._detailClusterLevels;
+  }
+
+  set detailClusterLevels(value) {
+    this._detailClusterLevels = value;
+  }
+
+  get detailClusterName() {
+    return this._detailClusterName;
+  }
+
+  set detailClusterName(value) {
+    this._detailClusterName = value;
   }
 }

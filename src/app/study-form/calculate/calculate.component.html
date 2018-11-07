@@ -4,70 +4,46 @@
   <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate!</button>
 </div>
 <div *ngIf="hasResults">
-  <div *ngFor="let result of resultString.results">
+  <table class="table">
     <tr>
-      <td><h6>{{result.test}}</h6></td>
-      <td><h6 [ngStyle]="{'color': hasWarning(result) ? 'red': 'green' }">{{getOutput(result)}}</h6></td>
+      <th>Power</th>
+      <th>Total Sample Size</th>
+      <th>Means Scale Factor</th>
+      <th>Variability Scale Factor</th>
+      <th>Test</th>
+      <th>Type I Error Rate</th>
     </tr>
-  </div>
-  <table>
-    <tr>
-      <td><h6>es X</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.essence_design_matrix)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>rep n</h6></td>
-      <td>{{resultString.model.repeated_rows_in_design_matrix}}</td>
-    </tr>
-    <tr>
-      <td><h6>Hypothesis Beta</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.hypothesis_beta)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>C</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.c_matrix)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>U</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.u_matrix)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>Sigma Star</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.sigma_star)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>Theta zero</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.theta_zero)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>Alpha</h6></td>
-      <td>{{resultString.model.alpha}}</td>
-    </tr>
-    <tr>
-      <td><h6>total N</h6></td>
-      <td>{{resultString.model.total_n}}</td>
-    </tr>
-    <tr>
-      <td><h6>Theta</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.theta)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>M</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.m)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>NuE</h6></td>
-      <td>{{resultString.model.nu_e}}</td>
-    </tr>
-    <tr>
-      <td><h6>hypothesis sums squares</h6></td>
-      <td>{{resultString.model.hypothesis_sum_square}}</td>
-    </tr>
-    <tr>
-      <td><h6>Error sum squares</h6></td>
-      <td>{{resultString.model.error_sum_square}}</td>
-    </tr>
+    <ng-container *ngFor="let result of resultString.results">
+      <tr *ngFor="let variability_scale_factor of studyDesign['_varianceScaleFactors']" (click)="showDetail(getOutput(result))">
+        <td [ngStyle]="{'color': hasWarning(result) ? 'red': 'green' }">{{getOutput(result)}}</td>
+        <td>{{ studyDesign['_isuFactors']['smallestGroupSize'] }}</td>
+        <td>{{ studyDesign['_scaleFactor'] }}</td>
+        <td>{{ variability_scale_factor }}</td>
+        <td>{{ result.test }}</td>
+        <td>{{ studyDesign['_typeOneErrorRate'] }}</td>
+      </tr>
+    </ng-container>
   </table>
+  <div *ngIf="isShowDetail">
+    <h4>Details</h4>
+    <div class="form-group">
+      <label>Power</label>
+      <label class="form-control ng-binding">{{ detailPower }}</label>
+    </div>
+    <div class="form-group">
+      <label>Independent Sampling Unit</label>
+      <div class="well white-box">
+        <label class="ng-binding">{{ detailClusterLevels[0]['levelName'] }}</label>
+        <ul *ngIf="detailClusterLevels.length > 1">
+          <ng-container *ngFor="let level of detailClusterLevels.slice(0,-1); let i = index">
+            <li class="ng-binding">{{showLevelRelation(detailClusterLevels[i]['levelName'],detailClusterLevels[i+1]['levelName'], level['noElements'])}}</li>
+          </ng-container>
+          <li class="ng-binding">{{showLevelRelation(detailClusterLevels[detailClusterLevels.length-1]['levelName'], detailClusterName, detailClusterLevels[detailClusterLevels.length-1]['noElements'])}}</li>
+          <li class="ng-binding">{{ showLevelConclusion() }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
   <div id="results" [hidden]="!e2eTest">{{resultString | json}}</div>
 </div>
 <div id="reviewDataModel" [hidden]="!e2eTest">{{outputString}}</div>
