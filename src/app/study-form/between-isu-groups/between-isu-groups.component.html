@@ -19,20 +19,19 @@
       </div>
       <br>
       <h6>{{displayName}}</h6>
-
       <div class="col col-md-auto">
         <table>
-          <thead>
-          <tr>
-            <th></th>
-            <th *ngFor="let col of table.table[0]">{{table.getColLabel(col)}}</th>
-          </tr>
-          </thead>
-          <tbody>
+          <tbody class="matrix-input-brackets">
           <tr *ngFor="let row of table.table;">
-            <td>{{table.getRowLabel(row[0])}}</td>
             <td *ngFor="let col of row;">
-              <input type="number" formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}" id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}" required>
+              <div matTooltip="{{table.getCellLabel(col)}}"
+                   [matTooltipPosition]="left">
+                <input type="number"
+                       class="matrix-input-control"
+                       formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
+                       id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
+                       required>
+              </div>
             </td>
           </tr>
           </tbody>
