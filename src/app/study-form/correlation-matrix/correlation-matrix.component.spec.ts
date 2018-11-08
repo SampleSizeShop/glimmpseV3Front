@@ -7,6 +7,7 @@ import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {testEnvironment} from '../../../environments/environment.test';
+import {MatTooltip} from "@angular/material";
 
 describe('CorrelationMatrixComponent', () => {
   let component: CorrelationMatrixComponent;
@@ -20,7 +21,7 @@ describe('CorrelationMatrixComponent', () => {
           level: testEnvironment.loglevel,
           serverLogLevel: testEnvironment.loglevel
         })],
-      declarations: [ CorrelationMatrixComponent ],
+      declarations: [ CorrelationMatrixComponent, MatTooltip ],
       providers: [ CorrelationMatrixService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();

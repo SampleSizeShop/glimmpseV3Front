@@ -25,10 +25,6 @@ export class StatisticalTestsPo {
           this.selectHF();
         } else if (test === constants.STATISTICAL_TESTS.UNCORRECTED) {
           this.selectUC();
-        } else if (test === constants.STATISTICAL_TESTS.UNIREP) {
-          this.selectUrp();
-        } else if (test === constants.STATISTICAL_TESTS.MULTIREP) {
-          this.selectMrp();
         }
       });
     }
@@ -78,20 +74,6 @@ export class StatisticalTestsPo {
 
   selectUC() {
     const input = element(by.id('uc'));
-    if (input.getAttribute('class').then(classStr => classStr === 'active')) {
-      input.click();
-    }
-  }
-
-  selectUrp() {
-    const input = element(by.id('urp'));
-    if (input.getAttribute('class').then(classStr => classStr === 'active')) {
-      input.click();
-    }
-  }
-
-  selectMrp() {
-    const input = element(by.id('mrp'));
     if (input.getAttribute('class').then(classStr => classStr === 'active')) {
       input.click();
     }

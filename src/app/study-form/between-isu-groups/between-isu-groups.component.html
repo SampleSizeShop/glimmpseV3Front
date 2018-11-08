@@ -1,8 +1,12 @@
-<div *ngIf="isIntercept" id="intercept">
-  We have added an intercept.
+<div *ngIf="isIntercept"
+     class="row"
+     id="intercept">
+  <div>We have added an intercept.</div>
 </div>
 
-<div *ngIf="!isIntercept" id="tableControls">
+<div *ngIf="!isIntercept"
+     class="row"
+     id="tableControls">
   <form [formGroup]="relativeGroupSizeForm" id="relativeGroupSizeForm">
     <div class="container-fluid">
       <h5>Specify the relative sizes of the groups.</h5>
@@ -14,26 +18,26 @@
         </p>
       </div>
       <br>
-      <h6>{{displayName}}</h6>
-
-      <div class="col col-md-auto">
-        <table>
-          <thead>
-          <tr>
-            <th></th>
-            <th *ngFor="let col of table.table[0]">{{table.getColLabel(col)}}</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let row of table.table;">
-            <td>{{table.getRowLabel(row[0])}}</td>
-            <td *ngFor="let col of row;">
-              <input type="number" formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}" id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}" required>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+        <h6>{{displayName}}</h6>
+        <div class="col col-md-auto">
+          <table>
+            <tbody class="matrix-input-brackets">
+            <tr *ngFor="let row of table.table;">
+              <td *ngFor="let col of row;">
+                <div matTooltip="{{table.getCellLabel(col)}}"
+                     [matTooltipPosition]="left">
+                  <input type="number"
+                         class="matrix-input-control"
+                         formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
+                         id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
+                         placeholder="1"
+                         required>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
     </div>
     <div *ngIf="formErrors.relativegroupsizes" class="form-group has-danger">
       <div class="form-control-feedback">{{formErrors.relativegroupsizes}}</div>

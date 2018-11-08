@@ -1,10 +1,12 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NavigationService} from '../../shared/navigation.service';
 
 @Component({
   selector: 'app-solve-for',
@@ -25,7 +27,16 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   private _formErrors = constants.TARGET_EVENT_FORM_ERRORS;
   private _validationMessages = constants.TARGET_EVENT_VALIDATION_MESSAGES;
 
-  constructor(private study_service: StudyService, private fb: FormBuilder, private logger: NGXLogger) {
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
+  constructor(private study_service: StudyService,
+              private fb: FormBuilder, private logger: NGXLogger,
+              private _navigation_service: NavigationService,
+              private modalService: NgbModal) {
     this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
       targetEvent => {
         this.targetEvent = targetEvent;
@@ -46,6 +57,12 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
         this.ciwidth = ciwidth;
       }
     );
+    this._afterInit = false;
+    this._showHelpTextSubscription = this._navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
     this.buildForm();
   }
 
@@ -89,7 +106,9 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     return this.targetEvent === constants.WAVR_EVENT;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._afterInit = true;
+  }
 
   ngDoCheck() {
     this.study_service.updateSolveFor(this.solveFor);
@@ -166,8 +185,7 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   get validationMessages(): {
       power: { minval: string; maxval: string };
       ciwidth: { minval: string; maxval: string }
-    }
-    {
+    } {
     return this._validationMessages;
   }
 
@@ -217,5 +235,26 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   set ciwidthSubscription(value: Subscription) {
     this._ciwidthSubscription = value;
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        console.log('modal closed : ', closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          console.log('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          console.log('modal dismissed when used pressed backdrop');
+        } else {
+          console.log(dismissReason);
+        }
+      });
   }
 }

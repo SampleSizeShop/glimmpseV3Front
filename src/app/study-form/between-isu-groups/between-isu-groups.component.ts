@@ -14,6 +14,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
+import {TooltipPosition} from '@angular/material';
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -28,6 +29,8 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   private _table: RelativeGroupSizeTable;
   private _formErrors = constants.BETWEEN_ISU_RELATIVE_GROUP_ERRORS;
   private _validationMessages = constants.BETWEEN_ISU_RELATIVE_GROUP_VALIDATION_MESSAGES;
+  left: TooltipPosition;
+  below: TooltipPosition;
 
   private _isuFactorsSubscription: Subscription;
 
@@ -35,6 +38,9 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
               private route: ActivatedRoute,
               private _study_service: StudyService,
               private logger: NGXLogger) {
+
+    this.left = 'left';
+    this.below = 'below';
   }
 
   ngOnInit() {

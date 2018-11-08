@@ -1,5 +1,11 @@
-<div style="padding-top: 10px">
-  <h4>New Study</h4>
+<div style="padding-top: 10px" class="row">
+  <div class="col-5">
+    <h4>New Study: {{getCurrentStageName()}}</h4>
+  </div>
+  <div class="col-5"></div>
+  <div class="col-2">
+    <mat-icon (click)="toggleHelpText()">info_outline</mat-icon>
+  </div>
   <hr>
 </div>
   <div class="container-fluid" style="vertical-align: middle">

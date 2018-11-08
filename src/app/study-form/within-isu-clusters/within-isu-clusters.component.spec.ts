@@ -8,9 +8,8 @@ import {MockBackend} from '@angular/http/testing';
 import {NavigationService} from '../../shared/navigation.service';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {NgbModalStack} from "@ng-bootstrap/ng-bootstrap/modal/modal-stack";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('WithinIsuClustersComponent', () => {
   let component: WithinIsuClustersComponent;
@@ -24,7 +23,6 @@ describe('WithinIsuClustersComponent', () => {
       declarations: [ WithinIsuClustersComponent ],
       providers: [ StudyService,
                   NgbModal,
-                  NgbModalStack,
                   { provide: HttpClient, useClass: MockBackend},
                   NavigationService]
     })

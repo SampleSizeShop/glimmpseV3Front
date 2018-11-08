@@ -12,6 +12,7 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {RelativeGroupSizeTable} from '../../shared/RelativeGroupSizeTable';
 import {ISUFactorCombination} from '../../shared/ISUFactorCombination';
 import {CombinationId} from '../../shared/CombinationId';
+import {MatTooltip} from "@angular/material";
 
 describe('BetweenIsuGroupsComponent', () => {
   let component: BetweenIsuGroupsComponent;
@@ -23,7 +24,8 @@ describe('BetweenIsuGroupsComponent', () => {
     activatedRoute.testParamMap = {index: '0'};
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [ BetweenIsuGroupsComponent ],
+      declarations: [ BetweenIsuGroupsComponent,
+        MatTooltip ],
       providers: [
         StudyService,
         { provide: HttpClient, useClass: MockBackend },

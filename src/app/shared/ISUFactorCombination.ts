@@ -18,9 +18,9 @@ export class ISUFactorCombination {
   get name() {
     let name = '';
     this.id.forEach( conbinationId => {
-      name = name + conbinationId.label + '_' ;
+      name = name + conbinationId.tooltip + ', ' ;
     })
-    name = name.substring(0, name.length - 1);
+    name = name.substring(0, name.length - 2);
     return name;
   }
 }

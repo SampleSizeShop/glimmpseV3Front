@@ -1,124 +1,125 @@
-<div>
-  <div class="container-fluid">
-    <div class="row" [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)" >
+<div class="container-fluid">
+  <div class="row" [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)" >
 
-      <div *ngIf="isStage(stages.INFO)" >
-        <div class="col">
-          <h6  *ngIf="!hasPredictors()">Do you have any Between ISU Factors?</h6>
-          <h6 *ngIf="hasPredictors()">Would you like to add another Predictor?</h6>
-        </div>
-        <div class="col">
-          <p>
-            GLIMMPSE allows you to define between-participant factors, specified as fixed predictors. The values of the fixed predictors (that is, the levels of the between-participant factors) divide the independent sampling units into groups. The choice of study design determines the fixed predictors and their values. One common example of a fixed predictor is treatment, with values placebo and active, for which the independent sampling unit is randomized to a placebo group or an active drug group. Another is gender, with values male and female, for which the independent sampling unit is randomized to a male group or a female group.
-          </p>
-        </div>
-        <div class="col">
-          <button id="addbetweenbtn" (click)="includePredictors()" class="btn btn-primary">Define Between ISU Factor</button>
-          <p>
-            If your design has no between-participant factors, don't define any predictors.
-          </p>
-        </div>
+    <div *ngIf="isStage(stages.INFO)" >
+      <div class="col">
+        <h6  *ngIf="!hasPredictors()">Do you have any Between ISU Factors?</h6>
+        <h6 *ngIf="hasPredictors()">Would you like to add another Predictor?</h6>
       </div>
+      <div class="col">
+        <p>
+          GLIMMPSE allows you to define between-participant factors, specified as fixed predictors. The values of the fixed predictors (that is, the levels of the between-participant factors) divide the independent sampling units into groups. The choice of study design determines the fixed predictors and their values. One common example of a fixed predictor is treatment, with values placebo and active, for which the independent sampling unit is randomized to a placebo group or an active drug group. Another is gender, with values male and female, for which the independent sampling unit is randomized to a male group or a female group.
+        </p>
+      </div>
+      <div class="col">
+        <button id="addbetweenbtn" (click)="includePredictors()" class="btn btn-primary">Define Between ISU Factor</button>
+        <p>
+          If your design has no between-participant factors, don't define any predictors.
+        </p>
+      </div>
+    </div>
 
-      <div *ngIf="isStage(stages.NAME)">
-        <h6>Define Predictor</h6>
+    <div *ngIf="isStage(stages.NAME)">
+      <div class="col">
         <form [formGroup]="predictorForm" id="predictorForm">
-          <div class="container-fluid">
-            <div class="form-group">
-              <div class="row">
-                <div class="col">
-                  <h6>Name your predictor:</h6>
-                </div>
-                <div class="col">
-                  <input class="form-control" formControlName="predictorName">
-                </div>
-              </div>
+          <div class="row">
+            <div class="col">
+              <h5>Define Predictor</h5>
             </div>
-            <div *ngIf="formErrors.predictorform" class="form-group has-danger">
-              <div class="form-control-feedback">{{formErrors.predictorform}}</div>
+          </div>
+          <div class="row h-100">
+            <div class="col h-100">
+              <h6 class="align-middle">Name your predictor:</h6>
+            </div>
+            <div class="col">
+              <input class="form-control" formControlName="predictorName">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div *ngIf="formErrors.predictorform" class="form-group has-danger">
+                <div class="form-control-feedback">{{formErrors.predictorform}}</div>
+              </div></div>
+          </div>
+          <br>
+          <div class="row" *ngIf="stage > 0">
+            <div class="col">
+              <div class = "btn-group-sm">
+                <button id="cancelbetweenbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
+                <button id="addnamebtn"  (click)="addName()" class="btn btn-primary btn-sm" [disabled]="predictorForm.status === 'INVALID'"> Next: Data Type </button>
+              </div>
             </div>
           </div>
         </form>
-        <div class="row" *ngIf="stage > 0">
-          <div class="col">
-            <div class = "btn-group-sm">
-              <button id="cancelbetweenbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
-              <button id="addnamebtn"  (click)="addName()" class="btn btn-primary btn-sm" [disabled]="predictorForm.status === 'INVALID'"> Next: Data Type </button>
-            </div>
-          </div>
-        </div>
       </div>
+    </div>
 
-      <div *ngIf="isStage(stages.TYPE)">
+    <div *ngIf="isStage(stages.TYPE)">
+      <div class="col">
         <h6>Defining Predictor:</h6>
-        <div id="type">
-          <h6>What type of data is {{predictorForm.value.predictorName}}?</h6>
-            <div class="form-group">
-              <div class="btn-group" data-toggle="buttons">
-                <label aria-pressed="true" class="btn btn-secondary" [class.active]="isNominal()" id="nominalbtn">
-                  <input type="radio" id="nominal" (click)="selectNominal()" > Nominal
-                </label>
-                <label class="btn btn-secondary" aria-pressed="true" [class.active]="isOrdinal()" id="ordinalbtn">
-                  <input type="radio" id="ordinal" (click)="selectOrdinal()" > Ordinal
-                </label>
-                <label class="btn btn-secondary" aria-pressed="true" [class.active]="isContinuous()"  id="continuousbtn">
-                  <input type="radio" id="continuous" (click)="selectContinuous()"> Continuous
-                </label>
-              </div>
-            </div>
-        </div>
-        <div class="row" *ngIf="stage > 0">
-          <div class = "col">
-            <div class="btn-group-sm">
-              <button id="canceltypebtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
-              <button id="addnamebackbtn"  (click)="includePredictors()" class="btn btn-secondary btn-sm"> Back: Data Type </button>
-              <button id="addtypebtn"  (click)="addType()" class="btn btn-primary btn-sm">Next: Groups</button>
-            </div>
-          </div>
-        </div>
       </div>
 
-      <div *ngIf="isStage(stages.GROUPS)">
+      <div id="type" class="col">
+        <h6>What type of data is {{predictorForm.value.predictorName}}?</h6>
+        <div class="form-group">
+          <div class="btn-group" data-toggle="buttons">
+            <label aria-pressed="true" class="btn btn-secondary" [class.active]="isNominal()" id="nominalbtn">
+              <input type="radio" id="nominal" (click)="selectNominal()" > Nominal
+            </label>
+            <label class="btn btn-secondary" aria-pressed="true" [class.active]="isOrdinal()" id="ordinalbtn">
+              <input type="radio" id="ordinal" (click)="selectOrdinal()" > Ordinal
+            </label>
+            <label class="btn btn-secondary" aria-pressed="true" [class.active]="isContinuous()"  id="continuousbtn">
+              <input type="radio" id="continuous" (click)="selectContinuous()"> Continuous
+            </label>
+          </div>
+        </div>
+        <div class="btn-group-sm">
+          <button id="canceltypebtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
+          <button id="addnamebackbtn"  (click)="includePredictors()" class="btn btn-secondary btn-sm"> Back: Data Type </button>
+          <button id="addtypebtn"  (click)="addType()" class="btn btn-primary btn-sm">Next: Groups</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isStage(stages.GROUPS)">
+      <div class="col">
         <h6>Defining Predictor:</h6>
         <form [formGroup]="groupsForm" id="groupsForm">
-          <div class="container-fluid">
+          <div class="row">
+            <div class="col" *ngIf="!isOrdinal()">
+              <h6>Which units is {{predictorForm.value.predictorName}} measured in?</h6>
+            </div>
+            <div class="col" *ngIf="!isOrdinal()">
+              <input class="form-control" formControlName="units" (keyup.enter)="addGroup()" id="units">
+            </div>
+            <div class="col"></div>
+          </div>
+          <div class="row" *ngIf="firstGroup() || nextGroup()">
+            <div class="col">
+              <h6>Name at least two groups:</h6>
+            </div>
+            <div class="col">
+              <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">
+            </div>
+            <div class="col">
+              <i class="material-icons" (click)="addGroup()" style="margin-top: 10px" id="addgroup">add</i>
+            </div>
+          </div>
+          <br>
+          <h6 *ngIf="!firstGroup()">Groups:</h6>
+          <div *ngFor="let grp of groups" id="grouplist">
             <div class="row">
-              <div class="col" *ngIf="!isOrdinal()">
-                <h6>Which units is {{predictorForm.value.predictorName}} measured in?</h6>
-              </div>
-              <div class="col" *ngIf="!isOrdinal()">
-                <input class="form-control" formControlName="units" (keyup.enter)="addGroup()" id="units">
-              </div>
-              <div class="col"></div>
-            </div>
-            <div class="row" *ngIf="firstGroup() || nextGroup()">
-              <div class="col">
-                <h6>Name at least two groups:</h6>
+              <div class="col col-md-auto">
+                <i class="material-icons" (click)="removeGroup(grp)" style="margin-bottom: 5px" id="removegroup">remove</i>
               </div>
               <div class="col">
-                <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">
-              </div>
-              <div class="col">
-                <i class="material-icons" (click)="addGroup()" style="margin-top: 10px" id="addgroup">add</i>
+                {{grp}}
               </div>
             </div>
-            <br>
-            <small *ngIf="!firstGroup()">Outcomes:</small>
-            <div *ngFor="let grp of groups" id="grouplist">
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col col-md-auto">
-                    <i class="material-icons" (click)="removeGroup(grp)" style="margin-bottom: 5px" id="removegroup">remove</i>
-                  </div>
-                  <div class="col">
-                    {{grp}}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div *ngIf="formErrors.groupsformtwogroups" class="form-group has-danger">
-              <div class="form-control-feedback">{{formErrors.groupsformtwogroups}}</div>
-            </div>
+          </div>
+          <div *ngIf="formErrors.groupsformtwogroups" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.groupsformtwogroups}}</div>
           </div>
         </form>
 
@@ -132,61 +133,68 @@
           </div>
         </div>
       </div>
+    </div>
 
+
+    <div *ngIf="!nextPredictors()" id="maxPredictors">
+      <h6>Maximum number of BetweenISU predictors for GLIMMPSE added.</h6>
+    </div>
+
+  </div>
+
+
+
+  <div class="row">
+    <div class="col" *ngIf="hasPredictors()">
+    <br>
+      <h6>Between ISU Predictors:</h6>
+        <table class="table">
+          <thead>
+          <th class="col col-md-auto">
+            Remove
+          </th>
+          <th class="col  col-md-auto">
+            Add
+          </th>
+          <th class="col col-md-auto">
+            Name
+          </th>
+          <th class="col col-md-auto">
+            Type
+          </th>
+          <th class="col col-md-auto">
+            Units
+          </th>
+          <th class="col col-md-auto">
+            Groups
+            Groups
+          </th>
+          </thead>
+          <tbody>
+          <tr *ngFor="let predictor of betweenIsuPredictors; let i = index" [class]="rowStyle(i)">
+            <td class="col col-md-auto">
+              <i class="material-icons" (click)="removePredictor(predictor)" style="margin-bottom: 5px" id="removepredictor">remove</i>
+            </td>
+            <td class="col  col-md-auto">
+              <i class="material-icons" (click)="editPredictor(predictor)" style="margin-bottom: 5px" id="editpredictor">create</i>
+            </td>
+            <td class="col col-md-auto">
+              {{predictor.name}}
+            </td>
+            <td class="col col-md-auto">
+              {{predictor.type}}
+            </td>
+            <td class="col col-md-auto">
+              {{predictor.units}}
+            </td>
+            <td class="col col-md-auto">
+              {{predictor.valueNames | json}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-</div>
-
-<div *ngIf="!nextPredictors()" id="maxPredictors">
-  <h6>Maximum number of BetweenISU predictors for GLIMMPSE added.</h6>
-</div>
-
-<div class="col" *ngIf="hasPredictors()">
-  <br>
-  <small>Between ISU Predictors:</small>
-  <thead>
-    <th class="col col-md-auto">
-      Remove
-    </th>
-    <th class="col  col-md-auto">
-      Add
-    </th>
-    <th class="col col-md-auto">
-      Name
-    </th>
-    <th class="col col-md-auto">
-      Type
-    </th>
-    <th class="col col-md-auto">
-      Units
-    </th>
-    <th class="col col-md-auto">
-      Groups
-    </th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let predictor of betweenIsuPredictors; let i = index" [class]="rowStyle(i)">
-          <td class="col col-md-auto">
-            <i class="material-icons" (click)="removePredictor(predictor)" style="margin-bottom: 5px" id="removepredictor">remove</i>
-          </td>
-          <td class="col  col-md-auto">
-            <i class="material-icons" (click)="editPredictor(predictor)" style="margin-bottom: 5px" id="editpredictor">create</i>
-          </td>
-          <td class="col col-md-auto">
-            {{predictor.name}}
-          </td>
-          <td class="col col-md-auto">
-            {{predictor.type}}
-          </td>
-          <td class="col col-md-auto">
-            {{predictor.units}}
-          </td>
-          <td class="col col-md-auto">
-            {{predictor.valueNames | json}}
-          </td>
-    </tr>
-  </tbody>
-
 </div>
 
 <ng-template #canDeactivate>

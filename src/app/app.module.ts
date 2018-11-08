@@ -56,7 +56,8 @@ import { CalculateComponent } from './study-form/calculate/calculate.component';
 import { BetweenIsuSmallestGroupComponent } from './study-form/between-isu-smallest-group/between-isu-smallest-group.component';
 import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypothesis-theta-0.component';
 import { CustomContrastMatrixComponent } from './study-form/custom-contrast-matrix/custom-contrast-matrix.component';
-import {MatTooltipModule} from "@angular/material";
+import {MatTooltipModule} from '@angular/material';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -120,7 +121,8 @@ import {MatTooltipModule} from "@angular/material";
     BrowserAnimationsModule,
     StudyFormRoutingModule,
     AppRoutingModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatIconModule
   ],
   providers: [MathJaxService],
   bootstrap: [AppComponent]
