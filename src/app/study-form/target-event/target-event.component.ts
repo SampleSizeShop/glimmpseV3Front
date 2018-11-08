@@ -3,7 +3,7 @@ import {StudyService} from '../study.service';
 import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs';
 import {NavigationService} from '../../shared/navigation.service';
-import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-target-event',
