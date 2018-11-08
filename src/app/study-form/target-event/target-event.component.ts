@@ -15,10 +15,10 @@ export class TargetEventComponent implements OnInit {
   private _targetEventSubscription: Subscription;
 
   private _showHelpTextSubscription: Subscription;
-  private _helpText: boolean;
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
+  private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
               private _navigation_service: NavigationService,
@@ -28,9 +28,9 @@ export class TargetEventComponent implements OnInit {
         this.targetEvent = event;
       }
     );
+    this._afterInit = false;
     this._showHelpTextSubscription = this._navigation_service.helpText$.subscribe( help => {
-      this._helpText = help;
-      if (this._helpText) {
+      if (this._afterInit) {
         this.showHelpText(this.helpTextModal);
       }
     });
@@ -52,6 +52,7 @@ export class TargetEventComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._afterInit = true;
   }
 
   isRejection(): boolean {
@@ -82,16 +83,12 @@ export class TargetEventComponent implements OnInit {
     this._targetEventSubscription = value;
   }
 
-  get helpText(): boolean {
-    return this._helpText;
-  }
-
   dismissHelp() {
     this.helpTextModalReference.close();
-    this._navigation_service.toggleHelpText();
   }
 
   showHelpText(content) {
+    this.modalService.dismissAll();
     this.helpTextModalReference = this.modalService.open(content);
     this.helpTextModalReference.result.then(
       (closeResult) => {
