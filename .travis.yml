@@ -36,6 +36,7 @@ jobs:
   include:
     - stage: test
       script:
+      - npm install --save @ng-bootstrap/ng-bootstrap@4.0.0
       - npm install -g karma
       - export CHROME_BIN=chromium-browser
       - export DISPLAY=:99.0

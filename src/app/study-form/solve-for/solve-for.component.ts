@@ -6,7 +6,7 @@ import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NavigationService} from "../../shared/navigation.service";
+import {NavigationService} from '../../shared/navigation.service';
 
 @Component({
   selector: 'app-solve-for',
