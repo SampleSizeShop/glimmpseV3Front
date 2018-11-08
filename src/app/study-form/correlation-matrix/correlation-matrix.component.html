@@ -2,11 +2,18 @@
 <div class="container-fluid">
   <h5 style="padding: 0">Define your {{title}}correlation matrix:<br />(each off-diagonal correlation must be between -1 and 1, exclusive)</h5>
   <div style="padding: 15px">
-    <form [formGroup]="correlationMatrixForm">
-      <div *ngFor="let r of sizeArray; let a=index" class="row">{{labels[a]}}
+    <form [formGroup]="correlationMatrixForm" class="matrix-input-brackets">
+      <div *ngFor="let r of sizeArray; let a=index" class="row">
         <div *ngFor="let c of sizeArray; let b=index" class="col" style="padding: 0">
-          <div *ngIf="a === 0">{{labels[b]}}</div>
-          <input type="number" class="form-control" [style.background-color]="getStyle(r, c)" formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}" step="0.01" min={{min}} max="{{max}}">
+          <div matTooltip="{{labels[a]}}, {{labels[b]}}"
+               [matTooltipPosition]="left">
+            <input type="number"
+                      class="form-control matrix-input-control"
+                      [style.background-color]="getStyle(r, c)"
+                      formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}"
+                      step="0.01" min={{min}} max="{{max}}">
+          </div>
+
         </div>
       </div>
       <div *ngIf="getFormErrors()" class="form-group has-danger">

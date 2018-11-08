@@ -1,48 +1,61 @@
 <form [formGroup]="powerSampleSizeForm" novalidate>
-  <h5>Solve for:</h5>
-  <div>
-    <p>
-      To begin your calculation, please indicate whether you would like to solve for power or total sample size.<br />
-
-      If you have a rough idea of the number of research participants you will be able to recruit, then solving for power may be more beneficial.<br />
-
-      If you have fewer restrictions on recruitment and would like to ensure a well-powered study, then solving for sample size is likely to be more useful.<br />
-    </p>
-  </div>
   <div class="container-fluid">
-    <div class="btn-group" data-toggle="buttons">
-      <label *ngIf="isRejection()" aria-pressed="true" class="btn btn-primary" [class.active]="isPower()" id="powerbtn">
-        <input type="radio" id="powerradio" (click)="selectPower()"> Power
-      </label>
-      <label *ngIf="isCIWidth() || isWAVR()" aria-pressed="true" class="btn btn-primary" [class.active]="isPower()" id="probabilitybtn">
-        <input type="radio" id="probabilityradio" (click)="selectPower()"> Probability
-      </label>
-      <label class="btn btn-primary" aria-pressed="true" [class.active]="isSampleSize()" id="samplesizebtn">
-        <input type="radio" id="samplesizeradio" (click)="selectSampleSize()"> Sample Size
-      </label>
-    </div>
-    <div>
-      <div *ngIf="isPower()" id="samplesizedesc"></div>
-      <div *ngIf="isSampleSize()" id="powerdesc"></div>
-      <div class="form-group" *ngIf="isSampleSize()" id="powerinput">
-        <label for="power" ng-non-bindable *ngIf="isRejection()" id="rejectnulllbl">Probability &#123;Reject null&#125;:</label>
-        <label for="power" ng-non-bindable *ngIf="isCIWidth()" id="achieveciwidthlbl">Probability &#123;achieve CI Width&#125;:</label>
-        <label for="power" ng-non-bindable *ngIf="isWAVR()" id="probwavrlbl">Probability &#123;WAVR&#125;:</label>
-        <input type="number" class="form-control" id="power" aria-describedby="powerhelp" placeholder="Choose a number between 0 -> 1" formControlName="power" required>
-        <div *ngIf="formErrors.power" class="form-group has-danger">
-          <div class="form-control-feedback">{{formErrors.power}}</div>
-        </div>
-        <small id="powerhelp" class="form-text text-muted">Power must be an integer between 0 > x > 1</small>
-        <div class="form-group" *ngIf="isCIWidth() || isWAVR()">
-          <label for="ciwidth">Confidence Interval Width:</label>
-          <input type="number" class="form-control" id="ciwidth" aria-describedby="ciwidthhelp" placeholder="Choose a number between 0 -> 10" formControlName="ciwidth" required>
-          <div *ngIf="formErrors.ciwidth" class="form-group has-danger">
-            <div class="form-control-feedback">{{formErrors.ciwidth}}</div>
-          </div>
-          <small id="ciwidthhelp" class="form-text text-muted">Confidence Interval width must be an integer between 0 > x > 10</small>
+    <div class="row">
+      <div class="col">
+        <h5>Solve for:</h5>
+        <div>
+          <p>
+            To begin your calculation, please indicate whether you would like to solve for power or total sample size.<br />
+
+            If you have a rough idea of the number of research participants you will be able to recruit, then solving for power may be more beneficial.<br />
+
+            If you have fewer restrictions on recruitment and would like to ensure a well-powered study, then solving for sample size is likely to be more useful.<br />
+          </p>
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label *ngIf="isRejection()" aria-pressed="true" class="btn btn-secondary" [class.active]="isPower()" id="powerbtn">
+            <input type="radio" id="powerradio" (click)="selectPower()"> Power
+          </label>
+          <label *ngIf="isCIWidth() || isWAVR()" aria-pressed="true" class="btn btn-secondary" [class.active]="isPower()" id="probabilitybtn">
+            <input type="radio" id="probabilityradio" (click)="selectPower()"> Probability
+          </label>
+          <label class="btn btn-secondary" aria-pressed="true" [class.active]="isSampleSize()" id="samplesizebtn">
+            <input type="radio" id="samplesizeradio" (click)="selectSampleSize()"> Sample Size
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <div *ngIf="isPower()" id="samplesizedesc"></div>
+        <div *ngIf="isSampleSize()" id="powerdesc"></div>
+        <div class="form-group" *ngIf="isSampleSize()" id="powerinput">
+          <label for="power" ng-non-bindable *ngIf="isRejection()" id="rejectnulllbl">Probability &#123;Reject null&#125;:</label>
+          <label for="power" ng-non-bindable *ngIf="isCIWidth()" id="achieveciwidthlbl">Probability &#123;achieve CI Width&#125;:</label>
+          <label for="power" ng-non-bindable *ngIf="isWAVR()" id="probwavrlbl">Probability &#123;WAVR&#125;:</label>
+          <input type="number" class="form-control" id="power" aria-describedby="powerhelp" placeholder="Choose a number between 0 -> 1" formControlName="power" required>
+          <div *ngIf="formErrors.power" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.power}}</div>
+          </div>
+          <small id="powerhelp" class="form-text text-muted">Power must be an integer between 0 > x > 1</small>
+          <div class="form-group" *ngIf="isCIWidth() || isWAVR()">
+            <label for="ciwidth">Confidence Interval Width:</label>
+            <input type="number" class="form-control" id="ciwidth" aria-describedby="ciwidthhelp" placeholder="Choose a number between 0 -> 10" formControlName="ciwidth" required>
+            <div *ngIf="formErrors.ciwidth" class="form-group has-danger">
+              <div class="form-control-feedback">{{formErrors.ciwidth}}</div>
+            </div>
+            <small id="ciwidthhelp" class="form-text text-muted">Confidence Interval width must be an integer between 0 > x > 10</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </form>
 

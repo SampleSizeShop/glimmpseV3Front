@@ -61,7 +61,7 @@ describe('RelativeGroupSizeTable', () => {
       [ [new ISUFactorCombination([a1, b3], 1), new ISUFactorCombination([a1, b4], 1)],
               [new ISUFactorCombination([a2, b3], 1), new ISUFactorCombination([a2, b4], 1)]]);
     table.dimensions = table.getDimensions(table.table[0][0]);
-    const expected = 'b3';
+    const expected = 'b: 3';
     const actual = table.getColLabel(table.table[0][0]);
     expect(actual).toBe(expected);
   });
@@ -71,7 +71,7 @@ describe('RelativeGroupSizeTable', () => {
       [ [new ISUFactorCombination([a1, b3], 1), new ISUFactorCombination([a1, b4], 1)],
         [new ISUFactorCombination([a2, b3], 1), new ISUFactorCombination([a2, b4], 1)]]);
     table.dimensions = table.getDimensions(table.table[0][0]);
-    const expected = 'a1';
+    const expected = 'a: 1';
     const actual = table.getRowLabel(table.table[0][0]);
     expect(actual).toBe(expected);
   });
@@ -81,7 +81,7 @@ describe('RelativeGroupSizeTable', () => {
       [ [new ISUFactorCombination([a1, c5], 1), new ISUFactorCombination([a1, c6], 1), new ISUFactorCombination([a1, c7], 1)],
         [new ISUFactorCombination([a2, c5], 1), new ISUFactorCombination([a2, c6], 1), new ISUFactorCombination([a2, c7], 1)]]);
     table.dimensions = table.getDimensions(table.table[0][0]);
-    const expected = 'a2';
+    const expected = 'a: 2';
     const actual = table.getRowLabel(table.table[1][0]);
     expect(actual).toBe(expected);
   });

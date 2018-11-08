@@ -8,6 +8,7 @@ import * as math from 'mathjs';
 import {minMaxValidator} from 'app/shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {isNullOrUndefined} from 'util';
+import {TooltipPosition} from "@angular/material";
 
 @Component({
   selector: 'app-correlation-matrix',
@@ -36,11 +37,17 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   private _messages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
   private _validationMessages = {};
 
+  left: TooltipPosition;
+  below: TooltipPosition;
+
   constructor(
     private _fb: FormBuilder,
     private _correlationMatrixService: CorrelationMatrixService,
     private log: NGXLogger
   ) {
+
+    this.left = 'left';
+    this.below = 'below';
     this.correlationMatrixSubscription = this._correlationMatrixService.correlationMatrix$.subscribe(
       correlationMatrix => {
         this.uMatrix = correlationMatrix;

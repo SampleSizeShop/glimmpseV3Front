@@ -8,6 +8,8 @@ import {HttpClient} from '@angular/common/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StudyService} from '../study.service';
 import {testEnvironment} from '../../../environments/environment.test';
+import {MatDialogModule, MatTooltip, MatTooltipModule} from "@angular/material";
+import {OverlayModule} from "@angular/cdk/overlay";
 
 describe('ParametersOutcomeCorrelationsComponent', () => {
   let component: ParametersOutcomeCorrelationsComponent;
@@ -17,6 +19,7 @@ describe('ParametersOutcomeCorrelationsComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
+        MatTooltipModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,

@@ -8,6 +8,7 @@ import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {StudyService} from '../study.service';
 import {testEnvironment} from '../../../environments/environment.test';
+import {MatTooltip} from "@angular/material";
 
 describe('ParametersStandardDeviationComponent', () => {
   let component: ParametersStandardDeviationComponent;
@@ -25,7 +26,8 @@ describe('ParametersStandardDeviationComponent', () => {
       ],
       declarations: [
         ParametersStandardDeviationComponent,
-        CorrelationMatrixComponent
+        CorrelationMatrixComponent,
+        MatTooltip
       ],
       providers: [
         StudyService,
