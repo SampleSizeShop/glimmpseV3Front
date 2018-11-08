@@ -13,11 +13,10 @@ import {testEnvironment} from '../../../environments/environment.test';
 import {LoggerModule} from 'ngx-logger';
 import {MatTooltip} from '@angular/material';
 import {CustomContrastMatrixComponent} from '../custom-contrast-matrix/custom-contrast-matrix.component';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {ReactiveFormsModule} from "@angular/forms";
-import {NavigationService} from "../../shared/navigation.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {NgbModalStack} from "@ng-bootstrap/ng-bootstrap/modal/modal-stack";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ReactiveFormsModule} from '@angular/forms';
+import {NavigationService} from '../../shared/navigation.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 describe('HypothesisWithinComponent', () => {
   let component: HypothesisWithinComponent;
@@ -51,7 +50,6 @@ describe('HypothesisWithinComponent', () => {
         StudyService,
         NavigationService,
         NgbModal,
-        NgbModalStack,
         {provide: HttpClient, useClass: MockBackend},
         {provide: ISUFactors, useClass: MockISUFactors},
         {provide: Router, useClass: RouterStub},

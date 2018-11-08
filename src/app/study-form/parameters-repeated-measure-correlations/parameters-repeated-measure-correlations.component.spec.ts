@@ -13,6 +13,7 @@ import {StudyService} from '../study.service';
 import 'rxjs/add/operator/switchMap';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
+import {MatTooltip} from "@angular/material";
 
 let component: ParametersRepeatedMeasureCorrelationsComponent;
 let fixture: ComponentFixture<ParametersRepeatedMeasureCorrelationsComponent>;
@@ -36,7 +37,8 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
       ],
       declarations: [
         ParametersRepeatedMeasureCorrelationsComponent,
-        CorrelationMatrixComponent
+        CorrelationMatrixComponent,
+        MatTooltip
       ],
       providers: [
         StudyService,

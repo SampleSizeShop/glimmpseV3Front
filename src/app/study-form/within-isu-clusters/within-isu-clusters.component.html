@@ -1,86 +1,180 @@
- <div *ngIf="isInfo()" id="firstcluster">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="row">
-          <h6>Are your outcomes measured in a cluster?</h6>
-        </div>
-        <div class="row">
-          <p>
-            In a clustered design, the independent sampling unit is a cluster, such as a community, school, or classroom. Observations within a cluster are correlated. The labels for observations within a cluster must be exchangeable. For example, child "id" within classroom can be reassigned arbitrarily. In contrast, observations across time cannot be reassigned and should not be considered clustered observations. Clustering, or repeated measures, or a combination, creates a multilevel design. The common correlation between any pair of cluster members is termed the intraclass correlation or intracluster correlation. <br /><br />
+<div class="container-fluid">
+  <div *ngIf="isInfo()" id="firstcluster">
+    <div class="row">
+      <div class="col">
+        <h6>Are your outcomes measured in a cluster?</h6>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <p>
+          In a clustered design, the independent sampling unit is a cluster, such as a community, school, or classroom. Observations within a cluster are correlated. The labels for observations within a cluster must be exchangeable. For example, child "id" within classroom can be reassigned arbitrarily. In contrast, observations across time cannot be reassigned and should not be considered clustered observations. Clustering, or repeated measures, or a combination, creates a multilevel design. The common correlation between any pair of cluster members is termed the intraclass correlation or intracluster correlation. <br /><br />
 
-            To include clustering in the study, click "Add Clustering" and follow the prompts. <br /><br />
+          To include clustering in the study, click "Add Clustering" and follow the prompts. <br /><br />
 
-            You may specify up to 3 levels of clustering. <br /><br />
-          </p>
-        </div>
-        <div class="row" *ngIf="!hasCluster()">
-          <div class="btn-group" data-toggle="buttons">
-            <label id="includeclusterbtn" class="btn btn-primary">
-              <input type="radio" id="includeclusterradio" (click)="includeClusters()">Define Clustering
-            </label>
-          </div>
+          You may specify up to 3 levels of clustering. <br /><br />
+        </p>
+      </div>
+    </div>
+    <div class="row" *ngIf="!hasCluster()">
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label id="includeclusterbtn" class="btn btn-primary">
+            <input type="radio" id="includeclusterradio" (click)="includeClusters()">Define Clustering
+          </label>
         </div>
       </div>
     </div>
   </div>
 
   <div *ngIf="isElementName()">
-    <div id="clustersheader">
+    <div class="row">
+      <div class="col" id="clustersheader">
       <h6>What term would you like to use for a participant in the study? (For example, student.)</h6>
     </div>
-    <form [formGroup]="elementForm">
-      <div class="form-group">
-        <input class="form-control" formControlName="name" id="name" required>
-        <div *ngIf="formErrors.cluster" class="form-group has-danger">
-          <div class="form-control-feedback" id="nameerr">{{formErrors.cluster}}</div>
-        </div>
-      </div>name
-    </form>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="namecancelbtn">Cancel</button>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="namebackbtn">Back</button>
-    <button class="btn btn-primary btn-sm" (click)="setStage(stages.LEVELS)"   id="namenextbtn" [disabled]="!this.elementForm.valid">Next: Levels</button>
+    </div>
+    <div class="row">
+      <div class="col">
+        <form [formGroup]="elementForm">
+          <div class="form-group">
+            <input class="form-control" formControlName="name" id="name" required>
+            <div *ngIf="formErrors.cluster" class="form-group has-danger">
+              <div class="form-control-feedback" id="nameerr">{{formErrors.cluster}}</div>
+            </div>
+          </div>name
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="namecancelbtn">Cancel</button>
+        <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="namebackbtn">Back</button>
+        <button class="btn btn-primary btn-sm" (click)="setStage(stages.LEVELS)"   id="namenextbtn" [disabled]="!this.elementForm.valid">Next: Levels</button>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="isLevels()">
-    <h6>Name each level in the cluster and the number of elements in that level:</h6>
     <form [formGroup]="clusterLevelForm" id="clusterLevelForm">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col col-md-auto">
-            <div class="form-group">
-              <label for="levelName">Clustering level name:</label>
-              <input class="form-control" formControlName="levelName" id="levelName" required>
-              <div *ngIf="formErrors.clusterlevelname" class="form-group has-danger">
-                <div class="form-control-feedback" id="levelnameerr">{{formErrors.clusterlevelname}}</div>
+      <div class="row">
+        <div class="col">
+          <h6>Name each level in the cluster and the number of elements in that level:</h6>
+        </div>
+      </div>
+      <div class="row">
+
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <label for="levelName">Clustering level name:</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <input class="form-control" formControlName="levelName" id="levelName" required>
+                <div *ngIf="formErrors.clusterlevelname" class="form-group has-danger">
+                  <div class="form-control-feedback" id="levelnameerr">{{formErrors.clusterlevelname}}</div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="col col-md-auto">
-            <div class="form-group">
-              <label for="noElements">Number of element:</label>
-              <input class="form-control" formControlName="noElements" type="number" id="noElements" required>
-              <div *ngIf="formErrors.elementnumber" class="form-group has-danger">
-                <div class="form-control-feedback" id="noelementserr">{{formErrors.elementnumber}}</div>
+
+          <div class="col">
+            <div class="row">
+              <div class="col">
+                <label for="noElements">Number of elements:</label>
               </div>
-              <small id="noElementsHelp" class="form-text text-muted"># Elements must be an integer between 2 and 10000 (inclusive)</small>
+            </div>
+            <div class="row">
+              <div class="col">
+                <input class="form-control" formControlName="noElements" type="number" id="noElements" required>
+                <div *ngIf="formErrors.elementnumber"
+                     class="form-group has-danger">
+                  <div class="form-control-feedback" id="noelementserr">{{formErrors.elementnumber}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <small id="noElementsHelp" class="form-text text-muted"># Elements must be an integer between 2 and 10000 (inclusive)</small>
+              </div>
             </div>
           </div>
-          <div class="col col-md-auto">
+
+          <div class="col">
             <br>
-            <i class="material-icons" (click)="addLevel()" style="margin-top: 10px" id="addLevel">add</i>
+            <i class="material-icons"
+               (click)="addLevel()"
+               (keyup.enter)="addLevel()"
+               style="margin-top: 10px" id="addLevel">add</i>
+          </div>
+      </div>
+
+      <br>
+      <div class="row">
+        <div class="col">
+          <h6>Levels:</h6></div>
+      </div>
+      <div class="row">
+          <table class="table" *ngIf="hasLevels()" >
+            <thead>
+              <th class="col col-md-auto">
+                Remove
+              </th>
+              <th class="col col-md-auto">
+                Order
+              </th>
+              <th class="col col-md-auto">
+                Level Name
+              </th>
+              <th class="col col-md-auto">
+                No. Elements
+              </th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i)">
+              <td class="col col-md-auto">
+                <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">remove</i>
+              </td>
+              <td class="col col-md-auto">
+                {{i}}
+              </td>
+              <td class="col col-md-auto">
+                {{level.levelName}}
+              </td>
+              <td class="col col-md-auto">
+                {{level.noElements}}
+              </td>
+            </tr>
+            </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div *ngIf="formErrors.clusterlevelrequired" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.clusterlevelrequired}}</div>
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="levelscancelbtn">Cancel</button>
+          <button class="btn btn-secondary btn-sm" (click)="setStage(stages.ELEMENT_NAME)" id="levelsbackbtn">Back</button>
+          <button class="btn btn-primary btn-sm" (click)="addCluster()" id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
+        </div>
+      </div>
     </form>
+  </div>
 
-    <br>
-    <h6>Levels:</h6>
+  <br>
+
+  <div *ngIf="hasCluster() && isInfo()" >
     <div class="row">
-      <table class="table" *ngIf="hasLevels()" >
+      <h6>Levels in cluster: {{cluster.name}}</h6>
+    </div>
+    <div class="row">
+      <table class="table">
         <thead>
-        <th class="col col-md-auto">
-          Remove
-        </th>
         <th class="col col-md-auto">
           Order
         </th>
@@ -92,10 +186,7 @@
         </th>
         </thead>
         <tbody>
-        <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i)">
-          <td class="col col-md-auto">
-            <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">remove</i>
-          </td>
+        <tr *ngFor="let level of cluster.levels; let i = index" [class]="rowStyle(i)">
           <td class="col col-md-auto">
             {{i}}
           </td>
@@ -109,63 +200,21 @@
         </tbody>
       </table>
     </div>
-    <div *ngIf="formErrors.clusterlevelrequired" class="form-group has-danger">
-      <div class="form-control-feedback">{{formErrors.clusterlevelrequired}}</div>
-    </div>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="levelscancelbtn">Cancel</button>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.ELEMENT_NAME)" id="levelsbackbtn">Back</button>
-    <button class="btn btn-primary btn-sm" (click)="addCluster()" id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
-  </div>
-
-<br>
-
-<div *ngIf="hasCluster() && isInfo()" >
-  <div class="row">
-    <h6>Levels in cluster: {{cluster.name}}</h6>
-  </div>
-  <div class="row">
-    <table class="table">
-      <thead>
-      <th class="col col-md-auto">
-        Order
-      </th>
-      <th class="col col-md-auto">
-        Level Name
-      </th>
-      <th class="col col-md-auto">
-        No. Elements
-      </th>
-      </thead>
-      <tbody>
-      <tr *ngFor="let level of cluster.levels; let i = index" [class]="rowStyle(i)">
-        <td class="col col-md-auto">
-          {{i}}
-        </td>
-        <td class="col col-md-auto">
-          {{level.levelName}}
-        </td>
-        <td class="col col-md-auto">
-          {{level.noElements}}
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <br>
-  <div class="row">
-    <div class="btn-group" data-toggle="buttons">
-      <label id="removeclusterbtn" class="btn btn-sm btn-secondary">
-        <input type="radio" id="removeclusterradio" (click)="removeCluster()">Remove Clustering
-      </label>
-    </div>
-    <div class="btn-group" data-toggle="buttons">
-      <label id="editclusterbtn" class="btn btn-sm btn-secondary">
-        <input type="radio" id="editclusterradio" (click)="editCluster()">Edit Clustering
-      </label>
+    <br>
+    <div class="row">
+      <div class="btn-group" data-toggle="buttons">
+        <label id="removeclusterbtn" class="btn btn-sm btn-secondary">
+          <input type="radio" id="removeclusterradio" (click)="removeCluster()">Remove Clustering
+        </label>
+      </div>
+      <div class="btn-group" data-toggle="buttons">
+        <label id="editclusterbtn" class="btn btn-sm btn-secondary">
+          <input type="radio" id="editclusterradio" (click)="editCluster()">Edit Clustering
+        </label>
+      </div>
     </div>
   </div>
 </div>
-
 
 <ng-template #canDeactivate>
   <div class="modal-content">

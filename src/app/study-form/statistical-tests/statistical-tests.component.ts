@@ -35,9 +35,7 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
       {id: 'bc', name: this.statisticalTests.BOX_CORRECTION},
       {id: 'gg', name: this.statisticalTests.GEISSER_GREENHOUSE},
       {id: 'hf', name: this.statisticalTests.HUYNH_FELDT},
-      {id: 'uc', name: this.statisticalTests.UNCORRECTED},
-      {id: 'urp', name: this.statisticalTests.UNIREP},
-      {id: 'mrp', name: this.statisticalTests.MULTIREP},
+      {id: 'uc', name: this.statisticalTests.UNCORRECTED}
     ];
 
     this.selectedTestsSubscription = this.study_service.selectdTests$.subscribe(

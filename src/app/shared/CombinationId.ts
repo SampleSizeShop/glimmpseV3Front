@@ -28,6 +28,14 @@ export class CombinationId {
     return label;
   }
 
+  get tooltip() {
+    let label = this.factorName;
+    if ((this.factorType !== 'outcome') && !isNullOrUndefined(this.value)) {
+      label = label + ': ' + this.value;
+    }
+    return label;
+  }
+
   equals(other: CombinationId) {
     if (this.label === other.label) {
       return true;

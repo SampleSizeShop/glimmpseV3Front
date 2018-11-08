@@ -59,6 +59,13 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     return label;
   }
 
+  getCellLabel(element: ISUFactorCombination) {
+    let label = '';
+    label = this.getRowLabel(element);
+    label = label + ', ' + this.getColLabel(element);
+    return label;
+  }
+
   compareSizeAndDimensions(other: MarginalMeansTable) {
     if (this.hashcode === other.hashcode) {
       return true;

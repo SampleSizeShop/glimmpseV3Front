@@ -9,6 +9,7 @@ import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {MarginalMeansTable} from '../../shared/MarginalMeansTable';
+import {TooltipPosition} from "@angular/material";
 
 @Component({
   selector: 'app-parameters-marginal-means',
@@ -23,10 +24,17 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
 
   private _isuFactorsSubscription: Subscription;
 
+  left: TooltipPosition;
+  below: TooltipPosition;
+
   constructor(private _fb: FormBuilder, private _route: ActivatedRoute, private _study_service: StudyService) {
     this.table$ = this.route.paramMap.pipe(switchMap(
       (params: ParamMap) => this.getTableFromIndex(params.get('index'))
     ));
+
+
+    this.left = 'left';
+    this.below = 'below';
   }
 
   ngOnInit() {

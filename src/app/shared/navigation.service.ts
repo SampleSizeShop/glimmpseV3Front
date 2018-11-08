@@ -12,6 +12,12 @@ export class NavigationService {
 
   private _navigateAwaySelection$: Subject<boolean> = new Subject<boolean>();
 
+  private _helpTextSource = new BehaviorSubject<boolean>(false);
+  private _helpText$ = this._helpTextSource.asObservable();
+
+  toggleHelpText() {
+    this._helpTextSource.next(!this._helpTextSource.value);
+  }
 
   updateNavigation(direction: string) {
     this.navigationSource.next(direction);
@@ -47,5 +53,9 @@ export class NavigationService {
 
   get navigateAwaySelection$(): Subject<boolean> {
     return this._navigateAwaySelection$;
+  }
+
+  get helpText$(): Observable<boolean> {
+    return this._helpText$;
   }
 }

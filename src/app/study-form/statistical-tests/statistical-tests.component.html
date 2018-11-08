@@ -1,11 +1,17 @@
-<h5>Choose your statistical tests:</h5>
+
 <div class="container-fluid">
   <div class="row">
-    <form [formGroup]="statisticalTestsForm">
+    <div class="col">
+      <h5>Choose your statistical tests:</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="statisticalTestsForm">
       <div *ngIf="formErrors.statisticaltestsoptions" class="form-group has-danger">
         <div class="form-control-feedback" id="outcomeserr">{{formErrors.statisticaltestsoptions}}</div>
       </div>
-      <div class="col">
+
         <div>Multivariate:</div>
         <div class="btn-group-vertical btn-block" data-toggle="buttons">
           <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(statisticalTests.HOTELLING_LAWLEY)">
@@ -19,6 +25,7 @@
             <input formControlName="2" type="checkbox" (click)="selectTest(statisticalTests.WILKS_LIKLIEHOOD)">{{statisticalTests.WILKS_LIKLIEHOOD}}
           </label>
         </div>
+
         <div>Univariate:</div>
         <div class="btn-group-vertical  btn-block" data-toggle="buttons">
           <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.BOX_CORRECTION)" id="bc">
@@ -34,41 +41,8 @@
             <input formControlName="6" type="checkbox" (click)="selectTest(statisticalTests.UNCORRECTED)">{{statisticalTests.UNCORRECTED}}
           </label>
         </div>
-        <div>Future:</div>
-        <div class="btn-group-vertical btn-block" data-toggle="buttons">
-          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.UNIREP)" id="urp">
-            <input formControlName="7" type="checkbox" (click)="selectTest(statisticalTests.UNIREP)">{{statisticalTests.UNIREP}}
-          </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" [class.active]="isSelected(statisticalTests.MULTIREP)" id="mrp">
-            <input formControlName="8" type="checkbox" (click)="selectTest(statisticalTests.MULTIREP)">{{statisticalTests.MULTIREP}}
-          </label>
-        </div>
-      </div>
-    </form>
-    <div class="col">
-      <div class="card">
-        <h3 class="card-header">Repeated Measures: Geisser Greenhouse Correction</h3>
-        <div class="card-block">
-          <h5 class="card-title">A longer title describibg what you've selected</h5>
-          <h6 class="card-subtitle text-muted">A poncy quote</h6>
-        </div>
-        <img style="height: 200px; width: 100%; display: block;" src="../../../assets/images/geisser-greenhouse-correction.jpg" alt="Card image">
-        <div class="card-block">
-            <p>
-              Select the statistical tests to include in your calculations. For study designs with a single outcome, power is the same regardless of the test selected. <br /><br />
 
-              Note that only the Hotelling-Lawley Trace and the Univariate Approach to Repeated Measures are supported for designs that include a baseline covariate. <br /><br />
-
-              Click <a href="https://samplesizeshop.org/files/2012/12/Tutorial_SelectingATest.pdf" target="_blank">here</a> to learn more about selecting an appropriate test.
-            </p>
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div>
-        <div class="card-footer text-muted text-xs-center">
-          2 days ago
-        </div>
-      </div>
-    </div>
+    </form></div>
   </div>
 </div>
 

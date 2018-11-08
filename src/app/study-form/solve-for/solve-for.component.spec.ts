@@ -10,6 +10,8 @@ import {By} from '@angular/platform-browser';
 import {LoggerModule, NGXLogger} from 'ngx-logger';
 import {NGXLoggerMock} from 'ngx-logger';
 import {testEnvironment} from '../../../environments/environment.test';
+import {NavigationService} from "../../shared/navigation.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 describe('SolveForComponent', () => {
   let component: SolveForComponent;
@@ -25,7 +27,12 @@ describe('SolveForComponent', () => {
           serverLogLevel: testEnvironment.loglevel
         })],
       declarations: [ SolveForComponent ],
-      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
+      providers: [
+        StudyService,
+        NavigationService,
+        NgbModal,
+        { provide: HttpClient, useClass: MockBackend },
+        {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
     .compileComponents();
   }));
@@ -97,7 +104,12 @@ describe('SolveForComponen_targetEvent_Rejection', () => {
           serverLogLevel: testEnvironment.loglevel
         })],
       declarations: [ SolveForComponent ],
-      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
+      providers: [
+        NavigationService,
+        NgbModal,
+        StudyService,
+        { provide: HttpClient, useClass: MockBackend },
+        {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
       .compileComponents();
   }));
@@ -160,7 +172,12 @@ describe('SolveForComponent_targetEvent_CIWIDTH', () => {
           serverLogLevel: testEnvironment.loglevel
         })],
       declarations: [ SolveForComponent ],
-      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
+      providers: [
+        NavigationService,
+        NgbModal,
+        StudyService,
+        { provide: HttpClient, useClass: MockBackend },
+        {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
       .compileComponents();
   }));
@@ -221,7 +238,12 @@ describe('SolveForComponent_targetEvent_WAVR', () => {
           serverLogLevel: testEnvironment.loglevel
         })],
       declarations: [ SolveForComponent ],
-      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
+      providers: [
+        NavigationService,
+        NgbModal,
+        StudyService,
+        { provide: HttpClient, useClass: MockBackend },
+        {provide: NGXLogger, useClass: NGXLoggerMock} ]
     })
       .compileComponents();
   }));

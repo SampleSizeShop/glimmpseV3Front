@@ -71,7 +71,8 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
   }
 
   getRowLabel(element: ISUFactorCombination): String {
-    return this._getDimensionLabel(element, 0);
+    const label = this._getDimensionLabel(element, 0);
+    return label;
   }
 
   getColLabel(element: ISUFactorCombination): String {
@@ -82,12 +83,21 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
     return label;
   }
 
+  getCellLabel(element: ISUFactorCombination) {
+    let label = '';
+    label = this._getDimensionLabel(element, 0);
+    if (this.dimensions.length > 1) {
+      label = label + ', ' + this._getDimensionLabel(element, 1);
+    }
+    return label;
+  }
+
   _getDimensionLabel(element: ISUFactorCombination, dimensionIndex: number) {
     const factorName = this.dimensions[dimensionIndex].factorName;
     let label = 'undefined';
     element.id.forEach( factor => {
       if (factorName === factor.factorName) {
-        label = factorName + factor.value;
+        label = factorName + ': ' + factor.value;
       }
     });
     return label;
