@@ -18,25 +18,26 @@
         </p>
       </div>
       <br>
-      <h6>{{displayName}}</h6>
-      <div class="col col-md-auto">
-        <table>
-          <tbody class="matrix-input-brackets">
-          <tr *ngFor="let row of table.table;">
-            <td *ngFor="let col of row;">
-              <div matTooltip="{{table.getCellLabel(col)}}"
-                   [matTooltipPosition]="left">
-                <input type="number"
-                       class="matrix-input-control"
-                       formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
-                       id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
-                       required>
-              </div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+        <h6>{{displayName}}</h6>
+        <div class="col col-md-auto">
+          <table>
+            <tbody class="matrix-input-brackets">
+            <tr *ngFor="let row of table.table;">
+              <td *ngFor="let col of row;">
+                <div matTooltip="{{table.getCellLabel(col)}}"
+                     [matTooltipPosition]="left">
+                  <input type="number"
+                         class="matrix-input-control"
+                         formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
+                         id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
+                         placeholder="1"
+                         required>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
     </div>
     <div *ngIf="formErrors.relativegroupsizes" class="form-group has-danger">
       <div class="form-control-feedback">{{formErrors.relativegroupsizes}}</div>
