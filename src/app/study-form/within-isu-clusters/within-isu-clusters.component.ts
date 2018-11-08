@@ -239,7 +239,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
         } else {
           console.log(dismissReason);
         }
-      })
+      });
   }
 
   modalChoice(choice: boolean) {

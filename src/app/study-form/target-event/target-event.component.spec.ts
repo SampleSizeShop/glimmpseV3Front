@@ -7,6 +7,9 @@ import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {NavigationService} from '../../shared/navigation.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalStack} from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
 
 describe('TargetEventComponent_targetEvent_REJECTION', () => {
   let component: TargetEventComponent;
@@ -16,7 +19,12 @@ describe('TargetEventComponent_targetEvent_REJECTION', () => {
     TestBed.configureTestingModule({
       imports: [ ReactiveFormsModule ],
       declarations: [ TargetEventComponent ],
-      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend } ]
+      providers: [
+        StudyService,
+        { provide: HttpClient, useClass: MockBackend },
+        NavigationService,
+        NgbModal,
+        NgbModalStack ]
     })
     .compileComponents();
   }));
@@ -67,7 +75,12 @@ describe('TargetEventComponent_targetEvent_CIWIDTH', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [TargetEventComponent],
-      providers: [StudyService, {provide: HttpClient, useClass: MockBackend}]
+      providers: [
+        StudyService,
+        {provide: HttpClient, useClass: MockBackend},
+        NavigationService,
+        NgbModal,
+        NgbModalStack]
     })
       .compileComponents();
   }));
@@ -118,7 +131,12 @@ describe('TargetEventComponent_targetEvent_WAVR', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [TargetEventComponent],
-      providers: [StudyService, {provide: HttpClient, useClass: MockBackend}]
+      providers: [
+        StudyService,
+        {provide: HttpClient, useClass: MockBackend},
+        NavigationService,
+        NgbModal,
+        NgbModalStack]
     })
       .compileComponents();
   }));
