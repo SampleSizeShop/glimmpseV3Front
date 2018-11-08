@@ -9,7 +9,6 @@ import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NavigationService} from '../../shared/navigation.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NgbModalStack} from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
 
 describe('TargetEventComponent_targetEvent_REJECTION', () => {
   let component: TargetEventComponent;
@@ -23,8 +22,7 @@ describe('TargetEventComponent_targetEvent_REJECTION', () => {
         StudyService,
         { provide: HttpClient, useClass: MockBackend },
         NavigationService,
-        NgbModal,
-        NgbModalStack ]
+        NgbModal ]
     })
     .compileComponents();
   }));
@@ -79,8 +77,7 @@ describe('TargetEventComponent_targetEvent_CIWIDTH', () => {
         StudyService,
         {provide: HttpClient, useClass: MockBackend},
         NavigationService,
-        NgbModal,
-        NgbModalStack]
+        NgbModal]
     })
       .compileComponents();
   }));
@@ -135,8 +132,7 @@ describe('TargetEventComponent_targetEvent_WAVR', () => {
         StudyService,
         {provide: HttpClient, useClass: MockBackend},
         NavigationService,
-        NgbModal,
-        NgbModalStack]
+        NgbModal]
     })
       .compileComponents();
   }));

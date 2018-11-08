@@ -9,7 +9,6 @@ import {NavigationService} from '../../shared/navigation.service';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NgbModalStack} from '@ng-bootstrap/ng-bootstrap/modal/modal-stack';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('WithinIsuRepeatedMeasuresComponent', () => {
@@ -24,8 +23,7 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
         StudyService,
         {provide: HttpClient, useClass: MockBackend},
         NavigationService,
-        NgbModal,
-        NgbModalStack]
+        NgbModal]
     })
     .compileComponents();
   }));
