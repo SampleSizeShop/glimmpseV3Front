@@ -47,7 +47,7 @@ import {CalculateComponent} from './calculate/calculate.component';
 import {testEnvironment} from '../../environments/environment.test';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CustomContrastMatrixComponent} from "./custom-contrast-matrix/custom-contrast-matrix.component";
-import {MatTooltip} from "@angular/material";
+import {MatIconModule, MatTooltip} from "@angular/material";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -59,6 +59,7 @@ describe('StudyFormComponent', () => {
       imports: [
         ReactiveFormsModule,
         BrowserAnimationsModule,
+        MatIconModule,
         RouterTestingModule.withRoutes([
           { path: 'design/MODE', component: UserModeComponent}
         ]),

@@ -106,6 +106,10 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       );
   }
 
+  toggleHelpText() {
+    this.navigation_service.toggleHelpText();
+  }
+
   next(stage?: number): void {
     let current = this.getStage();
     if (stage) {
