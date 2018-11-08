@@ -1,22 +1,28 @@
-<h5>Variability across Outcomes:</h5>
-<div class="container">
-  <div class="row">
-    <p>
-      Enter the standard deviation you expect to observe for each outcome. Note that GLIMMPSE currently assumes that the standard deviation is constant across repeated measurements.
-    </p>
+<div class="row">
+  <div class="col">
+    <h5>Variability across Outcomes:</h5>
   </div>
-  <form [formGroup]="stDevForm">
-    <div *ngFor="let outcome of isuFactors.outcomes" class="row">
-      <div class="col-1" >
-        {{outcome.name}}:
+</div>
+<div class="row">
+  <div class="col"><p>
+    Enter the standard deviation you expect to observe for each outcome. Note that GLIMMPSE currently assumes that the standard deviation is constant across repeated measurements.
+  </p></div>
+</div>
+<div class="row">
+  <div class="col">
+    <form [formGroup]="stDevForm">
+      <div *ngFor="let outcome of isuFactors.outcomes" class="row">
+        <div class="col-1" >
+          {{outcome.name}}:
+        </div>
+        <div class="col-9 justify-content-start">
+          <input type="number" class="form-control" id="{{outcome.name}}" formControlName="{{outcome.name}}" value="{{outcome.standardDeviation}}" required>
+        </div>
       </div>
-      <div class="col-9 justify-content-start">
-        <input type="number" class="form-control" id="{{outcome.name}}" formControlName="{{outcome.name}}" value="{{outcome.standardDeviation}}" required>
+      <div *ngIf="formErrors.vectorofstandarddeviations" class="form-group has-danger">
+        <div class="form-control-feedback">{{formErrors.vectorofstandarddeviations}}</div>
       </div>
-    </div>
-    <div *ngIf="formErrors.vectorofstandarddeviations" class="form-group has-danger">
-      <div class="form-control-feedback">{{formErrors.vectorofstandarddeviations}}</div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>
 
