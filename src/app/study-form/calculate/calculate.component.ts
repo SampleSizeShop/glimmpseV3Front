@@ -22,6 +22,8 @@ export class CalculateComponent implements OnInit {
   private _detailPower: number;
   private _detailClusterLevels;
   private _detailClusterName: string;
+  private _currentSelected: number;
+  private _resultForDisplay;
 
   constructor(private study_service: StudyService, private http: HttpClient) {
     this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
@@ -47,7 +49,29 @@ export class CalculateComponent implements OnInit {
     this.http.post(
       testEnvironment.calculateUrl,
       output,
-      this.jsonHeader()).toPromise().then(response => this.resultString = response).catch(this.handleError);
+      this.jsonHeader()).toPromise().then(response => {
+        this.resultString = response;
+        this.makeDisplayResult();
+    }).catch(this.handleError);
+  }
+
+  makeDisplayResult() {
+    const resultArray = [];
+    let tempContainer = {};
+
+    for (const result of this.resultString.results) {
+      for (const variability_scale_factor of this.studyDesign['_varianceScaleFactors']) {
+        tempContainer = {};
+        tempContainer['result'] = result;
+        tempContainer['smallestGroupSize'] = this.studyDesign['_isuFactors']['smallestGroupSize'];
+        tempContainer['scaleFactor'] = this.studyDesign['_scaleFactor'];
+        tempContainer['variability_scale_factor'] = variability_scale_factor;
+        tempContainer['test_type'] = result.test;
+        tempContainer['typeOneErrorRate'] = this.studyDesign['_typeOneErrorRate'];
+        resultArray.push(tempContainer);
+      }
+    }
+    this.resultForDisplay = resultArray;
   }
 
   private handleError(error: any): Promise<any> {
@@ -106,9 +130,10 @@ export class CalculateComponent implements OnInit {
     return false;
   }
 
-  showDetail(power) { // , totalSampleSize) {
+  showDetail(power, index) { // , totalSampleSize) {
     this.isShowDetail = true;
     this.detailPower = power;
+    this.currentSelected = index;
   }
 
   getClusterLevels() {
@@ -139,6 +164,20 @@ export class CalculateComponent implements OnInit {
       totalCluster *= level['noElements'];
     }
     return '(a total of ' + totalCluster + ' ' + this.detailClusterName + ' in each ' + this.detailClusterLevels[0]['levelName'] + ')';
+  }
+
+  rowStyle(index) {
+    if (this.isSelected(index)) {
+      return 'col col-md-auto table-success';
+    } else if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
+  }
+
+  isSelected(index: number) {
+    return index === this.currentSelected;
   }
 
   get outputString(): string {
@@ -203,5 +242,21 @@ export class CalculateComponent implements OnInit {
 
   set detailClusterName(value) {
     this._detailClusterName = value;
+  }
+
+  get currentSelected() {
+    return this._currentSelected;
+  }
+
+  set currentSelected(value) {
+    this._currentSelected = value;
+  }
+
+  get resultForDisplay() {
+    return this._resultForDisplay;
+  }
+
+  set resultForDisplay(value) {
+    this._resultForDisplay = value;
   }
 }

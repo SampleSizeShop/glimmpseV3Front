@@ -1,7 +1,7 @@
 <h5>Review your study design and calculate stuff!! :)</h5>
 <br>
 <div class="col-8">
-  <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate!</button>
+  <button (click)="postModel();" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate!</button>
 </div>
 <div *ngIf="hasResults">
   <table class="table">
@@ -13,16 +13,14 @@
       <th>Test</th>
       <th>Type I Error Rate</th>
     </tr>
-    <ng-container *ngFor="let result of resultString.results">
-      <tr *ngFor="let variability_scale_factor of studyDesign['_varianceScaleFactors']" (click)="showDetail(getOutput(result))">
-        <td [ngStyle]="{'color': hasWarning(result) ? 'red': 'green' }">{{getOutput(result)}}</td>
-        <td>{{ studyDesign['_isuFactors']['smallestGroupSize'] }}</td>
-        <td>{{ studyDesign['_scaleFactor'] }}</td>
-        <td>{{ variability_scale_factor }}</td>
-        <td>{{ result.test }}</td>
-        <td>{{ studyDesign['_typeOneErrorRate'] }}</td>
-      </tr>
-    </ng-container>
+    <tr *ngFor="let result of resultForDisplay; index as i" (click)="showDetail(getOutput(result['result']), i)" [class] = "rowStyle(i)">
+      <td [ngStyle]="{'color': hasWarning(result['result']) ? 'red': 'green' }">{{getOutput(result['result'])}}</td>
+      <td>{{ result['smallestGroupSize'] }}</td>
+      <td>{{ result['scaleFactor'] }}</td>
+      <td>{{ result['variability_scale_factor'] }}</td>
+      <td>{{ result['test_type'] }}</td>
+      <td>{{ result['typeOneErrorRate'] }}</td>
+    </tr>
   </table>
   <div *ngIf="isShowDetail">
     <h4>Details</h4>
@@ -34,7 +32,7 @@
       <label>Independent Sampling Unit</label>
       <div class="well white-box">
         <label class="ng-binding">{{ detailClusterLevels[0]['levelName'] }}</label>
-        <ul *ngIf="detailClusterLevels.length > 1">
+        <ul *ngIf="detailClusterLevels.length > 0">
           <ng-container *ngFor="let level of detailClusterLevels.slice(0,-1); let i = index">
             <li class="ng-binding">{{showLevelRelation(detailClusterLevels[i]['levelName'],detailClusterLevels[i+1]['levelName'], level['noElements'])}}</li>
           </ng-container>
