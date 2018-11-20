@@ -38,12 +38,12 @@ export const example_1_input = {
 }
 
 export const example_1_output = {
-  message: "OK",
+  message: 'OK',
   status: 200,
-  mimetype: "application/json",
+  mimetype: 'application/json',
   results: [
     {
-      test: "Hotelling Lawley Trace",
+      test: 'Hotelling Lawley Trace',
       power: 1.0
     }],
   model: {
@@ -61,6 +61,7 @@ export const example_1_output = {
     m: [ [ 1 ] ],
     nu_e: 9,
     hypothesis_sum_square: [ [ 64000 ] ],
-    error_sum_square: [ [ 2025 ] ]
+    error_sum_square: [ [ 2025 ] ],
+    tolerance: 1e-10 // the code I added for passing e2e
   }
 }

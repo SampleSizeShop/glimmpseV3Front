@@ -6,6 +6,8 @@ import {Subscription} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {testEnvironment} from '../../../environments/environment.test';
 import {environment} from '../../../environments/environment';
+import {Cluster} from '../../shared/Cluster';
+import {Predictor} from '../../shared/Predictor';
 
 @Component({
   selector: 'app-calculate',
@@ -20,15 +22,43 @@ export class CalculateComponent implements OnInit {
   private _e2eTest: boolean;
   private _isShowDetail: boolean;
   private _detailPower: number;
-  private _detailClusterLevels;
-  private _detailClusterName: string;
+  private _detailCluster: Cluster;
+  private _detailClusterLevels: Array<Object>;
+  private _detailClusterOverview: Array<String>;
+  private _detailPredictorCombination: Array<Array<string>>;
+  private _detailPredictor: Array<Predictor>;
   private _currentSelected: number;
-  private _resultForDisplay;
+  private _resultForDisplay: Array<Object>;
+  private _downloadData: Array<Object>;
+
+  options = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    showLabels: false,
+    headers: ['actualPower', 'alpha', 'test'],
+    showTitle: false,
+    title: '',
+    useBom: false,
+    removeNewLines: true,
+    keys: ['actualPower', 'alpha', 'test']
+  };
 
   constructor(private study_service: StudyService, private http: HttpClient) {
     this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
       this._studyDesign = study;
     });
+    this.study_service.withinIsuCluster$.subscribe(
+      cluster => {
+        this.detailCluster = cluster;
+        this.detailClusterLevels = cluster.levels;
+      }
+    );
+    this.study_service.betweenIsuPredictors$.subscribe(
+      predictor => {
+        this.detailPredictor = predictor;
+      }
+    )
     this._e2eTest = environment.e2eTest;
     this._isShowDetail = false;
   }
@@ -36,8 +66,7 @@ export class CalculateComponent implements OnInit {
   ngOnInit() {
     if (!isNullOrUndefined(this._studyDesign)) {
       this.outputString = JSON.stringify(this._studyDesign);
-      this.detailClusterLevels = this.getClusterLevels();
-      this.detailClusterName = this.getClusterName();
+      this.detailPredictorCombination = [];
     } else {
       this.outputString = 'HMMM......';
       this.resultString = 'no results yet';
@@ -51,11 +80,31 @@ export class CalculateComponent implements OnInit {
       output,
       this.jsonHeader()).toPromise().then(response => {
         this.resultString = response;
-        this.makeDisplayResult();
+        this.buildResultTable();
+        this.makeCsvFile();
+        this.detailClusterOverview = this.detailCluster.buildClusterOverview();
+        const allGroup = this.getAllGroupOfPredictors();
+        this.generateCombinations(allGroup);
+        console.log(this.detailPredictorCombination);
     }).catch(this.handleError);
   }
 
-  makeDisplayResult() {
+  makeCsvFile() {
+    this.downloadData = [];
+    let tempContainer = {};
+
+    for (const result of this.resultString.results) {
+      for (const variability_scale_factor of this.studyDesign['_varianceScaleFactors']) {
+        tempContainer = {};
+        tempContainer['actualPower'] = this.getOutput(result);
+        tempContainer['alpha'] = this.studyDesign['_typeOneErrorRate'];
+        tempContainer['test'] = result.test;
+        this.downloadData.push(tempContainer)
+      }
+    }
+  }
+
+  buildResultTable() {
     const resultArray = [];
     let tempContainer = {};
 
@@ -136,39 +185,29 @@ export class CalculateComponent implements OnInit {
     this.currentSelected = index;
   }
 
-  getClusterLevels() {
-    for ( const variable of this.studyDesign['_isuFactors']['variables']) {
-      if (variable['origin'] === 'Cluster') {
-        return variable['levels'];
+  getAllGroupOfPredictors() {
+    const allGroup = [];
+    for (const predictor of this.detailPredictor) {
+      allGroup.push(predictor['valueNames']);
+    }
+
+    return allGroup
+  }
+
+  generateCombinations(group_array, current_combination = []) {
+    const length_array = group_array.length;
+    if ( length_array !== 0 ) {
+      for (const groupName of group_array[0]) {
+        this.generateCombinations(group_array.slice(1, ), current_combination.concat(groupName));
       }
+    } else {
+      this.detailPredictorCombination.push(current_combination);
     }
-    return null
-  }
-
-  getClusterName() {
-    for ( const variable of this.studyDesign['_isuFactors']['variables']) {
-      if (variable['origin'] === 'Cluster') {
-        return this.detailClusterName = variable['name']
-      }
-    }
-    return null
-  }
-
-  showLevelRelation(level1, level2, relationNumber) {
-    return relationNumber + ' ' + level2 + ' in each ' + level1;
-  }
-
-  showLevelConclusion() {
-    let totalCluster = 1;
-    for (const level of this.detailClusterLevels) {
-      totalCluster *= level['noElements'];
-    }
-    return '(a total of ' + totalCluster + ' ' + this.detailClusterName + ' in each ' + this.detailClusterLevels[0]['levelName'] + ')';
   }
 
   rowStyle(index) {
     if (this.isSelected(index)) {
-      return 'col col-md-auto table-success';
+      return 'col col-md-auto table-info';
     } else if (index % 2 === 1) {
       return 'col col-md-auto table-active';
     } else {
@@ -236,14 +275,6 @@ export class CalculateComponent implements OnInit {
     this._detailClusterLevels = value;
   }
 
-  get detailClusterName() {
-    return this._detailClusterName;
-  }
-
-  set detailClusterName(value) {
-    this._detailClusterName = value;
-  }
-
   get currentSelected() {
     return this._currentSelected;
   }
@@ -259,4 +290,46 @@ export class CalculateComponent implements OnInit {
   set resultForDisplay(value) {
     this._resultForDisplay = value;
   }
+
+  get downloadData() {
+    return this._downloadData;
+  }
+
+  set downloadData(value) {
+    this._downloadData = value;
+  }
+
+  get detailPredictorCombination() {
+    return this._detailPredictorCombination;
+  }
+
+  set detailPredictorCombination(value) {
+    this._detailPredictorCombination = value;
+  }
+
+  get detailPredictor() {
+    return this._detailPredictor;
+  }
+
+  set detailPredictor(value) {
+    this._detailPredictor = value;
+  }
+
+  get detailClusterOverview() {
+    return this._detailClusterOverview;
+  }
+
+  set detailClusterOverview(value) {
+    this._detailClusterOverview = value;
+  }
+
+  get detailCluster() {
+    return this._detailCluster;
+  }
+
+  set detailCluster(value) {
+    this._detailCluster = value;
+  }
+
+
 }
