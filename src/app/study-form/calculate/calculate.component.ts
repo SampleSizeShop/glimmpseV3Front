@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {StudyDesign} from '../../shared/study-design';
 import {isNullOrUndefined} from 'util';
 import {StudyService} from '../study.service';
@@ -8,15 +8,18 @@ import {testEnvironment} from '../../../environments/environment.test';
 import {environment} from '../../../environments/environment';
 import {Cluster} from '../../shared/Cluster';
 import {Predictor} from '../../shared/Predictor';
+import {constants} from '../../shared/constants';
 
 @Component({
   selector: 'app-calculate',
   templateUrl: './calculate.component.html',
   styleUrls: ['./calculate.component.scss']
 })
-export class CalculateComponent implements OnInit {
+export class CalculateComponent implements OnInit, OnDestroy{
   private _studyDesign: StudyDesign;
   private _studySubscription: Subscription;
+  private _withinIsuClusterSubscription: Subscription;
+  private _betweenIsuPredictorsSubscription: Subscription;
   private _outputString: string;
   private _resultString;
   private _e2eTest: boolean;
@@ -31,30 +34,18 @@ export class CalculateComponent implements OnInit {
   private _resultForDisplay: Array<Object>;
   private _downloadData: Array<Object>;
 
-  options = {
-    fieldSeparator: ',',
-    quoteStrings: '"',
-    decimalseparator: '.',
-    showLabels: false,
-    headers: ['actualPower', 'alpha', 'test'],
-    showTitle: false,
-    title: '',
-    useBom: false,
-    removeNewLines: true,
-    keys: ['actualPower', 'alpha', 'test']
-  };
-
   constructor(private study_service: StudyService, private http: HttpClient) {
     this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
       this._studyDesign = study;
     });
-    this.study_service.withinIsuCluster$.subscribe(
+
+    this._withinIsuClusterSubscription = this.study_service.withinIsuCluster$.subscribe(
       cluster => {
         this.detailCluster = cluster;
         this.detailClusterLevels = cluster.levels;
       }
     );
-    this.study_service.betweenIsuPredictors$.subscribe(
+    this._betweenIsuPredictorsSubscription = this.study_service.betweenIsuPredictors$.subscribe(
       predictor => {
         this.detailPredictor = predictor;
       }
@@ -73,6 +64,12 @@ export class CalculateComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.studySubscription.unsubscribe();
+    this._withinIsuClusterSubscription.unsubscribe();
+    this._betweenIsuPredictorsSubscription.unsubscribe();
+  }
+
   postModel() {
     const output = this.outputString;
     this.http.post(
@@ -83,8 +80,7 @@ export class CalculateComponent implements OnInit {
         this.buildResultTable();
         this.makeCsvFile();
         this.detailClusterOverview = this.detailCluster.buildClusterOverview();
-        const allGroup = this.getAllGroupOfPredictors();
-        this.generateCombinations(allGroup);
+        this.generateCombinations(this.detailPredictor);
         console.log(this.detailPredictorCombination);
     }).catch(this.handleError);
   }
@@ -185,20 +181,11 @@ export class CalculateComponent implements OnInit {
     this.currentSelected = index;
   }
 
-  getAllGroupOfPredictors() {
-    const allGroup = [];
-    for (const predictor of this.detailPredictor) {
-      allGroup.push(predictor['valueNames']);
-    }
-
-    return allGroup
-  }
-
-  generateCombinations(group_array, current_combination = []) {
-    const length_array = group_array.length;
+  generateCombinations(predictors, current_combination = []) {
+    const length_array = predictors.length;
     if ( length_array !== 0 ) {
-      for (const groupName of group_array[0]) {
-        this.generateCombinations(group_array.slice(1, ), current_combination.concat(groupName));
+      for (const groupName of predictors[0].groups) {
+        this.generateCombinations(predictors.slice(1, ), current_combination.concat(groupName));
       }
     } else {
       this.detailPredictorCombination.push(current_combination);
@@ -331,5 +318,8 @@ export class CalculateComponent implements OnInit {
     this._detailCluster = value;
   }
 
+  get csvOption() {
+    return constants.CSV_DOWNLOAD_OPTION;
+  }
 
 }

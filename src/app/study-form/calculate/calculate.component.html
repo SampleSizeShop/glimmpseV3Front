@@ -4,7 +4,7 @@
   <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate!</button>
 </div>
 <div *ngIf="hasResults">
-  <angular2csv [data]="downloadData" filename="result" [options]="options"></angular2csv>
+  <angular2csv [data]="downloadData" filename="result" [options]="csvOption"></angular2csv>
   <table class="table">
     <tr>
       <th>Power</th>

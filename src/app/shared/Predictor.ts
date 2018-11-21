@@ -27,5 +27,9 @@ export class Predictor extends ISUFactor {
     );
     return newCombinations;
   }
+
+  get groups() {
+    return this.valueNames
+  }
 }
 
