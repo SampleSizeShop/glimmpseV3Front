@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {StudyDesign} from '../../shared/study-design';
 import {isNullOrUndefined} from 'util';
 import {StudyService} from '../study.service';
@@ -8,14 +8,15 @@ import {testEnvironment} from '../../../environments/environment.test';
 import {environment} from '../../../environments/environment';
 import {Cluster} from '../../shared/Cluster';
 import {Predictor} from '../../shared/Predictor';
-import {constants} from '../../shared/constants';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-calculate',
   templateUrl: './calculate.component.html',
-  styleUrls: ['./calculate.component.scss']
+  styleUrls: ['./calculate.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class CalculateComponent implements OnInit, OnDestroy{
+export class CalculateComponent implements OnInit, OnDestroy {
   private _studyDesign: StudyDesign;
   private _studySubscription: Subscription;
   private _withinIsuClusterSubscription: Subscription;
@@ -32,9 +33,9 @@ export class CalculateComponent implements OnInit, OnDestroy{
   private _detailPredictor: Array<Predictor>;
   private _currentSelected: number;
   private _resultForDisplay: Array<Object>;
-  private _downloadData: Array<Object>;
+  private _downloadData: SafeUrl;
 
-  constructor(private study_service: StudyService, private http: HttpClient) {
+  constructor(private study_service: StudyService, private http: HttpClient, private sanitizer: DomSanitizer, private ref: ChangeDetectorRef) {
     this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
       this._studyDesign = study;
     });
@@ -78,26 +79,31 @@ export class CalculateComponent implements OnInit, OnDestroy{
       this.jsonHeader()).toPromise().then(response => {
         this.resultString = response;
         this.buildResultTable();
-        this.makeCsvFile();
-        this.detailClusterOverview = this.detailCluster.buildClusterOverview();
-        this.generateCombinations(this.detailPredictor);
-        console.log(this.detailPredictorCombination);
+        if (this.detailCluster) {
+          this.detailClusterOverview = this.detailCluster.buildClusterOverview();
+        }
+        if (this.detailPredictor) {
+          this.generateCombinations(this.detailPredictor);
+        }
     }).catch(this.handleError);
   }
 
-  makeCsvFile() {
-    this.downloadData = [];
-    let tempContainer = {};
+  downloadResult() {
+    this.makeCsvFile();
+    this.ref.detectChanges();
+    document.getElementById('downloadCsv').click();
+  }
 
+  makeCsvFile() {
+    let csvContent = 'actualPower,alpha,test\r\n';
     for (const result of this.resultString.results) {
       for (const variability_scale_factor of this.studyDesign['_varianceScaleFactors']) {
-        tempContainer = {};
-        tempContainer['actualPower'] = this.getOutput(result);
-        tempContainer['alpha'] = this.studyDesign['_typeOneErrorRate'];
-        tempContainer['test'] = result.test;
-        this.downloadData.push(tempContainer)
+        csvContent += this.getOutput(result) + ',';
+        csvContent += this.studyDesign['_typeOneErrorRate'] + ',';
+        csvContent += result.test + '\r\n';
       }
     }
+    this.downloadData = this.sanitizer.bypassSecurityTrustUrl('data:text/csv;charset=utf-8,' + encodeURI(csvContent));
   }
 
   buildResultTable() {
@@ -317,9 +323,4 @@ export class CalculateComponent implements OnInit, OnDestroy{
   set detailCluster(value) {
     this._detailCluster = value;
   }
-
-  get csvOption() {
-    return constants.CSV_DOWNLOAD_OPTION;
-  }
-
 }

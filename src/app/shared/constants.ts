@@ -354,18 +354,6 @@ export const constants = {
   SOLVE_FOR: {
     POWER: 'POWER',
     SAMPLE_SIZE: 'SAMPLE SIZE'
-  },
-  CSV_DOWNLOAD_OPTION: {
-    fieldSeparator: ',',
-    quoteStrings: '"',
-    decimalseparator: '.',
-    showLabels: false,
-    headers: ['actualPower', 'alpha', 'test'],
-    showTitle: false,
-    title: '',
-    useBom: false,
-    removeNewLines: true,
-    keys: ['actualPower', 'alpha', 'test']
   }
 };
 
