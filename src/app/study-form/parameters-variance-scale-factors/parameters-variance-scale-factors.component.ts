@@ -1,16 +1,16 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnInit, OnDestroy} from '@angular/core';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
-import {Subscription} from "rxjs";
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-parameters-variance-scale-factors',
   templateUrl: './parameters-variance-scale-factors.component.html',
   styleUrls: ['./parameters-variance-scale-factors.component.scss']
 })
-export class ParametersVarianceScaleFactorsComponent implements OnInit, DoCheck {
+export class ParametersVarianceScaleFactorsComponent implements OnInit, DoCheck, OnDestroy {
 private _scaleFactorsForm: FormGroup;
 private _scaleFactors: number[];
 private _max: number;
@@ -39,6 +39,15 @@ private _varianceScaleFactorsSubscription: Subscription;
     if (this.scaleFactors) {
       this.study_service.updateVarianceScaleFactors(this.scaleFactors);
     }
+  }
+
+  ngOnDestroy() {
+    console.log(this.scaleFactors);
+    if (this.scaleFactors.length === 0) {
+      this.scaleFactors.push(1);
+      this.study_service.updateVarianceScaleFactors(this.scaleFactors);
+    }
+    this.varianceScaleFactorsSubscription.unsubscribe();
   }
 
   buildForm() {
