@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
@@ -6,7 +6,7 @@ import {constants, getStageName} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {routeSlideAnimation} from '../animations';
 import {Observable} from 'rxjs/Observable';
@@ -81,6 +81,11 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   private setupRouting() {
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        this.setNextBack();
+      }
+    })
     // this.router.events.subscribe( (val) => {
     //     this.prev$ =
     //   .pipe(
