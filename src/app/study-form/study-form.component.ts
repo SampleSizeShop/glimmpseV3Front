@@ -11,6 +11,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {routeSlideAnimation} from '../animations';
 import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {BehaviorSubject} from "rxjs/index";
 
 
 @Component({
@@ -68,6 +70,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _noStages: number;
   private parameters = [];
 
+  private _stageSource = new BehaviorSubject<number>(0);
+  private _stage$ = this._stageSource.asObservable();
+
   constructor(
     private study_service: StudyService,
     private log: NGXLogger,
@@ -83,33 +88,32 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private setupRouting() {
     this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
+        this._stageSource.next(this.getStage());
         this.setNextBack();
       }
-    })
-    // this.router.events.subscribe( (val) => {
-    //     this.prev$ =
-    //   .pipe(
-    //     map(index => index === 0 ? index : +index - 1),
-    //     share()
-    //     );
-    //     this.next$ = this.router.events
-    //       .pipe(
-    //         map(index =>  +index + 1),
-    //         share()
-    //       );
-    //     this.navDirection$ = this.router.events
-    //       .pipe(
-    //         startWith(0),
-    //         pairwise(),
-    //         map(([prev, curr]) => ({
-    //           value: +curr,
-    //           params: {
-    //             offsetEnter: prev > curr ? 100 : -100,
-    //             offsetLeave: prev > curr ? -100 : 100
-    //           }
-    //         }))
-    //       );
-    // });
+    });
+    this.prev$ = this._stage$
+      .pipe(
+        map(index => index === 0 ? index : +index - 1),
+        share()
+      );
+    this.next$ = this._stage$
+      .pipe(
+        map(index =>  +index + 1),
+        share()
+      );
+    this.navDirection$ = this._stage$
+      .pipe(
+        startWith(0),
+        pairwise(),
+        map(([prev, curr]) => ({
+          value: +curr,
+          params: {
+            offsetEnter: prev > curr ? 100 : -100,
+            offsetLeave: prev > curr ? -100 : 100
+          }
+        }))
+      );
   }
 
   toggleHelpText() {
