@@ -40,7 +40,7 @@ export const hw5_input = {
   ],
   parameters_scale_factor: null,
   parameters_standard_deviation: [
-    {outcome: 'SOAM1', st_dev: 0.3}
+    {outcome: 'SOAM1', st_dev: 0.2623928}
   ],
   parameters_outcome_correlation: null,
   parameters_outcome_repeated_measure_stdev: [
@@ -49,7 +49,7 @@ export const hw5_input = {
   parameters_repeated_measure_correlations: [
     {table: [
         [null, null],
-        [0.53, null]
+        [1, null]
       ]}
   ],
   parameters_intra_class_correlation: null,
@@ -69,51 +69,59 @@ export const hw5_output = {
     {test: 'Hotelling Lawley Trace', power: 0.970965864159}
   ],
   model: {
-    essence_design_matrix: [
-      [1, 0],
-      [1, 0],
-      [0, 1]
-    ],
-    repeated_rows_in_design_matrix: 15,
+    essence_design_matrix: [[1, 0, 0, 0, 0, 0, 0, 0],
+      [0, 1, 0, 0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0, 0, 0, 0],
+      [0, 0, 0, 1, 0, 0, 0, 0],
+      [0, 0, 0, 1, 0, 0, 0, 0],
+      [0, 0, 0, 0, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 1, 0, 0],
+      [0, 0, 0, 0, 0, 0, 1, 0],
+      [0, 0, 0, 0, 0, 0, 0, 1],
+      [0, 0, 0, 0, 0, 0, 0, 1]],
+    repeated_rows_in_design_matrix: 5,
     hypothesis_beta: [
-      [5.2, 5.3, 5.3, 5.3],
-      [5.2, 5.5, 5.9, 6.2]
+      [3.145],
+      [3.145],
+      [3.145],
+      [3.145],
+      [2.125],
+      [2.325],
+      [2.525],
+      [2.975]
     ],
     c_matrix: [
-      [ 1, -1]
+      [1, -1, 0, 0, -1, 1, 0, 0],
+      [1, 0, -1, 0, -1, 0, 1, 0],
+      [1, 0, 0, -1, -1, 0, 0, 1]
     ],
     u_matrix: [
-      [-1,-1,-1],
-      [ 1, 0, 0],
-      [ 0, 1, 0],
-      [ 0, 0, 1]
+      [1]
     ],
     sigma_star: [
-      [ 0.316449, 0.1761625, 0.1734071],
-      [0.1761625, 0.3913207, 0.2452838],
-      [0.1734071, 0.2452838, 0.4546916]
+      [0.06885]
     ],
     theta_zero: [
-      [ 0, 0]
+      [0],
+      [0],
+      [0]
     ],
     alpha: 0.05,
-    total_n: 45,
+    total_n: 50,
     theta: [
-      [-0.2,-0.6,-0.9]
+      [-0.2, -0.6, -0.9]
     ],
     m: [
-      [1.5]
+      [4, 2, 2],
+      [2, 4, 2],
+      [2, 2, 3]
     ],
-    nu_e: 43,
+    nu_e: 42,
     hypothesis_sum_square: [
-      [0.4, 1.2, 1.8],
-      [1.2, 3.6, 5.4],
-      [1.8, 5.4, 8.1]
+      [1.4675]
     ],
     error_sum_square: [
-      [13.607307476784,   7.574988566235,   7.456503760383],
-      [ 7.574988566235,  16.826789270327,  10.547205176025],
-      [ 7.456503760383,  10.547205176025,  19.551740696365]
+      [2.8917]
     ]
   }
 };
