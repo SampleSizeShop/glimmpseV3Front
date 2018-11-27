@@ -43,7 +43,9 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this._withinIsuClusterSubscription = this.study_service.withinIsuCluster$.subscribe(
       cluster => {
         this.detailCluster = cluster;
-        this.detailClusterLevels = cluster.levels;
+        if (this.detailCluster) {
+          this.detailClusterLevels = cluster.levels;
+        }
       }
     );
     this._betweenIsuPredictorsSubscription = this.study_service.betweenIsuPredictors$.subscribe(
@@ -81,6 +83,8 @@ export class CalculateComponent implements OnInit, OnDestroy {
         this.buildResultTable();
         if (this.detailCluster) {
           this.detailClusterOverview = this.detailCluster.buildClusterOverview();
+        } else {
+          this.detailClusterOverview = ['Participant'];
         }
         if (this.detailPredictor) {
           this.generateCombinations(this.detailPredictor);
@@ -187,7 +191,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this.currentSelected = index;
   }
 
-  generateCombinations(predictors, current_combination = []) {
+  generateCombinations(predictors: Predictor[], current_combination = []) {
     const length_array = predictors.length;
     if ( length_array !== 0 ) {
       for (const groupName of predictors[0].groups) {
