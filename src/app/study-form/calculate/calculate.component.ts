@@ -83,8 +83,6 @@ export class CalculateComponent implements OnInit, OnDestroy {
         this.buildResultTable();
         if (this.detailCluster) {
           this.detailClusterOverview = this.detailCluster.buildClusterOverview();
-        } else {
-          this.detailClusterOverview = ['Participant'];
         }
         if (this.detailPredictor) {
           this.generateCombinations(this.detailPredictor);
