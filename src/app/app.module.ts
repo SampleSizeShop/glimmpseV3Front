@@ -58,6 +58,7 @@ import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypot
 import { CustomContrastMatrixComponent } from './study-form/custom-contrast-matrix/custom-contrast-matrix.component';
 import {MatTooltipModule} from '@angular/material';
 import {MatIconModule} from '@angular/material/icon';
+import { Angular2CsvModule } from 'angular2-csv';
 
 
 @NgModule({
@@ -122,7 +123,8 @@ import {MatIconModule} from '@angular/material/icon';
     StudyFormRoutingModule,
     AppRoutingModule,
     MatTooltipModule,
-    MatIconModule
+    MatIconModule,
+    Angular2CsvModule
   ],
   providers: [MathJaxService],
   bootstrap: [AppComponent]
