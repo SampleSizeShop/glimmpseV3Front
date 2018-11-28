@@ -32,7 +32,7 @@
               <h6 class="align-middle">Name your predictor:</h6>
             </div>
             <div class="col">
-              <input class="form-control" formControlName="predictorName">
+              <input class="form-control" formControlName="predictorName" (keyup.enter)="addName()">
             </div>
           </div>
           <div class="row">
@@ -45,8 +45,8 @@
           <div class="row" *ngIf="stage > 0">
             <div class="col">
               <div class = "btn-group-sm">
-                <button id="cancelbetweenbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
-                <button id="addnamebtn"  (click)="addName()" class="btn btn-primary btn-sm" [disabled]="predictorForm.status === 'INVALID'"> Next: Data Type </button>
+                <button type="button" id="cancelbetweenbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
+                <button type="button" id="addnamebtn"  (click)="addName()" class="btn btn-primary btn-sm" [disabled]="predictorForm.status === 'INVALID'"> Next: Data Type </button>
               </div>
             </div>
           </div>
@@ -75,9 +75,9 @@
           </div>
         </div>
         <div class="btn-group-sm">
-          <button id="canceltypebtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
-          <button id="addnamebackbtn"  (click)="includePredictors()" class="btn btn-secondary btn-sm"> Back: Data Type </button>
-          <button id="addtypebtn"  (click)="addType()" class="btn btn-primary btn-sm">Next: Groups</button>
+          <button type="button" id="canceltypebtn" class="btn btn-secondary btn-sm">Cancel</button>
+          <button type="button" id="addnamebackbtn"  (click)="includePredictors()" class="btn btn-secondary btn-sm"> Back: Data Type </button>
+          <button type="submit" id="addtypebtn"  (click)="addType()" class="btn btn-primary btn-sm">Next: Groups</button>
         </div>
       </div>
     </div>
@@ -126,9 +126,9 @@
         <div class="row" *ngIf="stage > 0">
           <div class = "col">
             <div class="btn-group-sm">
-              <button id="cancelpredictorbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
-              <button id="addtypebackbtn"  (click)="addName()" class="btn btn-secondary btn-sm">Back: Type</button>
-              <button id="addpredictorbtn"  (click)="addPredictor()" class="btn btn-primary btn-sm" [disabled]="!groupsValid()">Add Predictor</button>
+              <button type="button" id="cancelpredictorbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
+              <button type="button" id="addtypebackbtn"  (click)="addName()" class="btn btn-secondary btn-sm">Back: Type</button>
+              <button type="submit" id="addpredictorbtn"  (click)="addPredictor()" (keyup.enter)="addPredictor()" class="btn btn-primary btn-sm" [disabled]="!groupsValid()">Add Predictor</button>
             </div>
           </div>
         </div>
@@ -154,7 +154,7 @@
             Remove
           </th>
           <th class="col  col-md-auto">
-            Add
+            Edit
           </th>
           <th class="col col-md-auto">
             Name

@@ -62,7 +62,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
   }
 
   ngDoCheck() {
-    this.updateFormStatus();
+    //this.updateFormStatus();
   }
 
   ngOnDestroy() {
@@ -210,6 +210,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
   getStageStatus(stage: number): string {
     if (stage === this.stages.NAME) {
       return this.predictorForm.status;
+    }
+    if (stage === this.stages.TYPE) {
+      return 'VALID';
     }
     if (stage === this.stages.GROUPS) {
       return this.groupsForm.status;
