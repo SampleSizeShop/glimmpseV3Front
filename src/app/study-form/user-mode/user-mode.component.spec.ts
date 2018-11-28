@@ -7,6 +7,7 @@ import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
+import {NavigationService} from '../../shared/navigation.service';
 
 describe('UserModeComponent', () => {
   let component: UserModeComponent;
@@ -16,7 +17,7 @@ describe('UserModeComponent', () => {
     TestBed.configureTestingModule({
       imports: [ ReactiveFormsModule ],
       declarations: [ UserModeComponent ],
-      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend } ]
+      providers: [ StudyService, NavigationService, { provide: HttpClient, useClass: MockBackend } ]
     })
     .compileComponents();
 
