@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UserModeComponent } from './user-mode.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../study.service';
@@ -8,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NavigationService} from '../../shared/navigation.service';
+import {NGXLogger} from 'ngx-logger';
 
 describe('UserModeComponent', () => {
   let component: UserModeComponent;
@@ -17,7 +17,7 @@ describe('UserModeComponent', () => {
     TestBed.configureTestingModule({
       imports: [ ReactiveFormsModule ],
       declarations: [ UserModeComponent ],
-      providers: [ StudyService, NavigationService, { provide: HttpClient, useClass: MockBackend } ]
+      providers: [ StudyService, NavigationService, NGXLogger, { provide: HttpClient, useClass: MockBackend } ]
     })
     .compileComponents();
 

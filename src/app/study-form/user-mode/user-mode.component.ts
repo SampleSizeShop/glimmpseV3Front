@@ -1,15 +1,16 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs/index';
 import {NavigationService} from '../../shared/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-user-mode',
   templateUrl: './user-mode.component.html',
   styleUrls: ['./user-mode.component.scss']
 })
-export class UserModeComponent implements OnInit {
+export class UserModeComponent implements OnInit, OnDestroy {
   guided: boolean;
   private _showHelpTextSubscription: Subscription;
 
@@ -17,7 +18,7 @@ export class UserModeComponent implements OnInit {
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private study_service: StudyService, private _navigation_service: NavigationService, private modalService: NgbModal) {
+  constructor(private study_service: StudyService, private _navigation_service: NavigationService, private modalService: NgbModal, private log: NGXLogger) {
     this._afterInit = false;
     this._showHelpTextSubscription = this._navigation_service.helpText$.subscribe( help => {
       if (this._afterInit) {
@@ -41,6 +42,10 @@ export class UserModeComponent implements OnInit {
     this.selectGuided();
   }
 
+  ngOnDestroy() {
+    this._showHelpTextSubscription.unsubscribe();
+  }
+
   dismissHelp() {
     this.helpTextModalReference.close();
   }
@@ -50,14 +55,14 @@ export class UserModeComponent implements OnInit {
     this.helpTextModalReference = this.modalService.open(content);
     this.helpTextModalReference.result.then(
       (closeResult) => {
-        console.log('modal closed : ', closeResult);
+        this.log.debug('modal closed : ' + closeResult);
       }, (dismissReason) => {
         if (dismissReason === ModalDismissReasons.ESC) {
-          console.log('modal dismissed when used pressed ESC button');
+          this.log.debug('modal dismissed when used pressed ESC button');
         } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
-          console.log('modal dismissed when used pressed backdrop');
+          this.log.debug('modal dismissed when used pressed backdrop');
         } else {
-          console.log(dismissReason);
+          this.log.debug(dismissReason);
         }
       });
   }
