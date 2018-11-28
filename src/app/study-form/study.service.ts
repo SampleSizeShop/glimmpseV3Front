@@ -172,7 +172,7 @@ export class StudyService {
     this.navigationDirectionSource.next(direction);
   }
 
-  constructor(private  http: HttpClient, private router: Router) {
+  constructor(private  http: HttpClient) {
     this._stages = constants.STAGES;
   }
 

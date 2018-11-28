@@ -45,9 +45,9 @@ import {OptionalSpecsPowerCurveAxesComponent} from './optional-specs-power-curve
 import {OptionalSpecsPowerCurveDataSeriesComponent} from './optional-specs-power-curve-data-series/optional-specs-power-curve-data-series.component';
 import {CalculateComponent} from './calculate/calculate.component';
 import {testEnvironment} from '../../environments/environment.test';
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {CustomContrastMatrixComponent} from "./custom-contrast-matrix/custom-contrast-matrix.component";
-import {MatIconModule, MatTooltip} from "@angular/material";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CustomContrastMatrixComponent} from './custom-contrast-matrix/custom-contrast-matrix.component';
+import {MatIconModule, MatTooltip} from '@angular/material';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -118,9 +118,7 @@ describe('StudyFormComponent', () => {
     fixture = TestBed.createComponent(StudyFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     getSpy = spyOn(component, 'getStage');
-    spyOn(component, 'setStage');
   }));
 
   it('Should correctly set next and back boolean flags for the first stage', () => {

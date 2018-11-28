@@ -62,7 +62,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
   }
 
   ngDoCheck() {
-    //this.updateFormStatus();
+    this.updateFormStatus();
   }
 
   ngOnDestroy() {
