@@ -29,8 +29,6 @@ export class GaussianCovariateGuard implements CanActivate {
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.log.debug('GaussianCovariateGuard#canActivate called');
-    const stage = this.study_service.stage;
-    this.log.debug(stage);
     if (
       !isNullOrUndefined(this.gaussianCovariate)
     ) {

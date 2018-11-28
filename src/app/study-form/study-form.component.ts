@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit, ɵisListLikeIterable} from '@angular/core';
+import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
@@ -6,11 +6,13 @@ import {constants, getStageName} from '../shared/constants';
 import {NavigationService} from '../shared/navigation.service';
 import {StudyDesign} from '../shared/study-design';
 import {isNullOrUndefined} from 'util';
-import {Router, RouterOutlet} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {routeSlideAnimation} from '../animations';
 import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {BehaviorSubject} from "rxjs/index";
 
 
 @Component({
@@ -68,6 +70,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _noStages: number;
   private parameters = [];
 
+  private _stageSource = new BehaviorSubject<number>(0);
+  private _stage$ = this._stageSource.asObservable();
+
   constructor(
     private study_service: StudyService,
     private log: NGXLogger,
@@ -81,18 +86,23 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   private setupRouting() {
-    this.prev$ = this.study_service.stage$
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd) {
+        this._stageSource.next(this.getStage());
+        this.setNextBack();
+      }
+    });
+    this.prev$ = this._stage$
       .pipe(
         map(index => index === 0 ? index : +index - 1),
         share()
       );
-    this.next$ = this.study_service.stage$
+    this.next$ = this._stage$
       .pipe(
         map(index =>  +index + 1),
         share()
       );
-
-    this.navDirection$ = this.study_service.stage$
+    this.navDirection$ = this._stage$
       .pipe(
         startWith(0),
         pairwise(),
@@ -112,6 +122,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   next(stage?: number): void {
     let current = this.getStage();
+    let next = this.getStage();
     if (stage) {
       current = stage;
     }
@@ -123,7 +134,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.parameters.push(this.study.isuFactors.betweenIsuRelativeGroupSizes.indexOf(
           this.study.isuFactors.firstRelativeGroupSizeTable
         ));
-        this.setStage(this.stages.BETWEEN_ISU_GROUPS);
+        next = this.stages.BETWEEN_ISU_GROUPS;
       } else if (current === this.stages.BETWEEN_ISU_GROUPS
         && (isNullOrUndefined(this.study.isuFactors)
           || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
@@ -131,15 +142,15 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         const nextTable = this.study.isuFactors.getNextRelativeGroupSizeTable(currentIndex);
         if (!isNullOrUndefined(nextTable)) {
           this.parameters.push(currentIndex + 1);
-          this.setStage(this.stages.BETWEEN_ISU_GROUPS);
+          next = this.stages.BETWEEN_ISU_GROUPS;
         } else {
-          this.setStage(this.stages.GAUSSIAN_COVARIATE);
+          next = this.stages.GAUSSIAN_COVARIATE;
         }
       } else if (
       current === this.stages.HYPOTHESIS_THETA_0
       && !isNullOrUndefined(this.study.isuFactors.outcomes)
       && this.study.isuFactors.outcomes.length > 0) {
-        this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
+        next = this.stages.PARAMETERS_MARGINAL_MEANS;
         this.parameters = [];
         this.parameters.push(0);
       } else if (
@@ -150,15 +161,15 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         const nextTable = this.study.isuFactors.getNextMarginalMeansTable(currentIndex);
         if (!isNullOrUndefined(nextTable)) {
           this.parameters.push(currentIndex + 1);
-          this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
+          next = this.stages.PARAMETERS_MARGINAL_MEANS;
         } else {
-          this.setStage(this.stages.PARAMETERS_SCALE_FACTOR);
+          next = this.stages.PARAMETERS_SCALE_FACTOR;
         }
       } else if (
         current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV - 1
         && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
         && this.study.isuFactors.repeatedMeasures.length > 0) {
-        this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
+        next = this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV;
         this.parameters = [];
         this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
       } else if (
@@ -171,34 +182,32 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.parameters = [];
         if (!isNullOrUndefined(nextMeasure)) {
           this.parameters.push(nextMeasure.name);
-          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
+          next =this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV;
         } else {
           // first repeated measure correlation
-          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV + 1);
+          next =this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV + 1;
           this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
         }
       } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION) {
         const currentName = this.parameters.pop();
-        const next = this.study.isuFactors.getNextRepeatedMeasure(currentName);
-        if (!isNullOrUndefined(next)) {
-          this.parameters.push(next.name);
-          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
+        const nextMeasure = this.study.isuFactors.getNextRepeatedMeasure(currentName);
+        if (!isNullOrUndefined(nextMeasure)) {
+          this.parameters.push(nextMeasure.name);
+          next = this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION;
         } else {
           this.parameters = [];
-          this.setStage(this.stages.PARAMETERS_INTRA_CLASS_CORRELATION);
+          next = this.stages.PARAMETERS_INTRA_CLASS_CORRELATION;
         }
       } else if (current === this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE) {
-        this.setStage(this.stages.CALCULATE);
+        next = this.stages.CALCULATE;
       } else if (current === this.stages.OPTIONAL_SPECS_CI_CHOICE) {
-        this.setStage(this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE);
+        next = this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE;
       } else if (current === this.stages.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK) {
-        this.setStage(this.stages.OPTIONAL_SPECS_CI_CHOICE);
+        next = this.stages.OPTIONAL_SPECS_CI_CHOICE;
       } else {
-        if (this._direction !== 'CANCEL') {
-          this.setStage( current + 1 );
-        }
+        next = current + 1;
       }
-      this.navigate(this.study_service.stage, 'NEXT');
+      this.navigate(next, 'NEXT');
       this.setNextBack();
     }
   }
@@ -220,8 +229,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   back(stage?: number): void {
-    this.study_service.updateDirection('BACK');
     let current = this.getStage();
+    let previous = this.getStage();
+    this.study_service.updateDirection('BACK');
     if (stage) {
       current = stage;
     }
@@ -233,22 +243,22 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         const previousIndex = currentIndex - 1;
         if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
           this.parameters.push(previousIndex);
-          this.setStage(this.stages.BETWEEN_ISU_GROUPS)
+          previous = this.stages.BETWEEN_ISU_GROUPS;
         } else {
           this.parameters = []
-          this.setStage(this.stages.BETWEEN_ISU_SMALLEST_GROUP)
+          previous = this.stages.BETWEEN_ISU_SMALLEST_GROUP;
         }
       } else if (current === this.stages.GAUSSIAN_COVARIATE
         && (isNullOrUndefined(this.study.isuFactors)
         || this.study.isuFactors.betweenIsuRelativeGroupSizes.length === 0)) {
-        this.setStage(this.stages.BETWEEN_ISU_SMALLEST_GROUP)
+        previous = this.stages.BETWEEN_ISU_SMALLEST_GROUP;
       } else if  (current === this.stages.GAUSSIAN_COVARIATE
         && (isNullOrUndefined(this.study.isuFactors)
         || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
         const currentIndex = this.study.isuFactors.betweenIsuRelativeGroupSizes.length - 1;
         this.parameters = [];
         this.parameters .push(currentIndex);
-        this.setStage(this.stages.BETWEEN_ISU_GROUPS)
+        previous = this.stages.BETWEEN_ISU_GROUPS;
       } else if (
         current === this.stages.PARAMETERS_MARGINAL_MEANS
         && !isNullOrUndefined(this.study.isuFactors.outcomes)
@@ -259,14 +269,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
           // next outcome marginal means
           this.parameters.push(previousIndex);
-          this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
+          previous = this.stages.PARAMETERS_MARGINAL_MEANS;
         } else {
-          this.setStage(this.stages.HYPOTHESIS_THETA_0);
+          previous = this.stages.HYPOTHESIS_THETA_0;
         }
       } else if (current === this.stages.PARAMETERS_SCALE_FACTOR
         && !isNullOrUndefined(this.study.isuFactors.outcomes)
         && this.study.isuFactors.marginalMeans.length > 0) {
-        this.setStage(this.stages.PARAMETERS_MARGINAL_MEANS);
+        previous = this.stages.PARAMETERS_MARGINAL_MEANS;
         this.parameters = [];
         this.parameters.push(this.study.isuFactors.marginalMeans.length - 1);
       } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV) {
@@ -275,40 +285,40 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.parameters = [];
         if (!isNullOrUndefined(previousMeasure)) {
           this.parameters.push(previousMeasure.name);
-          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
+          previous = this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV;
         } else {
-          this.setStage(this.stages.PARAMETERS_OUTCOME_CORRELATION);
+          previous = this.stages.PARAMETERS_OUTCOME_CORRELATION;
         }
       } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION) {
         const currentName = this.parameters.pop();
-        const previous = this.study.isuFactors.getPreviousRepeatedMeasure(currentName);
+        const previousMeasure = this.study.isuFactors.getPreviousRepeatedMeasure(currentName);
         this.parameters = [];
-        if (!isNullOrUndefined(previous)) {
-          this.parameters.push(previous.name);
-          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
+        if (!isNullOrUndefined(previousMeasure)) {
+          this.parameters.push(previousMeasure.name);
+          previous = this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION;
         } else {
           const lastMeasure = this.study.isuFactors.lastRepeatedMeasure;
           if (
             !isNullOrUndefined(lastMeasure)) {
             this.parameters.push(lastMeasure.name);
           }
-          this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV);
+          previous = this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV;
         }
       } else if (current === this.stages.PARAMETERS_INTRA_CLASS_CORRELATION
         && !isNullOrUndefined(this.study.isuFactors.repeatedMeasures)
         && this.study.isuFactors.repeatedMeasures.length > 0 ) {
-        this.setStage(this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION);
+        previous = this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION;
         this.parameters = [];
         this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
       } else if (current === this.stages.CALCULATE) {
-        this.setStage(this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE);
+        previous = this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE;
       } else {
-        this.setStage(current - 1);
+        previous = current - 1;
       }
     }
-    this.navigate(this.study_service.stage, 'BACK');
+    this.navigate(previous, 'BACK');
     this.setNextBack();
-    this.valid = true;
+    // this.valid = true;
   }
 
   setNextBack(): void {
@@ -333,18 +343,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   ngDoCheck() {
-    const name = this.router.url.replace('/design/', '');
-    if (name !== this.getCurrentStageName()) {
-      if (isNullOrUndefined(name) || name === '/design') {
-        this.setStage(1);
-      } else {
-        const stage = this.study_service.getStageFromName(name);
-        if (stage !== -1 && stage !== this.study_service.stage) {
-          this.setStage(stage);
-        }
-      }
-    }
-    this.setNextBack();
     this.study_service.updateStudyDesign(this.study);
   }
 
@@ -370,14 +368,13 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   getCurrentStageName(): string {
-    return getStageName(this.study_service.stage);
+    return this.router.url;
   }
 
   getStage(): number {
-    return this.study_service.stage;
-  }
-  setStage(stage: number): void {
-    this.study_service.stage = stage;
+    const name = this.router.url.replace('/design/', '');
+    const comp = name.split('/')[0];
+    return Object.keys(constants.STAGES).indexOf(comp);
   }
 
   get noStages(): number {

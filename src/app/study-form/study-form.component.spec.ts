@@ -48,6 +48,9 @@ import {testEnvironment} from '../../environments/environment.test';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CustomContrastMatrixComponent} from './custom-contrast-matrix/custom-contrast-matrix.component';
 import {MatIconModule, MatTooltip} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CustomContrastMatrixComponent} from './custom-contrast-matrix/custom-contrast-matrix.component';
+import {MatIconModule, MatTooltip} from '@angular/material';
 import {Angular2CsvModule} from 'angular2-csv';
 
 describe('StudyFormComponent', () => {
@@ -120,9 +123,7 @@ describe('StudyFormComponent', () => {
     fixture = TestBed.createComponent(StudyFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     getSpy = spyOn(component, 'getStage');
-    spyOn(component, 'setStage');
   }));
 
   it('Should correctly set next and back boolean flags for the first stage', () => {
