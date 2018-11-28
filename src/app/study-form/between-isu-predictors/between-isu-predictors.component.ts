@@ -211,6 +211,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
     if (stage === this.stages.NAME) {
       return this.predictorForm.status;
     }
+    if (stage === this.stages.TYPE) {
+      return 'VALID';
+    }
     if (stage === this.stages.GROUPS) {
       return this.groupsForm.status;
     }

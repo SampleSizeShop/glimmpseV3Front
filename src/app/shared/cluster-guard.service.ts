@@ -36,8 +36,6 @@ export class ClusterGuard implements CanActivate {
    */
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.log.debug('ClusterGuard#canActivate called');
-    const st = this.study_service.stage;
-    this.log.debug(st);
     if (
       !isNullOrUndefined(this.isuFactors)
       && !isNullOrUndefined(this.isuFactors.cluster)

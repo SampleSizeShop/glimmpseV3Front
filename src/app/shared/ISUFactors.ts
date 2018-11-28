@@ -314,7 +314,7 @@ export class ISUFactors {
         this.orderCombination(combination);
       });
     }
-    return combinations
+    return combinations;
   }
 
   orderCombination(combination: ISUFactorCombination) {
