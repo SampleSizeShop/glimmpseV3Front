@@ -30,7 +30,7 @@
   <div *ngIf="isElementName()">
     <div class="row">
       <div class="col" id="clustersheader">
-      <h6>What term would you like to use for a participant in the study? (For example, student.)</h6>
+      <h6>What term would you like to use for an independent sampling unit in the study? (For example, student.)</h6>
     </div>
     </div>
     <div class="row">
@@ -119,10 +119,7 @@
           <table class="table" *ngIf="hasLevels()" >
             <thead>
               <th class="col col-md-auto">
-                Remove
-              </th>
-              <th class="col col-md-auto">
-                Order
+                Level
               </th>
               <th class="col col-md-auto">
                 Level Name
@@ -130,20 +127,23 @@
               <th class="col col-md-auto">
                 No. Elements
               </th>
+              <th class="col col-md-auto">
+                Remove
+              </th>
             </thead>
             <tbody>
             <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i)">
               <td class="col col-md-auto">
-                <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">remove</i>
-              </td>
-              <td class="col col-md-auto">
-                {{i}}
+                {{i + 1}}
               </td>
               <td class="col col-md-auto">
                 {{level.levelName}}
               </td>
               <td class="col col-md-auto">
                 {{level.noElements}}
+              </td>
+              <td class="col col-md-auto">
+                <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">remove</i>
               </td>
             </tr>
             </tbody>
@@ -158,9 +158,9 @@
       </div>
       <div class="row">
         <div class="col">
-          <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="levelscancelbtn">Cancel</button>
-          <button class="btn btn-secondary btn-sm" (click)="setStage(stages.ELEMENT_NAME)" id="levelsbackbtn">Back</button>
-          <button class="btn btn-primary btn-sm" (click)="addCluster()" id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="levelscancelbtn">Cancel</button>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="setStage(stages.ELEMENT_NAME)" id="levelsbackbtn">Back</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="addCluster()" id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
         </div>
       </div>
     </form>
