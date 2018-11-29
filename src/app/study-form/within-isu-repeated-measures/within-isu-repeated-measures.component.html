@@ -6,13 +6,17 @@
       <div class="row">
         <div class="col">
           <p>
-            GLIMMPSE allows you to define within-participant factors, specified as repeated measures. Repeated measures are present when a response variable is measured on each independent sampling unit on two or more occasions or under two or more conditions. The values of the repeated measures (that is, the levels of the within-participant factors) distinguish the occasions or conditions. <br /><br />
-
-            If the study includes repeated measures, click "Add Repeated Measure" and follow the prompts. The text entered in the "Dimension" text box indicates the dimension over which measures were taken (e.g. time, days, locations, etc.). The choice of "Type" indicates whether the repeated measures are numeric (e.g. time), ordinal (e.g. 1st, 2nd, 3rd), or categorical (e.g. arm, leg, hand). <br /><br />
-
-            If the repeated measures are numeric, the spacing values must be unique nonnegative integers, in ascending order. <br /><br />
-
-            You may specify up to {{max}} repeated measures. <br /><br />
+            GLIMMPSE allows you to define within-participant factors, specified as repeated measures.
+            Repeated measures are present when a response variable is measured on each independent sampling
+            unit on two or more occasions or under two or more conditions.
+            Different values of a repeated measure distinguish different occasions or conditions.
+            Values of a repeated measure define the levels of a factor within the independent sampling unit.
+          </p>
+          <p>
+            If the study includes repeated measures, click "Add Repeated Measure" and follow the prompts.
+          </p>
+          <p>
+            You may specify up to {{max}} repeated measures.
           </p>
         </div>
       </div>
@@ -50,21 +54,23 @@
 
     <div *ngIf="isDimensions()">
       <div id="dimensionsheader">
-        <h5>What is the name of the dimension you will be measuring and in what units (if applicable) is it measured?</h5>
+        <p>What is the name of the dimension you will be measuring and in what units (if applicable) is it measured?</p>
+        <p>The text entered in the "Dimension" text box indicates the dimension over which measures
+          were taken (e.g. time, days, locations, etc.). The choice of "Type" indicates whether the
+          repeated measures are numeric (e.g. time), ordinal (e.g. 1st, 2nd, 3rd), or categorical
+          (e.g. arm, leg, hand). </p>
       </div>
       <form [formGroup]="dimensionForm">
-        <div class="container-fluid">
-          <div class="form-group">
-            <label for="dimension">Dimension:</label>
-            <input class="form-control" formControlName="dimension" id="dimension" placeholder="Enter the dimension for this repeated measure (time, scenarios, etc.)" required>
-            <div *ngIf="formErrors.dimensionunits" class="form-group has-danger">
-              <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensionunits}}</div>
-            </div>
+        <div class="form-group">
+          <label for="dimension">Dimension:</label>
+          <input class="form-control" formControlName="dimension" id="dimension" placeholder="Enter the dimension for this repeated measure (time, scenarios, etc.)" required>
+          <div *ngIf="formErrors.dimensionunits" class="form-group has-danger">
+            <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensionunits}}</div>
           </div>
-          <div class="form-group">
-            <label for="units">Units (if applicable):</label>
-            <input class="form-control" formControlName="units" id="units">
-          </div>
+        </div>
+        <div class="form-group">
+          <label for="units">Unit (if applicable):</label>
+          <input class="form-control" formControlName="units" id="units">
         </div>
       </form>
       <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="dimcancelbtn">Cancel</button>
@@ -87,7 +93,7 @@
       </div>
       <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="typecancelbtn">Cancel</button>
       <button class="btn btn-secondary btn-sm" (click)="setStage(stages.DIMENSIONS)" id="typebackbtn">Back</button>
-      <button class="btn btn-primary btn-sm" (click)="setStage(stages.REPEATS)" id="typenextbtn" [disabled]="!this.typeForm.valid">Next: Repeats</button>
+      <button class="btn btn-primary btn-sm" (click)="setStage(stages.REPEATS)" id="typenextbtn" [disabled]="!this.typeForm.valid">Next: No. Measurements</button>
     </div>
 
     <div *ngIf="isRepeats()">
@@ -110,7 +116,8 @@
 
     <div *ngIf="isSpacing()">
       <div id="spacingheader">
-        <h5>Spacing</h5>
+        <h6>Spacing</h6>
+        <p>If the repeated measures are numeric, the spacing values must be unique nonnegative integers, in ascending order.</p>
         <form [formGroup]="spacingForm">
           <div class="container-fluid">
             <div class="row">
