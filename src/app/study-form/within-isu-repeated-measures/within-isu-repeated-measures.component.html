@@ -2,11 +2,6 @@
   <div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)">
 
     <div *ngIf="isInfo()">
-      <div class="row">
-        <div class="col">
-          <h5>Repeated Measures</h5>
-        </div>
-      </div>
 
       <div class="row">
         <div class="col">
@@ -37,7 +32,6 @@
       <div *ngIf="nextRepeatedMeasure()" id="nextrepmeasure">
         <div class="row">
           <div class="col">
-            <h6>Would you like to include repeated measurements on another dimension?</h6>
             <div class="btn-group" data-toggle="buttons">
               <label id="includenextrptmeasuresbtn" class="btn btn-primary">
                 <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Define another set of repeated measurements.
@@ -49,7 +43,7 @@
 
       <div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure()" id="fullrepmeasure">
         <div class="container-fluid">
-          <h5>That's all folks!</h5>
+          <h5>You have specified the maximum number of repeated measure dimensions</h5>
         </div>
       </div>
     </div>
@@ -179,19 +173,12 @@
   <br>
   <br>
 
-  <div class="row" *ngIf="hasRepeatedMeasures()">
+  <div class="row" *ngIf="isInfo()">
     <div class="col">
-      <h6>Repeated Measures:</h6>
       <table class="table">
         <thead>
         <th class="col col-md-auto">
-          Remove
-        </th>
-        <th class="col  col-md-auto">
-          Edit
-        </th>
-        <th class="col col-md-auto">
-          Name
+          Repeated Measure Dimension
         </th>
         <th class="col col-md-auto">
           Type
@@ -202,15 +189,18 @@
         <th class="col col-md-auto">
           Groups
         </th>
+        <th class="col  col-md-auto">
+          Edit
+        </th>
+        <th class="col col-md-auto">
+          Remove
+        </th>
         </thead>
         <tbody>
+        <tr *ngIf="!hasRepeatedMeasures()">
+          <td>Would you like to add a repeadted measure?</td>
+        </tr>
         <tr *ngFor="let repeatedMeasure of repeatedMeasures; let i = index" [class]="rowStyle(i)">
-          <td class="col col-md-auto">
-            <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">remove</i>
-          </td>
-          <td class="col  col-md-auto">
-            <i class="material-icons" (click)="editRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="editrepeatedMeasure">create</i>
-          </td>
           <td class="col col-md-auto">
             {{repeatedMeasure.name}}
           </td>
@@ -222,6 +212,12 @@
           </td>
           <td class="col col-md-auto">
             {{repeatedMeasure.valueNames | json}}
+          </td>
+          <td class="col  col-md-auto">
+            <i class="material-icons" (click)="editRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="editrepeatedMeasure">create</i>
+          </td>
+          <td class="col col-md-auto">
+            <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">remove</i>
           </td>
         </tr>
         </tbody>
