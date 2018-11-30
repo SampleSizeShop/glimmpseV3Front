@@ -6,9 +6,12 @@
   <div class="row">
     <div class="col">
       <p>
-      Power and sample size calculations are typically based on the primary study hypothesis. The options below show the hypotheses which are available for the current study design. Specify the hypothesis which most closely resembles your primary study hypothesis. <br /><br />
+        Each power or sample size calculation is based on selecting a specific study hypothesis.
+        The options below show the hypotheses which are available for the current study design.
+        Specify the hypothesis that represents your scientific question. <br /><br />
 
-      To specify a hypothesis, select the type of hypothesis from the check list. For more information about the type of hypothesis, click the "question mark icon."
+        Select your hypothesis from the list.
+        For more information about the possible types of hypotheses, click the “question mark icon."
       <i (click)="showOrCloseInfo()" class="material-icons"> contact_support </i>
       </p>
     </div>
@@ -16,9 +19,6 @@
   <div class="row">
     <div class="col">
       <div *ngIf="showInfo">
-        <p>
-          GLIMMPSE supports the following hypothesis types, for between-participant factors, within-participant factors, and interactions between them. <br /><br />
-        </p>
         <h5>Grand Mean Hypothesis</h5>
         <p>
           Tests of the grand mean compare the overall mean response in a sample of participants against a known value. For example, an investigator may wish to determine if body mass index values for participants in a particular state differs from the United States national average. <br /><br />
