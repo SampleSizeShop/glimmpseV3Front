@@ -106,6 +106,7 @@ export class StudyDesign {
       const intercept = new ISUFactorCombination([interceptId]);
       console.log('Generating intercept')
       const interceptTable = new RelativeGroupSizeTable(intercept, [[intercept]]);
+      interceptTable.dimensions = [interceptId];
       tables.push(interceptTable);
     }
     return tables;
@@ -180,7 +181,7 @@ export class StudyDesign {
         if (groups.length !== combinations.length) {
           this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables();
         }
-    } else if (isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes) || this.isuFactors.betweenIsuRelativeGroupSizes.length < 1) {
+    } else if (isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes) || this.isuFactors.predictors.length < 1) {
       this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables()
     }
 
