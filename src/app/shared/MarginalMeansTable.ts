@@ -46,7 +46,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
         label = label + ' ' + factor.factorName + ' : ' + factor.value;
       }
     });
-    return label;
+    return label.trim();
   }
 
   getColLabel(element: ISUFactorCombination) {
@@ -56,14 +56,23 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
         label = label + factor.factorName + ' : ' + factor.value;
       }
     });
-    return label;
+    return label.trim();
   }
 
   getCellLabel(element: ISUFactorCombination) {
     let label = '';
-    label = this.getRowLabel(element);
-    label = label + ', ' + this.getColLabel(element);
-    return label;
+    const row = this.getRowLabel(element);
+    const col = this.getColLabel(element);
+    if (row === ':' && col === '') {
+      label = this.name;
+    } else if (row === ':') {
+      label = col;
+    } else if (row !== ':' && col === '') {
+      label =  row
+    } else {
+      label = row + ', ' + col;
+    }
+    return label
   }
 
   compareSizeAndDimensions(other: MarginalMeansTable) {
