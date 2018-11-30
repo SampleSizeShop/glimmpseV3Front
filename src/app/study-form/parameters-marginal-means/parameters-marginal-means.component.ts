@@ -186,7 +186,7 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
 
   hasMultipleDimensions() {
     if (!isNullOrUndefined(this._isuFactors.repeatedMeasuresInHypothesis) &&
-        this._isuFactors.repeatedMeasuresInHypothesis.length > 1) {
+        this._isuFactors.repeatedMeasuresInHypothesis.length > 0) {
       return true;
     } else {
       return false;
