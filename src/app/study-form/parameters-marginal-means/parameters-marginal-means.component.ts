@@ -183,4 +183,13 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
     }
     return grandMean;
   }
+
+  hasMultipleDimensions() {
+    if (!isNullOrUndefined(this._isuFactors.repeatedMeasuresInHypothesis) &&
+        this._isuFactors.repeatedMeasuresInHypothesis.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
