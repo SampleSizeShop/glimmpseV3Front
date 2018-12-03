@@ -8,6 +8,7 @@ import {NavigationService} from '../../shared/navigation.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
+import {NGXLogger} from 'ngx-logger';
 
 describe('StatisticalTestsComponent', () => {
   let component: StatisticalTestsComponent;
@@ -17,7 +18,7 @@ describe('StatisticalTestsComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ StatisticalTestsComponent ],
-      providers: [ StudyService, {provide: HttpClient, useClass: MockBackend}, NavigationService]
+      providers: [ StudyService, NGXLogger, {provide: HttpClient, useClass: MockBackend}, NavigationService]
     })
     .compileComponents();
   }));

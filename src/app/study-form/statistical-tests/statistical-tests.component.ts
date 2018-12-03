@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit, OnDestroy} from '@angular/core';
+import {Component, DoCheck, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {constants} from '../../shared/constants';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
@@ -7,6 +7,8 @@ import {statisticalTestsValidator} from '../statistical-tests/statistical-tests.
 import {Observable, of as observableOf} from 'rxjs/index';
 import {Outcome} from '../../shared/Outcome';
 import {NavigationService} from '../../shared/navigation.service';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-statistical-tests',
@@ -24,7 +26,17 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   private _items;
   private _statisticalTestsOption;
 
-  constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
+  constructor(private _fb: FormBuilder,
+              private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this.validationMessages = constants.STATISTICAL_TESTS_VALIDATION_MESSAGES;
     this.formErrors = constants.STATISTICAL_TESTS_ERRORS;
     this.statisticalTests = constants.STATISTICAL_TESTS;
@@ -48,9 +60,16 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
         this.checkValidBeforeNavigation(direction);
       }
     );
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
   }
 
   ngOnInit() {
+    this._afterInit = true;
     this.buildForm();
   }
 
@@ -62,6 +81,7 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   ngOnDestroy() {
     this.navigationSubscription.unsubscribe();
     this.selectedTestsSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -131,6 +151,27 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
         }
       }
     }
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get statisticalTests() {

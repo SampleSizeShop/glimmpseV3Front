@@ -18,7 +18,10 @@ export class UserModeComponent implements OnInit, OnDestroy {
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private study_service: StudyService, private _navigation_service: NavigationService, private modalService: NgbModal, private log: NGXLogger) {
+  constructor(private study_service: StudyService,
+              private _navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this._afterInit = false;
     this._showHelpTextSubscription = this._navigation_service.helpText$.subscribe( help => {
       if (this._afterInit) {

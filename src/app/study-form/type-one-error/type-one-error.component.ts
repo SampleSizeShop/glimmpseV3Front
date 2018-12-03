@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnInit, OnDestroy} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
@@ -10,9 +10,9 @@ import {Subscription} from 'rxjs';
   selector: 'app-type-one-error',
   templateUrl: './type-one-error.component.html',
   styleUrls: ['./type-one-error.component.scss'],
-  providers:[NGXLogger]
+  providers: [NGXLogger]
 })
-export class TypeOneErrorComponent implements DoCheck {
+export class TypeOneErrorComponent implements DoCheck, OnDestroy {
   private _typeOneErrorRate: number;
   private _typeOneErrorRateForm: FormGroup;
   private _formErrors = constants.TYPE_ONE_ERROR_ERRORS;
@@ -58,6 +58,10 @@ export class TypeOneErrorComponent implements DoCheck {
 
   ngDoCheck() {
     this.study_service.updateTypeOneErrorRate(this.typeOneErrorRateForm.get('typeoneerror').value);
+  }
+
+  ngOnDestroy() {
+    this.typeOneErrorRateSubscription.unsubscribe();
   }
 
   get typeOneErrorRateForm(): FormGroup {
