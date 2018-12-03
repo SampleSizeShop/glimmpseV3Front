@@ -11,7 +11,6 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {routeSlideAnimation} from '../animations';
 import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
-import {of} from 'rxjs';
 import {BehaviorSubject} from "rxjs/index";
 
 
@@ -361,7 +360,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   getCurrentStageName(): string {
-    return this.router.url;
+    const url = this.router.url.split('/');
+    if (url.length > 2) {
+      return this.getUserFriendlyComponentName(url[2]);
+    } else {
+      return this.getUserFriendlyComponentName(url[0]);
+    }
   }
 
   getStage(): number {
@@ -753,5 +757,61 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   set navDirection$(value: Observable<any>) {
     this._navDirection$ = value;
+  }
+
+  getUserFriendlyComponentName(name: string) {
+    if (name === 'TARGET_EVENT') {
+      return 'Target Event';
+    } else if (name === 'SOLVE_FOR') {
+      return 'Solve For';
+    } else if (name === 'STATISTICAL_TESTS') {
+      return 'Statistical Tests';
+    } else if (name === 'TYPE_ONE_ERROR') {
+      return 'Type One Error';
+    } else if (name === 'WITHIN_ISU_OUTCOMES') {
+      return 'Outcomes';
+    } else if (name === 'WITHIN_ISU_REPEATED_MEASURES') {
+      return 'Repeated Measures';
+    } else if (name === 'WITHIN_ISU_CLUSTERS') {
+      return 'Clustering';
+    } else if (name === 'BETWEEN_ISU_PREDICTORS') {
+      return 'Predictors';
+    } else if (name === 'BETWEEN_ISU_SMALLEST_GROUP') {
+      return 'Smallest Group Size';
+    } else if (name === 'BETWEEN_ISU_GROUPS') {
+      return 'Groups';
+    } else if (name === 'GAUSSIAN_COVARIATE') {
+      return 'Gaussian Covariate';
+    } else if (name === 'HYPOTHESIS_EFFECT_CHOICE') {
+      return 'Hypothesis Choice';
+    } else if (name === 'HYPOTHESIS_BETWEEN') {
+      return 'Between Hypothesis';
+    } else if (name === 'HYPOTHESIS_WITHIN') {
+      return 'Within Hypothesis';
+    } else if (name === 'HYPOTHESIS_THETA_0') {
+      return 'Theta 0';
+    } else if (name === 'PARAMETERS_MARGINAL_MEANS') {
+      return 'Marginal Means';
+    } else if (name === 'PARAMETERS_SCALE_FACTOR') {
+      return 'Scale Factor';
+    } else if (name === 'PARAMETERS_STANDARD_DEVIATION') {
+      return 'Standard Deviation';
+    } else if (name === 'PARAMETERS_OUTCOME_CORRELATION') {
+      return 'Outcome Correlation';
+    } else if (name === 'PARAMETERS_REPEATED_MEASURE_ST_DEV') {
+      return 'Repeated Measure Standard Deviation';
+    } else if (name === 'PARAMETERS_REPEATED_MEASURE_CORRELATION') {
+      return 'Repeated Measure Correlation';
+    } else if (name === 'PARAMETERS_INTRA_CLASS_CORRELATION') {
+      return 'Intra Class Correlation';
+    } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE') {
+      return 'Gaussian Covariate Variance';
+    } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION') {
+      return 'Gaussian Covariate Correlation';
+    } else if (name === 'PARAMETERS_SCALE_FACTOR_VARIANCE') {
+      return 'Scale Factor Variance';
+    } else if (name === 'CALCULATE') {
+      return 'Calculate';
+    }
   }
 }
