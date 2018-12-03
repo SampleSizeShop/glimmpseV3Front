@@ -73,4 +73,21 @@
       </tbody>
     </table>
   </div>
+
+  <div class="row">
+    <div class="btn-group-sm" data-toggle="buttons">
+      <label aria-pressed="true"
+             class="btn btn-secondary"
+             [class.active]="isHypothesisBeta"
+             id="hypothesisbetabtn">
+        <input type="radio" id="hypothesisbetaradio" (click)="selectHypothesisBeta()"> Hypothesis Beta
+      </label>
+      <label aria-pressed="true"
+             class="btn btn-secondary"
+             [class.active]="isFullBeta"
+             id="fullbetabtn">
+        <input type="radio" id="fullbetaradio" (click)="selectFullBeta()"> Full beta
+      </label>
+    </div>
+  </div>
 </div>

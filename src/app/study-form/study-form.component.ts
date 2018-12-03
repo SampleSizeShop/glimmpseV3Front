@@ -58,6 +58,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _varianceScaleFactorsSubscription: Subscription;
   private _powerCurveSubscription: Subscription;
   private _navDirectionSubsctiption: Subscription;
+  private _defineFullBetaSubscription: Subscription;
   private _direction: string;
 
   private _validSubscription: Subscription;
@@ -182,10 +183,10 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.parameters = [];
         if (!isNullOrUndefined(nextMeasure)) {
           this.parameters.push(nextMeasure.name);
-          next =this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV;
+          next = this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV;
         } else {
           // first repeated measure correlation
-          next =this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV + 1;
+          next = this.stages.PARAMETERS_REPEATED_MEASURE_ST_DEV + 1;
           this.parameters.push(this.study.isuFactors.firstRepeatedMeasure.name);
         }
       } else if (current === this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION) {
@@ -680,6 +681,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._navDirectionSubsctiption = this.study_service.navigationDirection$.subscribe(
       direction => {
         this._direction = direction;
+      }
+    );
+
+    this._defineFullBetaSubscription = this.study_service.defineFullBeta$.subscribe(
+      fullbeta => {
+        this.study.define_full_beta = fullbeta;
       }
     );
   }

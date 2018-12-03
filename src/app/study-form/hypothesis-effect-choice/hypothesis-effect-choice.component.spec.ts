@@ -143,10 +143,10 @@ describe('HypothesisEffectChoiceComponent', () => {
     component.variables.push(A, B);
     component.determinePossibleEffects();
 
-    expect(component.possibleEffects[0].nature).toEqual('Between');
-    expect(component.possibleEffects[1].nature).toEqual('Between');
-    expect(component.possibleEffects[2].nature).toEqual('Within');
-    expect(component.possibleEffects[3].nature).toEqual('Between x Within');
+    expect(component.possibleEffects[3].nature).toEqual('Between');
+    expect(component.possibleEffects[2].nature).toEqual('Between');
+    expect(component.possibleEffects[1].nature).toEqual('Within');
+    expect(component.possibleEffects[0].nature).toEqual('Between x Within');
   });
 
   it('Should sort correctly. (3 Between)', () => {
@@ -156,14 +156,14 @@ describe('HypothesisEffectChoiceComponent', () => {
     component.variables.push(A, B, C);
     component.determinePossibleEffects();
 
-    expect(component.possibleEffects[0].nature).toEqual('Between');
-    expect(component.possibleEffects[1].nature).toEqual('Between');
-    expect(component.possibleEffects[2].nature).toEqual('Between');
-    expect(component.possibleEffects[3].nature).toEqual('Between');
-    expect(component.possibleEffects[4].nature).toEqual('Between x Between');
-    expect(component.possibleEffects[5].nature).toEqual('Between x Between');
-    expect(component.possibleEffects[6].nature).toEqual('Between x Between');
-    expect(component.possibleEffects[7].nature).toEqual('Between x Between x Between');
+    expect(component.possibleEffects[7].nature).toEqual('Between');
+    expect(component.possibleEffects[6].nature).toEqual('Between');
+    expect(component.possibleEffects[5].nature).toEqual('Between');
+    expect(component.possibleEffects[4].nature).toEqual('Between');
+    expect(component.possibleEffects[3].nature).toEqual('Between x Between');
+    expect(component.possibleEffects[2].nature).toEqual('Between x Between');
+    expect(component.possibleEffects[1].nature).toEqual('Between x Between');
+    expect(component.possibleEffects[0].nature).toEqual('Between x Between x Between');
   });
 
   it('Should sort correctly. (3 Within)', () => {
@@ -173,14 +173,14 @@ describe('HypothesisEffectChoiceComponent', () => {
     component.variables.push(A, B, C);
     component.determinePossibleEffects();
 
-    expect(component.possibleEffects[0].nature).toEqual('Between');
-    expect(component.possibleEffects[1].nature).toEqual('Within');
-    expect(component.possibleEffects[2].nature).toEqual('Within');
-    expect(component.possibleEffects[3].nature).toEqual('Within');
-    expect(component.possibleEffects[4].nature).toEqual('Within x Within');
-    expect(component.possibleEffects[5].nature).toEqual('Within x Within');
-    expect(component.possibleEffects[6].nature).toEqual('Within x Within');
-    expect(component.possibleEffects[7].nature).toEqual('Within x Within x Within');
+    expect(component.possibleEffects[7].nature).toEqual('Between');
+    expect(component.possibleEffects[6].nature).toEqual('Within');
+    expect(component.possibleEffects[5].nature).toEqual('Within');
+    expect(component.possibleEffects[4].nature).toEqual('Within');
+    expect(component.possibleEffects[3].nature).toEqual('Within x Within');
+    expect(component.possibleEffects[2].nature).toEqual('Within x Within');
+    expect(component.possibleEffects[1].nature).toEqual('Within x Within');
+    expect(component.possibleEffects[0].nature).toEqual('Within x Within x Within');
   });
 
   it('Should sort correctly. (2 Between 2 Within)', () => {
@@ -192,25 +192,25 @@ describe('HypothesisEffectChoiceComponent', () => {
     component.determinePossibleEffects();
 
     expect(component.possibleEffects.length).toEqual(16);
-    expect(component.possibleEffects[0].nature).toEqual('Between');
-    expect(component.possibleEffects[1].nature).toEqual('Between');
-    expect(component.possibleEffects[2].nature).toEqual('Between');
-    expect(component.possibleEffects[3].nature).toEqual('Between x Between');
-    expect(component.possibleEffects[4].nature).toEqual('Within');
-    expect(component.possibleEffects[5].nature).toEqual('Within');
-    expect(component.possibleEffects[6].nature).toEqual('Within x Within');
+    expect(component.possibleEffects[15].nature).toEqual('Between');
+    expect(component.possibleEffects[14].nature).toEqual('Between');
+    expect(component.possibleEffects[13].nature).toEqual('Between');
+    expect(component.possibleEffects[12].nature).toEqual('Between x Between');
+    expect(component.possibleEffects[11].nature).toEqual('Within');
+    expect(component.possibleEffects[10].nature).toEqual('Within');
+    expect(component.possibleEffects[9].nature).toEqual('Within x Within');
 
-    expect(component.possibleEffects[7].nature).toEqual('Between x Within');
     expect(component.possibleEffects[8].nature).toEqual('Between x Within');
-    expect(component.possibleEffects[9].nature).toEqual('Between x Within');
-    expect(component.possibleEffects[10].nature).toEqual('Between x Within');
+    expect(component.possibleEffects[7].nature).toEqual('Between x Within');
+    expect(component.possibleEffects[6].nature).toEqual('Between x Within');
+    expect(component.possibleEffects[5].nature).toEqual('Between x Within');
 
-    expect(component.possibleEffects[11].nature).toEqual('Between x Between x Within');
-    expect(component.possibleEffects[12].nature).toEqual('Between x Between x Within');
-    expect(component.possibleEffects[13].nature).toEqual('Between x Within x Within');
-    expect(component.possibleEffects[14].nature).toEqual('Between x Within x Within');
+    expect(component.possibleEffects[4].nature).toEqual('Between x Between x Within');
+    expect(component.possibleEffects[3].nature).toEqual('Between x Between x Within');
+    expect(component.possibleEffects[2].nature).toEqual('Between x Within x Within');
+    expect(component.possibleEffects[1].nature).toEqual('Between x Within x Within');
 
-    expect(component.possibleEffects[15].nature).toEqual('Between x Between x Within x Within');
+    expect(component.possibleEffects[0].nature).toEqual('Between x Between x Within x Within');
   });
 
   it('Should sort correctly. (3 Between 1 Within)', () => {
@@ -222,25 +222,25 @@ describe('HypothesisEffectChoiceComponent', () => {
     component.determinePossibleEffects();
 
     expect(component.possibleEffects.length).toEqual(16);
-    expect(component.possibleEffects[0].nature).toEqual('Between');
-    expect(component.possibleEffects[1].nature).toEqual('Between');
-    expect(component.possibleEffects[2].nature).toEqual('Between');
-    expect(component.possibleEffects[3].nature).toEqual('Between');
-    expect(component.possibleEffects[4].nature).toEqual('Between x Between');
-    expect(component.possibleEffects[5].nature).toEqual('Between x Between');
-    expect(component.possibleEffects[6].nature).toEqual('Between x Between');
-    expect(component.possibleEffects[7].nature).toEqual('Between x Between x Between');
-    expect(component.possibleEffects[8].nature).toEqual('Within');
+    expect(component.possibleEffects[15].nature).toEqual('Between');
+    expect(component.possibleEffects[14].nature).toEqual('Between');
+    expect(component.possibleEffects[13].nature).toEqual('Between');
+    expect(component.possibleEffects[12].nature).toEqual('Between');
+    expect(component.possibleEffects[11].nature).toEqual('Between x Between');
+    expect(component.possibleEffects[10].nature).toEqual('Between x Between');
+    expect(component.possibleEffects[9].nature).toEqual('Between x Between');
+    expect(component.possibleEffects[8].nature).toEqual('Between x Between x Between');
+    expect(component.possibleEffects[7].nature).toEqual('Within');
 
-    expect(component.possibleEffects[9].nature).toEqual('Between x Within');
-    expect(component.possibleEffects[10].nature).toEqual('Between x Within');
-    expect(component.possibleEffects[11].nature).toEqual('Between x Within');
+    expect(component.possibleEffects[6].nature).toEqual('Between x Within');
+    expect(component.possibleEffects[5].nature).toEqual('Between x Within');
+    expect(component.possibleEffects[4].nature).toEqual('Between x Within');
 
-    expect(component.possibleEffects[12].nature).toEqual('Between x Between x Within');
-    expect(component.possibleEffects[13].nature).toEqual('Between x Between x Within');
-    expect(component.possibleEffects[14].nature).toEqual('Between x Between x Within');
+    expect(component.possibleEffects[3].nature).toEqual('Between x Between x Within');
+    expect(component.possibleEffects[2].nature).toEqual('Between x Between x Within');
+    expect(component.possibleEffects[1].nature).toEqual('Between x Between x Within');
 
-    expect(component.possibleEffects[15].nature).toEqual('Between x Between x Between x Within');
+    expect(component.possibleEffects[0].nature).toEqual('Between x Between x Between x Within');
   });
 
   it('Should sort correctly. (1 Between 3 Within)', () => {
@@ -252,24 +252,24 @@ describe('HypothesisEffectChoiceComponent', () => {
     component.determinePossibleEffects();
 
     expect(component.possibleEffects.length).toEqual(16);
-    expect(component.possibleEffects[0].nature).toEqual('Between');
-    expect(component.possibleEffects[1].nature).toEqual('Between');
-    expect(component.possibleEffects[2].nature).toEqual('Within');
-    expect(component.possibleEffects[3].nature).toEqual('Within');
-    expect(component.possibleEffects[4].nature).toEqual('Within');
-    expect(component.possibleEffects[5].nature).toEqual('Within x Within');
-    expect(component.possibleEffects[6].nature).toEqual('Within x Within');
-    expect(component.possibleEffects[7].nature).toEqual('Within x Within');
-    expect(component.possibleEffects[8].nature).toEqual('Within x Within x Within');
+    expect(component.possibleEffects[15].nature).toEqual('Between');
+    expect(component.possibleEffects[14].nature).toEqual('Between');
+    expect(component.possibleEffects[13].nature).toEqual('Within');
+    expect(component.possibleEffects[12].nature).toEqual('Within');
+    expect(component.possibleEffects[11].nature).toEqual('Within');
+    expect(component.possibleEffects[10].nature).toEqual('Within x Within');
+    expect(component.possibleEffects[9].nature).toEqual('Within x Within');
+    expect(component.possibleEffects[8].nature).toEqual('Within x Within');
+    expect(component.possibleEffects[7].nature).toEqual('Within x Within x Within');
 
-    expect(component.possibleEffects[9].nature).toEqual('Between x Within');
-    expect(component.possibleEffects[10].nature).toEqual('Between x Within');
-    expect(component.possibleEffects[11].nature).toEqual('Between x Within');
+    expect(component.possibleEffects[6].nature).toEqual('Between x Within');
+    expect(component.possibleEffects[5].nature).toEqual('Between x Within');
+    expect(component.possibleEffects[4].nature).toEqual('Between x Within');
 
-    expect(component.possibleEffects[12].nature).toEqual('Between x Within x Within');
-    expect(component.possibleEffects[13].nature).toEqual('Between x Within x Within');
-    expect(component.possibleEffects[14].nature).toEqual('Between x Within x Within');
+    expect(component.possibleEffects[3].nature).toEqual('Between x Within x Within');
+    expect(component.possibleEffects[2].nature).toEqual('Between x Within x Within');
+    expect(component.possibleEffects[1].nature).toEqual('Between x Within x Within');
 
-    expect(component.possibleEffects[15].nature).toEqual('Between x Within x Within x Within');
+    expect(component.possibleEffects[0].nature).toEqual('Between x Within x Within x Within');
   });
 });
