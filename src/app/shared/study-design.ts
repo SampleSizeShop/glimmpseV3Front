@@ -24,6 +24,7 @@ export class StudyDesign {
   private _scaleFactor: number;
   private _varianceScaleFactors: number[];
   private _powerCurve: PowerCurve;
+  private _define_full_beta: boolean;
 
   constructor(name?: string,
               guided?: boolean,
@@ -41,6 +42,7 @@ export class StudyDesign {
               powerCurve?: PowerCurve
 ) {
     this.isuFactors = new ISUFactors();
+    this._define_full_beta = false;
   }
 
   get relativeGroupSizes() {
@@ -341,5 +343,13 @@ export class StudyDesign {
 
   set powerCurve(value: PowerCurve) {
     this._powerCurve = value;
+  }
+
+  get define_full_beta(): boolean {
+    return this._define_full_beta;
+  }
+
+  set define_full_beta(value: boolean) {
+    this._define_full_beta = value;
   }
 }
