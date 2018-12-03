@@ -28,11 +28,11 @@ export class OptionalSpecsCiChoiceComponent implements OnInit {
   addConfidenceInterval() {
     this._powerCurve.confidenceInterval = new PowerCurveConfidenceInterval();
     this.study_service.updatePowerCurve(this._powerCurve);
-    this.router.navigate(['design', getStageName(constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS)]);
+    // this.router.navigate(['design', getStageName(constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS)]);
   }
 
   editConfidenceInterval() {
-    this.router.navigate(['design', getStageName(constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS)]);
+    // this.router.navigate(['design', getStageName(constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS)]);
   }
 
   removeConfidenceInterval() {
