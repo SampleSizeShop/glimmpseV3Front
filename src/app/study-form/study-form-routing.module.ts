@@ -62,11 +62,6 @@ const studyFormRoutes: Routes = [
             path: '',
             children: [
             {
-              path: names[constants.STAGES.MODE],
-              component: UserModeComponent,
-              data: {animation: constants.STAGES.MODE}
-            },
-            {
               path: names[constants.STAGES.TARGET_EVENT],
               component: TargetEventComponent,
               data: {animation: constants.STAGES.TARGET_EVENT}

@@ -6,6 +6,7 @@ import {hw2_input, hw2_output} from './test_inputs/homework2_longitudinal';
 import {hw3_input, hw3_output} from './test_inputs/homework3';
 import {hw4_input, hw4_output} from './test_inputs/homework4';
 import {hw5_input, hw5_output} from './test_inputs/homework5';
+import {constants} from "../src/app/shared/constants";
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -13,7 +14,7 @@ describe('Glimmpse v3 automated integration tests', () => {
   beforeEach(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     page = new StudyFormComponentPage();
-    page.navigateTo('/design/MODE');
+    page.navigateTo('/design/TARGET_EVENT');
   });
 
   it('Should calculate a power of 1 for Grand Mean with only one outcome', async function() {
