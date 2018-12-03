@@ -779,9 +779,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     } else if (name === 'BETWEEN_ISU_SMALLEST_GROUP') {
       return 'What size is your smallest group?';
     } else if (name === 'BETWEEN_ISU_GROUPS') {
-      return 'Groups';
+      return 'Specify the relative sizes of the groups';
     } else if (name === 'GAUSSIAN_COVARIATE') {
-      return 'Gaussian Covariate';
+      return 'Variability Due to the Gaussian Covariate';
     } else if (name === 'HYPOTHESIS_EFFECT_CHOICE') {
       return 'Hypothesis Choice';
     } else if (name === 'HYPOTHESIS_BETWEEN') {
