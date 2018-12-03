@@ -212,65 +212,6 @@ const studyFormRoutes: Routes = [
               data: {animation: constants.STAGES.PARAMETERS_SCALE_FACTOR_VARIANCE}
             },
             {
-              path: names[constants.STAGES.OPTIONAL_SPECS_POWER_METHOD],
-              component: OptionalSpecsPowerMethodComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_POWER_METHOD},
-              canActivate: [ GaussianCovariateGuard ]
-            },
-            {
-              path: names[constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_CHOICE],
-              component: OptionalSpecsPowerCurveChoiceComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_CHOICE}
-            },
-            {
-              path: names[constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_AXES],
-              component: OptionalSpecsPowerCurveAxesComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_AXES},
-              canActivate: [ PowerCurveGuard ]
-            },
-            {
-              path: names[constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_DATA_SERIES],
-              component: OptionalSpecsPowerCurveDataSeriesComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_DATA_SERIES},
-              canActivate: [ PowerCurveGuard ]
-            },
-            {
-              path: names[constants.STAGES.OPTIONAL_SPECS_CI_CHOICE],
-              component: OptionalSpecsCiChoiceComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_CHOICE},
-              canActivate: [ PowerCurveGuard ]
-            },
-            {
-              path: names[constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS],
-              component: OptionalSpecsCiAssumptionsComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_ASSUMPTIONS},
-              canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
-            },
-            {
-              path: names[constants.STAGES.OPTIONAL_SPECS_CI_LOWER_TAIL],
-              component: OptionalSpecsCiLowerTailComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_LOWER_TAIL},
-              canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
-            },
-            {
-              path: names[constants.STAGES.OPTIONAL_SPECS_CI_UPPER_TAIL],
-              component: OptionalSpecsCiUpperTailComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_UPPER_TAIL},
-              canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
-            },
-            {
-              path: names[constants.STAGES.OPTIONAL_SPECS_CI_BETA_SAMPLE_SIZE],
-              component: OptionalSpecsCiBetaSampleSizeComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_BETA_SAMPLE_SIZE},
-              canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
-            },
-            {
-              path: names[constants.STAGES.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK],
-              component: OptionalSpecsCiBetaDesignMatrixRankComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK},
-              canActivate: [ PowerCurveGuard, ConfidenceIntervalGuard ]
-            },
-            {
               path: names[constants.STAGES.CALCULATE],
               component: CalculateComponent,
               data: {animation: constants.STAGES.CALCULATE}

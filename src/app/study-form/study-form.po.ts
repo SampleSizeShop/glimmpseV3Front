@@ -164,10 +164,6 @@ export class StudyFormComponentPage {
       this.parameters_gaussian_covariate_correlation.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.PARAMETERS_SCALE_FACTOR_VARIANCE))  {
       this.parameters_scale_factor_variance.fromJSON(input);
-    } else if ( this.isStage(url, constants.STAGES.OPTIONAL_SPECS_POWER_METHOD))  {
-      this.optional_specs_power_method.fromJSON(input);
-    } else if ( this.isStage(url, constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_CHOICE))  {
-      this.optional_specs_power_curve_choice.fromJSON(input);
     } else {
       ret = false;
     }

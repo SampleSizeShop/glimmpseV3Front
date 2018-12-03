@@ -199,12 +199,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.parameters = [];
           next = this.stages.PARAMETERS_INTRA_CLASS_CORRELATION;
         }
-      } else if (current === this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE) {
-        next = this.stages.CALCULATE;
-      } else if (current === this.stages.OPTIONAL_SPECS_CI_CHOICE) {
-        next = this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE;
-      } else if (current === this.stages.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK) {
-        next = this.stages.OPTIONAL_SPECS_CI_CHOICE;
       } else {
         next = current + 1;
       }
@@ -311,8 +305,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         previous = this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION;
         this.parameters = [];
         this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
-      } else if (current === this.stages.CALCULATE) {
-        previous = this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE;
       } else {
         previous = current - 1;
       }
@@ -338,7 +330,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   ngOnInit() {
     this._stages = constants.STAGES;
-    this._noStages = Object.keys(this._stages).length;
+    this._noStages = Object.keys(this._stages).length - 1;
     this.hasNext = true;
     this.hasBack = false;
   }
