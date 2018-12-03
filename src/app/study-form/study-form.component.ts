@@ -773,11 +773,11 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     } else if (name === 'WITHIN_ISU_REPEATED_MEASURES') {
       return 'Repeated Measures';
     } else if (name === 'WITHIN_ISU_CLUSTERS') {
-      return 'Clustering';
+      return 'Are your outcomes measured in a cluster?';
     } else if (name === 'BETWEEN_ISU_PREDICTORS') {
       return 'Predictors';
     } else if (name === 'BETWEEN_ISU_SMALLEST_GROUP') {
-      return 'Smallest Group Size';
+      return 'What size is your smallest group?';
     } else if (name === 'BETWEEN_ISU_GROUPS') {
       return 'Groups';
     } else if (name === 'GAUSSIAN_COVARIATE') {
