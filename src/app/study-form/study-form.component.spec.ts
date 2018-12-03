@@ -48,9 +48,6 @@ import {testEnvironment} from '../../environments/environment.test';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CustomContrastMatrixComponent} from './custom-contrast-matrix/custom-contrast-matrix.component';
 import {MatIconModule, MatTooltip} from '@angular/material';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CustomContrastMatrixComponent} from './custom-contrast-matrix/custom-contrast-matrix.component';
-import {MatIconModule, MatTooltip} from '@angular/material';
 import {Angular2CsvModule} from 'angular2-csv';
 
 describe('StudyFormComponent', () => {
