@@ -2,8 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 const routes: Routes = [
-  { path: '',   redirectTo: '/design/MODE', pathMatch: 'full' },
-  { path: '**',   redirectTo: '/design/MODE', pathMatch: 'full' }
+  { path: '',   redirectTo: '/design/TARGET_EVENT', pathMatch: 'full' },
+  { path: '**',   redirectTo: '/design/TARGET_EVENT', pathMatch: 'full' }
 ];
 
 @NgModule({
