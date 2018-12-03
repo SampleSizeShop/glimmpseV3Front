@@ -18,8 +18,10 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   private _possibleEffects: HypothesisEffect[];
   private _selected: HypothesisEffect;
   private _showInfo: boolean;
+  private _defineFullBeta: boolean;
 
   private _hypothesisEffectSubscription: Subscription;
+  private _defineFullBetaSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
 
   constructor(private _fb: FormBuilder, private _study_service: StudyService) {
@@ -30,6 +32,9 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     } );
     this.hypothesisEffectSubscription = this._study_service.hypothesisEffect$.subscribe( effect => {
       this._selected = effect;
+    });
+    this._defineFullBetaSubscription = this._study_service.defineFullBeta$.subscribe( fullBeta => {
+      this._defineFullBeta = fullBeta;
     });
     this.showInfo = false;
   }
@@ -216,7 +221,7 @@ export class HypothesisEffectChoiceComponent implements OnInit {
         }
       }
     }
-    return ret;
+    return -1 * ret;
   }
 
   compareVariables(a: ISUFactor, b: ISUFactor) {
@@ -233,6 +238,22 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     }
 
     return ret;
+  }
+
+  get isHypothesisBeta(): boolean {
+    return !this.defineFullBeta;
+  }
+
+  get isFullBeta(): boolean {
+    return this.defineFullBeta;
+  }
+
+  selectHypothesisBeta() {
+    this.study_service.updateDefineFullBeta(false);
+  }
+
+  selectFullBeta() {
+    this.study_service.updateDefineFullBeta(true);
   }
 
   get possibleEffects(): HypothesisEffect[] {
@@ -273,6 +294,14 @@ export class HypothesisEffectChoiceComponent implements OnInit {
 
   set variables(value: ISUFactor[]) {
     this._variables = value;
+  }
+
+  get defineFullBeta(): boolean {
+    return this._defineFullBeta;
+  }
+
+  set defineFullBeta(value: boolean) {
+    this._defineFullBeta = value;
   }
 }
 

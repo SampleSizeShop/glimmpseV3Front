@@ -120,7 +120,7 @@ export class StudyDesign {
     const tableIds = this._getMarginalMeansTableIds();
     tableIds.forEach( tableId => {
       const table = new MarginalMeansTable(tableId);
-      table.populateTable(this.isuFactors);
+      table.populateTable(this.isuFactors, this._define_full_beta);
       let pushed = false;
       this.isuFactors.marginalMeans.forEach( existingTable => {
         if (existingTable.compareSizeAndDimensions(table)) {
