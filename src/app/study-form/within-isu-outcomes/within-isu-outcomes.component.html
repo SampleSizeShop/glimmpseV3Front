@@ -8,7 +8,8 @@
   <div class="row">
     <div class="col">
       <p>
-        Enter the outcome variables in the list below. For example, in a study investigating cholesterol-lowering medication, the outcome variable could be HDL, LDL, and total cholesterol. <br /><br />
+        Enter the names of your outcome variables one at a time in the underlined space below.
+        For example, in a study investigating cholesterol-lowering medication, the outcome variables could be HDL, LDL, and total cholesterol. <br /><br />
 
         Note that repeated measurement information will be addressed on the next screen.
       </p>
@@ -53,17 +54,20 @@
     </div>
   </div>
   <br>
-  <small *ngIf="!firstOutcome()">Outcomes:</small>
-  <div *ngFor="let outcome of outcomes$ | async" id="outcomelist">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col col-md-auto">
-          <i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">remove</i>
-        </div>
-        <div class="col">
-          {{outcome.name}}
-        </div>
-      </div>
-    </div>
-  </div>
+  <table class="table">
+    <thead>
+      <th>Outcome</th>
+      <th>remove</th>
+    </thead>
+    <tbody>
+      <tr *ngIf="firstOutcome()">
+        <td> You must enter at least one outcome</td>
+        <td></td>
+      </tr>
+      <tr *ngFor="let outcome of outcomes$ | async; let i = index; " id="outcomelist" [class]="rowStyle(i)">
+        <td>{{outcome.name}}</td>
+        <td><i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">remove</i></td>
+      </tr>
+    </tbody>
+  </table>
 </form>

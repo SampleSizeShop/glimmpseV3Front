@@ -222,4 +222,12 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   set directionCommand(value: string) {
     this._directionCommand = value;
   }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
+  }
 }

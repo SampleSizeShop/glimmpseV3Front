@@ -1,10 +1,12 @@
 <form [formGroup]="typeOneErrorRateForm" novalidate>
-  <h5>Type I Error Rates</h5>
+  <h6>Type I Error Rates</h6>
   <fieldset>
     <div>
       <div id="typeoneerrordesc">
         <p>
-          A Type I error occurs when a scientist declares a difference when none is actually present. The Type I error rate is the probability of a Type I error occurring, and is often referred to as α (alpha). Type I error rates range from 0 to 1. The most commonly used values are 0.01, 0.05, and 0.1.
+          A Type I error occurs when a scientist declares a difference when none is present in the population.
+          The Type I error rate is the probability of that kind of error, a false positive, and is often referred to as &alpha; (alpha).
+          A Type I error rate can range from 0 to 1. Although the most commonly used value is 0.05, we recommend 0.01.
         </p>
       </div>
       <div class="form-group" id="typeoneerrorinput">
