@@ -24,6 +24,7 @@ export class StudyDesign {
   private _scaleFactor: number;
   private _varianceScaleFactors: number[];
   private _powerCurve: PowerCurve;
+  private _define_full_beta: boolean;
 
   constructor(name?: string,
               guided?: boolean,
@@ -41,6 +42,7 @@ export class StudyDesign {
               powerCurve?: PowerCurve
 ) {
     this.isuFactors = new ISUFactors();
+    this._define_full_beta = false;
   }
 
   get relativeGroupSizes() {
@@ -104,8 +106,9 @@ export class StudyDesign {
     } else {
       const interceptId = new CombinationId('Intercept', 'Intercept' ,  'Intercept');
       const intercept = new ISUFactorCombination([interceptId]);
-      console.log('Generating intercept')
+      // console.log('Generating intercept')
       const interceptTable = new RelativeGroupSizeTable(intercept, [[intercept]]);
+      interceptTable.dimensions = [interceptId];
       tables.push(interceptTable);
     }
     return tables;
@@ -117,7 +120,7 @@ export class StudyDesign {
     const tableIds = this._getMarginalMeansTableIds();
     tableIds.forEach( tableId => {
       const table = new MarginalMeansTable(tableId);
-      table.populateTable(this.isuFactors);
+      table.populateTable(this.isuFactors, this._define_full_beta);
       let pushed = false;
       this.isuFactors.marginalMeans.forEach( existingTable => {
         if (existingTable.compareSizeAndDimensions(table)) {
@@ -180,7 +183,7 @@ export class StudyDesign {
         if (groups.length !== combinations.length) {
           this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables();
         }
-    } else if (isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes) || this.isuFactors.betweenIsuRelativeGroupSizes.length < 1) {
+    } else if (isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes) || this.isuFactors.predictors.length < 1) {
       this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables()
     }
 
@@ -340,5 +343,13 @@ export class StudyDesign {
 
   set powerCurve(value: PowerCurve) {
     this._powerCurve = value;
+  }
+
+  get define_full_beta(): boolean {
+    return this._define_full_beta;
+  }
+
+  set define_full_beta(value: boolean) {
+    this._define_full_beta = value;
   }
 }

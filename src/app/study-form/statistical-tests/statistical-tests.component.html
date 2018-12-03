@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <h5>Choose your statistical tests:</h5>
+      <p>Please choose one or more statistical tests. If you are unsure which to pick, we reccommend a Hotelling Lawley Trace as a sensible default.</p>
     </div>
   </div>
   <div class="row">
@@ -16,7 +16,7 @@
         <div class="btn-group-vertical btn-block" data-toggle="buttons">
           <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(statisticalTests.HOTELLING_LAWLEY)">
             <input formControlName="0" type="checkbox" (click)="selectTest(statisticalTests.HOTELLING_LAWLEY)">
-            {{statisticalTests.HOTELLING_LAWLEY}}
+            {{statisticalTests.HOTELLING_LAWLEY}} (recommended)
           </label>
           <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" id="pb" [class.active]="isSelected(statisticalTests.PILLAI_BARTLET)">
             <input formControlName="1" type="checkbox" (click)="selectTest(statisticalTests.PILLAI_BARTLET)">{{statisticalTests.PILLAI_BARTLET}}
@@ -26,7 +26,7 @@
           </label>
         </div>
 
-        <div>Univariate:</div>
+        <div>Univariate approach to repeated measures:</div>
         <div class="btn-group-vertical  btn-block" data-toggle="buttons">
           <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.BOX_CORRECTION)" id="bc">
             <input formControlName="3" type="checkbox" (click)="selectTest(statisticalTests.BOX_CORRECTION)">{{statisticalTests.BOX_CORRECTION}}

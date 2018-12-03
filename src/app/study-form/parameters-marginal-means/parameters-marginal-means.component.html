@@ -3,10 +3,17 @@
     <div class="container-fluid">
       <div *ngIf="!grandMean">
         <h5>Mean</h5>
+        <p *ngIf="hasMultipleDimensions()">
+          The matrix below shows the mean values for outcome <b>{{table.name}}</b> within each group in the study.
+          Each group is represented by a row in the matrix, and each repeated measure dimension is represented by a column.</p>
         <p>
-          The table below shows the mean values for outcome <b>{{table.name}}</b> within each group in the study. The groups are listed along the left-hand side of the table, and the repeated measure dimensions are listed across the top. <br /><br />
-
-          Enter the mean values you expect to observe for outcome <b>{{table.name}}</b> within each group. The table should contain at least one value that is non-zero. Also, at least two groups should have means which differ by a scientifically meaningful amount.
+        <p *ngIf="!hasMultipleDimensions()">
+          The matrix below shows the mean values for outcome <b>{{table.name}}</b> within each group in the study.
+          Each group is represented by a row in the matrix.</p>
+        <p>
+          Enter the mean values you expect to observe for outcome <b>{{table.name}}</b> within each group.
+          The table should contain at least one value that is non-zero.
+          Also, at least two groups should have means which differ by a scientifically meaningful amount.
         </p>
       </div>
       <h5 *ngIf="grandMean">What is the mean value for outcome {{table.name}}?</h5>

@@ -14,11 +14,24 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     super(tableId, table);
   }
 
-  populateTable(factors: ISUFactors) {
+  populateTable(factors: ISUFactors, define_full_beta: boolean) {
     this.table = [];
-    const colIds = this.getColumnIds(factors);
-    if (factors.predictorsInHypothesis.length > 0) {
-      this.getRows(factors, colIds);
+    let predictors;
+    let repeatedMeasures;
+    if (define_full_beta) {
+      predictors = factors.predictors;
+      repeatedMeasures = factors.repeatedMeasures;
+    } else {
+      predictors = factors.predictorsInHypothesis;
+      repeatedMeasures = factors.repeatedMeasuresInHypothesis;
+    }
+
+    const colIds = factors.generateCombinations(repeatedMeasures)
+    if (predictors.length > 0) {
+      const rowsIds = factors.generateCombinations(predictors);
+      rowsIds.forEach( rowId => {
+        this.table.push(this.getRow(rowId.id, colIds));
+      });
     } else {
       this.table.push(this.getRow([new CombinationId('', constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR, '', 0)], colIds));
     }
@@ -46,7 +59,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
         label = label + ' ' + factor.factorName + ' : ' + factor.value;
       }
     });
-    return label;
+    return label.trim();
   }
 
   getColLabel(element: ISUFactorCombination) {
@@ -56,14 +69,23 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
         label = label + factor.factorName + ' : ' + factor.value;
       }
     });
-    return label;
+    return label.trim();
   }
 
   getCellLabel(element: ISUFactorCombination) {
     let label = '';
-    label = this.getRowLabel(element);
-    label = label + ', ' + this.getColLabel(element);
-    return label;
+    const row = this.getRowLabel(element);
+    const col = this.getColLabel(element);
+    if (row === ':' && col === '') {
+      label = this.name;
+    } else if (row === ':') {
+      label = col;
+    } else if (row !== ':' && col === '') {
+      label =  row
+    } else {
+      label = row + ', ' + col;
+    }
+    return label
   }
 
   compareSizeAndDimensions(other: MarginalMeansTable) {
@@ -72,11 +94,6 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     } else {
       return false;
     }
-  }
-
-  private getColumnIds(factors: ISUFactors) {
-    const cols = factors.generateCombinations(factors.repeatedMeasuresInHypothesis)
-    return cols;
   }
 
   private getRow(rowId: Array<CombinationId>, colIds: Array<ISUFactorCombination>): Array<ISUFactorCombination> {
@@ -91,13 +108,6 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
       row.push(new ISUFactorCombination(id, 1));
     }
     return row;
-  }
-
-  private getRows(factors: ISUFactors, colIds: Array<ISUFactorCombination>) {
-    const rowsIds = factors.generateCombinations(factors.predictorsInHypothesis);
-    rowsIds.forEach( rowId => {
-      this.table.push(this.getRow(rowId.id, colIds));
-    });
   }
 
   get size() {

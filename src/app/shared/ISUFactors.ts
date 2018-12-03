@@ -119,10 +119,26 @@ export class ISUFactors {
     return measure;
   }
 
+  get firstRepeatedMeasureInHypothesis(): RepeatedMeasure {
+    let measure: RepeatedMeasure = null;
+    if (!isNullOrUndefined(this.repeatedMeasuresInHypothesis)) {
+      measure = this.repeatedMeasuresInHypothesis[0];
+    }
+    return measure;
+  }
+
   get lastRepeatedMeasure(): RepeatedMeasure {
     let measure: RepeatedMeasure = null;
     if (!isNullOrUndefined(this.repeatedMeasures)) {
       measure = this.repeatedMeasures[this.repeatedMeasures.length - 1 ];
+    }
+    return measure;
+  }
+
+  get lastRepeatedMeasureInHypothesis(): RepeatedMeasure {
+    let measure: RepeatedMeasure = null;
+    if (!isNullOrUndefined(this.repeatedMeasuresInHypothesis)) {
+      measure = this.repeatedMeasuresInHypothesis[this.repeatedMeasuresInHypothesis.length - 1 ];
     }
     return measure;
   }
@@ -140,6 +156,19 @@ export class ISUFactors {
     return measure
   }
 
+  getNextRepeatedMeasureInHypothesis(name: string): RepeatedMeasure {
+    let measure = this.repeatedMeasuresInHypothesis.find(
+      nextMeasure => nextMeasure.name === name
+    );
+    const nextIndex = this.repeatedMeasuresInHypothesis.indexOf(measure) + 1;
+    if (nextIndex < this.repeatedMeasuresInHypothesis.length) {
+      measure = this.repeatedMeasuresInHypothesis[nextIndex];
+    } else {
+      measure = null;
+    }
+    return measure
+  }
+
   getPreviousRepeatedMeasure(name: string): RepeatedMeasure {
     let measure = this.repeatedMeasures.find(
       prevMeasure => prevMeasure.name === name
@@ -147,6 +176,19 @@ export class ISUFactors {
     const previousIndex = this.repeatedMeasures.indexOf(measure) - 1;
     if (previousIndex >= 0) {
       measure = this.repeatedMeasures[previousIndex];
+    } else {
+      measure = null;
+    }
+    return measure
+  }
+
+  getPreviousRepeatedMeasureInHypothesis(name: string): RepeatedMeasure {
+    let measure = this.repeatedMeasuresInHypothesis.find(
+      prevMeasure => prevMeasure.name === name
+    );
+    const previousIndex = this.repeatedMeasuresInHypothesis.indexOf(measure) - 1;
+    if (previousIndex >= 0) {
+      measure = this.repeatedMeasuresInHypothesis[previousIndex];
     } else {
       measure = null;
     }
@@ -314,7 +356,7 @@ export class ISUFactors {
         this.orderCombination(combination);
       });
     }
-    return combinations
+    return combinations;
   }
 
   orderCombination(combination: ISUFactorCombination) {

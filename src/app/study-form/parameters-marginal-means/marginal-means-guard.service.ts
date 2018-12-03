@@ -20,8 +20,6 @@ export class MarginalMeansGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.log.debug('MarginalMeans#canActivate called');
-    const st = this.study_service.stage;
-    this.log.debug(st);
     if (
       !isNullOrUndefined(this.isuFactors)
       && !isNullOrUndefined(this.isuFactors.hypothesis)

@@ -4,70 +4,73 @@
   <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate!</button>
 </div>
 <div *ngIf="hasResults">
-  <div *ngFor="let result of resultString.results">
+  <button (click)="downloadResult()">Download result</button>
+  <a id="downloadCsv" [attr.href]="downloadData" download="result.csv" hidden>Download result</a>
+  <table class="table">
     <tr>
-      <td><h6>{{result.test}}</h6></td>
-      <td><h6 [ngStyle]="{'color': hasWarning(result) ? 'red': 'green' }">{{getOutput(result)}}</h6></td>
+      <th>Power</th>
+      <th>Total Sample Size</th>
+      <th>Means Scale Factor</th>
+      <th>Variability Scale Factor</th>
+      <th>Test</th>
+      <th>Type I Error Rate</th>
     </tr>
-  </div>
-  <table>
-    <tr>
-      <td><h6>es X</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.essence_design_matrix)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>rep n</h6></td>
-      <td>{{resultString.model.repeated_rows_in_design_matrix}}</td>
-    </tr>
-    <tr>
-      <td><h6>Hypothesis Beta</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.hypothesis_beta)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>C</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.c_matrix)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>U</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.u_matrix)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>Sigma Star</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.sigma_star)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>Theta zero</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.theta_zero)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>Alpha</h6></td>
-      <td>{{resultString.model.alpha}}</td>
-    </tr>
-    <tr>
-      <td><h6>total N</h6></td>
-      <td>{{resultString.model.total_n}}</td>
-    </tr>
-    <tr>
-      <td><h6>Theta</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.theta)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>M</h6></td>
-      <td><div [mathJaxExpr]="toTex(resultString.model.m)"></div></td>
-    </tr>
-    <tr>
-      <td><h6>NuE</h6></td>
-      <td>{{resultString.model.nu_e}}</td>
-    </tr>
-    <tr>
-      <td><h6>hypothesis sums squares</h6></td>
-      <td>{{resultString.model.hypothesis_sum_square}}</td>
-    </tr>
-    <tr>
-      <td><h6>Error sum squares</h6></td>
-      <td>{{resultString.model.error_sum_square}}</td>
+    <tr *ngFor="let result of resultForDisplay; index as i" (click)="showDetail(getOutput(result['result']), i)" [class] = "rowStyle(i)">
+      <td [ngStyle]="{'color': hasWarning(result['result']) ? 'red': 'green' }">{{getOutput(result['result'])}}</td>
+      <td>{{ result['smallestGroupSize'] }}</td>
+      <td>{{ result['scaleFactor'] }}</td>
+      <td>{{ result['variability_scale_factor'] }}</td>
+      <td>{{ result['test_type'] }}</td>
+      <td>{{ result['typeOneErrorRate'] }}</td>
     </tr>
   </table>
+  <div *ngIf="isShowDetail">
+    <h4>Details</h4>
+    <div class="form-group">
+      <label>Power</label>
+      <label class="form-control ng-binding">{{ detailPower }}</label>
+    </div>
+    <div class="form-group">
+      <label>Independent Sampling Unit</label>
+      <div class="well white-box">
+        <ng-container *ngIf="detailCluster; else noClusterContent">
+          <label class="ng-binding">{{ detailClusterLevels[0]['levelName'] }}</label>
+          <ul *ngIf="detailClusterLevels.length > 0">
+            <li *ngFor="let line of detailClusterOverview" class="ng-binding">{{ line }}</li>
+          </ul>
+        </ng-container>
+        <ng-template #noClusterContent>
+          <label class="ng-binding">participant</label>
+        </ng-template>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Sample Size Details</label>
+      <table class="table">
+        <ng-container *ngIf="detailPredictor.length > 0; else noPredictorContent">
+          <tr>
+            <th *ngFor="let predictorObject of detailPredictor;">{{predictorObject['name']}}</th>
+            <th> {{ " Per Group Sample Size (" + detailClusterLevels[0]['levelName'] + ")" }} </th>
+          </tr>
+          <tr *ngFor="let combination of detailPredictorCombination; let i = index">
+            <td *ngFor="let groupName of combination;"> {{groupName}}</td>
+            <td> {{ studyDesign['_isuFactors']['smallestGroupSize'] * (i+1) }} </td>
+          </tr>
+          <tr>
+            <td [attr.colspan]="detailPredictor.length"> Total Sample Size </td>
+            <td> {{ studyDesign['_isuFactors']['smallestGroupSize'] * (1+detailPredictorCombination.length)*detailPredictorCombination.length/2 }} </td>
+          </tr>
+        </ng-container>
+        <ng-template #noPredictorContent>
+          <tr>
+            <td>
+              Total Sample Size: {{ studyDesign['_isuFactors']['smallestGroupSize'] }}
+            </td>
+          </tr>
+        </ng-template>
+      </table>
+    </div>
+  </div>
   <div id="results" [hidden]="!e2eTest">{{resultString | json}}</div>
 </div>
 <div id="reviewDataModel" [hidden]="!e2eTest">{{outputString}}</div>

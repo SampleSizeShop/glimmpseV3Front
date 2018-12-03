@@ -13,16 +13,12 @@ import {Predictor} from '../shared/Predictor';
 import {ISUFactors} from '../shared/ISUFactors';
 import {PowerCurve} from '../shared/PowerCurve';
 import {StudyDesign} from '../shared/study-design';
-import {of} from 'rxjs';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class StudyService {
-  private _stage: number;
   private _next: string;
   private _stages;
-
-  private _stageSource = new BehaviorSubject<number>(0);
-  private _stage$ = this._stageSource.asObservable();
 
   private _modeSelectedSource = new Subject<boolean>();
   private _modeSelected$ = this._modeSelectedSource.asObservable();
@@ -89,6 +85,9 @@ export class StudyService {
 
   private _navigationDirectionSource = new Subject<string>();
   private _navigationDirection$ = this.navigationDirectionSource.asObservable();
+
+  private _defineFullBetaSource = new BehaviorSubject<boolean>(false);
+  private _defineFullBeta$ = this._defineFullBetaSource.asObservable();
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -176,13 +175,12 @@ export class StudyService {
     this.navigationDirectionSource.next(direction);
   }
 
-  constructor(private  http: HttpClient) {
-    this._stages = constants.STAGES;
-    this._stage = 0;
+  updateDefineFullBeta(fullBeta: boolean) {
+    this._defineFullBetaSource.next(fullBeta);
   }
 
-  get stage(): number {
-    return this._stage;
+  constructor(private  http: HttpClient) {
+    this._stages = constants.STAGES;
   }
 
   getStageFromName(name: string): number {
@@ -193,11 +191,6 @@ export class StudyService {
       }
     });
     return stageNo;
-  }
-
-  set stage(value: number) {
-    this._stage = value;
-    this._stageSource.next(value);
   }
 
   get next(): string {
@@ -405,8 +398,12 @@ export class StudyService {
     return this._navigationDirection$;
   }
 
-  get stage$(): any {
-    return this._stage$;
+  get defineFullBeta$(): Observable<boolean> {
+    return this._defineFullBeta$;
+  }
+
+  set defineFullBeta$(value: Observable<boolean>) {
+    this._defineFullBeta$ = value;
   }
 }
 

@@ -93,6 +93,12 @@ export class ISUFactorCombinationTable {
     if (!isNullOrUndefined(this.tableId)) {
       name = this.tableId.name;
     }
+    if (name.charAt(name.length - 1) === ',') {
+      name = name.substring(0, name.length - 1);
+    }
+    if (name.charAt(name.length - 1) === ':') {
+      name = name.substring(0, name.length - 1);
+    }
     return name;
   }
 }
