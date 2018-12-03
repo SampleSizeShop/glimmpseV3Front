@@ -761,7 +761,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   getUserFriendlyComponentName(name: string) {
     if (name === 'TARGET_EVENT') {
-      return 'Target Event';
+      return 'Choose Target Event';
     } else if (name === 'SOLVE_FOR') {
       return 'Solve For';
     } else if (name === 'STATISTICAL_TESTS') {
