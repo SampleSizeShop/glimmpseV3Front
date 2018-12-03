@@ -70,6 +70,9 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnInit() {
     this._afterInit = true;
+    if (this.selectedTests.length === 0) {
+      this.setNextEnabled('INVALID');
+    }
     this.buildForm();
   }
 
