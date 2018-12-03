@@ -122,6 +122,9 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnDestroy() {
     this.targetEventSubscription.unsubscribe();
+    this.solveForSubscription.unsubscribe();
+    this.powerSubscription.unsubscribe();
+    this.ciwidthSubscription.unsubscribe();
   }
 
   selectPower() {

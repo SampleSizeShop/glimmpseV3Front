@@ -55,6 +55,7 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck() {
+    this.checkValidator();
     this.study_service.updateSelectedTests(this.selectedTests);
   }
 
@@ -71,12 +72,18 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
     });
     this.statisticalTestsForm.valueChanges.subscribe(data => this.emptyErrorMessage());
 
-    this.setNextEnabled('INVALID');
+    this.statisticalTestsForm.statusChanges.subscribe(
+      result => {
+        if (!this.formErrors.outcomes) {
+          this.setNextEnabled(result)
+        }
+      }
+    );
   }
 
   setNextEnabled(status: string) {
     const valid = status === 'VALID' ? true : false;
-    // this.navigation_service.updateValid(valid);
+    this.navigation_service.updateValid(valid);
   }
 
   selectTest(value: string) {
