@@ -793,9 +793,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     } else if (name === 'PARAMETERS_MARGINAL_MEANS') {
       return 'Marginal Means';
     } else if (name === 'PARAMETERS_SCALE_FACTOR') {
-      return 'Scale Factor';
+      return 'Please specify the scale factor for the marginal means';
     } else if (name === 'PARAMETERS_STANDARD_DEVIATION') {
-      return 'Standard Deviation';
+      return 'Variability across Outcomes';
     } else if (name === 'PARAMETERS_OUTCOME_CORRELATION') {
       return 'Outcome Correlation';
     } else if (name === 'PARAMETERS_REPEATED_MEASURE_ST_DEV') {

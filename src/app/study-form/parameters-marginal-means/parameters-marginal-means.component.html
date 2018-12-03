@@ -2,7 +2,6 @@
   <form [formGroup]="marginalMeansForm" id="marginalMeansForm">
     <div class="container-fluid">
       <div *ngIf="!grandMean">
-        <h5>Mean</h5>
         <p *ngIf="hasMultipleDimensions()">
           The matrix below shows the mean values for outcome <b>{{table.name}}</b> within each group in the study.
           Each group is represented by a row in the matrix, and each repeated measure dimension is represented by a column.</p>
@@ -12,11 +11,11 @@
           Each group is represented by a row in the matrix.</p>
         <p>
           Enter the mean values you expect to observe for outcome <b>{{table.name}}</b> within each group.
-          The table should contain at least one value that is non-zero.
+          The matrix should contain at least one value that is non-zero.
           Also, at least two groups should have means which differ by a scientifically meaningful amount.
         </p>
       </div>
-      <h5 *ngIf="grandMean">What is the mean value for outcome {{table.name}}?</h5>
+      <p *ngIf="grandMean">What is the mean value for outcome {{table.name}}?</p>
 
       <div class="col col-md-auto">
         <table>
