@@ -767,7 +767,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     } else if (name === 'STATISTICAL_TESTS') {
       return 'Statistical Tests';
     } else if (name === 'TYPE_ONE_ERROR') {
-      return 'Type One Error';
+      return 'Type I Error Rates';
     } else if (name === 'WITHIN_ISU_OUTCOMES') {
       return 'Outcomes';
     } else if (name === 'WITHIN_ISU_REPEATED_MEASURES') {
