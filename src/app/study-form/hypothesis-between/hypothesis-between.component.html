@@ -38,35 +38,34 @@
     <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
          class="row">
       <h6>Click on any of the marginal C matrices below to customise them:</h6>
-        <div *ngFor="let predictor of predictorsIn" class="row">
-          <div class="col  col-md-auto">
-            <h6>{{predictor.name}}:</h6>
-          </div>
-          <div class="col  col-md-auto">
-            <div ngbDropdown class="h-25 d-inline-block">
-              <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{predictor.isuFactorNature}}</button>
-              <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
-                <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
-                <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
-                <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.POLYNOMIAL)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
-                <button class="h-25 dropdown-item" (click)="setCustomPartialCMatrix(predictor)">{{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}</button>
-              </div>
+      <div *ngFor="let predictor of predictorsIn" class="row">
+        <div class="col  col-md-auto">
+          <h6>{{predictor.name}}:</h6>
+        </div>
+        <div class="col  col-md-auto">
+          <div ngbDropdown class="h-25 d-inline-block">
+            <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{predictor.isuFactorNature}}</button>
+            <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
+              <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
+              <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
+              <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.POLYNOMIAL)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+              <button class="h-25 dropdown-item" (click)="setCustomPartialCMatrix(predictor)">{{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}</button>
             </div>
           </div>
-          <div class="col  col-md-auto"
-               *ngIf="predictor.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS && predictor.hasPartialMatrix()"
-               [mathJaxExpr]="predictor.partialMatrix.toTeX()">
-          </div>
         </div>
+        <div class="col  col-md-auto"
+             *ngIf="predictor.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS && predictor.hasPartialMatrix()"
+             [mathJaxExpr]="predictor.partialMatrix.toTeX()">
+        </div>
+      </div>
     </div>
     <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX"
          class="row">
-      <br>
-      <div class="row justify-content-center">
-        <div class="col-md-auto"><h6>Your custom C Matrix:</h6></div>
-        <div class="col-md-auto">
-          <div [mathJaxExpr]="cMatrixTex"></div>
-        </div>
+      <div class="col-md-auto">
+        <h6>Your custom C Matrix:</h6>
+      </div>
+      <div class="col-md-auto">
+        <div [mathJaxExpr]="cMatrixTex"></div>
       </div>
     </div>
 
