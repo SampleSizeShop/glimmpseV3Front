@@ -39,6 +39,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _guided: boolean;
   private _study: StudyDesign;
 
+  private __studyTitleSubscription: Subscription;
   private _modeSubscription: Subscription;
   private _targetEventSubscription: Subscription;
   private _solveForSubscription: Subscription;
@@ -406,6 +407,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._hasBack = value;
   }
 
+  get studyTitleSubscription(): Subscription {
+    return this.__studyTitleSubscription;
+  }
+
+  set studyTitleSubscription(value: Subscription) {
+    this.__studyTitleSubscription = value;
+  }
+
   get modeSubscription(): Subscription {
     return this._modeSubscription;
   }
@@ -559,6 +568,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   subscribeToStudyService() {
+    this.studyTitleSubscription = this.study_service.studyTitle$.subscribe(
+      title => {
+        this.study.name = title;
+      }
+    );
+
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
         this.guided = guided;
@@ -760,7 +775,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   getUserFriendlyComponentName(name: string) {
-    if (name === 'TARGET_EVENT') {
+    if (name === 'STUDY_TITLE') {
+      return 'Study Title'
+    } else if (name === 'TARGET_EVENT') {
       return 'Choose Target Event';
     } else if (name === 'SOLVE_FOR') {
       return 'Solve For';

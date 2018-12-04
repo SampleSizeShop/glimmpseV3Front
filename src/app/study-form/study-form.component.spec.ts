@@ -50,6 +50,7 @@ import {CustomContrastMatrixComponent} from './custom-contrast-matrix/custom-con
 import {MatIconModule, MatTooltip} from '@angular/material';
 import {Angular2CsvModule} from 'angular2-csv';
 import {constants} from "../shared/constants";
+import {StudyTitleComponent} from "./study-title/study-title.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -73,6 +74,7 @@ describe('StudyFormComponent', () => {
       declarations: [
         StudyFormComponent,
         UserModeComponent,
+        StudyTitleComponent,
         TargetEventComponent,
         SolveForComponent,
         StatisticalTestsComponent,
