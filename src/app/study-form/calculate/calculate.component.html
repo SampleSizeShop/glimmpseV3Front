@@ -1,11 +1,12 @@
 <h6>Review your study design and calculate stuff!! :)</h6>
 <br>
-<div class="col-8">
-  <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate!</button>
-</div>
+<button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate!</button>
 <div *ngIf="hasResults">
-  <button (click)="downloadResult()">Download result</button>
+  <br>
+  <button (click)="downloadResult()" class="btn btn-sm">Download result</button>
   <a id="downloadCsv" [attr.href]="downloadData" download="result.csv" hidden>Download result</a>
+  <br>
+  <br>
   <table class="table">
     <tr>
       <th>Power</th>
@@ -16,7 +17,7 @@
       <th>Type I Error Rate</th>
     </tr>
     <tr *ngFor="let result of resultForDisplay; index as i" (click)="showDetail(getOutput(result['result']), i)" [class] = "rowStyle(i)">
-      <td [ngStyle]="{'color': hasWarning(result['result']) ? 'red': 'green' }">{{getOutput(result['result'])}}</td>
+      <td>{{getOutput(result['result'])}}</td>
       <td>{{ result['smallestGroupSize'] }}</td>
       <td>{{ result['scaleFactor'] }}</td>
       <td>{{ result['variability_scale_factor'] }}</td>
