@@ -49,6 +49,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CustomContrastMatrixComponent} from './custom-contrast-matrix/custom-contrast-matrix.component';
 import {MatIconModule, MatTooltip} from '@angular/material';
 import {Angular2CsvModule} from 'angular2-csv';
+import {constants} from "../shared/constants";
+import {StudyTitleComponent} from "./study-title/study-title.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -63,7 +65,7 @@ describe('StudyFormComponent', () => {
         MatIconModule,
         Angular2CsvModule,
         RouterTestingModule.withRoutes([
-          { path: 'design/MODE', component: UserModeComponent}
+          { path: 'design/TARGET_EVENT', component: TargetEventComponent}
         ]),
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -72,6 +74,7 @@ describe('StudyFormComponent', () => {
       declarations: [
         StudyFormComponent,
         UserModeComponent,
+        StudyTitleComponent,
         TargetEventComponent,
         SolveForComponent,
         StatisticalTestsComponent,

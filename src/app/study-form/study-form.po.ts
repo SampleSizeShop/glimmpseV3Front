@@ -114,9 +114,7 @@ export class StudyFormComponentPage {
 
   fillCurrentComponent(url, input): boolean {
     let ret = true
-    if ( this.isStage(url, constants.STAGES.MODE)) {
-      this.user_mode.fromJSON(input);
-    } else if ( this.isStage(url, constants.STAGES.TARGET_EVENT))  {
+    if ( this.isStage(url, constants.STAGES.TARGET_EVENT))  {
       this.target_event.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.SOLVE_FOR))  {
       this.solve_for.fromJSON(input);
@@ -166,10 +164,6 @@ export class StudyFormComponentPage {
       this.parameters_gaussian_covariate_correlation.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.PARAMETERS_SCALE_FACTOR_VARIANCE))  {
       this.parameters_scale_factor_variance.fromJSON(input);
-    } else if ( this.isStage(url, constants.STAGES.OPTIONAL_SPECS_POWER_METHOD))  {
-      this.optional_specs_power_method.fromJSON(input);
-    } else if ( this.isStage(url, constants.STAGES.OPTIONAL_SPECS_POWER_CURVE_CHOICE))  {
-      this.optional_specs_power_curve_choice.fromJSON(input);
     } else {
       ret = false;
     }

@@ -106,7 +106,7 @@ export class StudyDesign {
     } else {
       const interceptId = new CombinationId('Intercept', 'Intercept' ,  'Intercept');
       const intercept = new ISUFactorCombination([interceptId]);
-      console.log('Generating intercept')
+      // console.log('Generating intercept')
       const interceptTable = new RelativeGroupSizeTable(intercept, [[intercept]]);
       interceptTable.dimensions = [interceptId];
       tables.push(interceptTable);

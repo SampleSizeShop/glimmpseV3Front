@@ -11,7 +11,6 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {routeSlideAnimation} from '../animations';
 import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
-import {of} from 'rxjs';
 import {BehaviorSubject} from "rxjs/index";
 
 
@@ -40,6 +39,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _guided: boolean;
   private _study: StudyDesign;
 
+  private __studyTitleSubscription: Subscription;
   private _modeSubscription: Subscription;
   private _targetEventSubscription: Subscription;
   private _solveForSubscription: Subscription;
@@ -199,12 +199,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.parameters = [];
           next = this.stages.PARAMETERS_INTRA_CLASS_CORRELATION;
         }
-      } else if (current === this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE) {
-        next = this.stages.CALCULATE;
-      } else if (current === this.stages.OPTIONAL_SPECS_CI_CHOICE) {
-        next = this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE;
-      } else if (current === this.stages.OPTIONAL_SPECS_CI_BETA_DESIGN_MATRIX_RANK) {
-        next = this.stages.OPTIONAL_SPECS_CI_CHOICE;
       } else {
         next = current + 1;
       }
@@ -311,8 +305,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         previous = this.stages.PARAMETERS_REPEATED_MEASURE_CORRELATION;
         this.parameters = [];
         this.parameters.push(this.study.isuFactors.lastRepeatedMeasure.name);
-      } else if (current === this.stages.CALCULATE) {
-        previous = this.stages.OPTIONAL_SPECS_POWER_CURVE_CHOICE;
       } else {
         previous = current - 1;
       }
@@ -338,7 +330,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   ngOnInit() {
     this._stages = constants.STAGES;
-    this._noStages = Object.keys(this._stages).length;
+    this._noStages = Object.keys(this._stages).length - 1;
     this.hasNext = true;
     this.hasBack = false;
   }
@@ -369,7 +361,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   getCurrentStageName(): string {
-    return this.router.url;
+    const url = this.router.url.split('/');
+    if (url.length > 2) {
+      return this.getUserFriendlyComponentName(url[2]);
+    } else {
+      return this.getUserFriendlyComponentName(url[0]);
+    }
   }
 
   getStage(): number {
@@ -408,6 +405,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   set hasBack(value: boolean) {
     this._hasBack = value;
+  }
+
+  get studyTitleSubscription(): Subscription {
+    return this.__studyTitleSubscription;
+  }
+
+  set studyTitleSubscription(value: Subscription) {
+    this.__studyTitleSubscription = value;
   }
 
   get modeSubscription(): Subscription {
@@ -563,6 +568,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   subscribeToStudyService() {
+    this.studyTitleSubscription = this.study_service.studyTitle$.subscribe(
+      title => {
+        this.study.name = title;
+      }
+    );
+
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
         this.guided = guided;
@@ -761,5 +772,63 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   set navDirection$(value: Observable<any>) {
     this._navDirection$ = value;
+  }
+
+  getUserFriendlyComponentName(name: string) {
+    if (name === 'STUDY_TITLE') {
+      return 'Study Title'
+    } else if (name === 'TARGET_EVENT') {
+      return 'Choose Target Event';
+    } else if (name === 'SOLVE_FOR') {
+      return 'Solve For';
+    } else if (name === 'STATISTICAL_TESTS') {
+      return 'Statistical Tests';
+    } else if (name === 'TYPE_ONE_ERROR') {
+      return 'Type I Error Rates';
+    } else if (name === 'WITHIN_ISU_OUTCOMES') {
+      return 'Outcomes';
+    } else if (name === 'WITHIN_ISU_REPEATED_MEASURES') {
+      return 'Repeated Measures';
+    } else if (name === 'WITHIN_ISU_CLUSTERS') {
+      return 'Are your outcomes measured in a cluster?';
+    } else if (name === 'BETWEEN_ISU_PREDICTORS') {
+      return 'Predictors';
+    } else if (name === 'BETWEEN_ISU_SMALLEST_GROUP') {
+      return 'What size is your smallest group?';
+    } else if (name === 'BETWEEN_ISU_GROUPS') {
+      return 'Specify the relative sizes of the groups';
+    } else if (name === 'GAUSSIAN_COVARIATE') {
+      return 'Variability Due to the Gaussian Covariate';
+    } else if (name === 'HYPOTHESIS_EFFECT_CHOICE') {
+      return 'Hypothesis Choice';
+    } else if (name === 'HYPOTHESIS_BETWEEN') {
+      return 'Between Hypothesis';
+    } else if (name === 'HYPOTHESIS_WITHIN') {
+      return 'Within Hypothesis';
+    } else if (name === 'HYPOTHESIS_THETA_0') {
+      return 'Theta 0';
+    } else if (name === 'PARAMETERS_MARGINAL_MEANS') {
+      return 'Marginal Means';
+    } else if (name === 'PARAMETERS_SCALE_FACTOR') {
+      return 'Please specify the scale factor for the marginal means';
+    } else if (name === 'PARAMETERS_STANDARD_DEVIATION') {
+      return 'Variability across Outcomes';
+    } else if (name === 'PARAMETERS_OUTCOME_CORRELATION') {
+      return 'Outcome Correlation';
+    } else if (name === 'PARAMETERS_REPEATED_MEASURE_ST_DEV') {
+      return 'Repeated Measure Standard Deviation';
+    } else if (name === 'PARAMETERS_REPEATED_MEASURE_CORRELATION') {
+      return 'Repeated Measure Correlation';
+    } else if (name === 'PARAMETERS_INTRA_CLASS_CORRELATION') {
+      return 'Intra Class Correlation';
+    } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE') {
+      return 'Gaussian Covariate Variance';
+    } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION') {
+      return 'Gaussian Covariate Correlation';
+    } else if (name === 'PARAMETERS_SCALE_FACTOR_VARIANCE') {
+      return 'Scale Factor Variance';
+    } else if (name === 'CALCULATE') {
+      return 'Calculate';
+    }
   }
 }
