@@ -1,39 +1,39 @@
-<div style="padding-top: 10px" class="row">
-  <div class="col-5">
-    <h6>New Study: {{getCurrentStageName()}}</h6>
-  </div>
-  <div class="col-5"></div>
-  <div class="col-2">
-    <mat-icon (click)="toggleHelpText()">info_outline</mat-icon>
+<br>
+<div class="container-fluid" style="vertical-align: middle">
+  <div class="row">
+    <div class="col-5">
+      <h6>New Study: {{getCurrentStageName()}}</h6>
+    </div>
+    <div class="col-5"></div>
+    <div class="col-2">
+      <mat-icon (click)="toggleHelpText()">info_outline</mat-icon>
+    </div>
   </div>
   <hr>
-</div>
-  <div class="container-fluid" style="vertical-align: middle">
-
-    <div class="row">
-      <div class="col-2 justify-content-start" (mouseenter) ="mouseEnterBack('div a')"  (mouseleave) ="mouseLeaveBack('div A')">
-        <i class="material-icons"
-           *ngIf="hasBack"
-           (click)="back()"
-           (keyup.ArrowLeft)="back()"
-           style="  font-size: 92px;
-                    opacity: 0.2;
-                    padding-top: 50%"
-           id="navigate_before">navigate_before</i>
-      </div>
-      <div [@routeSlide]="navDirection$ | async" class="col-8">
-        <router-outlet #outlet="outlet"></router-outlet>
-      </div>
-      <div class="col-2 justify-content-end" (mouseenter) ="mouseEnterNext('div a')"  (mouseleave) ="mouseLeaveNext('div A')">
-        <i class="material-icons"
-           *ngIf="hasNext"
-           (click)="next()"
-           (keyup.ArrowRight)="next()"
-           style="font-size:
-           92px; opacity: 0.2; padding-top: 50%;" id="navigate_next"
-           [class.disabled]="!valid" [@validInvalid]="nextValid? 'valid': 'invalid'">navigate_next</i>
-      </div>
+  <div class="row">
+    <div class="col-2 justify-content-start" (mouseenter) ="mouseEnterBack('div a')"  (mouseleave) ="mouseLeaveBack('div A')">
+      <i class="material-icons"
+         *ngIf="hasBack"
+         (click)="back()"
+         (keyup.ArrowLeft)="back()"
+         style="  font-size: 92px;
+                  opacity: 0.2;
+                  padding-top: 50%"
+         id="navigate_before">navigate_before</i>
     </div>
-
+    <div [@routeSlide]="navDirection$ | async" class="col-8">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+    <div class="col-2 justify-content-end" (mouseenter) ="mouseEnterNext('div a')"  (mouseleave) ="mouseLeaveNext('div A')">
+      <i class="material-icons"
+         *ngIf="hasNext"
+         (click)="next()"
+         (keyup.ArrowRight)="next()"
+         style="font-size:
+         92px; opacity: 0.2; padding-top: 50%;" id="navigate_next"
+         [class.disabled]="!valid" [@validInvalid]="nextValid? 'valid': 'invalid'">navigate_next</i>
+    </div>
   </div>
+
+</div>
 <hr>
