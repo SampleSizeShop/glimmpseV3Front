@@ -2,10 +2,11 @@
   <div class="container-fluid">
     <div>
       <p>
-        Enter the number of independent sampling units in the smallest group in the study. You may enter multiple values for the smallest group size in order to consider a range of total sample sizes.
+        Enter the number of independent sampling units in the smallest group in the study.
+        You may enter multiple values for the smallest group size in order to consider a range of total sample sizes.
       </p>
     </div>
-    <input type="number" class="form-control" id="smallestgroupsize" formControlName="smallestGroupSize" required>
+    <input type="number" class="form-control" id="smallestgroupsize" formControlName="smallestGroupSize"  placeholder="Please enter the size of your smallest group">
     <div *ngIf="formErrors.smallestGroupSize" class="form-group has-danger">
       <div class="form-control-feedback">{{formErrors.smallestGroupSize}}</div>
     </div>
