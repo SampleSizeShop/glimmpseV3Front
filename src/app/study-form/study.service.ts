@@ -20,6 +20,9 @@ export class StudyService {
   private _next: string;
   private _stages;
 
+  private _studyTitleSource = new BehaviorSubject<string>('New Study');
+  private _studyTitle$ = this._studyTitleSource.asObservable();
+
   private _modeSelectedSource = new Subject<boolean>();
   private _modeSelected$ = this._modeSelectedSource.asObservable();
 
@@ -85,6 +88,13 @@ export class StudyService {
 
   private _navigationDirectionSource = new Subject<string>();
   private _navigationDirection$ = this.navigationDirectionSource.asObservable();
+
+  private _defineFullBetaSource = new BehaviorSubject<boolean>(false);
+  private _defineFullBeta$ = this._defineFullBetaSource.asObservable();
+
+  updateStudyTitle(title: string) {
+    this._studyTitleSource.next(title);
+  }
 
   selectMode(guided: boolean) {
     this._modeSelectedSource.next(guided);
@@ -170,6 +180,10 @@ export class StudyService {
 
   updateDirection(direction: string) {
     this.navigationDirectionSource.next(direction);
+  }
+
+  updateDefineFullBeta(fullBeta: boolean) {
+    this._defineFullBetaSource.next(fullBeta);
   }
 
   constructor(private  http: HttpClient) {
@@ -389,6 +403,22 @@ export class StudyService {
 
   get navigationDirection$(): Observable<string> {
     return this._navigationDirection$;
+  }
+
+  get defineFullBeta$(): Observable<boolean> {
+    return this._defineFullBeta$;
+  }
+
+  set defineFullBeta$(value: Observable<boolean>) {
+    this._defineFullBeta$ = value;
+  }
+
+  get studyTitle$(): Observable<string> {
+    return this._studyTitle$;
+  }
+
+  set studyTitle$(value: Observable<string>) {
+    this._studyTitle$ = value;
   }
 }
 

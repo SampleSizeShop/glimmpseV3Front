@@ -30,12 +30,12 @@
         <form [formGroup]="predictorForm" id="predictorForm">
           <div class="row">
             <div class="col">
-              <h5>Define Predictor</h5>
+              <h6>Define Predictor</h6>
             </div>
           </div>
           <div class="row h-100">
             <div class="col h-100">
-              <h6 class="align-middle">Name your predictor:</h6>
+              <p class="align-middle">Please name your predictor:</p>
             </div>
             <div class="col">
               <input class="form-control" formControlName="predictorName" (keyup.enter)="addName()">
@@ -66,7 +66,7 @@
       </div>
 
       <div id="type" class="col">
-        <h6>What type of data is {{predictorForm.value.predictorName}}?</h6>
+        <p>What type of data is {{predictorForm.value.predictorName}}?</p>
         <div class="form-group">
           <div class="btn-group" data-toggle="buttons">
             <label aria-pressed="true" class="btn btn-secondary" [class.active]="isNominal()" id="nominalbtn">
@@ -94,7 +94,7 @@
         <form [formGroup]="groupsForm" id="groupsForm">
           <div class="row">
             <div class="col" *ngIf="!isOrdinal()">
-              <h6>Which units is {{predictorForm.value.predictorName}} measured in?</h6>
+              <p>Which unit is {{predictorForm.value.predictorName}} measured in?</p>
             </div>
             <div class="col" *ngIf="!isOrdinal()">
               <input class="form-control" formControlName="units" (keyup.enter)="addGroup()" id="units">
@@ -103,7 +103,7 @@
           </div>
           <div class="row" *ngIf="firstGroup() || nextGroup()">
             <div class="col">
-              <h6>Name at least two groups:</h6>
+              <p>Please name at least two groups:</p>
             </div>
             <div class="col">
               <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">

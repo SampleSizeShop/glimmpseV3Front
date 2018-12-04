@@ -59,6 +59,7 @@ import { CustomContrastMatrixComponent } from './study-form/custom-contrast-matr
 import {MatTooltipModule} from '@angular/material';
 import {MatIconModule} from '@angular/material/icon';
 import { Angular2CsvModule } from 'angular2-csv';
+import { StudyTitleComponent } from './study-form/study-title/study-title.component';
 
 
 @NgModule({
@@ -107,6 +108,7 @@ import { Angular2CsvModule } from 'angular2-csv';
     CalculateComponent,
     BetweenIsuSmallestGroupComponent,
     CustomContrastMatrixComponent,
+    StudyTitleComponent,
   ],
   imports: [
     NgbModule.forRoot(),

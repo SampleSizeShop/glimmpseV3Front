@@ -33,7 +33,7 @@ describe('GaussianCovariateComponent', () => {
 
   it( 'should show ask the user if they want to define a gaussian covatiate,' +
     'if there is not one added and they are not currently editing one.', () => {
-    const desc: DebugElement = fixture.debugElement.query(By.css('#firstgaussiancovariate'));
+    const desc: DebugElement = fixture.debugElement.query(By.css('#includegaussiancovariateradio'));
     const el = desc.nativeElement;
     expect(el).toBeTruthy();
   });

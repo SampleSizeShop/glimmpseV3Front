@@ -47,7 +47,7 @@
 
       <div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure()" id="fullrepmeasure">
         <div class="container-fluid">
-          <h5>You have specified the maximum number of repeated measure dimensions</h5>
+          <h6>You have specified the maximum number of repeated measure dimensions</h6>
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
 
     <div *ngIf="isType()">
       <div id="typeheader">
-        <h5>What type of data is {{dimensionForm.value.dimension}}?</h5>
+        <h6>What type of data is {{dimensionForm.value.dimension}}?</h6>
         <form [formGroup]="typeForm" id="type">
           <div class="form-group">
             <div class="btn-group" data-toggle="buttons" *ngFor="let t of types; let i = index">
@@ -98,7 +98,7 @@
 
     <div *ngIf="isRepeats()">
       <div id="repeatesheader">
-        <h5>Number of measurements of {{dimensionForm.value.dimension}}?</h5>
+        <h6>Number of measurements of {{dimensionForm.value.dimension}}?</h6>
         <form [formGroup]="repeatsForm">
           <div class="form-group" id="repeatsinput">
             <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
