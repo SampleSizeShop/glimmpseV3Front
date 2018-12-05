@@ -7,6 +7,7 @@ import { StudyTitleComponent } from './study-title.component';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {NavigationService} from '../../shared/navigation.service';
 
 describe('StudyTitleComponent', () => {
   let component: StudyTitleComponent;
@@ -16,7 +17,7 @@ describe('StudyTitleComponent', () => {
     TestBed.configureTestingModule({
       imports: [ ReactiveFormsModule ],
       declarations: [ StudyTitleComponent ],
-      providers: [ StudyService, NGXLogger, { provide: HttpClient, useClass: MockBackend } ]
+      providers: [ StudyService, NGXLogger, NavigationService, { provide: HttpClient, useClass: MockBackend } ]
 
     })
     .compileComponents();
