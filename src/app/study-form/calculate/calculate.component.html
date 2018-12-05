@@ -51,15 +51,15 @@
         <ng-container *ngIf="detailPredictor.length > 0; else noPredictorContent">
           <tr>
             <th *ngFor="let predictorObject of detailPredictor;">{{predictorObject['name']}}</th>
-            <th> {{ " Per Group Sample Size (" + detailClusterLevels[0]['levelName'] + ")" }} </th>
+            <th> {{ " Per Group Sample Size (" + detailClusterName + ")" }} </th>
           </tr>
-          <tr *ngFor="let combination of detailPredictorCombination; let i = index">
+          <tr *ngFor="let combination of detailPredictorCombination">
             <td *ngFor="let groupName of combination;"> {{groupName}}</td>
-            <td> {{ studyDesign['_isuFactors']['smallestGroupSize'] * (i+1) }} </td>
+            <td> {{ studyDesign['_isuFactors']['smallestGroupSize'] * combinationsValueMap[combination] }} </td>
           </tr>
           <tr>
             <td [attr.colspan]="detailPredictor.length"> Total Sample Size </td>
-            <td> {{ studyDesign['_isuFactors']['smallestGroupSize'] * (1+detailPredictorCombination.length)*detailPredictorCombination.length/2 }} </td>
+            <td> {{ totalSampleSize }} </td>
           </tr>
         </ng-container>
         <ng-template #noPredictorContent>

@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {Predictor} from '../../shared/Predictor';
+import {testCombinationMap1, testCombinationMap2} from './test_inputs/testCombinationMap';
 
 describe('CalculateComponent', () => {
   let component: CalculateComponent;
@@ -83,6 +84,29 @@ describe('CalculateComponent', () => {
       ['1', '4', '6'], ['1', '4', '7'], ['1', '5', '6'], ['1', '5', '7'],
       ['2', '4', '6'], ['2', '4', '7'], ['2', '5', '6'], ['2', '5', '7'],
       ['3', '4', '6'], ['3', '4', '7'], ['3', '5', '6'], ['3', '5', '7'], ]);
+  });
+
+  it('Should show correct sample size for each group combination with 1 predictor.', () => {
+    component.buildCombinationsValueMap(testCombinationMap1['_isuFactors']['betweenIsuRelativeGroupSizes']);
+    component.calculateTotalSampleSize(testCombinationMap1['_isuFactors']['smallestGroupSize']);
+
+    expect(component.combinationsValueMap[[1]]).toEqual(1);
+    expect(component.combinationsValueMap[[2]]).toEqual(3);
+    expect(component.totalSampleSize).toEqual(12);
+  });
+
+  it('Should show correct sample size for each group combination with 2 predictor.', () => {
+    component.buildCombinationsValueMap(testCombinationMap2['_isuFactors']['betweenIsuRelativeGroupSizes']);
+    component.calculateTotalSampleSize(testCombinationMap1['_isuFactors']['smallestGroupSize']);
+
+    expect(component.combinationsValueMap[[1, 3]]).toEqual(1);
+    expect(component.combinationsValueMap[[1, 4]]).toEqual(3);
+    expect(component.combinationsValueMap[[1, 5]]).toEqual(5);
+    expect(component.combinationsValueMap[[2, 3]]).toEqual(11);
+    expect(component.combinationsValueMap[[2, 4]]).toEqual(9);
+    expect(component.combinationsValueMap[[2, 5]]).toEqual(7);
+
+    expect(component.totalSampleSize).toEqual(108);
   });
 
 });

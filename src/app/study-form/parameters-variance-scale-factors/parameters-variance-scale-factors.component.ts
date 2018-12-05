@@ -42,7 +42,6 @@ private _varianceScaleFactorsSubscription: Subscription;
   }
 
   ngOnDestroy() {
-    console.log(this.scaleFactors);
     if (this.scaleFactors.length === 0) {
       this.scaleFactors.push(1);
       this.study_service.updateVarianceScaleFactors(this.scaleFactors);
