@@ -55,7 +55,7 @@
           </tr>
           <tr *ngFor="let combination of detailPredictorCombination">
             <td *ngFor="let groupName of combination;"> {{groupName}}</td>
-            <td> {{ studyDesign['_isuFactors']['smallestGroupSize'] * combinationsValueMap[combination] }} </td>
+            <td> {{ studyDesign['_isuFactors']['smallestGroupSize'] * combinationsValueMap[combination.join('@')] }} </td>
           </tr>
           <tr>
             <td [attr.colspan]="detailPredictor.length"> Total Sample Size </td>

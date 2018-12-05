@@ -211,7 +211,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
           col['id'].forEach( groupName => {
             tempkey.push(groupName['value']);
           })
-          this.combinationsValueMap[tempkey] = col['value']
+          this.combinationsValueMap[tempkey.join('@')] = col['value']
         }
       }
     }
