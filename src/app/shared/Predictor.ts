@@ -1,11 +1,39 @@
 import {ISUFactorCombination} from './ISUFactorCombination';
-import {ISUFactor} from './ISUFactor';
+import {ISUFactor, ISUFactorJSON} from './ISUFactor';
 import {constants} from './constants';
-import {CombinationId} from './CombinationId';
+
+interface PredictorJSON extends ISUFactorJSON {
+  units: string;
+  type: string;
+}
 
 export class Predictor extends ISUFactor {
   units: string;
   type: string;
+
+  // fromJSON is used to convert an serialized version
+  // of the Predictor to an instance of the class
+  static fromJSON(json: PredictorJSON|string): Predictor {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, Predictor.reviver);
+    } else {
+      // create an instance of the Predictor class
+      const cluster = Object.create(Predictor.prototype);
+      // copy all the fields from the json object
+      return Object.assign(cluster, json, {
+        // convert fields that need converting
+        child: this.parseChild(json),
+        partialMatrix: this.parsePartialMatrix(json),
+      });
+    }
+  }
+
+  // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call Predictor.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === '' ? Predictor.fromJSON(value) : value;
+  }
   constructor(name?: string) {
     if (name) {
       super(name);

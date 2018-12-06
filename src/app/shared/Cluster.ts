@@ -1,7 +1,7 @@
 import {ClusterLevel} from './ClusterLevel';
 import {constants} from './constants';
 import {ISUFactor, ISUFactorJSON} from './ISUFactor';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 interface ClusterJSON extends ISUFactorJSON {
   levels: Array<ClusterLevel>;
@@ -32,7 +32,7 @@ export class Cluster extends ISUFactor {
       // if it's a string, parse it first
       return JSON.parse(json, Cluster.reviver);
     } else {
-      // create an instance of the StudyDesign class
+      // create an instance of the Cluster class
       const cluster = Object.create(Cluster.prototype);
       // copy all the fields from the json object
       return Object.assign(cluster, json, {
