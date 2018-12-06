@@ -37,6 +37,22 @@ export class ISUFactors {
   cMatrix: PartialMatrix;
   uMatrix: PartialMatrix;
 
+  static parsePartialMatrix(json) {
+    if (!isNullOrUndefined(json)) {
+      return PartialMatrix.fromJSON(JSON.stringify(json))
+    } else {
+      return null;
+    }
+  }
+
+  static parseCorrelationMatrix(json) {
+    if (!isNullOrUndefined(json)) {
+      return CorrelationMatrix.fromJSON(JSON.stringify(json))
+    } else {
+      return null;
+    }
+  }
+
   static parseISUFactors(json: ISUFactorsJSON): Array<ISUFactor> {
     const list = new Array<ISUFactor>();
     json.variables.forEach( factor => {
@@ -70,9 +86,9 @@ export class ISUFactors {
         variables: ISUFactors.parseISUFactors(json),
         // betweenIsuRelativeGroupSizes: JSON.parse(json.betweenIsuRelativeGroupSizes),
         // marginalMeans: JSON.parse(json.marginalMeans),
-        // outcomeCorrelationMatrix: JSON.parse(json.outcomeCorrelationMatrix),
-        // cMatrix: JSON.parse(json.cMatrix, PartialMatrix.reviver),
-        // uMatrix: JSON.parse(json.cMatrix, PartialMatrix.reviver),
+        outcomeCorrelationMatrix: this.parseCorrelationMatrix(json.outcomeCorrelationMatrix),
+        cMatrix: this.parsePartialMatrix(json.cMatrix),
+        uMatrix: this.parsePartialMatrix(json.uMatrix),
       });
     }
   }
