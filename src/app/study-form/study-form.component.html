@@ -5,8 +5,11 @@
       <h6>{{study.name}}: {{getCurrentStageName()}}</h6>
     </div>
     <div class="col-5"></div>
-    <div class="col-2">
+    <div class="col-1 col-md-auto">
       <mat-icon (click)="toggleHelpText()">info_outline</mat-icon>
+    </div>
+    <div class="col-1 col md col-md-auto">
+      <mat-icon (click)="download()">save_alt</mat-icon>
     </div>
   </div>
   <hr>
@@ -37,3 +40,10 @@
 
 </div>
 <hr>
+
+<a id="downloadStudy" [attr.href]="downloadStudy" download="{{study.name}}.json" hidden>Download result</a>
+
+<label class="btn btn-secondary">
+  Choose File<input class="" type="file" (change)="onFileChange($event)" style="display: none">
+</label>
+

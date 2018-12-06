@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
@@ -11,7 +11,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {routeSlideAnimation} from '../animations';
 import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
-import {BehaviorSubject} from "rxjs/index";
+import {BehaviorSubject} from 'rxjs/index';
+import {DomSanitizer} from '@angular/platform-browser';
 
 
 @Component({
@@ -74,11 +75,27 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _stageSource = new BehaviorSubject<number>(0);
   private _stage$ = this._stageSource.asObservable();
 
+
+  afuConfig3 = {
+    theme: 'dragNDrop',
+    hideProgressBar: true,
+    hideResetBtn: true,
+    maxSize: '1',
+    uploadAPI: {
+      url: 'https://localhost/files.upload'
+    },
+    formatsAllowed: '.json',
+    multiple: false
+  };
+  resetUpload3: boolean;
+
   constructor(
     private study_service: StudyService,
     private log: NGXLogger,
     private navigation_service: NavigationService,
-    private router: Router
+    private router: Router,
+    private ref: ChangeDetectorRef,
+    private sanitizer: DomSanitizer
   ) {
     this.study = new StudyDesign();
     this.subscribeToStudyService();
@@ -830,5 +847,28 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     } else if (name === 'CALCULATE') {
       return 'Calculate';
     }
+  }
+
+  download() {
+    this.ref.detectChanges();
+    document.getElementById('downloadStudy').click();
+  }
+
+  get downloadStudy() {
+    return this.sanitizer.bypassSecurityTrustUrl('data:text/csv;charset=utf-8,' + encodeURI(JSON.stringify(this.study)));
+  }
+
+  onFileChange(event) {
+    const reader = new FileReader();
+    if(event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const str = atob(reader.result.split(',')[1]);
+        const a = JSON.parse(str, StudyDesign.reviver);
+        console.log(file.type);
+        console.log(atob(reader.result.split(',')[1]));
+      }
+    };
   }
 }

@@ -1,7 +1,17 @@
-import {ISUFactor} from './ISUFactor';
+import {ISUFactor, ISUFactorJSON} from './ISUFactor';
 import {constants} from './constants';
 import {PartialMatrix} from './PartialMatrix';
 import {CorrelationMatrix} from './CorrelationMatrix';
+import {isNullOrUndefined} from 'util';
+
+interface RepeatedMeasureJSON extends ISUFactorJSON {
+  units: string;
+  type: string;
+  _noRepeats: number;
+  partialUMatrix: PartialMatrix;
+  correlationMatrix: CorrelationMatrix;
+  standard_deviations: Array<number>;
+}
 
 export class RepeatedMeasure extends ISUFactor {
   units: string;
@@ -10,6 +20,47 @@ export class RepeatedMeasure extends ISUFactor {
   partialUMatrix: PartialMatrix;
   correlationMatrix: CorrelationMatrix;
   standard_deviations: Array<number>;
+
+  static parsePartialUMatrix(json: RepeatedMeasureJSON) {
+    if (!isNullOrUndefined(json.partialUMatrix)) {
+      return PartialMatrix.fromJSON(JSON.stringify(json.partialUMatrix))
+    } else {
+      return null;
+    }
+  }
+
+  static parseCorrelationMatrix(json: RepeatedMeasureJSON) {
+    if (!isNullOrUndefined(json.correlationMatrix)) {
+      return CorrelationMatrix.fromJSON(JSON.stringify(json.correlationMatrix))
+    } else {
+      return null;
+    }
+  }
+
+  // fromJSON is used to convert an serialized version
+  // of the RepeatedMeasure to an instance of the class
+  static fromJSON(json: RepeatedMeasureJSON|string): RepeatedMeasure {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, RepeatedMeasure.reviver);
+    } else {
+      // create an instance of the StudyDesign class
+      const repeatedMeasure = Object.create(RepeatedMeasure.prototype);
+      // copy all the fields from the json object
+      return Object.assign(repeatedMeasure, json, {
+        // convert fields that need converting
+        child: this.parseChild(json),
+        partialUMatrix: this.parsePartialUMatrix(json),
+        correlationMatrix: this.parseCorrelationMatrix(json),
+      });
+    }
+  }
+
+  // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call RepeatedMeasure.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === '' ? RepeatedMeasure.fromJSON(value) : value;
+  }
 
   constructor(name?: string) {
     super(name);

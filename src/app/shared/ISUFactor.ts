@@ -2,7 +2,20 @@ import {ISUFactorCombination} from './ISUFactorCombination';
 import {constants} from './constants';
 import {PartialMatrix} from './PartialMatrix';
 import {CombinationId} from './CombinationId';
-import {isNullOrUndefined} from "util";
+import {isNull, isNullOrUndefined} from 'util';
+
+// A representation of StudyDesign's data that can be converted to
+// and from JSON without being altered.
+export interface ISUFactorJSON {
+  name: string;
+  origin: string;
+  nature: string;
+  isuFactorNature: string;
+  valueNames: string[];
+  child: ISUFactor;
+  inHypothesis: boolean;
+  partialMatrix: PartialMatrix;
+}
 
 /**
  * Model class defining each independent sampling unit factor.
@@ -18,6 +31,46 @@ export class ISUFactor {
   child: ISUFactor;
   inHypothesis: boolean;
   partialMatrix?: PartialMatrix;
+
+  static parseChild(json: ISUFactorJSON) {
+    if (!isNullOrUndefined(json.child)){
+      ISUFactor.fromJSON(JSON.stringify(json.child))
+    } else {
+      return null;
+    }
+  }
+
+  static parsePartialMatrix(json: ISUFactorJSON) {
+    if (!isNullOrUndefined(json.partialMatrix)){
+      PartialMatrix.fromJSON(JSON.stringify(json.partialMatrix))
+    } else {
+      return null;
+    }
+  }
+
+  // fromJSON is used to convert an serialized version
+  // of the StudyDesign to an instance of the class
+  static fromJSON(json: ISUFactorJSON|string): ISUFactor {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, ISUFactor.reviver);
+    } else {
+      // create an instance of the StudyDesign class
+      const isuFactor = Object.create(ISUFactor.prototype);
+      // copy all the fields from the json object
+      return Object.assign(isuFactor, json, {
+        // convert fields that need converting
+        child: this.parseChild(json),
+        partialMatrix: this.parsePartialMatrix(json),
+      });
+    }
+  }
+
+  // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call ISUFactors.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === '' ? ISUFactor.fromJSON(value) : value;
+  }
 
   /**
    * Default constructor for use by subclasses.
