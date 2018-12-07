@@ -866,8 +866,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       reader.onload = () => {
         const str = atob(reader.result.split(',')[1]);
         const a = JSON.parse(str, StudyDesign.reviver);
-        console.log(file.type);
-        console.log(atob(reader.result.split(',')[1]));
+        this.study_service.updateAll(a);
       }
     };
   }

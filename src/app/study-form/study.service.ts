@@ -420,5 +420,31 @@ export class StudyService {
   set studyTitle$(value: Observable<string>) {
     this._studyTitle$ = value;
   }
+
+  updateAll(study: StudyDesign) {
+    this.updateStudyTitle(study.name);
+    this.selectTargetEvent(study.targetEvent);
+    this.updateSolveFor(study.solveFor);
+    this.updatePower(study.power);
+    this.updateCiWidth(study.ciwidth);
+    this.updateSelectedTests(study.selectedTests);
+    this.updateTypeOneErrorRate(study.typeOneErrorRate);
+    this.updateWthinIsuOutcomes(study.isuFactors.outcomes);
+    this.updateWithinIsuRepeatedMeasures(study.isuFactors.repeatedMeasures);
+    this.updateWithinIsuCluster(study.isuFactors.cluster);
+    this.updateBetweenIsuPredictors(study.isuFactors.predictors);
+    this.updateIsuFactors(study.isuFactors);
+    this.updateGaussianCovariate(study.gaussianCovariate);
+    this.updateHypothesisEffectVariables(study.isuFactors.hypothesis);
+    this.updateDefineFullBeta(study.define_full_beta);
+    this.updateBetweenHypothesisNature(study.isuFactors.hypothesisNature);
+    this.updateWithinHypothesisNature(study.isuFactors.hypothesisNature);
+    const effect = new HypothesisEffect();
+    effect.variables = study.isuFactors.hypothesis;
+    this.updateHypothesisEffect(effect);
+    this.updateScaleFactor(study.scaleFactor);
+    this.updateVarianceScaleFactors(study.varianceScaleFactors);
+    this.updateStudyDesign(study);
+  }
 }
 
