@@ -135,6 +135,13 @@ export class ISUFactors {
         uMatrix: this.uMatrix};
   }
 
+  constructor() {
+    this.cMatrix = new PartialMatrix();
+    this.uMatrix = new PartialMatrix();
+    this.cMatrix.type = constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS
+    this.uMatrix.type = constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS
+  }
+
   get hypothesisName(): string {
     let name = '';
     this.hypothesis.forEach( variable => {

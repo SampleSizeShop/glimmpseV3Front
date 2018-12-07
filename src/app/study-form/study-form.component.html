@@ -42,9 +42,3 @@
 <hr>
 
 <a id="downloadStudy" [attr.href]="downloadStudy" download="{{study.name}}.json" hidden>Download result</a>
-
-<label class="btn btn-secondary">
-  Choose File<input class="" type="file" (change)="onFileChange($event)" style="display: none">
-</label>
-<br>
-{{study | json}}
