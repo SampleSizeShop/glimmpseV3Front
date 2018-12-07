@@ -31,7 +31,6 @@ export class AppComponent {
   }
 
   newStudy() {
-    this.study_service.updateAll(new StudyDesign());
     this.navigateToStudy();
   }
 
