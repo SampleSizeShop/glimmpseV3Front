@@ -437,8 +437,8 @@ export class StudyService {
     this.updateGaussianCovariate(study.gaussianCovariate);
     this.updateHypothesisEffectVariables(study.isuFactors.hypothesis);
     this.updateDefineFullBeta(study.define_full_beta);
-    this.updateBetweenHypothesisNature(study.isuFactors.hypothesisNature);
-    this.updateWithinHypothesisNature(study.isuFactors.hypothesisNature);
+    this.updateBetweenHypothesisNature(study.isuFactors.cMatrix.type);
+    this.updateWithinHypothesisNature(study.isuFactors.uMatrix.type);
     const effect = new HypothesisEffect();
     effect.variables = study.isuFactors.hypothesis;
     this.updateHypothesisEffect(effect);
