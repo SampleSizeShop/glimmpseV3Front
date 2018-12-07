@@ -3,6 +3,34 @@
       <a class="navbar-brand" href="#" style="padding-left: 10px;">GLIMMPSE</a>
   </nav>
   <div class="container">
+    <br *ngIf="isLanding()">
+    <hr *ngIf="isLanding()">
+    <div class="container-fluid">
+      <div *ngIf="isLanding()" class="row">
+        <div class="col-md-auto">
+          <h6>Start Your Study Design</h6>
+          <p class="w-75">
+            Welcome to GLIMMPSE. The GLIMMPSE software calculates power and sample size for study designs with normally
+            distributed outcomes. Select one of the options below to begin your power or sample size calculation.
+          </p>
+          <p class="w-75">'New Study' if you wish to start a new design.</p>
+          <p class="w-75">'Upload' if you have previously used GLIMMPSE and wish to work on a saved design.</p>
+        </div>
+      </div>
+      <div *ngIf="isLanding()" class="row">
+        <div class="col-md-auto" style="padding-right: 10px">
+          <label class="btn btn-secondary">
+            New  Study<input class="" type="radio" (click)="newStudy()" style="display: none">
+          </label>
+        </div>
+        <div class="col-md-auto">
+          <label class="btn btn-secondary">
+            Upload<input class="" type="file" (change)="onFileChange($event)" style="display: none">
+          </label>
+        </div>
+      </div>
+    </div>
+    <hr *ngIf="isLanding()">
     <router-outlet></router-outlet>
   </div>
 </div>

@@ -11,7 +11,21 @@ import {CorrelationMatrix} from './CorrelationMatrix';
 import {Group} from './Group';
 import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
 import {MarginalMeansTable} from './MarginalMeansTable';
-import {PartialMatrix} from "./PartialMatrix";
+import {PartialMatrix} from './PartialMatrix';
+import {StudyDesign} from './study-design';
+
+// A representation of ISUFactors' data that can be converted to
+// and from JSON without being altered.
+interface ISUFactorsJSON {
+  variables: Array<ISUFactor>;
+  theta0: Array<Array<number>>;
+  betweenIsuRelativeGroupSizes: Array<RelativeGroupSizeTable>;
+  marginalMeans: Array<MarginalMeansTable>;
+  smallestGroupSize: Array<number>;
+  outcomeCorrelationMatrix: CorrelationMatrix;
+  cMatrix: PartialMatrix;
+  uMatrix: PartialMatrix;
+}
 
 export class ISUFactors {
   variables = new Array<ISUFactor>();
@@ -23,6 +37,92 @@ export class ISUFactors {
   cMatrix: PartialMatrix;
   uMatrix: PartialMatrix;
 
+  static parsePartialMatrix(json) {
+    if (!isNullOrUndefined(json)) {
+      return PartialMatrix.fromJSON(JSON.stringify(json))
+    } else {
+      return null;
+    }
+  }
+
+  static parseCorrelationMatrix(json) {
+    if (!isNullOrUndefined(json)) {
+      return CorrelationMatrix.fromJSON(JSON.stringify(json))
+    } else {
+      return null;
+    }
+  }
+
+  static parseRelativeGroupSizeTables(json) {
+    if (!isNullOrUndefined(json)) {
+      const list = []
+      json.forEach( table => {
+        list.push(RelativeGroupSizeTable.fromJSON(JSON.stringify(table)));
+      });
+      return list
+    } else {
+      return null;
+    }
+  }
+
+  static parseMarginalMeansTables(json) {
+    if (!isNullOrUndefined(json)) {
+      const list = []
+      json.forEach( table => {
+        list.push(MarginalMeansTable.fromJSON(JSON.stringify(table)));
+      });
+      return list
+    } else {
+      return null;
+    }
+  }
+
+  static parseISUFactors(json: ISUFactorsJSON): Array<ISUFactor> {
+    const list = new Array<ISUFactor>();
+    json.variables.forEach( factor => {
+      if (isNullOrUndefined(factor.origin)) {
+        list.push(ISUFactor.fromJSON(JSON.stringify(factor)));
+      } else if (factor.origin === constants.HYPOTHESIS_ORIGIN.OUTCOME) {
+        list.push(Outcome.fromJSON(JSON.stringify(factor)));
+      } else if (factor.origin === constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE) {
+        list.push(RepeatedMeasure.fromJSON(JSON.stringify(factor)));
+      } else if (factor.origin === constants.HYPOTHESIS_ORIGIN.CLUSTER) {
+        list.push(Cluster.fromJSON(JSON.stringify(factor)));
+      } else if (factor.origin === constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR) {
+        list.push(Predictor.fromJSON(JSON.stringify(factor)));
+      }
+    });
+    return list;
+  }
+
+  // fromJSON is used to convert an serialized version
+  // of the ISUFactors to an instance of the class
+  static fromJSON(json: ISUFactorsJSON|string): ISUFactors {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, ISUFactors.reviver);
+    } else {
+      // create an instance of the StudyDesign class
+      const isuFactors = Object.create(ISUFactors.prototype);
+      // copy all the fields from the json object
+      return Object.assign(isuFactors, json, {
+        // convert fields that need converting
+        variables: ISUFactors.parseISUFactors(json),
+        betweenIsuRelativeGroupSizes: this.parseRelativeGroupSizeTables(json.betweenIsuRelativeGroupSizes),
+        marginalMeans: this.parseMarginalMeansTables(json.marginalMeans),
+        outcomeCorrelationMatrix: this.parseCorrelationMatrix(json.outcomeCorrelationMatrix),
+        cMatrix: this.parsePartialMatrix(json.cMatrix),
+        uMatrix: this.parsePartialMatrix(json.uMatrix),
+      });
+    }
+  }
+
+  // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call ISUFactors.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === '' ? ISUFactors.fromJSON(value) : value;
+  }
+
   toJSON() {
     return {
         variables: this.variables,
@@ -33,6 +133,13 @@ export class ISUFactors {
         outcomeCorrelationMatrix: this.outcomeCorrelationMatrix,
         cMatrix: this.cMatrix,
         uMatrix: this.uMatrix};
+  }
+
+  constructor() {
+    this.cMatrix = new PartialMatrix();
+    this.uMatrix = new PartialMatrix();
+    this.cMatrix.type = constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS
+    this.uMatrix.type = constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS
   }
 
   get hypothesisName(): string {

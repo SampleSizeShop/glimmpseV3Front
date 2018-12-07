@@ -11,6 +11,24 @@ import {MarginalMeansTable} from './MarginalMeansTable';
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {CombinationId} from './CombinationId';
 
+// A representation of StudyDesign's data that can be converted to
+// and from JSON without being altered.
+interface StudyDesignJSON {
+  _name: string;
+  _targetEvent: string;
+  _solveFor: string;
+  _power: number;
+  _ciwidth: number;
+  _selectedTests: string[];
+  _typeOneErrorRate: number;
+  _isuFactors: ISUFactors;
+  _gaussianCovariate: GaussianCovariate;
+  _scaleFactor: number;
+  _varianceScaleFactors: number[];
+  _powerCurve: PowerCurve;
+  _define_full_beta: boolean;
+}
+
 export class StudyDesign {
   private _name: string;
   private _targetEvent: string;
@@ -25,6 +43,30 @@ export class StudyDesign {
   private _varianceScaleFactors: number[];
   private _powerCurve: PowerCurve;
   private _define_full_beta: boolean;
+
+  // fromJSON is used to convert an serialized version
+  // of the StudyDesign to an instance of the class
+  static fromJSON(json: StudyDesignJSON|string): StudyDesign {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, StudyDesign.reviver);
+    } else {
+      // create an instance of the StudyDesign class
+      const study = Object.create(StudyDesign.prototype);
+      // copy all the fields from the json object
+      return Object.assign(study, json, {
+        // convert fields that need converting
+        _isuFactors: ISUFactors.fromJSON(JSON.stringify(json._isuFactors)),
+        _gaussianCovariate: GaussianCovariate.fromJSON(JSON.stringify(json._gaussianCovariate)),
+      });
+    }
+  }
+
+  // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call ISUFactors.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === '' ? StudyDesign.fromJSON(value) : value;
+  }
 
   constructor(name?: string,
               guided?: boolean,

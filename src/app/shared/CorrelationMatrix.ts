@@ -2,12 +2,51 @@ import * as math from 'mathjs';
 import Matrix = mathjs.Matrix;
 import {isNull, isNullOrUndefined} from "util";
 
+// A representation of CorrelationMatrix's data that can be converted to
+// and from JSON without being altered.
+interface CorrelationMatrixJSON {
+  _values: Matrix;
+  _type: string;
+  name: string;
+}
+
 /**
  * Model class containing a mathjs Matrix.
  */
 export class CorrelationMatrix {
   private _names: string[];
   private _values: Matrix;
+
+  static parseMathJSMatrix(json) {
+    if (!isNullOrUndefined(json.data)) {
+      return math.matrix(json.data);
+    } else {
+      return null;
+    }
+  }
+
+  // fromJSON is used to convert an serialized version
+  // of the CorrelationMatrix to an instance of the class
+  static fromJSON(json: CorrelationMatrixJSON|string): CorrelationMatrix {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, CorrelationMatrix.reviver);
+    } else {
+      // create an instance of the CorrelationMatrix class
+      const matrix = Object.create(CorrelationMatrix.prototype);
+      // copy all the fields from the json object
+      return Object.assign(matrix, json, {
+        // convert fields that need converting
+        _values: this.parseMathJSMatrix(json._values),
+      });
+    }
+  }
+
+  // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call CorrelationMatrix.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === '' ? CorrelationMatrix.fromJSON(value) : value;
+  }
 
   constructor(names?: string[]) {
     this.values = math.matrix();

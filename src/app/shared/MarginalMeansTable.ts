@@ -1,15 +1,39 @@
-import {ISUFactorCombinationTable} from './ISUFactorCombinationTable';
+import {ISUFactorCombinationTable, ISUFactorCombinationTableJSON} from './ISUFactorCombinationTable';
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {CombinationId} from './CombinationId';
 import {ISUFactors} from './ISUFactors';
 import {isNullOrUndefined} from 'util';
-import {RepeatedMeasure} from './RepeatedMeasure';
 import {constants} from './constants';
-import {Predictor} from './Predictor';
-import {ISUFactor} from './ISUFactor';
 
+interface MarginalMeansTableJSON extends ISUFactorCombinationTableJSON {
+  dimensions: Array<CombinationId>,
+}
 
 export class MarginalMeansTable extends ISUFactorCombinationTable {
+
+  // fromJSON is used to convert an serialized version
+  // of the MarginalMeansTable to an instance of the class
+  static fromJSON(json: MarginalMeansTableJSON|string): MarginalMeansTable {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, MarginalMeansTable.reviver);
+    } else {
+      // create an instance of the RelativeGroupSizeTable class
+      const isuFactors = Object.create(MarginalMeansTable.prototype);
+      // copy all the fields from the json object
+      return Object.assign(isuFactors, json, {
+        // convert fields that need converting
+        table: this.parseTable(json),
+      });
+    }
+  }
+
+  // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call MarginalMeansTable.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === '' ? MarginalMeansTable.fromJSON(value) : value;
+  }
+
   constructor(tableId?: ISUFactorCombination, table?: Array<Array<ISUFactorCombination>>) {
     super(tableId, table);
   }

@@ -176,13 +176,6 @@ export class CalculateComponent implements OnInit, OnDestroy {
     return value;
   }
 
-  hasWarning(result) {
-    if (isNullOrUndefined(result.power) && isNullOrUndefined(result.samplesize) ) {
-      return true;
-    }
-    return false;
-  }
-
   showDetail(power, index) { // , totalSampleSize) {
     this.isShowDetail = true;
     this.detailPower = power;
