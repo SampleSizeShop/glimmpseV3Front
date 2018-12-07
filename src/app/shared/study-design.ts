@@ -57,6 +57,7 @@ export class StudyDesign {
       return Object.assign(study, json, {
         // convert fields that need converting
         _isuFactors: ISUFactors.fromJSON(JSON.stringify(json._isuFactors)),
+        _gaussianCovariate: GaussianCovariate.fromJSON(JSON.stringify(json._gaussianCovariate)),
       });
     }
   }
