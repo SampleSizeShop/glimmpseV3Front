@@ -1,9 +1,54 @@
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {isNullOrUndefined} from 'util';
+import {ISUFactors} from "./ISUFactors";
+
+export interface ISUFactorCombinationTableJSON {
+  _table: Array<Array<ISUFactorCombination>>;
+  _tableId: ISUFactorCombination;
+}
 
 export class ISUFactorCombinationTable {
   private _table: Array<Array<ISUFactorCombination>>;
   private _tableId: ISUFactorCombination;
+
+  static parseTable(json: ISUFactorCombinationTableJSON) {
+    if (!isNullOrUndefined(json._table)) {
+      const tab = []
+      json._table.forEach( row => {
+        const r = [];
+        row.forEach(col => {
+          r.push(ISUFactorCombination.fromJSON(col));
+        });
+        tab.push(r);
+      });
+      return tab;
+    } else {
+      return null;
+    }
+  }
+
+  // fromJSON is used to convert an serialized version
+  // of the ISUFactors to an instance of the class
+  static fromJSON(json: ISUFactorCombinationTableJSON|string): ISUFactorCombinationTable {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, ISUFactorCombinationTable.reviver);
+    } else {
+      // create an instance of the StudyDesign class
+      const table = Object.create(ISUFactorCombinationTable.prototype);
+      // copy all the fields from the json object
+      return Object.assign(table, json, {
+        // convert fields that need converting
+        table: this.parseTable(json),
+      });
+    }
+  }
+
+  // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call ISUFactorCombinationTable.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === '' ? ISUFactorCombinationTable.fromJSON(value) : value;
+  }
 
   constructor(tableId: ISUFactorCombination, table?: Array<Array<ISUFactorCombination>>) {
     this.tableId = tableId;
