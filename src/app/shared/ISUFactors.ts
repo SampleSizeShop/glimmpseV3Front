@@ -65,6 +65,18 @@ export class ISUFactors {
     }
   }
 
+  static parseMarginalMeansTables(json) {
+    if (!isNullOrUndefined(json)) {
+      const list = []
+      json.forEach( table => {
+        list.push(MarginalMeansTable.fromJSON(JSON.stringify(table)));
+      });
+      return list
+    } else {
+      return null;
+    }
+  }
+
   static parseISUFactors(json: ISUFactorsJSON): Array<ISUFactor> {
     const list = new Array<ISUFactor>();
     json.variables.forEach( factor => {
@@ -97,7 +109,7 @@ export class ISUFactors {
         // convert fields that need converting
         variables: ISUFactors.parseISUFactors(json),
         betweenIsuRelativeGroupSizes: this.parseRelativeGroupSizeTables(json.betweenIsuRelativeGroupSizes),
-        // marginalMeans: JSON.parse(json.marginalMeans),
+        marginalMeans: this.parseMarginalMeansTables(json.marginalMeans),
         outcomeCorrelationMatrix: this.parseCorrelationMatrix(json.outcomeCorrelationMatrix),
         cMatrix: this.parsePartialMatrix(json.cMatrix),
         uMatrix: this.parsePartialMatrix(json.uMatrix),
