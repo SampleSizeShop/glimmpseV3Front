@@ -129,7 +129,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
   });
 
-  it('HW5, Should return correct detail', async function() {
+  it('Should return the correct value in the detail table.', async function() {
     const expected = com_calculate_detail_output;
     await page.fromJSON(com_calculate_detail_input);
     await page.calculate();
