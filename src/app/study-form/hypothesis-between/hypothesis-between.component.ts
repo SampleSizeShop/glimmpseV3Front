@@ -316,12 +316,20 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   isContinuous() {
-    let isContinuous = false;
+    let isContinuous = true;
     this._isuFactors.predictors.forEach( predictor => {
+      if ( predictor.type !== getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ) {
+        isContinuous = false;
+      }
+    });
+    return isContinuous;
+  }
+
+  isPredictorContinuous(predictor: Predictor) {
+    let isContinuous = false;
       if ( predictor.type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ) {
         isContinuous = true;
       }
-    });
     return isContinuous;
   }
 
