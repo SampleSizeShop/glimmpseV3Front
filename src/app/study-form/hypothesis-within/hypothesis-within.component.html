@@ -1,74 +1,76 @@
 <div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)" >
   <div *ngIf="isInfo()">
-    <div class="container-fluid">
+    <div class="row">
       <p>What is the nature of your within hypothesis?</p>
-      <div ngClass="{{getButtonClass()}}" data-toggle="buttons">
-        <label aria-pressed="true"
-               class="btn btn-secondary"
-               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS">
-          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.GLOBAL_TRENDS)"> {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}
-        </label>
-        <label aria-pressed="true"
-               class="btn btn-secondary"
-               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY">
-          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
-        </label>
-        <label aria-pressed="true"
-               class="btn btn-secondary"
-               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL">
-          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
-        </label>
-        <label aria-pressed="true"
-               class="btn btn-secondary"
-               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
-               *ngIf="showAdvancedOptions">
-          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> {{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}
-        </label>
-        <label aria-pressed="true"
-               class="btn btn-secondary"
-               [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX"
-               *ngIf="showAdvancedOptions">
-          <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_U_MATRIX)"> {{HYPOTHESIS_NATURE.CUSTOM_U_MATRIX}}
-        </label>
-      </div>
-      <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
-        <h6>Click on any of the marginal C matrices below to customise them:</h6>
-        <div class="container-fluid">
-          <div *ngFor="let repMeasure of repeatedMeasuresIn">
-            <div class="row">
-              <div class="col  col-md-auto">
-                <h6>{{repMeasure.name}}:</h6>
-              </div>
-              <div class="col  col-md-auto">
-                <div ngbDropdown class="h-25 d-inline-block">
-                  <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{repMeasure.isuFactorNature}}</button>
-                  <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
-                    <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
-                    <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
-                    <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.POLYNOMIAL)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
-                    <button class="h-25 dropdown-item" (click)="setCustomPartialUMatrix(repMeasure)">{{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}</button>
-                  </div>
-                </div>
-              </div>
-              <div class="col  col-md-auto" *ngIf="repMeasure.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
-                <div *ngIf="repMeasure.hasPartialMatrix()"
-                     [mathJaxExpr]="repMeasure.partialMatrix.toTeX()"></div>
-              </div>
+    </div>
+    <div class="row"
+         ngClass="{{getButtonClass()}}"
+         data-toggle="buttons">
+      <label aria-pressed="true"
+             class="btn btn-secondary"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.GLOBAL_TRENDS)"> {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}
+      </label>
+      <label aria-pressed="true"
+             class="btn btn-secondary"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
+      </label>
+      <label aria-pressed="true"
+             class="btn btn-secondary"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL"
+              *ngIf="isContinuous()">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
+      </label>
+      <label aria-pressed="true"
+             class="btn btn-secondary"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
+             *ngIf="showAdvancedOptions">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> {{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}
+      </label>
+      <label aria-pressed="true"
+             class="btn btn-secondary"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX"
+             *ngIf="showAdvancedOptions">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_U_MATRIX)"> {{HYPOTHESIS_NATURE.CUSTOM_U_MATRIX}}
+      </label>
+    </div>
+    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
+          class="row">
+      <h6>Click on any of the marginal C matrices below to customise them:</h6>
+      <div *ngFor="let repMeasure of repeatedMeasuresIn" class="row">
+        <div class="col  col-md-auto">
+          <h6>{{repMeasure.name}}:</h6>
+        </div>
+        <div class="col  col-md-auto">
+          <div ngbDropdown class="h-25 d-inline-block">
+            <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{repMeasure.isuFactorNature}}</button>
+            <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
+              <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
+              <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
+              <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="isMeasureContinuous(repMeasure)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+              <button class="h-25 dropdown-item" (click)="setCustomPartialUMatrix(repMeasure)">{{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}</button>
             </div>
           </div>
         </div>
-      </div>
-      <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX">
-        <br>
-        <div class="row justify-content-center">
-          <div class="col-md-auto"><h6>Your custom U Matrix:</h6></div>
-          <div class="col-md-auto">
-            <div [mathJaxExpr]="uMatrixTex"></div>
-          </div>
+        <div class="col  col-md-auto" *ngIf="repMeasure.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+          <div *ngIf="repMeasure.hasPartialMatrix()"
+               [mathJaxExpr]="repMeasure.partialMatrix.toTeX()"></div>
         </div>
       </div>
-      <br>
-      <br>
+    </div>
+
+    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX"
+        class="row">
+        <div class="col-md-auto">
+          <h6>Your custom U Matrix:</h6>
+        </div>
+        <div class="col-md-auto">
+          <div [mathJaxExpr]="uMatrixTex"></div>
+        </div>
+    </div>
+
+    <div class="row">
       <button class="btn btn-secondary btn-sm"
               style="margin-bottom: 0px;" id="pb" [class.active]="false"
               *ngIf="repeatedMeasuresInHypothesis() && !showAdvancedOptions"
@@ -83,6 +85,7 @@
         Hide Advanced Options
       </button>
     </div>
+
   </div>
 
   <div *ngIf="isRows()">

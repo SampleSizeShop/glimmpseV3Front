@@ -9,6 +9,7 @@ import {hw5_input, hw5_output} from './test_inputs/homework5';
 import {com_calculate_detail_input, com_calculate_detail_output} from './test_inputs/detail_table';
 import {constants} from '../src/app/shared/constants';
 import {by, element} from 'protractor';
+import {hw5_fullbeta_input, hw5_fullbeta_output} from './test_inputs/homework5_fullbeta';
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -102,6 +103,21 @@ describe('Glimmpse v3 automated integration tests', () => {
     const expected = hw5_output;
     let actual = null;
     await page.fromJSON(hw5_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+    for (let i of actual.model) {
+      expect(actual.model.i).toBeCloseTo(expected.model.i, 6);
+    }
+    expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
+  });
+
+  it('HW5 full beta, Should return correct power', async function() {
+    const expected = hw5_fullbeta_output;
+    let actual = null;
+    await page.fromJSON(hw5_fullbeta_input);
     await page.calculate();
     await page.output().then(text => {
       console.log(text);

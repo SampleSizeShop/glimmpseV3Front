@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {constants} from 'app/shared/constants';
+import {constants, getName} from 'app/shared/constants';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
 import {ISUFactors} from '../../shared/ISUFactors';
@@ -303,7 +303,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     if (this._stage === this._stages.ROWS) {
       return true;
     } else {
-      return false
+      return false;
     }
   }
 
@@ -313,6 +313,24 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     } else {
       return false
     }
+  }
+
+  isContinuous() {
+    let isContinuous = true;
+    this._isuFactors.predictors.forEach( predictor => {
+      if ( predictor.type !== getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ) {
+        isContinuous = false;
+      }
+    });
+    return isContinuous;
+  }
+
+  isPredictorContinuous(predictor: Predictor) {
+    let isContinuous = false;
+      if ( predictor.type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ) {
+        isContinuous = true;
+      }
+    return isContinuous;
   }
 
   get showAdvancedOptions(): boolean {

@@ -1,14 +1,55 @@
 import * as math from 'mathjs';
 import Matrix = mathjs.Matrix;
 import {constants} from './constants';
-import {NGXLogger} from "ngx-logger";
-import {isNullOrUndefined} from "util";
+import {NGXLogger} from 'ngx-logger';
+import {isNullOrUndefined} from 'util';
+import {StudyDesign} from "./study-design";
+import {ISUFactors} from "./ISUFactors";
+
+// A representation of PartialMatrix's data that can be converted to
+// and from JSON without being altered.
+interface PartialMatrixJSON {
+  _values: Matrix;
+  _type: string;
+  name: string;
+}
 
 export class PartialMatrix {
   private logger: NGXLogger;
   private _values: Matrix;
   private _type: string;
   name = '';
+
+  static parseMathJSMatrix(json) {
+    if (!isNullOrUndefined(json.data)) {
+      return math.matrix(json.data);
+    } else {
+      return null;
+    }
+  }
+
+  // fromJSON is used to convert an serialized version
+  // of the PartialMatrix to an instance of the class
+  static fromJSON(json: PartialMatrixJSON|string): PartialMatrix {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, PartialMatrix.reviver);
+    } else {
+      // create an instance of the PartialMatrix class
+      const matrix = Object.create(PartialMatrix.prototype);
+      // copy all the fields from the json object
+      return Object.assign(matrix, json, {
+        // convert fields that need converting
+        _values: this.parseMathJSMatrix(json._values),
+      });
+    }
+  }
+
+  // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call PartialMatrix.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === '' ? PartialMatrix.fromJSON(value) : value;
+  }
 
   constructor(type?: string, logger?: NGXLogger) {
     if (!isNullOrUndefined(logger)) {

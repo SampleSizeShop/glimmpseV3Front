@@ -1,10 +1,51 @@
-import {ISUFactorCombinationTable} from './ISUFactorCombinationTable';
+import {ISUFactorCombinationTable, ISUFactorCombinationTableJSON} from './ISUFactorCombinationTable';
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {CombinationId} from './CombinationId';
 import {isNullOrUndefined} from 'util';
 
+interface RelativeGtroupSizeTableJSON extends ISUFactorCombinationTableJSON {
+  dimensions: Array<CombinationId>,
+}
+
 export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
   dimensions: Array<CombinationId>;
+
+  static parseDimensions(json: RelativeGtroupSizeTableJSON) {
+    const list = [];
+    if (!isNullOrUndefined(json.dimensions)) {
+      json.dimensions.forEach(combinationId => {
+        list.push(CombinationId.fromJSON(JSON.stringify(combinationId)));
+      });
+      return list;
+    } else {
+      return null;
+    }
+  }
+
+  // fromJSON is used to convert an serialized version
+  // of the RelativeGroupSizeTable to an instance of the class
+  static fromJSON(json: RelativeGtroupSizeTableJSON|string): RelativeGroupSizeTable {
+    if (typeof json === 'string') {
+      // if it's a string, parse it first
+      return JSON.parse(json, RelativeGroupSizeTable.reviver);
+    } else {
+      // create an instance of the RelativeGroupSizeTable class
+      const isuFactors = Object.create(RelativeGroupSizeTable.prototype);
+      // copy all the fields from the json object
+      return Object.assign(isuFactors, json, {
+        // convert fields that need converting
+        dimensions: this.parseDimensions(json),
+        table: this.parseTable(json),
+      });
+    }
+  }
+
+  // reviver can be passed as the second parameter to JSON.parse
+  // to automatically call RelativeGroupSizeTable.fromJSON on the resulting value.
+  static reviver(key: string, value: any): any {
+    return key === '' ? RelativeGroupSizeTable.fromJSON(value) : value;
+  }
+
   constructor(tableId?: ISUFactorCombination, table?: Array<Array<ISUFactorCombination>>) {
     super(tableId, table);
   }

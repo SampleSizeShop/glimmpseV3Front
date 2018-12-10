@@ -51,7 +51,7 @@ describe('MarginalMeansTable', () => {
     ];
     const expected = new MarginalMeansTable(new ISUFactorCombination([a]), expectedTable);
     const actual = new MarginalMeansTable(new ISUFactorCombination([a]))
-    actual.populateTable(factors);
+    actual.populateTable(factors, false);
     expect(actual.compareTableSize(expected)).toBeTruthy();
   });
 
@@ -65,7 +65,7 @@ describe('MarginalMeansTable', () => {
     ];
     const expected = new MarginalMeansTable(new ISUFactorCombination([a]), expectedTable);
     const actual = new MarginalMeansTable(new ISUFactorCombination([a]))
-    actual.populateTable(factors);
+    actual.populateTable(factors, false);
     expect(actual.compareTableSize(expected)).toBeTruthy();
   });
 
@@ -81,7 +81,7 @@ describe('MarginalMeansTable', () => {
     ];
     const expected = new MarginalMeansTable(new ISUFactorCombination([a]), expectedTable);
     const actual = new MarginalMeansTable(new ISUFactorCombination([a]))
-    actual.populateTable(factors);
+    actual.populateTable(factors, false);
     expect(actual.compareTableSize(expected)).toBeTruthy();
   });
 });
