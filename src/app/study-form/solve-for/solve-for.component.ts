@@ -34,7 +34,8 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
-              private fb: FormBuilder, private logger: NGXLogger,
+              private fb: FormBuilder,
+              private log: NGXLogger,
               private _navigation_service: NavigationService,
               private modalService: NgbModal) {
     this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
@@ -68,8 +69,8 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   buildForm(): void {
     this.powerSampleSizeForm = this.fb.group({
-      power: [this.power, minMaxValidator(0, 1, this.logger)],
-      ciwidth: [this.ciwidth, minMaxValidator(0, 10, this.logger)]
+      power: [this.power, minMaxValidator(0, 1, this.log)],
+      ciwidth: [this.ciwidth, minMaxValidator(0, 10, this.log)]
     });
 
     this.powerSampleSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -122,6 +123,10 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnDestroy() {
     this.targetEventSubscription.unsubscribe();
+    this.solveForSubscription.unsubscribe();
+    this.powerSubscription.unsubscribe();
+    this.ciwidthSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   selectPower() {
@@ -246,14 +251,14 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     this.helpTextModalReference = this.modalService.open(content);
     this.helpTextModalReference.result.then(
       (closeResult) => {
-        console.log('modal closed : ', closeResult);
+        this.log.debug('modal closed : ' + closeResult);
       }, (dismissReason) => {
         if (dismissReason === ModalDismissReasons.ESC) {
-          console.log('modal dismissed when used pressed ESC button');
+          this.log.debug('modal dismissed when used pressed ESC button');
         } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
-          console.log('modal dismissed when used pressed backdrop');
+          this.log.debug('modal dismissed when used pressed backdrop');
         } else {
-          console.log(dismissReason);
+          this.log.debug(dismissReason);
         }
       });
   }

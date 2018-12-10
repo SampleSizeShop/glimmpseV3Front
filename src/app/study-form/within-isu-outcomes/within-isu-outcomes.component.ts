@@ -58,6 +58,8 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnDestroy() {
     this.navigationSubscription.unsubscribe();
+    this.outcomeSubscription.unsubscribe();
+    this.setNextEnabled('VALID');
   }
 
   buildForm() {
