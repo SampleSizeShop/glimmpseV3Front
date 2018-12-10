@@ -93,6 +93,8 @@ export class CalculateComponent implements OnInit, OnDestroy {
         if (this.detailPredictor) {
           this.generateCombinations(this.detailPredictor);
         }
+        this.buildCombinationsValueMap(this.studyDesign['_isuFactors']['betweenIsuRelativeGroupSizes']);
+        this.calculateTotalSampleSize(this.studyDesign['_isuFactors']['smallestGroupSize']);
     }).catch(this.handleError);
   }
 
@@ -193,8 +195,6 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this.isShowDetail = true;
     this.detailPower = power;
     this.currentSelected = index;
-    this.buildCombinationsValueMap(this.studyDesign['_isuFactors']['betweenIsuRelativeGroupSizes']);
-    this.calculateTotalSampleSize(this.studyDesign['_isuFactors']['smallestGroupSize']);
     if (this.detailCluster) {
       this.detailClusterName = this.detailCluster.name;
     } else {
