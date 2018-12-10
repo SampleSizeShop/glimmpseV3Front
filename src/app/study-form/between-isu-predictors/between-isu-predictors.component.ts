@@ -11,6 +11,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs/Observable';
 import {isNullOrUndefined} from 'util';
 import {fadeTransition} from '../../animations';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-between-isu',
@@ -38,10 +39,17 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
 
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService,
               private navigation_service: NavigationService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this._next = 0;
     this._stages = constants.BETWEEN_ISU_STAGES;
     this.stage = this.stages.INFO;
@@ -55,9 +63,16 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
     this.betweenIsuPredictorsSubscription = this.study_service.betweenIsuPredictors$.subscribe(betweenIsuFactors => {
       this.betweenIsuPredictors = betweenIsuFactors;
     });
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
   }
 
   ngOnInit() {
+    this._afterInit = true;
     this.buildForm();
   }
 
@@ -67,6 +82,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
 
   ngOnDestroy() {
     this.betweenIsuPredictorsSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -249,6 +265,27 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
       return false;
     }
     return true;
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get stageName() {

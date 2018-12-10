@@ -11,6 +11,7 @@ import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NGXLogger} from 'ngx-logger';
 
 
 describe('BetweenIsuPredictorsComponent', () => {
@@ -39,6 +40,7 @@ describe('BetweenIsuPredictorsComponent', () => {
       declarations: [ BetweenIsuPredictorsComponent ],
       providers: [
         StudyService,
+        NGXLogger,
         { provide: HttpClient, useClass: MockBackend },
         NavigationService,
         NgbModal]
