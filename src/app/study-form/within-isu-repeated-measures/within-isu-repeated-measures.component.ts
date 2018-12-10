@@ -11,6 +11,7 @@ import {NavigationService} from '../../shared/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
 import {Observable} from 'rxjs/Observable';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -42,11 +43,17 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
 
   constructor(private _fb: FormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private log: NGXLogger) {
 
     this._validationMessages = constants.REPEATED_MEASURE_FORM_VALIDATION_MESSAGES;
     this._formErrors = constants.REPEATED_MEASURE_FORM_ERRORS;
@@ -59,6 +66,12 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
     this._repeatedMeasuresSubscription = this.study_service.withinIsuRepeatedMeasures$.subscribe( repeatedMeasures => {
       this.repeatedMeasures = repeatedMeasures;
+    });
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
     });
   }
 
@@ -143,6 +156,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this._afterInit = true;
     this.buildForm();
     this.updateSpacingFormControls(2, this._spacingValues);
   }
@@ -150,6 +164,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.study_service.updateWithinIsuRepeatedMeasures(this.repeatedMeasures);
     this._repeatedMeasuresSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
@@ -348,6 +363,27 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     } else {
       return 'col col-md-auto table-primary';
     }
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get stageName() {
