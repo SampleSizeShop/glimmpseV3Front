@@ -7,6 +7,7 @@ import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {StudyService} from '../study.service';
 import {testEnvironment} from '../../../environments/environment.test';
+import {NavigationService} from '../../shared/navigation.service';
 
 describe('TypeOneErrorComponent', () => {
   let component: TypeOneErrorComponent;
@@ -22,7 +23,7 @@ describe('TypeOneErrorComponent', () => {
           serverLogLevel: testEnvironment.loglevel
         })],
       declarations: [ TypeOneErrorComponent ],
-      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
+      providers: [ StudyService, NGXLogger, NavigationService, { provide: HttpClient, useClass: MockBackend } ]
     })
     .compileComponents();
   }));
