@@ -18,6 +18,7 @@
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
+             *ngIf="isContinuous()"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL">
         <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
       </label>
