@@ -94,7 +94,7 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
   }
 
   updateSmallestGroupSizeControls() {
-    return { smallestGroupSize: [ this.isuFactors.smallestGroupSize, [Validators.required, minMaxValidator(0, Number.MAX_VALUE, this.logger)] ] }
+    return { smallestGroupSize: [ this.isuFactors.smallestGroupSize, [Validators.required, minMaxValidator(0, Number.MAX_VALUE, this.log)] ] }
   }
 
   updateSmallestGroupSize() {
