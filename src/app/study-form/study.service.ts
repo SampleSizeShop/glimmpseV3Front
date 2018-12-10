@@ -32,7 +32,7 @@ export class StudyService {
   private _solveForSource = new BehaviorSubject<string>(constants.SOLVE_FOR_POWER);
   private _solveForSelected$ = this._solveForSource.asObservable();
 
-  private _powerSource = new BehaviorSubject<number>(0.5);
+  private _powerSource = new BehaviorSubject<number[]>([0.9]);
   private _power$ = this._powerSource.asObservable();
 
   private _ciwidthSource = new BehaviorSubject<number>(1);
@@ -106,7 +106,7 @@ export class StudyService {
     this._solveForSource.next(solveFor);
   }
 
-  updatePower(power: number) {
+  updatePower(power: number[]) {
     this._powerSource.next(power);
   }
 
@@ -256,11 +256,11 @@ export class StudyService {
     this._solveForSelected$ = value;
   }
 
-  get power$(): Observable<number> {
+  get power$(): Observable<number[]> {
     return this._power$;
   }
 
-  set power$(value: Observable<number>) {
+  set power$(value: Observable<number[]>) {
     this._power$ = value;
   }
 

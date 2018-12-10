@@ -16,7 +16,7 @@ import {NavigationService} from '../../shared/navigation.service';
 })
 export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   private _solveFor: string;
-  private _power: number;
+  private _power: number[];
   private _ciwidth: number;
   private _targetEvent: string;
   private _powerSampleSizeForm: FormGroup;
@@ -82,12 +82,12 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     }
     const form = this.powerSampleSizeForm;
 
-    for (const field in this.formErrors) {
+    for (const field of Object.keys(this.formErrors)) {
       this.formErrors[field] = '';
       const control = form.get(field);
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[field];
-        for (const key in control.errors) {
+        for (const key of Object.keys(control.errors)) {
             this.formErrors[field] += messages[key] + ' ';
         }
       }
@@ -197,11 +197,11 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   }
 
 
-  get power(): number {
+  get power(): number[] {
     return this._power;
   }
 
-  set power(value: number) {
+  set power(value: number[]) {
     this._power = value;
   }
 

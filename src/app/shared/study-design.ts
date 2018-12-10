@@ -17,7 +17,7 @@ interface StudyDesignJSON {
   _name: string;
   _targetEvent: string;
   _solveFor: string;
-  _power: number;
+  _power: number[];
   _ciwidth: number;
   _selectedTests: string[];
   _typeOneErrorRate: number;
@@ -33,7 +33,7 @@ export class StudyDesign {
   private _name: string;
   private _targetEvent: string;
   private _solveFor: string;
-  private _power: number;
+  private _power: number[];
   private _ciwidth: number;
   private _selectedTests: string[];
   private _typeOneErrorRate: number;
@@ -72,7 +72,7 @@ export class StudyDesign {
               guided?: boolean,
               targetEvent?: string,
               solveFor?: string,
-              power?: number,
+              power?: number[],
               ciwidth?: number,
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
@@ -315,11 +315,11 @@ export class StudyDesign {
     this._solveFor = value;
   }
 
-  get power(): number {
+  get power(): number[] {
     return this._power;
   }
 
-  set power(value: number) {
+  set power(value: number[]) {
     this._power = value;
   }
 
