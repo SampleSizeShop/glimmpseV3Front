@@ -4,6 +4,9 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../study.service';
 
 import { StudyTitleComponent } from './study-title.component';
+import {HttpClient} from '@angular/common/http';
+import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {NavigationService} from '../../shared/navigation.service';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 
@@ -15,7 +18,7 @@ describe('StudyTitleComponent', () => {
     TestBed.configureTestingModule({
       imports: [ ReactiveFormsModule ],
       declarations: [ StudyTitleComponent ],
-      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend } ]
+      providers: [ StudyService, NGXLogger, NavigationService, { provide: HttpClient, useClass: MockBackend } ]
 
     })
     .compileComponents();

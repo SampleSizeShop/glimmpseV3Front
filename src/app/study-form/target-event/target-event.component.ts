@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {StudyService} from '../study.service';
 import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs';
@@ -10,7 +10,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './target-event.component.html',
   styleUrls: ['./target-event.component.scss']
 })
-export class TargetEventComponent implements OnInit {
+export class TargetEventComponent implements OnInit , OnDestroy {
   private _targetEvent: string;
   private _targetEventSubscription: Subscription;
 
@@ -53,6 +53,10 @@ export class TargetEventComponent implements OnInit {
 
   ngOnInit() {
     this._afterInit = true;
+  }
+
+  ngOnDestroy() {
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   isRejection(): boolean {
