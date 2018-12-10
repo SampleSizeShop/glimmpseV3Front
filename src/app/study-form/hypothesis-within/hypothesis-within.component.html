@@ -18,7 +18,8 @@
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
-             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL">
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL"
+              *ngIf="isContinuous()">
         <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
       </label>
       <label aria-pressed="true"
@@ -47,7 +48,7 @@
             <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
               <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
               <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
-              <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.POLYNOMIAL)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+              <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="isMeasureContinuous(repMeasure)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
               <button class="h-25 dropdown-item" (click)="setCustomPartialUMatrix(repMeasure)">{{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}</button>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {constants} from '../../shared/constants';
+import {constants, getName} from '../../shared/constants';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
@@ -16,6 +16,7 @@ import {minMaxValidator} from '../../shared/minmax.validator';
 import {Observable} from 'rxjs/Observable';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {fadeTransition} from '../../animations';
+import {Predictor} from "../../shared/Predictor";
 
 @Component({
   selector: 'app-hypothesis-within',
@@ -314,6 +315,24 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     } else {
       return false
     }
+  }
+
+  isContinuous() {
+    let isContinuous = true;
+    this._isuFactors.repeatedMeasures.forEach( measure => {
+      if ( measure.type !== 'Numeric') {
+        isContinuous = false;
+      }
+    });
+    return isContinuous;
+  }
+
+  isMeasureContinuous(measure: RepeatedMeasure) {
+    let isContinuous = false;
+    if ( measure.type === 'Numeric') {
+      isContinuous = true;
+    }
+    return isContinuous;
   }
 
   get isuFactors(): ISUFactors {
