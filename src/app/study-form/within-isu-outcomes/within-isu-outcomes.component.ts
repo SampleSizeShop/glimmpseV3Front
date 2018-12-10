@@ -1,12 +1,14 @@
 import {of as observableOf, Subscription, Observable} from 'rxjs';
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../../shared/constants';
 import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../../shared/navigation.service';
 import {StudyService} from '../study.service';
 import {Outcome} from '../../shared/Outcome';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-within-isu-outcomes',
@@ -30,8 +32,17 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   private _directionCommand: string;
   private _navigationSubscription: Subscription;
   private _statusSubscription: Subscription;
+  private _showHelpTextSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder, private study_service: StudyService, private navigation_service: NavigationService) {
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
+  constructor(private _fb: FormBuilder,
+              private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
     this.formErrors = constants.OUTCOME_FORM_ERRORS;
     this._max = constants.MAX_OUTCOMES;
@@ -47,6 +58,12 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
         this.checkValidBeforeNavigation(this.directionCommand);
       }
     );
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
   }
 
   ngOnInit() {
@@ -54,11 +71,13 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     if (isNullOrUndefined(this.outcomes) || this.outcomes.length === 0) {
       this.setNextEnabled('INVALID');
     }
+    this._afterInit = true;
   }
 
   ngOnDestroy() {
     this.navigationSubscription.unsubscribe();
     this.outcomeSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
     this.setNextEnabled('VALID');
   }
 
@@ -149,6 +168,28 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     const valid = status === 'VALID' ? true : false;
     this.navigation_service.updateValid(valid);
   }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
+  }
+
   get outcomes$(): Observable<Outcome[]> {
     return observableOf(this._outcomes);
   }

@@ -9,6 +9,7 @@ import {StudyService} from '../study.service';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {Outcome} from '../../shared/Outcome';
+import {NGXLogger} from 'ngx-logger';
 
 describe('WithinIsuOutcomesComponent', () => {
   let component: WithinIsuOutcomesComponent;
@@ -18,7 +19,7 @@ describe('WithinIsuOutcomesComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ WithinIsuOutcomesComponent ],
-      providers: [StudyService, {provide: HttpClient, useClass: MockBackend}, NavigationService]
+      providers: [StudyService, NGXLogger, {provide: HttpClient, useClass: MockBackend}, NavigationService]
     })
     .compileComponents();
   }));
