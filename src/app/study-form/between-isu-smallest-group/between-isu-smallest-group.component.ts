@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
@@ -7,7 +7,8 @@ import {isNullOrUndefined} from 'util';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
-import {NavigationService} from "../../shared/navigation.service";
+import {NavigationService} from '../../shared/navigation.service';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-between-isu-smallest-group',
@@ -21,13 +22,27 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
   private _isuFactorsSubscription: Subscription;
   private _formErrors = constants.BETWEEN_ISU_ERRORS;
   private _validationMessages = constants.BETWEEN_ISU_VALIDATION_MESSAGES;
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
 
   constructor(private _fb: FormBuilder,
               private _study_service: StudyService,
               private navigation_service: NavigationService,
-              private logger: NGXLogger) {}
+              private modalService: NgbModal,
+              private log: NGXLogger) {
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
+  }
 
   ngOnInit() {
+    this._afterInit = true;
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
@@ -41,6 +56,7 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
 
   ngOnDestroy() {
     this.isuFactorsSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -87,6 +103,27 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
     }
   }
 
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
+  }
+
   get isuFactors(): ISUFactors {
     return this._isuFactors;
   }
@@ -113,8 +150,7 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
 
   get validationMessages(): {
     smallestGroupSize: { minval: string; 'required': string; };
-  }
-  {
+  } {
     return this._validationMessages;
   }
 
