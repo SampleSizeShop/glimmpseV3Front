@@ -20,7 +20,7 @@ interface StudyDesignJSON {
   _power: number[];
   _ciwidth: number;
   _selectedTests: string[];
-  _typeOneErrorRate: number;
+  _typeOneErrorRate: Array<number>;
   _isuFactors: ISUFactors;
   _gaussianCovariate: GaussianCovariate;
   _scaleFactor: number;
@@ -36,7 +36,7 @@ export class StudyDesign {
   private _power: number[];
   private _ciwidth: number;
   private _selectedTests: string[];
-  private _typeOneErrorRate: number;
+  private _typeOneErrorRate: Array<number>;
   private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
   private _scaleFactor: number;
@@ -340,11 +340,11 @@ export class StudyDesign {
     this._selectedTests = value;
   }
 
-  get typeOneErrorRate(): number {
+  get typeOneErrorRate(): Array<number> {
     return this._typeOneErrorRate;
   }
 
-  set typeOneErrorRate(value: number) {
+  set typeOneErrorRate(value: Array<number>) {
     this._typeOneErrorRate = value;
   }
 
