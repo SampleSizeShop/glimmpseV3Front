@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ISUFactor} from '../../shared/ISUFactor';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
 import {Subscription} from 'rxjs';
@@ -7,13 +7,16 @@ import {StudyService} from '../study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 import {constants} from '../../shared/constants';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NavigationService} from '../../shared/navigation.service';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-hypothesis-effect-choice',
   templateUrl: './hypothesis-effect-choice.component.html',
   styleUrls: ['./hypothesis-effect-choice.component.css']
 })
-export class HypothesisEffectChoiceComponent implements OnInit {
+export class HypothesisEffectChoiceComponent implements OnInit, OnDestroy {
   private _variables: ISUFactor[];
   private _possibleEffects: HypothesisEffect[];
   private _selected: HypothesisEffect;
@@ -23,8 +26,17 @@ export class HypothesisEffectChoiceComponent implements OnInit {
   private _hypothesisEffectSubscription: Subscription;
   private _defineFullBetaSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
+  private _showHelpTextSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder, private _study_service: StudyService) {
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
+  constructor(private _fb: FormBuilder,
+              private _study_service: StudyService,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this.possibleEffects = [];
 
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
@@ -36,12 +48,24 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     this._defineFullBetaSubscription = this._study_service.defineFullBeta$.subscribe( fullBeta => {
       this._defineFullBeta = fullBeta;
     });
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
+
     this.showInfo = false;
   }
 
   ngOnInit() {
+    this._afterInit = true;
     this.determinePossibleEffects();
     if ( isNullOrUndefined(this._selected) ) { this.selectEffect(this.possibleEffects[0]); }
+  }
+
+  ngOnDestroy() {
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   selectEffect(effect: HypothesisEffect) {
@@ -238,6 +262,27 @@ export class HypothesisEffectChoiceComponent implements OnInit {
     }
 
     return ret;
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get isHypothesisBeta(): boolean {
