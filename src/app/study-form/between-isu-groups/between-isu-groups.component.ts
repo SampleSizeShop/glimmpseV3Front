@@ -2,7 +2,7 @@
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 
 import {map, switchMap} from 'rxjs/operators';
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
@@ -15,6 +15,8 @@ import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
 import {TooltipPosition} from '@angular/material';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NavigationService} from '../../shared/navigation.service';
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -33,17 +35,32 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   below: TooltipPosition;
 
   private _isuFactorsSubscription: Subscription;
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
 
   constructor(private _fb: FormBuilder,
               private route: ActivatedRoute,
               private _study_service: StudyService,
-              private logger: NGXLogger) {
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
 
     this.left = 'left';
     this.below = 'below';
+
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
   }
 
   ngOnInit() {
+    this._afterInit = true;
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
@@ -67,6 +84,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnDestroy() {
     this.isuFactorsSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   getRelativeGroupSizeTables() {
@@ -138,13 +156,34 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
           row.forEach( group => {
             const name = r.toString() + '-' + c.toString();
             this.relativeGroupSizeForm[name] = group.value;
-            this.relativeGroupSizeForm.controls[name].setValidators(minMaxValidator(0, Number.MAX_VALUE, this.logger));
+            this.relativeGroupSizeForm.controls[name].setValidators(minMaxValidator(0, Number.MAX_VALUE, this.log));
             c = c + 1;
           });
           r = r + 1;
         });
       }
     }
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get relativeGroupSizeForm(): FormGroup {
@@ -189,8 +228,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   get validationMessages(): {
     relativegroupsizes: { minval: string; required: string; };
-  }
-  {
+  } {
     return this._validationMessages;
   }
 
