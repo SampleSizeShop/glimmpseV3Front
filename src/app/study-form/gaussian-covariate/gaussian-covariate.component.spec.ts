@@ -7,6 +7,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../study.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
+import {NGXLogger} from 'ngx-logger';
+import {NavigationService} from '../../shared/navigation.service';
 
 describe('GaussianCovariateComponent', () => {
   let component: GaussianCovariateComponent;
@@ -16,7 +18,12 @@ describe('GaussianCovariateComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ GaussianCovariateComponent ],
-      providers: [StudyService, {provide: HttpClient, useClass: MockBackend}]
+      providers: [
+        StudyService,
+        {provide: HttpClient, useClass: MockBackend},
+        NGXLogger,
+        NavigationService
+      ]
     })
     .compileComponents();
   }));
