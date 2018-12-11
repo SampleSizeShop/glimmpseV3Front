@@ -26,7 +26,7 @@ describe('BetweenIsuSmallestGroupComponent', () => {
         NavigationService,
         { provide: HttpClient, useClass: MockBackend },
         {provide: ActivatedRoute, useClass: ActivatedRouteStub },
-        {provide: NGXLogger, useClass: NGXLoggerMock}
+        NGXLogger
       ]
     })
     .compileComponents();

@@ -12,7 +12,8 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {RelativeGroupSizeTable} from '../../shared/RelativeGroupSizeTable';
 import {ISUFactorCombination} from '../../shared/ISUFactorCombination';
 import {CombinationId} from '../../shared/CombinationId';
-import {MatTooltip} from "@angular/material";
+import {MatTooltip} from '@angular/material';
+import {NavigationService} from '../../shared/navigation.service';
 
 describe('BetweenIsuGroupsComponent', () => {
   let component: BetweenIsuGroupsComponent;
@@ -28,7 +29,8 @@ describe('BetweenIsuGroupsComponent', () => {
         MatTooltip ],
       providers: [
         StudyService,
-        { provide: HttpClient, useClass: MockBackend },
+        NavigationService,
+        {provide: HttpClient, useClass: MockBackend},
         {provide: ActivatedRoute, useClass: ActivatedRouteStub },
         {provide: NGXLogger, useClass: NGXLoggerMock}
         ]

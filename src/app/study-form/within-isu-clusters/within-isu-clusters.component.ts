@@ -11,6 +11,7 @@ import {ClusterLevel} from '../../shared/ClusterLevel';
 import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-within-isu-clusters',
@@ -33,6 +34,11 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   private _maxLevels: number;
   private _levels: ClusterLevel[];
   private _clusterSubscription: Subscription;
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
 
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
@@ -40,7 +46,8 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   constructor(private _fb: FormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
-              private modalService: NgbModal) {
+              private modalService: NgbModal,
+              private log: NGXLogger) {
 
     this._validationMessages = constants.CLUSTERS_FORM_VALIDATION_MESSAGES;
     this._formErrors = constants.CLUSTERS_FORM_ERRORS;
@@ -54,6 +61,12 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
         this._cluster = cluster;
       }
     );
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
   }
 
   buildForm() {
@@ -70,6 +83,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit() {
+    this._afterInit = true;
     this.buildForm();
     this.setStage(this._stages.INFO);
   }
@@ -88,6 +102,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnDestroy() {
     this._clusterSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   onValueChangedElementForm(data?: any) {
@@ -277,6 +292,27 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   isLevels() {
     return this._stage === this._stages.LEVELS;
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get stageName() {
