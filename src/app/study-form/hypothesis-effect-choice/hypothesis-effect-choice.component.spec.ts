@@ -12,6 +12,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {constants} from '../../shared/constants';
+import {NGXLogger} from 'ngx-logger';
+import {NavigationService} from '../../shared/navigation.service';
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;
@@ -21,7 +23,11 @@ describe('HypothesisEffectChoiceComponent', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [ HypothesisEffectChoiceComponent ],
-      providers: [StudyService, { provide: HttpClient, useClass: MockBackend }]
+      providers: [
+        StudyService,
+        { provide: HttpClient, useClass: MockBackend },
+        NGXLogger,
+        NavigationService]
     })
     .compileComponents();
   }));
