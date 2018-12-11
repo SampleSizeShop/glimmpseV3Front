@@ -38,14 +38,29 @@
           <label for="power" ng-non-bindable *ngIf="isRejection()" id="rejectnulllbl">Probability &#123;Reject null&#125;:</label>
           <label for="power" ng-non-bindable *ngIf="isCIWidth()" id="achieveciwidthlbl">Probability &#123;achieve CI Width&#125;:</label>
           <label for="power" ng-non-bindable *ngIf="isWAVR()" id="probwavrlbl">Probability &#123;WAVR&#125;:</label>
-          <input type="number" class="form-control" id="power" aria-describedby="powerhelp" placeholder="Choose a number between 0 -> 1" formControlName="power" required>
-          <div *ngIf="formErrors.power" class="form-group has-danger">
+          <input type="number"
+                 step="0.1"
+                 class="form-control"
+                 id="power"
+                 aria-describedby="powerhelp"
+                 placeholder="Choose a number between 0 -> 1"
+                 formControlName="power" required
+                 (keyup.enter)="addPower()">
+          <div *ngIf="formErrors.power"
+               class="form-group has-danger">
             <div class="form-control-feedback">{{formErrors.power}}</div>
           </div>
           <small id="powerhelp" class="form-text text-muted">Power must be an integer between 0 > x > 1</small>
           <div class="form-group" *ngIf="isCIWidth() || isWAVR()">
             <label for="ciwidth">Confidence Interval Width:</label>
-            <input type="number" class="form-control" id="ciwidth" aria-describedby="ciwidthhelp" placeholder="Choose a number between 0 -> 10" formControlName="ciwidth" required>
+            <input type="number"
+                   step="0.1"
+                   class="form-control"
+                   id="ciwidth"
+                   aria-describedby="ciwidthhelp"
+                   placeholder="Choose a number between 0 -> 10"
+                   formControlName="ciwidth"
+                   required>
             <div *ngIf="formErrors.ciwidth" class="form-group has-danger">
               <div class="form-control-feedback">{{formErrors.ciwidth}}</div>
             </div>
@@ -53,6 +68,30 @@
           </div>
         </div>
       </div>
+
+      <div class="col" *ngIf="isSampleSize()" >
+        <br>
+        <i class="material-icons" (click)="addPower()" style="margin-top: 10px" id="addoutcome">add</i>
+      </div>
+
+        <br>
+        <table class="table" *ngIf="isSampleSize()">
+          <thead>
+          <th>Target Power</th>
+          <th>remove</th>
+          </thead>
+          <tbody>
+          <tr *ngIf="firstPower()">
+            <td> You must enter at least one target power</td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let power of powers$ | async; let i = index; " id="powerlist" [class]="rowStyle(i)">
+            <td>{{power}}</td>
+            <td><i class="material-icons" (click)="removePower(power)" style="margin-bottom: 5px" id="removepower">remove</i></td>
+          </tr>
+          </tbody>
+        </table>
+
     </div>
 
   </div>
@@ -71,5 +110,3 @@
     <div class="modal-footer"> footer text</div>
   </div>
 </ng-template>
-
-

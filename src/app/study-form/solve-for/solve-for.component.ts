@@ -1,6 +1,6 @@
+import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/minmax.validator';
@@ -69,7 +69,7 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   buildForm(): void {
     this.powerSampleSizeForm = this.fb.group({
-      power: [this.power, minMaxValidator(0, 1, this.log)],
+      power: [0.9, minMaxValidator(0, 1, this.log)],
       ciwidth: [this.ciwidth, minMaxValidator(0, 10, this.log)]
     });
 
@@ -95,6 +95,11 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     }
    }
 
+  addPower() {
+    this._power.push(this.powerSampleSizeForm.value.power);
+    this.powerSampleSizeForm.reset();
+  }
+
   isRejection(): boolean {
     return this.targetEvent === constants.REJECTION_EVENT;
   }
@@ -114,7 +119,7 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   ngDoCheck() {
     this.study_service.updateSolveFor(this.solveFor);
     if (this.isSampleSize()) {
-      this.study_service.updatePower(this.powerSampleSizeForm.value.power);
+      this.study_service.updatePower(this.power);
       if (this.isCIWidth() || this.isWAVR()) {
         this.study_service.updateCiWidth(this.powerSampleSizeForm.value.ciwidth);
       }
@@ -145,6 +150,22 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   isSampleSize(): boolean {
     return this.solveFor === constants.SOLVE_FOR_SAMPLESIZE;
+  }
+
+  removePower(value: number) {
+    const index = this.power.indexOf(value);
+    if (index > -1) {
+      this.power.splice(index, 1);
+    }
+    this.powerSampleSizeForm.reset();
+  }
+
+  firstPower(): boolean {
+    return this.power.length === 0 ? true : false;
+  }
+
+  get powers$(): Observable<number[]> {
+    return observableOf(this.power)
   }
 
   get solveFor(): string {
@@ -244,6 +265,14 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   dismissHelp() {
     this.helpTextModalReference.close();
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
   }
 
   showHelpText(content) {

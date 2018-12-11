@@ -32,7 +32,7 @@ export class StudyService {
   private _solveForSource = new BehaviorSubject<string>(constants.SOLVE_FOR_POWER);
   private _solveForSelected$ = this._solveForSource.asObservable();
 
-  private _powerSource = new BehaviorSubject<number[]>([0.9]);
+  private _powerSource = new BehaviorSubject<Array<number>>([]);
   private _power$ = this._powerSource.asObservable();
 
   private _ciwidthSource = new BehaviorSubject<number>(1);

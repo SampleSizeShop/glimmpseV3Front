@@ -8,7 +8,6 @@ import {HttpClient} from '@angular/common/http';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {NavigationService} from '../../shared/navigation.service';
 import {MockBackend} from '@angular/http/testing';
-import {HttpClient} from '@angular/common/http';
 
 describe('StudyTitleComponent', () => {
   let component: StudyTitleComponent;

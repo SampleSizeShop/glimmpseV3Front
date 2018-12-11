@@ -84,6 +84,7 @@ export class StudyDesign {
               powerCurve?: PowerCurve
 ) {
     this.isuFactors = new ISUFactors();
+    this.power = [];
     this._define_full_beta = false;
   }
 
