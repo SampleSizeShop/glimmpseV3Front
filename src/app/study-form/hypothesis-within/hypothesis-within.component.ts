@@ -16,7 +16,7 @@ import {minMaxValidator} from '../../shared/minmax.validator';
 import {Observable} from 'rxjs/Observable';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {fadeTransition} from '../../animations';
-import {Predictor} from "../../shared/Predictor";
+import {Predictor} from '../../shared/Predictor';
 
 @Component({
   selector: 'app-hypothesis-within',
@@ -44,6 +44,11 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   private _isuFactorsSubscription: Subscription;
   private _contrastMatrixSubscription: Subscription;
   texString = '';
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
 
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
@@ -52,12 +57,6 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   onResize(event?) {
     this.screenWidth = window.innerWidth;
   }
-
-  private _showHelpTextSubscription: Subscription;
-
-  @ViewChild('helpText') helpTextModal;
-  private helpTextModalReference: any;
-  private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
               private navigation_service: NavigationService,
