@@ -53,6 +53,12 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     this.screenWidth = window.innerWidth;
   }
 
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
   constructor(private study_service: StudyService,
               private navigation_service: NavigationService,
               private contrast_matrix_service: ContrastMatrixService,
@@ -71,6 +77,12 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     } );
     this._contrastMatrixSubscription = this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
       this.setContrastMatrix(contrast_matrix);
+    });
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
     });
     this.buildForm();
     this.onResize();
@@ -108,6 +120,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this._afterInit = true;
     if (this._isuFactors.uMatrix.type === this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS ||
       this._isuFactors.uMatrix.type === this.HYPOTHESIS_NATURE.CUSTOM_U_MATRIX) {
       this.toggleAdvancedOptions();
@@ -117,6 +130,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._isuFactorsSubscription.unsubscribe();
     this._contrastMatrixSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
@@ -333,6 +347,27 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
       isContinuous = true;
     }
     return isContinuous;
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get isuFactors(): ISUFactors {
