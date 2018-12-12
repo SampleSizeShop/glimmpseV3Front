@@ -7,6 +7,7 @@ import {MockBackend} from '@angular/http/testing';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {ReactiveFormsModule} from '@angular/forms';
 import {testEnvironment} from '../../../environments/environment.test';
+import {NavigationService} from '../../shared/navigation.service';
 
 describe('ParametersScaleFactorComponent', () => {
   let component: ParametersScaleFactorComponent;
@@ -21,7 +22,12 @@ describe('ParametersScaleFactorComponent', () => {
         serverLogLevel: testEnvironment.loglevel
       })],
       declarations: [ ParametersScaleFactorComponent ],
-      providers: [ StudyService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
+      providers: [
+        StudyService,
+        {provide: HttpClient, useClass: MockBackend},
+        {provide: NGXLogger, useClass: NGXLoggerMock},
+        NavigationService
+      ]
     })
     .compileComponents();
   }));
