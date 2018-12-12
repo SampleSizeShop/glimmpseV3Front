@@ -1,19 +1,20 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs';
+import {of as observableOf, Subscription, Observable} from 'rxjs';
+import {Component, OnDestroy} from '@angular/core';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/minmax.validator';
+import {Outcome} from "../../shared/Outcome";
 
 @Component({
   selector: 'app-parameters-scale-factor',
   templateUrl: './parameters-scale-factor.component.html',
   styleUrls: ['./parameters-scale-factor.component.css']
 })
-export class ParametersScaleFactorComponent implements DoCheck {
+export class ParametersScaleFactorComponent implements OnDestroy {
 
-  private _scaleFactor: number;
+  private _scaleFactor: Array<number>;
   private _scaleFactorForm: FormGroup;
   private _formErrors = constants.PARAMETERS_SCALE_FACTOR_ERRORS;
   private _validationMessages = constants.PARAMETERS_SCALE_FACTOR_VALIDATION_MESSAGES;
@@ -44,27 +45,45 @@ export class ParametersScaleFactorComponent implements DoCheck {
     }
     const form = this.scaleFactorForm;
 
-    for (const field in this.formErrors) {
+    for (const field of Object.keys(this.formErrors)) {
       this.formErrors[field] = '';
       const control = form.get(field);
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[field];
-        for (const key in control.errors) {
+        for (const key of Object.keys(control.errors)) {
           this.formErrors[field] = messages[key];
         }
       }
     }
   }
 
-  ngDoCheck() {
-    this.study_service.updateScaleFactor(this.scaleFactorForm.get('scalefactor').value);
+  ngOnDestroy() {
+    this.study_service.updateScaleFactor(this.scaleFactor);
+    this.scaleFactorSubscription.unsubscribe();
   }
 
-  get scaleFactor(): number {
+  addScaleFactor() {
+      this.scaleFactor.push(this.scaleFactorForm.value.scalefactor);
+      this.scaleFactorForm.reset();
+  }
+
+  removeScaleFactor(value: number) {
+    const index = this.scaleFactor.indexOf(value);
+    if (index > -1) {
+      this.scaleFactor.splice(index, 1);
+    }
+    this.scaleFactorForm.reset();
+  }
+
+  get scaleFactors$() {
+    return observableOf(this.scaleFactor);
+  }
+
+  get scaleFactor(): Array<number> {
     return this._scaleFactor;
   }
 
-  set scaleFactor(value: number) {
+  set scaleFactor(value: Array<number>) {
     this._scaleFactor = value;
   }
 
@@ -98,5 +117,13 @@ export class ParametersScaleFactorComponent implements DoCheck {
 
   set scaleFactorSubscription(value: Subscription) {
     this._scaleFactorSubscription = value;
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
   }
 }

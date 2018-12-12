@@ -12,7 +12,13 @@
         <div class="col">
           <div class="form-group" id="typeoneerrorinput">
             <label for="typeoneerror">Enter your Type I Error Rate:</label>
-            <input type="number" class="form-control" id="typeoneerror" aria-describedby="typeoneerrorhelp" placeholder="Choose a number 0 > x > 1" formControlName="typeoneerror" required>
+            <input type="number" class="form-control"
+                   id="typeoneerror"
+                   aria-describedby="typeoneerrorhelp"
+                   placeholder="Choose a number 0 > x > 1"
+                   formControlName="typeoneerror"
+                   (keyup.enter)="addAlpha()"
+                   required>
             <div *ngIf="formErrors.typeoneerror" class="form-group has-danger">
               <div class="form-control-feedback">{{formErrors.typeoneerror}}</div>
             </div>

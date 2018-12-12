@@ -77,7 +77,7 @@ export class StudyService {
   private _varianceScaleFactorsSource = new BehaviorSubject<Array<number>>([]);
   private _varianceScaleFactors$ = this._varianceScaleFactorsSource.asObservable();
 
-  private _scaleFactorSource = new BehaviorSubject<number>(1);
+  private _scaleFactorSource = new BehaviorSubject<Array<number>>([]);
   private _scaleFactor$ = this._scaleFactorSource.asObservable();
 
   private _powerCurveSource = new BehaviorSubject<PowerCurve>(null);
@@ -162,7 +162,7 @@ export class StudyService {
     this._hypothesisEffectSource.next(hypothesisEffect);
   }
 
-  updateScaleFactor(scaleFactor: number) {
+  updateScaleFactor(scaleFactor: Array<number>) {
     this._scaleFactorSource.next(scaleFactor);
   }
 
@@ -188,16 +188,6 @@ export class StudyService {
 
   constructor(private  http: HttpClient) {
     this._stages = constants.STAGES;
-  }
-
-  getStageFromName(name: string): number {
-    let stageNo = -1;
-    Object.keys(this._stages).forEach( key => {
-      if (name === this._stages[key]) {
-        stageNo = Number.parseInt(key);
-      }
-    });
-    return stageNo;
   }
 
   get next(): string {
@@ -361,11 +351,11 @@ export class StudyService {
   }
 
 
-  get scaleFactor$(): Observable<number> {
+  get scaleFactor$(): Observable<Array<number>> {
     return this._scaleFactor$;
   }
 
-  set scaleFactor$(value: Observable<number>) {
+  set scaleFactor$(value: Observable<Array<number>>) {
     this._scaleFactor$ = value;
   }
 

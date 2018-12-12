@@ -23,7 +23,7 @@ interface StudyDesignJSON {
   _typeOneErrorRate: Array<number>;
   _isuFactors: ISUFactors;
   _gaussianCovariate: GaussianCovariate;
-  _scaleFactor: number;
+  _scaleFactor: number[];
   _varianceScaleFactors: number[];
   _powerCurve: PowerCurve;
   _define_full_beta: boolean;
@@ -39,7 +39,7 @@ export class StudyDesign {
   private _typeOneErrorRate: Array<number>;
   private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
-  private _scaleFactor: number;
+  private _scaleFactor: number[];
   private _varianceScaleFactors: number[];
   private _powerCurve: PowerCurve;
   private _define_full_beta: boolean;
@@ -364,11 +364,11 @@ export class StudyDesign {
     this._gaussianCovariate = value;
   }
 
-  get scaleFactor(): number {
+  get scaleFactor(): Array<number> {
     return this._scaleFactor;
   }
 
-  set scaleFactor(value: number) {
+  set scaleFactor(value: Array<number>) {
     this._scaleFactor = value;
   }
 

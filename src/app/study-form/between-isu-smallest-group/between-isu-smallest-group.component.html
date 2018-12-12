@@ -13,7 +13,8 @@
              class="form-control"
              id="smallestgroupsize"
              formControlName="smallestGroupSize"
-             placeholder="Please enter the size of your smallest group">
+             placeholder="Please enter the size of your smallest group"
+             (keyup.enter)="addGroupSize()">
     </div>
     <div class="col">
       <i class="material-icons" (click)="addGroupSize()" style="margin-top: 10px" id="addgroupsize">add</i>

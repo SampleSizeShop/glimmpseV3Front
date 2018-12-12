@@ -123,6 +123,7 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
 
   addGroupSize() {
     this._isuFactors.smallestGroupSize.push(this.groupSizeForm.value.smallestGroupSize)
+    this.groupSizeForm.reset();
   }
 
   removeGroupSize(value) {
