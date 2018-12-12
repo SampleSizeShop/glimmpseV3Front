@@ -6,7 +6,13 @@
         You may enter multiple values for the smallest group size in order to consider a range of total sample sizes.
       </p>
     </div>
-    <input type="number" class="form-control" id="smallestgroupsize" formControlName="smallestGroupSize"  placeholder="Please enter the size of your smallest group">
+    <input type="number"
+           min="0"
+           step="1"
+           class="form-control"
+           id="smallestgroupsize"
+           formControlName="smallestGroupSize"
+           placeholder="Please enter the size of your smallest group">
     <div *ngIf="formErrors.smallestGroupSize" class="form-group has-danger">
       <div class="form-control-feedback">{{formErrors.smallestGroupSize}}</div>
     </div>
