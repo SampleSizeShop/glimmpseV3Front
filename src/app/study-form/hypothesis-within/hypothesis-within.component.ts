@@ -16,7 +16,7 @@ import {minMaxValidator} from '../../shared/minmax.validator';
 import {Observable} from 'rxjs/Observable';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {fadeTransition} from '../../animations';
-import {Predictor} from "../../shared/Predictor";
+import {Predictor} from '../../shared/Predictor';
 
 @Component({
   selector: 'app-hypothesis-within',
@@ -44,6 +44,11 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   private _isuFactorsSubscription: Subscription;
   private _contrastMatrixSubscription: Subscription;
   texString = '';
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
 
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
@@ -71,6 +76,12 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     } );
     this._contrastMatrixSubscription = this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
       this.setContrastMatrix(contrast_matrix);
+    });
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
     });
     this.buildForm();
     this.onResize();
@@ -108,6 +119,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this._afterInit = true;
     if (this._isuFactors.uMatrix.type === this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS ||
       this._isuFactors.uMatrix.type === this.HYPOTHESIS_NATURE.CUSTOM_U_MATRIX) {
       this.toggleAdvancedOptions();
@@ -117,6 +129,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._isuFactorsSubscription.unsubscribe();
     this._contrastMatrixSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   canDeactivate(): boolean | Observable<boolean> | Promise<boolean> {
@@ -333,6 +346,27 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
       isContinuous = true;
     }
     return isContinuous;
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get isuFactors(): ISUFactors {
