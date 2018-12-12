@@ -8,6 +8,8 @@ import {StudyService} from '../study.service';
 import {HttpClient} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {constants} from '../../shared/constants';
+import {NavigationService} from '../../shared/navigation.service';
+import {NGXLogger} from 'ngx-logger';
 
 describe('HypothesisTheta0Component', () => {
   let component: HypothesisTheta0Component;
@@ -21,8 +23,10 @@ describe('HypothesisTheta0Component', () => {
       declarations: [ HypothesisTheta0Component ],
       providers: [
         StudyService,
-        { provide: HttpClient, useClass: MockBackend },
-        {provide: ActivatedRoute, useClass: ActivatedRouteStub }
+        NGXLogger,
+        NavigationService,
+        {provide: HttpClient, useClass: MockBackend},
+        {provide: ActivatedRoute, useClass: ActivatedRouteStub}
       ]
     })
     .compileComponents();
