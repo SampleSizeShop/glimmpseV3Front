@@ -7,6 +7,7 @@ import {StudyService} from '../study.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
 import {of as observableOf, Subscription, Observable} from 'rxjs';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-type-one-error',
@@ -108,8 +109,11 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   }
 
   addAlpha() {
-    this._typeOneErrorRate.push(this.typeOneErrorRateForm.value.typeoneerror);
-    this.typeOneErrorRateForm.reset();
+    const value = this.typeOneErrorRateForm.value.typeoneerror;
+    if (!isNullOrUndefined(value) && value !== '' ) {
+      this._typeOneErrorRate.push(this.typeOneErrorRateForm.value.typeoneerror);
+      this.typeOneErrorRateForm.reset();
+    }
   }
 
   removeAlpha(value: number) {
