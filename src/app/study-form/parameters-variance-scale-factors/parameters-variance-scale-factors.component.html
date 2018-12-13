@@ -32,16 +32,25 @@
   </div>
   <br>
   <small *ngIf="!firstScaleFactor()">ScaleFactors:</small>
-  <div *ngFor="let scaleFactor of scaleFactors" id="scaleFactorlist">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col col-md-auto">
-          <i class="material-icons" (click)="removeScaleFactor(scaleFactor)" style="margin-bottom: 5px" id="removescaleFactor">remove</i>
-        </div>
-        <div class="col">
-          {{scaleFactor | json}}
-        </div>
-      </div>
-    </div>
+  <div class="row">
+    <table class="table">
+      <thead>
+      <th>Scale Factor</th>
+      <th>remove</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let scaleFactor of scaleFactor$ | async; let i = index; " id="scalefactorlist" [class]="rowStyle(i)">
+        <td>{{scaleFactor}}</td>
+        <td>
+          <i class="material-icons"
+             (click)="removeScaleFactor(scaleFactor)"
+             style="margin-bottom: 5px"
+             id="removescalefactor">
+            remove
+          </i>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </form>

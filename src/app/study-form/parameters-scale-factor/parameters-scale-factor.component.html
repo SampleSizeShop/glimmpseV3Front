@@ -15,8 +15,7 @@
                    aria-describedby="scalefactorhelp"
                    placeholder="Choose a number between 0 and 1. (Inclusive)"
                    formControlName="scalefactor"
-                   (keyup.enter)="addScaleFactor()"
-                   required>
+                   (keyup.enter)="addScaleFactor()">
             <div *ngIf="formErrors.scalefactor" class="form-group has-danger">
               <div class="form-control-feedback">{{formErrors.scalefactor}}</div>
             </div>

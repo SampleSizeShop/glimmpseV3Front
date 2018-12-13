@@ -7,7 +7,7 @@ import {StudyService} from '../study.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
 import {of as observableOf, Subscription, Observable} from 'rxjs';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-type-one-error',

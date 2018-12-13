@@ -3,7 +3,7 @@ import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs';
+import {of as observableOf, Subscription, Observable} from 'rxjs';
 
 @Component({
   selector: 'app-parameters-variance-scale-factors',
@@ -106,6 +106,10 @@ private _varianceScaleFactorsSubscription: Subscription;
     return false;
   }
 
+  get scaleFactor$ () {
+    return observableOf(this._scaleFactors)
+  }
+
   get scaleFactors(): number[] {
     return this._scaleFactors;
   }
@@ -160,5 +164,13 @@ private _varianceScaleFactorsSubscription: Subscription;
 
   set varianceScaleFactorsSubscription(value: Subscription) {
     this._varianceScaleFactorsSubscription = value;
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
   }
 }
