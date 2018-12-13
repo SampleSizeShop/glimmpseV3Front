@@ -39,13 +39,12 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
-  }
-
-  ngOnInit() {
-    this._afterInit = true;
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
+  }
+
+  ngOnInit() {
     this.buildForm();
   }
 
@@ -94,8 +93,7 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
   }
 
   updateSmallestGroupSizeControls() {
-    return { smallestGroupSize: [
-      this.isuFactors.smallestGroupSize,
+    return { smallestGroupSize: [null,
         [minMaxValidator(0, Number.MAX_VALUE, this.log),
           // positive integer regex
           Validators.pattern('^\\d+$')]
