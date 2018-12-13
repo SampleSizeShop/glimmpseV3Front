@@ -15,7 +15,6 @@
   </p>
 </div>
 <form [formGroup] ="scaleFactorsForm">
-  <div class="container-fluid">
     <div class="row" *ngIf="firstScaleFactor() || nextScaleFactor()">
       <div class="col">
         <div class="form-group">
@@ -29,7 +28,6 @@
         <i class="material-icons" (click)="addScaleFactor()" style="margin-top: 10px" id="addscaleFactor">add</i>
       </div>
     </div>
-  </div>
   <br>
   <small *ngIf="!firstScaleFactor()">ScaleFactors:</small>
   <div class="row">
