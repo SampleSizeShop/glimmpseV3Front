@@ -6,6 +6,7 @@ import {StudyService} from '../study.service';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {Outcome} from "../../shared/Outcome";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-parameters-scale-factor',
@@ -32,7 +33,7 @@ export class ParametersScaleFactorComponent implements OnDestroy {
 
   buildForm(): void {
     this.scaleFactorForm = this.fb.group({
-      scalefactor: [this.scaleFactor, minMaxValidator(0, 1, this.logger)]
+      scalefactor: [null, minMaxValidator(0, 1, this.logger)]
     });
 
     this.scaleFactorForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -63,8 +64,10 @@ export class ParametersScaleFactorComponent implements OnDestroy {
   }
 
   addScaleFactor() {
+    const value = this.scaleFactorForm.value.scalefactor;
+    if (!isNullOrUndefined(value) && value !== '') {
       this.scaleFactor.push(this.scaleFactorForm.value.scalefactor);
-      this.scaleFactorForm.reset();
+      this.scaleFactorForm.reset();}
   }
 
   removeScaleFactor(value: number) {
