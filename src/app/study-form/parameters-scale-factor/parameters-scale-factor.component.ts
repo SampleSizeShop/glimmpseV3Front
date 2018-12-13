@@ -65,7 +65,9 @@ export class ParametersScaleFactorComponent implements OnDestroy {
 
   addScaleFactor() {
     const value = this.scaleFactorForm.value.scalefactor;
-    if (!isNullOrUndefined(value) && value !== '') {
+    if (!isNullOrUndefined(value)
+        && value !== ''
+        && this.scaleFactor.indexOf(value) === -1) {
       this.scaleFactor.push(this.scaleFactorForm.value.scalefactor);
       this.scaleFactorForm.reset();}
   }

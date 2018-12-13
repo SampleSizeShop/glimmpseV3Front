@@ -49,7 +49,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   buildForm(): void {
     this.typeOneErrorRateForm = this.fb.group({
-      typeoneerror: [this.typeOneErrorRate, minMaxValidator(0, 1, this.log)]
+      typeoneerror: [0.01, minMaxValidator(0, 1, this.log)]
     });
 
     this.typeOneErrorRateForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -110,7 +110,9 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   addAlpha() {
     const value = this.typeOneErrorRateForm.value.typeoneerror;
-    if (!isNullOrUndefined(value) && value !== '' ) {
+    if (!isNullOrUndefined(value) &&
+      value !== '' &&
+      this.typeOneErrorRate.indexOf(value) === -1) {
       this._typeOneErrorRate.push(this.typeOneErrorRateForm.value.typeoneerror);
       this.typeOneErrorRateForm.reset();
     }

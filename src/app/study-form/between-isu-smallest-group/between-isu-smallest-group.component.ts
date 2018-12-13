@@ -124,7 +124,9 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
 
   addGroupSize() {
     const value = this.groupSizeForm.value.smallestGroupSize;
-    if (!isNullOrUndefined(value) && value !== '') {
+    if (!isNullOrUndefined(value)
+        && value !== ''
+        && this._isuFactors.smallestGroupSize.indexOf(value) === -1) {
       this._isuFactors.smallestGroupSize.push(value);
       this.groupSizeForm.reset();
     }

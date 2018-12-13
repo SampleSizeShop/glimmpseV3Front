@@ -7,6 +7,7 @@ import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-solve-for',
@@ -96,8 +97,13 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
    }
 
   addPower() {
-    this._power.push(this.powerSampleSizeForm.value.power);
-    this.powerSampleSizeForm.reset();
+    const value = this.powerSampleSizeForm.value.power;
+    if (!isNullOrUndefined(value) &&
+      value !== '' &&
+      this._power.indexOf(value) === -1) {
+      this._power.push(value);
+      this.powerSampleSizeForm.reset();
+    }
   }
 
   isRejection(): boolean {

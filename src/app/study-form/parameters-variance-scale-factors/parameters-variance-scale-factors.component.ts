@@ -78,10 +78,10 @@ private _varianceScaleFactorsSubscription: Subscription;
   }
 
   addScaleFactor() {
+    const value = +this.scaleFactorsForm.value.scaleFactors
     if (
       this.scaleFactorsForm.status === 'VALID'
-      && this.scaleFactorsForm.value.scaleFactors
-    ) {
+      && this.scaleFactors.indexOf(value) === -1) {
       this.scaleFactors.push(+this.scaleFactorsForm.value.scaleFactors);
       this.scaleFactorsForm.reset();
     }
