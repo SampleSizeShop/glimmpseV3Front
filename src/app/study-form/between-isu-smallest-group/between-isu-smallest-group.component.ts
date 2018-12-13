@@ -82,7 +82,11 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
   }
 
   checkValid() {
-    if (this.groupSizeForm.status === 'VALID') {
+    if (isNullOrUndefined(this._isuFactors) ||
+      isNullOrUndefined(this._isuFactors.smallestGroupSize) ||
+      this._isuFactors.smallestGroupSize.length < 1 ) {
+      this.navigation_service.updateValid(false);
+    } else if (this.groupSizeForm.status === 'VALID') {
       this.navigation_service.updateValid(true);
     } else {
       this.navigation_service.updateValid(false);
@@ -92,8 +96,7 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
   updateSmallestGroupSizeControls() {
     return { smallestGroupSize: [
       this.isuFactors.smallestGroupSize,
-        [Validators.required,
-          minMaxValidator(0, Number.MAX_VALUE, this.log),
+        [minMaxValidator(0, Number.MAX_VALUE, this.log),
           // positive integer regex
           Validators.pattern('^\\d+$')]
       ]
