@@ -9,6 +9,7 @@ import {environment} from '../../../environments/environment';
 import {Cluster} from '../../shared/Cluster';
 import {Predictor} from '../../shared/Predictor';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {constants} from "../../shared/constants";
 
 @Component({
   selector: 'app-calculate',
@@ -117,22 +118,13 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   buildResultTable() {
-    const resultArray = [];
-    let tempContainer = {};
+    const results = [];
 
     for (const result of this.resultString.results) {
-      for (const variability_scale_factor of this.studyDesign['_varianceScaleFactors']) {
-        tempContainer = {};
-        tempContainer['result'] = result;
-        tempContainer['smallestGroupSize'] = this.studyDesign['_isuFactors']['smallestGroupSize'];
-        tempContainer['scaleFactor'] = this.studyDesign['_scaleFactor'];
-        tempContainer['variability_scale_factor'] = variability_scale_factor;
-        tempContainer['test_type'] = result.test;
-        tempContainer['typeOneErrorRate'] = this.studyDesign['_typeOneErrorRate'];
-        resultArray.push(tempContainer);
-      }
+        const tempContainer = {};
+        results.push(result);
     }
-    this.resultForDisplay = resultArray;
+    this.resultForDisplay = results;
   }
 
   private handleError(error: any): Promise<any> {
@@ -241,6 +233,10 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   isSelected(index: number) {
     return index === this.currentSelected;
+  }
+
+  isPower(): boolean {
+    return this.studyDesign.solveFor === constants.SOLVE_FOR.POWER;
   }
 
   get outputString(): string {

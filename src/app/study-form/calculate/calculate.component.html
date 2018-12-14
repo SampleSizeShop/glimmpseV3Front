@@ -9,20 +9,26 @@
   <br>
   <table class="table">
     <tr>
-      <th>Power</th>
+      <th *ngIf="isPower()">Power</th>
+      <th *ngIf="!isPower()">Target Power</th>
       <th>Total Sample Size</th>
       <th>Means Scale Factor</th>
       <th>Variability Scale Factor</th>
       <th>Test</th>
       <th>Type I Error Rate</th>
     </tr>
-    <tr *ngFor="let result of resultForDisplay; index as i" (click)="showDetail(getOutput(result['result']), i)" [class] = "rowStyle(i)" [attr.id]="'result_display_row_'+i">
-      <td>{{getOutput(result['result'])}}</td>
-      <td>{{ result['smallestGroupSize'] }}</td>
-      <td>{{ result['scaleFactor'] }}</td>
-      <td>{{ result['variability_scale_factor'] }}</td>
-      <td>{{ result['test_type'] }}</td>
-      <td>{{ result['typeOneErrorRate'] }}</td>
+    <tr *ngFor="let result of resultForDisplay; index as i"
+        (click)="showDetail(getOutput(result), i)"
+        [class] = "rowStyle(i)"
+        [attr.id]="'result_display_row_'+i">
+      <td *ngIf="isPower()">{{result['power']}}</td>
+      <td *ngIf="!isPower()">{{result['target_power']}}</td>
+      <td *ngIf="isPower()">{{result['total_n']}}</td>
+      <td *ngIf="!isPower()">{{result['samplesize']}}</td>
+      <td>{{ result['means_scale_factor'] }}</td>
+      <td>{{ result['variance_scale_factor'] }}</td>
+      <td>{{ result['test'] }}</td>
+      <td>{{ result['alpha'] }}</td>
     </tr>
   </table>
   <div *ngIf="isShowDetail">
