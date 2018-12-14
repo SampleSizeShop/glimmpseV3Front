@@ -236,7 +236,11 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   isPower(): boolean {
-    return this.studyDesign.solveFor === constants.SOLVE_FOR.POWER;
+    let ret = true;
+    if (!isNullOrUndefined(this.studyDesign)) {
+      ret =  this.studyDesign.solveFor === constants.SOLVE_FOR.POWER;
+    }
+    return ret;
   }
 
   get outputString(): string {

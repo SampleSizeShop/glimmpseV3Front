@@ -7,6 +7,8 @@ import {MockBackend} from '@angular/http/testing';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {Predictor} from '../../shared/Predictor';
 import {testCombinationMap1, testCombinationMap2} from './test_inputs/testCombinationMap';
+import {StudyDesign} from '../../shared/study-design';
+import {constants} from '../../shared/constants';
 
 describe('CalculateComponent', () => {
   let component: CalculateComponent;
