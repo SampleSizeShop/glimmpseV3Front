@@ -40,6 +40,7 @@ describe('ParametersRepeatedMeasureOutcomeStDevComponent', () => {
       ],
       providers: [
         StudyService,
+        NavigationService,
         {provide: Router, useClass: RouterStub},
         {provide: HttpClient, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock},
