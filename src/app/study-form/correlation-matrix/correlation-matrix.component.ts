@@ -243,18 +243,42 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
   calculateLear() {
     // hack to get this started
-    const base = 0.5
-    const decay = 0.35
+    const base = 0.5;
+    const decay = 0.35;
+    const levels = Array<number>;
 
-    const vals = this.uMatrix.values.clone();
-    for ( let r = 0; r < vals.size()[0]; r++ ) {
-      for (let c = 0; c < vals.size()[1]; c++ ) {
-        if (r === c ) { vals.set([r,c],  1); }
-        if (r !== c ) { vals.set([r,c], Math.pow(base, (0 + decay * ( (5 - r) / (4) )))); }
+    if ( this._isNumeric() ) {
+      this.labels.forEach(
+        val => {
+          levels.push(Number.parseFloat(val));
+        }
+      );
+
+      const dMin = Math.min.apply(null, levels);
+      const dMax = Math.max.apply(null, levels);
+
+      const vals = this.uMatrix.values.clone();
+      for ( let r = 0; r < vals.size()[0]; r++ ) {
+        for (let c = 0; c < vals.size()[1]; c++ ) {
+          if (r === c ) { vals.set([r,c],  1); }
+          if (r !== c ) { vals.set([r,c], Math.pow(base, (0 + decay * ( (5 - r) / (4) )))); }
+        }
       }
-    }
 
-    this.uMatrix.values = vals;
+      this.uMatrix.values = vals;
+    }
+  }
+
+  _isNumeric() {
+    let isNumeric = true
+    this.labels.forEach(
+      value => {
+        if( isNaN(Number.parseFloat(value))) {
+          isNumeric = false;
+        }
+      }
+    );
+    return isNumeric;
   }
 
   isUnstructured() {
