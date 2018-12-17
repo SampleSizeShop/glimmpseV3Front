@@ -3,7 +3,7 @@ import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs';
+import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
@@ -98,10 +98,10 @@ private _afterInit: boolean;
   }
 
   addScaleFactor() {
+    const value = +this.scaleFactorsForm.value.scaleFactors
     if (
       this.scaleFactorsForm.status === 'VALID'
-      && this.scaleFactorsForm.value.scaleFactors
-    ) {
+      && this.scaleFactors.indexOf(value) === -1) {
       this.scaleFactors.push(+this.scaleFactorsForm.value.scaleFactors);
       this.scaleFactorsForm.reset();
     }
@@ -124,6 +124,10 @@ private _afterInit: boolean;
       return true;
     }
     return false;
+  }
+
+  get scaleFactor$ () {
+    return observableOf(this._scaleFactors)
   }
 
   dismissHelp() {
@@ -201,5 +205,13 @@ private _afterInit: boolean;
 
   set varianceScaleFactorsSubscription(value: Subscription) {
     this._varianceScaleFactorsSubscription = value;
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
   }
 }

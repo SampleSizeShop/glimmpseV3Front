@@ -7,8 +7,8 @@ import {MockBackend} from '@angular/http/testing';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {Predictor} from '../../shared/Predictor';
 import {testCombinationMap1, testCombinationMap2} from './test_inputs/testCombinationMap';
-import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
+import {NavigationService} from '../../shared/navigation.service';
 
 describe('CalculateComponent', () => {
   let component: CalculateComponent;
@@ -21,10 +21,9 @@ describe('CalculateComponent', () => {
         MathJaxDirective],
       providers: [
         StudyService,
-        {provide: HttpClient, useClass: MockBackend},
+       {provide: HttpClient, useClass: MockBackend},
         NGXLogger,
-        NavigationService
-      ]
+        NavigationService]
     })
     .compileComponents();
   }));

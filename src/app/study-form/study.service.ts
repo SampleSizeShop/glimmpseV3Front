@@ -32,7 +32,7 @@ export class StudyService {
   private _solveForSource = new BehaviorSubject<string>(constants.SOLVE_FOR_POWER);
   private _solveForSelected$ = this._solveForSource.asObservable();
 
-  private _powerSource = new BehaviorSubject<number>(0.5);
+  private _powerSource = new BehaviorSubject<Array<number>>([]);
   private _power$ = this._powerSource.asObservable();
 
   private _ciwidthSource = new BehaviorSubject<number>(1);
@@ -41,7 +41,7 @@ export class StudyService {
   private _selectedTestsSource = new BehaviorSubject<string[]>([constants.STATISTICAL_TESTS.HOTELLING_LAWLEY]);
   private _selectdTests$ = this._selectedTestsSource.asObservable();
 
-  private _typeOneErrorRateSource = new BehaviorSubject<number>(0.01);
+  private _typeOneErrorRateSource = new BehaviorSubject<Array<number>>([]);
   private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
 
   private _withinIsuOutcomesSource = new BehaviorSubject<Outcome[]>([]);
@@ -77,7 +77,7 @@ export class StudyService {
   private _varianceScaleFactorsSource = new BehaviorSubject<Array<number>>([]);
   private _varianceScaleFactors$ = this._varianceScaleFactorsSource.asObservable();
 
-  private _scaleFactorSource = new BehaviorSubject<number>(1);
+  private _scaleFactorSource = new BehaviorSubject<Array<number>>([]);
   private _scaleFactor$ = this._scaleFactorSource.asObservable();
 
   private _powerCurveSource = new BehaviorSubject<PowerCurve>(null);
@@ -106,7 +106,7 @@ export class StudyService {
     this._solveForSource.next(solveFor);
   }
 
-  updatePower(power: number) {
+  updatePower(power: number[]) {
     this._powerSource.next(power);
   }
 
@@ -118,7 +118,7 @@ export class StudyService {
     this._selectedTestsSource.next(tests);
   }
 
-  updateTypeOneErrorRate(rate: number) {
+  updateTypeOneErrorRate(rate: Array<number>) {
     this._typeOneErrorRateSource.next(rate);
   }
 
@@ -162,7 +162,7 @@ export class StudyService {
     this._hypothesisEffectSource.next(hypothesisEffect);
   }
 
-  updateScaleFactor(scaleFactor: number) {
+  updateScaleFactor(scaleFactor: Array<number>) {
     this._scaleFactorSource.next(scaleFactor);
   }
 
@@ -188,16 +188,6 @@ export class StudyService {
 
   constructor(private  http: HttpClient) {
     this._stages = constants.STAGES;
-  }
-
-  getStageFromName(name: string): number {
-    let stageNo = -1;
-    Object.keys(this._stages).forEach( key => {
-      if (name === this._stages[key]) {
-        stageNo = Number.parseInt(key);
-      }
-    });
-    return stageNo;
   }
 
   get next(): string {
@@ -256,11 +246,11 @@ export class StudyService {
     this._solveForSelected$ = value;
   }
 
-  get power$(): Observable<number> {
+  get power$(): Observable<number[]> {
     return this._power$;
   }
 
-  set power$(value: Observable<number>) {
+  set power$(value: Observable<number[]>) {
     this._power$ = value;
   }
 
@@ -280,11 +270,11 @@ export class StudyService {
     this._selectdTests$ = value;
   }
 
-  get typeOneErrorRate$(): Observable<number> {
+  get typeOneErrorRate$(): Observable<Array<number>> {
     return this._typeOneErrorRate$;
   }
 
-  set typeOneErrorRate$(value: Observable<number>) {
+  set typeOneErrorRate$(value: Observable<Array<number>>) {
     this._typeOneErrorRate$ = value;
   }
 
@@ -361,11 +351,11 @@ export class StudyService {
   }
 
 
-  get scaleFactor$(): Observable<number> {
+  get scaleFactor$(): Observable<Array<number>> {
     return this._scaleFactor$;
   }
 
-  set scaleFactor$(value: Observable<number>) {
+  set scaleFactor$(value: Observable<Array<number>>) {
     this._scaleFactor$ = value;
   }
 

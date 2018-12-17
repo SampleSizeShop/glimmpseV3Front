@@ -5,13 +5,132 @@ export const O2R2P2C0_output = {
   status: 200,
   mimetype: 'application/json',
   results: [
-    {test: 'Hotelling Lawley Trace', power: 0.925148507438},
-    {test: 'Pillai-Bartlett Trace', power: 0.756772616724},
-    {test: 'Wilks Likelihood Ratio', power: 0.908569684049},
-    {test: 'Repeated Measures: Box Correction', power: 0.0927413},
-    {test: 'Repeated Measures: Geisser-Greenhouse Correction', power: 0.1686649},
-    {test: 'Repeated Measures: Huynh-Feldt Correction', power: 0.1793055},
-    {test: 'Repeated Measure: uncorrected', power: 0.431803}
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.9251529122895696,
+      'target_power': null,
+      'test': 'Hotelling Lawley Trace',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.9251529122895696,
+      'target_power': null,
+      'test': 'Hotelling Lawley Trace',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.7567793294331613,
+      'target_power': null,
+      'test': 'Pillai-Bartlett Trace',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.7567793294331613,
+      'target_power': null,
+      'test': 'Pillai-Bartlett Trace',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.9085726422322089,
+      'target_power': null,
+      'test': 'Wilks Likelihood Ratio',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.9085726422322089,
+      'target_power': null,
+      'test': 'Wilks Likelihood Ratio',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.09274397766549403,
+      'target_power': null,
+      'test': 'Repeated Measures: Box Correction',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.09274397766549403,
+      'target_power': null,
+      'test': 'Repeated Measures: Box Correction',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.16867362343587666,
+      'target_power': null,
+      'test': 'Repeated Measures: Geisser-Greenhouse Correction',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.16867362343587666,
+      'target_power': null,
+      'test': 'Repeated Measures: Geisser-Greenhouse Correction',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.17931332749248874,
+      'target_power': null,
+      'test': 'Repeated Measures: Huynh-Feldt Correction',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.17931332749248874,
+      'target_power': null,
+      'test': 'Repeated Measures: Huynh-Feldt Correction',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.4318094850101053,
+      'target_power': null,
+      'test': 'Repeated Measure: uncorrected',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    },
+    {
+      'alpha': 0.05,
+      'means_scale_factor': 1,
+      'power': 0.4318094850101053,
+      'target_power': null,
+      'test': 'Repeated Measure: uncorrected',
+      'total_n': 30,
+      'variance_scale_factor': 1
+    }
     ],
   model: {
     essence_design_matrix: [

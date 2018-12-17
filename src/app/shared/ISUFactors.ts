@@ -12,7 +12,6 @@ import {Group} from './Group';
 import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
 import {MarginalMeansTable} from './MarginalMeansTable';
 import {PartialMatrix} from './PartialMatrix';
-import {StudyDesign} from './study-design';
 
 // A representation of ISUFactors' data that can be converted to
 // and from JSON without being altered.

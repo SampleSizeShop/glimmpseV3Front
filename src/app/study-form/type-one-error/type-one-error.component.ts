@@ -4,9 +4,10 @@ import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
+import {of as observableOf, Subscription, Observable} from 'rxjs';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-type-one-error',
@@ -15,7 +16,7 @@ import {NavigationService} from '../../shared/navigation.service';
   providers: [NGXLogger]
 })
 export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
-  private _typeOneErrorRate: number;
+  private _typeOneErrorRate: Array<number>;
   private _typeOneErrorRateForm: FormGroup;
   private _formErrors = constants.TYPE_ONE_ERROR_ERRORS;
   private _validationMessages = constants.TYPE_ONE_ERROR_VALIDATION_MESSAGES;
@@ -48,7 +49,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   buildForm(): void {
     this.typeOneErrorRateForm = this.fb.group({
-      typeoneerror: [this.typeOneErrorRate, minMaxValidator(0, 1, this.log)]
+      typeoneerror: [0.01, minMaxValidator(0, 1, this.log)]
     });
 
     this.typeOneErrorRateForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -61,12 +62,12 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     }
     const form = this.typeOneErrorRateForm;
 
-    for (const field in this.formErrors) {
+    for (const field of Object.keys(this.formErrors)) {
       this.formErrors[field] = '';
       const control = form.get(field);
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[field];
-        for (const key in control.errors) {
+        for (const key of Object.keys(control.errors)) {
           this.formErrors[field] += messages[key] + ' ';
         }
       }
@@ -78,7 +79,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   }
 
   ngDoCheck() {
-    this.study_service.updateTypeOneErrorRate(this.typeOneErrorRateForm.get('typeoneerror').value);
+    this.study_service.updateTypeOneErrorRate(this.typeOneErrorRate);
   }
 
   ngOnDestroy() {
@@ -107,6 +108,32 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
       });
   }
 
+  addAlpha() {
+    const value = this.typeOneErrorRateForm.value.typeoneerror;
+    if (!isNullOrUndefined(value) &&
+      value !== '' &&
+      this.typeOneErrorRate.indexOf(value) === -1) {
+      this._typeOneErrorRate.push(this.typeOneErrorRateForm.value.typeoneerror);
+      this.typeOneErrorRateForm.reset();
+    }
+  }
+
+  removeAlpha(value: number) {
+    const index = this._typeOneErrorRate.indexOf(value);
+    if (index > -1) {
+      this._typeOneErrorRate.splice(index, 1);
+    }
+    this.typeOneErrorRateForm.reset();
+  }
+
+  firstAlpha(): boolean {
+    return this.typeOneErrorRate.length === 0 ? true : false;
+  }
+
+  get alphas$(): Observable<number[]> {
+    return observableOf(this.typeOneErrorRate)
+  }
+
   get typeOneErrorRateForm(): FormGroup {
     return this._typeOneErrorRateForm;
   }
@@ -131,11 +158,11 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     this._validationMessages = value;
   }
 
-  get typeOneErrorRate(): number {
+  get typeOneErrorRate(): Array<number> {
     return this._typeOneErrorRate;
   }
 
-  set typeOneErrorRate(value: number) {
+  set typeOneErrorRate(value: Array<number>) {
     this._typeOneErrorRate = value;
   }
 
@@ -145,5 +172,13 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   set typeOneErrorRateSubscription(value: Subscription) {
     this._typeOneErrorRateSubscription = value;
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
   }
 }

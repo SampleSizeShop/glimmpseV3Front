@@ -12,6 +12,7 @@ import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
+import {constants} from '../../shared/constants';
 
 @Component({
   selector: 'app-calculate',
@@ -137,22 +138,12 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   buildResultTable() {
-    const resultArray = [];
-    let tempContainer = {};
+    const results = [];
 
     for (const result of this.resultString.results) {
-      for (const variability_scale_factor of this.studyDesign['_varianceScaleFactors']) {
-        tempContainer = {};
-        tempContainer['result'] = result;
-        tempContainer['smallestGroupSize'] = this.studyDesign['_isuFactors']['smallestGroupSize'];
-        tempContainer['scaleFactor'] = this.studyDesign['_scaleFactor'];
-        tempContainer['variability_scale_factor'] = variability_scale_factor;
-        tempContainer['test_type'] = result.test;
-        tempContainer['typeOneErrorRate'] = this.studyDesign['_typeOneErrorRate'];
-        resultArray.push(tempContainer);
-      }
+      results.push(result);
     }
-    this.resultForDisplay = resultArray;
+    this.resultForDisplay = results;
   }
 
   private handleError(error: any): Promise<any> {
@@ -261,6 +252,14 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   isSelected(index: number) {
     return index === this.currentSelected;
+  }
+
+  isPower(): boolean {
+    let ret = true;
+    if (!isNullOrUndefined(this.studyDesign)) {
+      ret =  this.studyDesign.solveFor === constants.SOLVE_FOR.POWER;
+    }
+    return ret;
   }
 
   dismissHelp() {

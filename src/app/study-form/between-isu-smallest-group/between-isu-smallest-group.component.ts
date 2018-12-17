@@ -2,7 +2,7 @@ import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs';
+import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
@@ -15,7 +15,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './between-isu-smallest-group.component.html',
   styleUrls: ['./between-isu-smallest-group.component.scss']
 })
-export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDestroy {
+export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
 
   private _isuFactors: ISUFactors;
   private _groupSizeForm: FormGroup;
@@ -39,22 +39,17 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
         this.showHelpText(this.helpTextModal);
       }
     });
-  }
-
-  ngOnInit() {
-    this._afterInit = true;
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
+  }
+
+  ngOnInit() {
     this.buildForm();
   }
 
-  ngDoCheck() {
-    this.updateSmallestGroupSize();
-    this.study_service.updateIsuFactors(this.isuFactors);
-  }
-
   ngOnDestroy() {
+    this.study_service.updateIsuFactors(this.isuFactors);
     this.isuFactorsSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
   }
@@ -71,12 +66,12 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
     }
     const form = this.groupSizeForm;
 
-    for (const field in this.formErrors) {
+    for (const field of Object.keys(this.formErrors)) {
       this.formErrors[field] = '';
       const control = form.get(field);
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[field];
-        for (const key in control.errors) {
+        for (const key of Object.keys(control.errors) ) {
           this.formErrors[field] += messages[key] + ' ';
         }
       }
@@ -86,7 +81,11 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
   }
 
   checkValid() {
-    if (this.groupSizeForm.status === 'VALID') {
+    if (isNullOrUndefined(this._isuFactors) ||
+      isNullOrUndefined(this._isuFactors.smallestGroupSize) ||
+      this._isuFactors.smallestGroupSize.length < 1 ) {
+      this.navigation_service.updateValid(false);
+    } else if (this.groupSizeForm.status === 'VALID') {
       this.navigation_service.updateValid(true);
     } else {
       this.navigation_service.updateValid(false);
@@ -94,12 +93,11 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
   }
 
   updateSmallestGroupSizeControls() {
-    return { smallestGroupSize: [ this.isuFactors.smallestGroupSize, [Validators.required, minMaxValidator(0, Number.MAX_VALUE, this.log)] ] }
-  }
-
-  updateSmallestGroupSize() {
-    if ( !isNullOrUndefined(this.isuFactors) ) {
-      this.isuFactors.smallestGroupSize = this.groupSizeForm.value.smallestGroupSize;
+    return { smallestGroupSize: [null,
+        [minMaxValidator(0, Number.MAX_VALUE, this.log),
+          // positive integer regex
+          Validators.pattern('^\\d+$')]
+      ]
     }
   }
 
@@ -122,6 +120,38 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
           this.log.debug(dismissReason);
         }
       });
+  }
+
+  addGroupSize() {
+    const value = this.groupSizeForm.value.smallestGroupSize;
+    if (!isNullOrUndefined(value)
+        && value !== ''
+        && this._isuFactors.smallestGroupSize.indexOf(value) === -1) {
+      this._isuFactors.smallestGroupSize.push(value);
+      this.groupSizeForm.reset();
+    }
+  }
+
+  removeGroupSize(value) {
+    const index = this._isuFactors.smallestGroupSize.indexOf(value);
+    if (index > -1) {
+      this._isuFactors.smallestGroupSize.splice(index, 1);
+    }
+    this.groupSizeForm.reset();
+  }
+
+  firstGroupSize() {
+    let ret = true;
+    if (isNullOrUndefined(this._isuFactors) || isNullOrUndefined(this._isuFactors.smallestGroupSize.length)) {
+      ret = true;
+    } else {
+      ret = this._isuFactors.smallestGroupSize.length === 0 ? true : false;
+    }
+    return ret;
+  }
+
+  get groupSize$() {
+    return observableOf(this._isuFactors.smallestGroupSize);
   }
 
   get isuFactors(): ISUFactors {
@@ -149,13 +179,13 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
   }
 
   get validationMessages(): {
-    smallestGroupSize: { minval: string; 'required': string; };
+    smallestGroupSize: { minval: string; 'required': string; 'pattern': string};
   } {
     return this._validationMessages;
   }
 
   set validationMessages(value: {
-    smallestGroupSize: { minval: string; 'required': string; };
+    smallestGroupSize: { minval: string; 'required': string; 'pattern': string };
   }) {
     this._validationMessages = value;
   }
@@ -182,5 +212,13 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, DoCheck, OnDest
 
   set study_service(value: StudyService) {
     this._study_service = value;
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
   }
 }

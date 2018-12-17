@@ -12,7 +12,9 @@ export class ParametersScaleFactorPo {
   fillForm(input) {
     if (!isNullOrUndefined(input)) {
       const scaleFactorInput = element(by.id('scalefactor'));
+      const scaleFactorAdd = element(by.id('addfactor'));
       scaleFactorInput.clear().then(() => scaleFactorInput.sendKeys(input));
+      scaleFactorAdd.click();
     }
   }
 }
