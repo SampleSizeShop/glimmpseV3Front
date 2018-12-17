@@ -36,6 +36,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   private _formErrors = constants.CORRELATION_MATRIX_FORM_ERRORS;
   private _messages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
   private _validationMessages = {};
+  private _lear = false;
 
   left: TooltipPosition;
   below: TooltipPosition;
@@ -104,12 +105,12 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     }
     const form = this.correlationMatrixForm;
 
-    for (const field in this.controlDefs) {
+    for (const field of Object.keys(this.controlDefs)) {
       this.formErrors[field] = '';
       const control = form.get(field);
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[field];
-        for (const key in control.errors) {
+        for (const key of Object.keys(control.errors) ) {
           this.formErrors[field] += messages[key] + ' ';
           isValid = false;
         }
@@ -187,13 +188,13 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   _setUMatrixFromValues() {
     const vals = new Array();
     const rows = new Set();
-    for(const val in this.values) {
+    for (const val of Object.keys(this.values)) {
       const parts = this.splitName(val);
       rows.add(parts[0]);
     }
     for (const row of Array.from(rows.values())) {
       const rowVals: number[] = [];
-      for (const name in this.values) {
+      for (const name of Object.keys (this.values)) {
         const parts = this.splitName(name);
         if (parts[0] === row) {
           rowVals[parts[1]] = this.values[name];
@@ -214,7 +215,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   trackControlChanges() {
-    for (const name in this.controlDefs) {
+    for (const name of Object.keys(this.controlDefs)) {
       this.controls[name] = this.correlationMatrixForm.get(name);
       this.controls[name].valueChanges.forEach((value: number) => {
         this.values[name] = value;
@@ -238,6 +239,39 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
       style = '#ffffff';
     }
     return style;
+  }
+
+  calculateLear() {
+    // hack to get this started
+    const base = 0.5
+    const decay = 0.35
+
+    const vals = this.uMatrix.values.clone();
+    for ( let r = 0; r < vals.size()[0]; r++ ) {
+      for (let c = 0; c < vals.size()[1]; c++ ) {
+        if (r === c ) { vals.set([r,c],  1); }
+        if (r !== c ) { vals.set([r,c], Math.pow(base, (0 + decay * ( (5 - r) / (4) )))); }
+      }
+    }
+
+    this.uMatrix.values = vals;
+  }
+
+  isUnstructured() {
+    return !this._lear;
+  }
+
+  isLear() {
+    return this._lear;
+  }
+
+  selectUnstructured() {
+    this._lear = false;
+  }
+
+  selectLear() {
+    this._lear = true;
+    this.calculateLear()
   }
 
   get correlationMatrixForm(): FormGroup {
