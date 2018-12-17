@@ -1,10 +1,14 @@
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {GaussianCovariate} from '../../shared/GaussianCovariate';
 import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Subscription} from 'rxjs/Rx';
+import {NavigationService} from '../../shared/navigation.service';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-gaussian-covariate',
@@ -17,15 +21,32 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
   private _gaussianCovariate: GaussianCovariate;
   private _formErrors = constants.GAUSSIAN_COVARIATE_ERRORS;
   private _validationMessages = constants.GAUSSIAN_COVARIATE_VALIDATION_MESSAGES;
+  private _showHelpTextSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder, private study_service: StudyService) {
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
+  constructor(private _fb: FormBuilder,
+              private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this.gaussianCovariatesSubscription = this.study_service.gaussianCovariate$.subscribe(gaussianCovariate => {
         this.gaussianCovariate = gaussianCovariate;
       }
     );
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
+
   }
 
   ngOnInit() {
+    this._afterInit = true;
     this.buildForm()
   }
 
@@ -35,6 +56,7 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnDestroy() {
     this.gaussianCovariatesSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -87,6 +109,27 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
       }
       this.study_service.updateGaussianCovariate(this.gaussianCovariate);
     }
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get gaussianCovariateForm(): FormGroup {

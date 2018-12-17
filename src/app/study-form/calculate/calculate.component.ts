@@ -9,7 +9,6 @@ import {environment} from '../../../environments/environment';
 import {Cluster} from '../../shared/Cluster';
 import {Predictor} from '../../shared/Predictor';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {constants} from "../../shared/constants";
 
 @Component({
   selector: 'app-calculate',
@@ -118,13 +117,22 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   buildResultTable() {
-    const results = [];
+    const resultArray = [];
+    let tempContainer = {};
 
     for (const result of this.resultString.results) {
-        const tempContainer = {};
-        results.push(result);
+      for (const variability_scale_factor of this.studyDesign['_varianceScaleFactors']) {
+        tempContainer = {};
+        tempContainer['result'] = result;
+        tempContainer['smallestGroupSize'] = this.studyDesign['_isuFactors']['smallestGroupSize'];
+        tempContainer['scaleFactor'] = this.studyDesign['_scaleFactor'];
+        tempContainer['variability_scale_factor'] = variability_scale_factor;
+        tempContainer['test_type'] = result.test;
+        tempContainer['typeOneErrorRate'] = this.studyDesign['_typeOneErrorRate'];
+        resultArray.push(tempContainer);
+      }
     }
-    this.resultForDisplay = results;
+    this.resultForDisplay = resultArray;
   }
 
   private handleError(error: any): Promise<any> {
@@ -241,6 +249,27 @@ export class CalculateComponent implements OnInit, OnDestroy {
       ret =  this.studyDesign.solveFor === constants.SOLVE_FOR.POWER;
     }
     return ret;
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get outputString(): string {

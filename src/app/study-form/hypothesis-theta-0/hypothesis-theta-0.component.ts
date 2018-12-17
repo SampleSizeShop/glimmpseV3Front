@@ -1,25 +1,45 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NavigationService} from '../../shared/navigation.service';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-hypothesis-theta-0',
   templateUrl: './hypothesis-theta-0.component.html',
   styleUrls: ['./hypothesis-theta-0.component.scss']
 })
-export class HypothesisTheta0Component implements OnInit, DoCheck {
+export class HypothesisTheta0Component implements OnInit, DoCheck, OnDestroy {
 
   private _isuFactors: ISUFactors;
   private _theta0Form: FormGroup;
   private _isuFactorsSubscription: Subscription;
   private _visible: boolean;
+  private _showHelpTextSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder, private study_service: StudyService) { }
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
+  constructor(private _fb: FormBuilder,
+              private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
+  }
 
   ngOnInit() {
+    this._afterInit = true;
     this.visible = false;
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
@@ -30,6 +50,10 @@ export class HypothesisTheta0Component implements OnInit, DoCheck {
   ngDoCheck() {
     this.updateTheta0();
     this.study_service.updateIsuFactors(this.isuFactors);
+  }
+
+  ngOnDestroy() {
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -63,6 +87,27 @@ export class HypothesisTheta0Component implements OnInit, DoCheck {
 
   toggleVisible() {
     this.visible = !this.visible;
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get isuFactors(): ISUFactors {

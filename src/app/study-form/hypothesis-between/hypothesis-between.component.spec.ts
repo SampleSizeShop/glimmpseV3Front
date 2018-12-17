@@ -12,7 +12,7 @@ import {Predictor} from '../../shared/Predictor';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
-import {LoggerModule} from 'ngx-logger';
+import {LoggerModule, NGXLogger} from 'ngx-logger';
 import {CustomContrastMatrixComponent} from '../custom-contrast-matrix/custom-contrast-matrix.component';
 import {MatTooltip} from '@angular/material';
 import {NavigationService} from '../../shared/navigation.service';
@@ -44,6 +44,7 @@ describe('HypothesisBetweenComponent no factors', () => {
         StudyService,
         NavigationService,
         NgbModal,
+        NGXLogger,
         {provide: HttpClient, useClass: MockBackend},
         {provide: Router, useClass: RouterStub}
         ]

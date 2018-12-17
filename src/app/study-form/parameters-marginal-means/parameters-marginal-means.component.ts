@@ -2,14 +2,17 @@
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 
 import {map, switchMap} from 'rxjs/operators';
-import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
 import {isNullOrUndefined} from 'util';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {MarginalMeansTable} from '../../shared/MarginalMeansTable';
-import {TooltipPosition} from "@angular/material";
+import {TooltipPosition} from '@angular/material';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NavigationService} from '../../shared/navigation.service';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-parameters-marginal-means',
@@ -23,14 +26,30 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
   private _table: MarginalMeansTable;
 
   private _isuFactorsSubscription: Subscription;
+  private _showHelpTextSubscription: Subscription;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
 
   left: TooltipPosition;
   below: TooltipPosition;
 
-  constructor(private _fb: FormBuilder, private _route: ActivatedRoute, private _study_service: StudyService) {
+  constructor(private _fb: FormBuilder,
+              private _route: ActivatedRoute,
+              private _study_service: StudyService,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this.table$ = this.route.paramMap.pipe(switchMap(
       (params: ParamMap) => this.getTableFromIndex(params.get('index'))
     ));
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
 
 
     this.left = 'left';
@@ -38,6 +57,7 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
   }
 
   ngOnInit() {
+    this._afterInit = true;
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
@@ -49,7 +69,9 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
     );
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this._showHelpTextSubscription.unsubscribe();
+  }
 
   ngDoCheck() {
     this.updateMarginalMeans();
@@ -104,6 +126,27 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
         });
       }
     }
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get isuFactors(): ISUFactors {
@@ -174,7 +217,7 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
     return hasTable;
   }
 
-  get grandMean(): boolean{
+  get grandMean(): boolean {
     let grandMean = false;
     if (!isNullOrUndefined(this._table)) {
       if (this._table.size === 1) {

@@ -10,7 +10,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {Outcome} from '../../shared/Outcome';
 import {testEnvironment} from '../../../environments/environment.test';
-import {LoggerModule} from 'ngx-logger';
+import {LoggerModule, NGXLogger} from 'ngx-logger';
 import {MatTooltip} from '@angular/material';
 import {CustomContrastMatrixComponent} from '../custom-contrast-matrix/custom-contrast-matrix.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -50,6 +50,7 @@ describe('HypothesisWithinComponent', () => {
         StudyService,
         NavigationService,
         NgbModal,
+        NGXLogger,
         {provide: HttpClient, useClass: MockBackend},
         {provide: ISUFactors, useClass: MockISUFactors},
         {provide: Router, useClass: RouterStub},

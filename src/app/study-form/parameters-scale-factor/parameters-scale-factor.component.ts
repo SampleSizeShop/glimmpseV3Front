@@ -1,10 +1,14 @@
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {Component, OnDestroy} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Subscription} from 'rxjs';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/minmax.validator';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NavigationService} from '../../shared/navigation.service';
 import {Outcome} from "../../shared/Outcome";
 import {isNullOrUndefined} from "util";
 
@@ -13,7 +17,7 @@ import {isNullOrUndefined} from "util";
   templateUrl: './parameters-scale-factor.component.html',
   styleUrls: ['./parameters-scale-factor.component.css']
 })
-export class ParametersScaleFactorComponent implements OnDestroy {
+export class ParametersScaleFactorComponent implements OnInit, DoCheck, OnDestroy {
 
   private _scaleFactor: Array<number>;
   private _scaleFactorForm: FormGroup;
@@ -21,13 +25,28 @@ export class ParametersScaleFactorComponent implements OnDestroy {
   private _validationMessages = constants.PARAMETERS_SCALE_FACTOR_VALIDATION_MESSAGES;
 
   private _scaleFactorSubscription: Subscription;
+  private _showHelpTextSubscription: Subscription;
 
-  constructor(private study_service: StudyService, private fb: FormBuilder, private logger: NGXLogger) {
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
+  constructor(private study_service: StudyService,
+              private fb: FormBuilder,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this.scaleFactorSubscription = this.study_service.scaleFactor$.subscribe(
       scaleFactor => {
         this.scaleFactor = scaleFactor
       }
     );
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
     this.buildForm();
   }
 
