@@ -7,7 +7,7 @@ import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
 import * as math from 'mathjs';
 import {minMaxValidator} from 'app/shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
-import {isNullOrUndefined} from 'util';
+import {isNull, isNullOrUndefined} from 'util';
 import {TooltipPosition} from "@angular/material";
 
 @Component({
@@ -245,7 +245,10 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     // hack to get this started
     const base = 0.5;
     const decay = 0.35;
-    const levels = Array<number>;
+    const levels = [];
+
+    let dMin = 1;
+    let dMax = 1;
 
     if ( this._isNumeric() ) {
       this.labels.forEach(
@@ -253,20 +256,48 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
           levels.push(Number.parseFloat(val));
         }
       );
-
-      const dMin = Math.min.apply(null, levels);
-      const dMax = Math.max.apply(null, levels);
+      dMin = this._calcDmin(levels);
+      dMax = this._calcDMax(levels);
 
       const vals = this.uMatrix.values.clone();
       for ( let r = 0; r < vals.size()[0]; r++ ) {
         for (let c = 0; c < vals.size()[1]; c++ ) {
           if (r === c ) { vals.set([r,c],  1); }
-          if (r !== c ) { vals.set([r,c], Math.pow(base, (0 + decay * ( (5 - r) / (4) )))); }
+          if (r > c  && dMin === dMax ) {
+            vals.set([r, c], base);
+            vals.set([c, r], base);
+          }
+          if (r > c  && dMin !== dMax ) {
+            const rho_j_k =  Math.pow(base, (dMin + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin))));
+            vals.set([r, c], rho_j_k );
+            vals.set([c, r], rho_j_k );
+          }
         }
       }
 
       this.uMatrix.values = vals;
     }
+  }
+
+  _calcDmin(levels) {
+    let min = null;
+    for (let i = 0; i < levels.length; i++) {
+      const a = levels[i];
+      for (let j = 0; j < levels.length; j++) {
+        if (i !== j) {
+          const b = levels[j];
+          const test = Math.abs(a - b);
+          if (isNull(min) || test < min) {
+            min = test;
+          }
+        }
+      }
+    }
+    return min;
+  }
+
+  _calcDMax(levels) {
+    return Math.max.apply(null, levels) - Math.min.apply(null, levels);
   }
 
   _isNumeric() {
