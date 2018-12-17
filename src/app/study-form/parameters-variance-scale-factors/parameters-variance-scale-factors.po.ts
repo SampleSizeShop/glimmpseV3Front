@@ -12,9 +12,11 @@ export class ParametersVarianceScaleFactorsPo {
   fillForm(input) {
     if (!isNullOrUndefined(input)) {
       const scaleFactorInput = element(by.id('scaleFactors'));
+      const scaleFactorAdd = element(by.id('addscaleFactor'));
       input.forEach( scaleFactor => {
         scaleFactorInput.clear().then(() => scaleFactorInput.sendKeys(scaleFactor));
         browser.actions().sendKeys(protractor.Key.ENTER).perform();
+        scaleFactorAdd.click();
       });
     }
   }

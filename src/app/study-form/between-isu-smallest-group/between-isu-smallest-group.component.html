@@ -1,16 +1,51 @@
+<div class="row">
+  <p class="col">
+    Enter the number of independent sampling units in the smallest group in the study.
+    You may enter multiple values for the smallest group size in order to consider a range of total sample sizes.
+  </p>
+</div>
 <form [formGroup]="groupSizeForm" class="form-horizontal" id="groupSizeForm">
-  <div class="container-fluid">
-    <div>
-      <p>
-        Enter the number of independent sampling units in the smallest group in the study.
-        You may enter multiple values for the smallest group size in order to consider a range of total sample sizes.
-      </p>
+  <div class="row">
+    <div class="col">
+      <input type="number"
+             min="0"
+             step="1"
+             class="form-control"
+             id="smallestgroupsize"
+             formControlName="smallestGroupSize"
+             placeholder="Please enter the size of your smallest group"
+             (keyup.enter)="addGroupSize()">
     </div>
-    <input type="number" class="form-control" id="smallestgroupsize" formControlName="smallestGroupSize"  placeholder="Please enter the size of your smallest group">
-    <div *ngIf="formErrors.smallestGroupSize" class="form-group has-danger">
+    <div class="col">
+      <i class="material-icons" (click)="addGroupSize()" style="margin-top: 10px" id="addgroupsize">add</i>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngIf="formErrors.smallestGroupSize" class=" col form-group has-danger">
       <div class="form-control-feedback">{{formErrors.smallestGroupSize}}</div>
     </div>
   </div>
+  <br>
+  <table class="table">
+    <thead>
+    <th>Smallest Group Size</th>
+    <th>remove</th>
+    </thead>
+    <tbody>
+    <tr *ngIf="firstGroupSize()">
+      <td> You must give at least one value for a smallest group size.</td>
+      <td></td>
+    </tr>
+    <tr *ngFor="let groupSize of groupSize$ | async; let i = index;"
+        id="groupSizelist"
+        [class]="rowStyle(i)">
+      <td>{{groupSize}}</td>
+      <td><i class="material-icons"
+             (click)="removeGroupSize(groupSize)"
+             style="margin-bottom: 5px" id="removegroupsize">remove</i></td>
+    </tr>
+    </tbody>
+  </table>
 </form>
 <ng-template #helpText>
   <div class="modal-content">

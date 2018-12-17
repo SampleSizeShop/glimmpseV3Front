@@ -1,3 +1,5 @@
+import {of as observableOf, Subscription, Observable} from 'rxjs';
+import {Component, OnDestroy} from '@angular/core';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {constants} from '../../shared/constants';
@@ -7,6 +9,8 @@ import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
+import {Outcome} from "../../shared/Outcome";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-parameters-scale-factor',
@@ -15,7 +19,7 @@ import {NavigationService} from '../../shared/navigation.service';
 })
 export class ParametersScaleFactorComponent implements OnInit, DoCheck, OnDestroy {
 
-  private _scaleFactor: number;
+  private _scaleFactor: Array<number>;
   private _scaleFactorForm: FormGroup;
   private _formErrors = constants.PARAMETERS_SCALE_FACTOR_ERRORS;
   private _validationMessages = constants.PARAMETERS_SCALE_FACTOR_VALIDATION_MESSAGES;
@@ -48,7 +52,7 @@ export class ParametersScaleFactorComponent implements OnInit, DoCheck, OnDestro
 
   buildForm(): void {
     this.scaleFactorForm = this.fb.group({
-      scalefactor: [this.scaleFactor, minMaxValidator(0, 1, this.log)]
+      scalefactor: [null, minMaxValidator(0, 1, this.logger)]
     });
 
     this.scaleFactorForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -61,56 +65,49 @@ export class ParametersScaleFactorComponent implements OnInit, DoCheck, OnDestro
     }
     const form = this.scaleFactorForm;
 
-    for (const field in this.formErrors) {
+    for (const field of Object.keys(this.formErrors)) {
       this.formErrors[field] = '';
       const control = form.get(field);
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[field];
-        for (const key in control.errors) {
+        for (const key of Object.keys(control.errors)) {
           this.formErrors[field] = messages[key];
         }
       }
     }
   }
 
-  ngOnInit() {
-    this._afterInit = true;
-  }
-
   ngOnDestroy() {
-    this._showHelpTextSubscription.unsubscribe();
+    this.study_service.updateScaleFactor(this.scaleFactor);
+    this.scaleFactorSubscription.unsubscribe();
   }
 
-  ngDoCheck() {
-    this.study_service.updateScaleFactor(this.scaleFactorForm.get('scalefactor').value);
+  addScaleFactor() {
+    const value = this.scaleFactorForm.value.scalefactor;
+    if (!isNullOrUndefined(value)
+        && value !== ''
+        && this.scaleFactor.indexOf(value) === -1) {
+      this.scaleFactor.push(this.scaleFactorForm.value.scalefactor);
+      this.scaleFactorForm.reset();}
   }
 
-  dismissHelp() {
-    this.helpTextModalReference.close();
+  removeScaleFactor(value: number) {
+    const index = this.scaleFactor.indexOf(value);
+    if (index > -1) {
+      this.scaleFactor.splice(index, 1);
+    }
+    this.scaleFactorForm.reset();
   }
 
-  showHelpText(content) {
-    this.modalService.dismissAll();
-    this.helpTextModalReference = this.modalService.open(content);
-    this.helpTextModalReference.result.then(
-      (closeResult) => {
-        this.log.debug('modal closed : ' + closeResult);
-      }, (dismissReason) => {
-        if (dismissReason === ModalDismissReasons.ESC) {
-          this.log.debug('modal dismissed when used pressed ESC button');
-        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
-          this.log.debug('modal dismissed when used pressed backdrop');
-        } else {
-          this.log.debug(dismissReason);
-        }
-      });
+  get scaleFactors$() {
+    return observableOf(this.scaleFactor);
   }
 
-  get scaleFactor(): number {
+  get scaleFactor(): Array<number> {
     return this._scaleFactor;
   }
 
-  set scaleFactor(value: number) {
+  set scaleFactor(value: Array<number>) {
     this._scaleFactor = value;
   }
 
@@ -144,5 +141,13 @@ export class ParametersScaleFactorComponent implements OnInit, DoCheck, OnDestro
 
   set scaleFactorSubscription(value: Subscription) {
     this._scaleFactorSubscription = value;
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
   }
 }

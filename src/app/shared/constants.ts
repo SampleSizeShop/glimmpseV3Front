@@ -92,7 +92,8 @@ export const constants = {
   BETWEEN_ISU_VALIDATION_MESSAGES: {
     'smallestGroupSize': {
       'minval': 'Value too low.',
-      'required': 'Value need to be filled in.'
+      'required': 'Value need to be filled in.',
+      'pattern' : 'Must be a positive integer.'
     },
   },
   BETWEEN_ISU_RELATIVE_GROUP_VALIDATION_MESSAGES: {

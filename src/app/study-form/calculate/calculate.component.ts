@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {StudyDesign} from '../../shared/study-design';
 import {isNullOrUndefined} from 'util';
 import {StudyService} from '../study.service';
@@ -9,9 +9,6 @@ import {environment} from '../../../environments/environment';
 import {Cluster} from '../../shared/Cluster';
 import {Predictor} from '../../shared/Predictor';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
-import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NavigationService} from '../../shared/navigation.service';
-import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-calculate',
@@ -40,19 +37,11 @@ export class CalculateComponent implements OnInit, OnDestroy {
   private _downloadData: SafeUrl;
   private _combinationsValueMap: Object;
   private _totalSampleSize: number;
-  private _showHelpTextSubscription: Subscription;
-
-  @ViewChild('helpText') helpTextModal;
-  private helpTextModalReference: any;
-  private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
               private http: HttpClient,
               private sanitizer: DomSanitizer,
-              private ref: ChangeDetectorRef,
-              private navigation_service: NavigationService,
-              private modalService: NgbModal,
-              private log: NGXLogger) {
+              private ref: ChangeDetectorRef) {
     this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
       this._studyDesign = study;
     });
@@ -71,18 +60,10 @@ export class CalculateComponent implements OnInit, OnDestroy {
       }
     )
     this._e2eTest = environment.e2eTest;
-
     this._isShowDetail = false;
-    this._afterInit = false;
-    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
-      if (this._afterInit) {
-        this.showHelpText(this.helpTextModal);
-      }
-    });
   }
 
   ngOnInit() {
-    this._afterInit = true;
     if (!isNullOrUndefined(this._studyDesign)) {
       this.outputString = JSON.stringify(this._studyDesign);
       this.detailPredictorCombination = [];
@@ -96,7 +77,6 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this.studySubscription.unsubscribe();
     this._withinIsuClusterSubscription.unsubscribe();
     this._betweenIsuPredictorsSubscription.unsubscribe();
-    this._showHelpTextSubscription.unsubscribe();
   }
 
   postModel() {
@@ -261,6 +241,14 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   isSelected(index: number) {
     return index === this.currentSelected;
+  }
+
+  isPower(): boolean {
+    let ret = true;
+    if (!isNullOrUndefined(this.studyDesign)) {
+      ret =  this.studyDesign.solveFor === constants.SOLVE_FOR.POWER;
+    }
+    return ret;
   }
 
   dismissHelp() {

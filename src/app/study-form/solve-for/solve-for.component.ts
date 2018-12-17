@@ -1,12 +1,13 @@
+import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-solve-for',
@@ -16,7 +17,7 @@ import {NavigationService} from '../../shared/navigation.service';
 })
 export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   private _solveFor: string;
-  private _power: number;
+  private _power: number[];
   private _ciwidth: number;
   private _targetEvent: string;
   private _powerSampleSizeForm: FormGroup;
@@ -69,7 +70,7 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   buildForm(): void {
     this.powerSampleSizeForm = this.fb.group({
-      power: [this.power, minMaxValidator(0, 1, this.log)],
+      power: [0.9, minMaxValidator(0, 1, this.log)],
       ciwidth: [this.ciwidth, minMaxValidator(0, 10, this.log)]
     });
 
@@ -83,17 +84,27 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     }
     const form = this.powerSampleSizeForm;
 
-    for (const field in this.formErrors) {
+    for (const field of Object.keys(this.formErrors)) {
       this.formErrors[field] = '';
       const control = form.get(field);
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages[field];
-        for (const key in control.errors) {
+        for (const key of Object.keys(control.errors)) {
             this.formErrors[field] += messages[key] + ' ';
         }
       }
     }
    }
+
+  addPower() {
+    const value = this.powerSampleSizeForm.value.power;
+    if (!isNullOrUndefined(value) &&
+      value !== '' &&
+      this._power.indexOf(value) === -1) {
+      this._power.push(value);
+      this.powerSampleSizeForm.reset();
+    }
+  }
 
   isRejection(): boolean {
     return this.targetEvent === constants.REJECTION_EVENT;
@@ -114,7 +125,7 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   ngDoCheck() {
     this.study_service.updateSolveFor(this.solveFor);
     if (this.isSampleSize()) {
-      this.study_service.updatePower(this.powerSampleSizeForm.value.power);
+      this.study_service.updatePower(this.power);
       if (this.isCIWidth() || this.isWAVR()) {
         this.study_service.updateCiWidth(this.powerSampleSizeForm.value.ciwidth);
       }
@@ -145,6 +156,22 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   isSampleSize(): boolean {
     return this.solveFor === constants.SOLVE_FOR_SAMPLESIZE;
+  }
+
+  removePower(value: number) {
+    const index = this.power.indexOf(value);
+    if (index > -1) {
+      this.power.splice(index, 1);
+    }
+    this.powerSampleSizeForm.reset();
+  }
+
+  firstPower(): boolean {
+    return this.power.length === 0 ? true : false;
+  }
+
+  get powers$(): Observable<number[]> {
+    return observableOf(this.power)
   }
 
   get solveFor(): string {
@@ -202,11 +229,11 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   }
 
 
-  get power(): number {
+  get power(): number[] {
     return this._power;
   }
 
-  set power(value: number) {
+  set power(value: number[]) {
     this._power = value;
   }
 
@@ -244,6 +271,14 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   dismissHelp() {
     this.helpTextModalReference.close();
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
   }
 
   showHelpText(content) {

@@ -42,16 +42,6 @@ import { ParametersIntraClassCorrelationComponent } from './study-form/parameter
 import { ParametersGaussianCovariateCorrelationComponent } from './study-form/parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-correlation.component';
 import { ParametersVarianceScaleFactorsComponent } from './study-form/parameters-variance-scale-factors/parameters-variance-scale-factors.component';
 import { ParametersGaussianCovariateVarianceComponent } from './study-form/parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.component';
-import { OptionalSpecsPowerMethodComponent } from './study-form/optional-specs-power-method/optional-specs-power-method.component';
-import { OptionalSpecsCiChoiceComponent } from './study-form/optional-specs-ci-choice/optional-specs-ci-choice.component';
-import { OptionalSpecsCiAssumptionsComponent } from './study-form/optional-specs-ci-assumptions/optional-specs-ci-assumptions.component';
-import { OptionalSpecsCiLowerTailComponent } from './study-form/optional-specs-ci-lower-tail/optional-specs-ci-lower-tail.component';
-import { OptionalSpecsCiUpperTailComponent } from './study-form/optional-specs-ci-upper-tail/optional-specs-ci-upper-tail.component';
-import { OptionalSpecsCiBetaSampleSizeComponent } from './study-form/optional-specs-ci-beta-sample-size/optional-specs-ci-beta-sample-size.component';
-import { OptionalSpecsCiBetaDesignMatrixRankComponent } from './study-form/optional-specs-ci-beta-design-matrix-rank/optional-specs-ci-beta-design-matrix-rank.component';
-import { OptionalSpecsPowerCurveChoiceComponent } from './study-form/optional-specs-power-curve-choice/optional-specs-power-curve-choice.component';
-import { OptionalSpecsPowerCurveAxesComponent } from './study-form/optional-specs-power-curve-axes/optional-specs-power-curve-axes.component';
-import { OptionalSpecsPowerCurveDataSeriesComponent } from './study-form/optional-specs-power-curve-data-series/optional-specs-power-curve-data-series.component';
 import { CalculateComponent } from './study-form/calculate/calculate.component';
 import { BetweenIsuSmallestGroupComponent } from './study-form/between-isu-smallest-group/between-isu-smallest-group.component';
 import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypothesis-theta-0.component';
@@ -95,16 +85,6 @@ import { StudyTitleComponent } from './study-form/study-title/study-title.compon
     ParametersGaussianCovariateCorrelationComponent,
     ParametersVarianceScaleFactorsComponent,
     ParametersGaussianCovariateVarianceComponent,
-    OptionalSpecsPowerMethodComponent,
-    OptionalSpecsCiChoiceComponent,
-    OptionalSpecsCiAssumptionsComponent,
-    OptionalSpecsCiLowerTailComponent,
-    OptionalSpecsCiUpperTailComponent,
-    OptionalSpecsCiBetaSampleSizeComponent,
-    OptionalSpecsCiBetaDesignMatrixRankComponent,
-    OptionalSpecsPowerCurveChoiceComponent,
-    OptionalSpecsPowerCurveAxesComponent,
-    OptionalSpecsPowerCurveDataSeriesComponent,
     CalculateComponent,
     BetweenIsuSmallestGroupComponent,
     CustomContrastMatrixComponent,
