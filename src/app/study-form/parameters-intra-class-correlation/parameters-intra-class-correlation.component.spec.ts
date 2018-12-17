@@ -9,6 +9,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {testEnvironment} from '../../../environments/environment.test';
 import {Outcome} from '../../shared/Outcome';
 import {Cluster} from '../../shared/Cluster';
+import {NavigationService} from '../../shared/navigation.service';
 
 describe('ParametersIntraClassCorrelationComponent', () => {
   let component: ParametersIntraClassCorrelationComponent;
@@ -29,6 +30,7 @@ describe('ParametersIntraClassCorrelationComponent', () => {
       ],
       providers: [
         StudyService,
+        NavigationService,
         {provide: HttpClient, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock}
         ]
