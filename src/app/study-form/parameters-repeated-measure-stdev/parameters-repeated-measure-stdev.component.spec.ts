@@ -13,6 +13,7 @@ import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {ISUFactors} from '../../shared/ISUFactors';
+import {NavigationService} from '../../shared/navigation.service';
 
 let component: ParametersRepeatedMeasureStdevComponent;
 let fixture: ComponentFixture<ParametersRepeatedMeasureStdevComponent>;
@@ -40,6 +41,7 @@ describe('ParametersRepeatedMeasureOutcomeStDevComponent', () => {
       ],
       providers: [
         StudyService,
+        NavigationService,
         {provide: Router, useClass: RouterStub},
         {provide: HttpClient, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock},
