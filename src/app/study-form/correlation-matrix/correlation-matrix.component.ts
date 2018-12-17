@@ -276,6 +276,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
       }
 
       this.uMatrix.values = vals;
+      this._defineFormControls();
     }
   }
 
