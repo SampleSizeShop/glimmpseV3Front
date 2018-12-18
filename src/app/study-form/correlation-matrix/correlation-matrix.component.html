@@ -1,25 +1,70 @@
 <script src="correlation-matrix.component.ts"></script>
-<div class="container-fluid">
-  <p style="padding: 0">Define your {{title}}correlation matrix:</p>
-  <div style="padding: 15px">
-    <form [formGroup]="correlationMatrixForm" class="matrix-input-brackets">
-      <div *ngFor="let r of sizeArray; let a=index" class="row">
-        <div *ngFor="let c of sizeArray; let b=index" class="col" style="padding: 0">
-          <div matTooltip="{{labels[a]}}, {{labels[b]}}"
-               [matTooltipPosition]="left">
-            <input type="number"
-                      class="form-control matrix-input-control"
-                      [style.background-color]="getStyle(r, c)"
-                      formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}"
-                      step="0.01" min={{min}} max="{{max}}">
-          </div>
-
-        </div>
-      </div>
-      <div *ngIf="getFormErrors()" class="form-group has-danger">
-        <div class="form-control-feedback">Correlation matrix elements must have values between {{min}} and {{max}}.</div>
-      </div>
-    </form>
+<div class="row">
+  <p>Define your {{title}}correlation matrix:</p>
+</div>
+<div class="row">
+  <div class="btn-group" data-toggle="buttons">
+    <label aria-pressed="true" class="btn btn-secondary" [class.active]="isUnstructured()" id="unstructuredbtn">
+      <input type="radio" id="unstructuredradio" (click)="selectUnstructured()"> Unstructured
+    </label>
+    <label class="btn btn-secondary" aria-pressed="true" [class.active]="isLear()" id="learbtn">
+      <input type="radio" id="learradio" (click)="selectLear()"> LEAR
+    </label>
   </div>
+</div>
+<form [formGroup]="learForm">
+  <div class="row" *ngIf="isLear()">
+    <label id="basecorellationlbl" for="basecorellation">Base Corellation:</label>
+    <input type="number"
+           step="0.01"
+           class="form-control"
+           id="basecorellation"
+           placeholder="0.5"
+           formControlName="base">
+    <small>Base correlation must be 0 <= b < 1</small>
+  </div>
+  <div class="row" *ngIf="isLear()">
+    <label id="deccayratelbl" for="decayrate">Decay Rate:</label>
+    <input type="number"
+           step="0.01"
+           class="form-control"
+           id="decayrate"
+           placeholder="0.35"
+           formControlName="decay">
+    <small>Base correlation must be greater than 0</small>
+  </div>
+  <div class="row" *ngIf="isLear()">
+    <div class="col-md-auto">
+      <input type="checkbox"
+             id="scale"
+             formControlName="scale">
+    </div>
+    <div class="col-md-auto">
+      <label id="scalelbl" for="decayrate">Scale spacing values</label>
+    </div>
+  </div>
+</form>
+<div class="row">
+  <form [formGroup]="correlationMatrixForm" class="matrix-input-brackets">
+    <div *ngFor="let r of sizeArray; let a=index" class="row">
+      <div *ngFor="let c of sizeArray; let b=index" class="col">
+        <div matTooltip="{{labels[a]}}, {{labels[b]}}"
+             [matTooltipPosition]="left">
+          <input type="number"
+                    class="form-control matrix-input-control"
+                    [style.background-color]="getStyle(r, c)"
+                    formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}"
+                    step="0.01" min={{min}} max="{{max}}">
+        </div>
+
+      </div>
+    </div>
+    <div *ngIf="getFormErrors()" class="form-group has-danger">
+      <div class="form-control-feedback">Correlation matrix elements must have values between {{min}} and {{max}}.</div>
+    </div>
+  </form>
+</div>
+<div class="row">
   <p>(each off-diagonal correlation must be between -1 and 1, exclusive)</p>
 </div>
+
