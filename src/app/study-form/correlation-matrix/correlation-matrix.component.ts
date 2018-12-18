@@ -300,7 +300,8 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
             vals.set([c, r], base);
           }
           if (r > c  && dMin !== dMax ) {
-            const rho_j_k =  Math.pow(base, (dMin / scale + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin)) / scale);
+            const rho_j_k =  Math.pow(base,
+              dMin / scale + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin)) / scale);
             vals.set([r, c], rho_j_k );
             vals.set([c, r], rho_j_k );
           }
