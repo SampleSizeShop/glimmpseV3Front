@@ -21,6 +21,7 @@
            id="basecorellation"
            placeholder="0.5"
            formControlName="base">
+    <small>Base correlation must be 0 <= b < 1</small>
   </div>
   <div class="row" *ngIf="isLear()">
     <label id="deccayratelbl" for="decayrate">Decay Rate:</label>
@@ -30,6 +31,7 @@
            id="decayrate"
            placeholder="0.35"
            formControlName="decay">
+    <small>Base correlation must be greater than 0</small>
   </div>
 </form>
 <div class="row">
