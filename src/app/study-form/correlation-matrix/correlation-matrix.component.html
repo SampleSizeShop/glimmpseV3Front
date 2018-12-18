@@ -33,6 +33,16 @@
            formControlName="decay">
     <small>Base correlation must be greater than 0</small>
   </div>
+  <div class="row" *ngIf="isLear()">
+    <div class="col-md-auto">
+      <input type="checkbox"
+             id="scale"
+             formControlName="scale">
+    </div>
+    <div class="col-md-auto">
+      <label id="scalelbl" for="decayrate">Scale spacing values</label>
+    </div>
+  </div>
 </form>
 <div class="row">
   <form [formGroup]="correlationMatrixForm" class="matrix-input-brackets">

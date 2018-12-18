@@ -78,8 +78,9 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   onLearChange(value: any) {
+    console.log(this.learForm.value.scale)
     if (this.learForm.status === 'VALID' ) {
-      this.calculateLear(value.base, value.decay);
+      this.calculateLear(value.base, value.decay, value.scale);
     }
   }
 
@@ -180,7 +181,8 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   _defineLearFormControls() {
     this._learForm = this.fb.group({
       base: [0.5, minMaxValidator(0, 0.9999999999999999, this.log)],
-      decay: [0.35, minMaxValidator(0, 99999999999999999999, this.log)]
+      decay: [0.35, minMaxValidator(0, 99999999999999999999, this.log)],
+      scale: [true]
     });
   }
 
@@ -258,11 +260,12 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     return style;
   }
 
-  calculateLear(base?: number, decay?: number) {
+  calculateLear(base?: number, decay?: number, scaled?: boolean) {
     const levels = [];
 
     let dMin = 1;
     let dMax = 1;
+    let scale = 1;
     if (isNullOrUndefined(base)) {
       base = this._learForm.value.base;
     }
@@ -281,6 +284,10 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
       dMin = this._calcDmin(levels);
       dMax = this._calcDMax(levels);
 
+      if (!isNullOrUndefined(scaled) && scaled) {
+        scale = dMin;
+      }
+
       const vals = this.uMatrix.values.clone();
       for ( let r = 0; r < vals.size()[0]; r++ ) {
         for (let c = 0; c < vals.size()[1]; c++ ) {
@@ -290,7 +297,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
             vals.set([c, r], base);
           }
           if (r > c  && dMin !== dMax ) {
-            const rho_j_k =  Math.pow(base, (dMin + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin))));
+            const rho_j_k =  Math.pow(base, (dMin + decay * (((levels[r] - levels[c]) - dMin) / (scale * (dMax - dMin))));
             vals.set([r, c], rho_j_k );
             vals.set([c, r], rho_j_k );
           }
