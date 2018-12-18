@@ -26,6 +26,8 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   private _controls: {};
   private _values: {};
   private _correlationMatrixForm: FormGroup;
+  private _learForm: FormGroup;
+  private _learFormSubscription: Subscription;
   private _correlationMatrixSubscription: Subscription;
   private _sizeSubscription: Subscription;
   private _uMatrix: CorrelationMatrix;
@@ -72,6 +74,13 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnInit() {
     this.buildForm();
+    this._learFormSubscription = this._learForm.valueChanges.subscribe(value => this.onLearChange(value));
+  }
+
+  onLearChange(value: any) {
+    if (this.learForm.status === 'VALID' ) {
+      this.calculateLear(value.base, value.decay);
+    }
   }
 
   ngDoCheck() {
@@ -91,7 +100,8 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
   buildForm(): void {
     this._initializeProperties();
-    this._defineFormControls();
+    this._defineMatrixFormControls();
+    this._defineLearFormControls();
 
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
     this.trackControlChanges();
@@ -144,7 +154,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     this.controls = {};
   }
 
-  _defineFormControls() {
+  _defineMatrixFormControls() {
     this.validationMessages = {};
     this.sizeArray = Array.from(Array(this.size).keys());
     for (const r of this.sizeArray) {
@@ -165,6 +175,13 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
         this.values[name] = this.uMatrix.values.get([r, c]);
       }
     };
+  }
+
+  _defineLearFormControls() {
+    this._learForm = this.fb.group({
+      base: [0.5, minMaxValidator(0, 0.9999999999999999, this.log)],
+      decay: [0.35, minMaxValidator(0, 99999999999999999999, this.log)]
+    });
   }
 
   updateMatrix() {
@@ -241,16 +258,21 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     return style;
   }
 
-  calculateLear() {
-    // hack to get this started
-    const base = 0.5;
-    const decay = 0.35;
+  calculateLear(base?: number, decay?: number) {
     const levels = [];
 
     let dMin = 1;
     let dMax = 1;
+    if (isNullOrUndefined(base)) {
+      base = this._learForm.value.base;
+    }
+    if (isNullOrUndefined(decay)) {
+      decay = this._learForm.value.decay;
+    }
 
-    if ( this._isNumeric() ) {
+    if ( this._isNumeric()
+      && !isNullOrUndefined(base)
+      && !isNullOrUndefined(decay)) {
       this.labels.forEach(
         val => {
           levels.push(Number.parseFloat(val));
@@ -262,7 +284,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
       const vals = this.uMatrix.values.clone();
       for ( let r = 0; r < vals.size()[0]; r++ ) {
         for (let c = 0; c < vals.size()[1]; c++ ) {
-          if (r === c ) { vals.set([r,c],  1); }
+          if (r === c ) { vals.set([r, c],  1); }
           if (r > c  && dMin === dMax ) {
             vals.set([r, c], base);
             vals.set([c, r], base);
@@ -276,7 +298,8 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
       }
 
       this.uMatrix.values = vals;
-      this._defineFormControls();
+      this._defineMatrixFormControls();
+      this.correlationMatrixForm = this._fb.group(this.controlDefs);
     }
   }
 
@@ -305,7 +328,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     let isNumeric = true
     this.labels.forEach(
       value => {
-        if( isNaN(Number.parseFloat(value))) {
+        if ( isNaN(Number.parseFloat(value))) {
           isNumeric = false;
         }
       }
@@ -327,7 +350,12 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
   selectLear() {
     this._lear = true;
+    this._learFormSubscription = this._learForm.valueChanges.subscribe(value => this.onLearChange(value));
     this.calculateLear()
+  }
+
+  get learForm(): FormGroup {
+    return this._learForm;
   }
 
   get correlationMatrixForm(): FormGroup {

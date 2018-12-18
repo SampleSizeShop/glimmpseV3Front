@@ -12,24 +12,26 @@
     </label>
   </div>
 </div>
-<div class="row" *ngIf="isLear()">
-  <label id="basecorellationlbl" for="basecorellation">Base Corellation:</label>
-  <input type="number"
-         step="0.01"
-         class="form-control"
-         id="basecorellation"
-         placeholder="0.5"
-         formControlName="base">
-</div>
-<div class="row" *ngIf="isLear()">
-  <label id="deccayratelbl" for="decayrate">Decay Rate:</label>
-  <input type="number"
-         step="0.01"
-         class="form-control"
-         id="decayrate"
-         placeholder="0.35"
-         formControlName="decay">
-</div>
+<form [formGroup]="learForm">
+  <div class="row" *ngIf="isLear()">
+    <label id="basecorellationlbl" for="basecorellation">Base Corellation:</label>
+    <input type="number"
+           step="0.01"
+           class="form-control"
+           id="basecorellation"
+           placeholder="0.5"
+           formControlName="base">
+  </div>
+  <div class="row" *ngIf="isLear()">
+    <label id="deccayratelbl" for="decayrate">Decay Rate:</label>
+    <input type="number"
+           step="0.01"
+           class="form-control"
+           id="decayrate"
+           placeholder="0.35"
+           formControlName="decay">
+  </div>
+</form>
 <div class="row">
   <form [formGroup]="correlationMatrixForm" class="matrix-input-brackets">
     <div *ngFor="let r of sizeArray; let a=index" class="row">

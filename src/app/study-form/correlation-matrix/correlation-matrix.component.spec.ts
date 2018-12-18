@@ -56,14 +56,14 @@ describe('CorrelationMatrixComponent', () => {
   it('Should create the array of controls addressed to each matrix element', () => {
     component.size = 2;
     component._initializeProperties();
-    component._defineFormControls();
+    component._defineMatrixFormControls();
     expect(Object.keys(component.controlDefs).length).toEqual(4);
   } )
 
   it('Should create the array of values corresponding to controls, addressed by name to each matrix element', () => {
     component.size = 2;
     component._initializeProperties();
-    component._defineFormControls();
+    component._defineMatrixFormControls();
     expect(Object.keys(component.controlDefs)).toEqual(Object.keys(component.values));
   } );
 
