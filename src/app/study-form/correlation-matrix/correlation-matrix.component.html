@@ -2,9 +2,9 @@
 <div class="row">
   <p>Define your {{title}}correlation matrix:</p>
 </div>
-<div class="row">
+<div class="row"  *ngIf="_isNumeric()">
   <div class="btn-group" data-toggle="buttons">
-    <label aria-pressed="true" class="btn btn-secondary" [class.active]="isUnstructured()" id="unstructuredbtn">
+    <label aria-pressed="true" class="btn btn-secondary" [class.active]="isUnstructured()" id="unstructuredbtn" >
       <input type="radio" id="unstructuredradio" (click)="selectUnstructured()"> Unstructured
     </label>
     <label class="btn btn-secondary" aria-pressed="true" [class.active]="isLear()" id="learbtn">
@@ -51,10 +51,10 @@
         <div matTooltip="{{labels[a]}}, {{labels[b]}}"
              [matTooltipPosition]="left">
           <input type="number"
-                    class="form-control matrix-input-control"
-                    [style.background-color]="getStyle(r, c)"
-                    formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}"
-                    step="0.01" min={{min}} max="{{max}}">
+                 class="form-control matrix-input-control"
+                 [style.background-color]="getStyle(r, c)"
+                 formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}"
+                 step="0.01" min={{min}} max="{{max}}">
         </div>
 
       </div>
