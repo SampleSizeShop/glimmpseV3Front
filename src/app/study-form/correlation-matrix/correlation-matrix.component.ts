@@ -337,13 +337,14 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
   _isNumeric() {
     let isNumeric = true
-    this.labels.forEach(
-      value => {
-        if ( isNaN(Number.parseFloat(value))) {
-          isNumeric = false;
-        }
-      }
-    );
+    if (!isNullOrUndefined(this.labels)) {
+      this.labels.forEach(
+        value => {
+          if ( isNaN(Number.parseFloat(value))) {
+            isNumeric = false;
+          }
+        });
+    }
     return isNumeric;
   }
 
