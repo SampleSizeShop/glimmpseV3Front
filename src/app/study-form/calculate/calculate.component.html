@@ -10,7 +10,7 @@
   <table class="table">
     <tr>
       <th *ngIf="isPower()">Power</th>
-      <th *ngIf="!isPower()">Target Power</th>
+      <th *ngIf="isSamplesize()">Target Power</th>
       <th>Total Sample Size</th>
       <th>Means Scale Factor</th>
       <th>Variability Scale Factor</th>
@@ -21,10 +21,12 @@
         (click)="showDetail(getOutput(result), i)"
         [class] = "rowStyle(i)"
         [attr.id]="'result_display_row_'+i">
-      <td *ngIf="isPower()">{{result['power']}}</td>
-      <td *ngIf="!isPower()">{{result['target_power']}}</td>
+      <td *ngIf="isPower() && !error(result)">{{result['power']}}</td>
+      <td *ngIf="isPower() && error(result)">{{result['error']}}</td>
+      <td *ngIf="isSamplesize()">{{result['target_power']}}</td>
       <td *ngIf="isPower()">{{result['total_n']}}</td>
-      <td *ngIf="!isPower()">{{result['samplesize']}}</td>
+      <td *ngIf="isSamplesize() && !error(result)">{{result['samplesize']}}</td>
+      <td *ngIf="isSamplesize() && error(result)">{{result['error']}}</td>
       <td>{{ result['means_scale_factor'] }}</td>
       <td>{{ result['variance_scale_factor'] }}</td>
       <td>{{ result['test'] }}</td>

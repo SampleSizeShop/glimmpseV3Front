@@ -262,6 +262,22 @@ export class CalculateComponent implements OnInit, OnDestroy {
     return ret;
   }
 
+  isSamplesize(): boolean {
+    let ret = true;
+    if (!isNullOrUndefined(this.studyDesign)) {
+      ret =  this.studyDesign.solveFor === constants.SOLVE_FOR.POWER;
+    }
+    return !ret;
+  }
+
+  error(result) {
+    if ( !isNullOrUndefined(result['error'])) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   dismissHelp() {
     this.helpTextModalReference.close();
   }
