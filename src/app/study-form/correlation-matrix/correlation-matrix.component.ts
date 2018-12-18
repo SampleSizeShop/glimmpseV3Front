@@ -181,7 +181,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   _defineLearFormControls() {
     this._learForm = this.fb.group({
       base: [0.5, minMaxValidator(0, 0.9999999999999999, this.log)],
-      decay: [0.35, minMaxValidator(0, 99999999999999999999, this.log)],
+      decay: [0.3, minMaxValidator(0, 99999999999999999999, this.log)],
       scale: [true]
     });
   }
@@ -272,6 +272,9 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     if (isNullOrUndefined(decay)) {
       decay = this._learForm.value.decay;
     }
+    if (isNullOrUndefined(scaled)) {
+      scaled = this._learForm.value.scale;
+    }
 
     if ( this._isNumeric()
       && !isNullOrUndefined(base)
@@ -297,7 +300,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
             vals.set([c, r], base);
           }
           if (r > c  && dMin !== dMax ) {
-            const rho_j_k =  Math.pow(base, (dMin + decay * (((levels[r] - levels[c]) - dMin) / (scale * (dMax - dMin))));
+            const rho_j_k =  Math.pow(base, (dMin / scale + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin)) / scale);
             vals.set([r, c], rho_j_k );
             vals.set([c, r], rho_j_k );
           }
