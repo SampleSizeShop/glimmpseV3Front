@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit, OnDestroy, ViewChild} from '@angular/core';
+import {Component, DoCheck, OnInit, OnDestroy, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
@@ -27,6 +27,9 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
+
+  @ViewChild('canDeactivate') canDeactivateModal;
+  private modalReference: any;
 
   constructor(private study_service: StudyService,
               private fb: FormBuilder,
@@ -106,6 +109,41 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
           this.log.debug(dismissReason);
         }
       });
+  }
+
+  showModal(content) {
+    this.modalReference = this.modalService.open(content);
+    this.modalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ', closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
+  }
+
+  modalChoice(choice: boolean) {
+    this.modalReference.close();
+    if (choice) {
+      this.addAlpha()
+    } else {
+      this.typeOneErrorRateForm.reset();
+    }
+  }
+
+  checkAlpha() {
+    const value = this.typeOneErrorRateForm.value.typeoneerror;
+    if (value >= constants.TYPE_I_ERROR_TOLERANCE) {
+      this.showModal(this.canDeactivateModal);
+      this.typeOneErrorRateForm.get('typeoneerror').markAsTouched();
+    } else {
+      this.addAlpha();
+    }
   }
 
   addAlpha() {
