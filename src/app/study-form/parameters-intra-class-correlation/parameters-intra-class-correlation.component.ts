@@ -5,6 +5,7 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {Cluster} from '../../shared/Cluster';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../../shared/constants';
+import {minMaxValidator} from '../../shared/minmax.validator';
 
 @Component({
   selector: 'app-parameters-intra-class-correlation',
@@ -42,6 +43,7 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
     this.intraClassCorrForm = this.fb.group(
       this._defineControls()
     );
+    this.updateIntraClassCorrFormControls();
     this.intraClassCorrForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set validation messages now
   }
@@ -58,10 +60,19 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
       if (control && control.dirty && !control.valid) {
         const messages = this.validationMessages['vectorofcorrelation'];
         for (const key in control.errors ) {
-          this.formErrors['vectorofcorrelation'] = messages[key];
+          if (!this.formErrors['vectorofcorrelation'].includes(messages[key])) {
+            this.formErrors['vectorofcorrelation'] += '' + messages[key];
+          }
         }
       }
     }
+  }
+
+  updateIntraClassCorrFormControls() {
+    this.isuFactors.cluster.levels.forEach( level => {
+      // this.intraClassCorrForm[name] = group.value;
+      this.intraClassCorrForm.controls[level.levelName].setValidators(minMaxValidator(-1 / this.isuFactors.cluster.levels.length, 1));
+    });
   }
 
   _defineControls() {
@@ -126,14 +137,13 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
   }
 
   get validationMessages(): {
-    vectorofcorrelation: { required: string; };
-  }
-  {
+    vectorofcorrelation: { required: string; minval: string; maxval: string; };
+  } {
     return this._validationMessages;
   }
 
   set validationMessages(value: {
-    vectorofcorrelation: { required: string; };
+    vectorofcorrelation: { required: string; minval: string; maxval: string; };
   }) {
     this._validationMessages = value;
   }
