@@ -17,7 +17,10 @@
                    aria-describedby="typeoneerrorhelp"
                    placeholder="Choose a number 0 > x > 1"
                    formControlName="typeoneerror"
-                   (keyup.enter)="checkAlpha()">
+                   [(ngModel)]="inputTypeOneError"
+                   (keyup.enter)="addAlpha()"
+                   [ngStyle]="inputTypeOneError>0.1? {'color':'orange'} : {'color':'black'}">
+            <div *ngIf="inputTypeOneError>0.1" [ngStyle]="{'color':'orange'}">Warning: Type one error <= 0.1 recommended.</div>
             <div *ngIf="formErrors.typeoneerror" class="form-group has-danger">
               <div class="form-control-feedback">{{formErrors.typeoneerror}}</div>
             </div>
@@ -26,7 +29,7 @@
         </div>
         <div class="col">
           <br>
-          <i class="material-icons" (click)="checkAlpha()" style="margin-top: 10px" id="addalpha">add</i>
+          <i class="material-icons" (click)="addAlpha()" style="margin-top: 10px" id="addalpha">add</i>
         </div>
       </div>
       <div class="row">
@@ -50,21 +53,6 @@
     </div>
   </fieldset>
 </form>
-<ng-template #canDeactivate>
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Are you sure?</h5> <button type="button" class="close" (click)="modalChoice(false)">
-      <span aria-hidden="true">×</span>
-    </button>
-    </div>
-    <div class="modal-body">
-      <p>You are trying to specify a big Type I error rate. Do you really wish to continue?</p>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="modalChoice(true)">Continue</button>
-      <button type="button" class="btn btn-primary" (click)="modalChoice(false)">Nope</button> </div>
-  </div>
-</ng-template>
 <ng-template #helpText>
   <div class="modal-content">
     <div class="modal-header">

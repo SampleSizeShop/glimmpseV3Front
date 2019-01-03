@@ -23,13 +23,11 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   private _typeOneErrorRateSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
+  private _inputTypeOneError: number;
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
-
-  @ViewChild('canDeactivate') canDeactivateModal;
-  private modalReference: any;
 
   constructor(private study_service: StudyService,
               private fb: FormBuilder,
@@ -111,41 +109,6 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
       });
   }
 
-  showModal(content) {
-    this.modalReference = this.modalService.open(content);
-    this.modalReference.result.then(
-      (closeResult) => {
-        this.log.debug('modal closed : ', closeResult);
-      }, (dismissReason) => {
-        if (dismissReason === ModalDismissReasons.ESC) {
-          this.log.debug('modal dismissed when used pressed ESC button');
-        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
-          this.log.debug('modal dismissed when used pressed backdrop');
-        } else {
-          this.log.debug(dismissReason);
-        }
-      });
-  }
-
-  modalChoice(choice: boolean) {
-    this.modalReference.close();
-    if (choice) {
-      this.addAlpha()
-    } else {
-      this.typeOneErrorRateForm.reset();
-    }
-  }
-
-  checkAlpha() {
-    const value = this.typeOneErrorRateForm.value.typeoneerror;
-    if (value >= constants.TYPE_I_ERROR_TOLERANCE) {
-      this.showModal(this.canDeactivateModal);
-      this.typeOneErrorRateForm.get('typeoneerror').markAsTouched();
-    } else {
-      this.addAlpha();
-    }
-  }
-
   addAlpha() {
     const value = this.typeOneErrorRateForm.value.typeoneerror;
     if (!isNullOrUndefined(value) &&
@@ -211,6 +174,14 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   set typeOneErrorRateSubscription(value: Subscription) {
     this._typeOneErrorRateSubscription = value;
   }
+  get inputTypeOneError(): number {
+    return this._inputTypeOneError;
+  }
+
+  set inputTypeOneError(value: number) {
+    this._inputTypeOneError = value;
+  }
+
 
   rowStyle(index: number) {
     if (index % 2 === 1) {
