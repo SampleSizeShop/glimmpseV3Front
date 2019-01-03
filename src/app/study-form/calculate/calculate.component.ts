@@ -36,6 +36,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   private _detailClusterOverview: Array<String>;
   private _detailPredictorCombination: Array<Array<string>>;
   private _detailPredictor: Array<Predictor>;
+  private _detailSampleSize: number;
   private _currentSelected: number;
   private _resultForDisplay: Array<Object>;
   private _downloadData: SafeUrl;
@@ -195,7 +196,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
     return value;
   }
 
-  showDetail(power, index) { // , totalSampleSize) {
+  showDetail(power, index, totalSampleSize) { // , totalSampleSize) {
     this.isShowDetail = true;
     this.detailPower = power;
     this.currentSelected = index;
@@ -203,6 +204,9 @@ export class CalculateComponent implements OnInit, OnDestroy {
       this.detailClusterName = this.detailCluster.name;
     } else {
       this.detailClusterName = 'participants';
+    }
+    if (totalSampleSize) {
+      this.detailSampleSize = totalSampleSize;
     }
   }
 
@@ -433,5 +437,12 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   set detailClusterName(value) {
     this._detailClusterName = value;
+  }
+  get detailSampleSize() {
+    return this._detailSampleSize;
+  }
+
+  set detailSampleSize(value) {
+    this._detailSampleSize = value;
   }
 }

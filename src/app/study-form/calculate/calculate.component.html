@@ -18,7 +18,7 @@
       <th>Type I Error Rate</th>
     </tr>
     <tr *ngFor="let result of resultForDisplay; index as i"
-        (click)="showDetail(getOutput(result), i)"
+        (click)="showDetail(getOutput(result), i, result['total_n'])"
         [class] = "rowStyle(i)"
         [attr.id]="'result_display_row_'+i">
       <td *ngIf="isPower() && !error(result)">{{result['power']}}</td>
@@ -73,7 +73,7 @@
         <ng-template #noPredictorContent>
           <tr>
             <td>
-              Total Sample Size: {{ studyDesign['_isuFactors']['smallestGroupSize'] }}
+              Total Sample Size: {{ detailSampleSize }}
             </td>
           </tr>
         </ng-template>
