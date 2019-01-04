@@ -8,6 +8,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {isNullOrUndefined} from 'util';
+import {StudyDesign} from '../../shared/study-design';
 
 @Component({
   selector: 'app-type-one-error',
@@ -16,6 +17,8 @@ import {isNullOrUndefined} from 'util';
   providers: [NGXLogger]
 })
 export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
+  private _studyDesign: StudyDesign;
+  private _studySubscription: Subscription;
   private _typeOneErrorRate: Array<number>;
   private _typeOneErrorRateForm: FormGroup;
   private _formErrors = constants.TYPE_ONE_ERROR_ERRORS;
@@ -24,6 +27,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   private _typeOneErrorRateSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
   private _inputTypeOneError: number;
+  private _warningTypeOneErrorFromPower: boolean;
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
@@ -34,11 +38,15 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
               private log: NGXLogger,
               private navigation_service: NavigationService,
               private modalService: NgbModal) {
+    this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
+      this._studyDesign = study;
+    });
     this.typeOneErrorRateSubscription = this.study_service.typeOneErrorRate$.subscribe(
       typeOneErrorRate => {
         this.typeOneErrorRate = typeOneErrorRate
-    }
+      }
     );
+    this.warningTypeOneErrorFromPower = false;
     this._afterInit = false;
     this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
       if (this._afterInit) {
@@ -81,11 +89,24 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   ngDoCheck() {
     this.study_service.updateTypeOneErrorRate(this.typeOneErrorRate);
+    this.validTypeOneErrorByPower();
   }
 
   ngOnDestroy() {
     this.typeOneErrorRateSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
+  }
+
+  validTypeOneErrorByPower() {
+    this.warningTypeOneErrorFromPower = false;
+    if (this.typeOneErrorRate.length > 0) {
+      const maxTypeOneError = Math.max(...this.typeOneErrorRate);
+      const minPower = Math.min(...this.studyDesign['_power']);
+
+      if (minPower < maxTypeOneError) {
+        this.warningTypeOneErrorFromPower = true;
+      }
+    }
   }
 
   dismissHelp() {
@@ -182,6 +203,25 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     this._inputTypeOneError = value;
   }
 
+  get studyDesign() {
+    return this._studyDesign;
+  }
+
+  get studySubscription(): Subscription {
+    return this._studySubscription;
+  }
+
+  set studySubscription(value: Subscription) {
+    this._studySubscription = value;
+  }
+
+  get warningTypeOneErrorFromPower(): boolean {
+    return this._warningTypeOneErrorFromPower;
+  }
+
+  set warningTypeOneErrorFromPower(value: boolean) {
+    this._warningTypeOneErrorFromPower = value;
+  }
 
   rowStyle(index: number) {
     if (index % 2 === 1) {

@@ -20,7 +20,8 @@
                    [(ngModel)]="inputTypeOneError"
                    (keyup.enter)="addAlpha()"
                    [ngStyle]="inputTypeOneError>0.1? {'color':'orange'} : {'color':'black'}">
-            <div *ngIf="inputTypeOneError>0.1" [ngStyle]="{'color':'orange'}">Warning: Type one error <= 0.1 recommended.</div>
+            <div *ngIf="inputTypeOneError>0.1" class="warning">Warning: Type one error <= 0.1 recommended.</div>
+            <div *ngIf="warningTypeOneErrorFromPower" class="warning">Warning: All powers should be bigger than type one error recommended.</div>
             <div *ngIf="formErrors.typeoneerror" class="form-group has-danger">
               <div class="form-control-feedback">{{formErrors.typeoneerror}}</div>
             </div>
