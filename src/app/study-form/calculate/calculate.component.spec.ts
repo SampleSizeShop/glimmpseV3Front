@@ -93,16 +93,16 @@ describe('CalculateComponent', () => {
 
   it('Should show correct sample size for each group combination with 1 predictor.', () => {
     component.buildCombinationsValueMap(testCombinationMap1['_isuFactors']['betweenIsuRelativeGroupSizes']);
-    component.calculateTotalSampleSize(testCombinationMap1['_isuFactors']['smallestGroupSize']);
+    component.detailSampleSize = component.getSumOfCombinationsValue() * testCombinationMap1['_isuFactors']['smallestGroupSize'];
 
     expect(component.combinationsValueMap['1']).toEqual(1);
     expect(component.combinationsValueMap['2']).toEqual(3);
-    expect(component.totalSampleSize).toEqual(12);
+    expect(component.detailSampleSize).toEqual(12);
   });
 
   it('Should show correct sample size for each group combination with 2 predictor.', () => {
     component.buildCombinationsValueMap(testCombinationMap2['_isuFactors']['betweenIsuRelativeGroupSizes']);
-    component.calculateTotalSampleSize(testCombinationMap1['_isuFactors']['smallestGroupSize']);
+    component.detailSampleSize = component.getSumOfCombinationsValue() * testCombinationMap1['_isuFactors']['smallestGroupSize'];
 
     expect(component.combinationsValueMap['1@3']).toEqual(1);
     expect(component.combinationsValueMap['1@4']).toEqual(3);
@@ -111,7 +111,7 @@ describe('CalculateComponent', () => {
     expect(component.combinationsValueMap['2@4']).toEqual(9);
     expect(component.combinationsValueMap['2@5']).toEqual(7);
 
-    expect(component.totalSampleSize).toEqual(108);
+    expect(component.detailSampleSize).toEqual(108);
   });
 
 });

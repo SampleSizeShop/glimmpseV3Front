@@ -18,7 +18,7 @@
       <th>Type I Error Rate</th>
     </tr>
     <tr *ngFor="let result of resultForDisplay; index as i"
-        (click)="showDetail(getOutput(result), i)"
+        (click)="showDetail(getOutput(result), i, result['total_n'])"
         [class] = "rowStyle(i)"
         [attr.id]="'result_display_row_'+i">
       <td *ngIf="isPower() && !error(result)">{{result['power']}}</td>
@@ -63,17 +63,17 @@
           </tr>
           <tr *ngFor="let combination of detailPredictorCombination; index as i">
             <td *ngFor="let groupName of combination; index as j" [attr.id]="'group_'+i+'_'+j"> {{groupName}}</td>
-            <td [attr.id]="'per_group_sample_size_'+i"> {{ studyDesign['_isuFactors']['smallestGroupSize'] * combinationsValueMap[combination.join('@')] }} </td>
+            <td [attr.id]="'per_group_sample_size_'+i"> {{ smallestGroupSize * combinationsValueMap[combination.join('@')] }} </td>
           </tr>
           <tr>
             <td [attr.colspan]="detailPredictor.length"> Total Sample Size </td>
-            <td id="totalsamplesize"> {{ totalSampleSize }} </td>
+            <td id="totalsamplesize"> {{ detailSampleSize }} </td>
           </tr>
         </ng-container>
         <ng-template #noPredictorContent>
           <tr>
             <td>
-              Total Sample Size: {{ studyDesign['_isuFactors']['smallestGroupSize'] }}
+              Total Sample Size: {{ detailSampleSize }}
             </td>
           </tr>
         </ng-template>
