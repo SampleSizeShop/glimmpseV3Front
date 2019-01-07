@@ -41,8 +41,9 @@ export class CalculateComponent implements OnInit, OnDestroy {
   private _resultForDisplay: Array<Object>;
   private _downloadData: SafeUrl;
   private _combinationsValueMap: Object;
-  private _totalSampleSize: number;
   private _showHelpTextSubscription: Subscription;
+  private _smallestGroupSize: number;
+  private _sumOfCombinationsValue: number;
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
@@ -116,7 +117,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
           this.generateCombinations(this.detailPredictor);
         }
         this.buildCombinationsValueMap(this.studyDesign['_isuFactors']['betweenIsuRelativeGroupSizes']);
-        this.calculateTotalSampleSize(this.studyDesign['_isuFactors']['smallestGroupSize']);
+        this._sumOfCombinationsValue = this.getSumOfCombinationsValue();
     }).catch(this.handleError);
   }
 
@@ -196,10 +197,11 @@ export class CalculateComponent implements OnInit, OnDestroy {
     return value;
   }
 
-  showDetail(power, index, totalSampleSize) { // , totalSampleSize) {
+  showDetail(power, index, totalSampleSize) {
     this.isShowDetail = true;
     this.detailPower = power;
     this.currentSelected = index;
+
     if (this.detailCluster) {
       this.detailClusterName = this.detailCluster.name;
     } else {
@@ -208,6 +210,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
     if (totalSampleSize) {
       this.detailSampleSize = totalSampleSize;
     }
+    this.smallestGroupSize = totalSampleSize / this._sumOfCombinationsValue;
   }
 
   buildCombinationsValueMap(betweenIsuRelativeGroupSizes) {
@@ -225,12 +228,13 @@ export class CalculateComponent implements OnInit, OnDestroy {
     }
   }
 
-  calculateTotalSampleSize(smallestGroupSize) {
-    this.totalSampleSize = 0;
+  getSumOfCombinationsValue() {
+    let sum = 0;
     for (const key of Object.keys(this.combinationsValueMap)) {
-      this.totalSampleSize += this.combinationsValueMap[key];
+      sum += this.combinationsValueMap[key];
     }
-    this.totalSampleSize = this.totalSampleSize * smallestGroupSize;
+
+    return sum
   }
 
   generateCombinations(predictors: Predictor[], current_combination = []) {
@@ -423,14 +427,6 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this._combinationsValueMap = value;
   }
 
-  get totalSampleSize() {
-    return this._totalSampleSize;
-  }
-
-  set totalSampleSize(value) {
-    this._totalSampleSize = value;
-  }
-
   get detailClusterName() {
     return this._detailClusterName;
   }
@@ -444,5 +440,12 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   set detailSampleSize(value) {
     this._detailSampleSize = value;
+  }
+  get smallestGroupSize(): number {
+    return this._smallestGroupSize;
+  }
+
+  set smallestGroupSize(value: number) {
+    this._smallestGroupSize = value;
   }
 }

@@ -63,11 +63,11 @@
           </tr>
           <tr *ngFor="let combination of detailPredictorCombination; index as i">
             <td *ngFor="let groupName of combination; index as j" [attr.id]="'group_'+i+'_'+j"> {{groupName}}</td>
-            <td [attr.id]="'per_group_sample_size_'+i"> {{ studyDesign['_isuFactors']['smallestGroupSize'] * combinationsValueMap[combination.join('@')] }} </td>
+            <td [attr.id]="'per_group_sample_size_'+i"> {{ smallestGroupSize * combinationsValueMap[combination.join('@')] }} </td>
           </tr>
           <tr>
             <td [attr.colspan]="detailPredictor.length"> Total Sample Size </td>
-            <td id="totalsamplesize"> {{ totalSampleSize }} </td>
+            <td id="totalsamplesize"> {{ detailSampleSize }} </td>
           </tr>
         </ng-container>
         <ng-template #noPredictorContent>
