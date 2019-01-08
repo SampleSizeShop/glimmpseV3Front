@@ -114,7 +114,9 @@ export const constants = {
   },
   PARAMETERS_INTRA_CLASS_CORRELATION_VALIDATION_MESSAGES: {
     'vectorofcorrelation': {
-      'required': 'ALL values need to be filled in.'
+      'required': 'ALL values need to be filled in. ',
+      'minval': 'Value too low. ',
+      'maxval': 'Value too high. '
     },
   },
   PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE_VALIDATION_MESSAGES: {
