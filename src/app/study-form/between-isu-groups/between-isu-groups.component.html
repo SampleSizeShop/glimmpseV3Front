@@ -1,41 +1,37 @@
 <div *ngIf="isIntercept"
-     class="row"
      id="intercept">
   <div>We have added an intercept.</div>
 </div>
 
 <div *ngIf="!isIntercept"
-     class="row"
      id="tableControls">
   <form [formGroup]="relativeGroupSizeForm" id="relativeGroupSizeForm">
-    <div class="container-fluid">
-      <div>
-        <p>
-          For equal group sizes, input a "1" in the block next to each group. This is the default study design. <br /><br />
+    <div>
+      <p>
+        For equal group sizes, input a "1" in the block next to each group. This is the default study design. <br /><br />
 
-          For unequal group sizes, specify the ratio of the group sizes. For example, consider a design with an active drug group and a placebo group. If twice as many study participants receive the placebo, a value of "2" would be selected for the placebo group, and a value of "1" would be selected for the active drug group. <br /><br />
-        </p>
-      </div>
-      <br>
-        <div class="col col-md-auto">
-          <table>
-            <tbody class="matrix-input-brackets">
-            <tr *ngFor="let row of table.table;">
-              <td *ngFor="let col of row;">
-                <div matTooltip="{{table.getCellLabel(col)}}"
-                     [matTooltipPosition]="left">
-                  <input type="number"
-                         class="matrix-input-control"
-                         formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
-                         id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
-                         placeholder="1"
-                         required>
-                </div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
+        For unequal group sizes, specify the ratio of the group sizes. For example, consider a design with an active drug group and a placebo group. If twice as many study participants receive the placebo, a value of "2" would be selected for the placebo group, and a value of "1" would be selected for the active drug group. <br /><br />
+      </p>
+    </div>
+    <br>
+    <div class="table-responsive">
+      <table class="table">
+        <tbody class="matrix-input-brackets">
+        <tr *ngFor="let row of table.table;">
+          <td *ngFor="let col of row;">
+            <div matTooltip="{{table.getCellLabel(col)}}"
+                 [matTooltipPosition]="left">
+              <input type="number"
+                     class="matrix-input-control"
+                     formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
+                     id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
+                     placeholder="1"
+                     required>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
     <div *ngIf="formErrors.relativegroupsizes" class="form-group has-danger">
       <div class="form-control-feedback">{{formErrors.relativegroupsizes}}</div>
