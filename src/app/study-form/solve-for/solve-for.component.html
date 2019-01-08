@@ -74,8 +74,9 @@
         <i class="material-icons" (click)="addPower()" style="margin-top: 10px" id="addoutcome">add</i>
       </div>
 
-        <br>
-        <table class="table" *ngIf="isSampleSize()">
+      <br>
+      <div class="table-responsive" *ngIf="isSampleSize()">
+        <table class="table">
           <thead>
           <th>Target Power</th>
           <th>remove</th>
@@ -91,9 +92,8 @@
           </tr>
           </tbody>
         </table>
-
+      </div>
     </div>
-
   </div>
 </form>
 

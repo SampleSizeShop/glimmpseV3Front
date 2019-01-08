@@ -17,8 +17,8 @@
       </div>
       <p *ngIf="grandMean">What is the mean value for outcome {{table.name}}?</p>
 
-      <div class="table-responsive">
-        <table class="table" style="padding:-200px 0;">
+      <div class="table-responsive" style="padding:-200px 0;">
+        <table class="table">
           <tbody class="matrix-input-brackets">
           <tr *ngFor="let row of table.table;">
             <td *ngFor="let col of row;">
