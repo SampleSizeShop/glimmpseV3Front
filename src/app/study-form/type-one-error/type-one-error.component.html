@@ -30,22 +30,24 @@
         </div>
       </div>
       <div class="row">
-        <table class="table">
-          <thead>
-          <th>Type One Error Rate</th>
-          <th>remove</th>
-          </thead>
-          <tbody>
-          <tr *ngIf="firstAlpha()">
-            <td> You must enter at least one type one error rate.</td>
-            <td></td>
-          </tr>
-          <tr *ngFor="let alpha of alphas$ | async; let i = index; " id="alphalist" [class]="rowStyle(i)">
-            <td>{{alpha}}</td>
-            <td><i class="material-icons" (click)="removeAlpha(alpha)" style="margin-bottom: 5px" id="removealpha">remove</i></td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <th>Type One Error Rate</th>
+            <th>remove</th>
+            </thead>
+            <tbody>
+            <tr *ngIf="firstAlpha()">
+              <td> You must enter at least one type one error rate.</td>
+              <td></td>
+            </tr>
+            <tr *ngFor="let alpha of alphas$ | async; let i = index; " id="alphalist" [class]="rowStyle(i)">
+              <td>{{alpha}}</td>
+              <td><i class="material-icons" (click)="removeAlpha(alpha)" style="margin-bottom: 5px" id="removealpha">remove</i></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </fieldset>
