@@ -3,7 +3,7 @@ import {constants} from '../../src/app/shared/constants';
 
 export const hw2_input = {
   user_mode: constants.USER_MODE.GUIDED,
-  target_event: constants.TARGET_EVENT.WAVR,
+  // target_event: constants.TARGET_EVENT.WAVR,
   solve_for: null,
   statistical_tests: [
     constants.STATISTICAL_TESTS.HOTELLING_LAWLEY,

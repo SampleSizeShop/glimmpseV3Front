@@ -17,7 +17,7 @@ describe('Glimmpse v3 automated integration tests', () => {
   beforeEach(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     page = new StudyFormComponentPage();
-    page.navigateTo('/design/TARGET_EVENT');
+    page.navigateTo('/design/STATISTICAL_TESTS');
   });
 
   it('Should calculate a power of 1 for Grand Mean with only one outcome', async function() {
