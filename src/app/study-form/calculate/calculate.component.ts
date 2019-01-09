@@ -103,6 +103,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   postModel() {
+    this.isShowDetail = false;
     const output = this.outputString;
     this.http.post(
       testEnvironment.calculateUrl,
@@ -251,6 +252,8 @@ export class CalculateComponent implements OnInit, OnDestroy {
   rowStyle(index) {
     if (this.isSelected(index)) {
       return 'col col-md-auto table-info';
+    } else if (this.error(this.resultForDisplay[index])) {
+      return 'col col-md-auto table-danger';
     } else if (index % 2 === 1) {
       return 'col col-md-auto table-active';
     } else {

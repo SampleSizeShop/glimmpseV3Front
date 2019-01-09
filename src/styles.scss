@@ -44,7 +44,9 @@ body{
   display: inline-block;
   vertical-align: top;
   padding: 5px 15px;
-  margin: 20px;}
+  margin: 2px;
+  overflow: scroll;
+  width: border-box;}
 
 .matrix-input-control {
   border-bottom: none!important;
