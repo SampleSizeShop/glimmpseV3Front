@@ -1,9 +1,12 @@
-import {Component, DoCheck, OnInit, OnDestroy} from '@angular/core';
+import {Component, DoCheck, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StudyService} from '../study.service';
-import {Subscription} from 'rxjs';
+import {of as observableOf, Subscription, Observable} from 'rxjs';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NavigationService} from '../../shared/navigation.service';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-parameters-variance-scale-factors',
@@ -17,8 +20,17 @@ private _max: number;
 private _validationMessages;
 private _formErrors;
 private _varianceScaleFactorsSubscription: Subscription;
+private _showHelpTextSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder, private study_service: StudyService) {
+@ViewChild('helpText') helpTextModal;
+private helpTextModalReference: any;
+private _afterInit: boolean;
+
+  constructor(private _fb: FormBuilder,
+              private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this.scaleFactors = [];
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
     this.formErrors = constants.OUTCOME_FORM_ERRORS;
@@ -29,9 +41,16 @@ private _varianceScaleFactorsSubscription: Subscription;
         this.scaleFactors = factors;
       }
     );
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
   }
 
   ngOnInit() {
+    this._afterInit = true;
     this.buildForm();
   }
 
@@ -47,6 +66,7 @@ private _varianceScaleFactorsSubscription: Subscription;
       this.study_service.updateVarianceScaleFactors(this.scaleFactors);
     }
     this.varianceScaleFactorsSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -78,10 +98,10 @@ private _varianceScaleFactorsSubscription: Subscription;
   }
 
   addScaleFactor() {
+    const value = +this.scaleFactorsForm.value.scaleFactors
     if (
       this.scaleFactorsForm.status === 'VALID'
-      && this.scaleFactorsForm.value.scaleFactors
-    ) {
+      && this.scaleFactors.indexOf(value) === -1) {
       this.scaleFactors.push(+this.scaleFactorsForm.value.scaleFactors);
       this.scaleFactorsForm.reset();
     }
@@ -104,6 +124,31 @@ private _varianceScaleFactorsSubscription: Subscription;
       return true;
     }
     return false;
+  }
+
+  get scaleFactor$ () {
+    return observableOf(this._scaleFactors)
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get scaleFactors(): number[] {
@@ -160,5 +205,13 @@ private _varianceScaleFactorsSubscription: Subscription;
 
   set varianceScaleFactorsSubscription(value: Subscription) {
     this._varianceScaleFactorsSubscription = value;
+  }
+
+  rowStyle(index: number) {
+    if (index % 2 === 1) {
+      return 'col col-md-auto table-active';
+    } else {
+      return 'col col-md-auto table-primary';
+    }
   }
 }

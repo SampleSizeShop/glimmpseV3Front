@@ -17,13 +17,13 @@ interface StudyDesignJSON {
   _name: string;
   _targetEvent: string;
   _solveFor: string;
-  _power: number;
+  _power: number[];
   _ciwidth: number;
   _selectedTests: string[];
-  _typeOneErrorRate: number;
+  _typeOneErrorRate: Array<number>;
   _isuFactors: ISUFactors;
   _gaussianCovariate: GaussianCovariate;
-  _scaleFactor: number;
+  _scaleFactor: number[];
   _varianceScaleFactors: number[];
   _powerCurve: PowerCurve;
   _define_full_beta: boolean;
@@ -33,13 +33,13 @@ export class StudyDesign {
   private _name: string;
   private _targetEvent: string;
   private _solveFor: string;
-  private _power: number;
+  private _power: number[];
   private _ciwidth: number;
   private _selectedTests: string[];
-  private _typeOneErrorRate: number;
+  private _typeOneErrorRate: Array<number>;
   private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
-  private _scaleFactor: number;
+  private _scaleFactor: number[];
   private _varianceScaleFactors: number[];
   private _powerCurve: PowerCurve;
   private _define_full_beta: boolean;
@@ -72,7 +72,7 @@ export class StudyDesign {
               guided?: boolean,
               targetEvent?: string,
               solveFor?: string,
-              power?: number,
+              power?: number[],
               ciwidth?: number,
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
@@ -84,6 +84,7 @@ export class StudyDesign {
               powerCurve?: PowerCurve
 ) {
     this.isuFactors = new ISUFactors();
+    this.power = [];
     this._define_full_beta = false;
   }
 
@@ -315,11 +316,11 @@ export class StudyDesign {
     this._solveFor = value;
   }
 
-  get power(): number {
+  get power(): number[] {
     return this._power;
   }
 
-  set power(value: number) {
+  set power(value: number[]) {
     this._power = value;
   }
 
@@ -339,11 +340,11 @@ export class StudyDesign {
     this._selectedTests = value;
   }
 
-  get typeOneErrorRate(): number {
+  get typeOneErrorRate(): Array<number> {
     return this._typeOneErrorRate;
   }
 
-  set typeOneErrorRate(value: number) {
+  set typeOneErrorRate(value: Array<number>) {
     this._typeOneErrorRate = value;
   }
 
@@ -363,11 +364,11 @@ export class StudyDesign {
     this._gaussianCovariate = value;
   }
 
-  get scaleFactor(): number {
+  get scaleFactor(): Array<number> {
     return this._scaleFactor;
   }
 
-  set scaleFactor(value: number) {
+  set scaleFactor(value: Array<number>) {
     this._scaleFactor = value;
   }
 

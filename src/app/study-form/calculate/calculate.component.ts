@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StudyDesign} from '../../shared/study-design';
 import {isNullOrUndefined} from 'util';
 import {StudyService} from '../study.service';
@@ -9,6 +9,10 @@ import {environment} from '../../../environments/environment';
 import {Cluster} from '../../shared/Cluster';
 import {Predictor} from '../../shared/Predictor';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NavigationService} from '../../shared/navigation.service';
+import {NGXLogger} from 'ngx-logger';
+import {constants} from '../../shared/constants';
 
 @Component({
   selector: 'app-calculate',
@@ -32,16 +36,26 @@ export class CalculateComponent implements OnInit, OnDestroy {
   private _detailClusterOverview: Array<String>;
   private _detailPredictorCombination: Array<Array<string>>;
   private _detailPredictor: Array<Predictor>;
+  private _detailSampleSize: number;
   private _currentSelected: number;
   private _resultForDisplay: Array<Object>;
   private _downloadData: SafeUrl;
   private _combinationsValueMap: Object;
-  private _totalSampleSize: number;
+  private _showHelpTextSubscription: Subscription;
+  private _smallestGroupSize: number;
+  private _sumOfCombinationsValue: number;
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
               private http: HttpClient,
               private sanitizer: DomSanitizer,
-              private ref: ChangeDetectorRef) {
+              private ref: ChangeDetectorRef,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
       this._studyDesign = study;
     });
@@ -60,10 +74,18 @@ export class CalculateComponent implements OnInit, OnDestroy {
       }
     )
     this._e2eTest = environment.e2eTest;
+
     this._isShowDetail = false;
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
   }
 
   ngOnInit() {
+    this._afterInit = true;
     if (!isNullOrUndefined(this._studyDesign)) {
       this.outputString = JSON.stringify(this._studyDesign);
       this.detailPredictorCombination = [];
@@ -77,9 +99,11 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this.studySubscription.unsubscribe();
     this._withinIsuClusterSubscription.unsubscribe();
     this._betweenIsuPredictorsSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   postModel() {
+    this.isShowDetail = false;
     const output = this.outputString;
     this.http.post(
       testEnvironment.calculateUrl,
@@ -94,7 +118,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
           this.generateCombinations(this.detailPredictor);
         }
         this.buildCombinationsValueMap(this.studyDesign['_isuFactors']['betweenIsuRelativeGroupSizes']);
-        this.calculateTotalSampleSize(this.studyDesign['_isuFactors']['smallestGroupSize']);
+        this._sumOfCombinationsValue = this.getSumOfCombinationsValue();
     }).catch(this.handleError);
   }
 
@@ -117,22 +141,12 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   buildResultTable() {
-    const resultArray = [];
-    let tempContainer = {};
+    const results = [];
 
     for (const result of this.resultString.results) {
-      for (const variability_scale_factor of this.studyDesign['_varianceScaleFactors']) {
-        tempContainer = {};
-        tempContainer['result'] = result;
-        tempContainer['smallestGroupSize'] = this.studyDesign['_isuFactors']['smallestGroupSize'];
-        tempContainer['scaleFactor'] = this.studyDesign['_scaleFactor'];
-        tempContainer['variability_scale_factor'] = variability_scale_factor;
-        tempContainer['test_type'] = result.test;
-        tempContainer['typeOneErrorRate'] = this.studyDesign['_typeOneErrorRate'];
-        resultArray.push(tempContainer);
-      }
+      results.push(result);
     }
-    this.resultForDisplay = resultArray;
+    this.resultForDisplay = results;
   }
 
   private handleError(error: any): Promise<any> {
@@ -184,15 +198,20 @@ export class CalculateComponent implements OnInit, OnDestroy {
     return value;
   }
 
-  showDetail(power, index) { // , totalSampleSize) {
+  showDetail(power, index, totalSampleSize) {
     this.isShowDetail = true;
     this.detailPower = power;
     this.currentSelected = index;
+
     if (this.detailCluster) {
       this.detailClusterName = this.detailCluster.name;
     } else {
       this.detailClusterName = 'participants';
     }
+    if (totalSampleSize) {
+      this.detailSampleSize = totalSampleSize;
+    }
+    this.smallestGroupSize = totalSampleSize / this._sumOfCombinationsValue;
   }
 
   buildCombinationsValueMap(betweenIsuRelativeGroupSizes) {
@@ -210,12 +229,13 @@ export class CalculateComponent implements OnInit, OnDestroy {
     }
   }
 
-  calculateTotalSampleSize(smallestGroupSize) {
-    this.totalSampleSize = 0;
+  getSumOfCombinationsValue() {
+    let sum = 0;
     for (const key of Object.keys(this.combinationsValueMap)) {
-      this.totalSampleSize += this.combinationsValueMap[key];
+      sum += this.combinationsValueMap[key];
     }
-    this.totalSampleSize = this.totalSampleSize * smallestGroupSize;
+
+    return sum
   }
 
   generateCombinations(predictors: Predictor[], current_combination = []) {
@@ -232,6 +252,8 @@ export class CalculateComponent implements OnInit, OnDestroy {
   rowStyle(index) {
     if (this.isSelected(index)) {
       return 'col col-md-auto table-info';
+    } else if (this.error(this.resultForDisplay[index])) {
+      return 'col col-md-auto table-danger';
     } else if (index % 2 === 1) {
       return 'col col-md-auto table-active';
     } else {
@@ -241,6 +263,51 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   isSelected(index: number) {
     return index === this.currentSelected;
+  }
+
+  isPower(): boolean {
+    let ret = true;
+    if (!isNullOrUndefined(this.studyDesign)) {
+      ret =  this.studyDesign.solveFor === constants.SOLVE_FOR.POWER;
+    }
+    return ret;
+  }
+
+  isSamplesize(): boolean {
+    let ret = true;
+    if (!isNullOrUndefined(this.studyDesign)) {
+      ret =  this.studyDesign.solveFor === constants.SOLVE_FOR.POWER;
+    }
+    return !ret;
+  }
+
+  error(result) {
+    if ( !isNullOrUndefined(result['error'])) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get outputString(): string {
@@ -363,19 +430,25 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this._combinationsValueMap = value;
   }
 
-  get totalSampleSize() {
-    return this._totalSampleSize;
-  }
-
-  set totalSampleSize(value) {
-    this._totalSampleSize = value;
-  }
-
   get detailClusterName() {
     return this._detailClusterName;
   }
 
   set detailClusterName(value) {
     this._detailClusterName = value;
+  }
+  get detailSampleSize() {
+    return this._detailSampleSize;
+  }
+
+  set detailSampleSize(value) {
+    this._detailSampleSize = value;
+  }
+  get smallestGroupSize(): number {
+    return this._smallestGroupSize;
+  }
+
+  set smallestGroupSize(value: number) {
+    this._smallestGroupSize = value;
   }
 }

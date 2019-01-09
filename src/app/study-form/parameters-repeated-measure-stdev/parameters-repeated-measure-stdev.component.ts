@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnInit, ViewChild, OnDestroy} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {Subscription, Observable, of} from 'rxjs';
 import {StudyService} from '../study.service';
@@ -7,21 +7,34 @@ import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 import {switchMap} from 'rxjs/operators';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NavigationService} from '../../shared/navigation.service';
+import {NGXLogger} from 'ngx-logger';
 
 @Component({
   selector: 'app-parameters-repeated-measure-outcome-stdev',
   templateUrl: './parameters-repeated-measure-stdev.component.html',
   styleUrls: ['./parameters-repeated-measure-stdev.component.scss']
 })
-export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck {
+export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck, OnDestroy {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _measure$: Observable<RepeatedMeasure>;
   private _stdevForm: FormGroup;
 
   private _measure: RepeatedMeasure;
+  private _showHelpTextSubscription: Subscription;
 
-  constructor(private study_service: StudyService, private route: ActivatedRoute, private fb: FormBuilder) {
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
+  constructor(private study_service: StudyService,
+              private route: ActivatedRoute,
+              private fb: FormBuilder,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
     this.measure$ = this.route.paramMap.pipe(switchMap(
       (params: ParamMap) => this.getMeasure(params.get('measure'))
       )
@@ -29,9 +42,16 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck 
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
   }
 
   ngOnInit() {
+    this._afterInit = true;
     this.measure$.subscribe( measure => {
       this.measure = measure;
       this.buildForm();
@@ -40,6 +60,10 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck 
 
   ngDoCheck() {
     this.updateStDevs();
+  }
+
+  ngOnDestroy() {
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -78,6 +102,27 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck 
       measures => measures.find(
         measure => measure.name === name
       ));
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 
   get isuFactors(): ISUFactors {

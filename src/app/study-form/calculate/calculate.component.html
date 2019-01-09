@@ -7,24 +7,34 @@
   <a id="downloadCsv" [attr.href]="downloadData" download="result.csv" hidden>Download result</a>
   <br>
   <br>
-  <table class="table">
-    <tr>
-      <th>Power</th>
-      <th>Total Sample Size</th>
-      <th>Means Scale Factor</th>
-      <th>Variability Scale Factor</th>
-      <th>Test</th>
-      <th>Type I Error Rate</th>
-    </tr>
-    <tr *ngFor="let result of resultForDisplay; index as i" (click)="showDetail(getOutput(result['result']), i)" [class] = "rowStyle(i)" [attr.id]="'result_display_row_'+i">
-      <td>{{getOutput(result['result'])}}</td>
-      <td>{{ result['smallestGroupSize'] }}</td>
-      <td>{{ result['scaleFactor'] }}</td>
-      <td>{{ result['variability_scale_factor'] }}</td>
-      <td>{{ result['test_type'] }}</td>
-      <td>{{ result['typeOneErrorRate'] }}</td>
-    </tr>
-  </table>
+  <div class="table-responsive">
+    <table class="table">
+      <tr>
+        <th *ngIf="isPower()">Power</th>
+        <th *ngIf="isSamplesize()">Target Power</th>
+        <th>Total Sample Size</th>
+        <th>Means Scale Factor</th>
+        <th>Variability Scale Factor</th>
+        <th>Test</th>
+        <th>Type I Error Rate</th>
+      </tr>
+      <tr *ngFor="let result of resultForDisplay; index as i"
+          (click)="showDetail(getOutput(result), i, result['total_n'])"
+          [class] = "rowStyle(i)"
+          [attr.id]="'result_display_row_'+i">
+        <td *ngIf="isPower() && !error(result)">{{result['power']}}</td>
+        <td *ngIf="isPower() && error(result)">{{result['error']}}</td>
+        <td *ngIf="isSamplesize()">{{result['target_power']}}</td>
+        <td *ngIf="isPower()">{{result['total_n']}}</td>
+        <td *ngIf="isSamplesize() && !error(result)">{{result['samplesize']}}</td>
+        <td *ngIf="isSamplesize() && error(result)">{{result['error']}}</td>
+        <td>{{ result['means_scale_factor'] }}</td>
+        <td>{{ result['variance_scale_factor'] }}</td>
+        <td>{{ result['test'] }}</td>
+        <td>{{ result['alpha'] }}</td>
+      </tr>
+    </table>
+  </div>
   <div *ngIf="isShowDetail">
     <h4>Details</h4>
     <div class="form-group">
@@ -47,31 +57,46 @@
     </div>
     <div class="form-group">
       <label>Sample Size Details</label>
-      <table class="table">
-        <ng-container *ngIf="detailPredictor.length > 0; else noPredictorContent">
-          <tr>
-            <th *ngFor="let predictorObject of detailPredictor; index as i" [attr.id]="'predictor_'+i">{{predictorObject['name']}}</th>
-            <th> {{ " Per Group Sample Size (" + detailClusterName + ")" }} </th>
-          </tr>
-          <tr *ngFor="let combination of detailPredictorCombination; index as i">
-            <td *ngFor="let groupName of combination; index as j" [attr.id]="'group_'+i+'_'+j"> {{groupName}}</td>
-            <td [attr.id]="'per_group_sample_size_'+i"> {{ studyDesign['_isuFactors']['smallestGroupSize'] * combinationsValueMap[combination.join('@')] }} </td>
-          </tr>
-          <tr>
-            <td [attr.colspan]="detailPredictor.length"> Total Sample Size </td>
-            <td id="totalsamplesize"> {{ totalSampleSize }} </td>
-          </tr>
-        </ng-container>
-        <ng-template #noPredictorContent>
-          <tr>
-            <td>
-              Total Sample Size: {{ studyDesign['_isuFactors']['smallestGroupSize'] }}
-            </td>
-          </tr>
-        </ng-template>
-      </table>
+      <div class="table-responsive">
+        <table class="table">
+          <ng-container *ngIf="detailPredictor.length > 0; else noPredictorContent">
+            <tr>
+              <th *ngFor="let predictorObject of detailPredictor; index as i" [attr.id]="'predictor_'+i">{{predictorObject['name']}}</th>
+              <th> {{ " Per Group Sample Size (" + detailClusterName + ")" }} </th>
+            </tr>
+            <tr *ngFor="let combination of detailPredictorCombination; index as i">
+              <td *ngFor="let groupName of combination; index as j" [attr.id]="'group_'+i+'_'+j"> {{groupName}}</td>
+              <td [attr.id]="'per_group_sample_size_'+i"> {{ smallestGroupSize * combinationsValueMap[combination.join('@')] }} </td>
+            </tr>
+            <tr>
+              <td [attr.colspan]="detailPredictor.length"> Total Sample Size </td>
+              <td id="totalsamplesize"> {{ detailSampleSize }} </td>
+            </tr>
+          </ng-container>
+          <ng-template #noPredictorContent>
+            <tr>
+              <td>
+                Total Sample Size: {{ detailSampleSize }}
+              </td>
+            </tr>
+          </ng-template>
+        </table>
+      </div>
     </div>
   </div>
   <div id="results" [hidden]="!e2eTest">{{resultString | json}}</div>
 </div>
 <div id="reviewDataModel" [hidden]="!e2eTest">{{outputString}}</div>
+<ng-template #helpText>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Calculate Help</h5> <button type="button" class="close" (click)="dismissHelp()">
+      <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      <p>Help text goes here</p>
+    </div>
+    <div class="modal-footer"> footer text</div>
+  </div>
+</ng-template>

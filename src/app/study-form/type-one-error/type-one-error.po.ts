@@ -13,6 +13,8 @@ export class TypeOneErrorPo {
     if (!isNullOrUndefined(input)) {
       const typeOneErrorInput = element(by.id('typeoneerror'));
       typeOneErrorInput.clear().then(() => typeOneErrorInput.sendKeys(input));
+      const typeOneErrorAdd = element(by.id('addalpha'));
+      typeOneErrorAdd.click();
     }
   }
 }

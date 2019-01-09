@@ -8,8 +8,9 @@ import {HttpClient} from '@angular/common/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StudyService} from '../study.service';
 import {testEnvironment} from '../../../environments/environment.test';
-import {MatDialogModule, MatTooltip, MatTooltipModule} from "@angular/material";
-import {OverlayModule} from "@angular/cdk/overlay";
+import {MatDialogModule, MatTooltip, MatTooltipModule} from '@angular/material';
+import {OverlayModule} from '@angular/cdk/overlay';
+import {NavigationService} from '../../shared/navigation.service';
 
 describe('ParametersOutcomeCorrelationsComponent', () => {
   let component: ParametersOutcomeCorrelationsComponent;
@@ -31,6 +32,8 @@ describe('ParametersOutcomeCorrelationsComponent', () => {
         CorrelationMatrixComponent
       ],
       providers: [
+        NGXLogger,
+        NavigationService,
         StudyService,
         {provide: HttpClient, useClass: MockBackend},
         {provide: NGXLogger, useClass: NGXLoggerMock}
