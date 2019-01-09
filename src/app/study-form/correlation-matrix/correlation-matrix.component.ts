@@ -92,6 +92,9 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
         this.buildForm();
       }
     }
+    this._uMatrix.base = this._learForm.get('base').value;
+    this._uMatrix.decay = this._learForm.get('decay').value;
+    this._uMatrix.scaled = this._learForm.get('scale').value;
     this._check = this.size;
   }
 
