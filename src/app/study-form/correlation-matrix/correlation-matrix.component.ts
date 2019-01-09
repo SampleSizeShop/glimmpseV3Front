@@ -8,7 +8,7 @@ import * as math from 'mathjs';
 import {minMaxValidator} from 'app/shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {isNull, isNullOrUndefined} from 'util';
-import {TooltipPosition} from "@angular/material";
+import {TooltipPosition} from '@angular/material';
 
 @Component({
   selector: 'app-correlation-matrix',
@@ -38,7 +38,6 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   private _formErrors = constants.CORRELATION_MATRIX_FORM_ERRORS;
   private _messages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
   private _validationMessages = {};
-  private _lear = false;
 
   left: TooltipPosition;
   below: TooltipPosition;
@@ -80,7 +79,9 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   onLearChange(value: any) {
     console.log(this.learForm.value.scale)
     if (this.learForm.status === 'VALID' ) {
-      this.calculateLear(value.base, value.decay, value.scale);
+      this._uMatrix.calculateLear(value.base, value.decay, value.scale);
+      this._defineMatrixFormControls();
+      this.correlationMatrixForm = this._fb.group(this.controlDefs);
     }
   }
 
@@ -260,110 +261,24 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     return style;
   }
 
-  calculateLear(base?: number, decay?: number, scaled?: boolean) {
-    const levels = [];
-
-    let dMin = 1;
-    let dMax = 1;
-    let scale = 1;
-    if (isNullOrUndefined(base)) {
-      base = this._learForm.value.base;
-    }
-    if (isNullOrUndefined(decay)) {
-      decay = this._learForm.value.decay;
-    }
-    if (isNullOrUndefined(scaled)) {
-      scaled = this._learForm.value.scale;
-    }
-
-    if ( this._isNumeric()
-      && !isNullOrUndefined(base)
-      && !isNullOrUndefined(decay)) {
-      this.labels.forEach(
-        val => {
-          levels.push(Number.parseFloat(val));
-        }
-      );
-      dMin = this._calcDmin(levels);
-      dMax = this._calcDMax(levels);
-
-      if (!isNullOrUndefined(scaled) && scaled) {
-        scale = dMin;
-      }
-
-      const vals = this.uMatrix.values.clone();
-      for ( let r = 0; r < vals.size()[0]; r++ ) {
-        for (let c = 0; c < vals.size()[1]; c++ ) {
-          if (r === c ) { vals.set([r, c],  1); }
-          if (r > c  && dMin === dMax ) {
-            vals.set([r, c], base);
-            vals.set([c, r], base);
-          }
-          if (r > c  && dMin !== dMax ) {
-            const rho_j_k =  Math.pow(base,
-              dMin / scale + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin)) / scale);
-            vals.set([r, c], rho_j_k );
-            vals.set([c, r], rho_j_k );
-          }
-        }
-      }
-
-      this.uMatrix.values = vals;
-      this._defineMatrixFormControls();
-      this.correlationMatrixForm = this._fb.group(this.controlDefs);
-    }
-  }
-
-  _calcDmin(levels) {
-    let min = null;
-    for (let i = 0; i < levels.length; i++) {
-      const a = levels[i];
-      for (let j = 0; j < levels.length; j++) {
-        if (i !== j) {
-          const b = levels[j];
-          const test = Math.abs(a - b);
-          if (isNull(min) || test < min) {
-            min = test;
-          }
-        }
-      }
-    }
-    return min;
-  }
-
-  _calcDMax(levels) {
-    return Math.max.apply(null, levels) - Math.min.apply(null, levels);
-  }
-
-  _isNumeric() {
-    let isNumeric = true
-    if (!isNullOrUndefined(this.labels)) {
-      this.labels.forEach(
-        value => {
-          if ( isNaN(Number.parseFloat(value))) {
-            isNumeric = false;
-          }
-        });
-    }
-    return isNumeric;
-  }
-
   isUnstructured() {
-    return !this._lear;
+    return !this._uMatrix.lear;
   }
 
   isLear() {
-    return this._lear;
+    return this._uMatrix.lear;
   }
 
   selectUnstructured() {
-    this._lear = false;
+    this._uMatrix.lear = false;
   }
 
   selectLear() {
-    this._lear = true;
+    this._uMatrix.lear = true;
     this._learFormSubscription = this._learForm.valueChanges.subscribe(value => this.onLearChange(value));
-    this.calculateLear()
+    this._uMatrix.calculateLear()
+    this._defineMatrixFormControls();
+    this.correlationMatrixForm = this._fb.group(this.controlDefs);
   }
 
   get learForm(): FormGroup {
@@ -508,5 +423,9 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
   set messages(value: { minval; maxval } | any) {
     this._messages = value;
+  }
+
+  isNumeric() {
+    return this.uMatrix._isNumeric();
   }
 }
