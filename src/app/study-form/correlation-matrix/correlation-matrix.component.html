@@ -2,7 +2,7 @@
 <div class="row">
   <p>Define your {{title}}correlation matrix:</p>
 </div>
-<div class="row"  *ngIf="_isNumeric()">
+<div class="row"  *ngIf="isNumeric()">
   <div class="btn-group" data-toggle="buttons">
     <label aria-pressed="true" class="btn btn-secondary" [class.active]="isUnstructured()" id="unstructuredbtn" >
       <input type="radio" id="unstructuredradio" (click)="selectUnstructured()"> Unstructured
