@@ -348,6 +348,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   ngOnInit() {
     this._stages = constants.STAGES;
     this._noStages = Object.keys(this._stages).length - 1;
+    this.study_service.selectTargetEvent(constants.REJECTION_EVENT);
+
     this.hasNext = true;
     this.hasBack = false;
   }
@@ -860,7 +862,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   onFileChange(event) {
     const reader = new FileReader();
-    if(event.target.files && event.target.files.length > 0) {
+    if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
