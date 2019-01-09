@@ -68,16 +68,15 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
         }
       }
     );
+    // add route subscription here to pick up all form values
     this._check = this.size;
   }
 
   ngOnInit() {
     this.buildForm();
-    this._learFormSubscription = this._learForm.valueChanges.subscribe(value => this.onLearChange(value));
   }
 
   onLearChange(value: any) {
-    console.log(this.learForm.value.scale)
     if (this.learForm.status === 'VALID' ) {
       this._uMatrix.calculateLear(value.base, value.decay, value.scale);
       this._defineMatrixFormControls();
@@ -93,6 +92,9 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
         this.buildForm();
       }
     }
+    this._uMatrix.base = this._learForm.get('base').value;
+    this._uMatrix.decay = this._learForm.get('decay').value;
+    this._uMatrix.scaled = this._learForm.get('scale').value;
     this._check = this.size;
   }
 
@@ -107,7 +109,9 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
     this.trackControlChanges();
-    this.updateMatrix()
+    this.updateMatrix();
+
+    this._learFormSubscription = this._learForm.valueChanges.subscribe(value => this.onLearChange(value));
   }
 
   onValueChanged(data?: any) {
@@ -181,8 +185,8 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
   _defineLearFormControls() {
     this._learForm = this.fb.group({
-      base: [0.5, minMaxValidator(0, 0.9999999999999999, this.log)],
-      decay: [0.3, minMaxValidator(0, 99999999999999999999, this.log)],
+      base: [this._uMatrix.base, minMaxValidator(0, 0.9999999999999999, this.log)],
+      decay: [this._uMatrix.decay, minMaxValidator(0, 99999999999999999999, this.log)],
       scale: [true]
     });
   }
