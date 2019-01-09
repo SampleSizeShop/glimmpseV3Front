@@ -103,6 +103,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   postModel() {
+    this.isShowDetail = false;
     const output = this.outputString;
     this.http.post(
       testEnvironment.calculateUrl,
