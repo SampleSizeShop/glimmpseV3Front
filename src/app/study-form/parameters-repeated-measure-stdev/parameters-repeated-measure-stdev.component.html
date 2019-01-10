@@ -1,5 +1,5 @@
 <div *ngIf="measure$ | async as measure">
-  <p>Define the standard deviations for {{measure.name}}:</p>
+  <p>Define the ratios of standard deviations for {{measure.name}}. One of your values should be 1 and the others should represent the ratio of that value to that value:</p>
   <div class="row">{{measure.name}}:</div>
   <div *ngFor="let val of measure.valueNames; let i = index">
     <form [formGroup]="stdevForm">
