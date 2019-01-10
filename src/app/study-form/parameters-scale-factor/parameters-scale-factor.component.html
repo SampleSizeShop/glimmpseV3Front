@@ -13,7 +13,7 @@
             <input type="number"
                    class="form-control" id="scalefactor"
                    aria-describedby="scalefactorhelp"
-                   placeholder="Choose a number between 0 and 1. (Inclusive)"
+                   placeholder="Choose a number > 0"
                    formControlName="scalefactor"
                    (keyup.enter)="addScaleFactor()">
             <div *ngIf="formErrors.scalefactor" class="form-group has-danger">
