@@ -36,12 +36,14 @@ export class CalculateComponent implements OnInit, OnDestroy {
   private _detailClusterOverview: Array<String>;
   private _detailPredictorCombination: Array<Array<string>>;
   private _detailPredictor: Array<Predictor>;
+  private _detailSampleSize: number;
   private _currentSelected: number;
   private _resultForDisplay: Array<Object>;
   private _downloadData: SafeUrl;
   private _combinationsValueMap: Object;
-  private _totalSampleSize: number;
   private _showHelpTextSubscription: Subscription;
+  private _smallestGroupSize: number;
+  private _sumOfCombinationsValue: number;
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
@@ -101,6 +103,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   postModel() {
+    this.isShowDetail = false;
     const output = this.outputString;
     this.http.post(
       testEnvironment.calculateUrl,
@@ -115,7 +118,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
           this.generateCombinations(this.detailPredictor);
         }
         this.buildCombinationsValueMap(this.studyDesign['_isuFactors']['betweenIsuRelativeGroupSizes']);
-        this.calculateTotalSampleSize(this.studyDesign['_isuFactors']['smallestGroupSize']);
+        this._sumOfCombinationsValue = this.getSumOfCombinationsValue();
     }).catch(this.handleError);
   }
 
@@ -195,15 +198,20 @@ export class CalculateComponent implements OnInit, OnDestroy {
     return value;
   }
 
-  showDetail(power, index) { // , totalSampleSize) {
+  showDetail(power, index, totalSampleSize) {
     this.isShowDetail = true;
     this.detailPower = power;
     this.currentSelected = index;
+
     if (this.detailCluster) {
       this.detailClusterName = this.detailCluster.name;
     } else {
       this.detailClusterName = 'participants';
     }
+    if (totalSampleSize) {
+      this.detailSampleSize = totalSampleSize;
+    }
+    this.smallestGroupSize = totalSampleSize / this._sumOfCombinationsValue;
   }
 
   buildCombinationsValueMap(betweenIsuRelativeGroupSizes) {
@@ -221,12 +229,13 @@ export class CalculateComponent implements OnInit, OnDestroy {
     }
   }
 
-  calculateTotalSampleSize(smallestGroupSize) {
-    this.totalSampleSize = 0;
+  getSumOfCombinationsValue() {
+    let sum = 0;
     for (const key of Object.keys(this.combinationsValueMap)) {
-      this.totalSampleSize += this.combinationsValueMap[key];
+      sum += this.combinationsValueMap[key];
     }
-    this.totalSampleSize = this.totalSampleSize * smallestGroupSize;
+
+    return sum
   }
 
   generateCombinations(predictors: Predictor[], current_combination = []) {
@@ -243,6 +252,8 @@ export class CalculateComponent implements OnInit, OnDestroy {
   rowStyle(index) {
     if (this.isSelected(index)) {
       return 'col col-md-auto table-info';
+    } else if (this.error(this.resultForDisplay[index])) {
+      return 'col col-md-auto table-danger';
     } else if (index % 2 === 1) {
       return 'col col-md-auto table-active';
     } else {
@@ -419,19 +430,25 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this._combinationsValueMap = value;
   }
 
-  get totalSampleSize() {
-    return this._totalSampleSize;
-  }
-
-  set totalSampleSize(value) {
-    this._totalSampleSize = value;
-  }
-
   get detailClusterName() {
     return this._detailClusterName;
   }
 
   set detailClusterName(value) {
     this._detailClusterName = value;
+  }
+  get detailSampleSize() {
+    return this._detailSampleSize;
+  }
+
+  set detailSampleSize(value) {
+    this._detailSampleSize = value;
+  }
+  get smallestGroupSize(): number {
+    return this._smallestGroupSize;
+  }
+
+  set smallestGroupSize(value: number) {
+    this._smallestGroupSize = value;
   }
 }

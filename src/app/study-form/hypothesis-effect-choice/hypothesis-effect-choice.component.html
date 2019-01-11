@@ -7,36 +7,12 @@
         Specify the hypothesis that represents your scientific question. <br /><br />
 
         Select your hypothesis from the list.
-        For more information about the possible types of hypotheses, click the “question mark icon."
-      <i (click)="showOrCloseInfo()" class="material-icons"> contact_support </i>
       </p>
     </div>
   </div>
   <div class="row">
     <div class="col">
       <div *ngIf="showInfo">
-        <h6>Grand Mean Hypothesis</h6>
-        <p>
-          Tests of the grand mean compare the overall mean response in a sample of participants against a known value. For example, an investigator may wish to determine if body mass index values for participants in a particular state differs from the United States national average. <br /><br />
-          If a study design includes fixed predictors or repeated measures, the grand mean hypothesis will average across all factors. <br /><br />
-        </p>
-        <h6>Main Effect Hypothesis</h6>
-        <p>
-          Main effect hypotheses test for the effect of a single factor averaged across all other factors. For example, testing if responses of participants in an active drug group differ on average from participant responses in a placebo group is a common main effect hypothesis for a between-participant factor. <br /><br />
-        </p>
-        <h6>MANOVA Hypothesis</h6>
-        <p>
-          A MANOVA hypothesis combines the Grand Mean hypothesis and the "all nonconstant polynomial" trend hypothesis. GLIMMPSE supports MANOVA hypotheses for only one fixed predictor, and only for study designs including no repeated measures. <br /><br />
-        </p>
-        <h6>Trend Hypothesis</h6>
-        <p>
-          Trend hypotheses test if the effect of a single factor follows a particular polynomial pattern, such as a linear or quadratic trend, across different levels of the factor. Trend hypotheses are often of interest for repeated measures. <br /><br />
-        </p>
-        <h6>Interaction Hypothesis</h6>
-        <p>
-          Interaction hypotheses test if the effect of one factor changes depending on the value of one or more additional factors. An interaction test also can be interpreted as a test of differences of differences, as well as a test of parallel trajectories of response. <br /><br />
-          For example, testing if the effect of a cholesterol lowering medication on total serum cholesterol differs depending on the participant's gender is an example of an interaction hypothesis.
-        </p>
       </div>
     </div>
   </div>
@@ -95,8 +71,29 @@
     </button>
     </div>
     <div class="modal-body">
-      <p>Help text goes here</p>
+      <h6>Grand Mean Hypothesis</h6>
+      <p>
+        Tests of the grand mean compare the overall mean response in a sample of participants against a known value. For example, an investigator may wish to determine if body mass index values for participants in a particular state differs from the United States national average. <br /><br />
+        If a study design includes fixed predictors or repeated measures, the grand mean hypothesis will average across all factors. <br /><br />
+      </p>
+      <h6>Main Effect Hypothesis</h6>
+      <p>
+        Main effect hypotheses test for the effect of a single factor averaged across all other factors. For example, testing if responses of participants in an active drug group differ on average from participant responses in a placebo group is a common main effect hypothesis for a between-participant factor. <br /><br />
+      </p>
+      <h6>MANOVA Hypothesis</h6>
+      <p>
+        A MANOVA hypothesis combines the Grand Mean hypothesis and the "all nonconstant polynomial" trend hypothesis. GLIMMPSE supports MANOVA hypotheses for only one fixed predictor, and only for study designs including no repeated measures. <br /><br />
+      </p>
+      <h6>Trend Hypothesis</h6>
+      <p>
+        Trend hypotheses test if the effect of a single factor follows a particular polynomial pattern, such as a linear or quadratic trend, across different levels of the factor. Trend hypotheses are often of interest for repeated measures. <br /><br />
+      </p>
+      <h6>Interaction Hypothesis</h6>
+      <p>
+        Interaction hypotheses test if the effect of one factor changes depending on the value of one or more additional factors. An interaction test also can be interpreted as a test of differences of differences, as well as a test of parallel trajectories of response. <br /><br />
+        For example, testing if the effect of a cholesterol lowering medication on total serum cholesterol differs depending on the participant's gender is an example of an interaction hypothesis.
+      </p>
     </div>
-    <div class="modal-footer"> footer text</div>
+    <div class="modal-footer"></div>
   </div>
 </ng-template>

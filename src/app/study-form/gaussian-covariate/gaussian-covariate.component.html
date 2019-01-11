@@ -1,36 +1,19 @@
 <div class="container-fluid" >
-  <div *ngIf="!hasGaussianCovariate()">
-    <div class="row">
-      <div class="col">
-        <p>
-          Describe the anticipated variability in the Gaussian(normally-distributed) covariate.
-        </p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <div class="btn-group" data-toggle="buttons">
-          <label id="includegaussiancovariatebtn" class="btn btn-primary">
-            <input type="radio" id="includegaussiancovariateradio" (click)="includeGaussianCovariate()">Define Gaussian Covariate
-          </label>
-        </div>
-      </div>
+  <div class="row">
+    <div class="col">
+      <p>
+        Does your design include a Gaussian(normally-distributed) covariate.
+      </p>
     </div>
   </div>
-
-  <div class="row" *ngIf="hasGaussianCovariate()">
+  <div class="row">
     <div class="col">
-      <form [formGroup]="gaussianCovariateForm">
-        <label for="variance">Gaussian Covariate Variance:</label>
-        <input type="number" class="form-control" formControlName="variance" id="variance" required>
-        <div *ngIf="formErrors.gaussiancovariate" class="form-group has-danger">
-          <div class="form-control-feedback">{{formErrors.gaussiancovariate}}</div>
-        </div>
-      </form>
-      <br>
       <div class="btn-group" data-toggle="buttons">
-        <label id="removegaussiancovariatebtn" class="btn btn-primary">
-          <input type="radio" id="removegaussiancovariateradio" (click)="removeGaussianCovariate()">Remove Gaussian Covariate
+        <label id="includegaussiancovariatebtn" class="btn btn-secondary" [class.active]="!hasGaussianCovariate()">
+          <input type="radio" id="includegaussiancovariateradio" (click)="removeGaussianCovariate()">No Gaussian Covariate
+        </label>
+        <label id="removegaussiancovariatebtn" class="btn btn-secondary"  [class.active]="hasGaussianCovariate()">
+          <input type="radio" id="removegaussiancovariateradio" (click)="includeGaussianCovariate()">Gaussian Covariate
         </label>
       </div>
     </div>

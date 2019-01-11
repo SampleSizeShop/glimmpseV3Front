@@ -1,16 +1,16 @@
 <form [formGroup]="gaussianCovariateCorrForm">
-  <h6>Specify how strongly the covariate is correlated with each response variable:</h6>
-  <div class="container">
-    <div *ngFor="let outcome of isuFactors.outcomes; let i = index" class="row">
-      <div class="col-1" >
-        {{outcome.name}}:
-      </div>
-      <div class="col-9 justify-content-start">
-        <input type="number" formControlName="{{outcome.name}}" value="{{outcome.standardDeviation}}" id="{{i}}" required>
-      </div>
+  <div class="row">
+    <h6>Specify how strongly the covariate is correlated with each response variable:</h6>
+  </div>
+  <div *ngFor="let outcome of isuFactors.outcomes; let i = index" class="row">
+    <div class="col-1 align-self-center" style="overflow: scroll;">
+      {{outcome.name}}:
     </div>
-    <div *ngIf="formErrors.covariatecorrelation" class="form-group has-danger">
-      <div class="form-control-feedback">{{formErrors.covariatecorrelation}}</div>
+    <div class="col-md-auto align-self-center">
+      <input type="number" formControlName="{{outcome.name}}" value="{{outcome.standardDeviation}}" id="{{i}}" required>
     </div>
+  </div>
+  <div *ngIf="formErrors.covariatecorrelation" class="form-group has-danger">
+    <div class="form-control-feedback">{{formErrors.covariatecorrelation}}</div>
   </div>
 </form>

@@ -21,7 +21,7 @@
 }
 
 body{
-  min-width:452px;
+  min-width:320px;
 }
 
 .material-icons:hover {
@@ -44,10 +44,17 @@ body{
   display: inline-block;
   vertical-align: top;
   padding: 5px 15px;
-  margin: 20px;}
+  margin: 2px;
+  overflow: scroll;
+  width: border-box;}
+
+input[type=number]{
+  text-align: right;
+}
 
 .matrix-input-control {
   border-bottom: none!important;
   box-shadow: none!important;
   text-align: center;
+  width: 50px;
 }

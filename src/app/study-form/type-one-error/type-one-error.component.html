@@ -1,58 +1,72 @@
 <form [formGroup]="typeOneErrorRateForm" novalidate>
-  <fieldset>
-    <div>
-      <div id="typeoneerrordesc">
+      <div class="row" id="typeoneerrordesc">
         <p>
           A Type I error occurs when a scientist declares a difference when none is present in the population.
           The Type I error rate is the probability of that kind of error, a false positive, and is often referred to as &alpha; (alpha).
           A Type I error rate can range from 0 to 1. Although the most commonly used value is 0.05, we recommend 0.01.
         </p>
       </div>
+      <div class="row" *ngIf="firstAlpha()">
+        <label for="typeoneerror">Enter your Type I Error rate:</label>
+      </div>
+      <div class="row" *ngIf="!firstAlpha()">
+        <label for="typeoneerror">Would you like to add another Type I Error rate?</label>
+      </div>
       <div class="row">
-        <div class="col">
+        <div class="col col-md-auto align-self-center" style="padding-left: 0px">
           <div class="form-group" id="typeoneerrorinput">
-            <label for="typeoneerror">Enter your Type I Error Rate:</label>
+
             <input type="number" class="form-control"
                    id="typeoneerror"
                    aria-describedby="typeoneerrorhelp"
-                   placeholder="Choose a number 0 > x > 1"
+                   placeholder="0 > α > 1"
                    formControlName="typeoneerror"
                    [(ngModel)]="inputTypeOneError"
                    (keyup.enter)="addAlpha()"
                    [ngStyle]="inputTypeOneError>0.1? {'color':'orange'} : {'color':'black'}">
-            <div *ngIf="inputTypeOneError>0.1" class="warning">Warning: Type one error <= 0.1 recommended.</div>
-            <div *ngIf="warningTypeOneErrorFromPower" class="warning">Warning: All powers should be bigger than type one error recommended.</div>
-            <div *ngIf="formErrors.typeoneerror" class="form-group has-danger">
-              <div class="form-control-feedback">{{formErrors.typeoneerror}}</div>
-            </div>
-            <small id="typeoneerrorhelp" class="form-text text-muted">Type I Error Rates must be an integer between 0 > x > 1</small>
           </div>
         </div>
-        <div class="col">
-          <br>
-          <i class="material-icons" (click)="addAlpha()" style="margin-top: 10px" id="addalpha">add</i>
+        <div class="col col-md-auto align-self-center">
+          <i class="material-icons" (click)="addAlpha()" id="addalpha" style="padding-bottom: 15px">add</i>
         </div>
       </div>
       <div class="row">
-        <table class="table">
-          <thead>
-          <th>Type One Error Rate</th>
-          <th>remove</th>
-          </thead>
-          <tbody>
-          <tr *ngIf="firstAlpha()">
-            <td> You must enter at least one type one error rate.</td>
-            <td></td>
-          </tr>
-          <tr *ngFor="let alpha of alphas$ | async; let i = index; " id="alphalist" [class]="rowStyle(i)">
-            <td>{{alpha}}</td>
-            <td><i class="material-icons" (click)="removeAlpha(alpha)" style="margin-bottom: 5px" id="removealpha">remove</i></td>
-          </tr>
-          </tbody>
-        </table>
+        <div *ngIf="inputTypeOneError>0.1" class="warning">Warning: Type one error <= 0.1 recommended.</div>
       </div>
-    </div>
-  </fieldset>
+      <div class="row">
+        <div *ngIf="warningTypeOneErrorFromPower" class="warning">Warning: All type one errors should be smaller than powers recommended.</div>
+      </div>
+      <div class="row">
+        <div *ngIf="formErrors.typeoneerror" class="form-group has-danger">
+          <div class="form-control-feedback">{{formErrors.typeoneerror}}</div>
+        </div>
+      </div>
+      <div class="row">
+        <small id="typeoneerrorhelp" class="form-text text-muted">
+          Type I Error rates must be an integer between 0 > α > 1
+        </small>
+      </div>
+
+      <div class="row">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+            <th style="padding-left: 0px">Type One Error Rate</th>
+            <th>remove</th>
+            </thead>
+            <tbody>
+            <tr *ngIf="firstAlpha()">
+              <td style="padding-left: 0px"> You must enter at least one type one error rate.</td>
+              <td></td>
+            </tr>
+            <tr *ngFor="let alpha of alphas$ | async; let i = index; " id="alphalist" [class]="rowStyle(i)">
+              <td style="padding-left: 0px" [ngStyle]="alpha > smallestPower? {'color':'orange'} : {'color':'black'}">{{alpha}}</td>
+              <td><i class="material-icons" (click)="removeAlpha(alpha)" style="margin-bottom: 5px" id="removealpha">remove</i></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
 </form>
 <ng-template #helpText>
   <div class="modal-content">

@@ -28,6 +28,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   private _showHelpTextSubscription: Subscription;
   private _inputTypeOneError: number;
   private _warningTypeOneErrorFromPower: boolean;
+  private _smallestPower: number;
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
@@ -53,6 +54,9 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
         this.showHelpText(this.helpTextModal);
       }
     });
+    if (this.studyDesign['_solveFor'] === constants.SOLVE_FOR_SAMPLESIZE) {
+      this.smallestPower = Math.min(...this.studyDesign['_power']);
+    }
     this.buildForm();
   }
 
@@ -99,9 +103,9 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   validTypeOneErrorByPower() {
     this.warningTypeOneErrorFromPower = false;
-    if (this.typeOneErrorRate.length > 0) {
+    if (this.typeOneErrorRate.length > 0 && this.studyDesign['_solveFor'] === constants.SOLVE_FOR_SAMPLESIZE) {
       const maxTypeOneError = Math.max(...this.typeOneErrorRate);
-      const minPower = Math.min(...this.studyDesign['_power']);
+      const minPower = this.smallestPower;
 
       if (minPower < maxTypeOneError) {
         this.warningTypeOneErrorFromPower = true;
@@ -221,6 +225,14 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   set warningTypeOneErrorFromPower(value: boolean) {
     this._warningTypeOneErrorFromPower = value;
+  }
+
+  get smallestPower(): number {
+    return this._smallestPower;
+  }
+
+  set smallestPower(value: number) {
+    this._smallestPower = value;
   }
 
   rowStyle(index: number) {

@@ -59,22 +59,6 @@ describe('SolveForComponent', () => {
     expect(!component.isSampleSize());
   });
 
-  it('should show sample size description when solve for power is selected', () => {
-    component.selectPower();
-    fixture.detectChanges();
-    const desc: DebugElement = fixture.debugElement.query(By.css('#samplesizedesc'));
-    const el: HTMLElement = desc.nativeElement;
-    expect(el);
-  });
-
-  it('should show power description when solve for sample size is selected', () => {
-    component.selectSampleSize();
-    fixture.detectChanges();
-    const desc: DebugElement = fixture.debugElement.query(By.css('#powerdesc'));
-    const el: HTMLElement = desc.nativeElement;
-    expect(el);
-  });
-
   it('should not show power description when solve for power is selected', () => {
     component.selectPower();
     fixture.detectChanges();

@@ -1,7 +1,6 @@
 import {RouterModule, Routes} from '@angular/router';
 import {StudyFormComponent} from './study-form.component';
 import {constants} from '../shared/constants';
-import {TargetEventComponent} from './target-event/target-event.component';
 import {SolveForComponent} from './solve-for/solve-for.component';
 import {StatisticalTestsComponent} from './statistical-tests/statistical-tests.component';
 import {TypeOneErrorComponent} from './type-one-error/type-one-error.component';
@@ -55,11 +54,6 @@ const studyFormRoutes: Routes = [
               path: names[constants.STAGES.STUDY_TITLE],
               component: StudyTitleComponent,
               data: {animation: constants.STAGES.STUDY_TITLE}
-            },
-            {
-              path: names[constants.STAGES.TARGET_EVENT],
-              component: TargetEventComponent,
-              data: {animation: constants.STAGES.TARGET_EVENT}
             },
             {
               path: names[constants.STAGES.SOLVE_FOR],
