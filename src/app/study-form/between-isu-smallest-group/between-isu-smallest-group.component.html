@@ -1,19 +1,24 @@
 <div class="row">
-  <p class="col">
+  <p>
     Enter the number of independent sampling units in the smallest group in the study.
     You may enter multiple values for the smallest group size in order to consider a range of total sample sizes.
   </p>
 </div>
 <form [formGroup]="groupSizeForm" class="form-horizontal" id="groupSizeForm">
+    <div class="row" *ngIf="firstGroupSize()">
+      <label for="smallestgroupsize">Please enter the size of your smallest group:</label>
+    </div>
+    <div class="row" *ngIf="!firstGroupSize()">
+      <label for="smallestgroupsize">Would you like to add another smallest group size?</label>
+    </div>
   <div class="row">
-    <div class="col">
+    <div class="col col-md-auto" style="padding-left: 0px">
       <input type="number"
              min="0"
              step="1"
              class="form-control"
              id="smallestgroupsize"
              formControlName="smallestGroupSize"
-             placeholder="Please enter the size of your smallest group"
              (keyup.enter)="addGroupSize()">
     </div>
     <div class="col">
@@ -21,31 +26,33 @@
     </div>
   </div>
   <div class="row">
-    <div *ngIf="formErrors.smallestGroupSize" class=" col form-group has-danger">
+    <div *ngIf="formErrors.smallestGroupSize" class="form-group has-danger">
       <div class="form-control-feedback">{{formErrors.smallestGroupSize}}</div>
     </div>
   </div>
-  <br>
-  <table class="table">
-    <thead>
-    <th>Smallest Group Size</th>
-    <th>remove</th>
-    </thead>
-    <tbody>
-    <tr *ngIf="firstGroupSize()">
-      <td> You must give at least one value for a smallest group size.</td>
-      <td></td>
-    </tr>
-    <tr *ngFor="let groupSize of groupSize$ | async; let i = index;"
-        id="groupSizelist"
-        [class]="rowStyle(i)">
-      <td>{{groupSize}}</td>
-      <td><i class="material-icons"
-             (click)="removeGroupSize(groupSize)"
-             style="margin-bottom: 5px" id="removegroupsize">remove</i></td>
-    </tr>
-    </tbody>
-  </table>
+  <div class="row table-responsive">
+    <table class="table">
+      <thead>
+      <th style="padding-left: 0px">Smallest Group Size</th>
+      <th>remove</th>
+      </thead>
+      <tbody>
+      <tr *ngIf="firstGroupSize()">
+        <td style="padding-left: 0px"> You must provide at least one value for a smallest group size.</td>
+        <td></td>
+      </tr>
+      <tr *ngFor="let groupSize of groupSize$ | async; let i = index;"
+          id="groupSizelist"
+          [class]="rowStyle(i)">
+        <td style="padding-left: 0px">{{groupSize}}</td>
+        <td><i class="material-icons"
+               (click)="removeGroupSize(groupSize)"
+               style="margin-bottom: 5px" id="removegroupsize">remove</i></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
 </form>
 <ng-template #helpText>
   <div class="modal-content">
