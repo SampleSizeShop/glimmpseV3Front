@@ -11,16 +11,10 @@ export class GaussianCovariatePo {
 
   fillForm(gaussian_covariate) {
       this.clickCreateBtn();
-      this.fillGaussianCovariate(gaussian_covariate);
   }
 
   clickCreateBtn() {
     const createBtn = element(by.id('includegaussiancovariatebtn'));
     createBtn.click();
-  }
-
-  fillGaussianCovariate(name) {
-    const gaussianCovariateInput = element(by.formControlName('variance'));
-    gaussianCovariateInput.clear().then(() => gaussianCovariateInput.sendKeys(name))
   }
 }
