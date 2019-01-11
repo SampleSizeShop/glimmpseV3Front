@@ -39,9 +39,9 @@
                        id="power"
                        aria-describedby="powerhelp"
                        placeholder="0 > x > 1"
-                       formControlName="power" required
+                       formControlName="power"
                        (keyup.enter)="addPower()">
-                <div *ngIf="formErrors.power"
+                <div *ngIf="hasError()"
                      class="form-group has-danger">
                   <div class="form-control-feedback">{{formErrors.power}}</div>
                 </div>

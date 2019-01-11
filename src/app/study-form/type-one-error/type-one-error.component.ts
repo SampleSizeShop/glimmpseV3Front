@@ -54,8 +54,9 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
         this.showHelpText(this.helpTextModal);
       }
     });
-    if (this.studyDesign['_solveFor'] === constants.SOLVE_FOR_SAMPLESIZE) {
-      this.smallestPower = Math.min(...this.studyDesign['_power']);
+    if (!isNullOrUndefined(this._studyDesign)
+      && this.studyDesign.solveFor === constants.SOLVE_FOR_SAMPLESIZE) {
+      this.smallestPower = Math.min(...this.studyDesign.power);
     }
     this.buildForm();
   }

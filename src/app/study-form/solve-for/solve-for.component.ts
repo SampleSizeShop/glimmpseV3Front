@@ -289,6 +289,14 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     this.helpTextModalReference.close();
   }
 
+  hasError() {
+    if (isNullOrUndefined(this._formErrors.power)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   rowStyle(index: number) {
     if (index % 2 === 1) {
       return 'col col-md-auto table-active';
