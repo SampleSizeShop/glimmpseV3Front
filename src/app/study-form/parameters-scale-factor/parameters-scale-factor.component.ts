@@ -53,7 +53,7 @@ export class ParametersScaleFactorComponent implements OnInit, OnDestroy {
 
   buildForm(): void {
     this.scaleFactorForm = this.fb.group({
-      scalefactor: [null, minMaxValidator(0, 1, this.log)]
+      scalefactor: [null, minMaxValidator(0, 999999999999, this.log)]
     });
 
     this.scaleFactorForm.valueChanges.subscribe(data => this.onValueChanged(data));
