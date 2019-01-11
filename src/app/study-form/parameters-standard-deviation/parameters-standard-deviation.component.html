@@ -3,23 +3,19 @@
     Enter the standard deviation you expect to observe for each outcome.
   </p></div>
 </div>
-<div class="row">
-  <div class="col">
-    <form [formGroup]="stDevForm">
-      <div *ngFor="let outcome of isuFactors.outcomes" class="row">
-        <div class="col-1" >
-          {{outcome.name}}:
-        </div>
-        <div class="col-9 justify-content-start">
-          <input type="number" class="form-control" id="{{outcome.name}}" formControlName="{{outcome.name}}" value="{{outcome.standardDeviation}}" required>
-        </div>
-      </div>
-      <div *ngIf="formErrors.vectorofstandarddeviations" class="form-group has-danger">
-        <div class="form-control-feedback">{{formErrors.vectorofstandarddeviations}}</div>
-      </div>
-    </form>
+<form [formGroup]="stDevForm">
+  <div *ngFor="let outcome of isuFactors.outcomes" class="row">
+    <div class="col-1 align-self-center" style="overflow: scroll" >
+      {{outcome.name}}:
+    </div>
+    <div class="col col-md-auto align-self-center">
+      <input type="number" class="form-control" id="{{outcome.name}}" formControlName="{{outcome.name}}" value="{{outcome.standardDeviation}}" required>
+    </div>
   </div>
-</div>
+  <div *ngIf="formErrors.vectorofstandarddeviations" class="form-group has-danger">
+    <div class="form-control-feedback">{{formErrors.vectorofstandarddeviations}}</div>
+  </div>
+</form>
 <ng-template #helpText>
   <div class="modal-content">
     <div class="modal-header">

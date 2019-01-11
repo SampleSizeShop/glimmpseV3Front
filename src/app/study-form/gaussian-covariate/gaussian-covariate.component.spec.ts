@@ -45,15 +45,6 @@ describe('GaussianCovariateComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  it( 'should ask the user to define a variance for their gaussian covariate when the click the' +
-    'define a gaussian covariate button.', () => {
-    component.includeGaussianCovariate();
-    fixture.detectChanges();
-    const desc: DebugElement = fixture.debugElement.query(By.css('#variance'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy();
-  });
-
   it('should add a gaussian covariate object to the study design when the user clicks define button and adds' +
     'a valid value for variance', () => {
     component.includeGaussianCovariate();
