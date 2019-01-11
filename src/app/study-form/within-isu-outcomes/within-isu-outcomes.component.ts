@@ -103,13 +103,13 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     }
     const form = this.outcomesForm;
 
-    for (const field in this.validationMessages) {
+    for (const field of Object.keys(this.validationMessages)) {
       this.formErrors[field] = '';
       const control = form.get(field);
 
       if (control && !control.valid) {
         const messages = this.validationMessages[field];
-        for (const key in control.errors) {
+        for (const key of Object.keys(control.errors)) {
           this.formErrors[field] += messages[key] + ' ';
         }
       }

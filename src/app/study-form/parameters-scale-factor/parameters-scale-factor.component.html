@@ -1,45 +1,49 @@
 <form [formGroup]="scaleFactorForm" novalidate>
-      <div id="scalefactordesc">
-        <p>
-          In power analysis, it is not possible to know the exact values of means before the experiment is observed. Scale factors allow you to consider alternative values for the means by scaling the values entered on the previous screen. <br />
+  <div id="scalefactordesc" class="row">
+    <p>
+      In power analysis, it is not possible to know the exact values of means before the experiment is observed. Scale factors allow you to consider alternative values for the means by scaling the values entered on the previous screen. <br />
 
-          For example, entering the scale factors 0.5, 1, and 2 would compute power for the mean values divided by 2, the mean values as entered, and the mean values multiplied by 2.
-        </p>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="form-group" id="scalefactorinput">
-            <label for="scalefactor">Enter your desired scale factor:</label>
-            <input type="number"
-                   class="form-control" id="scalefactor"
-                   aria-describedby="scalefactorhelp"
-                   placeholder="Choose a number between 0 and 1. (Inclusive)"
-                   formControlName="scalefactor"
-                   (keyup.enter)="addScaleFactor()">
-            <div *ngIf="formErrors.scalefactor" class="form-group has-danger">
-              <div class="form-control-feedback">{{formErrors.scalefactor}}</div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <br>
-          <i class="material-icons"
-             (click)="addScaleFactor()"
-             style="margin-top: 10px" id="addfactor">add</i>
+      For example, entering the scale factors 0.5, 1, and 2 would compute power for the mean values divided by 2, the mean values as entered, and the mean values multiplied by 2.
+    </p>
+  </div>
+  <div class="row">
+    <div class="col col-md-auto align-self-center" style="padding-left: 0px">
+      <div class="form-group" id="scalefactorinput">
+        <label for="scalefactor">Enter your desired scale factor:</label>
+        <input type="number"
+               class="form-control" id="scalefactor"
+               aria-describedby="scalefactorhelp"
+               placeholder="Choose a number > 0"
+               formControlName="scalefactor"
+               (keyup.enter)="addScaleFactor()">
+        <div *ngIf="formErrors.scalefactor" class="form-group has-danger">
+          <div class="form-control-feedback">{{formErrors.scalefactor}}</div>
         </div>
       </div>
+    </div>
+    <div class="col col-md-auto align-self-center">
+      <br>
+      <i class="material-icons"
+         (click)="addScaleFactor()"
+         style="margin-top: 10px" id="addfactor">add</i>
+    </div>
+  </div>
+  <div class="row">
+    <div class="table-responsive">
       <table class="table">
         <thead>
-        <th>Scale Factor</th>
+        <th style="padding-left: 0px">Scale Factor</th>
         <th>remove</th>
         </thead>
         <tbody>
         <tr *ngFor="let scaleFactor of scaleFactors$ | async; let i = index; " id="scalefactorlist" [class]="rowStyle(i)">
-          <td>{{scaleFactor}}</td>
+          <td style="padding-left: 0px">{{scaleFactor}}</td>
           <td><i class="material-icons" (click)="removeScaleFactor(scaleFactor)" style="margin-bottom: 5px" id="removescalefactor">remove</i></td>
         </tr>
         </tbody>
       </table>
+    </div>
+  </div>
 </form>
 <ng-template #helpText>
   <div class="modal-content">

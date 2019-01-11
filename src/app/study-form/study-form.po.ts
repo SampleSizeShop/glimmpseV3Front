@@ -108,9 +108,7 @@ export class StudyFormComponentPage {
 
   fillCurrentComponent(url, input): boolean {
     let ret = true
-    if ( this.isStage(url, constants.STAGES.TARGET_EVENT))  {
-      this.target_event.fromJSON(input);
-    } else if ( this.isStage(url, constants.STAGES.SOLVE_FOR))  {
+    if ( this.isStage(url, constants.STAGES.SOLVE_FOR))  {
       this.solve_for.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.STATISTICAL_TESTS))  {
       this.statistical_tests.fromJSON(input);

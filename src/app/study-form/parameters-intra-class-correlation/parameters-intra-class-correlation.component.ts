@@ -5,10 +5,10 @@ import {ISUFactors} from '../../shared/ISUFactors';
 import {Cluster} from '../../shared/Cluster';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../../shared/constants';
-import {minMaxValidator} from '../../shared/minmax.validator';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
+import {minMaxValidator} from '../../shared/minmax.validator';
 
 @Component({
   selector: 'app-parameters-intra-class-correlation',
@@ -63,7 +63,7 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
     this.intraClassCorrForm = this.fb.group(
       this._defineControls()
     );
-    this.updateIntraClassCorrFormControls();
+    this._defineControlsValidators();
     this.intraClassCorrForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set validation messages now
   }
@@ -88,13 +88,6 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
     }
   }
 
-  updateIntraClassCorrFormControls() {
-    this.isuFactors.cluster.levels.forEach( level => {
-      // this.intraClassCorrForm[name] = group.value;
-      this.intraClassCorrForm.controls[level.levelName].setValidators(minMaxValidator(-1 / this.isuFactors.cluster.levels.length, 1));
-    });
-  }
-
   _defineControls() {
     const controlArray = {};
     this.isuFactors.cluster.levels.forEach(
@@ -103,6 +96,12 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
       }
     );
     return controlArray;
+  }
+
+  _defineControlsValidators() {
+    this.isuFactors.cluster.levels.forEach( level => {
+      this.intraClassCorrForm.controls[level.levelName].setValidators(minMaxValidator(-1 / (level.noElements - 1), 1));
+    });
   }
 
   _updateIntraCorrelation() {
@@ -184,7 +183,7 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
   }
 
   set validationMessages(value: {
-    vectorofcorrelation: { required: string; minval: string; maxval: string; };
+    vectorofcorrelation: { required: string; minval: string; maxval: string;  };
   }) {
     this._validationMessages = value;
   }

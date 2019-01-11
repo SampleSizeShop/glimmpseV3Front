@@ -2,7 +2,6 @@ import {constants} from '../../src/app/shared/constants';
 
 export const example_1_input = {
   user_mode: constants.USER_MODE.GUIDED,
-  target_event: constants.TARGET_EVENT.REJECT_NULL,
   solve_for: {solve_for: constants.SOLVE_FOR.POWER},
   statistical_tests: [
     constants.STATISTICAL_TESTS.HUYNH_FELDT
