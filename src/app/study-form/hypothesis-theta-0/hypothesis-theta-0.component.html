@@ -7,8 +7,7 @@
   </div>
   <div *ngIf="visible">
     <i class="material-icons" (click)="toggleVisible()" style="margin-top: 10px" id="hidetheta0">remove</i>
-    <form [formGroup]="theta0Form" id="theta0Form">
-      <div class="container-fluid">
+    <form [formGroup]="theta0Form" id="theta0Form" class="matrix-input-brackets">
         <div class="col col-md-auto">
           <table>
             <thead>
@@ -16,13 +15,14 @@
             <tbody>
             <tr *ngFor="let row of isuFactors.theta0; index as rownum;" id={{rownum}}>
               <td *ngFor="let col of row; index as colnum;" id="{{rownum}}-{{colnum}}">
-                <input type="number" class="form-control" formControlName="{{rownum}}-{{colnum}}">
+                <input type="number"
+                       class="form-control matrix-input-control"
+                       formControlName="{{rownum}}-{{colnum}}">
               </td>
             </tr>
             </tbody>
           </table>
         </div>
-      </div>
     </form>
   </div>
 </div>
