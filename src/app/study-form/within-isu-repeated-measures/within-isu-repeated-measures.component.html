@@ -98,20 +98,37 @@
 
     <div *ngIf="isRepeats()">
       <div id="repeatesheader">
-        <h6>Number of measurements of {{dimensionForm.value.dimension}}?</h6>
-        <form [formGroup]="repeatsForm">
-          <div class="form-group" id="repeatsinput">
-            <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
-            <div *ngIf="formErrors.repeatsform" class="form-group has-danger">
-              <div class="form-control-feedback">{{formErrors.repeatsform}}</div>
-            </div>
-            <small id="repeatshelp" class="form-text text-muted">You must have between 2 and {{max}} repeats (inclusive)</small>
+        <div class="row">
+          <h6>Number of measurements of {{dimensionForm.value.dimension}}?</h6>
+        </div>
+        <div class="row">
+          <div class="col-md-auto">
+            <form [formGroup]="repeatsForm">
+              <div class="form-group" id="repeatsinput">
+                <input type="number"
+                       class="form-control"
+                       id="repeats"
+                       aria-describedby="repeatshelp"
+                       placeholder="Choose a number from 2 -> 10"
+                       formControlName="repeats"
+                       step="1"
+                       required>
+                <div *ngIf="formErrors.repeatsform"
+                     class="form-group has-danger">
+                  <div class="form-control-feedback">{{formErrors.repeatsform}}</div>
+                </div>
+                <small id="repeatshelp" class="form-text text-muted">You must have between 2 and {{max}} repeats (inclusive)</small>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
+
       </div>
-      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="repcancelbtn">Cancel</button>
-      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)" id="repbackbtn">Back</button>
-      <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)" id="repnextbtn" [disabled]="!this.dimensionForm.valid">Next: Spacing</button>
+      <div class="row">
+        <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="repcancelbtn">Cancel</button>
+        <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)" id="repbackbtn">Back</button>
+        <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)" id="repnextbtn" [disabled]="!this.repeatsForm.valid">Next: Spacing</button>
+      </div>
     </div>
 
     <div *ngIf="isSpacing()">
