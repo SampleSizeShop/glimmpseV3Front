@@ -48,6 +48,10 @@ body{
   overflow: scroll;
   width: border-box;}
 
+input[type=number]{
+  text-align: right;
+}
+
 .matrix-input-control {
   border-bottom: none!important;
   box-shadow: none!important;
