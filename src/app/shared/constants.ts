@@ -346,7 +346,8 @@ export const constants = {
   SOLVE_FOR: {
     POWER: 'POWER',
     SAMPLE_SIZE: 'SAMPLE SIZE'
-  }
+  },
+  TYPE_I_ERROR_TOLERANCE: 0.1
 };
 
 export function getStageName(value: number) {

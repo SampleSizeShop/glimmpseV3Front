@@ -21,14 +21,21 @@
                    aria-describedby="typeoneerrorhelp"
                    placeholder="0 > α > 1"
                    formControlName="typeoneerror"
-                   (keyup.enter)="addAlpha()">
+                   [(ngModel)]="inputTypeOneError"
+                   (keyup.enter)="addAlpha()"
+                   [ngStyle]="inputTypeOneError>0.1? {'color':'orange'} : {'color':'black'}">
           </div>
         </div>
         <div class="col col-md-auto align-self-center">
           <i class="material-icons" (click)="addAlpha()" id="addalpha" style="padding-bottom: 15px">add</i>
         </div>
       </div>
-
+      <div class="row">
+        <div *ngIf="inputTypeOneError>0.1" class="warning">Warning: Type one error <= 0.1 recommended.</div>
+      </div>
+      <div class="row">
+        <div *ngIf="warningTypeOneErrorFromPower" class="warning">Warning: All type one errors should be smaller than powers recommended.</div>
+      </div>
       <div class="row">
         <div *ngIf="formErrors.typeoneerror" class="form-group has-danger">
           <div class="form-control-feedback">{{formErrors.typeoneerror}}</div>
@@ -53,7 +60,7 @@
               <td></td>
             </tr>
             <tr *ngFor="let alpha of alphas$ | async; let i = index; " id="alphalist" [class]="rowStyle(i)">
-              <td style="padding-left: 0px">{{alpha}}</td>
+              <td style="padding-left: 0px" [ngStyle]="alpha > smallestPower? {'color':'orange'} : {'color':'black'}">{{alpha}}</td>
               <td><i class="material-icons" (click)="removeAlpha(alpha)" style="margin-bottom: 5px" id="removealpha">remove</i></td>
             </tr>
             </tbody>
