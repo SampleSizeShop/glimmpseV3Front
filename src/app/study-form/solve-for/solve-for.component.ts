@@ -25,6 +25,8 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   private _solveForSubscription: Subscription;
   private _powerSubscription: Subscription;
   private _ciwidthSubscription: Subscription;
+  private _navigationSubscription: Subscription;
+  private _directionCommand: string;
   private _formErrors = constants.TARGET_EVENT_FORM_ERRORS;
   private _validationMessages = constants.TARGET_EVENT_VALIDATION_MESSAGES;
 
@@ -57,6 +59,12 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     this.ciwidthSubscription = this.study_service.ciwidth$.subscribe(
       ciwidth => {
         this.ciwidth = ciwidth;
+      }
+    );
+    this._navigationSubscription = this.study_service.navigationDirection$.subscribe(
+      direction => {
+        this._directionCommand = direction;
+        this.checkValidBeforeNavigation(this._directionCommand);
       }
     );
     this._afterInit = false;
@@ -100,7 +108,8 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     const value = this.powerSampleSizeForm.value.power;
     if (!isNullOrUndefined(value) &&
       value !== '' &&
-      this._power.indexOf(value) === -1) {
+      this._power.indexOf(value) === -1
+      && !this.formErrors.power) {
       this._power.push(value);
       this.powerSampleSizeForm.reset();
     }
@@ -120,6 +129,10 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnInit() {
     this._afterInit = true;
+    if (this.isSampleSize()
+      && (isNullOrUndefined(this._power) || this._power.length === 0)) {
+      this.setNextEnabled('INVALID');
+    }
   }
 
   ngDoCheck() {
@@ -130,6 +143,7 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
         this.study_service.updateCiWidth(this.powerSampleSizeForm.value.ciwidth);
       }
     }
+    this.checkValidBeforeNavigation('NEXT')
   }
 
   ngOnDestroy() {
@@ -143,11 +157,13 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   selectPower() {
     this.solveFor = constants.SOLVE_FOR_POWER;
     this.study_service.updateSolveFor(this.solveFor);
+    this.setNextEnabled('VALID');
   }
 
   selectSampleSize() {
     this.solveFor = constants.SOLVE_FOR_SAMPLESIZE;
     this.study_service.updateSolveFor(this.solveFor);
+    this.checkValidBeforeNavigation('NEXT');
   }
 
   isPower(): boolean {
@@ -273,12 +289,56 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     this.helpTextModalReference.close();
   }
 
+  hasError() {
+    if (isNullOrUndefined(this._formErrors.power)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   rowStyle(index: number) {
     if (index % 2 === 1) {
       return 'col col-md-auto table-active';
     } else {
       return 'col col-md-auto table-primary';
     }
+  }
+
+  checkValidBeforeNavigation(direction: string): void {
+    this.checkValidator();
+    if ( direction === 'NEXT' ) {
+      if (this.isSampleSize()
+        && (isNullOrUndefined(this._power) || this._power.length === 0)) {
+        this.setNextEnabled('INVALID');
+      } else if (this._power && !this.formErrors.power) {
+        this.setNextEnabled('VALID');
+      }
+    }
+  }
+
+  checkValidator(data?: any) {
+    if (!this.powerSampleSizeForm) {
+      return;
+    }
+    const form = this.powerSampleSizeForm;
+
+    for (const field of Object.keys(this.validationMessages)) {
+      this.formErrors[field] = '';
+      const control = form.get(field);
+
+      if (control && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key of Object.keys(control.errors)) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
+  }
+
+  setNextEnabled(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this._navigation_service.updateValid(valid);
   }
 
   showHelpText(content) {
