@@ -9,6 +9,7 @@ import {NavigationService} from '../../shared/navigation.service';
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {StudyDesign} from '../../shared/study-design';
+import {typeOneErrorValidator} from "./type-one-error.validator";
 
 @Component({
   selector: 'app-type-one-error',
@@ -75,7 +76,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   buildForm(): void {
     this.typeOneErrorRateForm = this.fb.group({
-      typeoneerror: [0.01, minMaxValidator(0, 1, this.log)]
+      typeoneerror: [0.01, [minMaxValidator(0, 1, this.log), typeOneErrorValidator(this._typeOneErrorRate)]]
     });
 
     this.typeOneErrorRateForm.valueChanges.subscribe(data => this.onValueChanged(data));
