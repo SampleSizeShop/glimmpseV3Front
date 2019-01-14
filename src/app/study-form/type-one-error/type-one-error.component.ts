@@ -9,6 +9,7 @@ import {NavigationService} from '../../shared/navigation.service';
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {StudyDesign} from '../../shared/study-design';
+import {typeOneErrorValidator} from './type-one-error.validator';
 
 @Component({
   selector: 'app-type-one-error',
@@ -29,6 +30,9 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   private _warningTypeOneErrorFromPower: boolean;
   private _smallestPower: number;
 
+  private _navigationSubscription: Subscription;
+  private _directionCommand: string;
+
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
@@ -43,16 +47,25 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     });
     this.typeOneErrorRateSubscription = this.study_service.typeOneErrorRate$.subscribe(
       typeOneErrorRate => {
-        this.typeOneErrorRate = typeOneErrorRate
+        this.typeOneErrorRate = typeOneErrorRate;
       }
     );
-    this.warningTypeOneErrorFromPower = false;
-    this._afterInit = false;
+    this._navigationSubscription = this.study_service.navigationDirection$.subscribe(
+      direction => {
+        this._directionCommand = direction;
+        this.checkValidBeforeNavigation(this._directionCommand);
+      }
+    );
     this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
       if (this._afterInit) {
         this.showHelpText(this.helpTextModal);
       }
     });
+
+
+    this.warningTypeOneErrorFromPower = false;
+    this._afterInit = false;
+
     if (!isNullOrUndefined(this._studyDesign)
       && this.studyDesign.solveFor === constants.SOLVE_FOR_SAMPLESIZE) {
       this.smallestPower = Math.min(...this.studyDesign.power);
@@ -62,7 +75,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   buildForm(): void {
     this.typeOneErrorRateForm = this.fb.group({
-      typeoneerror: [0.01, minMaxValidator(0, 1, this.log)]
+      typeoneerror: [0.01, [minMaxValidator(0, 1, this.log), typeOneErrorValidator(this._typeOneErrorRate)]]
     });
 
     this.typeOneErrorRateForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -94,9 +107,11 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   ngDoCheck() {
     this.study_service.updateTypeOneErrorRate(this.typeOneErrorRate);
     this.validTypeOneErrorByPower();
+    this.checkValidBeforeNavigation('NEXT');
   }
 
   ngOnDestroy() {
+    this.setNextEnabled('VALID');
     this.typeOneErrorRateSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
   }
@@ -142,6 +157,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
       this._typeOneErrorRate.push(this.typeOneErrorRateForm.value.typeoneerror);
       this.typeOneErrorRateForm.reset();
     }
+    this.checkValidBeforeNavigation('NEXT');
   }
 
   removeAlpha(value: number) {
@@ -150,6 +166,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
       this._typeOneErrorRate.splice(index, 1);
     }
     this.typeOneErrorRateForm.reset();
+    this.checkValidBeforeNavigation('NEXT');
   }
 
   firstAlpha(): boolean {
@@ -240,6 +257,41 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     } else {
       return 'col col-md-auto table-primary';
     }
+  }
+
+  checkValidBeforeNavigation(direction: string): void {
+    this.checkValidator();
+    if ( direction === 'NEXT' ) {
+        if (isNullOrUndefined(this._typeOneErrorRate) || this._typeOneErrorRate.length === 0) {
+        this.setNextEnabled('INVALID');
+      } else if (!isNullOrUndefined(this._typeOneErrorRate) && this._typeOneErrorRate.length > 0) {
+          this.setNextEnabled('VALID');
+        }
+    }
+  }
+
+  checkValidator(data?: any) {
+    if (!this._typeOneErrorRateForm) {
+      return;
+    }
+    const form = this._typeOneErrorRateForm;
+
+    for (const field of Object.keys(this.validationMessages)) {
+      this.formErrors[field] = '';
+      const control = form.get(field);
+
+      if (control && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key of Object.keys(control.errors)) {
+          this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
+  }
+
+  setNextEnabled(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this.navigation_service.updateValid(valid);
   }
 
   typeOneErrorStyle() {
