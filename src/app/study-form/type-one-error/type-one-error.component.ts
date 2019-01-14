@@ -9,7 +9,7 @@ import {NavigationService} from '../../shared/navigation.service';
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {StudyDesign} from '../../shared/study-design';
-import {typeOneErrorValidator} from "./type-one-error.validator";
+import {typeOneErrorValidator} from './type-one-error.validator';
 
 @Component({
   selector: 'app-type-one-error',
@@ -27,7 +27,6 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   private _typeOneErrorRateSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
-  private _inputTypeOneError: number;
   private _warningTypeOneErrorFromPower: boolean;
   private _smallestPower: number;
 
@@ -174,6 +173,16 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     return this.typeOneErrorRate.length === 0 ? true : false;
   }
 
+  warningInputTypeOneError(): boolean {
+    const inputTypeOneError = this.typeOneErrorRateForm.get('typeoneerror').value;
+    let smallestTypeOneErrorRate = 0;
+    if (this.typeOneErrorRate.length > 0) {
+      smallestTypeOneErrorRate = Math.max(...this.typeOneErrorRate);
+    }
+
+    return inputTypeOneError > 0.1 || smallestTypeOneErrorRate > 0.1;
+  }
+
   get alphas$(): Observable<number[]> {
     return observableOf(this.typeOneErrorRate)
   }
@@ -216,13 +225,6 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   set typeOneErrorRateSubscription(value: Subscription) {
     this._typeOneErrorRateSubscription = value;
-  }
-  get inputTypeOneError(): number {
-    return this._inputTypeOneError;
-  }
-
-  set inputTypeOneError(value: number) {
-    this._inputTypeOneError = value;
   }
 
   get studyDesign() {
@@ -294,5 +296,23 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   setNextEnabled(status: string) {
     const valid = status === 'VALID' ? true : false;
     this.navigation_service.updateValid(valid);
+  }
+
+  typeOneErrorStyle() {
+    const inputTypeOneError = this.typeOneErrorRateForm.get('typeoneerror').value;
+
+    if (inputTypeOneError > 1.0) {
+      return 'error'
+    } else if (inputTypeOneError > 0.1) {
+      return 'warning'
+    }
+  }
+
+  typeOneErrorTableStyle(alpha) {
+    if (alpha > 1.0) {
+      return 'error'
+    } else if (alpha > 0.1 || alpha > this.smallestPower) {
+      return 'warning'
+    }
   }
 }
