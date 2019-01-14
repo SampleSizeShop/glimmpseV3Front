@@ -26,7 +26,6 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   private _typeOneErrorRateSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
-  private _inputTypeOneError: number;
   private _warningTypeOneErrorFromPower: boolean;
   private _smallestPower: number;
 
@@ -157,6 +156,12 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     return this.typeOneErrorRate.length === 0 ? true : false;
   }
 
+  warningInputTypeOneError(): boolean {
+    const inputTypeOneError = this.typeOneErrorRateForm.get('typeoneerror').value;
+
+    return inputTypeOneError > 0.1;
+  }
+
   get alphas$(): Observable<number[]> {
     return observableOf(this.typeOneErrorRate)
   }
@@ -200,13 +205,6 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   set typeOneErrorRateSubscription(value: Subscription) {
     this._typeOneErrorRateSubscription = value;
   }
-  get inputTypeOneError(): number {
-    return this._inputTypeOneError;
-  }
-
-  set inputTypeOneError(value: number) {
-    this._inputTypeOneError = value;
-  }
 
   get studyDesign() {
     return this._studyDesign;
@@ -245,9 +243,11 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   }
 
   typeOneErrorStyle() {
-    if (this.inputTypeOneError > 1.0) {
+    const inputTypeOneError = this.typeOneErrorRateForm.get('typeoneerror').value;
+
+    if (inputTypeOneError > 1.0) {
       return 'error'
-    } else if (this.inputTypeOneError > 0.1) {
+    } else if (inputTypeOneError > 0.1) {
       return 'warning'
     }
   }

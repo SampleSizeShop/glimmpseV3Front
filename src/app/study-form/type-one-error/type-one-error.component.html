@@ -21,7 +21,6 @@
                    aria-describedby="typeoneerrorhelp"
                    placeholder="0 > α > 1"
                    formControlName="typeoneerror"
-                   [(ngModel)]="inputTypeOneError"
                    (keyup.enter)="addAlpha()"
                    [class]="typeOneErrorStyle()">
 
@@ -32,7 +31,7 @@
         </div>
       </div>
       <div class="row">
-        <div *ngIf="inputTypeOneError>0.1" class="warning">Warning: Type one error <= 0.1 recommended.</div>
+        <div *ngIf="warningInputTypeOneError()" class="warning">Warning: Type one error <= 0.1 recommended.</div>
       </div>
       <div class="row">
         <div *ngIf="warningTypeOneErrorFromPower" class="warning">Warning: All type one errors should be smaller than powers recommended.</div>
