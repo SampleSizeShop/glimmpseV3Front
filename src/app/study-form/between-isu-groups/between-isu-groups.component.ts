@@ -11,12 +11,12 @@ import {RelativeGroupSizeTable} from '../../shared/RelativeGroupSizeTable';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 
 
-import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
 import {TooltipPosition} from '@angular/material';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
+import {relativeGroupSizeValidator} from './relative.group.size.validator';
 
 @Component({
   selector: 'app-between-isu-groups',
@@ -156,7 +156,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
           row.forEach( group => {
             const name = r.toString() + '-' + c.toString();
             this.relativeGroupSizeForm[name] = group.value;
-            this.relativeGroupSizeForm.controls[name].setValidators(minMaxValidator(0, Number.MAX_VALUE, this.log));
+            this.relativeGroupSizeForm.controls[name].setValidators(relativeGroupSizeValidator());
             c = c + 1;
           });
           r = r + 1;
@@ -227,13 +227,13 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   get validationMessages(): {
-    relativegroupsizes: { minval: string; required: string; };
+    relativegroupsizes: { minval: string; required: string; notinteger: string; };
   } {
     return this._validationMessages;
   }
 
   set validationMessages(value: {
-    relativegroupsizes: { minval: string; required: string; };
+    relativegroupsizes: { minval: string; required: string; notinteger: string; };
   }) {
     this._validationMessages = value;
   }

@@ -1,6 +1,6 @@
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {isNullOrUndefined} from 'util';
-import {ISUFactors} from "./ISUFactors";
+import {ISUFactors} from './ISUFactors';
 
 export interface ISUFactorCombinationTableJSON {
   _table: Array<Array<ISUFactorCombination>>;
