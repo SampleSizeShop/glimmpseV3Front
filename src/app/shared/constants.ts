@@ -85,7 +85,8 @@ export const constants = {
   TYPE_ONE_ERROR_VALIDATION_MESSAGES: {
     'typeoneerror': {
       'minval': 'Value too low.',
-      'maxval': 'Value too high'
+      'maxval': 'Value too high',
+      'noalpha': 'You must specify at least one Type I Error rate.'
     }
   },
   BETWEEN_ISU_VALIDATION_MESSAGES: {
