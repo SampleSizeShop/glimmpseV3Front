@@ -175,8 +175,12 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   warningInputTypeOneError(): boolean {
     const inputTypeOneError = this.typeOneErrorRateForm.get('typeoneerror').value;
+    let smallestTypeOneErrorRate = 0;
+    if (this.typeOneErrorRate.length > 0) {
+      smallestTypeOneErrorRate = Math.max(...this.typeOneErrorRate);
+    }
 
-    return inputTypeOneError > 0.1;
+    return inputTypeOneError > 0.1 || smallestTypeOneErrorRate > 0.1;
   }
 
   get alphas$(): Observable<number[]> {
@@ -300,6 +304,14 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     if (inputTypeOneError > 1.0) {
       return 'error'
     } else if (inputTypeOneError > 0.1) {
+      return 'warning'
+    }
+  }
+
+  typeOneErrorTableStyle(alpha) {
+    if (alpha > 1.0) {
+      return 'error'
+    } else if (alpha > 0.1 || alpha > this.smallestPower) {
       return 'warning'
     }
   }
