@@ -243,4 +243,12 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
       return 'col col-md-auto table-primary';
     }
   }
+
+  typeOneErrorStyle() {
+    if (this.inputTypeOneError > 1.0) {
+      return 'error'
+    } else if (this.inputTypeOneError > 0.1) {
+      return 'warning'
+    }
+  }
 }

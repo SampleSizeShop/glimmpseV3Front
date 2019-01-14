@@ -23,7 +23,8 @@
                    formControlName="typeoneerror"
                    [(ngModel)]="inputTypeOneError"
                    (keyup.enter)="addAlpha()"
-                   [ngStyle]="inputTypeOneError>0.1? {'color':'orange'} : {'color':'black'}">
+                   [class]="typeOneErrorStyle()">
+
           </div>
         </div>
         <div class="col col-md-auto align-self-center">
