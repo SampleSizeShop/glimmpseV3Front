@@ -22,7 +22,7 @@
              (keyup.enter)="addGroupSize()">
     </div>
     <div class="col">
-      <i class="material-icons" (click)="addGroupSize()" style="margin-top: 10px" id="addgroupsize">add</i>
+      <i class="material-icons" (click)="addGroupSize()" style="margin-top: 10px" id="addgroupsize">add_box</i>
     </div>
   </div>
   <div class="row">
@@ -44,10 +44,10 @@
       <tr *ngFor="let groupSize of groupSize$ | async; let i = index;"
           id="groupSizelist"
           [class]="rowStyle(i)">
-        <td style="padding-left: 0px">{{groupSize}}</td>
+        <td>{{groupSize}}</td>
         <td><i class="material-icons"
                (click)="removeGroupSize(groupSize)"
-               style="margin-bottom: 5px" id="removegroupsize">remove</i></td>
+               style="margin-bottom: 5px" id="removegroupsize">delete_forever</i></td>
       </tr>
       </tbody>
     </table>

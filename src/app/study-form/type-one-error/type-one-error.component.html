@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="col col-md-auto align-self-center">
-          <i class="material-icons" (click)="addAlpha()" id="addalpha" style="padding-bottom: 15px">add</i>
+          <i class="material-icons" (click)="addAlpha()" id="addalpha" style="padding-bottom: 15px">add_box</i>
         </div>
       </div>
       <div class="row">
@@ -60,8 +60,8 @@
               <td></td>
             </tr>
             <tr *ngFor="let alpha of alphas$ | async; let i = index; " id="alphalist" [class]="rowStyle(i)">
-              <td style="padding-left: 0px" [class]="typeOneErrorTableStyle(alpha)">{{alpha}}</td>
-              <td><i class="material-icons" (click)="removeAlpha(alpha)" style="margin-bottom: 5px" id="removealpha">remove</i></td>
+              <td [class]="typeOneErrorTableStyle(alpha)">{{alpha}}</td>
+              <td><i class="material-icons" (click)="removeAlpha(alpha)" style="margin-bottom: 5px" id="removealpha">delete_forever</i></td>
             </tr>
             </tbody>
           </table>
