@@ -37,7 +37,7 @@ export const hw5_input = {
       [2.975]]
     }
   ],
-  parameters_scale_factor: null,
+  parameters_scale_factor: [0.8, 1, 1.4],
   parameters_standard_deviation: [
     {outcome: 'SOAM1', st_dev: 0.2623928}
   ],
@@ -54,7 +54,7 @@ export const hw5_input = {
   parameters_intra_class_correlation: null,
   parameters_gaussian_covariate_variance: null,
   parameters_gaussian_covariate_correlation: null,
-  parameters_scale_factor_variance: null,
+  parameters_scale_factor_variance: [0.9, 1, 1.5],
   power_method: null,
   power_curve: null
 };
@@ -65,7 +65,15 @@ export const hw5_output = {
   status: 200,
   mimetype: 'application/json',
   results: [
-    {test: 'Hotelling Lawley Trace', power: 0.970965864159}
+    { 'test': 'Hotelling Lawley Trace', 'power': 0.891419312543, 'alpha': 0.05, 'target_power': null, 'means_scale_factor': 0.8, 'variance_scale_factor': 0.9, 'total_n': 50 },
+    { 'test': 'Hotelling Lawley Trace', 'power': 0.853786176758, 'alpha': 0.05, 'target_power': null, 'means_scale_factor': 0.8, 'variance_scale_factor': 1, 'total_n': 50 },
+    { 'test': 'Hotelling Lawley Trace', 'power': 0.671258998237, 'alpha': 0.05, 'target_power': null, 'means_scale_factor': 0.8, 'variance_scale_factor': 1.5, 'total_n': 50 },
+    { 'test': 'Hotelling Lawley Trace', 'power': 0.983191226555, 'alpha': 0.05, 'target_power': null, 'means_scale_factor': 1, 'variance_scale_factor': 0.9, 'total_n': 50 },
+    { 'test': 'Hotelling Lawley Trace', 'power': 0.970965864159, 'alpha': 0.05, 'target_power': null, 'means_scale_factor': 1, 'variance_scale_factor': 1, 'total_n': 50 },
+    { 'test': 'Hotelling Lawley Trace', 'power': 0.869036994296, 'alpha': 0.05, 'target_power': null, 'means_scale_factor': 1, 'variance_scale_factor': 1.5, 'total_n': 50 },
+    { 'test': 'Hotelling Lawley Trace', 'power': 0.999956981223, 'alpha': 0.05, 'target_power': null, 'means_scale_factor': 1.4, 'variance_scale_factor': 0.9, 'total_n': 50 },
+    { 'test': 'Hotelling Lawley Trace', 'power': 0.999842045122, 'alpha': 0.05, 'target_power': null, 'means_scale_factor': 1.4, 'variance_scale_factor': 1, 'total_n': 50 },
+    { 'test': 'Hotelling Lawley Trace', 'power': 0.993847289761, 'alpha': 0.05, 'target_power': null, 'means_scale_factor': 1.4, 'variance_scale_factor': 1.5, 'total_n': 50 }
   ],
   model: {
     essence_design_matrix: [[1, 0, 0, 0, 0, 0, 0, 0],
