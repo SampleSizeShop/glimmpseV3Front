@@ -18,6 +18,9 @@
           <p>
             You may specify up to {{max}} repeated measures.
           </p>
+          <p *ngIf="hasRepeatedMeasures() &&  nextRepeatedMeasure()">
+            Would you like to add another set of repeated measurements?
+          </p>
         </div>
       </div>
 
@@ -38,7 +41,7 @@
           <div class="col">
             <div class="btn-group" data-toggle="buttons">
               <label id="includenextrptmeasuresbtn" class="btn btn-primary">
-                <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Define another set of repeated measurements.
+                <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
               </label>
             </div>
           </div>
@@ -46,9 +49,7 @@
       </div>
 
       <div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure()" id="fullrepmeasure">
-        <div class="container-fluid">
-          <h6>You have specified the maximum number of repeated measure dimensions</h6>
-        </div>
+        <p>You have specified the maximum number of repeated measure dimensions.</p>
       </div>
     </div>
 
@@ -222,7 +223,7 @@
         </thead>
         <tbody>
         <tr *ngIf="!hasRepeatedMeasures()">
-          <td>Would you like to add a repeadted measure?</td>
+          <td>Would you like to add a repeated measure?</td>
         </tr>
         <tr *ngFor="let repeatedMeasure of repeatedMeasures; let i = index" [class]="rowStyle(i)">
           <td class="col col-md-auto">
