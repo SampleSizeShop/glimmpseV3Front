@@ -1,13 +1,24 @@
-import {AbstractControl, ValidatorFn} from '@angular/forms';
+import {AbstractControl, FormGroup, ValidatorFn} from '@angular/forms';
 
 export function relativeGroupSizeValidator(): ValidatorFn {
-  return (control: AbstractControl): {[key: string]: any} => {
-    const relativeGroupSize = control.value;
-    if (relativeGroupSize < 0) {
-      return {'minval': relativeGroupSize}
+  return (fb: FormGroup): {[key: string]: any} => {
+    const relativeGroupSizeArray = [];
+    const controls = fb.controls;
+
+    for (const key of Object.keys(controls)) {
+      relativeGroupSizeArray.push(controls[key].value);
     }
-    if (!Number.isInteger(relativeGroupSize)) {
-      return {'notinteger': relativeGroupSize}
+
+    if (relativeGroupSizeArray.includes(null)) {
+      return {'required': true}
+    }
+
+    if (Math.min(...relativeGroupSizeArray) < 1) {
+      return {'minval': true}
+    }
+
+    if (!relativeGroupSizeArray.includes(1)) {
+      return {'notcontainone': true}
     }
 
     return null

@@ -85,6 +85,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   ngOnDestroy() {
     this.isuFactorsSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
+    this.setNextEnabled('VALID');
   }
 
   getRelativeGroupSizeTables() {
@@ -103,6 +104,11 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this.updateGroupsizeFormControls();
     this.relativeGroupSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set validation messages now
+    this.relativeGroupSizeForm.statusChanges.subscribe(
+      result => {
+        this.setNextEnabled(result)
+      }
+    );
   }
 
   onValueChanged(data?: any) {
@@ -111,15 +117,17 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     }
     const form = this.relativeGroupSizeForm;
     this.formErrors['relativegroupsizes'] = '';
-    for (const field in this.relativeGroupSizeForm.value) {
-      const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
-        const messages = this.validationMessages['relativegroupsizes'];
-        for (const key in control.errors) {
-          this.formErrors['relativegroupsizes'] = messages[key];
-        }
+
+    if (!form.valid && form.dirty) {
+      for (const key of Object.keys(form.errors)) {
+        this.formErrors.relativegroupsizes = this.validationMessages.relativegroupsizes[key];
       }
     }
+  }
+
+  setNextEnabled(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this.navigation_service.updateValid(valid);
   }
 
   resetForms() {
@@ -149,6 +157,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     } else {
       const controlDefs = this._table.controlDefs;
       this.relativeGroupSizeForm = this.fb.group(controlDefs);
+      this.relativeGroupSizeForm.setValidators([relativeGroupSizeValidator()]);
       if (!isNullOrUndefined(this.table)) {
         let r = 0;
         this.table.table.forEach( row => {
@@ -156,7 +165,6 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
           row.forEach( group => {
             const name = r.toString() + '-' + c.toString();
             this.relativeGroupSizeForm[name] = group.value;
-            this.relativeGroupSizeForm.controls[name].setValidators(relativeGroupSizeValidator());
             c = c + 1;
           });
           r = r + 1;
@@ -227,13 +235,13 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   get validationMessages(): {
-    relativegroupsizes: { minval: string; required: string; notinteger: string; };
+    relativegroupsizes: { minval: string; required: string; notcontainone: string; };
   } {
     return this._validationMessages;
   }
 
   set validationMessages(value: {
-    relativegroupsizes: { minval: string; required: string; notinteger: string; };
+    relativegroupsizes: { minval: string; required: string; notcontainone: string; };
   }) {
     this._validationMessages = value;
   }
