@@ -98,8 +98,9 @@ export const constants = {
   },
   BETWEEN_ISU_RELATIVE_GROUP_VALIDATION_MESSAGES: {
     'relativegroupsizes': {
-      'minval': 'ALL values need to be filled in and >= 0.',
-      'required': 'ALL values need to be filled in and >= 0.'
+      'minval': 'ALL values need to be filled in and integers >= 1. Need at least one relative size = 1.',
+      'required': 'ALL values need to be filled in and integers >= 1. Need at least one relative size = 1.',
+      'notcontainone': 'ALL values need to be filled in and integers >= 1. Need at least one relative size = 1.'
     },
   },
   PARAMETERS_STANDARD_DEVIATION_VALIDATION_MESSAGES: {
