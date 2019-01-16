@@ -793,6 +793,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._navDirection$ = value;
   }
 
+  get stageNames() {
+    const list = [];
+    for (const name of Object.keys(this.stages)) {
+      list.push(this.getUserFriendlyComponentName(name));
+    }
+    return list;
+  }
+
   getUserFriendlyComponentName(name: string) {
     if (name === 'STUDY_TITLE') {
       return 'Study Title'

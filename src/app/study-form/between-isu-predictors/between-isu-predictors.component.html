@@ -109,7 +109,7 @@
               <input class="form-control" formControlName="group" (keyup.enter)="addGroup()" id="group">
             </div>
             <div class="col">
-              <i class="material-icons" (click)="addGroup()" style="margin-top: 10px" id="addgroup">add</i>
+              <i class="material-icons" (click)="addGroup()" style="margin-top: 10px" id="addgroup">add_box</i>
             </div>
           </div>
           <br>
@@ -117,7 +117,7 @@
           <div *ngFor="let grp of groups" id="grouplist">
             <div class="row">
               <div class="col col-md-auto">
-                <i class="material-icons" (click)="removeGroup(grp)" style="margin-bottom: 5px" id="removegroup">remove</i>
+                <i class="material-icons" (click)="removeGroup(grp)" style="margin-bottom: 5px" id="removegroup">delete_forever</i>
               </div>
               <div class="col">
                 {{grp}}
@@ -178,7 +178,7 @@
           <tbody>
           <tr *ngFor="let predictor of betweenIsuPredictors; let i = index" [class]="rowStyle(i)">
             <td class="col col-md-auto">
-              <i class="material-icons" (click)="removePredictor(predictor)" style="margin-bottom: 5px" id="removepredictor">remove</i>
+              <i class="material-icons" (click)="removePredictor(predictor)" style="margin-bottom: 5px" id="removepredictor">delete_forever</i>
             </td>
             <td class="col  col-md-auto">
               <i class="material-icons" (click)="editPredictor(predictor)" style="margin-bottom: 5px" id="editpredictor">create</i>
