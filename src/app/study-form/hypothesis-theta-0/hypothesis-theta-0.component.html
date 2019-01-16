@@ -1,31 +1,34 @@
-<div>
+<div class="row">
   <p>
     Theta 0 has been set to a sensible default. If you really, really want to change it, know what it is and know what you're doing you can change it.
   </p>
-  <div *ngIf="!visible">
-    <i class="material-icons" (click)="toggleVisible()" style="margin-top: 10px" id="showtheta0">add</i>
-  </div>
-  <div *ngIf="visible">
-    <i class="material-icons" (click)="toggleVisible()" style="margin-top: 10px" id="hidetheta0">remove</i>
-    <form [formGroup]="theta0Form" id="theta0Form" class="matrix-input-brackets">
-        <div class="col col-md-auto">
-          <table>
-            <thead>
-            </thead>
-            <tbody>
-            <tr *ngFor="let row of isuFactors.theta0; index as rownum;" id={{rownum}}>
-              <td *ngFor="let col of row; index as colnum;" id="{{rownum}}-{{colnum}}">
-                <input type="number"
-                       class="form-control matrix-input-control"
-                       formControlName="{{rownum}}-{{colnum}}">
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-    </form>
-  </div>
 </div>
+<div *ngIf="!visible" class="row">
+  <i class="material-icons" (click)="toggleVisible()" style="margin-top: 10px" id="showtheta0">expand_more</i>
+</div>
+<div *ngIf="visible" class="row">
+  <i class="material-icons" (click)="toggleVisible()" style="margin-top: 10px" id="hidetheta0">expand_less</i>
+</div>
+<div *ngIf="visible" class="row">
+  <form [formGroup]="theta0Form" id="theta0Form" class="matrix-input-brackets">
+      <div class="col col-md-auto">
+        <table>
+          <thead>
+          </thead>
+          <tbody>
+          <tr *ngFor="let row of isuFactors.theta0; index as rownum;" id={{rownum}}>
+            <td *ngFor="let col of row; index as colnum;" id="{{rownum}}-{{colnum}}">
+              <input type="number"
+                     class="form-control matrix-input-control"
+                     formControlName="{{rownum}}-{{colnum}}">
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+  </form>
+</div>
+
 <ng-template #helpText>
   <div class="modal-content">
     <div class="modal-header">

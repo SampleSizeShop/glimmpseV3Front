@@ -60,7 +60,7 @@
       </tr>
       <tr *ngFor="let outcome of outcomes$ | async; let i = index; " id="outcomelist" [class]="rowStyle(i)">
         <td>{{outcome.name}}</td>
-        <td><i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">remove</i></td>
+        <td><i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">delete_forever</i></td>
       </tr>
     </tbody>
   </table>
