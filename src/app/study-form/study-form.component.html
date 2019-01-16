@@ -8,7 +8,10 @@
           <div ngbDropdownToggle class="h-25 dropdown-toggle" style="cursor: pointer;"></div>
           <div ngbDropdownMenu>
             <div *ngFor="let s of stageNames">
-              <button class="h-25 dropdown-item" [class.active]="s === getCurrentStageName()">{{s}}</button>
+              <label class="h-25 dropdown-item"
+                     [class.active]="s === getCurrentStageName()"
+                     [class.disabled]="s != getCurrentStageName()"
+              style="cursor: default">{{s}}</label>
             </div>
           </div>
         </div>
