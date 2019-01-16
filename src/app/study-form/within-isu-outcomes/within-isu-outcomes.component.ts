@@ -9,11 +9,16 @@ import {Outcome} from '../../shared/Outcome';
 import {isNullOrUndefined} from 'util';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NGXLogger} from 'ngx-logger';
+import * as math from 'mathjs';
+import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
+import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
+import {ISUFactors} from '../../shared/ISUFactors';
 
 @Component({
   selector: 'app-within-isu-outcomes',
   templateUrl: './within-isu-outcomes.component.html',
-  styleUrls: ['./within-isu-outcomes.scss']
+  styleUrls: ['./within-isu-outcomes.scss'],
+  providers: [CorrelationMatrixService]
 })
 export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   get statusSubscription(): Subscription {
@@ -33,6 +38,10 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   private _navigationSubscription: Subscription;
   private _statusSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
+  private _uMatrix: CorrelationMatrix;
+  private _correlationMatrixSubscription: Subscription;
+  private _isuFactorsSubscription: Subscription;
+  private _isuFactors: ISUFactors;
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
@@ -42,7 +51,8 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
               private study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
-              private log: NGXLogger) {
+              private log: NGXLogger,
+              private correlationMatrixService: CorrelationMatrixService) {
     this.validationMessages = constants.OUTCOME_FORM_VALIDATION_MESSAGES;
     this.formErrors = constants.OUTCOME_FORM_ERRORS;
     this._max = constants.MAX_OUTCOMES;
@@ -79,6 +89,25 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     this.outcomeSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
     this.setNextEnabled('VALID');
+
+    if (this.outcomes.length === 1) {
+      this._isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
+        this._isuFactors = isuFactors;
+      } );
+
+      this._correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
+        correlationMatrix => {
+          this._uMatrix = correlationMatrix;
+        }
+      );
+
+      this.createCorrelationMatricForOneOutcome();
+      this.correlationMatrixService.updateCorrelationMatrix( this._uMatrix );
+      this._isuFactors.outcomeCorrelationMatrix = this._uMatrix;
+
+      this._correlationMatrixSubscription.unsubscribe();
+      this._isuFactorsSubscription.unsubscribe();
+    }
   }
 
   buildForm() {
@@ -188,6 +217,17 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
           this.log.debug(dismissReason);
         }
       });
+  }
+
+  createCorrelationMatricForOneOutcome() {
+    this._uMatrix.lear = false;
+    this._uMatrix.base = 0.5;
+    this._uMatrix.decay = 0.3;
+    this._uMatrix.scaled = true;
+
+    this._uMatrix.values = math.matrix([[1]]);
+
+    return this._uMatrix
   }
 
   get outcomes$(): Observable<Outcome[]> {
