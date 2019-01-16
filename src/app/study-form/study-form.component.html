@@ -2,7 +2,17 @@
 <div style="vertical-align: middle">
   <div class="row">
     <div class="col-5">
-      <h6>{{study.name}}: {{getCurrentStageName()}}</h6>
+      <h6>
+        {{study.name}}: {{getCurrentStageName()}}
+        <div ngbDropdown class="h-25 d-inline-block">
+          <div ngbDropdownToggle class="h-25 dropdown-toggle" style="cursor: pointer;"></div>
+          <div ngbDropdownMenu>
+            <div *ngFor="let s of stageNames">
+              <button class="h-25 dropdown-item" [class.active]="s === getCurrentStageName()">{{s}}</button>
+            </div>
+          </div>
+        </div>
+      </h6>
     </div>
     <div class="col-5"></div>
     <div class="col-1 col-md-auto">
