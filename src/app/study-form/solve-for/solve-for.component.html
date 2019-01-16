@@ -91,7 +91,7 @@
               <td></td>
             </tr>
             <tr *ngFor="let power of powers$ | async; let i = index; " id="powerlist" [class]="rowStyle(i)">
-              <td style="padding-left: 0px">{{power}}</td>
+              <td>{{power}}</td>
               <td><i class="material-icons" (click)="removePower(power)" style="margin-bottom: 5px" id="removepower">delete_forever</i></td>
             </tr>
             </tbody>

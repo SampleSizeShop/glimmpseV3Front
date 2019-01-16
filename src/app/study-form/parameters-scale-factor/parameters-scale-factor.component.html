@@ -37,7 +37,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let scaleFactor of scaleFactors$ | async; let i = index; " id="scalefactorlist" [class]="rowStyle(i)">
-          <td style="padding-left: 0px">{{scaleFactor}}</td>
+          <td>{{scaleFactor}}</td>
           <td><i class="material-icons" (click)="removeScaleFactor(scaleFactor)" style="margin-bottom: 5px" id="removescalefactor">delete_forever</i></td>
         </tr>
         </tbody>
