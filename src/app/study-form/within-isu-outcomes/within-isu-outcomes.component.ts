@@ -89,25 +89,6 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     this.outcomeSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
     this.setNextEnabled('VALID');
-
-    if (this.outcomes.length === 1) {
-      this._isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
-        this._isuFactors = isuFactors;
-      } );
-
-      this._correlationMatrixSubscription = this.correlationMatrixService.correlationMatrix$.subscribe(
-        correlationMatrix => {
-          this._uMatrix = correlationMatrix;
-        }
-      );
-
-      this.createCorrelationMatricForOneOutcome();
-      this.correlationMatrixService.updateCorrelationMatrix( this._uMatrix );
-      this._isuFactors.outcomeCorrelationMatrix = this._uMatrix;
-
-      this._correlationMatrixSubscription.unsubscribe();
-      this._isuFactorsSubscription.unsubscribe();
-    }
   }
 
   buildForm() {
@@ -217,17 +198,6 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
           this.log.debug(dismissReason);
         }
       });
-  }
-
-  createCorrelationMatricForOneOutcome() {
-    this._uMatrix.lear = false;
-    this._uMatrix.base = 0.5;
-    this._uMatrix.decay = 0.3;
-    this._uMatrix.scaled = true;
-
-    this._uMatrix.values = math.matrix([[1]]);
-
-    return this._uMatrix
   }
 
   get outcomes$(): Observable<Outcome[]> {
