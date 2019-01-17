@@ -106,7 +106,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this.isShowDetail = false;
     const output = this.outputString;
     this.http.post(
-      testEnvironment.calculateUrl,
+      environment.calculateUrl,
       output,
       this.jsonHeader()).toPromise().then(response => {
         this.resultString = response;
