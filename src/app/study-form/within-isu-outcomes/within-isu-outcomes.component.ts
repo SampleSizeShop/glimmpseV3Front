@@ -9,13 +9,11 @@ import {Outcome} from '../../shared/Outcome';
 import {isNullOrUndefined} from 'util';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NGXLogger} from 'ngx-logger';
-import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
 
 @Component({
   selector: 'app-within-isu-outcomes',
   templateUrl: './within-isu-outcomes.component.html',
-  styleUrls: ['./within-isu-outcomes.scss'],
-  providers: [CorrelationMatrixService]
+  styleUrls: ['./within-isu-outcomes.scss']
 })
 export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   get statusSubscription(): Subscription {
