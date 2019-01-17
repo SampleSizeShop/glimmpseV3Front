@@ -1,6 +1,7 @@
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 .btn{
+  cursor: pointer;
   text-transform:none;
   border:none;
   -webkit-box-shadow:1px 1px 4px rgba(0,0,0,0.4);
@@ -8,6 +9,10 @@
   -webkit-transition:all 0.4s;
   -o-transition:all 0.4s;
   transition:all 0.4s}
+
+.material-icons{
+  cursor: pointer;
+}
 
 .ng-invalid:not(form)  {
   border-bottom: 2px solid #9a0200; /* red */

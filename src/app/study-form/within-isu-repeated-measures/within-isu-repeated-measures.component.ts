@@ -12,6 +12,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
 import {Observable} from 'rxjs/Observable';
 import {NGXLogger} from 'ngx-logger';
+import {integerValidator} from "../../shared/integer.validator";
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -85,7 +86,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       type: [this._types[0]]
     });
     this._repeatsForm = this._fb.group({
-      repeats: [2, minMaxValidator(2, 10)]
+      repeats: [2, [minMaxValidator(2, 10), integerValidator()]]
     });
     this._repeatsForm.valueChanges.subscribe(data => this.onValueChangedRepeatsForm(data));
     this._spacingForm = this._fb.group({

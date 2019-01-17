@@ -7,7 +7,7 @@
 
           To include clustering in the study, click "Add Clustering" and follow the prompts. <br /><br />
 
-          You may specify up to 3 levels of clustering. <br /><br />
+          You may specify up to 10 levels of clustering. <br /><br />
         </p>
       </div>
     </div>
@@ -15,7 +15,7 @@
       <div class="col">
         <div class="btn-group" data-toggle="buttons">
           <label id="includeclusterbtn" class="btn btn-primary">
-            <input type="radio" id="includeclusterradio" (click)="includeClusters()">Define Clustering
+            <input type="radio" id="includeclusterradio" (click)="includeClusters()">Add Clustering
           </label>
         </div>
       </div>
@@ -101,7 +101,7 @@
             <i class="material-icons"
                (click)="addLevel()"
                (keyup.enter)="addLevel()"
-               style="margin-top: 10px" id="addLevel">add</i>
+               style="margin-top: 10px" id="addLevel">add_box</i>
           </div>
       </div>
 
@@ -138,7 +138,7 @@
                 {{level.noElements}}
               </td>
               <td class="col col-md-auto">
-                <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">remove</i>
+                <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">delete_forever</i>
               </td>
             </tr>
             </tbody>

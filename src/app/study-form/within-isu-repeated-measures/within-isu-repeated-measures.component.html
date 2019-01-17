@@ -18,6 +18,9 @@
           <p>
             You may specify up to {{max}} repeated measures.
           </p>
+          <p *ngIf="hasRepeatedMeasures() &&  nextRepeatedMeasure()">
+            Would you like to add another set of repeated measurements?
+          </p>
         </div>
       </div>
 
@@ -38,7 +41,7 @@
           <div class="col">
             <div class="btn-group" data-toggle="buttons">
               <label id="includenextrptmeasuresbtn" class="btn btn-primary">
-                <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Define another set of repeated measurements.
+                <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
               </label>
             </div>
           </div>
@@ -46,9 +49,7 @@
       </div>
 
       <div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure()" id="fullrepmeasure">
-        <div class="container-fluid">
-          <h6>You have specified the maximum number of repeated measure dimensions</h6>
-        </div>
+        <p>You have specified the maximum number of repeated measure dimensions.</p>
       </div>
     </div>
 
@@ -98,20 +99,37 @@
 
     <div *ngIf="isRepeats()">
       <div id="repeatesheader">
-        <h6>Number of measurements of {{dimensionForm.value.dimension}}?</h6>
-        <form [formGroup]="repeatsForm">
-          <div class="form-group" id="repeatsinput">
-            <input type="number" class="form-control" id="repeats" aria-describedby="repeatshelp" placeholder="Choose a number from 2 -> 10" formControlName="repeats" step="1" required>
-            <div *ngIf="formErrors.repeatsform" class="form-group has-danger">
-              <div class="form-control-feedback">{{formErrors.repeatsform}}</div>
-            </div>
-            <small id="repeatshelp" class="form-text text-muted">You must have between 2 and {{max}} repeats (inclusive)</small>
+        <div class="row">
+          <h6>Number of measurements of {{dimensionForm.value.dimension}}?</h6>
+        </div>
+        <div class="row">
+          <div class="col-md-auto">
+            <form [formGroup]="repeatsForm">
+              <div class="form-group" id="repeatsinput">
+                <input type="number"
+                       class="form-control"
+                       id="repeats"
+                       aria-describedby="repeatshelp"
+                       placeholder="Choose a number from 2 -> 10"
+                       formControlName="repeats"
+                       step="1"
+                       required>
+                <div *ngIf="formErrors.repeatsform"
+                     class="form-group has-danger">
+                  <div class="form-control-feedback">{{formErrors.repeatsform}}</div>
+                </div>
+                <small id="repeatshelp" class="form-text text-muted">You must have between 2 and 10 repeats (inclusive)</small>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
+
       </div>
-      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="repcancelbtn">Cancel</button>
-      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)" id="repbackbtn">Back</button>
-      <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)" id="repnextbtn" [disabled]="!this.dimensionForm.valid">Next: Spacing</button>
+      <div class="row">
+        <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="repcancelbtn">Cancel</button>
+        <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)" id="repbackbtn">Back</button>
+        <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)" id="repnextbtn" [disabled]="!this.repeatsForm.valid">Next: Spacing</button>
+      </div>
     </div>
 
     <div *ngIf="isSpacing()">
@@ -205,7 +223,7 @@
         </thead>
         <tbody>
         <tr *ngIf="!hasRepeatedMeasures()">
-          <td>Would you like to add a repeadted measure?</td>
+          <td>Would you like to add a repeated measure?</td>
         </tr>
         <tr *ngFor="let repeatedMeasure of repeatedMeasures; let i = index" [class]="rowStyle(i)">
           <td class="col col-md-auto">
@@ -224,7 +242,7 @@
             <i class="material-icons" (click)="editRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="editrepeatedMeasure">create</i>
           </td>
           <td class="col col-md-auto">
-            <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">remove</i>
+            <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">delete_forever</i>
           </td>
         </tr>
         </tbody>

@@ -85,7 +85,8 @@ export const constants = {
   TYPE_ONE_ERROR_VALIDATION_MESSAGES: {
     'typeoneerror': {
       'minval': 'Value too low.',
-      'maxval': 'Value too high'
+      'maxval': 'Value too high',
+      'noalpha': 'You must specify at least one Type I Error rate.'
     }
   },
   BETWEEN_ISU_VALIDATION_MESSAGES: {
@@ -97,8 +98,9 @@ export const constants = {
   },
   BETWEEN_ISU_RELATIVE_GROUP_VALIDATION_MESSAGES: {
     'relativegroupsizes': {
-      'minval': 'ALL values need to be filled in and >= 0.',
-      'required': 'ALL values need to be filled in and >= 0.'
+      'minval': 'ALL values need to be filled in and integers >= 1. Need at least one relative size = 1.',
+      'required': 'ALL values need to be filled in and integers >= 1. Need at least one relative size = 1.',
+      'notcontainone': 'ALL values need to be filled in and integers >= 1. Need at least one relative size = 1.'
     },
   },
   PARAMETERS_STANDARD_DEVIATION_VALIDATION_MESSAGES: {
