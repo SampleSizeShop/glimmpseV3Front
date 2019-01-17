@@ -12,6 +12,7 @@ import {Group} from './Group';
 import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
 import {MarginalMeansTable} from './MarginalMeansTable';
 import {PartialMatrix} from './PartialMatrix';
+import * as math from 'mathjs';
 
 // A representation of ISUFactors' data that can be converted to
 // and from JSON without being altered.
@@ -135,10 +136,25 @@ export class ISUFactors {
   }
 
   constructor() {
-    this.cMatrix = new PartialMatrix();
-    this.uMatrix = new PartialMatrix();
-    this.cMatrix.type = constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS
-    this.uMatrix.type = constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS
+    this.cMatrix = this.initialiseContrastMatrix();
+    this.uMatrix = this.initialiseContrastMatrix();
+    this. outcomeCorrelationMatrix = this.initialiseCorrelationMatrix();
+  }
+
+  private initialiseContrastMatrix() {
+    const matrix = new PartialMatrix();
+    matrix.type = constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS
+    return matrix
+  }
+
+  private initialiseCorrelationMatrix() {
+    const matrix = new CorrelationMatrix();
+    matrix.lear = false;
+    matrix.base = 0.5;
+    matrix.decay = 0.3;
+    matrix.scaled = true;
+    matrix.values = math.matrix([[1]]);
+    return matrix;
   }
 
   get hypothesisName(): string {
