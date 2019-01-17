@@ -28,9 +28,9 @@ export const generic_model = {
     {name: 'c', groups: ['red', 'green', 'blue']}],
   smallest_group: 10,
   groups: [
-    {group: '', table: [[2, 3, 4], [5, 6, 7]]},
-    {group: '', table: [[2, 3, 4], [5, 6, 9]]},
-    {group: '', table: [[2, 3, 4], [5, 7, 9]]}
+    {group: '', table: [[1, 3, 4], [5, 6, 7]]},
+    {group: '', table: [[1, 3, 4], [5, 6, 9]]},
+    {group: '', table: [[1, 3, 4], [5, 7, 9]]}
   ],
   gaussian_covariate: 3,
   hypothesis: 'gender x colour',
