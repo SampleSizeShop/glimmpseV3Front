@@ -75,13 +75,13 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
     const form = this.intraClassCorrForm;
 
     this.formErrors['vectorofcorrelation'] = '';
-    for (const field in this.intraClassCorrForm.value) {
+    for (const field of Object.keys(this.intraClassCorrForm.value)) {
       const control = form.get(field);
       if (control && control.dirty && !control.valid) {
-        const messages = this.validationMessages['vectorofcorrelation'];
+        const messages = this.validationMessages.vectorofcorrelation;
         for (const key in control.errors ) {
-          if (!this.formErrors['vectorofcorrelation'].includes(messages[key])) {
-            this.formErrors['vectorofcorrelation'] += '' + messages[key];
+          if (!this.formErrors.vectorofcorrelation.includes(messages[key])) {
+            this.formErrors.vectorofcorrelation += '' + messages[key];
           }
         }
       }
