@@ -39,6 +39,7 @@ import {HypothesisTheta0Component} from './hypothesis-theta-0/hypothesis-theta-0
 import {CanDeactivatePredictorsGuardService} from './between-isu-predictors/can-deactivate-predictors-guard.service';
 import {StudyTitleComponent} from './study-title/study-title.component';
 import {OutcomeCorrelationsGuard} from '../shared/outcome-correlation-guard.service';
+import {BetweenIsuGroupsGuard} from '../shared/between-isu-groups-guard.service';
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -102,12 +103,14 @@ const studyFormRoutes: Routes = [
             {
               path: names[constants.STAGES.BETWEEN_ISU_GROUPS] + '/:index',
               component: BetweenIsuGroupsComponent,
-              data: {animation: constants.STAGES.BETWEEN_ISU_GROUPS}
+              data: {animation: constants.STAGES.BETWEEN_ISU_GROUPS},
+              canActivate: [ BetweenIsuGroupsGuard ]
             },
             {
               path: names[constants.STAGES.BETWEEN_ISU_GROUPS],
               component: BetweenIsuGroupsComponent,
-              data: {animation: constants.STAGES.BETWEEN_ISU_GROUPS}
+              data: {animation: constants.STAGES.BETWEEN_ISU_GROUPS},
+              canActivate: [ BetweenIsuGroupsGuard ]
             },
             {path: names[constants.STAGES.GAUSSIAN_COVARIATE],
               component: GaussianCovariateComponent,
@@ -231,7 +234,8 @@ const studyFormRoutes: Routes = [
     ConfidenceIntervalGuard,
     PowerCurveGuard,
     MarginalMeansGuard,
-    OutcomeCorrelationsGuard
+    OutcomeCorrelationsGuard,
+    BetweenIsuGroupsGuard
   ]
 })
 export class StudyFormRoutingModule {}
