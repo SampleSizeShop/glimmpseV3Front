@@ -26,7 +26,7 @@ export class BetweenIsuGroupsGuard implements CanActivate {
 
     if (
       !isNullOrUndefined(this.predictors)
-      && this.predictors.length > 1
+      && this.predictors.length > 0
     ) {
       return true;
     } else {
