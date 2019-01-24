@@ -60,6 +60,13 @@ export const example_1_output = {
     m: [ [ 1 ] ],
     nu_e: 9,
     hypothesis_sum_square: [ [ 64000 ] ],
-    error_sum_square: [ [ 2025 ] ]
+    error_sum_square: [ [ 2025 ] ],
+    full_beta: false,
+    test: 'Huynh-Feldt Correction',
+    target_power: null,
+    smallest_group_size: 10,
+    means_scale_factor: 1,
+    variance_scale_factor: 1,
+    smallest_realizable_design: null,
   }
 }
