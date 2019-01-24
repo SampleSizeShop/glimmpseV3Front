@@ -40,6 +40,7 @@ import {CanDeactivatePredictorsGuardService} from './between-isu-predictors/can-
 import {StudyTitleComponent} from './study-title/study-title.component';
 import {OutcomeCorrelationsGuard} from '../shared/outcome-correlation-guard.service';
 import {BetweenIsuGroupsGuard} from '../shared/between-isu-groups-guard.service';
+import {BetweenIsuSmallestGroupsGuard} from '../shared/between-isu-smallest-group.service';
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -98,7 +99,8 @@ const studyFormRoutes: Routes = [
             {
               path: names[constants.STAGES.BETWEEN_ISU_SMALLEST_GROUP],
               component: BetweenIsuSmallestGroupComponent,
-              data: {animation: constants.STAGES.BETWEEN_ISU_SMALLEST_GROUP}
+              data: {animation: constants.STAGES.BETWEEN_ISU_SMALLEST_GROUP},
+              canActivate: [ BetweenIsuSmallestGroupsGuard ]
             },
             {
               path: names[constants.STAGES.BETWEEN_ISU_GROUPS] + '/:index',
@@ -235,7 +237,8 @@ const studyFormRoutes: Routes = [
     PowerCurveGuard,
     MarginalMeansGuard,
     OutcomeCorrelationsGuard,
-    BetweenIsuGroupsGuard
+    BetweenIsuGroupsGuard,
+    BetweenIsuSmallestGroupsGuard
   ]
 })
 export class StudyFormRoutingModule {}
