@@ -282,7 +282,8 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   error(result) {
-    if ( !isNullOrUndefined(result['error'])) {
+    if ( !isNullOrUndefined(result['model']['errors'])
+      && result['model']['errors'].length > 0) {
       return true;
     } else {
       return false;

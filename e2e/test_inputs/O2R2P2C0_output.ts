@@ -26,7 +26,7 @@ export const O2R2P2C0_output = {
     {
       'alpha': 0.05,
       'means_scale_factor': 1,
-      'power': 0.7567793294331613,
+      'power': 0.8362785425307651,
       'target_power': null,
       'test': 'Pillai-Bartlett Trace',
       'total_n': 30,
@@ -35,7 +35,7 @@ export const O2R2P2C0_output = {
     {
       'alpha': 0.05,
       'means_scale_factor': 1,
-      'power': 0.7567793294331613,
+      'power': 0.8362785425307651,
       'target_power': null,
       'test': 'Pillai-Bartlett Trace',
       'total_n': 30,

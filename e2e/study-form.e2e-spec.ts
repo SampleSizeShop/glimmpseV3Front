@@ -7,7 +7,6 @@ import {hw3_input, hw3_output} from './test_inputs/homework3';
 import {hw4_input, hw4_output} from './test_inputs/homework4';
 import {hw5_input, hw5_output} from './test_inputs/homework5';
 import {com_calculate_detail_input, com_calculate_detail_output} from './test_inputs/detail_table';
-import {constants} from '../src/app/shared/constants';
 import {by, element} from 'protractor';
 import {hw5_fullbeta_input, hw5_fullbeta_output} from './test_inputs/homework5_fullbeta';
 
@@ -29,7 +28,7 @@ describe('Glimmpse v3 automated integration tests', () => {
       console.log(text);
       actual = JSON.parse(text);
     });
-    expect(actual.model).toEqual(expected.model);
+    expect(actual.results[0].model).toEqual(expected.model);
     expect(actual.results[0].power).toEqual(expected.results[0].power);
   });
 
@@ -46,8 +45,10 @@ describe('Glimmpse v3 automated integration tests', () => {
       console.log(text);
       actual = JSON.parse(text);
     });
-    for (const i of actual.model) {
-      expect(actual.model.i).toBeCloseTo(expected.model.i, 6);
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
     }
     actual.results.forEach((result, i) => {
       expect(result.power).toBeCloseTo(expected.results[i].power, 4);
@@ -63,8 +64,10 @@ describe('Glimmpse v3 automated integration tests', () => {
       console.log(text);
       actual = JSON.parse(text);
     });
-    for (let i of actual.model) {
-      expect(actual.model.i).toBeCloseTo(expected.model.i, 6);
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
     }
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
   });
@@ -78,8 +81,10 @@ describe('Glimmpse v3 automated integration tests', () => {
       console.log(text);
       actual = JSON.parse(text);
     });
-    for (let i of actual.model) {
-      expect(actual.model.i).toBeCloseTo(expected.model.i, 6);
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
     }
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
   });
@@ -93,8 +98,10 @@ describe('Glimmpse v3 automated integration tests', () => {
       console.log(text);
       actual = JSON.parse(text);
     });
-    for (let i of actual.model) {
-      expect(actual.model.i).toBeCloseTo(expected.model.i, 6);
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
     }
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
   });
@@ -108,8 +115,10 @@ describe('Glimmpse v3 automated integration tests', () => {
       console.log(text);
       actual = JSON.parse(text);
     });
-    for (let i of actual.model) {
-      expect(actual.model.i).toBeCloseTo(expected.model.i, 6);
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
     }
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
   });
@@ -123,8 +132,10 @@ describe('Glimmpse v3 automated integration tests', () => {
       console.log(text);
       actual = JSON.parse(text);
     });
-    for (let i of actual.model) {
-      expect(actual.model.i).toBeCloseTo(expected.model.i, 6);
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
     }
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
   });
