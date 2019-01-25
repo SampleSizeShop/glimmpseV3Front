@@ -122,7 +122,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
       this.setNextEnabled('INVALID');
     }
     if (this.isClickNext) {
-      this.checkValidBeforeNavigation(this.isClickNext);
+      this.checkValidBeforeNavigation();
     }
   }
 
@@ -292,7 +292,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     }
   }
 
-  checkValidBeforeNavigation(isClickNext: boolean): void {
+  checkValidBeforeNavigation(): void {
     this.checkValidator();
     if (isNullOrUndefined(this._typeOneErrorRate) || this._typeOneErrorRate.length === 0) {
       this.setNextEnabled('INVALID');
