@@ -1,4 +1,4 @@
-interface GaussianCovariateJSON{
+interface GaussianCovariateJSON {
   variance: number;
 }
 
@@ -13,7 +13,7 @@ export class GaussianCovariate {
   static fromJSON(json: GaussianCovariateJSON|string): GaussianCovariate {
     if (typeof json === 'string') {
       // if it's a string, parse it first
-      return JSON.parse(json, GaussianCovariate.reviver);
+      return json === 'null' ? null : JSON.parse(json, GaussianCovariate.reviver);
     } else {
       // create an instance of the StudyDesign class
       const study = Object.create(GaussianCovariate.prototype);
