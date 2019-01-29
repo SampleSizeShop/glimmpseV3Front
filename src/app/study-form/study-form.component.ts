@@ -38,7 +38,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _hasNext: boolean;
   private _hasBack: boolean;
   private _guided: boolean;
-  private _isClickNext: boolean;
   private _study: StudyDesign;
 
   private __studyTitleSubscription: Subscription;
@@ -61,7 +60,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _powerCurveSubscription: Subscription;
   private _navDirectionSubsctiption: Subscription;
   private _defineFullBetaSubscription: Subscription;
-  private _isClickNextSubscription: Subscription;
   private _direction: string;
 
   private _validSubscription: Subscription;
@@ -102,7 +100,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.study = new StudyDesign();
     this.subscribeToStudyService();
     this.subscribeToNavigationService();
-    this.subscribeToisClickNext();
     this.setupRouting();
   }
 
@@ -366,7 +363,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   ngOnDestroy() {
     this.unsubscribeFromStudyService();
     this.unsubscribeFromNavigationService();
-    this._isClickNextSubscription.unsubscribe();
   }
 
   get valid(): boolean {
@@ -760,14 +756,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       }
     );
   };
-
-  subscribeToisClickNext() {
-    this._isClickNextSubscription = this.navigation_service.isClickNext$.subscribe(
-      isClickNext => {
-        this._isClickNext = isClickNext;
-      }
-    );
-  }
 
   unsubscribeFromNavigationService() {
     this.validSubscription.unsubscribe();
