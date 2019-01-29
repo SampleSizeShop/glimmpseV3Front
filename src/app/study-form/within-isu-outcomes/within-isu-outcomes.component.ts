@@ -16,13 +16,6 @@ import {NGXLogger} from 'ngx-logger';
   styleUrls: ['./within-isu-outcomes.scss']
 })
 export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
-  get statusSubscription(): Subscription {
-    return this._statusSubscription;
-  }
-
-  set statusSubscription(value: Subscription) {
-    this._statusSubscription = value;
-  }
   private _outcomesForm: FormGroup;
   private _outcomes: Outcome[];
   private _max: number;
@@ -30,9 +23,11 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   private _formErrors;
   private _outcomeSubscription: Subscription;
   private _directionCommand: string;
-  private _navigationSubscription: Subscription;
-  private _statusSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
+
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
@@ -52,10 +47,14 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
         this.outcomes = outcomes;
       }
     );
-    this.navigationSubscription = this.study_service.navigationDirection$.subscribe(
-      direction => {
-        this.directionCommand = direction;
-        this.checkValidBeforeNavigation(this.directionCommand);
+    this._isClickNextReference = {value: false};
+    this._isClickNextSubscription = this.navigation_service.isClickNext$.subscribe(
+      isClickNext => {
+        this.isClickNext = isClickNext;
+        this._isClickNextReference.value = this.isClickNext;
+        if (!isNullOrUndefined(this.outcomesForm)) {
+          this.outcomesForm.get('outcomes').updateValueAndValidity();
+        }
       }
     );
     this._afterInit = false;
@@ -67,30 +66,30 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnInit() {
+    this.updateIsClickNext(false);
     this.buildForm();
-    if (isNullOrUndefined(this.outcomes) || this.outcomes.length === 0) {
-      this.setNextEnabled('INVALID');
-    }
     this._afterInit = true;
+    this.updateIsClickNext(false);
   }
 
   ngOnDestroy() {
-    this.navigationSubscription.unsubscribe();
     this.outcomeSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
+    this._isClickNextSubscription.unsubscribe();
     this.setNextEnabled('VALID');
   }
 
   buildForm() {
     this.emptyErrMsg();
     this.outcomesForm = this.fb.group({
-      outcomes: ['', outcomeValidator(this.outcomes)]
+      outcomes: ['', outcomeValidator(this.outcomes, this._isClickNextReference)]
     });
 
     this.outcomesForm.valueChanges.subscribe(data => this.emptyErrMsg());
-    this.statusSubscription = this.outcomesForm.statusChanges.subscribe(
-      result => {if (this.outcomes && !this.formErrors.outcomes) {this.setNextEnabled(result)}}
-    );
+  }
+
+  updateIsClickNext(value: boolean) {
+    this.navigation_service.updateIsClickNext(value);
   }
 
   emptyErrMsg() {
@@ -121,6 +120,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
       this.checkValidator();
     }
     this.study_service.updateWthinIsuOutcomes(this.outcomes);
+    this.checkValidBeforeNavigation();
   }
 
   addOutcome() {
@@ -129,6 +129,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
       const outcome = new Outcome(this.outcomesForm.value.outcomes.trim())
       this.outcomes.push(outcome);
       this.outcomesForm.reset();
+      this.updateIsClickNext(false);
     }
   }
 
@@ -142,6 +143,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
       this.outcomes.splice(index, 1);
     }
     this.outcomesForm.reset();
+    this.updateIsClickNext(false);
   }
 
   firstOutcome(): boolean {
@@ -155,12 +157,14 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     return false;
   }
 
-  checkValidBeforeNavigation(direction: string): void {
-    this.checkValidator();
-    if ( direction === 'NEXT' ) {
-      if (this.outcomes && !this.formErrors.outcomes) {
-        this.setNextEnabled('VALID');
-      }
+  checkValidBeforeNavigation(): void {
+    if (isNullOrUndefined(this.outcomes) || this.outcomes.length === 0) {
+      this.setNextEnabled('INVALID');
+    } else if (this.outcomes && !this.formErrors.outcomes) {
+      this.setNextEnabled('VALID');
+    }
+    if (this.isClickNext) {
+      this.checkValidator();
     }
   }
 
@@ -250,20 +254,20 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     this._outcomeSubscription = value;
   }
 
-  get navigationSubscription(): Subscription {
-    return this._navigationSubscription;
-  }
-
-  set navigationSubscription(value: Subscription) {
-    this._navigationSubscription = value;
-  }
-
   get directionCommand(): string {
     return this._directionCommand;
   }
 
   set directionCommand(value: string) {
     this._directionCommand = value;
+  }
+
+  get isClickNext(): boolean {
+    return this._isClickNext;
+  }
+
+  set isClickNext(value: boolean) {
+    this._isClickNext = value;
   }
 
   rowStyle(index: number) {
