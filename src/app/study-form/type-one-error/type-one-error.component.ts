@@ -30,8 +30,9 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   private _warningTypeOneErrorFromPower: boolean;
   private _smallestPower: number;
 
-  private _navigationSubscription: Subscription;
-  private _directionCommand: string;
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
@@ -50,10 +51,14 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
         this.typeOneErrorRate = typeOneErrorRate;
       }
     );
-    this._navigationSubscription = this.study_service.navigationDirection$.subscribe(
-      direction => {
-        this._directionCommand = direction;
-        this.checkValidBeforeNavigation(this._directionCommand);
+    this._isClickNextReference = {value: false};
+    this._isClickNextSubscription = this.navigation_service.isClickNext$.subscribe(
+      isClickNext => {
+        this.isClickNext = isClickNext;
+        this._isClickNextReference.value = this.isClickNext;
+        if (!isNullOrUndefined(this.typeOneErrorRateForm)) {
+          this.typeOneErrorRateForm.get('typeoneerror').updateValueAndValidity();
+        }
       }
     );
     this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
@@ -75,7 +80,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   buildForm(): void {
     this.typeOneErrorRateForm = this.fb.group({
-      typeoneerror: [0.01, [minMaxValidator(0, 1, this.log), typeOneErrorValidator(this._typeOneErrorRate)]]
+      typeoneerror: [0.01, [minMaxValidator(0, 1, this.log), typeOneErrorValidator(this._typeOneErrorRate, this._isClickNextReference)]]
     });
 
     this.typeOneErrorRateForm.valueChanges.subscribe(data => this.onValueChanged(data));
@@ -102,18 +107,25 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   ngOnInit() {
     this._afterInit = true;
+    this.updateIsClickNext(false);
+    this.checkValidBeforeNavigation();
   }
 
   ngDoCheck() {
     this.study_service.updateTypeOneErrorRate(this.typeOneErrorRate);
     this.validTypeOneErrorByPower();
-    this.checkValidBeforeNavigation('NEXT');
+    this.checkValidBeforeNavigation();
   }
 
   ngOnDestroy() {
     this.setNextEnabled('VALID');
     this.typeOneErrorRateSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
+    this._isClickNextSubscription.unsubscribe();
+  }
+
+  updateIsClickNext(value: boolean) {
+    this.navigation_service.updateIsClickNext(value);
   }
 
   validTypeOneErrorByPower() {
@@ -157,7 +169,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
       this._typeOneErrorRate.push(this.typeOneErrorRateForm.value.typeoneerror);
       this.typeOneErrorRateForm.reset();
     }
-    this.checkValidBeforeNavigation('NEXT');
+    this.updateIsClickNext(false);
   }
 
   removeAlpha(value: number) {
@@ -166,7 +178,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
       this._typeOneErrorRate.splice(index, 1);
     }
     this.typeOneErrorRateForm.reset();
-    this.checkValidBeforeNavigation('NEXT');
+    this.updateIsClickNext(false);
   }
 
   firstAlpha(): boolean {
@@ -255,6 +267,14 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     this._smallestPower = value;
   }
 
+  get isClickNext(): boolean {
+    return this._isClickNext;
+  }
+
+  set isClickNext(value: boolean) {
+    this._isClickNext = value;
+  }
+
   rowStyle(index: number) {
     if (index % 2 === 1) {
       return 'col col-md-auto table-active';
@@ -263,14 +283,14 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     }
   }
 
-  checkValidBeforeNavigation(direction: string): void {
-    this.checkValidator();
-    if ( direction === 'NEXT' ) {
-        if (isNullOrUndefined(this._typeOneErrorRate) || this._typeOneErrorRate.length === 0) {
-        this.setNextEnabled('INVALID');
-      } else if (!isNullOrUndefined(this._typeOneErrorRate) && this._typeOneErrorRate.length > 0) {
-          this.setNextEnabled('VALID');
-        }
+  checkValidBeforeNavigation(): void {
+    if (isNullOrUndefined(this._typeOneErrorRate) || this._typeOneErrorRate.length === 0) {
+      this.setNextEnabled('INVALID');
+    } else if (!isNullOrUndefined(this._typeOneErrorRate) && this._typeOneErrorRate.length > 0) {
+      this.setNextEnabled('VALID');
+    }
+    if (this.isClickNext) {
+      this.checkValidator();
     }
   }
 

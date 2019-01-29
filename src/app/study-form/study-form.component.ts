@@ -139,6 +139,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   next(stage?: number): void {
+    this.navigation_service.updateIsClickNext(true);
     let current = this.getStage();
     let next = this.getStage();
     if (stage) {
@@ -241,6 +242,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   back(stage?: number): void {
+    this.navigation_service.updateIsClickNext(false);
     let current = this.getStage();
     let previous = this.getStage();
     this.study_service.updateDirection('BACK');

@@ -10,6 +10,9 @@ export class NavigationService {
   private _validSource = new BehaviorSubject<boolean>(true);
   private _valid$ = this.validSource.asObservable();
 
+  private _isClickNextSource = new BehaviorSubject<boolean>(false);
+  private _isClickNext$ = this._isClickNextSource.asObservable();
+
   private _navigateAwaySelection$: Subject<boolean> = new Subject<boolean>();
 
   private _helpTextSource = new BehaviorSubject<boolean>(false);
@@ -25,6 +28,10 @@ export class NavigationService {
 
   updateValid(valid: boolean) {
     this.validSource.next(valid);
+  }
+
+  updateIsClickNext(isClickNext: boolean) {
+    this._isClickNextSource.next(isClickNext);
   }
 
   get navigationSource(): Subject<string> {
@@ -49,6 +56,14 @@ export class NavigationService {
 
   set valid$(value: Observable<boolean>) {
     this._valid$ = value;
+  }
+
+  get isClickNext$(): Observable<boolean> {
+    return this._isClickNext$;
+  }
+
+  set isClickNext$(value: Observable<boolean>) {
+    this._isClickNext$ = value;
   }
 
   get navigateAwaySelection$(): Subject<boolean> {
