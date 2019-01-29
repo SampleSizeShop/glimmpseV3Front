@@ -108,22 +108,13 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   ngOnInit() {
     this._afterInit = true;
     this.updateIsClickNext(false);
-    if (isNullOrUndefined(this.typeOneErrorRate) || this.typeOneErrorRate.length === 0) {
-      this.setNextEnabled('INVALID');
-    }
+    this.checkValidBeforeNavigation();
   }
 
   ngDoCheck() {
     this.study_service.updateTypeOneErrorRate(this.typeOneErrorRate);
     this.validTypeOneErrorByPower();
-    if (this.typeOneErrorRate.length > 0) {
-      this.setNextEnabled('VALID');
-    } else {
-      this.setNextEnabled('INVALID');
-    }
-    if (this.isClickNext) {
-      this.checkValidBeforeNavigation();
-    }
+    this.checkValidBeforeNavigation();
   }
 
   ngOnDestroy() {
@@ -293,11 +284,13 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   }
 
   checkValidBeforeNavigation(): void {
-    this.checkValidator();
     if (isNullOrUndefined(this._typeOneErrorRate) || this._typeOneErrorRate.length === 0) {
       this.setNextEnabled('INVALID');
     } else if (!isNullOrUndefined(this._typeOneErrorRate) && this._typeOneErrorRate.length > 0) {
       this.setNextEnabled('VALID');
+    }
+    if (this.isClickNext) {
+      this.checkValidator();
     }
   }
 
