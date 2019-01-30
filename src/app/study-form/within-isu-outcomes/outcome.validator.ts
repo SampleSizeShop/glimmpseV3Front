@@ -1,7 +1,7 @@
 import {AbstractControl, ValidatorFn} from '@angular/forms';
 import {Outcome} from '../../shared/Outcome';
 
-export function outcomeValidator(outcomes: Outcome[]): ValidatorFn {
+export function outcomeValidator(outcomes: Outcome[], isClickNext: {value: boolean}): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {
     const val = control.value;
     const names = [];
@@ -9,7 +9,7 @@ export function outcomeValidator(outcomes: Outcome[]): ValidatorFn {
       names.push(outcome.name);
     });
 
-    if (outcomes.length < 1) {
+    if (isClickNext.value && outcomes.length < 1) {
       return {'nooutcome': 'Need an outcome to go to next step.'};
     }
 

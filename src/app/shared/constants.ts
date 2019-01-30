@@ -40,7 +40,8 @@ export const constants = {
     'singleoutcomeerror': ''
   },
   BETWEEN_ISU_ERRORS: {
-    'smallestGroupSize': 'Value needs to be filled in.'
+    'smallestGroupSize': 'Value needs to be filled in.',
+    'required': 'You must specify at least one value for smallest group size.'
   },
   BETWEEN_ISU_RELATIVE_GROUP_ERRORS: {
     'relativegroupsizes': ''
@@ -92,7 +93,7 @@ export const constants = {
   BETWEEN_ISU_VALIDATION_MESSAGES: {
     'smallestGroupSize': {
       'minval': 'Value too low.',
-      'required': 'Value need to be filled in.',
+      'required': 'You must specify at least one value for smallest group size.',
       'pattern' : 'Must be a positive integer.'
     },
   },
@@ -202,7 +203,7 @@ export const constants = {
   REPEATED_MEASURE_TYPES: ['Categorical', 'Ordinal', 'Numeric'],
   REPEATED_MEASURE_FORM_ERRORS: {
     'space': 'Your repeated measures cannot be duplicates.',
-    'dimensionunits': 'Value needs to be filled in.',
+    'dimensionunits': 'You must specify a name for this repeated measure dimension.',
     'repeatsform': ''
   },
   REPEATED_MEASURE_FORM_VALIDATION_MESSAGES: {

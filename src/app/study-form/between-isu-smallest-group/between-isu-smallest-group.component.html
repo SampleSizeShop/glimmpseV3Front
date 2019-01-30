@@ -37,10 +37,6 @@
       <th>remove</th>
       </thead>
       <tbody>
-      <tr *ngIf="firstGroupSize()">
-        <td style="padding-left: 0px"> You must provide at least one value for a smallest group size.</td>
-        <td></td>
-      </tr>
       <tr *ngFor="let groupSize of groupSize$ | async; let i = index;"
           id="groupSizelist"
           [class]="rowStyle(i)">

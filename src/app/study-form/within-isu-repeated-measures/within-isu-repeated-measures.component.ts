@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs';
@@ -12,7 +12,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
 import {Observable} from 'rxjs/Observable';
 import {NGXLogger} from 'ngx-logger';
-import {integerValidator} from "../../shared/integer.validator";
+import {integerValidator} from '../../shared/integer.validator';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -78,7 +78,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this._dimensionForm = this._fb.group({
-      dimension: [''],
+      dimension: ['', Validators.required],
       units: ['']
     });
     this._dimensionForm.valueChanges.subscribe(data => this.onValueChangedDimensionForm(data));
