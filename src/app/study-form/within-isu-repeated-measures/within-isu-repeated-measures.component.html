@@ -64,7 +64,7 @@
       <form [formGroup]="dimensionForm">
         <div class="form-group">
           <label for="dimension">Dimension:</label>
-          <input class="form-control" formControlName="dimension" id="dimension" placeholder="Enter the dimension for this repeated measure (time, scenarios, etc.)" required>
+          <input class="form-control" formControlName="dimension" id="dimension" placeholder="Enter the dimension for this repeated measure (time, scenarios, etc.)">
           <div *ngIf="formErrors.dimensionunits" class="form-group has-danger">
             <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensionunits}}</div>
           </div>
