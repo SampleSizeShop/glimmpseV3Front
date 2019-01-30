@@ -2,13 +2,14 @@ import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
-import {of as observableOf, Subscription, Observable} from 'rxjs';
+import {of as observableOf, Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
 import {NavigationService} from '../../shared/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {smallestGroupSizeValidator} from './between-isu-smallest-group.validator';
 
 @Component({
   selector: 'app-between-isu-smallest-group',
@@ -23,6 +24,10 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
   private _formErrors = constants.BETWEEN_ISU_ERRORS;
   private _validationMessages = constants.BETWEEN_ISU_VALIDATION_MESSAGES;
   private _showHelpTextSubscription: Subscription;
+
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
@@ -42,22 +47,40 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
+    this._isClickNextReference = {value: false};
+    this._isClickNextSubscription = this.navigation_service.isClickNext$.subscribe(
+      isClickNext => {
+        this._isClickNext = isClickNext;
+        this._isClickNextReference.value = this._isClickNext;
+        if (!isNullOrUndefined(this._groupSizeForm)) {
+          this._groupSizeForm.get('smallestGroupSize').updateValueAndValidity();
+        }
+      }
+    );
   }
 
   ngOnInit() {
     this.buildForm();
+    this.updateIsClickNext(false);
+    this.checkValidBeforeNavigation();
   }
 
   ngOnDestroy() {
     this.study_service.updateIsuFactors(this.isuFactors);
+    this.navigation_service.updateValid(true);
     this.isuFactorsSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
+    this._isClickNextSubscription.unsubscribe();
+  }
+
+  updateIsClickNext(value: boolean) {
+    this.navigation_service.updateIsClickNext(value);
   }
 
   buildForm() {
     this.groupSizeForm = this.fb.group( this.updateSmallestGroupSizeControls() );
     this.groupSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
-    this.checkValid();
+    this.checkValidBeforeNavigation();
   }
 
   onValueChanged(data?: any) {
@@ -69,18 +92,19 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
     for (const field of Object.keys(this.formErrors)) {
       this.formErrors[field] = '';
       const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
+      if (control && !control.valid) {
         const messages = this.validationMessages[field];
         for (const key of Object.keys(control.errors) ) {
+          console.log(this.formErrors);
           this.formErrors[field] += messages[key] + ' ';
         }
       }
     }
 
-    this.checkValid()
+    this.checkValidBeforeNavigation()
   }
 
-  checkValid() {
+  checkValidBeforeNavigation() {
     if (isNullOrUndefined(this._isuFactors) ||
       isNullOrUndefined(this._isuFactors.smallestGroupSize) ||
       this._isuFactors.smallestGroupSize.length < 1 ) {
@@ -95,6 +119,7 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
   updateSmallestGroupSizeControls() {
     return { smallestGroupSize: [null,
         [minMaxValidator(0, Number.MAX_VALUE, this.log),
+          smallestGroupSizeValidator(this.isuFactors.smallestGroupSize, this._isClickNextReference),
           // positive integer regex
           Validators.pattern('^\\d+$')]
       ]
@@ -126,7 +151,8 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
     const value = this.groupSizeForm.value.smallestGroupSize;
     if (!isNullOrUndefined(value)
         && value !== ''
-        && this._isuFactors.smallestGroupSize.indexOf(value) === -1) {
+        && this._isuFactors.smallestGroupSize.indexOf(value) === -1
+        && value >= 1 ) {
       this._isuFactors.smallestGroupSize.push(value);
       this.groupSizeForm.reset();
     }
@@ -170,11 +196,11 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
     this._groupSizeForm = value;
   }
 
-  get formErrors(): { smallestGroupSize: string; } {
+  get formErrors(): { smallestGroupSize: string; required: string } {
     return this._formErrors;
   }
 
-  set formErrors(value: { smallestGroupSize: string; }) {
+  set formErrors(value: { smallestGroupSize: string; required: string }) {
     this._formErrors = value;
   }
 
