@@ -1,5 +1,4 @@
 import {LinearModel} from './LinearModel';
-import {ISUFactor} from './ISUFactor';
 import {isNullOrUndefined} from 'util';
 
 interface ResultJSON {
@@ -43,7 +42,7 @@ export class Result {
 
   static parsePower(json: ResultJSON) {
     if (!isNullOrUndefined(json.power)) {
-      this.fromJSON(JSON.stringify(json.power))
+      return json.power
     } else {
       return null;
     }
@@ -51,7 +50,7 @@ export class Result {
 
   static parseSamplesize(json: ResultJSON) {
     if (!isNullOrUndefined(json.samplesize)) {
-      this.fromJSON(JSON.stringify(json.samplesize))
+      return json.samplesize
     } else {
       return null;
     }
@@ -59,7 +58,7 @@ export class Result {
 
   static parseTest(json: ResultJSON) {
     if (!isNullOrUndefined(json.test)) {
-      this.fromJSON(JSON.stringify(json.test))
+      return json.test
     } else {
       return null;
     }
