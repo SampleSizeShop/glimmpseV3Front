@@ -13,6 +13,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
+import {Result} from '../../shared/Results';
 
 @Component({
   selector: 'app-calculate',
@@ -38,7 +39,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   private _detailPredictor: Array<Predictor>;
   private _detailSampleSize: number;
   private _currentSelected: number;
-  private _resultForDisplay: Array<Object>;
+  private _resultForDisplay: Array<Result>;
   private _downloadData: SafeUrl;
   private _combinationsValueMap: Object;
   private _showHelpTextSubscription: Subscription;
@@ -144,7 +145,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
     const results = [];
 
     for (const result of this.resultString.results) {
-      results.push(result);
+      results.push(Result.fromJSON(JSON.stringify(result)));
     }
     this.resultForDisplay = results;
   }
