@@ -22,6 +22,7 @@ describe('Glimmpse v3 automated integration tests', () => {
   it('Should calculate a power of 1 for Grand Mean with only one outcome', async function() {
     const expected = example_1_output;
     let actual = null;
+    let actualPowers = null;
     await page.fromJSON(example_1_input);
     await page.calculate();
     await page.output().then(text => {
@@ -29,7 +30,12 @@ describe('Glimmpse v3 automated integration tests', () => {
       actual = JSON.parse(text);
     });
     expect(actual.results[0].model).toEqual(expected.model);
-    expect(actual.results[0].power).toEqual(expected.results[0].power);
+    for (let i = 0; i < expected.results.length; i++) {
+      await page.power(i).then(powers => {
+        actualPowers = powers;
+      });
+      expect(actualPowers).toEqual(expected.results[i].power);
+    }
   });
 
   it('Should fill out the study form: Nonsense example designed to hit every page in glimmpse v3 front end', () => {

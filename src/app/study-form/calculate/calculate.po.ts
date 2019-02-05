@@ -28,4 +28,16 @@ export class CalculatePo {
       }
     });
   }
+  readPower(index: number): Promise<number> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('power_' + index)).isDisplayed()) {
+        element(by.id('power_' + index)).getText().then(text => {
+          resolve(parseFloat(text));
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
 }
