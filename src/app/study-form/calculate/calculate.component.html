@@ -23,7 +23,7 @@
           [class] = "rowStyle(i)"
           [attr.id]="'result_display_row_'+i">
         <td *ngIf="!error(result)" id="{{'power_' + i}}">{{result.power}}</td>
-        <td *ngIf="error(result)" id="{{'powererror_' + i}}">{{result.power}} {{result.model.errors}}</td>
+        <td *ngIf="error(result)" id="{{'power_' + i}}">{{result.power}} {{result.model.errors}}</td>
         <td *ngIf="isSamplesize() && !error(result)">{{result.samplesize}}</td>
         <td *ngIf="isSamplesize() && error(result)">{{result.model.errors}}</td>
         <td *ngIf="isPower()">{{result.model.total_n}}</td>
