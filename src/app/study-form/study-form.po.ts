@@ -174,6 +174,10 @@ export class StudyFormComponentPage {
     });
   }
 
+  power(index: number): Promise<number> {
+    return this.calculate_component.readPower(index);
+  }
+
   output(): Promise<string> {
     return this.calculate_component.readOutput();
   }
