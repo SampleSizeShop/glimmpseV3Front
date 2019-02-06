@@ -190,6 +190,10 @@ export class StudyFormComponentPage {
     return this.calculate_component.readVarianceScaleFactor(index);
   }
 
+  test(index: number): Promise<string> {
+    return this.calculate_component.readTest(index);
+  }
+
   output(): Promise<string> {
     return this.calculate_component.readOutput();
   }

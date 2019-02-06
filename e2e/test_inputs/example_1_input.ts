@@ -46,7 +46,7 @@ export const example_1_output = {
       means_scale_factor: 1,
       power: 1.0,
       target_power: null,
-      test: 'Hotelling Lawley Trace',
+      test: 'Huynh-Feldt Correction',
       total_n: 10,
       variance_scale_factor: 1
     }
