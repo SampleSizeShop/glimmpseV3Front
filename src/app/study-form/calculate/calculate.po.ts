@@ -58,4 +58,16 @@ export class CalculatePo {
       }
     });
   }
+  readMeansScaleFactor(index: number): Promise<number> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('means_scale_factor_' + index)).isDisplayed()) {
+        element(by.id('means_scale_factor_' + index)).getText().then(text => {
+          resolve(parseFloat(text));
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
 }
