@@ -26,7 +26,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     let targetPower: number = null;
     let meansScaleFactor: number = null;
     let varianceScaleFactor: number = null;
-    let test: number = null;
+    let test: string = null;
 
     await page.fromJSON(example_1_input);
     await page.calculate();
