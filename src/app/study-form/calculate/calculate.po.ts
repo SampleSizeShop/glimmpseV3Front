@@ -82,4 +82,16 @@ export class CalculatePo {
       }
     });
   }
+  readTest(index: number): Promise<string> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('test_' + index)).isDisplayed()) {
+        element(by.id('test_' + index)).getText().then(text => {
+          resolve(text);
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
 }
