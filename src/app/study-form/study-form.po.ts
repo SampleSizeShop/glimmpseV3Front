@@ -174,12 +174,16 @@ export class StudyFormComponentPage {
     });
   }
 
+  power(index: number): Promise<number> {
+    return this.calculate_component.readPower(index);
+  }
+
   targetPower(index: number, solveFor: string): Promise<number> {
     return this.calculate_component.readTargetPower(index, solveFor);
   }
 
-  power(index: number): Promise<number> {
-    return this.calculate_component.readPower(index);
+  meansScaleFactor(index: number): Promise<number> {
+    return this.calculate_component.readMeansScaleFactor(index);
   }
 
   output(): Promise<string> {

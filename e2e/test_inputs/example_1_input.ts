@@ -42,9 +42,15 @@ export const example_1_output = {
   mimetype: 'application/json',
   results: [
     {
+      alpha: 0.05,
+      means_scale_factor: 1,
+      power: 1.0,
+      target_power: null,
       test: 'Hotelling Lawley Trace',
-      power: 1.0
-    }],
+      total_n: 10,
+      variance_scale_factor: 1
+    }
+    ],
   model: {
     errors: [],
     essence_design_matrix: [ [ 1 ] ],
