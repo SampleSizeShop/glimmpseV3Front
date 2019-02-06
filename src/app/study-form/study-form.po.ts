@@ -186,6 +186,10 @@ export class StudyFormComponentPage {
     return this.calculate_component.readMeansScaleFactor(index);
   }
 
+  varianceScaleFactor(index: number): Promise<number> {
+    return this.calculate_component.readVarianceScaleFactor(index);
+  }
+
   output(): Promise<string> {
     return this.calculate_component.readOutput();
   }

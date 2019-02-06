@@ -70,4 +70,16 @@ export class CalculatePo {
       }
     });
   }
+  readVarianceScaleFactor(index: number): Promise<number> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('variance_scale_factor_' + index)).isDisplayed()) {
+        element(by.id('variance_scale_factor_' + index)).getText().then(text => {
+          resolve(parseFloat(text));
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
 }
