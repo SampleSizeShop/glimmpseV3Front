@@ -27,7 +27,7 @@
         <td *ngIf="isSamplesize() && !error(result)">{{result.samplesize}}</td>
         <td *ngIf="isSamplesize() && error(result)">{{result.model.errors}}</td>
         <td *ngIf="isPower()">{{result.model.total_n}}</td>
-        <td *ngIf="isSamplesize()">{{result.model.target_power}}</td>
+        <td *ngIf="isSamplesize()" id="{{'targetpower_' + i}}">{{result.model.target_power}}</td>
         <td>{{ result.model.means_scale_factor }}</td>
         <td>{{ result.model.variance_scale_factor }}</td>
         <td>{{ result.model.test }}</td>
