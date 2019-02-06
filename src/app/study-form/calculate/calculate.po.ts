@@ -94,4 +94,16 @@ export class CalculatePo {
       }
     });
   }
+  readAlpha(index: number): Promise<number> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('alpha_' + index)).isDisplayed()) {
+        element(by.id('alpha_' + index)).getText().then(text => {
+          resolve(parseFloat(text));
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
 }

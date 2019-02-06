@@ -27,6 +27,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     let meansScaleFactor: number = null;
     let varianceScaleFactor: number = null;
     let test: string = null;
+    let alpha: number = null;
 
     await page.fromJSON(example_1_input);
     await page.calculate();
@@ -52,12 +53,16 @@ describe('Glimmpse v3 automated integration tests', () => {
       await page.test(i).then(test_ => {
         test = test_;
       });
+      await page.alpha(i).then(alpha_ => {
+        alpha = alpha_;
+      });
 
       expect(actualPower).toEqual(expected.results[i].power);
       expect(targetPower).toBeNull();
       expect(meansScaleFactor).toEqual(expected.results[i].means_scale_factor);
       expect(varianceScaleFactor).toEqual(expected.results[i].variance_scale_factor);
       expect(test).toEqual(expected.results[i].test);
+      expect(alpha).toEqual(expected.results[i].alpha);
     }
   });
 

@@ -194,6 +194,10 @@ export class StudyFormComponentPage {
     return this.calculate_component.readTest(index);
   }
 
+  alpha(index: number): Promise<number> {
+    return this.calculate_component.readAlpha(index);
+  }
+
   output(): Promise<string> {
     return this.calculate_component.readOutput();
   }
