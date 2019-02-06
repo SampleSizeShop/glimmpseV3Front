@@ -23,6 +23,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     const expected = example_1_output;
     let actual = null;
     let actualPower: number = null;
+    let targetPower: number = null;
 
     await page.fromJSON(example_1_input);
     await page.calculate();
@@ -30,12 +31,18 @@ describe('Glimmpse v3 automated integration tests', () => {
       console.log(text);
       actual = JSON.parse(text);
     });
+
     expect(actual.results[0].model).toEqual(expected.model);
     for (let i = 0; i < expected.results.length; i++) {
       await page.power(i).then(power => {
         actualPower = power;
       });
+      await page.targetPower(0, example_1_input.solve_for.solve_for).then(power => {
+        targetPower = power;
+      });
+
       expect(actualPower).toEqual(expected.results[i].power);
+      expect(targetPower).toBeNull();
     }
   });
 
