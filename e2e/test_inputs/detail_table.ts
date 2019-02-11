@@ -69,14 +69,14 @@ export const com_calculate_detail_output = {
     ['Chemotherapy', 'D']
   ],
   per_group_sample_size: [
-    '5',
-    '5',
-    '5',
-    '10',
-    '5',
-    '5',
-    '5',
-    '10'
+    5,
+    5,
+    5,
+    10,
+    5,
+    5,
+    5,
+    10
   ],
-  totalsamplesize: '50'
+  totalsamplesize: 50
 }
