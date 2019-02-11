@@ -142,4 +142,31 @@ export class CalculatePo {
       }
     });
   }
+
+  readPredictor(index: number): Promise<string> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('predictor_' + index)).isDisplayed()) {
+        element(by.id('predictor_' + index)).getText().then(text => {
+          resolve(text);
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
+
+  readLevel(index: number): Promise<string> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('level_' + index)).isDisplayed()) {
+        element(by.id('level_' + index)).getText().then(text => {
+          const result = text.split(' ').pop();
+          resolve(result);
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
 }

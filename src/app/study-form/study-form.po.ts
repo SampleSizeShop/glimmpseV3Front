@@ -210,6 +210,14 @@ export class StudyFormComponentPage {
     return this.calculate_component.readPerGroupSampleSize(index);
   }
 
+  predictor(index: number): Promise<string> {
+    return this.calculate_component.readPredictor(index);
+  }
+
+  level(index: number): Promise<string> {
+    return this.calculate_component.readLevel(index);
+  }
+
   output(): Promise<string> {
     return this.calculate_component.readOutput();
   }
