@@ -198,6 +198,18 @@ export class StudyFormComponentPage {
     return this.calculate_component.readAlpha(index);
   }
 
+  groupCombination(indexX: number, indexY: number): Promise<string> {
+    return this.calculate_component.readGroupCombination(indexX, indexY);
+  }
+
+  totalSampleSize(): Promise<number> {
+    return this.calculate_component.readTotalSampleSize();
+  }
+
+  perGroupSampleSize(index: number): Promise<number> {
+    return this.calculate_component.readPerGroupSampleSize(index);
+  }
+
   output(): Promise<string> {
     return this.calculate_component.readOutput();
   }
@@ -221,4 +233,8 @@ export class StudyFormComponentPage {
   prev() {
     element(by.id('navigate_before')).click();
   };
+
+  triggerDetailTable(index: number) {
+    element(by.id('result_display_row_' + index)).click()
+  }
 }

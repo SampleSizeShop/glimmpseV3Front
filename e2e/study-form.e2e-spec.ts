@@ -176,19 +176,31 @@ describe('Glimmpse v3 automated integration tests', () => {
 
   it('Should return the correct value in the detail table.', async function() {
     const expected = com_calculate_detail_output;
+    let groupCombination = null;
+    let totalSampleSize = null;
+    let perGroupSampleSize = null;
     await page.fromJSON(com_calculate_detail_input);
     await page.calculate();
-    await element(by.id('result_display_row_0')).click()
+    page.triggerDetailTable(0);
 
-    for (let i = 0; i < com_calculate_detail_output.group_combination.length; i++) {
-      for (let j = 0; j < com_calculate_detail_output.group_combination[i].length; j++) {
-        expect(element(by.id('group_' + i + '_' + j)).getText()).toEqual(com_calculate_detail_output.group_combination[i][j]);
+    for (let i = 0; i < expected.group_combination.length; i++) {
+      for (let j = 0; j < expected.group_combination[i].length; j++) {
+        await page.groupCombination(i, j).then(groupCombination_ => {
+          groupCombination = groupCombination_;
+        });
+        expect(groupCombination).toEqual(expected.group_combination[i][j]);
       }
     }
-    for (let i = 0; i < com_calculate_detail_output.per_group_sample_size.length; i++) {
-      expect(element(by.id('per_group_sample_size_' + i)).getText()).toEqual(com_calculate_detail_output.per_group_sample_size[i]);
+    for (let i = 0; i < expected.per_group_sample_size.length; i++) {
+      await page.perGroupSampleSize(i).then(perGroupSampleSize_ => {
+        perGroupSampleSize = perGroupSampleSize_;
+      });
+      expect(perGroupSampleSize).toEqual(expected.per_group_sample_size[i]);
     }
-    expect(element(by.id('totalsamplesize')).getText()).toEqual(com_calculate_detail_output.totalsamplesize);
+    await page.totalSampleSize().then(totalSampleSize_ => {
+      totalSampleSize = totalSampleSize_;
+    });
+    expect(totalSampleSize).toEqual(expected.totalsamplesize);
   });
 
 });

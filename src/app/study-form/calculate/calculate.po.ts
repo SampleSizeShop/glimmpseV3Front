@@ -106,4 +106,40 @@ export class CalculatePo {
       }
     });
   }
+  readGroupCombination(indexX: number, indexY: number): Promise<string> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('group_' + indexX + '_' + indexY)).isDisplayed()) {
+        element(by.id('group_' + indexX + '_' + indexY)).getText().then(text => {
+          resolve(text);
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
+  readTotalSampleSize(): Promise<number> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('totalsamplesize')).isDisplayed()) {
+        element(by.id('totalsamplesize')).getText().then(text => {
+          resolve(parseFloat(text));
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
+  readPerGroupSampleSize(index: number): Promise<number> {
+    return new Promise( (resolve, reject) => {
+      if (element(by.id('per_group_sample_size_' + index)).isDisplayed()) {
+        element(by.id('per_group_sample_size_' + index)).getText().then(text => {
+          resolve(parseFloat(text));
+        });
+      } else {
+        console.log('nope');
+        reject(false);
+      }
+    });
+  }
 }
