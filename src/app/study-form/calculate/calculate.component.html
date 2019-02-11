@@ -47,7 +47,7 @@
         <ng-container *ngIf="detailCluster; else noClusterContent">
           <label class="ng-binding">{{ detailClusterLevels[0]['levelName'] }}</label>
           <ul *ngIf="detailClusterLevels.length > 0">
-            <li *ngFor="let line of detailClusterOverview" class="ng-binding">{{ line }}</li>
+            <li *ngFor="let line of detailClusterOverview; index as i" class="ng-binding" [attr.id]="'level_' + i">{{ line }}</li>
           </ul>
         </ng-container>
         <ng-template #noClusterContent>
