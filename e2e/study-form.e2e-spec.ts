@@ -179,6 +179,8 @@ describe('Glimmpse v3 automated integration tests', () => {
     let groupCombination = null;
     let totalSampleSize = null;
     let perGroupSampleSize = null;
+    let predictorName = null;
+
     await page.fromJSON(com_calculate_detail_input);
     await page.calculate();
     page.triggerDetailTable(0);
@@ -197,6 +199,12 @@ describe('Glimmpse v3 automated integration tests', () => {
       });
       expect(perGroupSampleSize).toEqual(expected.per_group_sample_size[i]);
     }
+    for (let i = 0; i < expected.predictors.length; i++) {
+      await page.predictor(i).then(predictorName_ => {
+        predictorName = predictorName_;
+      });
+      expect(predictorName).toEqual(expected.predictors[i].name);
+    }
     await page.totalSampleSize().then(totalSampleSize_ => {
       totalSampleSize = totalSampleSize_;
     });
@@ -204,3 +212,4 @@ describe('Glimmpse v3 automated integration tests', () => {
   });
 
 });
+
