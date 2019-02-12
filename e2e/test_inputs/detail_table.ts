@@ -78,5 +78,9 @@ export const com_calculate_detail_output = {
     5,
     10
   ],
-  totalsamplesize: 50
+  totalsamplesize: 50,
+  predictors: [
+    {name: 'Treatment', groups: ['Placebo', 'Chemotherapy']},
+    {name: 'Genotype', groups: ['A', 'B', 'C', 'D']}
+  ],
 }
