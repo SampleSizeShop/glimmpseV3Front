@@ -13,6 +13,8 @@ import {fadeTransition} from '../../animations';
 import {Observable} from 'rxjs/Observable';
 import {NGXLogger} from 'ngx-logger';
 import {integerValidator} from '../../shared/integer.validator';
+import {isNullOrUndefined} from 'util';
+import {WithinIsuRepeatedMeasuresValidator} from './within-isu-repeated-measures.validator';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -41,6 +43,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   private _autoFillbool: boolean;
 
   private _repeatedMeasuresSubscription: Subscription;
+
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
 
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
@@ -74,14 +80,27 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
+    this._isClickNextReference = {value: false};
+    this._isClickNextSubscription = this.navigation_service.isClickInternalNext$.subscribe(
+      isClickNext => {
+        this.isClickNext = isClickNext;
+        this._isClickNextReference.value = this.isClickNext;
+        if (!isNullOrUndefined(this.dimensionForm)) {
+          this.dimensionForm.get('dimension').updateValueAndValidity();
+        }
+      }
+    );
   }
 
   buildForm() {
     this._dimensionForm = this._fb.group({
-      dimension: ['', Validators.required],
+      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference)]],
       units: ['']
     });
-    this._dimensionForm.valueChanges.subscribe(data => this.onValueChangedDimensionForm(data));
+    this._dimensionForm.valueChanges.subscribe(data => {
+      this.onValueChangedDimensionForm();
+      this.resetClickNext(); // Reset clickNext when users reinsert value
+    });
     this._typeForm = this._fb.group({
       type: [this._types[0]]
     });
@@ -106,7 +125,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this._formErrors['dimensionunits'] = '';
     for (const field in this._dimensionForm.value) {
       const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
+      if (control && this.isClickNext && !control.valid) {
         const messages = this._validationMessages['dimensionunits'];
         for (const key in control.errors ) {
           this._formErrors['dimensionunits'] = messages[key];
@@ -284,6 +303,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   setStage(stage: number) {
+    this.navigation_service.updateIsClickInternalNext(false);
     if (stage === this._stages.INFO) {
       this.navigation_service.updateValid(true);
     } else {
@@ -292,6 +312,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     if (stage === this.stages.SPACING) {
       this.updateRepeatsForm();
     }
+    if (stage === this.stages.TYPE && this.dimensionForm.get('dimension').value === '') {
+      this.navigation_service.updateIsClickInternalNext(true);
+      stage = this.stages.DIMENSIONS;
+    }
+
     this._next = stage;
     this._stage = -1;
   }
@@ -387,6 +412,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       });
   }
 
+  resetClickNext() {
+    this.isClickNext = false;
+  }
+
   get stageName() {
     return Object.keys(this._stages)[this._stage];
   }
@@ -445,6 +474,14 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   get stages(): { INFO: number; DIMENSIONS: number; TYPE: number; REPEATS: number; SPACING: number } {
     return this._stages;
+  }
+
+  get isClickNext(): boolean {
+    return this._isClickNext;
+  }
+
+  set isClickNext(value: boolean) {
+    this._isClickNext = value;
   }
 
   toggleAutoFill() {
