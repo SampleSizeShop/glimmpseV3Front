@@ -203,12 +203,12 @@ export const constants = {
   REPEATED_MEASURE_TYPES: ['Categorical', 'Ordinal', 'Numeric'],
   REPEATED_MEASURE_FORM_ERRORS: {
     'space': 'Your repeated measures cannot be duplicates.',
-    'dimensionunits': 'You must specify a name for this repeated measure dimension.',
+    'dimensionunits': '',
     'repeatsform': ''
   },
   REPEATED_MEASURE_FORM_VALIDATION_MESSAGES: {
     'dimensionunits': {
-      'required': 'Value needs to be filled in.'
+      'required': 'You must specify a name for this repeated measure dimension.'
     },
     'space': {
       'duplicates': 'Your repeated measures cannot be duplicates.\n',

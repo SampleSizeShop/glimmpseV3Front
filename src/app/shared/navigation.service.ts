@@ -13,6 +13,9 @@ export class NavigationService {
   private _isClickNextSource = new BehaviorSubject<boolean>(false);
   private _isClickNext$ = this._isClickNextSource.asObservable();
 
+  private _isClickInternalNextSource = new BehaviorSubject<boolean>(false);
+  private _isClickInternalNext$ = this._isClickInternalNextSource.asObservable();
+
   private _navigateAwaySelection$: Subject<boolean> = new Subject<boolean>();
 
   private _helpTextSource = new BehaviorSubject<boolean>(false);
@@ -32,6 +35,10 @@ export class NavigationService {
 
   updateIsClickNext(isClickNext: boolean) {
     this._isClickNextSource.next(isClickNext);
+  }
+
+  updateIsClickInternalNext(isClickNext: boolean) {
+    this._isClickInternalNextSource.next(isClickNext);
   }
 
   get navigationSource(): Subject<string> {
@@ -64,6 +71,14 @@ export class NavigationService {
 
   set isClickNext$(value: Observable<boolean>) {
     this._isClickNext$ = value;
+  }
+
+  get isClickInternalNext$(): Observable<boolean> {
+    return this._isClickInternalNext$;
+  }
+
+  set isClickInternalNext$(value: Observable<boolean>) {
+    this._isClickInternalNext$ = value;
   }
 
   get navigateAwaySelection$(): Subject<boolean> {
