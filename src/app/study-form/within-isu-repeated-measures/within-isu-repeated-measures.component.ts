@@ -88,6 +88,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
         if (!isNullOrUndefined(this.dimensionForm)) {
           this.dimensionForm.get('dimension').updateValueAndValidity();
         }
+        if (!isNullOrUndefined(this.repeatsForm)) {
+          this.repeatsForm.get('repeats').updateValueAndValidity();
+        }
       }
     );
   }
@@ -97,17 +100,24 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference)]],
       units: ['']
     });
-    this._dimensionForm.valueChanges.subscribe(data => {
-      this.onValueChangedDimensionForm();
-      this.resetClickNext(); // Reset clickNext when users reinsert value
+    this._dimensionForm.get('dimension').valueChanges.subscribe(data => {
+      if (this.stage === this.stages.DIMENSIONS) {
+        this.onValueChangedDimensionForm();
+        this.resetClickNext(); // Reset clickNext when users reinsert value
+      }
     });
     this._typeForm = this._fb.group({
       type: [this._types[0]]
     });
     this._repeatsForm = this._fb.group({
-      repeats: [2, [minMaxValidator(2, 10), integerValidator()]]
+      repeats: [2, [minMaxValidator(2, 10), integerValidator(), WithinIsuRepeatedMeasuresValidator(this._isClickNextReference)]]
     });
-    this._repeatsForm.valueChanges.subscribe(data => this.onValueChangedRepeatsForm(data));
+    this._repeatsForm.valueChanges.subscribe(data => {
+      if (this.stage === this.stages.REPEATS) {
+        this.onValueChangedRepeatsForm();
+        this.resetClickNext();
+      }
+    });
     this._spacingForm = this._fb.group({
       spacing: this._fb.array([]),
       first: [0],
@@ -143,7 +153,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this._formErrors['repeatsform'] = '';
     for (const field in form.value) {
       const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
+      if (control && control.dirty && this.isClickNext && !control.valid) {
         const messages = this._validationMessages['repeatsform'];
         for (const key in control.errors ) {
           this._formErrors['repeatsform'] = messages[key];
@@ -312,9 +322,17 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     if (stage === this.stages.SPACING) {
       this.updateRepeatsForm();
     }
-    if (stage === this.stages.TYPE && this.dimensionForm.get('dimension').value === '') {
+    if (stage === this.stages.TYPE && this.stage === this.stages.DIMENSIONS) {
       this.navigation_service.updateIsClickInternalNext(true);
-      stage = this.stages.DIMENSIONS;
+      if (!this.dimensionForm.valid) {
+        stage = this.stages.DIMENSIONS;
+      }
+    }
+    if (stage === this.stages.SPACING && this.stage === this.stages.REPEATS) {
+      this.navigation_service.updateIsClickInternalNext(true);
+      if (!this.repeatsForm.valid) {
+        stage = this.stages.REPEATS;
+      }
     }
 
     this._next = stage;
