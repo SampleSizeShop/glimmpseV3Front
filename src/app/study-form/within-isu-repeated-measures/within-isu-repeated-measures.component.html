@@ -128,7 +128,7 @@
       <div class="row">
         <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="repcancelbtn">Cancel</button>
         <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)" id="repbackbtn">Back</button>
-        <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)" id="repnextbtn" [disabled]="!this.repeatsForm.valid">Next: Spacing</button>
+        <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)"   id="repnextbtn" [ngClass]="{disabled : !this.repeatsForm.valid }">Next: Spacing</button>
       </div>
     </div>
 

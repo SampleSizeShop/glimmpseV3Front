@@ -218,7 +218,8 @@ export const constants = {
     'repeatsform': {
       'minval': 'Value too low.',
       'maxval': 'Value too high',
-      'required': 'Value needs to be filled in.'
+      'required': 'Value needs to be filled in.',
+      'notint': 'Value needs to be an integer.'
     }
   },
   MAX_LEVELS: 10,
