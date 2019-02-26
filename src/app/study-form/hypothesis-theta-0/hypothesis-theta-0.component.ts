@@ -13,7 +13,7 @@ import {NGXLogger} from 'ngx-logger';
   templateUrl: './hypothesis-theta-0.component.html',
   styleUrls: ['./hypothesis-theta-0.component.scss']
 })
-export class HypothesisTheta0Component implements OnInit, DoCheck, OnDestroy {
+export class HypothesisTheta0Component implements OnInit, OnDestroy {
 
   private _isuFactors: ISUFactors;
   private _theta0Form: FormGroup;
@@ -47,12 +47,9 @@ export class HypothesisTheta0Component implements OnInit, DoCheck, OnDestroy {
     this.buildForm();
   }
 
-  ngDoCheck() {
+  ngOnDestroy() {
     this.updateTheta0();
     this.study_service.updateIsuFactors(this.isuFactors);
-  }
-
-  ngOnDestroy() {
     this._showHelpTextSubscription.unsubscribe();
   }
 
