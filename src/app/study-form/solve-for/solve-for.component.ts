@@ -147,6 +147,7 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.setNextEnabled('VALID');
     this.targetEventSubscription.unsubscribe();
     this.solveForSubscription.unsubscribe();
     this.powerSubscription.unsubscribe();
