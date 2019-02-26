@@ -5,8 +5,8 @@
 </div>
 <form [formGroup]="stDevForm">
   <div *ngFor="let outcome of isuFactors.outcomes" class="row">
-    <div class="col-1 align-self-center" style="overflow: scroll" >
-      {{outcome.name}}:
+    <div class="col-3 align-self-center" style="overflow-x: scroll; white-space: nowrap">
+      <label>{{outcome.name}}:</label>
     </div>
     <div class="col col-md-auto align-self-center">
       <input type="number" class="form-control" id="{{outcome.name}}" formControlName="{{outcome.name}}" value="{{outcome.standardDeviation}}" required>
