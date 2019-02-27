@@ -27,7 +27,7 @@
   </div>
   <hr>
   <div class="row">
-    <div class="col-2 justify-content-start" (mouseenter) ="mouseEnterBack('div a')"  (mouseleave) ="mouseLeaveBack('div A')">
+    <div class="col-2 justify-content-start" (mouseenter)="mouseEnterBack('div a')"  (mouseleave)="mouseLeaveBack('div A')" style="padding-left: 0px;">
       <i class="material-icons"
          *ngIf="hasBack"
          (click)="back()"
@@ -40,7 +40,7 @@
     <div [@routeSlide]="navDirection$ | async" class="col-8">
       <router-outlet #outlet="outlet"></router-outlet>
     </div>
-    <div class="col-2 justify-content-end" (mouseenter) ="mouseEnterNext('div a')"  (mouseleave) ="mouseLeaveNext('div A')">
+    <div class="col-2 justify-content-end" (mouseenter)="mouseEnterNext('div a')"  (mouseleave)="mouseLeaveNext('div A')" style="padding-left: 0px;">
       <i class="material-icons"
          *ngIf="hasNext"
          (click)="next()"
