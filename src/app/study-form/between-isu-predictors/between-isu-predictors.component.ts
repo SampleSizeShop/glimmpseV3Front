@@ -81,6 +81,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
   }
 
   ngOnDestroy() {
+    this.navigation_service.updateInternalFormSource(false);
     this.betweenIsuPredictorsSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
   }
@@ -238,8 +239,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
 
   setStage(next: number) {
     if (next === this.stages.INFO) {
+      this.navigation_service.updateInternalFormSource(false);
       this.navigation_service.updateValid(true);
     } else {
+      this.navigation_service.updateInternalFormSource(true);
       this.navigation_service.updateValid(false);
     }
     this.stage = next;

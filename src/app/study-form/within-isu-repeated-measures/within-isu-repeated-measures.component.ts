@@ -192,6 +192,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.navigation_service.updateInternalFormSource(false);
     this.study_service.updateWithinIsuRepeatedMeasures(this.repeatedMeasures);
     this._repeatedMeasuresSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
@@ -315,8 +316,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   setStage(stage: number) {
     this.navigation_service.updateIsClickInternalNext(false);
     if (stage === this._stages.INFO) {
+      this.navigation_service.updateInternalFormSource(false);
       this.navigation_service.updateValid(true);
     } else {
+      this.navigation_service.updateInternalFormSource(true);
       this.navigation_service.updateValid(false);
     }
     if (stage === this.stages.SPACING) {

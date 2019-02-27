@@ -63,6 +63,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _direction: string;
 
   private _validSubscription: Subscription;
+  private _isInternalSubscription: Subscription;
 
   private next$: Observable<number>;
   private prev$: Observable<number>;
@@ -74,6 +75,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   private _stageSource = new BehaviorSubject<number>(0);
   private _stage$ = this._stageSource.asObservable();
+
+  private _isInternal: boolean;
 
 
   afuConfig3 = {
@@ -97,6 +100,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     private ref: ChangeDetectorRef,
     private sanitizer: DomSanitizer
   ) {
+    this._isInternal = false;
     this.study = new StudyDesign();
     this.subscribeToStudyService();
     this.subscribeToNavigationService();
@@ -755,7 +759,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.nextValid = valid;
       }
     );
+    this._isInternalSubscription = this.navigation_service.internalForm$.subscribe( isInternal => {
+      this._isInternal = isInternal;
+    });
   };
+
+  get isInternal(): boolean {
+    return this._isInternal;
+  }
 
   unsubscribeFromNavigationService() {
     this.validSubscription.unsubscribe();

@@ -46,18 +46,25 @@
 </form>
 <div class="row">
   <form [formGroup]="correlationMatrixForm" class="matrix-input-brackets">
-    <div *ngFor="let r of sizeArray; let a=index" class="row">
-      <div *ngFor="let c of sizeArray; let b=index" class="col">
-        <div matTooltip="{{labels[a]}}, {{labels[b]}}"
-             [matTooltipPosition]="left">
-          <input type="number"
-                 class="form-control matrix-input-control"
-                 [style.background-color]="getStyle(r, c)"
-                 formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}"
-                 step="0.01" min={{min}} max="{{max}}">
-        </div>
+    <div class="col col-md-auto">
+      <table>
+        <thead></thead>
+        <tbody>
+        <tr *ngFor="let r of sizeArray; let a=index">
+          <td *ngFor="let c of sizeArray; let b=index">
+            <div matTooltip="{{labels[a]}}, {{labels[b]}}"
+                 [matTooltipPosition]="left">
+              <input type="number"
+                     class="form-control matrix-input-control"
+                     [style.background-color]="getStyle(r, c)"
+                     formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}"
+                     step="0.01" min={{min}} max="{{max}}">
+            </div>
 
-      </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
     <div *ngIf="getFormErrors()" class="form-group has-danger">
       <div class="form-control-feedback">Correlation matrix elements must have values between {{min}} and {{max}}.</div>
