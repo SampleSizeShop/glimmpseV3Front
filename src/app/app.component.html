@@ -6,7 +6,7 @@
     <br *ngIf="isLanding()">
     <hr *ngIf="isLanding()">
     <div *ngIf="isLanding()" class="row">
-      <div class="col-md-auto">
+      <div class="col col-md-auto">
         <h6>Start Your Study Design</h6>
         <p class="w-75">
           Welcome to GLIMMPSE. The GLIMMPSE software calculates power and sample size for study designs with normally
@@ -17,12 +17,12 @@
       </div>
     </div>
     <div *ngIf="isLanding()" class="row">
-      <div class="col-md-auto" style="padding-right: 10px">
+      <div class="col col-md-auto" style="padding-right: 10px">
         <label class="btn btn-secondary">
           New  Study<input class="" type="radio" (click)="newStudy()" style="display: none">
         </label>
       </div>
-      <div class="col-md-auto">
+      <div class="col col-md-auto">
         <label class="btn btn-secondary">
           Upload<input class="" type="file" (change)="onFileChange($event)" style="display: none">
         </label>
