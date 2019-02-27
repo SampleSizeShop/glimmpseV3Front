@@ -157,12 +157,6 @@
         <table class="table">
           <thead>
           <th class="col col-md-auto">
-            Remove
-          </th>
-          <th class="col  col-md-auto">
-            Edit
-          </th>
-          <th class="col col-md-auto">
             Name
           </th>
           <th class="col col-md-auto">
@@ -174,26 +168,32 @@
           <th class="col col-md-auto">
             Groups
           </th>
+          <th class="col col-md-auto">
+            Remove
+          </th>
+          <th class="col  col-md-auto">
+            Edit
+          </th>
           </thead>
           <tbody>
           <tr *ngFor="let predictor of betweenIsuPredictors; let i = index" [class]="rowStyle(i)">
-            <td class="col col-md-auto">
-              <i class="material-icons" (click)="removePredictor(predictor)" style="margin-bottom: 5px" id="removepredictor">delete_forever</i>
-            </td>
-            <td class="col  col-md-auto">
-              <i class="material-icons" (click)="editPredictor(predictor)" style="margin-bottom: 5px" id="editpredictor">create</i>
-            </td>
-            <td class="col col-md-auto">
+            <td class="col col-md-auto" data-label="Name">
               {{predictor.name}}
             </td>
-            <td class="col col-md-auto">
+            <td class="col col-md-auto" data-label="Type">
               {{predictor.type}}
             </td>
-            <td class="col col-md-auto">
+            <td class="col col-md-auto" data-label="Units">
               {{predictor.units}}
             </td>
-            <td class="col col-md-auto">
+            <td class="col col-md-auto" data-label="Groups">
               {{predictor.valueNames | json}}
+            </td>
+            <td class="col col-md-auto" data-label="Remove">
+              <i class="material-icons" (click)="removePredictor(predictor)" style="margin-bottom: 5px" id="removepredictor">delete_forever</i>
+            </td>
+            <td class="col  col-md-auto" data-label="Edit">
+              <i class="material-icons" (click)="editPredictor(predictor)" style="margin-bottom: 5px" id="editpredictor">create</i>
             </td>
           </tr>
         </tbody>
