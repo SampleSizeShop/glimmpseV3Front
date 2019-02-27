@@ -1,255 +1,249 @@
-<div class="container-fluid">
-  <div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)">
+<div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)">
 
-    <div *ngIf="isInfo()">
+  <div *ngIf="isInfo()">
 
+    <div class="row">
+      <div class="col">
+        <p>
+          GLIMMPSE allows you to define within-participant factors, specified as repeated measures.
+          Repeated measures are present when a response variable is measured on each independent sampling
+          unit on two or more occasions or under two or more conditions.
+          Different values of a repeated measure distinguish different occasions or conditions.
+          Values of a repeated measure define the levels of a factor within the independent sampling unit.
+        </p>
+        <p>
+          If the study includes repeated measures, click "Add Repeated Measure" and follow the prompts.
+        </p>
+        <p>
+          You may specify up to {{max}} repeated measures.
+        </p>
+        <p *ngIf="hasRepeatedMeasures() &&  nextRepeatedMeasure()">
+          Would you like to add another set of repeated measurements?
+        </p>
+      </div>
+    </div>
+
+    <div *ngIf="!hasRepeatedMeasures()" id="firstrepmeasure">
       <div class="row">
         <div class="col">
-          <p>
-            GLIMMPSE allows you to define within-participant factors, specified as repeated measures.
-            Repeated measures are present when a response variable is measured on each independent sampling
-            unit on two or more occasions or under two or more conditions.
-            Different values of a repeated measure distinguish different occasions or conditions.
-            Values of a repeated measure define the levels of a factor within the independent sampling unit.
-          </p>
-          <p>
-            If the study includes repeated measures, click "Add Repeated Measure" and follow the prompts.
-          </p>
-          <p>
-            You may specify up to {{max}} repeated measures.
-          </p>
-          <p *ngIf="hasRepeatedMeasures() &&  nextRepeatedMeasure()">
-            Would you like to add another set of repeated measurements?
-          </p>
-        </div>
-      </div>
-
-      <div *ngIf="!hasRepeatedMeasures()" id="firstrepmeasure">
-        <div class="row">
-          <div class="col">
-            <div class="btn-group" data-toggle="buttons">
-              <label id="includerptmeasuresbtn" class="btn btn-primary">
-                <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
-              </label>
-            </div>
+          <div class="btn-group" data-toggle="buttons">
+            <label id="includerptmeasuresbtn" class="btn btn-primary">
+              <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
+            </label>
           </div>
         </div>
-      </div>
-
-      <div *ngIf="nextRepeatedMeasure()" id="nextrepmeasure">
-        <div class="row">
-          <div class="col">
-            <div class="btn-group" data-toggle="buttons">
-              <label id="includenextrptmeasuresbtn" class="btn btn-primary">
-                <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure()" id="fullrepmeasure">
-        <p>You have specified the maximum number of repeated measure dimensions.</p>
       </div>
     </div>
 
-    <div *ngIf="isDimensions()">
-      <div id="dimensionsheader">
-        <p>What is the name of the dimension you will be measuring and in what units (if applicable) is it measured?</p>
-        <p>The text entered in the "Dimension" text box indicates the dimension over which measures
-          were taken (e.g. time, days, locations, etc.). The choice of "Type" indicates whether the
-          repeated measures are numeric (e.g. time), ordinal (e.g. 1st, 2nd, 3rd), or categorical
-          (e.g. arm, leg, hand). </p>
-      </div>
-      <form [formGroup]="dimensionForm">
-        <div class="form-group">
-          <label for="dimension">Dimension:</label>
-          <input class="form-control" formControlName="dimension" id="dimension" placeholder="Enter the dimension for this repeated measure (time, scenarios, etc.)">
-          <div *ngIf="formErrors.dimensionunits" class="form-group has-danger">
-            <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensionunits}}</div>
+    <div *ngIf="nextRepeatedMeasure()" id="nextrepmeasure">
+      <div class="row">
+        <div class="col">
+          <div class="btn-group" data-toggle="buttons">
+            <label id="includenextrptmeasuresbtn" class="btn btn-primary">
+              <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
+            </label>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div *ngIf="hasRepeatedMeasures() && !nextRepeatedMeasure()" id="fullrepmeasure">
+      <p>You have specified the maximum number of repeated measure dimensions.</p>
+    </div>
+  </div>
+
+  <div *ngIf="isDimensions()">
+    <div id="dimensionsheader">
+      <p>What is the name of the dimension you will be measuring and in what units (if applicable) is it measured?</p>
+      <p>The text entered in the "Dimension" text box indicates the dimension over which measures
+        were taken (e.g. time, days, locations, etc.). The choice of "Type" indicates whether the
+        repeated measures are numeric (e.g. time), ordinal (e.g. 1st, 2nd, 3rd), or categorical
+        (e.g. arm, leg, hand). </p>
+    </div>
+    <form [formGroup]="dimensionForm">
+      <div class="form-group">
+        <label for="dimension">Dimension:</label>
+        <input class="form-control" formControlName="dimension" id="dimension" placeholder="Enter the dimension for this repeated measure (time, scenarios, etc.)">
+        <div *ngIf="formErrors.dimensionunits" class="form-group has-danger">
+          <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensionunits}}</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="units">Unit (if applicable):</label>
+        <input class="form-control" formControlName="units" id="units">
+      </div>
+    </form>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="dimcancelbtn">Cancel</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="dimbackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="setStage(stages.TYPE)"   id="dimnextbtn" [ngClass]="{disabled : !this.dimensionForm.valid }">Next: Type</button>
+  </div>
+
+  <div *ngIf="isType()">
+    <div id="typeheader">
+      <h6>What type of data is {{dimensionForm.value.dimension}}?</h6>
+      <form [formGroup]="typeForm" id="type">
         <div class="form-group">
-          <label for="units">Unit (if applicable):</label>
-          <input class="form-control" formControlName="units" id="units">
+          <div class="btn-group" data-toggle="buttons" *ngFor="let t of types; let i = index">
+            <label aria-pressed="true" class="btn btn-secondary" [class.active]="typeSelected(t)" id="{{i}}">
+              <input type="radio" id="nominal" (click)="selectType(t)" > {{t}}
+            </label>
+          </div>
         </div>
       </form>
-      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="dimcancelbtn">Cancel</button>
-      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="dimbackbtn">Back</button>
-      <button class="btn btn-primary btn-sm" (click)="setStage(stages.TYPE)"   id="dimnextbtn" [ngClass]="{disabled : !this.dimensionForm.valid }">Next: Type</button>
     </div>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="typecancelbtn">Cancel</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.DIMENSIONS)" id="typebackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="setStage(stages.REPEATS)" id="typenextbtn" [disabled]="!this.typeForm.valid">Next: No. Measurements</button>
+  </div>
 
-    <div *ngIf="isType()">
-      <div id="typeheader">
-        <h6>What type of data is {{dimensionForm.value.dimension}}?</h6>
-        <form [formGroup]="typeForm" id="type">
-          <div class="form-group">
-            <div class="btn-group" data-toggle="buttons" *ngFor="let t of types; let i = index">
-              <label aria-pressed="true" class="btn btn-secondary" [class.active]="typeSelected(t)" id="{{i}}">
-                <input type="radio" id="nominal" (click)="selectType(t)" > {{t}}
-              </label>
-            </div>
-          </div>
-        </form>
-      </div>
-      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="typecancelbtn">Cancel</button>
-      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.DIMENSIONS)" id="typebackbtn">Back</button>
-      <button class="btn btn-primary btn-sm" (click)="setStage(stages.REPEATS)" id="typenextbtn" [disabled]="!this.typeForm.valid">Next: No. Measurements</button>
-    </div>
-
-    <div *ngIf="isRepeats()">
-      <div id="repeatesheader">
-        <div class="row">
-          <h6>Number of measurements of {{dimensionForm.value.dimension}}?</h6>
-        </div>
-        <div class="row">
-          <div class="col-md-auto">
-            <form [formGroup]="repeatsForm">
-              <div class="form-group" id="repeatsinput">
-                <input type="number"
-                       class="form-control"
-                       id="repeats"
-                       aria-describedby="repeatshelp"
-                       placeholder="Choose a number from 2 -> 10"
-                       formControlName="repeats"
-                       step="1"
-                       required>
-                <div *ngIf="formErrors.repeatsform"
-                     class="form-group has-danger">
-                  <div class="form-control-feedback">{{formErrors.repeatsform}}</div>
-                </div>
-                <small id="repeatshelp" class="form-text text-muted">You must have between 2 and 10 repeats (inclusive)</small>
-              </div>
-            </form>
-          </div>
-        </div>
-
+  <div *ngIf="isRepeats()">
+    <div id="repeatesheader">
+      <div class="row">
+        <h6>Number of measurements of {{dimensionForm.value.dimension}}?</h6>
       </div>
       <div class="row">
-        <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="repcancelbtn">Cancel</button>
-        <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)" id="repbackbtn">Back</button>
-        <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)"   id="repnextbtn" [ngClass]="{disabled : !this.repeatsForm.valid }">Next: Spacing</button>
+        <div class="col-md-auto">
+          <form [formGroup]="repeatsForm">
+            <div class="form-group" id="repeatsinput">
+              <input type="number"
+                     class="form-control"
+                     id="repeats"
+                     aria-describedby="repeatshelp"
+                     placeholder="Choose a number from 2 -> 10"
+                     formControlName="repeats"
+                     step="1"
+                     required>
+              <div *ngIf="formErrors.repeatsform"
+                   class="form-group has-danger">
+                <div class="form-control-feedback">{{formErrors.repeatsform}}</div>
+              </div>
+              <small id="repeatshelp" class="form-text text-muted">You must have between 2 and 10 repeats (inclusive)</small>
+            </div>
+          </form>
+        </div>
       </div>
+
     </div>
+    <div class="row">
+      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="repcancelbtn">Cancel</button>
+      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.TYPE)" id="repbackbtn">Back</button>
+      <button class="btn btn-primary btn-sm" (click)="setStage(stages.SPACING)"   id="repnextbtn" [ngClass]="{disabled : !this.repeatsForm.valid }">Next: Spacing</button>
+    </div>
+  </div>
 
-    <div *ngIf="isSpacing()">
-      <div id="spacingheader">
-        <h6>Spacing</h6>
-        <p>If the repeated measures are numeric, the spacing values must be unique nonnegative integers, in ascending order.</p>
-        <form [formGroup]="spacingForm">
-          <div class="container-fluid">
-            <div class="row">
+  <div *ngIf="isSpacing()">
+    <div id="spacingheader">
+      <h6>Spacing</h6>
+      <p>If the repeated measures are numeric, the spacing values must be unique nonnegative integers, in ascending order.</p>
+      <form [formGroup]="spacingForm">
+        <div class="container-fluid">
+          <div class="row">
 
-              <div class="col" *ngIf="!isAutoFill()">
-                <div class="form-group" id="spacinginput" *ngFor="let space of spacingControlNames">
-                  <div class="container-fluid">
-                    <div class="row">
-                      <div class="col">
-                        Measurement #{{space + 1}} at
+            <div class="col" *ngIf="!isAutoFill()">
+              <div class="form-group" id="spacinginput" *ngFor="let space of spacingControlNames">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col">
+                      Measurement #{{space + 1}} at
+                    </div>
+                    <div class="col">
+                      <input type="string" class="form-control" id="spacing-{{space}}" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
+                      <div *ngIf="formErrors.valueNames" class="form-group has-danger">
+                        <div class="form-control-feedback">{{formErrors.valueNames}}</div>
                       </div>
-                      <div class="col">
-                        <input type="string" class="form-control" id="spacing-{{space}}" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
-                        <div *ngIf="formErrors.valueNames" class="form-group has-danger">
-                          <div class="form-control-feedback">{{formErrors.valueNames}}</div>
-                        </div>
-                      </div>
-                      <div class="col">
-                        {{dimensionForm.value.units}}
-                      </div>
+                    </div>
+                    <div class="col">
+                      {{dimensionForm.value.units}}
                     </div>
                   </div>
                 </div>
-                <div *ngIf="formErrors.space" class="form-group has-danger">
-                  <div class="form-control-feedback">{{formErrors.space}}</div>
-                </div>
               </div>
-
-              <div class="col" *ngIf="isAutoFill()">
-                <div class="row">
-                  <h6>Auto fill with measurements at regular intervals?</h6>
-                </div>
-                <div class="row">
-                  <label for="first">First measurement:</label>
-                  <input type="number" id="first" class="form-control" formControlName="first">
-                </div>
-                <div class="row">
-                  <label for="interval">Interval:</label>
-                  <input type="number" id="interval" class="form-control" formControlName="interval">
-                </div>
-                <div class="row">
-                  <button class="btn btn-primary btn-sm" (click)="autoFill()" style="margin-top: 10px">Fill</button>
-                </div>
-                <br>
+              <div *ngIf="formErrors.space" class="form-group has-danger">
+                <div class="form-control-feedback">{{formErrors.space}}</div>
               </div>
-
             </div>
+
+            <div class="col" *ngIf="isAutoFill()">
+              <div class="row">
+                <h6>Auto fill with measurements at regular intervals?</h6>
+              </div>
+              <div class="row">
+                <label for="first">First measurement:</label>
+                <input type="number" id="first" class="form-control" formControlName="first">
+              </div>
+              <div class="row">
+                <label for="interval">Interval:</label>
+                <input type="number" id="interval" class="form-control" formControlName="interval">
+              </div>
+              <div class="row">
+                <button class="btn btn-primary btn-sm" (click)="autoFill()" style="margin-top: 10px">Fill</button>
+              </div>
+              <br>
+            </div>
+
           </div>
-        </form>
-      </div>
-      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="spacecancelbtn">Cancel</button>
-      <button class="btn btn-sm btn-secondary" *ngIf="!isAutoFill()" (click)="toggleAutoFill()">auto fill values</button>
-      <button class="btn btn-sm btn-secondary" *ngIf="isAutoFill()" (click)="toggleAutoFill()">Set values myself</button>
-      <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)" id="spacebackbtn">Back</button>
-      <button class="btn btn-primary btn-sm" (click)="addRepeatedMeasure()" id="spacenextbtn" [disabled]="!this.spacingForm.valid">Finish</button>
+        </div>
+      </form>
     </div>
-  </div>
-
-
-  <br>
-  <br>
-
-  <div class="row" *ngIf="isInfo()">
-    <div class="col">
-      <table class="table">
-        <thead>
-        <th class="col col-md-auto">
-          Repeated Measure Dimension
-        </th>
-        <th class="col col-md-auto">
-          Type
-        </th>
-        <th class="col col-md-auto">
-          Units
-        </th>
-        <th class="col col-md-auto">
-          Groups
-        </th>
-        <th class="col  col-md-auto">
-          Edit
-        </th>
-        <th class="col col-md-auto">
-          Remove
-        </th>
-        </thead>
-        <tbody>
-        <tr *ngIf="!hasRepeatedMeasures()">
-          <td>Would you like to add a repeated measure?</td>
-        </tr>
-        <tr *ngFor="let repeatedMeasure of repeatedMeasures; let i = index" [class]="rowStyle(i)">
-          <td class="col col-md-auto">
-            {{repeatedMeasure.name}}
-          </td>
-          <td class="col col-md-auto">
-            {{repeatedMeasure.type}}
-          </td>
-          <td class="col col-md-auto">
-            {{repeatedMeasure.units}}
-          </td>
-          <td class="col col-md-auto">
-            {{repeatedMeasure.valueNames | json}}
-          </td>
-          <td class="col  col-md-auto">
-            <i class="material-icons" (click)="editRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="editrepeatedMeasure">create</i>
-          </td>
-          <td class="col col-md-auto">
-            <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">delete_forever</i>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </div>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="spacecancelbtn">Cancel</button>
+    <button class="btn btn-sm btn-secondary" *ngIf="!isAutoFill()" (click)="toggleAutoFill()">auto fill values</button>
+    <button class="btn btn-sm btn-secondary" *ngIf="isAutoFill()" (click)="toggleAutoFill()">Set values myself</button>
+    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)" id="spacebackbtn">Back</button>
+    <button class="btn btn-primary btn-sm" (click)="addRepeatedMeasure()" id="spacenextbtn" [disabled]="!this.spacingForm.valid">Finish</button>
   </div>
 </div>
+
+
+<div *ngIf="hasRepeatedMeasures()">
+  <br>
+  <br>
+        <table class="table">
+          <thead>
+
+          <th class="col col-md-auto">
+            Repeated Measure Dimension
+          </th>
+          <th class="col col-md-auto">
+            Type
+          </th>
+          <th class="col col-md-auto">
+            Units
+          </th>
+          <th class="col col-md-auto">
+            Groups
+          </th>
+          <th class="col  col-md-auto">
+            Edit
+          </th>
+          <th class="col col-md-auto">
+            Remove
+          </th>
+          </thead>
+          <tbody>
+          <tr *ngFor="let repeatedMeasure of repeatedMeasures; let i = index" [class]="rowStyle(i)">
+            <td class="col col-md-auto" data-label="Dimension">
+              {{repeatedMeasure.name}}
+            </td>
+            <td class="col col-md-auto" data-label="Type">
+              {{repeatedMeasure.type}}
+            </td>
+            <td class="col col-md-auto" data-label="Units">
+              {{repeatedMeasure.units}}
+            </td>
+            <td class="col col-md-auto" data-label="Groups">
+              {{repeatedMeasure.valueNames | json}}
+            </td>
+            <td class="col  col-md-auto" data-label="Edit">
+              <i class="material-icons" (click)="editRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="editrepeatedMeasure">create</i>
+            </td>
+            <td class="col col-md-auto" data-label="Remove">
+              <i class="material-icons" (click)="removeRepeatedMeasure(repeatedMeasure)" style="margin-bottom: 5px" id="removerepeatedMeasure">delete_forever</i>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+</div>
+
 
 <ng-template #canDeactivate>
   <div class="modal-content">

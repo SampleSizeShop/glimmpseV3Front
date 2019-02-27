@@ -14,6 +14,11 @@
   cursor: pointer;
 }
 
+
+.material-icons:hover {
+  color: #2196F3;
+}
+
 .ng-invalid:not(form)  {
   border-bottom: 2px solid #9a0200; /* red */
   color: #9a0200;
@@ -25,12 +30,22 @@
   box-shadow: 0 8px 6px -6px #999;
 }
 
-body{
-  min-width:320px;
+@media (max-width: 575px) {
+  body{
+    min-width:360px;
+    position: fixed;
+  }
+
+  .row{
+    margin-left: 0px;
+    margin-right: 0px;
+  }
 }
 
-.material-icons:hover {
-  color: #2196F3;
+@media (min-width: 576px) {
+  body {
+    min-width:360px;
+  }
 }
 
 .matrix-input-brackets {
