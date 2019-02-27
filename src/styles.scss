@@ -30,7 +30,13 @@
   box-shadow: 0 8px 6px -6px #999;
 }
 
-@media (max-width: 575px) {
+body {
+  min-width:360px;
+}
+
+@media
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
   body{
     min-width:360px;
     position: fixed;
@@ -39,12 +45,6 @@
   .row{
     margin-left: 0px;
     margin-right: 0px;
-  }
-}
-
-@media (min-width: 576px) {
-  body {
-    min-width:360px;
   }
 }
 
