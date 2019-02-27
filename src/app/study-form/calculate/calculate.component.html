@@ -7,34 +7,32 @@
   <a id="downloadCsv" [attr.href]="downloadData" download="result.csv" hidden>Download result</a>
   <br>
   <br>
-  <div class="table-responsive">
-    <table class="table">
-      <tr>
-        <th>Power</th>
-        <th>Total Sample Size</th>
-        <th *ngIf="isSamplesize()">Target Power</th>
-        <th>Means Scale Factor</th>
-        <th>Variability Scale Factor</th>
-        <th>Test</th>
-        <th>Type I Error Rate</th>
-      </tr>
-      <tr *ngFor="let result of resultForDisplay; index as i"
-          (click)="showDetail(getOutput(result), i, result.model.total_n)"
-          [class] = "rowStyle(i)"
-          [attr.id]="'result_display_row_'+i">
-        <td *ngIf="!error(result)" id="{{'power_' + i}}">{{result.power}}</td>
-        <td *ngIf="error(result)" id="{{'power_' + i}}">{{result.power}} {{result.model.errors}}</td>
-        <td *ngIf="isSamplesize() && !error(result)">{{result.samplesize}}</td>
-        <td *ngIf="isSamplesize() && error(result)">{{result.model.errors}}</td>
-        <td *ngIf="isPower()">{{result.model.total_n}}</td>
-        <td *ngIf="isSamplesize()" id="{{'targetpower_' + i}}">{{result.model.target_power}}</td>
-        <td id="{{'means_scale_factor_' + i}}">{{ result.model.means_scale_factor }}</td>
-        <td id="{{'variance_scale_factor_' + i}}">{{ result.model.variance_scale_factor }}</td>
-        <td id="{{'test_' + i}}">{{ result.model.test }}</td>
-        <td id="{{'alpha_' + i}}">{{ result.model.alpha }}</td>
-      </tr>
-    </table>
-  </div>
+  <table class="table">
+    <tr>
+      <th>Power</th>
+      <th>Total Sample Size</th>
+      <th *ngIf="isSamplesize()">Target Power</th>
+      <th>Means Scale Factor</th>
+      <th>Variability Scale Factor</th>
+      <th>Test</th>
+      <th>Type I Error Rate</th>
+    </tr>
+    <tr *ngFor="let result of resultForDisplay; index as i"
+        (click)="showDetail(getOutput(result), i, result.model.total_n)"
+        [class] = "rowStyle(i)"
+        [attr.id]="'result_display_row_'+i">
+      <td *ngIf="!error(result)" id="{{'power_' + i}}" data-label="Power">{{result.power}}</td>
+      <td *ngIf="error(result)" id="{{'power_' + i}}" data-label="Power">{{result.power}} {{result.model.errors}}</td>
+      <td *ngIf="isSamplesize() && !error(result)" data-label="Total Sample Size">{{result.samplesize}}</td>
+      <td *ngIf="isSamplesize() && error(result)" data-label="Errors">{{result.model.errors}}</td>
+      <td *ngIf="isPower()" data-label="Total Sample Size">{{result.model.total_n}}</td>
+      <td *ngIf="isSamplesize()" id="{{'targetpower_' + i}}" data-label="Target Power">{{result.model.target_power}}</td>
+      <td id="{{'means_scale_factor_' + i}}" data-label="Means Scale Factor">{{ result.model.means_scale_factor }}</td>
+      <td id="{{'variance_scale_factor_' + i}}" data-label="Variability Scale Factor">{{ result.model.variance_scale_factor }}</td>
+      <td id="{{'test_' + i}}" data-label="Test">{{ result.model.test }}</td>
+      <td id="{{'alpha_' + i}}" data-label="Alpha">{{ result.model.alpha }}</td>
+    </tr>
+  </table>
   <div *ngIf="isShowDetail">
     <h4>Details</h4>
     <div class="form-group">
@@ -75,7 +73,7 @@
           </ng-container>
           <ng-template #noPredictorContent>
             <tr>
-              <td>
+              <td data-label="Total Sample Size">
                 Total Sample Size: {{ detailSampleSize }}
               </td>
             </tr>
