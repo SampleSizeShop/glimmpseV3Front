@@ -27,9 +27,12 @@
   </div>
   <hr>
   <div class="row">
-    <div class="col-2 justify-content-start" (mouseenter)="mouseEnterBack('div a')"  (mouseleave)="mouseLeaveBack('div A')" style="padding-left: 0px;">
+    <div class="col-2 justify-content-start"
+         (mouseenter)="mouseEnterBack('div a')"
+         (mouseleave)="mouseLeaveBack('div A')"
+         style="padding-left: 0px;">
       <i class="material-icons"
-         *ngIf="hasBack"
+         *ngIf="!isInternal && hasBack"
          (click)="back()"
          (keyup.ArrowLeft)="back()"
          style="  font-size: 92px;
@@ -40,9 +43,12 @@
     <div [@routeSlide]="navDirection$ | async" class="col-8">
       <router-outlet #outlet="outlet"></router-outlet>
     </div>
-    <div class="col-2 justify-content-end" (mouseenter)="mouseEnterNext('div a')"  (mouseleave)="mouseLeaveNext('div A')" style="padding-left: 0px;">
+    <div class="col-2 justify-content-end"
+         (mouseenter)="mouseEnterNext('div a')"
+         (mouseleave)="mouseLeaveNext('div A')"
+         style="padding-left: 0px;">
       <i class="material-icons"
-         *ngIf="hasNext"
+         *ngIf="!isInternal && hasNext"
          (click)="next()"
          (keyup.ArrowRight)="next()"
          style="font-size:
