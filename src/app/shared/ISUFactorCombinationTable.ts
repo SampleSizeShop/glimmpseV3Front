@@ -26,6 +26,14 @@ export class ISUFactorCombinationTable {
     }
   }
 
+  static parseTableId(json: ISUFactorCombinationTableJSON) {
+    if (!isNullOrUndefined(json._tableId)) {
+      return ISUFactorCombination.fromJSON(json._tableId);
+      } else {
+      return null;
+    }
+  }
+
   // fromJSON is used to convert an serialized version
   // of the ISUFactors to an instance of the class
   static fromJSON(json: ISUFactorCombinationTableJSON|string): ISUFactorCombinationTable {
@@ -136,12 +144,13 @@ export class ISUFactorCombinationTable {
     let name = '';
     if (!isNullOrUndefined(this.tableId)) {
       name = this.tableId.name;
-    }
-    if (name.charAt(name.length - 1) === ',') {
-      name = name.substring(0, name.length - 1);
-    }
-    if (name.charAt(name.length - 1) === ':') {
-      name = name.substring(0, name.length - 1);
+
+      if (name.charAt(name.length - 1) === ',') {
+        name = name.substring(0, name.length - 1);
+      }
+      if (name.charAt(name.length - 1) === ':') {
+        name = name.substring(0, name.length - 1);
+      }
     }
     return name;
   }

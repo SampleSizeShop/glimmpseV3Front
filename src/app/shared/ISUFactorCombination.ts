@@ -36,10 +36,12 @@ export class ISUFactorCombination {
       // create an instance of the StudyDesign class
       const isuFactors = Object.create(ISUFactorCombination.prototype);
       // copy all the fields from the json object
-      return Object.assign(isuFactors, json, {
+      const ret =  Object.assign(isuFactors, json, {
         // convert fields that need converting
         id: this.parseId(json),
+        value: json.value
       });
+      return ret;
     }
   }
 

@@ -21,10 +21,12 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
       // create an instance of the RelativeGroupSizeTable class
       const isuFactors = Object.create(MarginalMeansTable.prototype);
       // copy all the fields from the json object
-      return Object.assign(isuFactors, json, {
+      const ret = Object.assign(isuFactors, json, {
         // convert fields that need converting
-        table: this.parseTable(json),
+        _table: super.parseTable(json),
+        _tableId: super.parseTableId(json)
       });
+      return ret;
     }
   }
 
@@ -109,7 +111,7 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     } else {
       label = row + ', ' + col;
     }
-    return label
+    return label;
   }
 
   compareSizeAndDimensions(other: MarginalMeansTable) {

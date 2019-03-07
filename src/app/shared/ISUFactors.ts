@@ -105,7 +105,7 @@ export class ISUFactors {
       // create an instance of the StudyDesign class
       const isuFactors = Object.create(ISUFactors.prototype);
       // copy all the fields from the json object
-      return Object.assign(isuFactors, json, {
+      const ret =  Object.assign(isuFactors, json, {
         // convert fields that need converting
         variables: ISUFactors.parseISUFactors(json),
         betweenIsuRelativeGroupSizes: this.parseRelativeGroupSizeTables(json.betweenIsuRelativeGroupSizes),
@@ -114,6 +114,8 @@ export class ISUFactors {
         cMatrix: this.parsePartialMatrix(json.cMatrix),
         uMatrix: this.parsePartialMatrix(json.uMatrix),
       });
+      console.log(ret);
+      return ret;
     }
   }
 
