@@ -23,7 +23,7 @@ interface StudyDesignJSON {
   _typeOneErrorRate: Array<number>;
   _isuFactors: ISUFactors;
   _gaussianCovariate: GaussianCovariate;
-  _quantiles: Array<number>;
+  _quantiles: Set<number>;
   _scaleFactor: number[];
   _varianceScaleFactors: number[];
   _powerCurve: PowerCurve;
@@ -38,6 +38,7 @@ export class StudyDesign {
   private _ciwidth: number;
   private _selectedTests: string[];
   private _typeOneErrorRate: Array<number>;
+  private _quantiles: Set<number>;
   private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
   private _scaleFactor: number[];
@@ -77,9 +78,9 @@ export class StudyDesign {
               ciwidth?: number,
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
+              quantiles?: Set<number>,
               isuFactors?: ISUFactors,
               gaussianCovariates?: GaussianCovariate,
-              quantiles?: Set<number>,
               hypothesisEffect?: HypothesisEffect,
               scaleFactor?: number,
               varianceScaleFactors?: number[],
@@ -399,5 +400,13 @@ export class StudyDesign {
 
   set define_full_beta(value: boolean) {
     this._define_full_beta = value;
+  }
+
+  get quantiles(): Set<number> {
+    return this._quantiles;
+  }
+
+  set quantiles(value: Set<number>) {
+    this._quantiles = value;
   }
 }

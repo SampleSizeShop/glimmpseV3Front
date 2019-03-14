@@ -44,6 +44,9 @@ export const constants = {
     'smallestGroupSize': 'Value needs to be filled in.',
     'required': 'You must specify at least one value for smallest group size.'
   },
+  QUANTILE_ERRORS: {
+    'first': 'You must specify at least one quantile.'
+  },
   BETWEEN_ISU_RELATIVE_GROUP_ERRORS: {
     'relativegroupsizes': ''
   },

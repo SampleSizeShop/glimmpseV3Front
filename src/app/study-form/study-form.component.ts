@@ -48,6 +48,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _ciwidthSubscription: Subscription;
   private _selectedTestsSubscription: Subscription;
   private _typeOneErrorRateSubscription: Subscription;
+  private _quantilesSubscription: Subscription;
   private _withinIsuOutcomeSubscription: Subscription;
   private _withinIsuRepeatedMeasuresSubscription: Subscription;
   private _withinIsuClusterSubscription: Subscription;
@@ -512,6 +513,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._typeOneErrorRateSubscription = value;
   }
 
+  get quantilesSubscription(): Subscription {
+    return this._quantilesSubscription;
+  }
+
+  set quantilesSubscription(value: Subscription) {
+    this._quantilesSubscription = value;
+  }
+
   get withinIsuOutcomeSubscription(): Subscription {
     return this._withinIsuOutcomeSubscription;
   }
@@ -644,6 +653,13 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       }
     );
 
+    this.quantilesSubscription = this.study_service.quantiles$.subscribe(
+      quantiles => {
+        console.log('update quantiles' + quantiles)
+        this.study.quantiles = quantiles;
+      }
+    );
+
     this.withinIsuOutcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
       outcomes => {
         this.study.isuFactors.updateOutcomes(outcomes);
@@ -739,6 +755,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.ciwidthSubscription.unsubscribe();
     this.selectedTestsSubscription.unsubscribe();
     this.typeOneErrorRateSubscription.unsubscribe();
+    this.quantilesSubscription.unsubscribe();
     this.withinIsuOutcomeSubscription.unsubscribe();
     this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
     this.withinIsuClusterSubscription.unsubscribe();

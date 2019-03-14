@@ -14,6 +14,7 @@ import {ISUFactors} from '../shared/ISUFactors';
 import {PowerCurve} from '../shared/PowerCurve';
 import {StudyDesign} from '../shared/study-design';
 import {Router} from '@angular/router';
+import enumerate = Reflect.enumerate;
 
 @Injectable()
 export class StudyService {
@@ -43,6 +44,9 @@ export class StudyService {
 
   private _typeOneErrorRateSource = new BehaviorSubject<Array<number>>([]);
   private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
+
+  private _quantilesSource = new BehaviorSubject<Set<number>>(new Set<number>());
+  private _quantiles$ = this._quantilesSource.asObservable();
 
   private _withinIsuOutcomesSource = new BehaviorSubject<Outcome[]>([]);
   private _withinIsuOutcomes$ = this._withinIsuOutcomesSource.asObservable();
@@ -120,6 +124,10 @@ export class StudyService {
 
   updateTypeOneErrorRate(rate: Array<number>) {
     this._typeOneErrorRateSource.next(rate);
+  }
+
+  updateQuantiles(quantiles: Set<number>) {
+    this._quantilesSource.next(quantiles);
   }
 
   updateWthinIsuOutcomes(outcomes: Outcome[]) {
@@ -411,6 +419,14 @@ export class StudyService {
     this._studyTitle$ = value;
   }
 
+  get quantiles$(): Observable<Set<number>> {
+    return this._quantiles$;
+  }
+
+  set quantiles$(value: Observable<Set<number>>) {
+    this._quantiles$ = value;
+  }
+
   updateAll(study: StudyDesign) {
     this.updateStudyTitle(study.name);
     this.selectTargetEvent(study.targetEvent);
@@ -419,6 +435,7 @@ export class StudyService {
     this.updateCiWidth(study.ciwidth);
     this.updateSelectedTests(study.selectedTests);
     this.updateTypeOneErrorRate(study.typeOneErrorRate);
+    this.updateQuantiles(study.quantiles);
     this.updateWthinIsuOutcomes(study.isuFactors.outcomes);
     this.updateWithinIsuRepeatedMeasures(study.isuFactors.repeatedMeasures);
     this.updateWithinIsuCluster(study.isuFactors.cluster);
