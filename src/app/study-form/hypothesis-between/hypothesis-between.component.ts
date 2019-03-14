@@ -126,6 +126,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.navigation_service.updateInternalFormSource(false);
     this._isuFactorsSubscription.unsubscribe();
     this._contrastMatrixSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
@@ -256,8 +257,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   setStage(next: number) {
     if (next === this._stages.INFO) {
+      this.navigation_service.updateInternalFormSource(false);
       this.navigation_service.updateValid(true);
     } else {
+      this.navigation_service.updateInternalFormSource(true);
       this.navigation_service.updateValid(false);
     }
     this._stage = next;

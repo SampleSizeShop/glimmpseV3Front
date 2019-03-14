@@ -5,3 +5,12 @@
 .error {
   color: red;
 };
+
+/* inserted here to make inupt handle responsive behaviour better. if improvements come along to handle this automatically, this should be rempoved. */
+@media (max-width: 760px) {
+
+  input[type=number]{
+    text-align: right;
+    max-width: 82px;
+  }
+}
