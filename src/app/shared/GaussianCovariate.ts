@@ -6,7 +6,7 @@ interface GaussianCovariateJSON {
  * Model object for gaussian covariate.
  */
 export class GaussianCovariate {
-  variance: number;
+  standard_deviation: number;
 
   // fromJSON is used to convert an serialized version
   // of the GaussianCovariate to an instance of the class

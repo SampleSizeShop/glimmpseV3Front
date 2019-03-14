@@ -23,6 +23,7 @@ interface StudyDesignJSON {
   _typeOneErrorRate: Array<number>;
   _isuFactors: ISUFactors;
   _gaussianCovariate: GaussianCovariate;
+  _quantiles: Array<number>;
   _scaleFactor: number[];
   _varianceScaleFactors: number[];
   _powerCurve: PowerCurve;
@@ -78,6 +79,7 @@ export class StudyDesign {
               typeOneErrorRate?: number,
               isuFactors?: ISUFactors,
               gaussianCovariates?: GaussianCovariate,
+              quantiles?: Set<number>,
               hypothesisEffect?: HypothesisEffect,
               scaleFactor?: number,
               varianceScaleFactors?: number[],

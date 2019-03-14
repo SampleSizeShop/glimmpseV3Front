@@ -41,6 +41,7 @@ import {StudyTitleComponent} from './study-title/study-title.component';
 import {OutcomeCorrelationsGuard} from '../shared/outcome-correlation-guard.service';
 import {BetweenIsuGroupsGuard} from '../shared/between-isu-groups-guard.service';
 import {BetweenIsuSmallestGroupsGuard} from '../shared/between-isu-smallest-group.service';
+import {ParametersGaussianPowerComponent} from "./parameters-gaussian-power/parameters-gaussian-power.component";
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -200,6 +201,12 @@ const studyFormRoutes: Routes = [
               path: names[constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION],
               component: ParametersGaussianCovariateCorrelationComponent,
               data: {animation: constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION},
+              canActivate: [ GaussianCovariateGuard ]
+            },
+            {
+              path: names[constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_POWER],
+              component: ParametersGaussianPowerComponent,
+              data: {animation: constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_POWER},
               canActivate: [ GaussianCovariateGuard ]
             },
             {
