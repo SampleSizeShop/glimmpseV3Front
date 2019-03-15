@@ -40,7 +40,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
     this._afterInit = false;
     this._quantilesSubscription = this._study_service.quantiles$.subscribe(
       quantiles => {
-        this._quantiles = quantiles;
+        this._quantiles = new Set(quantiles.values());
       }
     );
     if (isNullOrUndefined(this._quantiles)) {
@@ -115,7 +115,6 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
       if (control && !control.valid) {
         const messages = this._validationMessages[field];
         for (const key of Object.keys(control.errors) ) {
-          console.log(this._formErrors);
           this._formErrors[field] += messages[key] + ' ';
         }
       }

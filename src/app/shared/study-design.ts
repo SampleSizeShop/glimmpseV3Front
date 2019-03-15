@@ -38,7 +38,7 @@ export class StudyDesign {
   private _ciwidth: number;
   private _selectedTests: string[];
   private _typeOneErrorRate: Array<number>;
-  private _quantiles: Set<number>;
+  private _quantiles: Array<number>;
   private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
   private _scaleFactor: number[];
@@ -78,7 +78,7 @@ export class StudyDesign {
               ciwidth?: number,
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
-              quantiles?: Set<number>,
+              quantiles?: Array<number>,
               isuFactors?: ISUFactors,
               gaussianCovariates?: GaussianCovariate,
               hypothesisEffect?: HypothesisEffect,
@@ -402,11 +402,11 @@ export class StudyDesign {
     this._define_full_beta = value;
   }
 
-  get quantiles(): Set<number> {
+  get quantiles(): Array<number> {
     return this._quantiles;
   }
 
-  set quantiles(value: Set<number>) {
+  set quantiles(value: Array<number>) {
     this._quantiles = value;
   }
 }
