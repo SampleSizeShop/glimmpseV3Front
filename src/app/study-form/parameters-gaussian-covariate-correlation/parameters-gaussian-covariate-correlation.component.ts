@@ -60,7 +60,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
 
   _updateCovariateCorrelation() {
     this.isuFactors.outcomes.forEach( outcome => {
-      outcome.standardDeviation = this.gaussianCovariateCorrForm.get(outcome.name).value;
+      outcome.gaussian_corellation = this.gaussianCovariateCorrForm.get(outcome.name).value;
     });
     this.study_service.updateIsuFactors(this.isuFactors);
   }
@@ -69,7 +69,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
     const controlArray = {};
     this.isuFactors.outcomes.forEach(
       outcome => {
-        controlArray[outcome.name] = [outcome.standardDeviation];
+        controlArray[outcome.name] = [outcome.gaussian_corellation];
       }
     );
     return controlArray;
