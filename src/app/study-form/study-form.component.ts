@@ -655,7 +655,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
     this.quantilesSubscription = this.study_service.quantiles$.subscribe(
       quantiles => {
-        this.study.quantiles = Array.from(quantiles.values());
+        if (!isNullOrUndefined(quantiles)) {
+          this.study.quantiles = Array.from(quantiles.values());
+        }
       }
     );
 
@@ -878,7 +880,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     } else if (name === 'PARAMETERS_INTRA_CLASS_CORRELATION') {
       return 'Intra Class Correlation';
     } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE') {
-      return 'Gaussian Covariate Variance';
+      return 'Gaussian Covariate Standard Deviation';
     } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION') {
       return 'Gaussian Covariate Correlation';
     } else if (name === 'PARAMETERS_SCALE_FACTOR_VARIANCE') {

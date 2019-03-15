@@ -1,22 +1,58 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../../shared/constants';
+import {Subscription} from 'rxjs/Subscription';
+import {StudyService} from '../study.service';
+import {NavigationService} from '../../shared/navigation.service';
+import {NGXLogger} from 'ngx-logger';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {GaussianCovariate} from '../../shared/GaussianCovariate';
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-variance',
   templateUrl: './parameters-gaussian-covariate-variance.component.html',
   styleUrls: ['./parameters-gaussian-covariate-variance.component.scss']
 })
-export class ParametersGaussianCovariateVarianceComponent implements OnInit {
+export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnDestroy {
   private _gaussianCovariateVarForm: FormGroup;
+  private _gaussianCovariatesSubscription: Subscription;
   private _variance: number;
+  private _gaussianCovariate: GaussianCovariate;
   private _formErrors = constants.PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE_ERRORS;
   private _validationMessages = constants.PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE_VALIDATION_MESSAGES;
+  private _showHelpTextSubscription: Subscription;
 
-  constructor(private _fb: FormBuilder) { }
+
+  @ViewChild('helpText') helpTextModal;
+  private helpTextModalReference: any;
+  private _afterInit: boolean;
+
+  constructor(private _fb: FormBuilder,
+              private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private modalService: NgbModal,
+              private log: NGXLogger) {
+    this._gaussianCovariatesSubscription = this.study_service.gaussianCovariate$.subscribe(gaussianCovariate => {
+        this._gaussianCovariate = gaussianCovariate;
+      }
+    );
+    this._afterInit = false;
+    this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
+      if (this._afterInit) {
+        this.showHelpText(this.helpTextModal);
+      }
+    });
+  }
 
   ngOnInit() {
     this.buildForm();
+  }
+
+  ngOnDestroy() {
+    this._gaussianCovariate.standard_deviation = this._variance;
+    this.study_service.updateGaussianCovariate(this._gaussianCovariate);
+    this._gaussianCovariatesSubscription.unsubscribe();
+    this._showHelpTextSubscription.unsubscribe();
   }
 
   buildForm() {
@@ -31,6 +67,8 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit {
       return;
     }
     const form = this.gaussianCovariateVarForm;
+    this._variance = +this.gaussianCovariateVarForm.value.variance;
+    console.log(this._variance);
 
     this.formErrors['covariatevariance'] = '';
     for (const field in form.value) {
@@ -95,5 +133,26 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit {
     covariatevariance: { required: string; };
   }) {
     this._validationMessages = value;
+  }
+
+  dismissHelp() {
+    this.helpTextModalReference.close();
+  }
+
+  showHelpText(content) {
+    this.modalService.dismissAll();
+    this.helpTextModalReference = this.modalService.open(content);
+    this.helpTextModalReference.result.then(
+      (closeResult) => {
+        this.log.debug('modal closed : ' + closeResult);
+      }, (dismissReason) => {
+        if (dismissReason === ModalDismissReasons.ESC) {
+          this.log.debug('modal dismissed when used pressed ESC button');
+        } else if (dismissReason === ModalDismissReasons.BACKDROP_CLICK) {
+          this.log.debug('modal dismissed when used pressed backdrop');
+        } else {
+          this.log.debug(dismissReason);
+        }
+      });
   }
 }
