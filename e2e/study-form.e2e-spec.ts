@@ -9,6 +9,8 @@ import {hw5_input, hw5_output} from './test_inputs/homework5';
 import {com_calculate_detail_input, com_calculate_detail_output} from './test_inputs/detail_table';
 import {by, element} from 'protractor';
 import {hw5_fullbeta_input, hw5_fullbeta_output} from './test_inputs/homework5_fullbeta';
+import {SampleSizeOneSampleTTest_input, SampleSizeOneSampleTTest_output} from './test_inputs/SampleSizeOneSampleTTest';
+import {MultipleOutcomeSampleSize_input, MultipleOutcomeSampleSize_output} from './test_inputs/MultipleOutcomeSampleSize';
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -16,7 +18,7 @@ describe('Glimmpse v3 automated integration tests', () => {
   beforeEach(() => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     page = new StudyFormComponentPage();
-    page.navigateTo('/design/STATISTICAL_TESTS');
+    page.navigateTo('/design/SOLVE_FOR');
   });
 
   it('Should calculate a power of 1 for Grand Mean with only one outcome', async function() {
@@ -211,5 +213,40 @@ describe('Glimmpse v3 automated integration tests', () => {
     expect(totalSampleSize).toEqual(expected.totalsamplesize);
   });
 
+
+  it('One sample T Test, should return the correct sample size', async function() {
+    const expected = SampleSizeOneSampleTTest_output;
+    let actual = null;
+    await page.fromJSON(SampleSizeOneSampleTTest_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
+    }
+    expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
+  });
+
+  it('Sample size for multiple outcome, should return the correct sample size', async function() {
+    const expected = MultipleOutcomeSampleSize_output;
+    let actual = null;
+    await page.fromJSON(MultipleOutcomeSampleSize_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
+    }
+    expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
+  });
+  
 });
 

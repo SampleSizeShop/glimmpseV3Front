@@ -9,7 +9,6 @@
       </p>
     </div>
   </div>
-
   <div class="row">
     <div class="col"
          *ngIf="firstOutcome()"
@@ -17,7 +16,6 @@
       <h6>Name your first outcome:</h6>
     </div>
   </div>
-
   <div class="row">
     <div  class="col"
           *ngIf="nextOutcome()"
@@ -25,7 +23,6 @@
       <h6>Would you like to add another outcome?</h6>
     </div>
   </div>
-
   <div class="row">
     <div  class="col"
           *ngIf="!firstOutcome() && !nextOutcome()"
@@ -33,37 +30,43 @@
       <h6>Whoa! That's a lot of outcomes!! We'll handle this lot, but if you really, really want to analyse more than {{max}} outcomes, consult a statstician... and good luck...</h6>
     </div>
   </div>
-
   <div class="row" *ngIf="firstOutcome() || nextOutcome()">
-    <div class="col">
+    <div class="col col-md-auto">
       <div class="form-group">
         <input class="form-control" formControlName="outcomes" (keyup.enter)="addOutcome()" id="outcomes">
-        <div *ngIf="formErrors.outcomes" class="form-group has-danger">
-          <div class="form-control-feedback" id="outcomeserr">{{formErrors.outcomes}}</div>
-        </div>
       </div>
     </div>
-    <div class="col">
+    <div class="col col-md-auto">
       <i class="material-icons" (click)="addOutcome()" style="margin-top: 10px" id="addoutcome">add_box</i>
     </div>
   </div>
-  <br>
-  <table class="table">
-    <thead>
-      <th>Outcome</th>
-      <th>remove</th>
-    </thead>
-    <tbody>
-      <tr *ngIf="firstOutcome()">
-        <td> You must enter at least one outcome</td>
-        <td></td>
-      </tr>
-      <tr *ngFor="let outcome of outcomes$ | async; let i = index; " id="outcomelist" [class]="rowStyle(i)">
-        <td>{{outcome.name}}</td>
-        <td><i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">delete_forever</i></td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col">
+      <div *ngIf="formErrors.outcomes" class="form-group has-danger">
+        <div class="form-control-feedback" id="outcomeserr">{{formErrors.outcomes}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <th>Outcome</th>
+        <th>remove</th>
+        </thead>
+        <tbody>
+        <tr *ngIf="firstOutcome()">
+          <td> You must enter at least one outcome</td>
+          <td></td>
+        </tr>
+        <tr *ngFor="let outcome of outcomes$ | async; let i = index; " id="outcomelist" [class]="rowStyle(i)">
+          <td>{{outcome.name}}</td>
+          <td><i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">delete_forever</i></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </form>
 <ng-template #helpText>
   <div class="modal-content">

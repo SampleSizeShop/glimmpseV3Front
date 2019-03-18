@@ -23,7 +23,7 @@ export class ParametersMarginalMeansPo {
       row.forEach((col, j) => {
         const groupInput = element(by.id(i + '-' + j));
         groupInput.clear().then(() => groupInput.sendKeys(col));
-      })
-    })
+      });
+    });
   }
 }
