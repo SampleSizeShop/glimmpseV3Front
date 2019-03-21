@@ -9,6 +9,7 @@ import {hw5_input, hw5_output} from './test_inputs/homework5';
 import {com_calculate_detail_input, com_calculate_detail_output} from './test_inputs/detail_table';
 import {by, element} from 'protractor';
 import {hw5_fullbeta_input, hw5_fullbeta_output} from './test_inputs/homework5_fullbeta';
+import {MultipleOutcomeUnirep_input, MultipleOutcomeUnirep_output} from './test_inputs/MultipleOutcomeUnirep';
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -211,5 +212,21 @@ describe('Glimmpse v3 automated integration tests', () => {
     expect(totalSampleSize).toEqual(expected.totalsamplesize);
   });
 
+  it('Test for Unirep with multiple outcome, Should return correct power', async function() {
+    const expected = MultipleOutcomeUnirep_output;
+    let actual = null;
+    await page.fromJSON(MultipleOutcomeUnirep_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
+    }
+    expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
+  });
 });
 
