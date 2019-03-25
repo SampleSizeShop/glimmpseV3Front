@@ -7,7 +7,7 @@ export const hw2_input = {
   statistical_tests: [
     constants.STATISTICAL_TESTS.HOTELLING_LAWLEY,
   ],
-  type_one_error: 0.05,
+  type_one_error: [0.05],
   outcomes: ['memory of pain'],
   repeated_measures: [
     {dimension: 'Time', units: 'months', type: constants.REPEATED_MEASURE_TYPES[0], values: [0, 6, 12]},

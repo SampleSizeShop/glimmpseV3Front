@@ -12,9 +12,11 @@ export class TypeOneErrorPo {
   fillForm(input) {
     if (!isNullOrUndefined(input)) {
       const typeOneErrorInput = element(by.id('typeoneerror'));
-      typeOneErrorInput.clear().then(() => typeOneErrorInput.sendKeys(input));
       const typeOneErrorAdd = element(by.id('addalpha'));
-      typeOneErrorAdd.click();
+      for (const alpha of input) {
+        typeOneErrorInput.clear().then(() => typeOneErrorInput.sendKeys(alpha));
+        typeOneErrorAdd.click();
+      }
     }
   }
 }

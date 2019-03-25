@@ -7,7 +7,7 @@ export const hw4_input = {
   statistical_tests: [
     constants.STATISTICAL_TESTS.HOTELLING_LAWLEY,
   ],
-  type_one_error: 0.05,
+  type_one_error: [0.05],
   outcomes: ['alcohol use score'],
   repeated_measures: [
     {dimension: 'Time', units: 'HalfYears', type: constants.REPEATED_MEASURE_TYPES[0], values: [0, 1, 3, 5]}
