@@ -262,6 +262,9 @@ export class StudyDesign {
     if (this._isuFactors.theta0.length !== this.a || this._isuFactors.theta0[0].length !== this.b) {
       this._isuFactors.theta0 = this.generateDefaultTheta0();
     }
+
+    // TODO: Are our gaussian covariate correlations made up of outcomes and repeated measures we chosen.
+    // if length !== this.b then re-set.
   }
 
   get variables() {
