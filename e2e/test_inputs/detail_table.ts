@@ -7,7 +7,7 @@ export const com_calculate_detail_input = {
   statistical_tests: [
     constants.STATISTICAL_TESTS.HOTELLING_LAWLEY,
   ],
-  type_one_error: 0.01,
+  type_one_error: [0.01],
   outcomes: ['SOAM1'],
   repeated_measures: null,
   cluster: null,

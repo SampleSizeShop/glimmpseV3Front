@@ -11,11 +11,9 @@ export const generic_model = {
     constants.STATISTICAL_TESTS.BOX_CORRECTION,
     constants.STATISTICAL_TESTS.GEISSER_GREENHOUSE,
     constants.STATISTICAL_TESTS.HUYNH_FELDT,
-    constants.STATISTICAL_TESTS.UNCORRECTED,
-    constants.STATISTICAL_TESTS.UNIREP,
-    constants.STATISTICAL_TESTS.MULTIREP
+    constants.STATISTICAL_TESTS.UNCORRECTED
   ],
-  type_one_error: 0.06,
+  type_one_error: [0.06],
   outcomes: ['a', 'b', 'c', 'd'],
   repeated_measures: [
     {dimension: 'Time', units: 'days', type: constants.REPEATED_MEASURE_TYPES[0], values: [1, 7, 15]},

@@ -6,7 +6,7 @@ export const example_1_input = {
   statistical_tests: [
     constants.STATISTICAL_TESTS.HUYNH_FELDT
   ],
-  type_one_error: 0.05,
+  type_one_error: [0.05],
   outcomes: ['bp'],
   repeated_measures: null,
   cluster: null,

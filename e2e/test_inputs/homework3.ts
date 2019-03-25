@@ -8,7 +8,7 @@ export const hw3_input = {
   statistical_tests: [
     constants.STATISTICAL_TESTS.HOTELLING_LAWLEY,
   ],
-  type_one_error: 0.05,
+  type_one_error: [0.05],
   outcomes: ['Grade', 'LSK', 'CTOPP'],
   repeated_measures: null,
   cluster: {element: 'Student', levels: [{name: 'School', no_elements: 4}, {name: 'Classroom', no_elements: 5}]},

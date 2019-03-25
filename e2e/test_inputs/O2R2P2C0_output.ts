@@ -226,7 +226,7 @@ export const O2R2P2C0_input = {
     constants.STATISTICAL_TESTS.HUYNH_FELDT,
     constants.STATISTICAL_TESTS.UNCORRECTED
   ],
-  type_one_error: 0.05,
+  type_one_error: [0.05],
   outcomes: ['hr', 'Vo'],
   repeated_measures: [
     {dimension: 'Time', units: 'days', type: constants.REPEATED_MEASURE_TYPES[0], values: [0, 1, 2, 3]},
