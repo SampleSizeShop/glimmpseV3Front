@@ -31,8 +31,11 @@ export class SolveForPo {
   fillForm(input) {
     if (!isNullOrUndefined(input)) {
       if (!isNullOrUndefined(input.power)) {
-        const powerInput = element(by.id('power'));
-        powerInput.clear().then(() => powerInput.sendKeys(input.power));
+        input.power.forEach( pow => {
+          const powerInput = element(by.id('power'));
+          powerInput.clear().then(() => powerInput.sendKeys(pow));
+          element(by.id('addpower')).click();
+        });
       }
       if (!isNullOrUndefined(input.ci_width)) {
         const ciInput = element(by.id('ciwidth'));

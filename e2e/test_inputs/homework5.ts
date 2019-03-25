@@ -7,7 +7,7 @@ export const hw5_input = {
   statistical_tests: [
     constants.STATISTICAL_TESTS.HOTELLING_LAWLEY,
   ],
-  type_one_error: 0.05,
+  type_one_error: [0.05],
   outcomes: ['SOAM1'],
   repeated_measures: [
     {dimension: 'BrainRegion', units: '', type: constants.REPEATED_MEASURE_TYPES[1], values: [0, 1]}

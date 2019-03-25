@@ -17,10 +17,11 @@
           </thead>
           <tbody>
           <tr *ngFor="let row of isuFactors.theta0; index as rownum;" id={{rownum}}>
-            <td *ngFor="let col of row; index as colnum;" id="{{rownum}}-{{colnum}}">
+            <td *ngFor="let col of row; index as colnum;" id="col{{rownum}}-{{colnum}}">
               <input type="number"
                      class="form-control matrix-input-control"
-                     formControlName="{{rownum}}-{{colnum}}">
+                     formControlName="{{rownum}}-{{colnum}}"
+                     id="{{rownum}}-{{colnum}}">
             </td>
           </tr>
           </tbody>
