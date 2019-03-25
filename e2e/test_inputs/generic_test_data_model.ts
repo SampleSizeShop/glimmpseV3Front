@@ -3,7 +3,7 @@ import {constants} from '../../src/app/shared/constants';
 export const generic_model = {
   user_mode: constants.USER_MODE.GUIDED,
   target_event: constants.TARGET_EVENT.WAVR,
-  solve_for: {solve_for: constants.SOLVE_FOR.SAMPLE_SIZE, power: 0.9, ci_width: 0.1},
+  solve_for: {solve_for: constants.SOLVE_FOR.SAMPLE_SIZE, power: [0.9], ci_width: 0.1},
   statistical_tests: [
     constants.STATISTICAL_TESTS.HOTELLING_LAWLEY,
     constants.STATISTICAL_TESTS.PILLAI_BARTLET,
