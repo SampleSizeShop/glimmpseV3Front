@@ -18,6 +18,23 @@
   </p>
 </div>
 <form [formGroup]="quantileForm" class="form-horizontal" id="quantileForm">
+  <div class="row">
+    <div class="form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" formControlName="unconditionalPower" type="checkbox">
+        Calculate unconditional power
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" formControlName="quantilePower" type="checkbox">
+        Calculate quantile power
+      </label>
+    </div>
+  </div>
+
   <div class="row" *ngIf="firstQuantile()">
     <label for="quantile">Please enter the a quantile in the list below:</label>
   </div>

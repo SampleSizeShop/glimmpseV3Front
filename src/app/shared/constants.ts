@@ -355,7 +355,8 @@ export const constants = {
     POWER: 'POWER',
     SAMPLE_SIZE: 'SAMPLE SIZE'
   },
-  TYPE_I_ERROR_TOLERANCE: 0.1
+  TYPE_I_ERROR_TOLERANCE: 0.1,
+  POWER_METHOD: {UNCONDITIONAL: 'unconditional', QUANTILE: 'quantile'},
 };
 
 export function getStageName(value: number) {

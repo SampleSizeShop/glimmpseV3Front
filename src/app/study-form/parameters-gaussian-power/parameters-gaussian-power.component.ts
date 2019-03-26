@@ -8,6 +8,7 @@ import {isNullOrUndefined} from 'util';
 import {constants} from '../../shared/constants';
 import {of as observableOf, Subscription} from 'rxjs';
 import {minMaxValidator} from '../../shared/minmax.validator';
+import {GaussianCovariate} from '../../shared/GaussianCovariate';
 
 
 @Component({
@@ -19,9 +20,11 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
 
   private _quantileForm: FormGroup;
   private _quantiles: Set<number>;
+  private _gaussianCovariate: GaussianCovariate;
   private _formErrors = constants.QUANTILE_ERRORS;
   private _validationMessages = constants.BETWEEN_ISU_VALIDATION_MESSAGES;
   private _quantilesSubscription: Subscription;
+  private _gaussianCovariateSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
 
   private _isClickNextSubscription: Subscription;
@@ -42,6 +45,16 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
       quantiles => {
         if (!isNullOrUndefined(quantiles)) {
           this._quantiles = new Set(quantiles.values());
+        }
+      }
+    );
+    this._gaussianCovariateSubscription = this._study_service.gaussianCovariate$.subscribe(
+      gc => {
+        if (!isNullOrUndefined(gc)) {
+          this._gaussianCovariate = gc;
+        }
+        if (isNullOrUndefined(this._gaussianCovariate.power_method) || this._gaussianCovariate.power_method.length === 0) {
+          this._gaussianCovariate.power_method = [constants.POWER_METHOD.QUANTILE];
         }
       }
     );
@@ -75,6 +88,8 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
     if (this._quantiles.size > 0) {
       this._study_service.updateQuantiles(this._quantiles);
     }
+    this.updateCovariate();
+    this._study_service.updateGaussianCovariate(this._gaussianCovariate);
     this._quantilesSubscription.unsubscribe();
     this._isClickNextSubscription.unsubscribe();
   }
@@ -102,7 +117,9 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
   }
 
   updateQuantileControls() {
-    return { quantile:  [0.5, minMaxValidator(0, 1, this.log)]}
+    return { quantile:  [0.5, minMaxValidator(0, 1, this.log)],
+             quantilePower: [this._gaussianCovariate.isQuantile()],
+             unconditionalPower: [this._gaussianCovariate.isUnconditional()] }
   }
 
   onValueChanged(data?: any) {
@@ -182,6 +199,23 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
 
   get quantileForm(): FormGroup {
     return this._quantileForm;
+  }
+
+  isQuantile(): boolean {
+    return true;
+  }
+
+  updateCovariate() {
+    if (!isNullOrUndefined(this._gaussianCovariate)) {
+      const methods = [];
+      if (this._quantileForm.value.unconditionalPower) {
+        methods.push(constants.POWER_METHOD.UNCONDITIONAL);
+      }
+      if (this._quantileForm.value.quantilePower) {
+        methods.push(constants.POWER_METHOD.QUANTILE);
+      }
+      this._gaussianCovariate.power_method = methods;
+    }
   }
 
   rowStyle(index: number) {
