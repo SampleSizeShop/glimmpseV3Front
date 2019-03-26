@@ -101,7 +101,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this._quantileForm = this._fb.group( this.updateQuantileControls() );
-    this._quantileForm.setValidators([gaussianPowerValidator()]);
+    this._quantileForm.setValidators([gaussianPowerValidator(this._quantiles)]);
     this._quantileForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.checkValidBeforeNavigation();
   }
@@ -172,13 +172,13 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
       && value <= 1
       && value >= 0 ) {
       this._quantiles.add(value);
-      this._quantileForm.reset();
+      this._quantileForm.controls['quantile'].reset();
     }
   }
 
   removeQuantile(value) {
     this._quantiles.delete(value);
-    this._quantileForm.reset();
+    this._quantileForm.controls['quantile'].reset();
   }
 
   firstQuantile() {
