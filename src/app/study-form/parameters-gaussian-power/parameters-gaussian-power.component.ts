@@ -9,6 +9,7 @@ import {constants} from '../../shared/constants';
 import {of as observableOf, Subscription} from 'rxjs';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {GaussianCovariate} from '../../shared/GaussianCovariate';
+import {gaussianPowerValidator} from "./parameters-gaussian-power.validator";
 
 
 @Component({
@@ -86,7 +87,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this._quantiles.size > 0) {
-      this._study_service.updateQuantiles(this._quantiles);
+      this._study_service.updateQuantiles(Array.from(this._quantiles));
     }
     this.updateCovariate();
     this._study_service.updateGaussianCovariate(this._gaussianCovariate);
@@ -100,6 +101,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this._quantileForm = this._fb.group( this.updateQuantileControls() );
+    this._quantileForm.setValidators([gaussianPowerValidator()]);
     this._quantileForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.checkValidBeforeNavigation();
   }

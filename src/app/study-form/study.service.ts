@@ -45,7 +45,7 @@ export class StudyService {
   private _typeOneErrorRateSource = new BehaviorSubject<Array<number>>([]);
   private _typeOneErrorRate$ = this._typeOneErrorRateSource.asObservable();
 
-  private _quantilesSource = new BehaviorSubject<Set<number>>(new Set<number>());
+  private _quantilesSource = new BehaviorSubject<Array<number>>(new Array<number>());
   private _quantiles$ = this._quantilesSource.asObservable();
 
   private _withinIsuOutcomesSource = new BehaviorSubject<Outcome[]>([]);
@@ -126,7 +126,7 @@ export class StudyService {
     this._typeOneErrorRateSource.next(rate);
   }
 
-  updateQuantiles(quantiles: Set<number>) {
+  updateQuantiles(quantiles: Array<number>) {
     this._quantilesSource.next(quantiles);
   }
 
@@ -419,11 +419,11 @@ export class StudyService {
     this._studyTitle$ = value;
   }
 
-  get quantiles$(): Observable<Set<number>> {
+  get quantiles$(): Observable<Array<number>> {
     return this._quantiles$;
   }
 
-  set quantiles$(value: Observable<Set<number>>) {
+  set quantiles$(value: Observable<Array<number>>) {
     this._quantiles$ = value;
   }
 

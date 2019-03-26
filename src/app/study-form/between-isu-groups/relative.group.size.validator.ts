@@ -1,4 +1,4 @@
-import {AbstractControl, FormGroup, ValidatorFn} from '@angular/forms';
+import {FormGroup, ValidatorFn} from '@angular/forms';
 
 export function relativeGroupSizeValidator(): ValidatorFn {
   return (fb: FormGroup): {[key: string]: any} => {
