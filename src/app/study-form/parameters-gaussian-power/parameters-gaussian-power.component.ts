@@ -90,6 +90,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
       this._study_service.updateQuantiles(Array.from(this._quantiles));
     }
     this.updateCovariate();
+    this.navigation_service.updateValid(true);
     this._study_service.updateGaussianCovariate(this._gaussianCovariate);
     this._quantilesSubscription.unsubscribe();
     this._isClickNextSubscription.unsubscribe();
@@ -97,21 +98,18 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
 
   updateIsClickNext(value: boolean) {
     this.navigation_service.updateIsClickNext(value);
+    this.onValueChanged();
   }
 
   buildForm() {
     this._quantileForm = this._fb.group( this.updateQuantileControls() );
-    this._quantileForm.setValidators([gaussianPowerValidator(this._quantiles)]);
+    this._quantileForm.setValidators([gaussianPowerValidator(this._quantiles, this._isClickNextReference)]);
     this._quantileForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.checkValidBeforeNavigation();
   }
 
   checkValidBeforeNavigation() {
-    return true;
-    if (isNullOrUndefined(this._quantiles) ||
-      this._quantiles.size < 1 ) {
-      this.navigation_service.updateValid(false);
-    } else if (this._quantileForm.status === 'VALID') {
+    if (this._quantileForm.status === 'VALID') {
       this.navigation_service.updateValid(true);
     } else {
       this.navigation_service.updateValid(false);
@@ -131,7 +129,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
     const form = this._quantileForm;
     this.formErrors['covariatepower'] = '';
 
-    if (!form.valid && form.dirty) {
+    if (!form.valid && this._isClickNextReference) {
       for (const key of Object.keys(form.errors)) {
         this.formErrors.covariatepower = this._validationMessages.covariatepower[key];
       }
