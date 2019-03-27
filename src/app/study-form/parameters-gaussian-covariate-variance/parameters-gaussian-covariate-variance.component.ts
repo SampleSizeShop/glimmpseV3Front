@@ -33,8 +33,12 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
               private navigation_service: NavigationService,
               private modalService: NgbModal,
               private log: NGXLogger) {
+    this._gaussianCovariate = new GaussianCovariate();
     this._gaussianCovariatesSubscription = this.study_service.gaussianCovariate$.subscribe(gaussianCovariate => {
-        this._gaussianCovariate = gaussianCovariate;
+        if (!isNullOrUndefined(gaussianCovariate)) {
+          this._gaussianCovariate = gaussianCovariate;
+          this._variance = this._gaussianCovariate.standard_deviation;
+        }
       }
     );
     this._afterInit = false;
@@ -50,6 +54,8 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
   }
 
   ngOnDestroy() {
+
+    this.navigation_service.updateValid(true);
     if (!isNullOrUndefined(this._gaussianCovariate)) {this._gaussianCovariate.standard_deviation = this._variance;}
     if (!isNullOrUndefined(this.study_service)) {this.study_service.updateGaussianCovariate(this._gaussianCovariate);}
     if (!isNullOrUndefined(this._gaussianCovariatesSubscription)) {this._gaussianCovariatesSubscription.unsubscribe();}
@@ -63,6 +69,15 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
     this.gaussianCovariateVarForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set validation messages now
   }
+
+  checkValidBeforeNavigation() {
+    if (this._gaussianCovariateVarForm.status === 'VALID') {
+      this.navigation_service.updateValid(true);
+    } else {
+      this.navigation_service.updateValid(false);
+    }
+  }
+
   onValueChanged(data?: any) {
     if (!this.gaussianCovariateVarForm) {
       return;
@@ -80,10 +95,11 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
         }
       }
     }
+    this.checkValidBeforeNavigation()
   }
 
   _defineControls() {
-    const controlArray = {'variance': '1'};
+    const controlArray = {'variance': this._variance};
     return controlArray;
   }
 

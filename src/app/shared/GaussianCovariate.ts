@@ -10,8 +10,21 @@ interface GaussianCovariateJSON {
  * Model object for gaussian covariate.
  */
 export class GaussianCovariate {
-  standard_deviation: number;
-  power_method: Array<String> = [];
+  standard_deviation:number;
+  power_method: Array<String>;
+
+  constructor(standard_deviation?: number, power_method?: Array<String>) {
+    if (standard_deviation) {
+      this.standard_deviation = standard_deviation;
+    } else {
+      this.standard_deviation = 1;
+    }
+    if (power_method) {
+      this.power_method = power_method;
+    } else {
+      this.power_method = [];
+    }
+  }
 
   // fromJSON is used to convert an serialized version
   // of the GaussianCovariate to an instance of the class

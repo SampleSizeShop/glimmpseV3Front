@@ -104,9 +104,6 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
 
   private updateStudyForm() {
     if (this.gaussianCovariateForm.status === 'VALID') {
-      if ( this.hasGaussianCovariate() ) {
-        this.gaussianCovariate.standard_deviation = this.gaussianCovariateForm.value.standard_deviation;
-      }
       this.study_service.updateGaussianCovariate(this.gaussianCovariate);
     }
   }
