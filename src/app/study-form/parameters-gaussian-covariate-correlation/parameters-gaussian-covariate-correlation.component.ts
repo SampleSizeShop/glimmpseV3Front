@@ -1,4 +1,4 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
@@ -10,7 +10,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
   templateUrl: './parameters-gaussian-covariate-correlation.component.html',
   styleUrls: ['./parameters-gaussian-covariate-correlation.component.scss']
 })
-export class ParametersGaussianCovariateCorrelationComponent implements OnInit, DoCheck {
+export class ParametersGaussianCovariateCorrelationComponent implements OnInit, DoCheck, OnDestroy {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _formErrors = constants.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_ERRORS;
@@ -40,6 +40,10 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
     this.onValueChanged(); // (re)set validation messages now
   }
 
+  ngOnDestroy() {
+    this.study_service.updateIsuFactors(this.isuFactors);
+  }
+
   onValueChanged(data?: any) {
     if (!this.gaussianCovariateCorrForm) {
       return;
@@ -62,14 +66,13 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
     this.isuFactors.outcomes.forEach( outcome => {
       outcome.gaussian_corellation = this.gaussianCovariateCorrForm.get(outcome.name).value;
     });
-    this.study_service.updateIsuFactors(this.isuFactors);
   }
 
   _defineControls() {
     const controlArray = {};
     this.isuFactors.outcomes.forEach(
       outcome => {
-        controlArray[outcome.name] = [outcome.gaussian_corellation];
+        controlArray[outcome.name] = [+outcome.gaussian_corellation];
       }
     );
     return controlArray;
