@@ -1,5 +1,5 @@
 import {constants} from './constants';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 interface GaussianCovariateJSON {
   standard_deviation: number;
@@ -11,7 +11,7 @@ interface GaussianCovariateJSON {
  */
 export class GaussianCovariate {
   standard_deviation: number;
-  power_method: Array<String>;
+  power_method: Array<String> = [];
 
   // fromJSON is used to convert an serialized version
   // of the GaussianCovariate to an instance of the class

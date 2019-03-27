@@ -9,7 +9,7 @@ import {constants} from '../../shared/constants';
 import {of as observableOf, Subscription} from 'rxjs';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {GaussianCovariate} from '../../shared/GaussianCovariate';
-import {gaussianPowerValidator} from "./parameters-gaussian-power.validator";
+import {gaussianPowerValidator} from './parameters-gaussian-power.validator';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
 
   private _quantileForm: FormGroup;
   private _quantiles: Set<number>;
-  private _gaussianCovariate: GaussianCovariate;
+  public _gaussianCovariate: GaussianCovariate;
   private _formErrors = constants.PARAMETERS_GAUSSIAN_COVARIATE_POWER_ERRORS;
   private _validationMessages = constants.PARAMETERS_GAUSSIAN_COVARIATE_POWER_VALIDATION_MESSAGES;
   private _quantilesSubscription: Subscription;
@@ -42,6 +42,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
               private modalService: NgbModal,
               private log: NGXLogger) {
     this._afterInit = false;
+    this._gaussianCovariate = new GaussianCovariate();
     this._quantilesSubscription = this._study_service.quantiles$.subscribe(
       quantiles => {
         if (!isNullOrUndefined(quantiles)) {

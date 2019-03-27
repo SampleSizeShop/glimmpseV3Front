@@ -7,6 +7,7 @@ import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {GaussianCovariate} from '../../shared/GaussianCovariate';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-variance',
@@ -49,10 +50,10 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
   }
 
   ngOnDestroy() {
-    this._gaussianCovariate.standard_deviation = this._variance;
-    this.study_service.updateGaussianCovariate(this._gaussianCovariate);
-    this._gaussianCovariatesSubscription.unsubscribe();
-    this._showHelpTextSubscription.unsubscribe();
+    if (!isNullOrUndefined(this._gaussianCovariate)) {this._gaussianCovariate.standard_deviation = this._variance;}
+    if (!isNullOrUndefined(this.study_service)) {this.study_service.updateGaussianCovariate(this._gaussianCovariate);}
+    if (!isNullOrUndefined(this._gaussianCovariatesSubscription)) {this._gaussianCovariatesSubscription.unsubscribe();}
+    if (!isNullOrUndefined(this._showHelpTextSubscription)) {this._showHelpTextSubscription.unsubscribe();}
   }
 
   buildForm() {
