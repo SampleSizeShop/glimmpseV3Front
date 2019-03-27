@@ -95,7 +95,7 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
         }
       }
     }
-    this.checkValidBeforeNavigation()
+    this.checkValidBeforeNavigation();
   }
 
   _defineControls() {

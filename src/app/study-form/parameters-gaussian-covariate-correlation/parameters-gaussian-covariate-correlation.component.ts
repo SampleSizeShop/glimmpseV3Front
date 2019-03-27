@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {NavigationService} from "../../shared/navigation.service";
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-correlation',
@@ -17,7 +18,9 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
   private _validationMessages = constants.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_VALIDATION_MESSAGES;
   private _gaussianCovariateCorrForm: FormGroup;
 
-  constructor(private study_service: StudyService, private _fb: FormBuilder) {
+  constructor(private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private _fb: FormBuilder) {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
@@ -41,6 +44,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
   }
 
   ngOnDestroy() {
+    this.navigation_service.updateValid(true);
     this.study_service.updateIsuFactors(this.isuFactors);
   }
 
@@ -59,6 +63,15 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
           this.formErrors['covariatecorrelation'] = messages[key];
         }
       }
+    }
+    this.checkValidBeforeNavigation();
+  }
+
+  checkValidBeforeNavigation() {
+    if (this.gaussianCovariateCorrForm.status === 'VALID') {
+      this.navigation_service.updateValid(true);
+    } else {
+      this.navigation_service.updateValid(false);
     }
   }
 
