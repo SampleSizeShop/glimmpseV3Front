@@ -42,9 +42,7 @@ export const constants = {
   },
   BETWEEN_ISU_ERRORS: {
     'smallestGroupSize': 'Value needs to be filled in.',
-    'required': 'You must specify at least one value for smallest group size.'
-  },
-  QUANTILE_ERRORS: {
+    'required': 'You must specify at least one value for smallest group size.',
     'first': 'You must specify at least one quantile.'
   },
   BETWEEN_ISU_RELATIVE_GROUP_ERRORS: {
@@ -64,6 +62,9 @@ export const constants = {
   },
   PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_ERRORS: {
     'covariatecorrelation': ''
+  },
+  PARAMETERS_GAUSSIAN_COVARIATE_POWER_ERRORS: {
+    'covariatepower': ''
   },
   BETWEEN_ISU_PREDICTORS_ERRORS: {
     'predictorform': '',
@@ -133,6 +134,12 @@ export const constants = {
   PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_VALIDATION_MESSAGES: {
     'covariatecorrelation': {
       'required': 'ALL values need to be filled in.'
+    },
+  },
+  PARAMETERS_GAUSSIAN_COVARIATE_POWER_VALIDATION_MESSAGES: {
+    'covariatepower': {
+      'required': 'You must pick at least one power method. ',
+      'minlength': 'To calculate quantile powe you must specify one or more quantiles. ',
     },
   },
   BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES: {

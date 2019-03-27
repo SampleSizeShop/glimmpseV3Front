@@ -22,8 +22,8 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
   private _quantileForm: FormGroup;
   private _quantiles: Set<number>;
   private _gaussianCovariate: GaussianCovariate;
-  private _formErrors = constants.QUANTILE_ERRORS;
-  private _validationMessages = constants.BETWEEN_ISU_VALIDATION_MESSAGES;
+  private _formErrors = constants.PARAMETERS_GAUSSIAN_COVARIATE_POWER_ERRORS;
+  private _validationMessages = constants.PARAMETERS_GAUSSIAN_COVARIATE_POWER_VALIDATION_MESSAGES;
   private _quantilesSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
@@ -129,15 +129,11 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
       return;
     }
     const form = this._quantileForm;
+    this.formErrors['covariatepower'] = '';
 
-    for (const field of Object.keys(this._formErrors)) {
-      this._formErrors[field] = '';
-      const control = form.get(field);
-      if (control && !control.valid) {
-        const messages = this._validationMessages[field];
-        for (const key of Object.keys(control.errors) ) {
-          this._formErrors[field] += messages[key] + ' ';
-        }
+    if (!form.valid && form.dirty) {
+      for (const key of Object.keys(form.errors)) {
+        this.formErrors.covariatepower = this._validationMessages.covariatepower[key];
       }
     }
 
@@ -195,7 +191,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
     return observableOf(this._quantiles);
   }
 
-  get formErrors(): { first: string;} {
+  get formErrors(): { covariatepower: string} {
     return this._formErrors;
   }
 
