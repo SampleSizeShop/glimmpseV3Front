@@ -67,6 +67,7 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
       rankest: [1, [Validators.required, minMaxValidator(0, 99999999999999999)]],
       samplesizeest: [10, [Validators.required, minMaxValidator(0, 99999999999999999)]]
     });
+    this._confidenceIntervalForm.valueChanges.subscribe(data => this.onValueChanged(data));
   };
 
   onValueChanged(data?: any) {
@@ -77,16 +78,13 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
 
     this._formErrors['space'] = '';
     const messages = this._validationMessages['space'];
-    // for (const field in form.value) {
-    //   const control = form.get(field);
-    //   if (control && control.dirty && !control.valid) {
-    //     for (const key in control.errors ) {
-    //       if (!this._formErrors['space'].includes(messages[key])) {
-    //         this._formErrors['space'] += messages[key];
-    //       }
-    //     }
+    // if (!form.valid && this._isClickNextReference) {
+    //   for (const key of Object.keys(form.errors)) {
+    //     this.formErrors.covariatepower = this._validationMessages.covariatepower[key];
     //   }
     // }
+
+    this.checkValidBeforeNavigation()
   }
 
   ngOnInit() {
@@ -95,6 +93,7 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
   }
 
   ngOnDestroy() {
+    this.navigation_service.updateValid(true);
     this._showHelpTextSubscription.unsubscribe();
   }
 
@@ -108,6 +107,16 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
 
   dismissHelp() {
     this.helpTextModalReference.close();
+  }
+
+  checkValidBeforeNavigation() {
+    if (!this._includeCi) {
+      this.navigation_service.updateValid(true);
+    } else if (this._confidenceIntervalForm.status === 'VALID') {
+      this.navigation_service.updateValid(true);
+    } else {
+      this.navigation_service.updateValid(false);
+    }
   }
 
   showHelpText(content) {
@@ -125,10 +134,6 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
           this.log.debug(dismissReason);
         }
       });
-  }
-
-  resetClickNext() {
-    this.isClickNext = false;
   }
 
   get formErrors() {
