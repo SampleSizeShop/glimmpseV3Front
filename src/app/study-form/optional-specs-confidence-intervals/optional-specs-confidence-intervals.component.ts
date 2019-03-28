@@ -21,6 +21,8 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
   private _formErrors;
   private _showHelpTextSubscription: Subscription;
 
+  private _includeCi: boolean;
+
   private _isClickNextSubscription: Subscription;
   private _isClickNext: boolean;
   private _isClickNextReference: {value: boolean};
@@ -34,7 +36,7 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
               private navigation_service: NavigationService,
               private modalService: NgbModal,
               private log: NGXLogger) {
-
+    this.includeCi = false;
     this._validationMessages = constants.REPEATED_MEASURE_FORM_VALIDATION_MESSAGES;
     this._formErrors = constants.REPEATED_MEASURE_FORM_ERRORS;
 
@@ -143,14 +145,14 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
   }
 
   hasConfidenceIntervals() {
-    return false;
+    return this._includeCi;
   }
 
   removeConfidenceIntervals() {
-
+    this._includeCi = false;
   }
 
   includeConfidenceIntervals() {
-
+    this._includeCi = true;
   }
 }
