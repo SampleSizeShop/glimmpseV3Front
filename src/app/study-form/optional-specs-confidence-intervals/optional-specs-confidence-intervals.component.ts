@@ -104,6 +104,12 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
   }
 
   ngOnDestroy() {
+    this.updateCI();
+    this.navigation_service.updateValid(true);
+    this._showHelpTextSubscription.unsubscribe();
+  }
+
+  private updateCI() {
     if (isNullOrUndefined(this._confidenceInterval)) {
       this._confidenceInterval = new ConfidenceInterval()
     }
@@ -117,8 +123,9 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
     if (this._confidenceIntervalForm.valid && this._includeCi) {
       this.study_service.updateConfidenceInterval(this._confidenceInterval);
     }
-    this.navigation_service.updateValid(true);
-    this._showHelpTextSubscription.unsubscribe();
+    if (!this._includeCi) {
+      this.study_service.updateConfidenceInterval(null);
+    }
   }
 
   rowStyle(index: number) {
