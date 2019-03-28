@@ -22,6 +22,7 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
   private _showHelpTextSubscription: Subscription;
 
   private _includeCi: boolean;
+  private _betaKnown: boolean;
 
   private _isClickNextSubscription: Subscription;
   private _isClickNext: boolean;
@@ -37,6 +38,7 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
               private modalService: NgbModal,
               private log: NGXLogger) {
     this._includeCi = false;
+    this._betaKnown = true;
     this._validationMessages = constants.REPEATED_MEASURE_FORM_VALIDATION_MESSAGES;
     this._formErrors = constants.REPEATED_MEASURE_FORM_ERRORS;
 
@@ -59,8 +61,8 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
 
   buildForm() {
     this._confidenceIntervalForm = this._fb.group({
-      lowertail: [0],
-      uppertail: [1],
+      lowertail: [0.05],
+      uppertail: [0],
       rankest: [1],
       samplesizeest: [10]
     });
@@ -154,5 +156,17 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
 
   includeConfidenceIntervals() {
     this._includeCi = true;
+  }
+
+  isBetaKnown() {
+    return this._betaKnown;
+  }
+
+  betaKnown() {
+    this._betaKnown = true;
+  }
+
+  betaEstimated() {
+    this._betaKnown = false;
   }
 }

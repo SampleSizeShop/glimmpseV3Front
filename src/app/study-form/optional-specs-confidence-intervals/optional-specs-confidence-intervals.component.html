@@ -20,11 +20,11 @@
   <div class="row">
     <div class="col">
       <div class="btn-group" data-toggle="buttons">
-        <label id="betaknownbtn" class="btn btn-secondary">
-          <input type="radio" id="betaknownradio" (click)="removeConfidenceIntervals()">B known, Σe estimated
+        <label id="betaknownbtn" class="btn btn-secondary" [class.active]="isBetaKnown()">
+          <input type="radio" id="betaknownradio" (click)="betaKnown()">B known, Σe estimated
         </label>
-        <label id="betaestimatedbtn" class="btn btn-secondary">
-          <input type="radio" id="betaestimatedradio" (click)="includeConfidenceIntervals()">Both B and Σe estimated
+        <label id="betaestimatedbtn" class="btn btn-secondary" [class.active]="!isBetaKnown()">
+          <input type="radio" id="betaestimatedradio" (click)="betaEstimated()">Both B and Σe estimated
         </label>
       </div>
     </div>
