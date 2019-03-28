@@ -55,6 +55,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _betweenIsuPredictorsSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
+  private _confidenceIntervalSubscription: Subscription;
   private _hypothesisEffectSubscription: Subscription;
   private _scaleFactorSubscription: Subscription;
   private _varianceScaleFactorsSubscription: Subscription;
@@ -704,6 +705,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       }
     );
 
+    this._confidenceIntervalSubscription = this.study_service.confidenceInterval$.subscribe(
+      confidence_interval => {
+        this.study.confidence_interval = confidence_interval;
+      }
+    );
+
     this.hypothesisEffectSubscription = this.study_service.hypothesisEffect$.subscribe(
       hypothesisEffect => {
         this.study.isuFactors.updateHypothesis(hypothesisEffect);
@@ -767,6 +774,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.scaleFactorSubscription.unsubscribe();
     this.varianceScaleFactorsSubscription.unsubscribe();
     this.powerCurveSubscription.unsubscribe();
+    this._confidenceIntervalSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {
