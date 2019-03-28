@@ -36,7 +36,7 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
               private navigation_service: NavigationService,
               private modalService: NgbModal,
               private log: NGXLogger) {
-    this.includeCi = false;
+    this._includeCi = false;
     this._validationMessages = constants.REPEATED_MEASURE_FORM_VALIDATION_MESSAGES;
     this._formErrors = constants.REPEATED_MEASURE_FORM_ERRORS;
 
