@@ -41,7 +41,8 @@ import {StudyTitleComponent} from './study-title/study-title.component';
 import {OutcomeCorrelationsGuard} from '../shared/outcome-correlation-guard.service';
 import {BetweenIsuGroupsGuard} from '../shared/between-isu-groups-guard.service';
 import {BetweenIsuSmallestGroupsGuard} from '../shared/between-isu-smallest-group.service';
-import {ParametersGaussianPowerComponent} from "./parameters-gaussian-power/parameters-gaussian-power.component";
+import {ParametersGaussianPowerComponent} from './parameters-gaussian-power/parameters-gaussian-power.component';
+import {OptionalSpecsConfidenceIntervalsComponent} from "./optional-specs-confidence-intervals/optional-specs-confidence-intervals.component";
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -213,6 +214,11 @@ const studyFormRoutes: Routes = [
               path: names[constants.STAGES.PARAMETERS_SCALE_FACTOR_VARIANCE],
               component: ParametersVarianceScaleFactorsComponent,
               data: {animation: constants.STAGES.PARAMETERS_SCALE_FACTOR_VARIANCE}
+            },
+            {
+              path: names[constants.STAGES.OPTIONAL_SPECS_CONFIDENCE_INTERVALS],
+              component: OptionalSpecsConfidenceIntervalsComponent,
+              data: {animation: constants.STAGES.OPTIONAL_SPECS_CONFIDENCE_INTERVALS}
             },
             {
               path: names[constants.STAGES.CALCULATE],

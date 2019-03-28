@@ -27,6 +27,8 @@ import {ParametersGaussianCovariateVariancePo} from './parameters-gaussian-covar
 import {ParametersGaussianCovariateCorellationPo} from './parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-corellation.po';
 import {constants, getStageName} from '../shared/constants';
 import {CalculatePo} from './calculate/calculate.po';
+import {OptionalSpecsConfidenceIntervalsPo} from './optional-specs-confidence-intervals/optional-specs-confidence-intervals.po';
+import {ParametersGaussianPowerPo} from './parameters-gaussian-power/parameters-gaussian-power.po';
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -54,7 +56,9 @@ export class StudyFormComponentPage {
   parameters_intra_class_correlation: ParametersIntraClassCorellationPo;
   parameters_gaussian_covariate_variance: ParametersGaussianCovariateVariancePo;
   parameters_gaussian_covariate_correlation: ParametersGaussianCovariateCorellationPo;
+  parameters_gaussian_covariate_power: ParametersGaussianPowerPo;
   parameters_scale_factor_variance: ParametersVarianceScaleFactorsPo;
+  optional_specs_confidence_intervals: OptionalSpecsConfidenceIntervalsPo;
   calculate_component: CalculatePo;
 
   constructor() {
@@ -83,7 +87,9 @@ export class StudyFormComponentPage {
     this.parameters_intra_class_correlation = new ParametersIntraClassCorellationPo();
     this.parameters_gaussian_covariate_variance = new ParametersGaussianCovariateVariancePo();
     this.parameters_gaussian_covariate_correlation = new ParametersGaussianCovariateCorellationPo();
+    this.parameters_gaussian_covariate_power = new ParametersGaussianPowerPo();
     this.parameters_scale_factor_variance = new ParametersVarianceScaleFactorsPo();
+    this.optional_specs_confidence_intervals = new OptionalSpecsConfidenceIntervalsPo();
     this.calculate_component = new CalculatePo();
   }
 
@@ -154,8 +160,12 @@ export class StudyFormComponentPage {
       this.parameters_gaussian_covariate_variance.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION))  {
       this.parameters_gaussian_covariate_correlation.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.PARAMETERS_GAUSSIAN_COVARIATE_POWER))  {
+      this.parameters_gaussian_covariate_power.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.PARAMETERS_SCALE_FACTOR_VARIANCE))  {
       this.parameters_scale_factor_variance.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.OPTIONAL_SPECS_CONFIDENCE_INTERVALS))  {
+      this.optional_specs_confidence_intervals.fromJSON(input);
     } else {
       ret = false;
     }
