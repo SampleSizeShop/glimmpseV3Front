@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {constants} from '../../shared/constants';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
@@ -8,6 +8,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
 import {NGXLogger} from 'ngx-logger';
 import {isNullOrUndefined} from 'util';
+import {minMaxValidator} from "../../shared/minmax.validator";
 
 @Component({
   selector: 'app-optional-specs-confidence-intervals',
@@ -61,10 +62,10 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
 
   buildForm() {
     this._confidenceIntervalForm = this._fb.group({
-      lowertail: [0.05],
-      uppertail: [0],
-      rankest: [1],
-      samplesizeest: [10]
+      lowertail: [0.05, [Validators.required, minMaxValidator(0, 1)]],
+      uppertail: [0, [Validators.required, minMaxValidator(0, 1)]],
+      rankest: [1, [Validators.required, minMaxValidator(0, 99999999999999999)]],
+      samplesizeest: [10, [Validators.required, minMaxValidator(0, 99999999999999999)]]
     });
   };
 
