@@ -883,8 +883,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       return 'Gaussian Covariate Standard Deviation';
     } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION') {
       return 'Gaussian Covariate Correlation';
+    } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_POWER') {
+      return 'Gaussian Covariate Power';
     } else if (name === 'PARAMETERS_SCALE_FACTOR_VARIANCE') {
       return 'Scale Factor Variance';
+    } else if (name === 'OPTIONAL_SPECS_CONFIDENCE_INTERVALS') {
+      return 'Conficence Intervals';
     } else if (name === 'CALCULATE') {
       return 'Calculate';
     }

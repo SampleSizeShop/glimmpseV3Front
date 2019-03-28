@@ -57,7 +57,10 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
 
   buildForm() {
     this._confidenceIntervalForm = this._fb.group({
-      units: ['']
+      lowertail: [0],
+      uppertail: [1],
+      rankest: [1],
+      samplesizeest: [10]
     });
   };
 
@@ -133,5 +136,21 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
 
   set isClickNext(value: boolean) {
     this._isClickNext = value;
+  }
+
+  get confidenceIntervalForm(): FormGroup {
+    return this._confidenceIntervalForm;
+  }
+
+  hasConfidenceIntervals() {
+    return false;
+  }
+
+  removeConfidenceIntervals() {
+
+  }
+
+  includeConfidenceIntervals() {
+
   }
 }
