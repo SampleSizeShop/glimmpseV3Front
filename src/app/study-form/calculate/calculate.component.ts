@@ -280,6 +280,14 @@ export class CalculateComponent implements OnInit, OnDestroy {
     return !ret;
   }
 
+  hasConfidenceInterval(): boolean {
+    let ret = false;
+    if (!isNullOrUndefined(this.studyDesign)) {
+      ret = !isNullOrUndefined(this.studyDesign.confidence_interval);
+    }
+    return ret;
+  }
+
   error(result) {
     if ( !isNullOrUndefined(result.model.errors.length)
       && result.model.errors.length > 0) {
