@@ -9,6 +9,7 @@ import {hw5_input, hw5_output} from './test_inputs/homework5';
 import {com_calculate_detail_input, com_calculate_detail_output} from './test_inputs/detail_table';
 import {by, element} from 'protractor';
 import {hw5_fullbeta_input, hw5_fullbeta_output} from './test_inputs/homework5_fullbeta';
+import {MultipleOutcomeUnirep_input, MultipleOutcomeUnirep_output} from './test_inputs/MultipleOutcomeUnirep';
 import {SampleSizeOneSampleTTest_input, SampleSizeOneSampleTTest_output} from './test_inputs/SampleSizeOneSampleTTest';
 import {MultipleOutcomeSampleSize_input, MultipleOutcomeSampleSize_output} from './test_inputs/MultipleOutcomeSampleSize';
 
@@ -212,12 +213,16 @@ describe('Glimmpse v3 automated integration tests', () => {
     });
     expect(totalSampleSize).toEqual(expected.totalsamplesize);
   });
-
+  it('Test for Unirep with multiple outcome, Should return correct power', async function() {
+    const expected = MultipleOutcomeUnirep_output;
+    let actual = null;
+    await page.fromJSON(MultipleOutcomeUnirep_input);
 
   it('One sample T Test, should return the correct sample size', async function() {
     const expected = SampleSizeOneSampleTTest_output;
     let actual = null;
     await page.fromJSON(SampleSizeOneSampleTTest_input);
+    
     await page.calculate();
     await page.output().then(text => {
       console.log(text);
@@ -247,6 +252,5 @@ describe('Glimmpse v3 automated integration tests', () => {
     }
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
   });
-  
 });
 
