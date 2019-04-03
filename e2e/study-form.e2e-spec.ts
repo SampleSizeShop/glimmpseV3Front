@@ -213,10 +213,23 @@ describe('Glimmpse v3 automated integration tests', () => {
     });
     expect(totalSampleSize).toEqual(expected.totalsamplesize);
   });
+
   it('Test for Unirep with multiple outcome, Should return correct power', async function() {
     const expected = MultipleOutcomeUnirep_output;
     let actual = null;
     await page.fromJSON(MultipleOutcomeUnirep_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
+    }
+    expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
+  });
 
   it('One sample T Test, should return the correct sample size', async function() {
     const expected = SampleSizeOneSampleTTest_output;
