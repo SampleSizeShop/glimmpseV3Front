@@ -10,7 +10,9 @@ export class GaussianCovariatePo {
   }
 
   fillForm(gaussian_covariate) {
+    if (!isNullOrUndefined(gaussian_covariate)) {
       this.clickCreateBtn();
+    }
   }
 
   clickCreateBtn() {

@@ -74,5 +74,9 @@ export const example_1_output = {
     means_scale_factor: 1,
     variance_scale_factor: 1,
     smallest_realizable_design: null,
+    delta: [ [ 6400 ] ],
+    groups: [ 1 ],
+    quantile: null,
+    confidence_interval: null,
   }
 }

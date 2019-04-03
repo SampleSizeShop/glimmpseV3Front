@@ -25,8 +25,10 @@ export const constants = {
     PARAMETERS_INTRA_CLASS_CORRELATION: 21,
     PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE: 22,
     PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION: 23,
-    PARAMETERS_SCALE_FACTOR_VARIANCE: 24,
-    CALCULATE: 25
+    PARAMETERS_GAUSSIAN_COVARIATE_POWER: 24,
+    PARAMETERS_SCALE_FACTOR_VARIANCE: 25,
+    OPTIONAL_SPECS_CONFIDENCE_INTERVALS: 26,
+    CALCULATE: 27,
   },
   // Target event constants
   TARGET_EVENT_FORM_ERRORS: {
@@ -60,6 +62,9 @@ export const constants = {
   },
   PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_ERRORS: {
     'covariatecorrelation': ''
+  },
+  PARAMETERS_GAUSSIAN_COVARIATE_POWER_ERRORS: {
+    'covariatepower': ''
   },
   BETWEEN_ISU_PREDICTORS_ERRORS: {
     'predictorform': '',
@@ -129,6 +134,12 @@ export const constants = {
   PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_VALIDATION_MESSAGES: {
     'covariatecorrelation': {
       'required': 'ALL values need to be filled in.'
+    },
+  },
+  PARAMETERS_GAUSSIAN_COVARIATE_POWER_VALIDATION_MESSAGES: {
+    'covariatepower': {
+      'required': 'You must pick at least one power method. ',
+      'minlength': 'To calculate quantile powe you must specify one or more quantiles. ',
     },
   },
   BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES: {
@@ -351,7 +362,8 @@ export const constants = {
     POWER: 'POWER',
     SAMPLE_SIZE: 'SAMPLE SIZE'
   },
-  TYPE_I_ERROR_TOLERANCE: 0.1
+  TYPE_I_ERROR_TOLERANCE: 0.1,
+  POWER_METHOD: {UNCONDITIONAL: 'unconditional', QUANTILE: 'quantile'},
 };
 
 export function getStageName(value: number) {

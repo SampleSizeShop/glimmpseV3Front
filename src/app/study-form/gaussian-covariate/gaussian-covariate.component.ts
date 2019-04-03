@@ -62,7 +62,7 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
   buildForm() {
     let variance = 0;
     if (this.hasGaussianCovariate()) {
-      variance = this.gaussianCovariate.variance;
+      variance = this.gaussianCovariate.standard_deviation;
     }
     this.gaussianCovariateForm = this.fb.group({
       variance: [variance, minMaxValidator(0, Number.MAX_VALUE)]
@@ -104,9 +104,6 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
 
   private updateStudyForm() {
     if (this.gaussianCovariateForm.status === 'VALID') {
-      if ( this.hasGaussianCovariate() ) {
-        this.gaussianCovariate.variance = this.gaussianCovariateForm.value.variance;
-      }
       this.study_service.updateGaussianCovariate(this.gaussianCovariate);
     }
   }

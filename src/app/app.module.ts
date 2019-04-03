@@ -50,6 +50,8 @@ import {MatTooltipModule} from '@angular/material';
 import {MatIconModule} from '@angular/material/icon';
 import { Angular2CsvModule } from 'angular2-csv';
 import { StudyTitleComponent } from './study-form/study-title/study-title.component';
+import {ParametersGaussianPowerComponent} from './study-form/parameters-gaussian-power/parameters-gaussian-power.component';
+import {OptionalSpecsConfidenceIntervalsComponent} from './study-form/optional-specs-confidence-intervals/optional-specs-confidence-intervals.component';
 
 
 @NgModule({
@@ -83,8 +85,10 @@ import { StudyTitleComponent } from './study-form/study-title/study-title.compon
     ParametersRepeatedMeasureCorrelationsComponent,
     ParametersIntraClassCorrelationComponent,
     ParametersGaussianCovariateCorrelationComponent,
+    ParametersGaussianPowerComponent,
     ParametersVarianceScaleFactorsComponent,
     ParametersGaussianCovariateVarianceComponent,
+    OptionalSpecsConfidenceIntervalsComponent,
     CalculateComponent,
     BetweenIsuSmallestGroupComponent,
     CustomContrastMatrixComponent,

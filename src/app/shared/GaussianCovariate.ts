@@ -1,12 +1,17 @@
+import {constants} from './constants';
+import {isNullOrUndefined} from 'util';
+
 interface GaussianCovariateJSON {
-  variance: number;
+  standard_deviation: number;
+  power_method: Array<String>;
 }
 
 /**
  * Model object for gaussian covariate.
  */
 export class GaussianCovariate {
-  variance: number;
+  standard_deviation:number;
+  power_method: Array<String>;
 
   // fromJSON is used to convert an serialized version
   // of the GaussianCovariate to an instance of the class
@@ -28,5 +33,34 @@ export class GaussianCovariate {
   // to automatically call GaussianCovariate.fromJSON on the resulting value.
   static reviver(key: string, value: any): any {
     return key === '' ? GaussianCovariate.fromJSON(value) : value;
+  }
+
+  constructor(standard_deviation?: number, power_method?: Array<String>) {
+    if (standard_deviation) {
+      this.standard_deviation = standard_deviation;
+    } else {
+      this.standard_deviation = 1;
+    }
+    if (power_method) {
+      this.power_method = power_method;
+    } else {
+      this.power_method = [];
+    }
+  }
+
+  isQuantile(): boolean {
+    if (isNullOrUndefined(this.power_method)) {
+      return false;
+    } else {
+      return this.power_method.indexOf(constants.POWER_METHOD.QUANTILE) !== -1
+    }
+  }
+
+  isUnconditional(): boolean {
+    if (isNullOrUndefined(this.power_method)) {
+      return false;
+    } else {
+      return this.power_method.indexOf(constants.POWER_METHOD.UNCONDITIONAL) !== -1
+    }
   }
 }

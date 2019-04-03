@@ -289,6 +289,7 @@ export const O2R2P2C0_input = {
   parameters_intra_class_correlation: [1],
   parameters_gaussian_covariate_variance: null,
   parameters_gaussian_covariate_correlation: null,
+  parameters_gaussian_covariate_power: null,
   parameters_scale_factor_variance: [1],
   power_method: null,
   power_curve: null

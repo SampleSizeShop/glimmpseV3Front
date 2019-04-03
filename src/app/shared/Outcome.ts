@@ -2,11 +2,13 @@ import {ISUFactor, ISUFactorJSON} from './ISUFactor';
 import {constants} from './constants';
 
 interface OutcomeJSON extends ISUFactorJSON {
-  standardDeviation: number
+  standardDeviation: number;
+  gaussian_corellation: number;
 }
 
 export class Outcome extends ISUFactor {
   standardDeviation: number;
+  gaussian_corellation: number;
 
   // fromJSON is used to convert an serialized version
   // of the Outcome to an instance of the class
@@ -37,5 +39,6 @@ export class Outcome extends ISUFactor {
     this.nature = constants.HYPOTHESIS_NATURE.WITHIN;
     this.origin = constants.HYPOTHESIS_ORIGIN.OUTCOME;
     this.standardDeviation = 1;
+    this.gaussian_corellation = 1;
   }
 }

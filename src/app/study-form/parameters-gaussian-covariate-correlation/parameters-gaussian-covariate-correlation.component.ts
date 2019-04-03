@@ -1,23 +1,26 @@
-import {Component, DoCheck, OnInit} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {NavigationService} from "../../shared/navigation.service";
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-correlation',
   templateUrl: './parameters-gaussian-covariate-correlation.component.html',
   styleUrls: ['./parameters-gaussian-covariate-correlation.component.scss']
 })
-export class ParametersGaussianCovariateCorrelationComponent implements OnInit, DoCheck {
+export class ParametersGaussianCovariateCorrelationComponent implements OnInit, DoCheck, OnDestroy {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _formErrors = constants.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_ERRORS;
   private _validationMessages = constants.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_VALIDATION_MESSAGES;
   private _gaussianCovariateCorrForm: FormGroup;
 
-  constructor(private study_service: StudyService, private _fb: FormBuilder) {
+  constructor(private study_service: StudyService,
+              private navigation_service: NavigationService,
+              private _fb: FormBuilder) {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
     } );
@@ -40,6 +43,11 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
     this.onValueChanged(); // (re)set validation messages now
   }
 
+  ngOnDestroy() {
+    this.navigation_service.updateValid(true);
+    this.study_service.updateIsuFactors(this.isuFactors);
+  }
+
   onValueChanged(data?: any) {
     if (!this.gaussianCovariateCorrForm) {
       return;
@@ -56,20 +64,28 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
         }
       }
     }
+    this.checkValidBeforeNavigation();
+  }
+
+  checkValidBeforeNavigation() {
+    if (this.gaussianCovariateCorrForm.status === 'VALID') {
+      this.navigation_service.updateValid(true);
+    } else {
+      this.navigation_service.updateValid(false);
+    }
   }
 
   _updateCovariateCorrelation() {
     this.isuFactors.outcomes.forEach( outcome => {
-      outcome.standardDeviation = this.gaussianCovariateCorrForm.get(outcome.name).value;
+      outcome.gaussian_corellation = this.gaussianCovariateCorrForm.get(outcome.name).value;
     });
-    this.study_service.updateIsuFactors(this.isuFactors);
   }
 
   _defineControls() {
     const controlArray = {};
     this.isuFactors.outcomes.forEach(
       outcome => {
-        controlArray[outcome.name] = [outcome.standardDeviation];
+        controlArray[outcome.name] = [+outcome.gaussian_corellation];
       }
     );
     return controlArray;

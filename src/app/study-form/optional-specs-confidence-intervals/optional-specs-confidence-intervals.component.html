@@ -1,0 +1,109 @@
+<div class="row">
+  <div class="col">
+    <p>
+      If the means (B) or the error covariance (Σe) are sample estimates,
+      then the power values produced from these matrices will be random quantities.
+      To account for this randomness, GLIMMPSE can calculate confidence intervals for
+      power values using the techniques described by Taylor and Muller (1995),
+      Gribbin et al. (2013), and Park (2007).
+    </p>
+  </div>
+</div>
+<form [formGroup]="confidenceIntervalForm" *ngIf="hasConfidenceIntervals()">
+  <div class="row">
+    <div class="col">
+      <p>
+        What are your assumptions for the confidence intervals?
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="btn-group" data-toggle="buttons">
+        <label id="betaknownbtn" class="btn btn-secondary" [class.active]="isBetaKnown()">
+          <input type="radio" id="betaknownradio" (click)="betaKnown()">B known, Σe estimated
+        </label>
+        <label id="betaestimatedbtn" class="btn btn-secondary" [class.active]="!isBetaKnown()">
+          <input type="radio" id="betaestimatedradio" (click)="betaEstimated()">Both B and Σe estimated
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <p>
+        Enter the upper and lower tail probabilities for the confidence intervals.
+      </p>
+      <p>
+        We typically recommend the value 0.05 for the lower tail probability and 0 for the upper tail probability.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label for="lowertail" id="lowertaillbl">Lower Tail Probability:</label>
+      <input type="number" class="form-control"
+             id="lowertail"
+             placeholder="α < lower < 1"
+             formControlName="lowertail">
+    </div>
+    <div class="col">
+      <label for="lowertail" id="uppertaillbl">Upper Tail Probability:</label>
+      <input type="number" class="form-control"
+             id="uppertail"
+             placeholder="lower < upper < 1"
+             formControlName="uppertail">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <br>
+      <p>
+        Describe the data from which you obtained the values for B and Σe. Note that the total sample size must
+        be greater than the rank of the design matrix.
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <label for="lowertail" id="rankestlbl">Rank of Design Matrix:</label>
+      <input type="number" class="form-control"
+             id="rankest"
+             placeholder=""
+             formControlName="rankest">
+    </div>
+    <div class="col">
+      <label for="lowertail" id="estsamplesizelbl">Total Sample Size:</label>
+      <input type="number" class="form-control"
+             id="samplesizeest"
+             placeholder="Ranks Design matrix < N"
+             formControlName="samplesizeest">
+    </div>
+  </div>
+</form>
+<br>
+<div class="row">
+  <div class="col">
+    <div class="btn-group" data-toggle="buttons">
+      <label id="includeconfidenceintervalsbtn" class="btn btn-secondary" *ngIf="hasConfidenceIntervals()">
+        <input type="radio" id="includeconfidenceintervalsradio" (click)="removeConfidenceIntervals()">Don't include Confidence Intervals
+      </label>
+      <label id="removeconfidenceintervalsbtn" class="btn btn-secondary"  *ngIf="!hasConfidenceIntervals()">
+        <input type="radio" id="removeconfidenceintervalsradio" (click)="includeConfidenceIntervals()">Include Confidence Intervals
+      </label>
+    </div>
+  </div>
+</div>
+<ng-template #helpText>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Confidence Intervals Help</h5> <button type="button" class="close" (click)="dismissHelp()">
+      <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      <p>Help text goes here</p>
+    </div>
+    <div class="modal-footer"> footer text</div>
+  </div>
+</ng-template>

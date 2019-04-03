@@ -48,12 +48,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _ciwidthSubscription: Subscription;
   private _selectedTestsSubscription: Subscription;
   private _typeOneErrorRateSubscription: Subscription;
+  private _quantilesSubscription: Subscription;
   private _withinIsuOutcomeSubscription: Subscription;
   private _withinIsuRepeatedMeasuresSubscription: Subscription;
   private _withinIsuClusterSubscription: Subscription;
   private _betweenIsuPredictorsSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
   private _gaussianCovariateSubscription: Subscription;
+  private _confidenceIntervalSubscription: Subscription;
   private _hypothesisEffectSubscription: Subscription;
   private _scaleFactorSubscription: Subscription;
   private _varianceScaleFactorsSubscription: Subscription;
@@ -512,6 +514,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this._typeOneErrorRateSubscription = value;
   }
 
+  get quantilesSubscription(): Subscription {
+    return this._quantilesSubscription;
+  }
+
+  set quantilesSubscription(value: Subscription) {
+    this._quantilesSubscription = value;
+  }
+
   get withinIsuOutcomeSubscription(): Subscription {
     return this._withinIsuOutcomeSubscription;
   }
@@ -644,6 +654,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       }
     );
 
+    this.quantilesSubscription = this.study_service.quantiles$.subscribe(
+      quantiles => {
+        if (!isNullOrUndefined(quantiles)) {
+          this.study.quantiles = Array.from(quantiles.values());
+        }
+      }
+    );
+
     this.withinIsuOutcomeSubscription = this.study_service.withinIsuOutcomes$.subscribe(
       outcomes => {
         this.study.isuFactors.updateOutcomes(outcomes);
@@ -684,6 +702,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.gaussianCovariateSubscription = this.study_service.gaussianCovariate$.subscribe(
       gaussianCovariate => {
         this.study.gaussianCovariate = gaussianCovariate;
+      }
+    );
+
+    this._confidenceIntervalSubscription = this.study_service.confidenceInterval$.subscribe(
+      confidence_interval => {
+        this.study.confidence_interval = confidence_interval;
       }
     );
 
@@ -739,6 +763,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.ciwidthSubscription.unsubscribe();
     this.selectedTestsSubscription.unsubscribe();
     this.typeOneErrorRateSubscription.unsubscribe();
+    this.quantilesSubscription.unsubscribe();
     this.withinIsuOutcomeSubscription.unsubscribe();
     this.withinIsuRepeatedMeasuresSubscription.unsubscribe();
     this.withinIsuClusterSubscription.unsubscribe();
@@ -749,6 +774,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.scaleFactorSubscription.unsubscribe();
     this.varianceScaleFactorsSubscription.unsubscribe();
     this.powerCurveSubscription.unsubscribe();
+    this._confidenceIntervalSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {
@@ -862,11 +888,15 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     } else if (name === 'PARAMETERS_INTRA_CLASS_CORRELATION') {
       return 'Intra Class Correlation';
     } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE') {
-      return 'Gaussian Covariate Variance';
+      return 'Gaussian Covariate Standard Deviation';
     } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION') {
       return 'Gaussian Covariate Correlation';
+    } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_POWER') {
+      return 'Gaussian Covariate Power';
     } else if (name === 'PARAMETERS_SCALE_FACTOR_VARIANCE') {
       return 'Scale Factor Variance';
+    } else if (name === 'OPTIONAL_SPECS_CONFIDENCE_INTERVALS') {
+      return 'Conficence Intervals';
     } else if (name === 'CALCULATE') {
       return 'Calculate';
     }

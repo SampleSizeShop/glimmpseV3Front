@@ -1,25 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ParametersGaussianCovariateVarianceComponent } from './parameters-gaussian-covariate-variance.component';
+import { ParametersGaussianPowerComponent } from './parameters-gaussian-power.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {NavigationService} from '../../shared/navigation.service';
 import {HttpClient} from '@angular/common/http';
+import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StudyService} from '../study.service';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
+import {GaussianCovariate} from '../../shared/GaussianCovariate';
 
-describe('ParametersGaussianCovariateVarianceComponent', () => {
-  let component: ParametersGaussianCovariateVarianceComponent;
-  let fixture: ComponentFixture<ParametersGaussianCovariateVarianceComponent>;
+describe('ParametersGaussianPowerComponent', () => {
+  let component: ParametersGaussianPowerComponent;
+  let fixture: ComponentFixture<ParametersGaussianPowerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-      ],
-      declarations: [ ParametersGaussianCovariateVarianceComponent ],
+      imports: [ReactiveFormsModule],
+      declarations: [ ParametersGaussianPowerComponent ],
       providers: [
         StudyService,
         NavigationService,
@@ -32,9 +31,9 @@ describe('ParametersGaussianCovariateVarianceComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ParametersGaussianCovariateVarianceComponent);
-    fixture.detectChanges();
+    fixture = TestBed.createComponent(ParametersGaussianPowerComponent);
     component = fixture.componentInstance;
+    component._gaussianCovariate = new GaussianCovariate();
     fixture.detectChanges();
   });
 

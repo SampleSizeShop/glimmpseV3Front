@@ -37,10 +37,6 @@ export class SolveForPo {
           element(by.id('addpower')).click();
         });
       }
-      if (!isNullOrUndefined(input.ci_width)) {
-        const ciInput = element(by.id('ciwidth'));
-        ciInput.clear().then(() => ciInput.sendKeys(input.ci_width));
-      }
     }
   }
 }

@@ -1,0 +1,95 @@
+<div class="row">
+  <p>
+    For designs including a baseline covariate, two methods are available to calculate power: unconditional
+    power and quantile power.
+    One can think of the random covariate values as having been sampled from a normal distribution.
+    Thus there are many possible realizations of the same experiment, and each realization may have a different power.
+    The unconditional power is defined as the average of the possible power values (Gatsonis and Sampson, 1989; Glueck
+    and Muller, 2003). The 100 x vth quantile power is the power value chosen so that power as small or smaller occurs
+    in 100 x v percent of all possible realizations of the experiment.
+  </p>
+  <p>
+    For a detailed description of unconditional and quantile power, please see Gatsonis
+    and Sampson (1989) and Glueck and Muller (2003).
+  </p>
+  <p>
+    Note that selecting unconditional power may result in very long computation times,
+    especially if you are solving for sample size.
+  </p>
+</div>
+<form [formGroup]="quantileForm" class="form-horizontal" id="quantileForm">
+  <div class="row">
+    <div class="form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" formControlName="unconditionalPower" type="checkbox">
+        Calculate unconditional power
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-check">
+      <label class="form-check-label">
+        <input class="form-check-input" formControlName="quantilePower" type="checkbox">
+        Calculate quantile power
+      </label>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="firstQuantile()">
+    <label for="quantile">Please enter the a quantile in the list below:</label>
+  </div>
+  <div class="row" *ngIf="!firstQuantile()">
+    <label for="quantile">Would you like to calculate power for another quantile?</label>
+  </div>
+  <div class="row">
+    <div class="col col-md-auto" style="padding-left: 0px">
+      <input type="number"
+             min="0"
+             step="1"
+             class="form-control"
+             id="quantile"
+             formControlName="quantile"
+             (keyup.enter)="addQuantile()">
+    </div>
+    <div class="col">
+      <i class="material-icons" (click)="addQuantile()" style="margin-top: 10px" id="addquantile">add_box</i>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngIf="formErrors.covariatepower" class="form-group has-danger">
+      <div class="form-control-feedback">{{formErrors.covariatepower}}</div>
+    </div>
+  </div>
+  <div class="row table-responsive">
+    <table class="table">
+      <thead>
+      <th style="padding-left: 0px">Quantile</th>
+      <th>remove</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let quantile of quantiles$ | async; let i = index;"
+          id="quantilelist"
+          [class]="rowStyle(i)">
+        <td>{{quantile}}</td>
+        <td><i class="material-icons"
+               (click)="removeQuantile(quantile)"
+               style="margin-bottom: 5px" id="removequantile">delete_forever</i></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</form>
+<ng-template #helpText>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Quantile Power Help</h5> <button type="button" class="close" (click)="dismissHelp()">
+      <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    <div class="modal-body">
+      <p>Help text goes here</p>
+    </div>
+    <div class="modal-footer"> footer text</div>
+  </div>
+</ng-template>

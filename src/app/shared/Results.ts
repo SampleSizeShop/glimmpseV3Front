@@ -4,6 +4,8 @@ import {isNullOrUndefined} from 'util';
 interface ResultJSON {
   model: LinearModel;
   power: Array<number>;
+  lower_bound: Array<number>;
+  upper_bound: Array<number>;
   test: string;
   samplesize: Array<number>;
 }
@@ -11,6 +13,8 @@ interface ResultJSON {
 export class Result {
   model:  LinearModel;
   power: Array<number>;
+  lower_bound: Array<number>;
+  upper_bound: Array<number>;
   test: string;
   samplesize: Array<number>;
 
@@ -28,6 +32,8 @@ export class Result {
         // convert fields that need converting
         model: LinearModel.fromJSON(JSON.stringify(json.model)),
         power: this.parsePower(json),
+        lower_bound: this.parseLowerBound(json),
+        upper_bound: this.parseUpperBound(json),
         test: this.parseTest(json),
         samplesize: this.parseSamplesize(json),
       });
@@ -43,6 +49,22 @@ export class Result {
   static parsePower(json: ResultJSON) {
     if (!isNullOrUndefined(json.power)) {
       return json.power
+    } else {
+      return null;
+    }
+  }
+
+  static parseLowerBound(json: ResultJSON) {
+    if (!isNullOrUndefined(json.lower_bound)) {
+      return json.lower_bound
+    } else {
+      return null;
+    }
+  }
+
+  static parseUpperBound(json: ResultJSON) {
+    if (!isNullOrUndefined(json.upper_bound)) {
+      return json.upper_bound
     } else {
       return null;
     }

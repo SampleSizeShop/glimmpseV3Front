@@ -10,6 +10,7 @@ import {RelativeGroupSizeTable} from './RelativeGroupSizeTable';
 import {MarginalMeansTable} from './MarginalMeansTable';
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {CombinationId} from './CombinationId';
+import {ConfidenceInterval} from './ConfidenceInterval';
 
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
@@ -23,10 +24,12 @@ interface StudyDesignJSON {
   _typeOneErrorRate: Array<number>;
   _isuFactors: ISUFactors;
   _gaussianCovariate: GaussianCovariate;
+  _quantiles: Set<number>;
   _scaleFactor: number[];
   _varianceScaleFactors: number[];
   _powerCurve: PowerCurve;
   _define_full_beta: boolean;
+  _confidence_interval: ConfidenceInterval;
 }
 
 export class StudyDesign {
@@ -37,12 +40,14 @@ export class StudyDesign {
   private _ciwidth: number;
   private _selectedTests: string[];
   private _typeOneErrorRate: Array<number>;
+  private _quantiles: Array<number>;
   private _isuFactors: ISUFactors;
   private _gaussianCovariate: GaussianCovariate;
   private _scaleFactor: number[];
   private _varianceScaleFactors: number[];
   private _powerCurve: PowerCurve;
   private _define_full_beta: boolean;
+  private _confidence_interval: ConfidenceInterval;
 
   // fromJSON is used to convert an serialized version
   // of the StudyDesign to an instance of the class
@@ -58,6 +63,7 @@ export class StudyDesign {
         // convert fields that need converting
         _isuFactors: ISUFactors.fromJSON(JSON.stringify(json._isuFactors)),
         _gaussianCovariate: GaussianCovariate.fromJSON(JSON.stringify(json._gaussianCovariate)),
+        _confidence_interval: ConfidenceInterval.fromJSON(JSON.stringify(json._confidence_interval)),
       });
     }
   }
@@ -76,12 +82,14 @@ export class StudyDesign {
               ciwidth?: number,
               selectedTests?: Set<string>,
               typeOneErrorRate?: number,
+              quantiles?: Array<number>,
               isuFactors?: ISUFactors,
               gaussianCovariates?: GaussianCovariate,
               hypothesisEffect?: HypothesisEffect,
               scaleFactor?: number,
               varianceScaleFactors?: number[],
-              powerCurve?: PowerCurve
+              powerCurve?: PowerCurve,
+              confidence_interval?: ConfidenceInterval
 ) {
     this.isuFactors = new ISUFactors();
     this.power = [];
@@ -397,5 +405,21 @@ export class StudyDesign {
 
   set define_full_beta(value: boolean) {
     this._define_full_beta = value;
+  }
+
+  get quantiles(): Array<number> {
+    return this._quantiles;
+  }
+
+  set quantiles(value: Array<number>) {
+    this._quantiles = value;
+  }
+
+  get confidence_interval(): ConfidenceInterval {
+    return this._confidence_interval;
+  }
+
+  set confidence_interval(value: ConfidenceInterval) {
+    this._confidence_interval = value;
   }
 }
