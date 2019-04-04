@@ -656,8 +656,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
     this.quantilesSubscription = this.study_service.quantiles$.subscribe(
       quantiles => {
-        if (!isNullOrUndefined(quantiles) && !isNullOrUndefined(quantiles.values())) {
-          this.study.quantiles = Array.from(quantiles.values());
+        if (!isNullOrUndefined(quantiles)) {
+          this.study.quantiles = quantiles;
         }
       }
     );
