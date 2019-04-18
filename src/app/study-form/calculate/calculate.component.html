@@ -23,7 +23,7 @@
         [class] = "rowStyle(i)"
         [attr.id]="'result_display_row_'+i">
       <td id="{{'power_' + i}}" data-label="Power">
-        <div>{{result.power}}</div><div *ngIf="error(result)">{{result.model.errors}}</div>
+        <div *ngIf="!error(result)">{{result.power}}</div><div *ngIf="error(result)">{{result.model.errors}}</div>
       </td>
       <td *ngIf="hasConfidenceInterval()" id="{{'ci_' + i}}" data-label="Confidence Intervals">({{result.lower_bound}} , {{result.upper_bound}})</td>
       <td *ngIf="isSamplesize() && !error(result)" data-label="Total Sample Size">{{result.samplesize}}</td>

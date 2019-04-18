@@ -105,6 +105,9 @@ export class StudyFormComponentPage {
           }
         });
       });
+      // optional download test designs
+      // const createBtn = element(by.css('#downloadbtn'));
+      // createBtn.click();
     });
   }
 
