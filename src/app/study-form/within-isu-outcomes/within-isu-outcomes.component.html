@@ -48,23 +48,25 @@
     </div>
   </div>
   <div class="row">
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-        <th>Outcome</th>
-        <th>remove</th>
-        </thead>
-        <tbody>
-        <tr *ngIf="firstOutcome()">
-          <td> You must enter at least one outcome</td>
-          <td></td>
-        </tr>
-        <tr *ngFor="let outcome of outcomes$ | async; let i = index; " id="outcomelist" [class]="rowStyle(i)">
-          <td>{{outcome.name}}</td>
-          <td><i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">delete_forever</i></td>
-        </tr>
-        </tbody>
-      </table>
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+          <th>Outcome</th>
+          <th>remove</th>
+          </thead>
+          <tbody>
+          <tr *ngIf="firstOutcome()">
+            <td> You must enter at least one outcome</td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let outcome of outcomes$ | async; let i = index; " id="outcomelist" [class]="rowStyle(i)">
+            <td>{{outcome.name}}</td>
+            <td><i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">delete_forever</i></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </form>
