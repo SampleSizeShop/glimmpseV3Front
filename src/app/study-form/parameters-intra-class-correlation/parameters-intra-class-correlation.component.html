@@ -7,7 +7,12 @@
           The intraclass correlation for level <b>{{level.levelName}}</b> must be a number between 1 > x > {{(-1 / (level.noElements-1)).toFixed(3)}}
         </div>
         <div class="col-md-3 align-self-center">
-          <input type="number" value="{{level.intraClassCorellation}}" id="{{i}}" formControlName="{{level.levelName}}"  required>
+          <input type="number"
+                 value="{{level.intraClassCorellation}}"
+                 id="{{i}}"
+                 formControlName="{{level.levelName}}"
+                 step="0.1"
+                 required>
         </div>
       </div>
     </div>

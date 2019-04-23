@@ -17,49 +17,53 @@
     </div>
   </div>
   <div class="row">
-    <table class="table">
-      <thead>
-      <th class="col-md-auto">
-      </th>
-      <th class="col-md-auto">
-        <p>Effects Available for Consideration</p>
-      </th>
-      <th class="col-md-auto">
-        <p>Nature of Variation</p>
-      </th>
-      </thead>
-      <tbody>
-      <tr *ngFor="let effect of possibleEffects; let i = index"
-          [ngStyle]="{'background-color': rowStyle(i)}">
-        <td class="col-md-auto" >
-          <div class="form-check" style="margin-bottom: 1px">
-            <label class="form-check-label" id="{{effect.name}}">
-              <input type="radio" (click)="selectEffect(effect)" class="form-check-input input-sm" [checked]="isSelected(effect)">
-            </label>
-          </div>
-        </td>
-        <td class="col-md-auto" *ngIf="isGrandMean(effect)">{{effect.type}}</td>
-        <td class="col-md-auto" *ngIf="!isGrandMean(effect)">{{effect.name}}: {{effect.type}}</td>
-        <td class="col-md-autol">{{effect.nature}}</td>
-      </tr>
-      </tbody>
-    </table>
+    <div class="col">
+      <table class="table">
+        <thead>
+        <th class="col-md-auto">
+        </th>
+        <th class="col-md-auto">
+          <p>Effects Available for Consideration</p>
+        </th>
+        <th class="col-md-auto">
+          <p>Nature of Variation</p>
+        </th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let effect of possibleEffects; let i = index"
+            [ngStyle]="{'background-color': rowStyle(i)}">
+          <td class="col-md-auto" >
+            <div class="form-check" style="margin-bottom: 1px">
+              <label class="form-check-label" id="{{effect.name}}">
+                <input type="radio" (click)="selectEffect(effect)" class="form-check-input input-sm" [checked]="isSelected(effect)">
+              </label>
+            </div>
+          </td>
+          <td class="col-md-auto" *ngIf="isGrandMean(effect)">{{effect.type}}</td>
+          <td class="col-md-auto" *ngIf="!isGrandMean(effect)">{{effect.name}}: {{effect.type}}</td>
+          <td class="col-md-autol">{{effect.nature}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="row">
-    <div class="btn-group-sm" data-toggle="buttons">
-      <label aria-pressed="true"
-             class="btn btn-secondary"
-             [class.active]="isHypothesisBeta"
-             id="hypothesisbetabtn">
-        <input type="radio" id="hypothesisbetaradio" (click)="selectHypothesisBeta()"> Hypothesis Beta
-      </label>
-      <label aria-pressed="true"
-             class="btn btn-secondary"
-             [class.active]="isFullBeta"
-             id="fullbetabtn">
-        <input type="radio" id="fullbetaradio" (click)="selectFullBeta()"> Full beta
-      </label>
+    <div class="col">
+      <div class="btn-group-sm" data-toggle="buttons">
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="isHypothesisBeta"
+               id="hypothesisbetabtn">
+          <input type="radio" id="hypothesisbetaradio" (click)="selectHypothesisBeta()"> Hypothesis Beta
+        </label>
+        <label aria-pressed="true"
+               class="btn btn-secondary"
+               [class.active]="isFullBeta"
+               id="fullbetabtn">
+          <input type="radio" id="fullbetaradio" (click)="selectFullBeta()"> Full beta
+        </label>
+      </div>
     </div>
   </div>
 </div>

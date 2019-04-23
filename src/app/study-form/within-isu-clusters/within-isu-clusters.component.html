@@ -111,20 +111,21 @@
           <h6>Levels:</h6></div>
       </div>
       <div class="row">
+        <div class="col">
           <table class="table" *ngIf="hasLevels()" >
             <thead>
-              <th class="col col-md-auto">
-                Level
-              </th>
-              <th class="col col-md-auto">
-                Level Name
-              </th>
-              <th class="col col-md-auto">
-                No. Elements
-              </th>
-              <th class="col col-md-auto">
-                Remove
-              </th>
+            <th class="col col-md-auto">
+              Level
+            </th>
+            <th class="col col-md-auto">
+              Level Name
+            </th>
+            <th class="col col-md-auto">
+              No. Elements
+            </th>
+            <th class="col col-md-auto">
+              Remove
+            </th>
             </thead>
             <tbody>
             <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i)">
@@ -142,7 +143,8 @@
               </td>
             </tr>
             </tbody>
-        </table>
+          </table>
+        </div>
       </div>
       <div class="row">
         <div class="col">
@@ -165,47 +167,53 @@
 
   <div *ngIf="hasCluster() && isInfo()" >
     <div class="row">
-      <h6>Levels in cluster: {{cluster.name}}</h6>
+      <div class="col">
+        <h6>Levels in cluster: {{cluster.name}}</h6>
+      </div>
     </div>
     <div class="row">
-      <table class="table">
-        <thead>
-        <th class="col col-md-auto">
-          Order
-        </th>
-        <th class="col col-md-auto">
-          Level Name
-        </th>
-        <th class="col col-md-auto">
-          No. Elements
-        </th>
-        </thead>
-        <tbody>
-        <tr *ngFor="let level of cluster.levels; let i = index" [class]="rowStyle(i)">
-          <td class="col col-md-auto">
-            {{i}}
-          </td>
-          <td class="col col-md-auto">
-            {{level.levelName}}
-          </td>
-          <td class="col col-md-auto">
-            {{level.noElements}}
-          </td>
-        </tr>
-        </tbody>
-      </table>
+      <div class="col">
+        <table class="table">
+          <thead>
+          <th class="col col-md-auto">
+            Order
+          </th>
+          <th class="col col-md-auto">
+            Level Name
+          </th>
+          <th class="col col-md-auto">
+            No. Elements
+          </th>
+          </thead>
+          <tbody>
+          <tr *ngFor="let level of cluster.levels; let i = index" [class]="rowStyle(i)">
+            <td class="col col-md-auto">
+              {{i}}
+            </td>
+            <td class="col col-md-auto">
+              {{level.levelName}}
+            </td>
+            <td class="col col-md-auto">
+              {{level.noElements}}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
     <br>
     <div class="row">
-      <div class="btn-group" data-toggle="buttons">
-        <label id="removeclusterbtn" class="btn btn-sm btn-secondary">
-          <input type="radio" id="removeclusterradio" (click)="removeCluster()">Remove Clustering
-        </label>
-      </div>
-      <div class="btn-group" data-toggle="buttons">
-        <label id="editclusterbtn" class="btn btn-sm btn-secondary">
-          <input type="radio" id="editclusterradio" (click)="editCluster()">Edit Clustering
-        </label>
+      <div class="col">
+        <div class="btn-group" data-toggle="buttons">
+          <label id="removeclusterbtn" class="btn btn-sm btn-secondary">
+            <input type="radio" id="removeclusterradio" (click)="removeCluster()">Remove Clustering
+          </label>
+        </div>
+        <div class="btn-group" data-toggle="buttons">
+          <label id="editclusterbtn" class="btn btn-sm btn-secondary">
+            <input type="radio" id="editclusterradio" (click)="editCluster()">Edit Clustering
+          </label>
+        </div>
       </div>
     </div>
   </div>
