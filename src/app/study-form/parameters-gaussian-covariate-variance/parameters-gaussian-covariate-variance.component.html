@@ -5,7 +5,11 @@
   <div class="row">
     <div class="col-md-auto align-self-center">Standard deviation: </div>
     <div class="col-md-auto align-self-center">
-      <input type="number" formControlName="variance" value=1 id="variance" required>
+      <input type="number"
+             formControlName="variance"
+             value=1 id="variance"
+             step="0.1"
+             required>
     </div>
   </div>
   <div *ngIf="formErrors.covariatevariance" class="form-group has-danger">
