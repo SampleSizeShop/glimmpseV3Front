@@ -9,7 +9,13 @@
       <label>{{outcome.name}}:</label>
     </div>
     <div class="col col-md-auto align-self-center">
-      <input type="number" class="form-control" id="{{outcome.name}}" formControlName="{{outcome.name}}" value="{{outcome.standardDeviation}}" required>
+      <input type="number"
+             class="form-control"
+             id="{{outcome.name}}"
+             formControlName="{{outcome.name}}"
+             value="{{outcome.standardDeviation}}"
+             step="0.1"
+             required>
     </div>
   </div>
   <div *ngIf="formErrors.vectorofstandarddeviations" class="form-group has-danger">
