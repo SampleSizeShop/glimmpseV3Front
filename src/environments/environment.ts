@@ -13,6 +13,6 @@ export const environment = {
   calculateUrl: 'http://54.161.9.34:5000/api/calculate',
   loglevel: NgxLoggerLevel.DEBUG,
   serverLoglevel: NgxLoggerLevel.WARN,
-  disableAnimations: false,
-  e2eTest: false
+  disableAnimations: true,
+  e2eTest: true
 };

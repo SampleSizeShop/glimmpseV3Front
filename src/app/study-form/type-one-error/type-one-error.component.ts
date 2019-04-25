@@ -79,8 +79,15 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   }
 
   buildForm(): void {
+    let typeOneDefault = 0.01;
+    if (!isNullOrUndefined(this.typeOneErrorRate) && this.typeOneErrorRate.length > 0) {
+      typeOneDefault = null
+    }
     this.typeOneErrorRateForm = this.fb.group({
-      typeoneerror: [0.01, [minMaxValidator(0, 1, this.log), typeOneErrorValidator(this._typeOneErrorRate, this._isClickNextReference)]]
+      typeoneerror: [typeOneDefault,
+                      [minMaxValidator(0, 1, this.log),
+                      typeOneErrorValidator(this._typeOneErrorRate, this._isClickNextReference)]
+                    ]
     });
 
     this.typeOneErrorRateForm.valueChanges.subscribe(data => this.onValueChanged(data));
