@@ -7,6 +7,7 @@ import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-parameters-variance-scale-factors',
@@ -70,8 +71,12 @@ private _afterInit: boolean;
   }
 
   buildForm() {
+    let scaleFactorDefault = 0.5;
+    if (!isNullOrUndefined(this.scaleFactors) && this.scaleFactors.length > 0) {
+      scaleFactorDefault = null;
+    }
     this.scaleFactorsForm = this.fb.group({
-      scaleFactors: [0, minMaxValidator( -1, 99999999999)]
+      scaleFactors: [scaleFactorDefault, minMaxValidator( -1, 99999999999)]
     });
 
     this.scaleFactorsForm.valueChanges.subscribe(data => this.onValueChanged(data));
