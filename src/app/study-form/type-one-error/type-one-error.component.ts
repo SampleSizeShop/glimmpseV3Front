@@ -80,7 +80,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   buildForm(): void {
     let typeOneDefault = 0.01;
-    if (isNullOrUndefined(this.typeOneErrorRate) || this.typeOneErrorRate.length > 0) {
+    if (!isNullOrUndefined(this.typeOneErrorRate) && this.typeOneErrorRate.length > 0) {
       typeOneDefault = null
     }
     this.typeOneErrorRateForm = this.fb.group({

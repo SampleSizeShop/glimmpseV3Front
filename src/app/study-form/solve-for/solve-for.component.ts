@@ -78,7 +78,7 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   buildForm(): void {
     let powerDefault = 0.9;
-    if (isNullOrUndefined(this.power) || this.power.length > 0) {
+    if (!isNullOrUndefined(this.power) && this.power.length > 0) {
       powerDefault = null;
     }
     this.powerSampleSizeForm = this.fb.group({

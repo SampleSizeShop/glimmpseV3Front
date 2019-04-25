@@ -118,7 +118,11 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
   }
 
   updateQuantileControls() {
-    return { quantile:  [0.5, minMaxValidator(0, 1, this.log)],
+    let quantileDefault = 0.5;
+    if (!isNullOrUndefined(this._quantiles) && this._quantiles.size > 0) {
+      quantileDefault = null;
+    }
+    return { quantile:  [quantileDefault, minMaxValidator(0, 1, this.log)],
              quantilePower: [this._gaussianCovariate.isQuantile()],
              unconditionalPower: [this._gaussianCovariate.isUnconditional()] }
   }
