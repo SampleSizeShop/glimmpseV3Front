@@ -87,9 +87,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this._quantiles.size > 0) {
-      this._study_service.updateQuantiles(Array.from(this._quantiles));
-    }
+    this._study_service.updateQuantiles(Array.from(this._quantiles));
     this.updateCovariate();
     this.navigation_service.updateValid(true);
     this._study_service.updateGaussianCovariate(this._gaussianCovariate);
