@@ -8,6 +8,8 @@ interface LinearModelJSON {
   means_scale_factor: number;
   variance_scale_factor: number;
   test: number;
+  power_method: string;
+  quantile: string;
   alpha: number;
 }
 
@@ -18,6 +20,8 @@ export class LinearModel {
   means_scale_factor: number;
   variance_scale_factor: number;
   test: string;
+  power_method: string;
+  quantile: number;
   alpha: number;
 
   static fromJSON(json: LinearModelJSON|string): LinearModel {
@@ -36,6 +40,7 @@ export class LinearModel {
         means_scale_factor: this.parseMeanScaleFactor(json),
         variance_scale_factor: this.parseVarianceScaleFactor(json),
         test: this.parseTest(json),
+        power_method: this.parsePowerMethod(json),
         alpha: this.parseAlpha(json),
       });
     }
@@ -90,6 +95,18 @@ export class LinearModel {
   static parseTest(json: LinearModelJSON) {
     if (!isNullOrUndefined(json.test)) {
       return json.test
+    } else {
+      return null;
+    }
+  }
+
+  static parsePowerMethod(json: LinearModelJSON) {
+    if (!isNullOrUndefined(json.power_method)) {
+      if (json.power_method === 'quantile') {
+        return json.power_method + ': ' +  json.quantile;
+      } else {
+        return json.power_method;
+      }
     } else {
       return null;
     }
