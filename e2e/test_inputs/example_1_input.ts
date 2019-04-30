@@ -76,6 +76,7 @@ export const example_1_output = {
     smallest_realizable_design: null,
     delta: [ [ 6400 ] ],
     groups: [ 1 ],
+    power_method: 'conditional',
     quantile: null,
     confidence_interval: null,
   }
