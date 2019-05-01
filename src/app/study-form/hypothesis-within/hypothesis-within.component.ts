@@ -220,14 +220,16 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     const uMatrixObject = new RepeatedMeasure();
     uMatrixObject.name = 'your ';
 
-    this._isuFactors.repeatedMeasures.forEach(repMeasure => {
-      uMatrixObject.name = uMatrixObject.name + repMeasure.name + ' x '
-      repMeasure.valueNames.forEach(name => {
-        uMatrixObject.valueNames.push(name);
+    this.isuFactors.outcomes.forEach(outcome  => {
+      this._isuFactors.repeatedMeasures.forEach(repMeasure => {
+        uMatrixObject.name = uMatrixObject.name + ' ' + outcome.name + ' ' +  repMeasure.name + ' x '
+        repMeasure.valueNames.forEach(name => {
+          uMatrixObject.valueNames.push(name);
+        });
       });
     });
     uMatrixObject.name = uMatrixObject.name.slice(0, uMatrixObject.name.length - 2);
-    uMatrixObject.name = uMatrixObject.name + 'hypothesis'
+    uMatrixObject.name = uMatrixObject.name + 'hypothesis';
     return uMatrixObject;
   }
 
