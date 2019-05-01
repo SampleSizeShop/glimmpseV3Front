@@ -221,25 +221,45 @@ export class StudyDesign {
       });
     } else if (this.isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX) {
       a = this.isuFactors.cMatrix.values.size()[0]
+    } else {
+      this.isuFactors.predictors.forEach(predictor => {
+        if (predictor.inHypothesis) {a = a * (predictor.valueNames.length - 1);
+        }
+      });
     }
-    this.isuFactors.predictors.forEach(predictor => {
-      if (predictor.inHypothesis) {a = a * (predictor.valueNames.length - 1);
-      }
-    });
     return a;
   }
 
   get b() {
     let b = this.isuFactors.outcomes.length;
-    const c = []
-    this.isuFactors.repeatedMeasures.forEach(measure => {
-      if (measure.inHypothesis) {
-        c.push(measure.partialUMatrix.values.size()[1]);
-      }
-    });
-    c.forEach(noCols => {
-      b = b * noCols;
-    });
+    if (this.isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.USER_DEFINED_PARTIALS) {
+      this.isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
+        let n = 1;
+        if (repeatedMeasure.inHypothesis &&
+          repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS) {
+          n = repeatedMeasure.valueNames.length -1;
+        } else if (repeatedMeasure.inHypothesis &&
+          repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
+          n = repeatedMeasure.valueNames.length
+        } else if (repeatedMeasure.inHypothesis &&
+          repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX) {
+          n = repeatedMeasure.partialMatrix.values.size()[1]
+        }
+        b = b * n
+      });
+    } else if (this.isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX) {
+      b = this.isuFactors.uMatrix.values.size()[1]
+    } else {
+      const c = []
+      this.isuFactors.repeatedMeasures.forEach(measure => {
+        if (measure.inHypothesis) {
+          c.push(measure.partialUMatrix.values.size()[1]);
+        }
+      });
+      c.forEach(noCols => {
+        b = b * noCols;
+      });
+    }
     return b;
   }
 
