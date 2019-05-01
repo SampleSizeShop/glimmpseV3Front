@@ -36,9 +36,10 @@
       </label>
     </div>
 
-    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
-         class="row">
-      <h6>Click on any of the marginal C matrices below to customise them:</h6>
+    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+      <div class="row">
+        <h6>Click on any of the marginal C matrices below to customise them:</h6>
+      </div>
       <div *ngFor="let predictor of predictorsIn" class="row">
         <div class="col  col-md-auto">
           <h6>{{predictor.name}}:</h6>
