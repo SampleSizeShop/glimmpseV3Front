@@ -4,8 +4,13 @@
       <p>
         Each power or sample size calculation is based on selecting a specific study hypothesis.
         The options below show the hypotheses which are available for the current study design.
-        Specify the hypothesis that represents your scientific question. <br /><br />
-
+        Specify the hypothesis that represents your scientific question.
+      </p>
+      <p>
+        Glimmpse chooses sensible contrast matrices based on cell means coding.
+        Should you wish to define your own C and U matrices, pick the highest order interaction and choose from the advanced options in the hypothesis components.
+      </p>
+      <p>
         Select your hypothesis from the list.
       </p>
     </div>
@@ -49,19 +54,22 @@
   </div>
 
   <div class="row">
+    <div class="col">Specify means for:</div>
+  </div>
+  <div class="row">
     <div class="col">
       <div class="btn-group-sm" data-toggle="buttons">
         <label aria-pressed="true"
                class="btn btn-secondary"
                [class.active]="isHypothesisBeta"
                id="hypothesisbetabtn">
-          <input type="radio" id="hypothesisbetaradio" (click)="selectHypothesisBeta()"> Hypothesis Beta
+          <input type="radio" id="hypothesisbetaradio" (click)="selectHypothesisBeta()"> Factors in Hypothesis
         </label>
         <label aria-pressed="true"
                class="btn btn-secondary"
                [class.active]="isFullBeta"
                id="fullbetabtn">
-          <input type="radio" id="fullbetaradio" (click)="selectFullBeta()"> Full beta
+          <input type="radio" id="fullbetaradio" (click)="selectFullBeta()">All Factors
         </label>
       </div>
     </div>

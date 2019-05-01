@@ -16,7 +16,6 @@ import {minMaxValidator} from '../../shared/minmax.validator';
 import {Observable} from 'rxjs/Observable';
 import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 import {fadeTransition} from '../../animations';
-import {Predictor} from '../../shared/Predictor';
 
 @Component({
   selector: 'app-hypothesis-within',
