@@ -241,7 +241,7 @@ export class StudyDesign {
         let n = 1;
         if (repeatedMeasure.inHypothesis &&
           repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS) {
-          n = repeatedMeasure.valueNames.length -1;
+          n = repeatedMeasure.valueNames.length - 1;
         } else if (repeatedMeasure.inHypothesis &&
           repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
           n = repeatedMeasure.valueNames.length
