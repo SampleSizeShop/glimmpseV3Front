@@ -126,6 +126,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.study_service.updateIsuFactors(this._isuFactors);
     this.navigation_service.updateInternalFormSource(false);
     this._isuFactorsSubscription.unsubscribe();
     this._contrastMatrixSubscription.unsubscribe();
@@ -411,18 +412,5 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
 
   get uMatrixTex() {
     return this._isuFactors.uMatrix.toTeX();
-    // let m = this._uOutcomes.kronecker(this._uRepeatedMeasures);
-    // m = math.kron(m, math.matrix([this._uCluster]));
-    // let texString = '$\\begin{bmatrix}';
-    // let row = 0;
-    // m.forEach(function (value, index, matrix) {
-    //   if (index[0] > row) {
-    //     row = index[0];
-    //     texString = texString.slice(0, texString.length - 2) + '\\\\';
-    //   }
-    //   texString = texString + value + ' & '
-    // })
-    // texString = texString.slice(0, texString.length - 2) + '\\end{bmatrix}$';
-    // return texString;
   }
 }

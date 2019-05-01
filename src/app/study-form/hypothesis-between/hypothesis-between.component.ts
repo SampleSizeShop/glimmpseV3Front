@@ -126,6 +126,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.study_service.updateIsuFactors(this._isuFactors);
     this.navigation_service.updateInternalFormSource(false);
     this._isuFactorsSubscription.unsubscribe();
     this._contrastMatrixSubscription.unsubscribe();
