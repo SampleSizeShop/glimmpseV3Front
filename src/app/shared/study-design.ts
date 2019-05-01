@@ -223,7 +223,7 @@ export class StudyDesign {
       a = this._isuFactors.cMatrix.values.size()[0]
     } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
       this._isuFactors.predictors.forEach(predictor => {
-          a = a * (predictor.valueNames.length;
+          a = a * predictor.valueNames.length;
       });
     } else {
       this._isuFactors.predictors.forEach(predictor => {
