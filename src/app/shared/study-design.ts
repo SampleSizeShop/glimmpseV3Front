@@ -204,6 +204,24 @@ export class StudyDesign {
 
   get a() {
     let a = 1;
+    if (this.isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.USER_DEFINED_PARTIALS) {
+      this.isuFactors.predictors.forEach(predictor => {
+        let n = 1;
+        if (predictor.inHypothesis &&
+          predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS) {
+          n = predictor.valueNames.length - 1;
+        } else if (predictor.inHypothesis &&
+          predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
+          n = predictor.valueNames.length
+        } else if (predictor.inHypothesis &&
+          predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX) {
+          n = predictor.partialMatrix.values.size()[0]
+        }
+        a = a * n
+      });
+    } else if (this.isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX) {
+      a = this.isuFactors.cMatrix.values.size()[0]
+    }
     this.isuFactors.predictors.forEach(predictor => {
       if (predictor.inHypothesis) {a = a * (predictor.valueNames.length - 1);
       }
