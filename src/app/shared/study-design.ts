@@ -204,24 +204,71 @@ export class StudyDesign {
 
   get a() {
     let a = 1;
-    this.isuFactors.predictors.forEach(predictor => {
-      if (predictor.inHypothesis) {a = a * (predictor.valueNames.length - 1);
-      }
-    });
+    if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.USER_DEFINED_PARTIALS) {
+      this._isuFactors.predictors.forEach(predictor => {
+        let n = 1;
+        if (predictor.inHypothesis &&
+          predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS) {
+          n = predictor.valueNames.length - 1;
+        } else if (predictor.inHypothesis &&
+          predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
+          n = predictor.valueNames.length
+        } else if (predictor.inHypothesis &&
+          predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX) {
+          n = predictor.partialMatrix.values.size()[0]
+        }
+        a = a * n
+      });
+    } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX) {
+      a = this._isuFactors.cMatrix.values.size()[0]
+    } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
+      this._isuFactors.predictors.forEach(predictor => {
+          a = a * predictor.valueNames.length;
+      });
+    } else {
+      this._isuFactors.predictors.forEach(predictor => {
+        if (predictor.inHypothesis) {a = a * (predictor.valueNames.length - 1);
+        }
+      });
+    }
     return a;
   }
 
   get b() {
-    let b = this.isuFactors.outcomes.length;
-    const c = []
-    this.isuFactors.repeatedMeasures.forEach(measure => {
-      if (measure.inHypothesis) {
-        c.push(measure.partialUMatrix.values.size()[1]);
-      }
-    });
-    c.forEach(noCols => {
-      b = b * noCols;
-    });
+    let b = this._isuFactors.outcomes.length;
+    if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.USER_DEFINED_PARTIALS) {
+      this._isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
+        let n = 1;
+        if (repeatedMeasure.inHypothesis &&
+          repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS) {
+          n = repeatedMeasure.valueNames.length - 1;
+        } else if (repeatedMeasure.inHypothesis &&
+          repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
+          n = repeatedMeasure.valueNames.length
+        } else if (repeatedMeasure.inHypothesis &&
+          repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX) {
+          n = repeatedMeasure.partialMatrix.values.size()[1]
+        }
+        b = b * n
+      });
+    } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX) {
+      b = this._isuFactors.uMatrix.values.size()[1];
+    } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
+      this._isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
+        const n = repeatedMeasure.valueNames.length;
+        b = b * n;
+      });
+    } else {
+      const c = []
+      this.isuFactors.repeatedMeasures.forEach(measure => {
+        if (measure.inHypothesis) {
+          c.push(measure.partialUMatrix.values.size()[1]);
+        }
+      });
+      c.forEach(noCols => {
+        b = b * noCols;
+      });
+    }
     return b;
   }
 
