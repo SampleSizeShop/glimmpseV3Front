@@ -8,28 +8,33 @@
          data-toggle="buttons">
       <label aria-pressed="true"
              class="btn btn-secondary"
+             id="globaltrendslbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS">
         <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.GLOBAL_TRENDS)"> {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
+             id="identitylbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY">
         <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
+             id="polylbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL"
               *ngIf="isContinuous()">
         <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
+             id="partialslbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
              *ngIf="showAdvancedOptions">
         <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> {{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
+             id="customlbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX"
              *ngIf="showAdvancedOptions">
         <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_U_MATRIX)"> {{HYPOTHESIS_NATURE.CUSTOM_U_MATRIX}}
@@ -106,13 +111,13 @@
       </div>
     </div>
     <button class="btn btn-secondary btn-sm" (click)="showInfo()">Back</button>
-    <button class="btn btn-secondary btn-sm" (click)="editCustom()" [disabled]="!this.noRowsForm.valid">Next: Matrix</button>
+    <button class="btn btn-secondary btn-sm" (click)="editCustom()" [disabled]="!this.noRowsForm.valid" id="nextbtn">Next: Matrix</button>
   </div>
 
   <div *ngIf="isEditCustom()">
     <app-custom-matrix></app-custom-matrix>
     <button class="btn btn-secondary btn-sm" (click)="cols()">Back</button>
-    <button class="btn btn-secondary btn-sm" (click)="showInfo()">Done</button>
+    <button class="btn btn-secondary btn-sm" (click)="showInfo()" id="donebtn">Done</button>
   </div>
 </div>
 
