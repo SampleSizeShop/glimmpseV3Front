@@ -6,6 +6,7 @@ import {hw2_input, hw2_output} from './test_inputs/homework2_longitudinal';
 import {hw3_input, hw3_output} from './test_inputs/homework3';
 import {hw4_input, hw4_output} from './test_inputs/homework4';
 import {hw5_input, hw5_output} from './test_inputs/homework5';
+import {cc_input, cc_output} from './test_inputs/custom_contrasts';
 import {com_calculate_detail_input, com_calculate_detail_output} from './test_inputs/detail_table';
 import {by, element} from 'protractor';
 import {hw5_fullbeta_input, hw5_fullbeta_output} from './test_inputs/homework5_fullbeta';
@@ -20,6 +21,27 @@ describe('Glimmpse v3 automated integration tests', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     page = new StudyFormComponentPage();
     page.navigateTo('/design/SOLVE_FOR');
+  });
+
+
+
+  it('Should correctly calculate power using custom contrast matrices', async function() {
+    const expected = cc_output;
+    page.fromJSON(cc_input);
+    let actual = null;
+    await page.fromJSON(MultipleOutcomeSampleSize_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
+    }
+    expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 4);
   });
 
   it('Should calculate a power of 1 for Grand Mean with only one outcome', async function() {
@@ -265,5 +287,5 @@ describe('Glimmpse v3 automated integration tests', () => {
     }
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
   });
-});
+})
 
