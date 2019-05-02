@@ -14,11 +14,11 @@ export const cc_input = {
   ],
   cluster: null,
   predictors: [
-    {name: 'group1', groups: ['0', '1', '2']}
+    {name: 'group1', groups: ['0', '1']}
   ],
   smallest_group: 5,
   groups: [
-    {group: '', table: [[1], [1], [1]]}
+    {group: '', table: [[1], [1]]}
   ],
   gaussian_covariate: null,
   hypothesis: 'group1 x repMeas1',
@@ -44,7 +44,7 @@ export const cc_input = {
   ],
   parameters_scale_factor: null,
   parameters_standard_deviation: [
-    {outcome: 'outcome1', st_dev: 0.81}
+    {outcome: 'outcome1', st_dev: 0.9}
   ],
   parameters_outcome_correlation: null,
   parameters_outcome_repeated_measure_stdev: [
@@ -66,7 +66,7 @@ export const cc_input = {
 };
 
 
-export const hw2_output = {
+export const cc_output = {
   message: 'OK',
   status: 200,
   mimetype: 'application/json',
@@ -80,8 +80,8 @@ export const hw2_output = {
     ],
     repeated_rows_in_design_matrix: 15,
     hypothesis_beta: [
-      [3.6, 2.8, 0.9],
-      [4.5, 4.3, 3.0]
+        [3.6, 2.8, 0.9],
+        [4.5, 4.3, 3.0]
     ],
     c_matrix: [
       [ 1, -1]
@@ -104,10 +104,6 @@ export const hw2_output = {
     theta: [
       [-0.9, -1.5, -2.1]
     ],
-    m: [
-      [2]
-    ],
-    nu_e: 28,
     hypothesis_sum_square: [
       [ 2.025,  3.375, 4.725],
       [ 3.375,  5.625, 7.875],

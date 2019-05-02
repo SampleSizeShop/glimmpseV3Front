@@ -28,21 +28,21 @@ export class HypothesisBetweenPo {
   fillCustom(source) {
     if (!isNullOrUndefined(source) && !isNullOrUndefined(source.rows)) {
       const rowsInput = element(by.formControlName('norows'));
-      const next = element(by.id('nextbtn'));
       rowsInput.clear().then(() => rowsInput.sendKeys(source.rows));
+      const next = element(by.id('nextbtn'));
       next.click();
       this.fillCustomMatrix(source.matrix);
     }
   }
 
   fillCustomMatrix(cMatrix) {
-    const done = element(by.id('donebtn'));
     cMatrix.forEach((row, i) => {
       row.forEach((col, j) => {
         const groupInput = element(by.id(i + '-' + j));
         groupInput.clear().then(() => groupInput.sendKeys(col));
       })
     });
+    const done = element(by.id('donebtn'));
     done.click();
   }
 }

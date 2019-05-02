@@ -79,7 +79,9 @@
 
     <div class="row">
       <button class="btn btn-secondary btn-sm"
-              style="margin-bottom: 0px;" id="pb" [class.active]="false"
+              style="margin-bottom: 0px;"
+              id="pb"
+              [class.active]="false"
               *ngIf="predictorsInHypothesis() && !showAdvancedOptions"
               (click)="toggleAdvancedOptions()">
         Show Advanced Options
