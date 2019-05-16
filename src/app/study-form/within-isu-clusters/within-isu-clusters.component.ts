@@ -43,6 +43,22 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
 
+  public data = [
+    {id: '1', description: 'root'},
+    {id: '2', description: '2', parent: '1'},
+    {id: '3', description: '3', parent: '2'},
+    {id: '4', description: '4', parent: '2'},
+    {id: '5', description: '5', parent: '2'},
+    {id: '10', description: '10', parent: '1'},
+    {id: '13', description: '13', parent: '10'},
+    {id: '14', description: '14', parent: '10'},
+    {id: '15', description: '15', parent: '10'},
+    {id: '22', description: '10', parent: '1'},
+    {id: '23', description: '13', parent: '22'},
+    {id: '24', description: '14', parent: '22'},
+    {id: '25', description: '15', parent: '22'}
+  ]
+
   constructor(private _fb: FormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,

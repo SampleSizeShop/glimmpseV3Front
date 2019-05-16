@@ -3,6 +3,7 @@ import {environment} from '../environments/environment';
 import {Router} from '@angular/router';
 import {StudyDesign} from './shared/study-design';
 import {StudyService} from './study-form/study.service';
+import {CollapsibleTree} from "./d3/models/collapsible-tree";
 
 @Component({
   selector: 'app-root',
@@ -44,5 +45,10 @@ export class AppComponent {
     } else {
       return false;
     }
+  }
+
+  createTree() {
+    const tree = new CollapsibleTree(this.data, {width: 100, height: 100});
+    const a = 1;
   }
 }
