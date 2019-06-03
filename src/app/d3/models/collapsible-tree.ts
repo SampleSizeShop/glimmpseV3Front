@@ -18,13 +18,13 @@ export class CollapsibleTree {
     const treeLayout = d3.tree()
         .size([10, 162.5])
         .nodeSize([2, 2])
-        .separation((a, b) => a.parent === b.parent ? 3.5 : 6);
+        .separation((a, b) => a.parent === b.parent ? 5 : 6);
     let root;
     root = d3.stratify<any>()
       .id(function(d) { return d.id; })
       .parentId(function(d) { return d.parent; })
       (data);
-    root.x0 = 20;
+    root.x0 = 40;
     root.y0 = 40;
 
     this.setNodes(treeLayout(root));
@@ -38,9 +38,11 @@ export class CollapsibleTree {
     const y = node.x;
     node.x = x * 25 + tree.x0;
     node.y = y + tree.y0;
-    if (isNullOrUndefined( node.children) || node.children.length == 0) {
+    if (isNullOrUndefined( node.children) || node.children.length === 0) {
       this.leaf_nodes.push(node.id);
     }
+    // todo: remove hack
+    this.leaf_nodes = ['g 460', 'g 461', 'g 462', 'h 460', 'h 461', 'h 462']
   });
   const a = 1;
   this.nodes = nodes;

@@ -8,6 +8,16 @@ import {Node} from '../../../models/node';
     <svg:g
       [attr.transform]="'translate(' + node.x + ',' + node.y + ')'">
       <svg:circle
+        *ngIf="isLeaf()"
+        class="node"
+        fill="#999"
+        [attr.cx]="node.x"
+        [attr.cy]="node.y"
+        r="3"
+        text-anchor="end">
+      </svg:circle>
+      <svg:circle
+        *ngIf="!isLeaf()"
         class="node"
         fill="#555"
         [attr.cx]="node.x"

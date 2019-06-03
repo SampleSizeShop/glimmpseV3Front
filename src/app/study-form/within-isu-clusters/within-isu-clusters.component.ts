@@ -12,6 +12,7 @@ import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
 import {NGXLogger} from 'ngx-logger';
+import {stringify} from "querystring";
 
 @Component({
   selector: 'app-within-isu-clusters',
@@ -43,20 +44,78 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
 
+  public _graphData = [];
   public data = [
-    {id: '1', description: 'root'},
-    {id: '2', description: '2', parent: '1'},
-    {id: '3', description: '3', parent: '2'},
-    {id: '4', description: '4', parent: '2'},
-    {id: '5', description: '5', parent: '2'},
-    {id: '10', description: '10', parent: '1'},
-    {id: '13', description: '13', parent: '10'},
-    {id: '14', description: '14', parent: '10'},
-    {id: '15', description: '15', parent: '10'},
-    {id: '22', description: '10', parent: '1'},
-    {id: '23', description: '13', parent: '22'},
-    {id: '24', description: '14', parent: '22'},
-    {id: '25', description: '15', parent: '22'}
+    {id: 'school', description: 'root'},
+    {id: 'class 1', description: 'class 1', parent: 'school'},
+    {id: 'pupil 1', description: 'pupil 1', parent: 'class 1'},
+    {id: 'pupil ...', description: 'pupil ...', parent: 'class 1'},
+    {id: 'pupil 7', description: 'pupil 7', parent: 'class 1'},
+    {id: 'class ...', description: 'class ...', parent: 'school'},
+    {id: 'class 7', description: 'class 7', parent: 'school'},
+    {id: 'pupil 132', description: 'pupil 132', parent: 'class 7'},
+    {id: 'pupil ...', description: 'pupil ...', parent: 'class 7'},
+    {id: 'pupil 154', description: 'pupil 154', parent: 'class 7'},
+    {id: 'book 1', description: 'book 1', parent: 'pupil 1'},
+    {id: 'book ...', description: 'book ...', parent: 'pupil 1'},
+    {id: 'book 3', description: 'book 3', parent: 'pupil 1'},
+    {id: 'book 459', description: 'book 459', parent: 'pupil 154'},
+    {id: 'book ...', description: 'book ...', parent: 'pupil 154'},
+    {id: 'book 462', description: 'book 459', parent: 'pupil 154'},
+  ]
+  public data2 = [
+    {id: 'school', description: 'root'},
+    {id: 'class 1  ', description: 'class 1', parent: 'school'},
+    {id: 'pupil 1  ', description: 'pupil 1', parent: 'class 1  '},
+    {id: '...', description: 'pupil ...', parent: 'class 1  '},
+    {id: 'pupil 22 ', description: 'pupil 22', parent: 'class 1  '},
+    {id: '...', description: 'class ...', parent: 'school'},
+    {id: 'class 7  ', description: 'class 7', parent: 'school'},
+    {id: 'book 1', description: 'book 1', parent: 'pupil 1  '},
+    {id: 'book 2', description: 'book 2', parent: 'pupil 1  '},
+    {id: 'book 3', description: 'book 3', parent: 'pupil 1  '},
+  ]
+  public data3 = [
+    {id: 'school', description: 'root'},
+    {id: 'class 1', description: 'class 1', parent: 'school'},
+    {id: 'pupil 1', description: 'pupil 1', parent: 'class 1'},
+    {id: '...', description: 'pupil ...', parent: 'class 1'},
+    {id: 'pupil 7', description: 'pupil 7', parent: 'class 1'},
+    {id: '...', description: 'class ...', parent: 'school'},
+    {id: 'class 7', description: 'class 7', parent: 'school'},
+    {id: 'pupil 132', description: 'pupil 132', parent: 'class 7'},
+    {id: '...', description: 'pupil ...', parent: 'class 7'},
+    {id: 'pupil 154', description: 'pupil 154', parent: 'class 7'},
+    {id: 'book 1', description: 'book 1', parent: 'pupil 1'},
+    {id: 'book 2', description: 'book ...', parent: 'pupil 1'},
+    {id: 'book 3', description: 'book 3', parent: 'pupil 1'},
+    {id: 'book 460', description: 'book 459', parent: 'pupil 154'},
+    {id: 'book 461', description: 'book ...', parent: 'pupil 154'},
+    {id: 'book 462', description: 'book 459', parent: 'pupil 154'},
+  ]
+  public data4 = [
+    {id: 'school', description: 'root'},
+    {id: 'class 1', description: 'class 1', parent: 'school'},
+    {id: 'pupil 1', description: 'pupil 1', parent: 'class 1'},
+    {id: '...', description: 'pupil ...', parent: 'class 1'},
+    {id: 'pupil 7', description: 'pupil 7', parent: 'class 1'},
+    {id: '...', description: 'class ...', parent: 'school'},
+    {id: 'class 7', description: 'class 7', parent: 'school'},
+    {id: 'pupil 132', description: 'pupil 132', parent: 'class 7'},
+    {id: '...', description: 'pupil ...', parent: 'class 7'},
+    {id: 'pupil 154', description: 'pupil 154', parent: 'class 7'},
+    {id: 'book 1', description: 'book 1', parent: 'pupil 1'},
+    {id: 'book 2', description: 'book ...', parent: 'pupil 1'},
+    {id: 'book 3', description: 'book 3', parent: 'pupil 1'},
+    {id: 'book 460', description: 'book 459', parent: 'pupil 154'},
+    {id: 'book 461', description: 'book ...', parent: 'pupil 154'},
+    {id: 'book 462', description: 'book 459', parent: 'pupil 154'},
+    {id: 'g 460', description: 'book 459', parent: 'book 1'},
+    {id: 'g 461', description: 'book ...', parent: 'book 1'},
+    {id: 'g 462', description: 'book 459', parent: 'book 1'},
+    {id: 'h 460', description: 'book 459', parent: 'book 462'},
+    {id: 'h 461', description: 'book ...', parent: 'book 462'},
+    {id: 'h 462', description: 'book 459', parent: 'book 462'},
   ]
 
   constructor(private _fb: FormBuilder,
@@ -180,6 +239,8 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
       this._cluster.levels.push(level);
     }
     this.study_service.updateWithinIsuCluster(this.cluster);
+
+    this.setGraphData();
     this.setStage(this._stages.INFO);
   }
 
@@ -332,6 +393,40 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
           this.log.debug(dismissReason);
         }
       });
+  }
+
+  setGraphData() {
+    const graphData = [];
+
+    // add the root
+    const isuId = this._cluster.name
+    graphData.push({id: isuId, description: 'root'});
+
+    this._cluster.levels.forEach( level => {
+      // add the first level
+
+      // for every other level  level, add
+
+      const parentId = 1;
+      let id = level.levelName + ' 1';
+      graphData.push({id: id, description: id, parent: parentId});
+
+      if (level.noElements > 2) {
+        id = level.levelName + ' ...';
+        graphData.push({id: id, description: id, parent: parentId});
+      }
+
+      id = level.levelName + ' ' + level.noElements;
+      graphData.push({id: id, description: id, parent: parentId});
+    });
+
+    this._graphData = graphData
+  }
+
+  get graphData() {
+
+    // return this.data4;
+    return this._graphData;
   }
 
   get stageName() {

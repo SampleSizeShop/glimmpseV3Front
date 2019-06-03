@@ -8,7 +8,7 @@ import {Node} from '../../models/node';
   selector: 'app-graph-component',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <svg #svg width="100%" height="400">
+    <svg #svg width="100%" height="200">
       <g [appZoomableOf]="svg">
         <g [linkVisual]="link" *ngFor="let link of links"></g>
         <g [nodeVisual]="node" [leafNodes]="leaf_nodes" *ngFor="let node of nodes"></g>
@@ -24,7 +24,7 @@ export class CollapsibleTreeComponent implements OnInit {
   leaf_nodes: string[];
 
   private tree: CollapsibleTree;
-  private _options: { width, height } = { width: 800, height: 600 };
+  private _options: { width, height } = { width: 800, height: 300 };
 
   constructor(private d3Service: D3Service, private ref: ChangeDetectorRef) { }
 

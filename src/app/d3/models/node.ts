@@ -1,5 +1,4 @@
 // Implementing SimulationNodeDatum interface into our custom Node class
-import {stringify} from "querystring";
 
 export class Node implements d3.SimulationNodeDatum {
   // optional - defining optional implementation properties - required for relevant typing assistance
@@ -8,9 +7,11 @@ export class Node implements d3.SimulationNodeDatum {
   y?: number;
 
   id: string;
+  description: string;
 
-  constructor(id) {
+  constructor(id, description) {
     this.id = id;
+    this.description = description;
   }
 
   get r() {
