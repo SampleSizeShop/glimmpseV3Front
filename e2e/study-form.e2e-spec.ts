@@ -13,6 +13,8 @@ import {hw5_fullbeta_input, hw5_fullbeta_output} from './test_inputs/homework5_f
 import {MultipleOutcomeUnirep_input, MultipleOutcomeUnirep_output} from './test_inputs/MultipleOutcomeUnirep';
 import {SampleSizeOneSampleTTest_input, SampleSizeOneSampleTTest_output} from './test_inputs/SampleSizeOneSampleTTest';
 import {MultipleOutcomeSampleSize_input, MultipleOutcomeSampleSize_output} from './test_inputs/MultipleOutcomeSampleSize';
+import {CI_input_1, CI_output_1} from './test_inputs/CI_input_1';
+import {CI_input_2, CI_output_2} from './test_inputs/CI_input_2';
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -22,8 +24,6 @@ describe('Glimmpse v3 automated integration tests', () => {
     page = new StudyFormComponentPage();
     page.navigateTo('/design/SOLVE_FOR');
   });
-
-
 
   it('Should correctly calculate power using custom contrast matrices', async function() {
     const expected = cc_output;
@@ -286,6 +286,48 @@ describe('Glimmpse v3 automated integration tests', () => {
       }
     }
     expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 5);
+  });
+
+  it('Should correctly calculate power and confidence interval for UNIREP-UN beta known', async function() {
+    const expected = CI_output_2;
+    page.fromJSON(CI_input_2);
+    let actual = null;
+    await page.fromJSON(MultipleOutcomeSampleSize_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      };
+    };
+    expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 4);
+    expect(actual.results[0].lower_bound).toBeCloseTo(expected.results[0].lower_bound, 4);
+    expect(actual.results[0].upper_bound).toBeCloseTo(expected.results[0].upper_bound, 4);
+  });
+
+  it('Should correctly calculate power and confidence interval for HLT beta estimated', async function() {
+    const expected = CI_output_1;
+    page.fromJSON(CI_input_1);
+    let actual = null;
+    await page.fromJSON(MultipleOutcomeSampleSize_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 6);
+      }
+    }
+    expect(actual.results[0].power).toBeCloseTo(expected.results[0].power, 4);
+    expect(actual.results[0].lower_bound).toBeCloseTo(expected.results[0].lower_bound, 4);
+    expect(actual.results[0].upper_bound).toBeCloseTo(expected.results[0].upper_bound, 4);
   });
 })
 
