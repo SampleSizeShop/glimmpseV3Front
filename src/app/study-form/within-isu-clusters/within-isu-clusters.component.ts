@@ -45,54 +45,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   private modalReference: any;
 
   public _graphData = [];
-  public data = [
-    {id: 'school', description: 'root'},
-    {id: 'class 1', description: 'class 1', parent: 'school'},
-    {id: 'pupil 1', description: 'pupil 1', parent: 'class 1'},
-    {id: 'pupil ...', description: 'pupil ...', parent: 'class 1'},
-    {id: 'pupil 7', description: 'pupil 7', parent: 'class 1'},
-    {id: 'class ...', description: 'class ...', parent: 'school'},
-    {id: 'class 7', description: 'class 7', parent: 'school'},
-    {id: 'pupil 132', description: 'pupil 132', parent: 'class 7'},
-    {id: 'pupil ...', description: 'pupil ...', parent: 'class 7'},
-    {id: 'pupil 154', description: 'pupil 154', parent: 'class 7'},
-    {id: 'book 1', description: 'book 1', parent: 'pupil 1'},
-    {id: 'book ...', description: 'book ...', parent: 'pupil 1'},
-    {id: 'book 3', description: 'book 3', parent: 'pupil 1'},
-    {id: 'book 459', description: 'book 459', parent: 'pupil 154'},
-    {id: 'book ...', description: 'book ...', parent: 'pupil 154'},
-    {id: 'book 462', description: 'book 459', parent: 'pupil 154'},
-  ]
-  public data2 = [
-    {id: 'school', description: 'root'},
-    {id: 'class 1  ', description: 'class 1', parent: 'school'},
-    {id: 'pupil 1  ', description: 'pupil 1', parent: 'class 1  '},
-    {id: '...', description: 'pupil ...', parent: 'class 1  '},
-    {id: 'pupil 22 ', description: 'pupil 22', parent: 'class 1  '},
-    {id: '...', description: 'class ...', parent: 'school'},
-    {id: 'class 7  ', description: 'class 7', parent: 'school'},
-    {id: 'book 1', description: 'book 1', parent: 'pupil 1  '},
-    {id: 'book 2', description: 'book 2', parent: 'pupil 1  '},
-    {id: 'book 3', description: 'book 3', parent: 'pupil 1  '},
-  ]
-  public data3 = [
-    {id: 'school', description: 'root'},
-    {id: 'class 1', description: 'class 1', parent: 'school'},
-    {id: 'pupil 1', description: 'pupil 1', parent: 'class 1'},
-    {id: '...', description: 'pupil ...', parent: 'class 1'},
-    {id: 'pupil 7', description: 'pupil 7', parent: 'class 1'},
-    {id: '...', description: 'class ...', parent: 'school'},
-    {id: 'class 7', description: 'class 7', parent: 'school'},
-    {id: 'pupil 132', description: 'pupil 132', parent: 'class 7'},
-    {id: '...', description: 'pupil ...', parent: 'class 7'},
-    {id: 'pupil 154', description: 'pupil 154', parent: 'class 7'},
-    {id: 'book 1', description: 'book 1', parent: 'pupil 1'},
-    {id: 'book 2', description: 'book ...', parent: 'pupil 1'},
-    {id: 'book 3', description: 'book 3', parent: 'pupil 1'},
-    {id: 'book 460', description: 'book 459', parent: 'pupil 154'},
-    {id: 'book 461', description: 'book ...', parent: 'pupil 154'},
-    {id: 'book 462', description: 'book 459', parent: 'pupil 154'},
-  ]
 
   constructor(private _fb: FormBuilder,
               private study_service: StudyService,
@@ -446,7 +398,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     return elements;
   }
 
-
+  // sample graph data. should moe to test...
   public data4 = [
     {id: 'school', description: 'root'},
     {id: 'class 1', description: 'class 1', parent: 'school'},
