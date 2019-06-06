@@ -410,6 +410,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
         newIds.push([id, level.noElements, 0]);
         graphData.push({id: id, description: id, parent: p});
       });
+      // remove extra branches we don't want to display - really I should sort this algorithmically, but this is simple.
       if (newIds.length > 2) {
         newIds = [newIds[0], newIds[newIds.length - 1]];
       }
