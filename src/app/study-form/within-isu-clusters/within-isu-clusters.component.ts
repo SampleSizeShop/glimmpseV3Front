@@ -93,30 +93,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     {id: 'book 461', description: 'book ...', parent: 'pupil 154'},
     {id: 'book 462', description: 'book 459', parent: 'pupil 154'},
   ]
-  public data4 = [
-    {id: 'school', description: 'root'},
-    {id: 'class 1', description: 'class 1', parent: 'school'},
-    {id: 'pupil 1', description: 'pupil 1', parent: 'class 1'},
-    {id: '...', description: 'pupil ...', parent: 'class 1'},
-    {id: 'pupil 7', description: 'pupil 7', parent: 'class 1'},
-    {id: '...', description: 'class ...', parent: 'school'},
-    {id: 'class 7', description: 'class 7', parent: 'school'},
-    {id: 'pupil 132', description: 'pupil 132', parent: 'class 7'},
-    {id: '...', description: 'pupil ...', parent: 'class 7'},
-    {id: 'pupil 154', description: 'pupil 154', parent: 'class 7'},
-    {id: 'book 1', description: 'book 1', parent: 'pupil 1'},
-    {id: 'book 2', description: 'book ...', parent: 'pupil 1'},
-    {id: 'book 3', description: 'book 3', parent: 'pupil 1'},
-    {id: 'book 460', description: 'book 459', parent: 'pupil 154'},
-    {id: 'book 461', description: 'book ...', parent: 'pupil 154'},
-    {id: 'book 462', description: 'book 459', parent: 'pupil 154'},
-    {id: 'g 460', description: 'book 459', parent: 'book 1'},
-    {id: 'g 461', description: 'book ...', parent: 'book 1'},
-    {id: 'g 462', description: 'book 459', parent: 'book 1'},
-    {id: 'h 460', description: 'book 459', parent: 'book 462'},
-    {id: 'h 461', description: 'book ...', parent: 'book 462'},
-    {id: 'h 462', description: 'book 459', parent: 'book 462'},
-  ]
 
   constructor(private _fb: FormBuilder,
               private study_service: StudyService,
@@ -400,28 +376,100 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
     // add the root
     const isuId = this._cluster.name
-    graphData.push({id: isuId, description: 'root'});
+    let parentIds = ['root'];
+
+    graphData.push({id: parentIds[0], description: isuId});
 
     this._cluster.levels.forEach( level => {
-      // add the first level
+      let newIds = [];
+      parentIds.forEach(parentId => {
+        let p = 'root';
+        if (parentId !== p) {
+          p = parentId[0];
+        }
 
-      // for every other level  level, add
+        // get position
+        let pos = []
+        if (parentId !== 'root') {
+          pos = this.getTreePosition(parentId[0], graphData);
+        }
+        const elementNo = this.getElementNoFromPos(pos, parentId) * level.noElements;
 
-      const parentId = 1;
-      let id = level.levelName + ' 1';
-      graphData.push({id: id, description: id, parent: parentId});
+        // set lower id
+        let id = this.getLevelId(level.levelName, elementNo - (level.noElements - 1));
+        newIds.push([id, level.noElements, level.noElements - 1]);
+        graphData.push({id: id, description: id, parent: p});
 
-      if (level.noElements > 2) {
-        id = level.levelName + ' ...';
-        graphData.push({id: id, description: id, parent: parentId});
+        if (level.noElements > 2) {
+          id = level.levelName + ' ...';
+          graphData.push({id: id, description: id, parent: p});
+        }
+
+        // set upper id
+        id = this.getLevelId(level.levelName, elementNo);
+        newIds.push([id, level.noElements, 0]);
+        graphData.push({id: id, description: id, parent: p});
+      });
+      if (newIds.length > 2) {
+        newIds = [newIds[0], newIds[newIds.length - 1]];
       }
-
-      id = level.levelName + ' ' + level.noElements;
-      graphData.push({id: id, description: id, parent: parentId});
+      parentIds = newIds;
     });
 
-    this._graphData = graphData
+    this._graphData = graphData;
   }
+
+  getElementNoFromPos(pos, parentId) {
+    let elementNo = 1;
+    if (parentId !== 'root') {
+      pos.forEach(() => {
+        elementNo = elementNo * (parentId[1] - parentId[2]);
+      });
+    }
+    return elementNo;
+  }
+
+  getLevelId(level, elementNo) {
+    return level + ' ' + elementNo;
+  }
+
+  getTreePosition(parent, graphdata) {
+    const elements = [];
+    while (parent !== 'root') {
+      const p = graphdata.find((element) => element.id === parent);
+      const r = p.id.split(' ');
+      const n = r[r.length - 1];
+      elements.unshift(n);
+      parent = p.parent;
+    }
+    return elements;
+  }
+
+
+  public data4 = [
+    {id: 'school', description: 'root'},
+    {id: 'class 1', description: 'class 1', parent: 'school'},
+    {id: 'pupil 1', description: 'pupil 1', parent: 'class 1'},
+    {id: '...', description: 'pupil ...', parent: 'class 1'},
+    {id: 'pupil 7', description: 'pupil 7', parent: 'class 1'},
+    {id: '...', description: 'class ...', parent: 'school'},
+    {id: 'class 7', description: 'class 7', parent: 'school'},
+    {id: 'pupil 132', description: 'pupil 132', parent: 'class 7'},
+    {id: '...', description: 'pupil ...', parent: 'class 7'},
+    {id: 'pupil 154', description: 'pupil 154', parent: 'class 7'},
+    {id: 'book 1', description: 'book 1', parent: 'pupil 1'},
+    {id: 'book 2', description: 'book ...', parent: 'pupil 1'},
+    {id: 'book 3', description: 'book 3', parent: 'pupil 1'},
+    {id: 'book 460', description: 'book 459', parent: 'pupil 154'},
+    {id: 'book 461', description: 'book ...', parent: 'pupil 154'},
+    {id: 'book 462', description: 'book 459', parent: 'pupil 154'},
+    {id: 'g 460', description: 'book 459', parent: 'book 1'},
+    {id: 'g 461', description: 'book ...', parent: 'book 1'},
+    {id: 'g 462', description: 'book 459', parent: 'book 1'},
+    {id: 'h 460', description: 'book 459', parent: 'book 462'},
+    {id: 'h 461', description: 'book ...', parent: 'book 462'},
+    {id: 'h 462', description: 'book 459', parent: 'book 462'},
+  ]
 
   get graphData() {
 
