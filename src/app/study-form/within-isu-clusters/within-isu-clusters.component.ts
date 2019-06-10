@@ -344,7 +344,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
         // get position
         let pos = 1
         if (parentId !== 'root') {
-          pos = this.getTreePosition(parentId[0], graphData);
+          pos = this.getTreePosition(parentId[0]);
         }
         const elementNo = this.getElementNoFromPos(pos, parentId) * level.noElements;
 
@@ -385,9 +385,8 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     return level + ' ' + elementNo;
   }
 
-  getTreePosition(parent, graphdata) {
-    const p = graphdata.find((prnt) => prnt.id === parent);
-    const r = p.id.split(' ');
+  getTreePosition(parent) {
+    const r = parent.split(' ');
     const pos = r[r.length - 1];
     return pos;
   }
