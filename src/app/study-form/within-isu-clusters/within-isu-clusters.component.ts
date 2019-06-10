@@ -342,7 +342,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
         }
 
         // get position
-        let pos = []
+        let pos = 1
         if (parentId !== 'root') {
           pos = this.getTreePosition(parentId[0], graphData);
         }
@@ -376,7 +376,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   getElementNoFromPos(pos, parentId) {
     let elementNo = 1;
     if (parentId !== 'root') {
-      elementNo = pos[pos.length - 1];
+      elementNo = pos;
     }
     return elementNo;
   }
@@ -386,15 +386,10 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   getTreePosition(parent, graphdata) {
-    const elements = [];
-    while (parent !== 'root') {
-      const p = graphdata.find((element) => element.id === parent);
-      const r = p.id.split(' ');
-      const n = r[r.length - 1];
-      elements.unshift(n);
-      parent = p.parent;
-    }
-    return elements;
+    const p = graphdata.find((prnt) => prnt.id === parent);
+    const r = p.id.split(' ');
+    const pos = r[r.length - 1];
+    return pos;
   }
 
   // sample graph data. should moe to test...
