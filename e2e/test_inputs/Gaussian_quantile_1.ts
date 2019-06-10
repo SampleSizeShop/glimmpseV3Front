@@ -30,7 +30,7 @@ export const Gaussian_quantile_1_input = {
     {means: [[0], [0], [0]]},
     {means: [[0], [0], [0]]}
   ],
-  parameters_scale_factor: 0.4997,
+  parameters_scale_factor: 1,
   parameters_standard_deviation: [
     {outcome: 'O1', st_dev: 1},
     {outcome: 'O2', st_dev: 1},
@@ -60,7 +60,7 @@ export const Gaussian_quantile_1_output = {
   status: 200,
   mimetype: 'application/json',
   results: [
-    {test: 'Hotelling Lawley Trace', power: 0.2001051}
+    {test: 'Hotelling Lawley Trace', power: 0.7111879}
   ],
   model: {
     essence_design_matrix: [
