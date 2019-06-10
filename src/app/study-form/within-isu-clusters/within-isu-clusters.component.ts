@@ -13,6 +13,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
 import {NGXLogger} from 'ngx-logger';
 import {stringify} from "querystring";
+import {element} from "protractor";
 
 @Component({
   selector: 'app-within-isu-clusters',
@@ -375,9 +376,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   getElementNoFromPos(pos, parentId) {
     let elementNo = 1;
     if (parentId !== 'root') {
-      pos.forEach(() => {
-        elementNo = elementNo * (parentId[1] - parentId[2]);
-      });
+      elementNo = pos[pos.length - 1];
     }
     return elementNo;
   }
