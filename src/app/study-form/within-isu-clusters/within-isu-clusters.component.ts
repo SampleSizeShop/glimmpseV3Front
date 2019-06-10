@@ -324,6 +324,9 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
       });
   }
 
+  /**
+   * Build the input data for out d3 visualisation of the cluster.
+   * **/
   setGraphData() {
     const graphData = [];
 
