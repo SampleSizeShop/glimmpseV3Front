@@ -9,11 +9,11 @@
 <div class="row">
   <div class="col">
     <div class="btn-group" data-toggle="buttons">
-      <label id="includegaussiancovariatebtn" class="btn btn-secondary" [class.active]="!hasGaussianCovariate()">
-        <input type="radio" id="includegaussiancovariateradio" (click)="removeGaussianCovariate()">No Gaussian Covariate
+      <label id="removegaussiancovariatebtn" class="btn btn-secondary" [class.active]="!hasGaussianCovariate()">
+        <input type="radio" id="removegaussiancovariateradio" (click)="removeGaussianCovariate()">No Gaussian Covariate
       </label>
-      <label id="removegaussiancovariatebtn" class="btn btn-secondary"  [class.active]="hasGaussianCovariate()">
-        <input type="radio" id="removegaussiancovariateradio" (click)="includeGaussianCovariate()">Gaussian Covariate
+      <label id="includegaussiancovariatebtn" class="btn btn-secondary"  [class.active]="hasGaussianCovariate()">
+        <input type="radio" id="includegaussiancovariateradio" (click)="includeGaussianCovariate()">Gaussian Covariate
       </label>
     </div>
   </div>
