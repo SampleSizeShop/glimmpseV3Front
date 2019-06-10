@@ -27,7 +27,7 @@
       <div class="row">
         <div class="col">
           <div class="btn-group" data-toggle="buttons">
-            <label id="includerptmeasuresbtn" class="btn btn-primary">
+            <label id="includerptmeasuresbtn" class="btn btn-primary" (click)="includeRepeatedMeasures()" type="button">
               <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
             </label>
           </div>
@@ -39,7 +39,7 @@
       <div class="row">
         <div class="col">
           <div class="btn-group" data-toggle="buttons">
-            <label id="includenextrptmeasuresbtn" class="btn btn-primary">
+            <label type="button" id="includenextrptmeasuresbtn" class="btn btn-primary" (click)="includeRepeatedMeasures()">
               <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
             </label>
           </div>

@@ -289,6 +289,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   includeRepeatedMeasures(measure?: RepeatedMeasure) {
+    console.log('click');
     if (measure) {
       this._repMeasure = measure;
     } else {

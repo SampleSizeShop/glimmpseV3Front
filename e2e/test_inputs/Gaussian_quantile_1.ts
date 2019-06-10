@@ -19,7 +19,7 @@ export const Gaussian_quantile_1_input = {
   groups: [
     {group: '', table: [[1], [1], [1]]},
   ],
-  gaussian_covariate: {gaussian_covariate: true},
+  gaussian_covariate: true,
   hypothesis: 'group',
   hypothesis_between: null,
   hypothesis_within: null,
@@ -46,8 +46,9 @@ export const Gaussian_quantile_1_input = {
   parameters_outcome_repeated_measure_stdev: null,
   parameters_repeated_measure_correlations: null,
   parameters_intra_class_correlation: null,
-  parameters_gaussian_covariate_variance: [1],
+  parameters_gaussian_covariate_variance: 1,
   parameters_gaussian_covariate_correlation: [0.5, 0.5, 0.5, 0],
+  gaussian_covariate_method: {unconditonpower: false, quantilepower: true, quantiles: [0.5]},
   parameters_scale_factor_variance: null,
   power_method: null,
   power_curve: null
@@ -59,7 +60,7 @@ export const Gaussian_quantile_1_output = {
   status: 200,
   mimetype: 'application/json',
   results: [
-    {test: 'Hotelling Lawley Trace', power: 0.882844446942}
+    {test: 'Hotelling Lawley Trace', power: 0.2001051}
   ],
   model: {
     essence_design_matrix: [
