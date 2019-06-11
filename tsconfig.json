@@ -1,10 +1,11 @@
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
   "preserveWhitespaces": "off",
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "baseUrl": "src",
     "sourceMap": true,
+    "inlineSources": true,
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,

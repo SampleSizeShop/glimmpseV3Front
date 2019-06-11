@@ -43,6 +43,8 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
 
+  public _graphData = [];
+
   constructor(private _fb: FormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
@@ -164,6 +166,8 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
       this._cluster.levels.push(level);
     }
     this.study_service.updateWithinIsuCluster(this.cluster);
+
+    this.setGraphData();
     this.setStage(this._stages.INFO);
   }
 
@@ -316,6 +320,82 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
           this.log.debug(dismissReason);
         }
       });
+  }
+
+  /**
+   * Build the input data for out d3 visualisation of the cluster.
+   * **/
+  setGraphData() {
+    const graphData = [];
+
+    // add the root
+    const isuId = this._cluster.name
+    let parentIds = ['root'];
+
+    graphData.push({id: parentIds[0], description: isuId});
+
+    this._cluster.levels.forEach( level => {
+      let newIds = [];
+      parentIds.forEach(parentId => {
+        let p = 'root';
+        if (parentId !== p) {
+          p = parentId[0];
+        }
+
+        // get position
+        let pos = 1
+        if (parentId !== 'root') {
+          pos = this.getTreePosition(parentId[0]);
+        }
+        const elementNo = this.getElementNoFromPos(pos, parentId) * level.noElements;
+
+        // set lower id
+        let id = this.getLevelId(level.levelName, elementNo - (level.noElements - 1));
+        newIds.push([id, level.noElements, level.noElements - 1]);
+        graphData.push({id: id, description: id, parent: p});
+
+        if (level.noElements > 2) {
+          id = level.levelName + ' ...';
+          graphData.push({id: id, description: id, parent: p});
+        }
+
+        // set upper id
+        id = this.getLevelId(level.levelName, elementNo);
+        newIds.push([id, level.noElements, 0]);
+        graphData.push({id: id, description: id, parent: p});
+      });
+      // remove extra branches we don't want to display - really I should sort this algorithmically, but this is simple.
+      if (newIds.length > 2) {
+        newIds = [newIds[0], newIds[newIds.length - 1]];
+      }
+      parentIds = newIds;
+    });
+
+    this._graphData = graphData;
+  }
+
+  getElementNoFromPos(pos, parentId) {
+    let elementNo = 1;
+    if (parentId !== 'root') {
+      elementNo = pos;
+    }
+    return elementNo;
+  }
+
+  getLevelId(level, elementNo) {
+    return level + ' ' + elementNo;
+  }
+
+  getTreePosition(parent) {
+    const r = parent.split(' ');
+    const pos = r[r.length - 1];
+    return pos;
+  }
+
+  get graphData() {
+
+    // return this.data4;
+    return this._graphData;
   }
 
   get stageName() {
