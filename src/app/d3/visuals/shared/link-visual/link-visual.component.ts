@@ -18,7 +18,7 @@ import * as d3 from 'd3';
   styleUrls: ['./link-visual.component.scss']
 })
 export class LinkVisualComponent {
-  @Input('linkVisual') link: Link;
+  @Input('linkVisual') link: any;
 
   getPath(link: {source: Node, target: Node}) {
     const e = d3.linkHorizontal().x(d => d[0]).y(d => d[1]);
