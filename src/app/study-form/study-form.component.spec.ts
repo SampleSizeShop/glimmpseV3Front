@@ -41,6 +41,10 @@ import {MatIconModule, MatTooltip} from '@angular/material';
 import {Angular2CsvModule} from 'angular2-csv';
 import {constants} from '../shared/constants';
 import {StudyTitleComponent} from './study-title/study-title.component';
+import {NodeVisualComponent} from "../d3/visuals/shared/node-visual/node-visual.component";
+import {LinkVisualComponent} from "../d3/visuals/shared/link-visual/link-visual.component";
+import {ZoomableDirective} from "../d3/directives/zoomable.directive";
+import {CollapsibleTreeComponent} from "../d3/visuals/collapsible-tree/collapsible-tree.component";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -92,7 +96,12 @@ describe('StudyFormComponent', () => {
         CalculateComponent,
         MathJaxDirective,
         CustomContrastMatrixComponent,
-        MatTooltip],
+        MatTooltip,
+        LinkVisualComponent,
+        NodeVisualComponent,
+        ZoomableDirective,
+        CollapsibleTreeComponent,
+        CustomContrastMatrixComponent],
       providers: [ StudyService,
         { provide: HttpClient, useClass: MockBackend },
         {provide: NGXLogger, useClass: NGXLoggerMock},

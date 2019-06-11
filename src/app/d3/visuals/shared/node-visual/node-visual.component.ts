@@ -32,7 +32,7 @@ import {Node} from '../../../models/node';
         [attr.y]="node.y"
         text-anchor="start"
         dy="0.31em">
-        {{node.id}}
+        {{node.data.description}}
       </svg:text>
       <svg:text *ngIf="!isLeaf()"
         class="node-name"
@@ -41,14 +41,14 @@ import {Node} from '../../../models/node';
         [attr.y]="node.y"
         text-anchor="end"
         dy="0.31em">
-        {{node.id}}
+        {{node.data.description}}
       </svg:text>
     </svg:g>
   `,
   styleUrls: ['./node-visual.component.scss']
 })
 export class NodeVisualComponent {
-  @Input('nodeVisual') node: Node;
+  @Input('nodeVisual') node: any;
   @Input('leafNodes') leafNodes: [string];
 
   isLeaf() {

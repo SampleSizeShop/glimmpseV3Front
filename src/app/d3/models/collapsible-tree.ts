@@ -41,8 +41,6 @@ export class CollapsibleTree {
     if (isNullOrUndefined( node.children) || node.children.length === 0) {
       this.leaf_nodes.push(node.id);
     }
-    // todo: remove hack
-    this.leaf_nodes = ['g 460', 'g 461', 'g 462', 'h 460', 'h 461', 'h 462']
   });
   const a = 1;
   this.nodes = nodes;

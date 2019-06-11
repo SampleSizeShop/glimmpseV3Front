@@ -11,6 +11,11 @@ import {By} from '@angular/platform-browser';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NGXLogger} from 'ngx-logger';
+import {CollapsibleTreeComponent} from '../../d3/visuals/collapsible-tree/collapsible-tree.component';
+import {NodeVisualComponent} from '../../d3/visuals/shared/node-visual/node-visual.component';
+import {LinkVisualComponent} from '../../d3/visuals/shared/link-visual/link-visual.component';
+import {ZoomableDirective} from '../../d3/directives/zoomable.directive';
+import {D3Service} from "../../d3/d3.service";
 
 describe('WithinIsuClustersComponent', () => {
   let component: WithinIsuClustersComponent;
@@ -21,11 +26,17 @@ describe('WithinIsuClustersComponent', () => {
       imports: [
         ReactiveFormsModule, BrowserAnimationsModule
       ],
-      declarations: [ WithinIsuClustersComponent ],
+      declarations: [
+        WithinIsuClustersComponent,
+        CollapsibleTreeComponent,
+        LinkVisualComponent,
+        NodeVisualComponent,
+        ZoomableDirective],
       providers: [ StudyService,
                   NgbModal,
                   NGXLogger,
                   { provide: HttpClient, useClass: MockBackend},
+                  D3Service,
                   NavigationService]
     })
     .compileComponents();
