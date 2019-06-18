@@ -16,6 +16,7 @@ import {MultipleOutcomeSampleSize_input, MultipleOutcomeSampleSize_output} from 
 import {CI_input_1, CI_output_1} from './test_inputs/CI_input_1';
 import {CI_input_2, CI_output_2} from './test_inputs/CI_input_2';
 import {Gaussian_quantile_1_input, Gaussian_quantile_1_output} from './test_inputs/Gaussian_quantile_1';
+import {Gaussian_unconditional_1_input, Gaussian_unconditional_1_output} from './test_inputs/Gaussian_unconditional_1';
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -349,5 +350,24 @@ describe('Glimmpse v3 automated integration tests', () => {
       expect(result.power).toBeCloseTo(expected.results[i].power, 3);
     });
   });
+
+  it('Gaussian unconditional, should return the correct power', async function() {
+    const expected = Gaussian_unconditional_1_output;
+    let actual = null;
+    await page.fromJSON(Gaussian_unconditional_1_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+    for (const r of actual.results) {
+      for (const i of r.model) {
+        expect(r.model.i).toBeCloseTo(expected.model.i, 3);
+      }
+    }
+    actual.results.forEach((result, i) => {
+      expect(result.power).toBeCloseTo(expected.results[i].power, 3);
+    });
+  });  
 })
 
