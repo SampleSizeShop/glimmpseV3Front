@@ -17,6 +17,7 @@ export class ParametersScaleFactorPo {
         scaleFactorInput.clear().then(() => scaleFactorInput.sendKeys(betascale));
         scaleFactorAdd.click();
       }
+      browser.sleep(5000);
     }
   }
 }

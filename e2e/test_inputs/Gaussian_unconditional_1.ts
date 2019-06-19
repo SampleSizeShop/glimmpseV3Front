@@ -30,7 +30,7 @@ export const Gaussian_unconditional_1_input = {
     {means: [[0], [0], [0]]},
     {means: [[0], [0], [0]]}
   ],
-  parameters_scale_factor: 1,
+  parameters_scale_factor: [0.4997],
   parameters_standard_deviation: [
     {outcome: 'O1', st_dev: 1},
     {outcome: 'O2', st_dev: 1},
@@ -60,7 +60,7 @@ export const Gaussian_unconditional_1_output = {
   status: 200,
   mimetype: 'application/json',
   results: [
-    {test: 'Hotelling Lawley Trace', power: 0.6951409}
+    {test: 'Hotelling Lawley Trace', power: 0.19546136298066308}
   ],
   model: {
     essence_design_matrix: [
