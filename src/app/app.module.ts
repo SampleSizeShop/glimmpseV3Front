@@ -52,6 +52,11 @@ import { Angular2CsvModule } from 'angular2-csv';
 import { StudyTitleComponent } from './study-form/study-title/study-title.component';
 import {ParametersGaussianPowerComponent} from './study-form/parameters-gaussian-power/parameters-gaussian-power.component';
 import {OptionalSpecsConfidenceIntervalsComponent} from './study-form/optional-specs-confidence-intervals/optional-specs-confidence-intervals.component';
+import { LinkVisualComponent } from './d3/visuals/shared/link-visual/link-visual.component';
+import { NodeVisualComponent } from './d3/visuals/shared/node-visual/node-visual.component';
+import {ZoomableDirective} from './d3/directives/zoomable.directive';
+import {CollapsibleTreeComponent} from "./d3/visuals/collapsible-tree/collapsible-tree.component";
+import {D3Service} from "./d3/d3.service";
 
 
 @NgModule({
@@ -93,6 +98,10 @@ import {OptionalSpecsConfidenceIntervalsComponent} from './study-form/optional-s
     BetweenIsuSmallestGroupComponent,
     CustomContrastMatrixComponent,
     StudyTitleComponent,
+    LinkVisualComponent,
+    NodeVisualComponent,
+    ZoomableDirective,
+    CollapsibleTreeComponent,
   ],
   imports: [
     NgbModule.forRoot(),
@@ -112,7 +121,7 @@ import {OptionalSpecsConfidenceIntervalsComponent} from './study-form/optional-s
     MatIconModule,
     Angular2CsvModule
   ],
-  providers: [MathJaxService],
+  providers: [MathJaxService, D3Service],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

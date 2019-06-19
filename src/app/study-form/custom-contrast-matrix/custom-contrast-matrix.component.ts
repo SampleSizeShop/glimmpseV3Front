@@ -125,12 +125,12 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getColsArray() {
+  getColsArray() {
     const colsArray = Array.from(Array(this.contrast_matrix.values.size()[1]).keys());
     return colsArray;
   }
 
-  private getRowsArray() {
+  getRowsArray() {
     if (this.contrast_matrix.values.size()[0] > 0) {
       const rowsArray = Array.from(Array(this.contrast_matrix.values.size()[0]).keys());
       return rowsArray;

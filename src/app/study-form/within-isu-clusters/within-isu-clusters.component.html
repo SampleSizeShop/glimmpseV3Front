@@ -168,6 +168,11 @@
   <div *ngIf="hasCluster() && isInfo()" >
     <div class="row">
       <div class="col">
+        <app-graph-component [data]="graphData"></app-graph-component>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
         <h6>Levels in cluster: {{cluster.name}}</h6>
       </div>
     </div>
