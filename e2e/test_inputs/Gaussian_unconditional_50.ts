@@ -2,7 +2,7 @@ import {constants} from '../../src/app/shared/constants';
 
 // A multilevel study with a hypothesis test of a between-independent sampling unit factor.
 
-export const Gaussian_unconditional_1_input = {
+export const Gaussian_unconditional_50_input = {
   user_mode: constants.USER_MODE.GUIDED,
   solve_for: null,
   statistical_tests: [
@@ -15,7 +15,7 @@ export const Gaussian_unconditional_1_input = {
   predictors: [
     {name: 'group', groups: ['g1', 'g2', 'g3']}
   ],
-  smallest_group: 5,
+  smallest_group: 50,
   groups: [
     {group: '', table: [[1], [1], [1]]},
   ],
@@ -30,7 +30,7 @@ export const Gaussian_unconditional_1_input = {
     {means: [[0], [0], [0]]},
     {means: [[0], [0], [0]]}
   ],
-  parameters_scale_factor: [0.4997025,  0.8075886, 1.097641],
+  parameters_scale_factor: [0.1141548, 0.1812892, 0.2423835],
   parameters_standard_deviation: [
     {outcome: 'O1', st_dev: 1},
     {outcome: 'O2', st_dev: 1},
@@ -55,14 +55,14 @@ export const Gaussian_unconditional_1_input = {
 };
 
 
-export const Gaussian_unconditional_1_output = {
+export const Gaussian_unconditional_50_output = {
   message: 'OK',
   status: 200,
   mimetype: 'application/json',
   results: [
-    {test: 'Hotelling Lawley Trace', power: 0.195},
-    {test: 'Hotelling Lawley Trace', power: 0.487},
-    {test: 'Hotelling Lawley Trace', power: 0.785}
+    {test: 'Hotelling Lawley Trace', power: 0.201},
+    {test: 'Hotelling Lawley Trace', power: 0.502},
+    {test: 'Hotelling Lawley Trace', power: 0.802}
   ],
   model: {
     essence_design_matrix: [
