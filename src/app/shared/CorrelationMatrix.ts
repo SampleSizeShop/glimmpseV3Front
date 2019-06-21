@@ -153,7 +153,7 @@ export class CorrelationMatrix {
           }
           if (r > c  && dMin !== dMax ) {
             const rho_j_k =  Math.pow(base,
-              dMin / scale + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin)) / scale);
+              dMin / scale + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin)));
             vals.set([r, c], rho_j_k );
             vals.set([c, r], rho_j_k );
           }
