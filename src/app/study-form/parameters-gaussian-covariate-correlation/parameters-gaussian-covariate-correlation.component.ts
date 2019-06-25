@@ -54,8 +54,8 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
   private getCorellationNames() {
     const corellations = []
     this.isuFactors.outcomes.forEach(outcome => {
-      if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) && this.isuFactors.repeatedMeasures.length > 0) {
-        this.isuFactors.repeatedMeasures.forEach(measure => {
+      if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) && this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
+        this.isuFactors.repeatedMeasuresInHypothesis.forEach(measure => {
           measure.valueNames.forEach(val => {
             const name = outcome.name + ', ' + measure.name + ' ' + +val;
             corellations.push(name);

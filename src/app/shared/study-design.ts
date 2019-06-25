@@ -347,6 +347,26 @@ export class StudyDesign {
         variables.push(variable);
       });
     }
+
+    if (!isNullOrUndefined(this.gaussianCovariate) && !isNullOrUndefined(this.gaussianCovariate.corellations)) {
+      const corellations = []
+      this.isuFactors.outcomes.forEach(outcome => {
+        if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) && this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
+          this.isuFactors.repeatedMeasuresInHypothesis.forEach(measure => {
+            measure.valueNames.forEach(val => {
+              const name = outcome.name + ', ' + measure.name + ' ' + +val;
+              corellations.push(name);
+            });
+          });
+        } else {
+          const name = outcome.name;
+          corellations.push(name);
+        }
+      });
+      if (corellations.length !== this.gaussianCovariate.corellations.length) {
+        this.gaussianCovariate.corellations = null;
+      }
+    }
     return variables;
   }
 
