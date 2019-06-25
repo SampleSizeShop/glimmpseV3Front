@@ -57,7 +57,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
       if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) && this.isuFactors.repeatedMeasures.length > 0) {
         this.isuFactors.repeatedMeasures.forEach(measure => {
           measure.valueNames.forEach(val => {
-            const name = outcome.name + '-' + measure.name + '-' + +val;
+            const name = outcome.name + ', ' + measure.name + ' ' + +val;
             corellations.push(name);
           });
         });
