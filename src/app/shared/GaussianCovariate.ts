@@ -10,7 +10,8 @@ interface GaussianCovariateJSON {
  * Model object for gaussian covariate.
  */
 export class GaussianCovariate {
-  standard_deviation:number;
+  standard_deviation: number;
+  corellations: Array<number>;
   power_method: Array<String>;
 
   // fromJSON is used to convert an serialized version
@@ -35,7 +36,7 @@ export class GaussianCovariate {
     return key === '' ? GaussianCovariate.fromJSON(value) : value;
   }
 
-  constructor(standard_deviation?: number, power_method?: Array<String>) {
+  constructor(standard_deviation?: number, power_method?: Array<String>, corellations?: Array<number>) {
     if (standard_deviation) {
       this.standard_deviation = standard_deviation;
     } else {
@@ -45,6 +46,11 @@ export class GaussianCovariate {
       this.power_method = power_method;
     } else {
       this.power_method = [];
+    }
+    if (corellations) {
+      this.corellations = corellations;
+    } else {
+      this.corellations = null;
     }
   }
 
