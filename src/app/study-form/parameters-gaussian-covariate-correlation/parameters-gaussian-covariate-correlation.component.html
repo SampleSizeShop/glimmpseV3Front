@@ -2,12 +2,12 @@
   <div class="row">
     <h6>Specify how strongly the covariate is correlated with each response variable:</h6>
   </div>
-  <div *ngFor="let outcome of isuFactors.outcomes; let i = index" class="row">
-    <div class="col-1 align-self-center" style="overflow: scroll;">
-      {{outcome.name}}:
+  <div *ngFor="let name of corellation_names; let i = index" class="row">
+    <div class="col-md-auto align-self-centre" style="overflow: scroll; margin-top:0.71em;">
+        {{name}}:
     </div>
     <div class="col-md-auto align-self-center">
-      <input type="number" formControlName="{{outcome.name}}" id="{{i}}" step="0.1" required>
+      <input type="number"  formControlName="{{name}}" id="{{i}}" step="0.1" required>
     </div>
   </div>
   <div *ngIf="formErrors.covariatecorrelation" class="form-group has-danger">

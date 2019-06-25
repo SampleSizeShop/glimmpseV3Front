@@ -5,6 +5,8 @@ import {StudyService} from '../study.service';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {NavigationService} from "../../shared/navigation.service";
+import {GaussianCovariate} from "../../shared/GaussianCovariate";
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-correlation',
@@ -17,13 +19,54 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
   private _formErrors = constants.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_ERRORS;
   private _validationMessages = constants.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_VALIDATION_MESSAGES;
   private _gaussianCovariateCorrForm: FormGroup;
+  private _gaussianCovariate: GaussianCovariate;
+  private _gaussianCovariatesSubscription: Subscription;
+  private _corellations: Array<number>;
+  private _corellation_names: Array<string>;
 
   constructor(private study_service: StudyService,
               private navigation_service: NavigationService,
               private _fb: FormBuilder) {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
-    } );
+      }
+    );
+
+    this._gaussianCovariate = new GaussianCovariate();
+    this._gaussianCovariatesSubscription = this.study_service.gaussianCovariate$.subscribe(gaussianCovariate => {
+        if (!isNullOrUndefined(gaussianCovariate)
+          && !isNullOrUndefined(gaussianCovariate.corellations)
+          && gaussianCovariate.corellations.length !== 0) {
+          this._corellations = gaussianCovariate.corellations;
+          this._corellation_names = this.getCorellationNames();
+        } else {
+          this._corellation_names = this.getCorellationNames();
+          this._corellations = [];
+          this._corellation_names.forEach(name => {
+            this._corellations.push(1);
+          });
+        }
+      }
+    );
+    const a = 0;
+  }
+
+  private getCorellationNames() {
+    const corellations = []
+    this.isuFactors.outcomes.forEach(outcome => {
+      if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) && this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
+        this.isuFactors.repeatedMeasuresInHypothesis.forEach(measure => {
+          measure.valueNames.forEach(val => {
+            const name = outcome.name + ', ' + measure.name + ' ' + +val;
+            corellations.push(name);
+          });
+        });
+      } else {
+        const name = outcome.name;
+        corellations.push(name);
+      }
+    });
+    return corellations;
   }
 
   ngOnInit() {
@@ -45,7 +88,8 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
 
   ngOnDestroy() {
     this.navigation_service.updateValid(true);
-    this.study_service.updateIsuFactors(this.isuFactors);
+    this._gaussianCovariate.corellations = this._corellations;
+    this.study_service.updateGaussianCovariate(this._gaussianCovariate);
   }
 
   onValueChanged(data?: any) {
@@ -76,18 +120,19 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
   }
 
   _updateCovariateCorrelation() {
-    this.isuFactors.outcomes.forEach( outcome => {
-      outcome.gaussian_corellation = this.gaussianCovariateCorrForm.get(outcome.name).value;
+    this._corellations = []
+    this._corellation_names.forEach(name => {
+      this._corellations.push(this.gaussianCovariateCorrForm.get(name).value);
     });
   }
 
   _defineControls() {
+    let i = 0;
     const controlArray = {};
-    this.isuFactors.outcomes.forEach(
-      outcome => {
-        controlArray[outcome.name] = [+outcome.gaussian_corellation];
-      }
-    );
+    this._corellation_names.forEach(name => {
+      controlArray[name] = [this._corellations[i]];
+      i = i + 1;
+    });
     return controlArray;
   }
 
@@ -112,8 +157,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
 
   get validationMessages(): {
     covariatecorrelation: { required: string; };
-  }
-  {
+  } {
     return this._validationMessages;
   }
 
@@ -132,5 +176,9 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
 
   set gaussianCovariateCorrForm(value: FormGroup) {
     this._gaussianCovariateCorrForm = value;
+  }
+
+  get corellation_names(): Array<string> {
+    return this._corellation_names;
   }
 }
