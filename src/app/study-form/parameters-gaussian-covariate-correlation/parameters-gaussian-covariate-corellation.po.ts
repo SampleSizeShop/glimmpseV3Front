@@ -1,4 +1,4 @@
-import { by, element} from 'protractor';
+import {browser, by, element} from 'protractor';
 import {isNullOrUndefined} from 'util';
 
 export class ParametersGaussianCovariateCorellationPo {
@@ -10,8 +10,8 @@ export class ParametersGaussianCovariateCorellationPo {
   }
 
   fillTable(correlations) {
-    correlations.forEach((stdev, j) => {
-      const groupInput = element(by.id(j.toString()));
+    correlations.forEach((stdev, i) => {
+      const groupInput = element(by.id(i.toString()));
       groupInput.clear().then(() => groupInput.sendKeys(stdev));
     });
   }

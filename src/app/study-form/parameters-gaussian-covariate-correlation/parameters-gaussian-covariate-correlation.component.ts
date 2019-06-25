@@ -22,6 +22,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
   private _gaussianCovariate: GaussianCovariate;
   private _gaussianCovariatesSubscription: Subscription;
   private _corellations: Array<number>;
+  private _corellation_names: Array<string>;
 
   constructor(private study_service: StudyService,
               private navigation_service: NavigationService,
@@ -37,19 +38,35 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
           && !isNullOrUndefined(gaussianCovariate.corellations)
           && gaussianCovariate.corellations.length !== 0) {
           this._corellations = gaussianCovariate.corellations;
+          this._corellation_names = this.getCorellationNames();
         } else {
-          this._corellations = []
-          this.isuFactors.outcomes.forEach( outcome => {
-            this.isuFactors.repeatedMeasures.forEach( measure => {
-                measure.valueNames.forEach( val => {
-                  this._corellations.push(1);
-                });
-              }
-            );
+          this._corellation_names = this.getCorellationNames();
+          this._corellations = [];
+          this._corellation_names.forEach(name => {
+            this._corellations.push(1);
           });
         }
       }
     );
+    const a = 0;
+  }
+
+  private getCorellationNames() {
+    const corellations = []
+    this.isuFactors.outcomes.forEach(outcome => {
+      if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) && this.isuFactors.repeatedMeasures.length > 0) {
+        this.isuFactors.repeatedMeasures.forEach(measure => {
+          measure.valueNames.forEach(val => {
+            const name = outcome.name + '-' + measure.name + '-' + +val;
+            corellations.push(name);
+          });
+        });
+      } else {
+        const name = outcome.name;
+        corellations.push(name);
+      }
+    });
+    return corellations;
   }
 
   ngOnInit() {
@@ -104,30 +121,18 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
 
   _updateCovariateCorrelation() {
     this._corellations = []
-    this.isuFactors.outcomes.forEach( outcome => {
-      this.isuFactors.repeatedMeasures.forEach( measure => {
-        measure.valueNames.forEach( val => {
-          const name = outcome.name + '-' + measure.name + '-' + val;
-          this._corellations.push(this.gaussianCovariateCorrForm.get(name).value);
-        });
-        }
-      );
+    this._corellation_names.forEach(name => {
+      this._corellations.push(this.gaussianCovariateCorrForm.get(name).value);
     });
   }
 
   _defineControls() {
     let i = 0;
     const controlArray = {};
-    this.isuFactors.outcomes.forEach(
-      outcome => {
-        this.isuFactors.repeatedMeasures.forEach( measure => {
-          measure.valueNames.forEach( val => {
-            const name = outcome.name + '-' + measure.name + '-' + val ;
-            controlArray[name] = [this._corellations[i]];
-            i = i + 1;
-          });
-        });
-      });
+    this._corellation_names.forEach(name => {
+      controlArray[name] = [this._corellations[i]];
+      i = i + 1;
+    });
     return controlArray;
   }
 
@@ -152,8 +157,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
 
   get validationMessages(): {
     covariatecorrelation: { required: string; };
-  }
-  {
+  } {
     return this._validationMessages;
   }
 
@@ -172,5 +176,9 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
 
   set gaussianCovariateCorrForm(value: FormGroup) {
     this._gaussianCovariateCorrForm = value;
+  }
+
+  get corellation_names(): Array<string> {
+    return this._corellation_names;
   }
 }
