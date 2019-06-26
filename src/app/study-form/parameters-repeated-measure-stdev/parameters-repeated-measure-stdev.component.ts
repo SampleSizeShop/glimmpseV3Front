@@ -88,10 +88,11 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
     const stDevs = new Array<number>();
     this.measure.standard_deviations = stDevs;
     for (const name of this.measure.valueNames) {
-      if (this.stdevForm.get(String(name))) {
-        stDevs.push(this.stdevForm.get(String(name)).value);
+      if (!isNullOrUndefined(this.stdevForm.controls[String(name)])) {
+        stDevs.push(this.stdevForm.controls[String(name)].value);
       }
     }
+    this.measure.standard_deviations = stDevs;
     this.study_service.updateIsuFactors(this.isuFactors);
   }
 
