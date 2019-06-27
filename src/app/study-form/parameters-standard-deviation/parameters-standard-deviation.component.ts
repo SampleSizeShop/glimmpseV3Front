@@ -95,7 +95,7 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
 
   _updateStandardDeviations() {
     this.isuFactors.outcomes.forEach( outcome => {
-      outcome.standardDeviation = this.stDevForm.get(outcome.name).value;
+      outcome.standardDeviation = this.stDevForm.controls[outcome.name].value;
     });
     this.study_service.updateIsuFactors(this.isuFactors);
   }
