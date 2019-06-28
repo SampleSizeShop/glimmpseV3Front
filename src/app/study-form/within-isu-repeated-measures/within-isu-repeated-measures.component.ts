@@ -15,6 +15,7 @@ import {NGXLogger} from 'ngx-logger';
 import {integerValidator} from '../../shared/integer.validator';
 import {isNullOrUndefined} from 'util';
 import {WithinIsuRepeatedMeasuresValidator} from './within-isu-repeated-measures.validator';
+import {orderedValidator} from '../../shared/ordered.validator';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -120,9 +121,13 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     });
     this._spacingForm = this._fb.group({
       spacing: this._fb.array([]),
-      first: [0],
-      interval: [0]
-    }, { validator: noDuplicatesValidator(this._spacingControlNames) });
+      first: [1],
+      interval: [1]
+    });
+    this._spacingForm.setValidators([
+      noDuplicatesValidator(this._spacingControlNames),
+      orderedValidator(this._spacingControlNames, this.isCategorical())
+    ]);
     this._spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
   };
 
@@ -181,7 +186,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       }
     }
     if (this._spacingForm.errors) {
-      this.formErrors['space'] += messages['duplicates'];
+      Object.keys(this.spacingForm.errors).forEach(key => {
+        this._formErrors['space'] += messages[key];
+      });
     }
   }
 
@@ -223,18 +230,24 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     if (this._repeatsForm.status === 'VALID') {
       this._spacingControlNames = Array.from(Array(repeats).keys())
       const controlDefs = {};
+      let i = 1;
       for (const name of this._spacingControlNames) {
         if (values && values.length === repeats) {
           controlDefs[name] = [values[name], minMaxValidator(0, 100000000000000)];
         } else {
-          controlDefs[name] = [0, minMaxValidator(0, 100000000000000)];
+          controlDefs[name] = [i, minMaxValidator(0, 100000000000000)];
         }
+        i = i + 1;
       }
 
       controlDefs['first'] = this._spacingForm.value.first;
       controlDefs['interval'] = this._spacingForm.value.interval;
 
-      this._spacingForm = this._fb.group(controlDefs, {validator: noDuplicatesValidator(this._spacingControlNames)});
+      this._spacingForm = this._fb.group(controlDefs);
+      this._spacingForm.setValidators([
+        noDuplicatesValidator(this._spacingControlNames),
+        orderedValidator(this._spacingControlNames, this.isCategorical())
+      ]);
       this._spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
       this._spacingValues = [];
     }
@@ -289,7 +302,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   includeRepeatedMeasures(measure?: RepeatedMeasure) {
-    console.log('click');
     if (measure) {
       this._repMeasure = measure;
     } else {
@@ -367,7 +379,22 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   selectType(type: string) {
-    this._typeForm.setValue({type: type})
+    this._typeForm.setValue({type: type});
+    // if any of  the spacing values are non numeric and type is not Categorical, reset the spacing form to default.
+    if (!this.typeSelected('Categorical')) {
+      this._formErrors['space'] = '';
+      this._spacingControlNames.forEach(name => {
+        if (isNaN(Number(this.spacingForm.controls[name].value.toString()))) {
+          this._spacingValues = [];
+          this.updateSpacingFormControls(this._repeats, this._spacingValues);
+        }
+      });
+    }
+    this._spacingForm.setValidators([
+      noDuplicatesValidator(this._spacingControlNames),
+      orderedValidator(this._spacingControlNames, this.isCategorical())
+    ]);
+    this._typeForm.updateValueAndValidity();
   }
 
   typeSelected(type: string) {
@@ -551,6 +578,22 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       return true;
     } else {
       return false
+    }
+  }
+
+  isCategorical() {
+    if (this._typeForm.value.type === ('Categorical')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  spacingInputType() {
+    if (this.isCategorical()) {
+      return 'string';
+    } else {
+      return 'number';
     }
   }
 }
