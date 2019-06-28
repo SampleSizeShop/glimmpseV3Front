@@ -223,6 +223,7 @@ export const constants = {
     },
     'space': {
       'duplicates': 'Your repeated measures cannot be duplicates.\n',
+      'ordered': 'Spacing values must be unique nonnegative integers.\n',
       'required': 'Your spacing values need to be filled in.\n',
       'minval': 'Value too low.\n'
     },

@@ -15,6 +15,7 @@ import {NGXLogger} from 'ngx-logger';
 import {integerValidator} from '../../shared/integer.validator';
 import {isNullOrUndefined} from 'util';
 import {WithinIsuRepeatedMeasuresValidator} from './within-isu-repeated-measures.validator';
+import {orderedValidator} from '../../shared/ordered.validator';
 
 @Component({
   selector: 'app-within-isu-repeated-measures',
@@ -122,7 +123,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       spacing: this._fb.array([]),
       first: [1],
       interval: [1]
-    }, { validator: noDuplicatesValidator(this._spacingControlNames) });
+    });
+    this._spacingForm.setValidators([
+      noDuplicatesValidator(this._spacingControlNames),
+      orderedValidator(this._spacingControlNames)
+    ]);
     this._spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
   };
 
@@ -181,7 +186,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       }
     }
     if (this._spacingForm.errors) {
-      this.formErrors['space'] += messages['duplicates'];
+      Object.keys(this.spacingForm.errors).forEach(key => {
+        this.formErrors['space'] += messages[key];
+      });
     }
   }
 
@@ -236,7 +243,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       controlDefs['first'] = this._spacingForm.value.first;
       controlDefs['interval'] = this._spacingForm.value.interval;
 
-      this._spacingForm = this._fb.group(controlDefs, {validator: noDuplicatesValidator(this._spacingControlNames)});
+      this._spacingForm = this._fb.group(controlDefs);
+      this._spacingForm.setValidators([
+        noDuplicatesValidator(this._spacingControlNames),
+        orderedValidator(this._spacingControlNames)
+      ]);
       this._spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
       this._spacingValues = [];
     }
@@ -291,7 +302,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   includeRepeatedMeasures(measure?: RepeatedMeasure) {
-    console.log('click');
     if (measure) {
       this._repMeasure = measure;
     } else {

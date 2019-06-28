@@ -15,7 +15,7 @@ export function noDuplicatesValidator(names: number[], log?: NGXLogger): Validat
       if (log) {
         log.debug('Cannot have duplicate values');
       }
-      return {'duplicates': 'Cannot have duplicate values'};
+      return {'duplicates': 'Cannot have duplicate values.\n'};
     } else {
       return null;
     }
