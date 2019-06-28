@@ -127,11 +127,11 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     if (colIds.length > 0) {
       colIds.forEach(col => {
         const id = [this.tableId.id[0]].concat(rowId, col.id)
-        row.push( new ISUFactorCombination(id, 1))
+        row.push( new ISUFactorCombination(id, 0))
       })
     } else {
       const id = [this.tableId.id[0]].concat(rowId)
-      row.push(new ISUFactorCombination(id, 1));
+      row.push(new ISUFactorCombination(id, 0));
     }
     return row;
   }
