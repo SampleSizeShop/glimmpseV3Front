@@ -2,7 +2,7 @@ import {NGXLogger} from 'ngx-logger';
 import {FormGroup, ValidatorFn} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 
-export function orderedValidator(names: number[], log?: NGXLogger): ValidatorFn {
+export function orderedValidator(names: number[], isCategorical: boolean,  log?: NGXLogger): ValidatorFn {
   return (group: FormGroup): {[key: string]: any} => {
     const values = [];
     for (const name of names) {
@@ -19,7 +19,7 @@ export function orderedValidator(names: number[], log?: NGXLogger): ValidatorFn 
         isOrdered = false;
       }
     });
-    if (isOrdered) {
+    if (isOrdered || isCategorical) {
       return null;
     } else {
       return {'ordered': 'Spacing values must be unique nonnegative integers.\n'};

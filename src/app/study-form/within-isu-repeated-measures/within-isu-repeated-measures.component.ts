@@ -126,7 +126,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     });
     this._spacingForm.setValidators([
       noDuplicatesValidator(this._spacingControlNames),
-      orderedValidator(this._spacingControlNames)
+      orderedValidator(this._spacingControlNames, this.isCategorical())
     ]);
     this._spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
   };
@@ -187,7 +187,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     }
     if (this._spacingForm.errors) {
       Object.keys(this.spacingForm.errors).forEach(key => {
-        this.formErrors['space'] += messages[key];
+        this._formErrors['space'] += messages[key];
       });
     }
   }
@@ -246,7 +246,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       this._spacingForm = this._fb.group(controlDefs);
       this._spacingForm.setValidators([
         noDuplicatesValidator(this._spacingControlNames),
-        orderedValidator(this._spacingControlNames)
+        orderedValidator(this._spacingControlNames, this.isCategorical())
       ]);
       this._spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
       this._spacingValues = [];
@@ -382,6 +382,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this._typeForm.setValue({type: type});
     // if any of  the spacing values are non numeric and type is not Categorical, reset the spacing form to default.
     if (!this.typeSelected('Categorical')) {
+      this._formErrors['space'] = '';
       this._spacingControlNames.forEach(name => {
         if (isNaN(Number(this.spacingForm.controls[name].value.toString()))) {
           this._spacingValues = [];
@@ -389,6 +390,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
         }
       });
     }
+    this._spacingForm.setValidators([
+      noDuplicatesValidator(this._spacingControlNames),
+      orderedValidator(this._spacingControlNames, this.isCategorical())
+    ]);
+    this._typeForm.updateValueAndValidity();
   }
 
   typeSelected(type: string) {
@@ -576,7 +582,15 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   isCategorical() {
-    if (this.typeSelected('Categorical')) {
+    if (this._typeForm.value.type === ('Categorical')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  spacingInputType() {
+    if (this.isCategorical()) {
       return 'string';
     } else {
       return 'number';
