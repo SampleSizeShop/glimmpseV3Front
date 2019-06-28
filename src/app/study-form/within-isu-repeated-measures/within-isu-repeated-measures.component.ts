@@ -369,7 +369,16 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   selectType(type: string) {
-    this._typeForm.setValue({type: type})
+    this._typeForm.setValue({type: type});
+    // if any of  the spacing values are non numeric and type is not Categorical, reset the spacing form to default.
+    if (!this.typeSelected('Categorical')) {
+      this._spacingControlNames.forEach(name => {
+        if (isNaN(Number(this.spacingForm.controls[name].value.toString()))) {
+          this._spacingValues = [];
+          this.updateSpacingFormControls(this._repeats, this._spacingValues);
+        }
+      });
+    }
   }
 
   typeSelected(type: string) {
@@ -553,6 +562,14 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       return true;
     } else {
       return false
+    }
+  }
+
+  isCategorical() {
+    if (this.typeSelected('Categorical')) {
+      return 'string';
+    } else {
+      return 'number';
     }
   }
 }
