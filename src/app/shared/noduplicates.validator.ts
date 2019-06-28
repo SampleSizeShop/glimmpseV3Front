@@ -7,7 +7,7 @@ export function noDuplicatesValidator(names: number[], log?: NGXLogger): Validat
     const values = [];
     for (const name of names) {
       if (!isNullOrUndefined(group.get(String(name)))) {
-        values.push(group.get(String(name)).value);
+        values.push(group.get(String(name)).value.toString());
       }
     }
     const set = new Set(values);

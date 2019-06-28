@@ -213,7 +213,7 @@ export const constants = {
   },
   REPEATED_MEASURE_TYPES: ['Categorical', 'Ordinal', 'Numeric'],
   REPEATED_MEASURE_FORM_ERRORS: {
-    'space': 'Your repeated measures cannot be duplicates.',
+    'space': '',
     'dimensionunits': '',
     'repeatsform': ''
   },
@@ -223,7 +223,7 @@ export const constants = {
     },
     'space': {
       'duplicates': 'Your repeated measures cannot be duplicates.\n',
-      'required': 'Your repeated measures need to be filled in.\n',
+      'required': 'Your spacing values need to be filled in.\n',
       'minval': 'Value too low.\n'
     },
     'repeatsform': {
