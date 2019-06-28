@@ -120,8 +120,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     });
     this._spacingForm = this._fb.group({
       spacing: this._fb.array([]),
-      first: [0],
-      interval: [0]
+      first: [1],
+      interval: [1]
     }, { validator: noDuplicatesValidator(this._spacingControlNames) });
     this._spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
   };
@@ -223,12 +223,14 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     if (this._repeatsForm.status === 'VALID') {
       this._spacingControlNames = Array.from(Array(repeats).keys())
       const controlDefs = {};
+      let i = 1;
       for (const name of this._spacingControlNames) {
         if (values && values.length === repeats) {
           controlDefs[name] = [values[name], minMaxValidator(0, 100000000000000)];
         } else {
-          controlDefs[name] = [0, minMaxValidator(0, 100000000000000)];
+          controlDefs[name] = [i, minMaxValidator(0, 100000000000000)];
         }
+        i = i + 1;
       }
 
       controlDefs['first'] = this._spacingForm.value.first;
