@@ -95,7 +95,6 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
       if (control && !control.valid) {
         const messages = this.validationMessages[field];
         for (const key of Object.keys(control.errors) ) {
-          console.log(this.formErrors);
           this.formErrors[field] += messages[key] + ' ';
         }
       }
