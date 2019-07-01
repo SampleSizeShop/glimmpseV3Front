@@ -2,7 +2,7 @@ import {AbstractControl, ValidatorFn} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 import {Predictor} from '../../shared/Predictor';
 
-export function predictorValidator(predictors: Array<Predictor>): ValidatorFn {
+export function predictorValidator(predictors: Array<Predictor>, editing?: Predictor): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {
     const names = [];
     predictors.forEach( predictor => {
@@ -12,7 +12,15 @@ export function predictorValidator(predictors: Array<Predictor>): ValidatorFn {
     if ( isNullOrUndefined(val) || val === '' ) {
       return { 'empty': val}
     }
-    if (names.indexOf(val) !== -1) {
+
+    function editingNameCheck(edit: Predictor, name: any) {
+      if (!isNullOrUndefined(edit) && edit.name === name) {
+        return false;
+      }
+      return true;
+    }
+
+    if (names.indexOf(val) !== -1 && editingNameCheck(editing, val)) {
       return { 'duplicate': val}
     } else {
       return null;

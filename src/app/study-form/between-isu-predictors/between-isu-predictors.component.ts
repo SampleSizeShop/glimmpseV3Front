@@ -181,9 +181,14 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
     this.stage = -1;
   }
 
+
   cancelPredictor() {
     this._next = 0;
     this.stage = -1;
+    // remove the editing check from the predictor validator
+    this.predictorForm = this.fb.group({
+      predictorName: ['', predictorValidator(this.betweenIsuPredictors)]
+    });
   }
 
   addName() {
@@ -203,7 +208,20 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
     predictor.units = this.groupsForm.value.units;
     predictor.valueNames = this.groups;
 
-    this.betweenIsuPredictors.push(predictor);
+    // check we aren't creating a duplicate (usually when editing an existing predictor
+    const names = [];
+    this.betweenIsuPredictors.forEach( p => {
+      names.push(p.name);
+    });
+    const index = names.indexOf(predictor.name);
+    if (index !== -1) {
+      this.betweenIsuPredictors[index].name = this.predictorForm.value.predictorName;
+      this.betweenIsuPredictors[index].type = this._type;
+      this.betweenIsuPredictors[index].units = this.groupsForm.value.units;
+      this.betweenIsuPredictors[index].valueNames = this.groups;
+    } else {
+      this.betweenIsuPredictors.push(predictor);
+    }
     this.resetForms();
     this.stage = -1;
     this._next = this.stages.INFO;
@@ -217,9 +235,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
   }
 
   editPredictor(predictor: Predictor) {
-    this.removePredictor(predictor);
     this.predictorForm = this.fb.group({
-      predictorName: ['', predictorValidator(this.betweenIsuPredictors)]
+      predictorName: ['', predictorValidator(this.betweenIsuPredictors, predictor)]
     });
     this.includePredictors(predictor);
   }
