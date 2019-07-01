@@ -215,11 +215,13 @@ export const constants = {
   REPEATED_MEASURE_FORM_ERRORS: {
     'space': '',
     'dimensionunits': '',
+    'duplicate': '',
     'repeatsform': ''
   },
   REPEATED_MEASURE_FORM_VALIDATION_MESSAGES: {
     'dimensionunits': {
-      'required': 'You must specify a name for this repeated measure dimension.'
+      'required': 'You must specify a name for this repeated measure dimension.',
+      'duplicate': 'You have already specified this repeated measure dimension.',
     },
     'space': {
       'duplicates': 'Your repeated measures cannot be duplicates.\n',

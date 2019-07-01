@@ -24,7 +24,7 @@ export function WithinIsuRepeatedMeasuresValidator(isClickNext: {value: boolean}
     }
 
     if (names.indexOf(val) !== -1 && editingNameCheck(editing, val)) {
-      return { 'duplicate': val};
+      return { 'duplicate': 'You have already specified this repeated measure dimension'};
     }
 
     return null;

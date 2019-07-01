@@ -103,7 +103,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     });
     this._dimensionForm.get('dimension').valueChanges.subscribe(data => {
       if (this.stage === this.stages.DIMENSIONS) {
-        this.onValueChangedDimensionForm();
+        this.onValueChangedDimensionForm(data);
         this.resetClickNext(); // Reset clickNext when users reinsert value
       }
     });
@@ -131,26 +131,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       noDuplicatesValidator(this._spacingControlNames),
       orderedValidator(this._spacingControlNames, this.isCategorical())
     ]);
+    this._dimensionForm.valueChanges.subscribe(data => this.onValueChangedDimensionForm(data));
     this._spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
   };
-
-  onValueChangedDimensionForm(data?: any) {
-    if (!this._dimensionForm) {
-      return;
-    }
-    const form = this._dimensionForm;
-
-    this._formErrors['dimensionunits'] = '';
-    for (const field in this._dimensionForm.value) {
-      const control = form.get(field);
-      if (control && this.isClickNext && !control.valid) {
-        const messages = this._validationMessages['dimensionunits'];
-        for (const key in control.errors ) {
-          this._formErrors['dimensionunits'] = messages[key];
-        }
-      }
-    }
-  }
 
   onValueChangedRepeatsForm(data?: any) {
     if (!this._repeatsForm) {
@@ -192,6 +175,28 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       Object.keys(this.spacingForm.errors).forEach(key => {
         this._formErrors['space'] += messages[key];
       });
+    }
+  }
+
+  onValueChangedDimensionForm(data?: any) {
+    if (!this._dimensionForm) {
+      return;
+    }
+    this._formErrors['dimensionunits'] = '';
+    const messages = this._validationMessages['dimensionunits'];
+    for (const field in this._dimensionForm.controls) {
+      const control = this._dimensionForm.get(field);
+      if (control && this.isClickNext && !control.valid) {
+        for (const key in control.errors ) {
+          this._formErrors['dimensionunits'] = messages[key];
+        }
+      } else if (control && !control.valid) {
+        for (const key in control.errors ) {
+          if (key !== 'required') {
+            this._formErrors['dimensionunits'] = messages[key];
+          }
+        }
+      }
     }
   }
 
@@ -294,10 +299,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       units: ['']
     });
     this.resetForms();
-
-    this.dimensionForm.setValidators([
-      WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)
-    ]);
+    this.buildForm();
     this.setStage(this.stages.INFO);
   }
 
@@ -331,6 +333,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   includeRepeatedMeasures(measure?: RepeatedMeasure) {
+    this.buildForm();
     if (measure) {
       this._repMeasure = measure;
     } else {
