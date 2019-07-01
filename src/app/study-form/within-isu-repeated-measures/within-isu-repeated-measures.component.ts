@@ -313,15 +313,21 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures, measure)]],
       units: ['']
     });
+    this._dimensionForm.get('dimension').valueChanges.subscribe(data => {
+      if (this.stage === this.stages.DIMENSIONS) {
+        this.onValueChangedDimensionForm(data);
+        this.resetClickNext(); // Reset clickNext when users reinsert value
+      }
+    });
+    this._dimensionForm.valueChanges.subscribe(data => this.onValueChangedDimensionForm(data));
+
 
     this._dimensionForm.get('dimension').setValue(measure.name);
-    this.dimensionForm.setValidators([
-      WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures, measure)
-    ]);
     this._typeForm.get('type').setValue(measure.type);
     this._repeatsForm.get('repeats').setValue(measure.noRepeats);
 
-    this.includeRepeatedMeasures(measure);
+    this._repMeasure = measure;
+    this.setStage(this._stages.DIMENSIONS);
     this.updateSpacingFormControls(this._repeats, this._spacingValues);
   }
 

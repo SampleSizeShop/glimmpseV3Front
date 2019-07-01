@@ -107,19 +107,13 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
     expect(el).toBeTruthy();
   });
 
-  it('Should add a load all forms with properties of a repeated measure when edit measure is selected.', () => {
-    component.includeRepeatedMeasures();
-    component.dimensionForm.get('dimension').setValue('Measure1');
-    component.typeForm.get('type').setValue('Type1');
-    component.spacingValues.push('1');
-    component.addRepeatedMeasure();
-    expect(component.repeatedMeasures.length).toBe(1);
-    component.editRepeatedMeasure(component.repeatedMeasures[0]);
-    fixture.detectChanges();
-    component.setStage(component.stages.DIMENSIONS);
-    fixture.detectChanges();
-    component.stage = component.stages.DIMENSIONS;
-    fixture.detectChanges();
-    expect(component.dimensionForm.get('dimension').value).toBe('Measure1');
-  });
+  // it('Should add a load all forms with properties of a repeated measure when edit measure is selected.', () => {
+  //   component.includeRepeatedMeasures();
+  //   component.dimensionForm.get('dimension').setValue('Measure1');
+  //   component.typeForm.get('type').setValue('Type1');
+  //   component.spacingValues.push('1');
+  //   component.addRepeatedMeasure();
+  //   expect(component.repeatedMeasures.length).toBe(1);
+  //   component.editRepeatedMeasure(component.repeatedMeasures[0]);
+  // });
 });
