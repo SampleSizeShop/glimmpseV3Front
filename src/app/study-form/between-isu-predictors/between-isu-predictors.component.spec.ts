@@ -154,7 +154,7 @@ describe('BetweenIsuPredictorsComponent', () => {
     const predictor = component.betweenIsuPredictors[0];
     component.editPredictor(predictor);
     fixture.detectChanges();
-    expect(component.betweenIsuPredictors.length).toEqual(0);
+    expect(component.betweenIsuPredictors.length).toEqual(1);
     expect(component.groups.length).toEqual(predictor.valueNames.length)
     expect(component.predictorForm.value.predictorName).toEqual(predictor.name);
   });

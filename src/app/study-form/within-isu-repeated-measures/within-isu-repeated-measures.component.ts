@@ -98,12 +98,12 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this._dimensionForm = this._fb.group({
-      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference)]],
+      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)]],
       units: ['']
     });
     this._dimensionForm.get('dimension').valueChanges.subscribe(data => {
       if (this.stage === this.stages.DIMENSIONS) {
-        this.onValueChangedDimensionForm();
+        this.onValueChangedDimensionForm(data);
         this.resetClickNext(); // Reset clickNext when users reinsert value
       }
     });
@@ -111,8 +111,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       type: [this._types[0]]
     });
     this._repeatsForm = this._fb.group({
-      repeats: [2, [minMaxValidator(2, 10), integerValidator(), WithinIsuRepeatedMeasuresValidator(this._isClickNextReference)]]
-    });
+      repeats: [2, [
+        minMaxValidator(2, 10),
+        integerValidator(),
+        WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)
+      ]]});
     this._repeatsForm.valueChanges.subscribe(data => {
       if (this.stage === this.stages.REPEATS) {
         this.onValueChangedRepeatsForm();
@@ -128,26 +131,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       noDuplicatesValidator(this._spacingControlNames),
       orderedValidator(this._spacingControlNames, this.isCategorical())
     ]);
+    this._dimensionForm.valueChanges.subscribe(data => this.onValueChangedDimensionForm(data));
     this._spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
   };
-
-  onValueChangedDimensionForm(data?: any) {
-    if (!this._dimensionForm) {
-      return;
-    }
-    const form = this._dimensionForm;
-
-    this._formErrors['dimensionunits'] = '';
-    for (const field in this._dimensionForm.value) {
-      const control = form.get(field);
-      if (control && this.isClickNext && !control.valid) {
-        const messages = this._validationMessages['dimensionunits'];
-        for (const key in control.errors ) {
-          this._formErrors['dimensionunits'] = messages[key];
-        }
-      }
-    }
-  }
 
   onValueChangedRepeatsForm(data?: any) {
     if (!this._repeatsForm) {
@@ -189,6 +175,28 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       Object.keys(this.spacingForm.errors).forEach(key => {
         this._formErrors['space'] += messages[key];
       });
+    }
+  }
+
+  onValueChangedDimensionForm(data?: any) {
+    if (!this._dimensionForm) {
+      return;
+    }
+    this._formErrors['dimensionunits'] = '';
+    const messages = this._validationMessages['dimensionunits'];
+    for (const field in this._dimensionForm.controls) {
+      const control = this._dimensionForm.get(field);
+      if (control && this.isClickNext && !control.valid) {
+        for (const key in control.errors ) {
+          this._formErrors['dimensionunits'] = messages[key];
+        }
+      } else if (control && !control.valid) {
+        for (const key in control.errors ) {
+          if (key !== 'required') {
+            this._formErrors['dimensionunits'] = messages[key];
+          }
+        }
+      }
     }
   }
 
@@ -262,7 +270,16 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   addRepeatedMeasure() {
-    const measure = new RepeatedMeasure();
+    const names = [];
+    this._repeatedMeasures.forEach(m => {
+      names.push(m.name);
+    });
+
+    let measure = new RepeatedMeasure();
+    const index = names.indexOf(this._dimensionForm.value.dimension);
+    if (index !== -1) {
+      measure = this.repeatedMeasures[index];
+    }
     measure.name = this._dimensionForm.value.dimension;
     measure.units = this._dimensionForm.value.units;
     measure.noRepeats = this._repeatsForm.value.repeats;
@@ -273,20 +290,34 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     measure.valueNames = this._spacingValues;
     measure.correlationMatrix = new CorrelationMatrix(measure.valueNames);
 
-    this.repeatedMeasures.push(measure);
+    if (index === -1) {
+      this.repeatedMeasures.push(measure);
+    }
+
+    this._dimensionForm = this._fb.group({
+      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)]],
+      units: ['']
+    });
     this.resetForms();
+    this.buildForm();
     this.setStage(this.stages.INFO);
   }
 
   editRepeatedMeasure(measure: RepeatedMeasure) {
-    this.removeRepeatedMeasure(measure);
-
     this._repMeasure = measure;
     this._type = measure.type;
     this._repeats = measure.noRepeats;
     this._spacingValues = measure.valueNames;
 
+    this._dimensionForm = this._fb.group({
+      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures, measure)]],
+      units: ['']
+    });
+
     this._dimensionForm.get('dimension').setValue(measure.name);
+    this.dimensionForm.setValidators([
+      WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures, measure)
+    ]);
     this._typeForm.get('type').setValue(measure.type);
     this._repeatsForm.get('repeats').setValue(measure.noRepeats);
 
@@ -302,6 +333,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   includeRepeatedMeasures(measure?: RepeatedMeasure) {
+    this.buildForm();
     if (measure) {
       this._repMeasure = measure;
     } else {
@@ -331,6 +363,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     if (stage === this._stages.INFO) {
       this.navigation_service.updateInternalFormSource(false);
       this.navigation_service.updateValid(true);
+      this._dimensionForm = this._fb.group({
+        dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)]],
+        units: ['']
+      });
     } else {
       this.navigation_service.updateInternalFormSource(true);
       this.navigation_service.updateValid(false);
