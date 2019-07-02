@@ -94,10 +94,10 @@
         <h6>Defining Predictor:</h6>
         <form [formGroup]="groupsForm" id="groupsForm">
           <div class="row">
-            <div class="col" *ngIf="!isOrdinal()">
+            <div class="col" *ngIf="isContinuous()">
               <p>Which unit is {{predictorForm.value.predictorName}} measured in?</p>
             </div>
-            <div class="col" *ngIf="!isOrdinal()">
+            <div class="col" *ngIf="isContinuous()">
               <input class="form-control" formControlName="units" (keyup.enter)="addGroup()" id="units">
             </div>
             <div class="col"></div>

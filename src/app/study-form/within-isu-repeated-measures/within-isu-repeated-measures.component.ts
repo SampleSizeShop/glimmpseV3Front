@@ -131,6 +131,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       noDuplicatesValidator(this._spacingControlNames),
       orderedValidator(this._spacingControlNames, this.isCategorical())
     ]);
+    this.updateSpacingFormControls(2, this._spacingValues);
     this._dimensionForm.valueChanges.subscribe(data => this.onValueChangedDimensionForm(data));
     this._spacingForm.valueChanges.subscribe(data => this.onValueChangedSpacingForm(data));
   };
@@ -238,12 +239,13 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     if (this._repeatsForm.status === 'VALID') {
       this._spacingControlNames = Array.from(Array(repeats).keys())
       const controlDefs = {};
-      let i = 1;
+      let i = 0;
       for (const name of this._spacingControlNames) {
         if (values && values.length === repeats) {
           controlDefs[name] = [values[name], minMaxValidator(0, 100000000000000)];
         } else {
-          controlDefs[name] = [i, minMaxValidator(0, 100000000000000)];
+          const j = i + 1;
+          controlDefs[name] = [j, minMaxValidator(0, 100000000000000)];
         }
         i = i + 1;
       }
@@ -426,7 +428,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     if (!this.typeSelected('Categorical')) {
       this._formErrors['space'] = '';
       this._spacingControlNames.forEach(name => {
-        if (isNaN(Number(this.spacingForm.controls[name].value.toString()))) {
+        if (isNullOrUndefined(this.spacingForm.controls[name]) ||
+          isNaN(Number(this.spacingForm.controls[name].value.toString()))) {
           this._spacingValues = [];
           this.updateSpacingFormControls(this._repeats, this._spacingValues);
         }
