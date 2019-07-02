@@ -66,10 +66,12 @@
         </tbody>
       </table>
     </div>
-    <div *ngIf="getFormErrors()" class="form-group has-danger">
-      <div class="form-control-feedback">Correlation matrix elements must have values between {{min}} and {{max}}.</div>
-    </div>
   </form>
+</div>
+<div *ngIf="getFormErrors()" class="row">
+  <div class="form-group has-danger">
+    <div class="form-control-feedback">Correlation matrix elements must have values between {{min}} and {{max}}.</div>
+  </div>
 </div>
 <div class="row">
   <p>(each off-diagonal correlation must be between -1 and 1, exclusive)</p>
