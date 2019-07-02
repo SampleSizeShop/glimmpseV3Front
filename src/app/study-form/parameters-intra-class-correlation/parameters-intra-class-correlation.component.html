@@ -4,7 +4,7 @@
     <div *ngFor="let level of isuFactors.cluster.levels; let i = index">
       <div class="row">
         <div class="col-md-9 align-self-center">
-          The intraclass correlation for level <b>{{level.levelName}}</b> must be a number between 1 > x > {{(-1 / (level.noElements-1)).toFixed(3)}}
+          The intraclass correlation for level <b>{{level.levelName}}</b> must be a number between {{(-1 / (level.noElements-1)).toFixed(3)}} < r < 1
         </div>
         <div class="col-md-3 align-self-center">
           <input type="number"
