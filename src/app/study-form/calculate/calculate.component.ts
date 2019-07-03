@@ -45,6 +45,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   private _showHelpTextSubscription: Subscription;
   private _smallestGroupSize: number;
   private _sumOfCombinationsValue: number;
+  private _selected_tab: string;
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
@@ -83,6 +84,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
+    this._selected_tab = 'results';
   }
 
   ngOnInit() {
@@ -176,6 +178,46 @@ export class CalculateComponent implements OnInit, OnDestroy {
     return texString;
   }
 
+  get essence_design_matrix_tex() {
+    return 'Es(X) = ' + this.toTex(this.resultString.results[0].model.essence_design_matrix);
+  }
+  get full_beta_tex() {
+    return '';
+  }
+  get hypothesis_beta_tex() {
+    return '$B_{hyp} = $' + this.toTex(this.resultString.results[0].model.hypothesis_beta);
+  }
+  get c_matrix_tex() {
+    return 'C = ' + this.toTex(this.resultString.results[0].model.c_matrix);
+  }
+  get u_matrix_tex() {
+    return 'U = ' + this.toTex(this.resultString.results[0].model.u_matrix);
+  }
+  get sigma_star_tex() {
+    return '$\\Sigma_* = $' + this.toTex(this.resultString.results[0].model.sigma_star);
+  }
+  get theta_zero_tex() {
+    return '$\\Theta_0 = $' + this.toTex(this.resultString.results[0].model.theta);
+  }
+  get alpha_tex() {
+    return '$\\alpha = $' + this.resultString.results[0].model.alpha;
+  }
+  get theta_tex() {
+    return '$\\Theta = $' + this.toTex(this.resultString.results[0].model.theta);
+  }
+  get m_tex() {
+    return '$M = $' + this.toTex(this.resultString.results[0].model.m);
+  }
+  get nu_e_tex() {
+    return '$\\nu_e = $' + this.resultString.results[0].model.nu_e;
+  }
+  get rep_n_tex() {
+    return 'rep$_n = $' + this.resultString.results[0].model.repeated_rows_in_design_matrix;
+  }
+  get delta_tex() {
+    return '$\\Delta = $' + this.toTex(this.resultString.results[0].model.delta);
+  }
+
   get hasResults(): boolean {
     return !isNullOrUndefined(this.resultString)
   }
@@ -262,6 +304,14 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   isSelected(index: number) {
     return index === this.currentSelected;
+  }
+
+  isTabSelected(tab: string) {
+    return this._selected_tab === tab ? true : false;
+  }
+
+  selectTab(tab: string) {
+    this._selected_tab = tab;
   }
 
   isPower(): boolean {
