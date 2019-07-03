@@ -10,7 +10,7 @@ interface ClusterLevelJSON {
 export class ClusterLevel {
   levelName = '';
   noElements = 0;
-  intraClassCorellation = 1;
+  intraClassCorellation = 0.01;
 
   // fromJSON is used to convert an serialized version
   // of the ClusterLevel to an instance of the class
