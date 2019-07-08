@@ -7,87 +7,116 @@
   <a id="downloadCsv" [attr.href]="downloadData" download="result.csv" hidden>Download result</a>
   <br>
   <br>
-  <table class="table">
-    <tr>
-      <th>Power</th>
-      <th *ngIf="hasConfidenceInterval()">Confidence Intervals</th>
-      <th>Total Sample Size</th>
-      <th *ngIf="isSamplesize()">Target Power</th>
-      <th>Means Scale Factor</th>
-      <th>Variability Scale Factor</th>
-      <th>Test</th>
-      <th>Power Method</th>
-      <th>Type I Error Rate</th>
-    </tr>
-    <tr *ngFor="let result of resultForDisplay; index as i"
-        (click)="showDetail(getOutput(result), i, result.model.total_n)"
-        [class] = "rowStyle(i)"
-        [attr.id]="'result_display_row_'+i">
-      <td id="{{'power_' + i}}" data-label="Power">
-        <div *ngIf="!error(result)">{{result.power}}</div><div *ngIf="error(result)">{{result.model.errors}}</div>
-      </td>
-      <td *ngIf="hasConfidenceInterval()" id="{{'ci_' + i}}" data-label="Confidence Intervals">({{result.lower_bound}} , {{result.upper_bound}})</td>
-      <td *ngIf="isSamplesize() && !error(result)" data-label="Total Sample Size">{{result.samplesize}}</td>
-      <td *ngIf="isSamplesize() && error(result)" data-label="Errors">{{result.model.errors}}</td>
-      <td *ngIf="isPower()" data-label="Total Sample Size">{{result.model.total_n}}</td>
-      <td *ngIf="isSamplesize()" id="{{'targetpower_' + i}}" data-label="Target Power">{{result.model.target_power}}</td>
-      <td id="{{'means_scale_factor_' + i}}" data-label="Means Scale Factor">{{ result.model.means_scale_factor }}</td>
-      <td id="{{'variance_scale_factor_' + i}}" data-label="Variability Scale Factor">{{ result.model.variance_scale_factor }}</td>
-      <td id="{{'test_' + i}}" data-label="Test">{{ result.model.test }}</td>
-      <td id="{{'power_method_' + i}}" data-label="Power Method">{{ result.model.power_method }}</td>
-      <td id="{{'alpha_' + i}}" data-label="Alpha">{{ result.model.alpha }}</td>
-    </tr>
-  </table>
-  <div *ngIf="isShowDetail">
-    <h4>Details</h4>
-    <div class="form-group">
-      <label>Power</label>
-      <label class="form-control ng-binding">{{ detailPower }}</label>
-    </div>
-    <div class="form-group">
-      <label>Independent Sampling Unit</label>
-      <div class="well white-box">
-        <ng-container *ngIf="detailCluster; else noClusterContent">
-          <label class="ng-binding">{{ detailClusterLevels[0]['levelName'] }}</label>
-          <ul *ngIf="detailClusterLevels.length > 0">
-            <li *ngFor="let line of detailClusterOverview; index as i" class="ng-binding" [attr.id]="'level_' + i">{{ line }}</li>
-          </ul>
-        </ng-container>
-        <ng-template #noClusterContent>
-          <label class="ng-binding">participant</label>
-        </ng-template>
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <div class="nav-link" [class.active]="isTabSelected('results')" data-toggle="tab" (click)="selectTab('results')">Results</div>
+    </li>
+    <li class="nav-item">
+      <div class="nav-link" data-toggle="tab" [class.active]="isTabSelected('matrices')" (click)="selectTab('matrices')">Matrices</div>
+    </li>
+  </ul>
+  <div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade show" [class.active]="isTabSelected('results')" id="resultstab">
+      <table class="table">
+        <tr>
+          <th>Power</th>
+          <th *ngIf="hasConfidenceInterval()">Confidence Intervals</th>
+          <th>Total Sample Size</th>
+          <th *ngIf="isSamplesize()">Target Power</th>
+          <th>Means Scale Factor</th>
+          <th>Variability Scale Factor</th>
+          <th>Test</th>
+          <th>Power Method</th>
+          <th>Type I Error Rate</th>
+        </tr>
+        <tr *ngFor="let result of resultForDisplay; index as i"
+            (click)="showDetail(getOutput(result), i, result.model.total_n)"
+            [class] = "rowStyle(i)"
+            [attr.id]="'result_display_row_'+i">
+          <td id="{{'power_' + i}}" data-label="Power">
+            <div *ngIf="!error(result)">{{result.power}}</div><div *ngIf="error(result)">{{result.model.errors}}</div>
+          </td>
+          <td *ngIf="hasConfidenceInterval()" id="{{'ci_' + i}}" data-label="Confidence Intervals">({{result.lower_bound}} , {{result.upper_bound}})</td>
+          <td *ngIf="isSamplesize() && !error(result)" data-label="Total Sample Size">{{result.samplesize}}</td>
+          <td *ngIf="isSamplesize() && error(result)" data-label="Errors">{{result.model.errors}}</td>
+          <td *ngIf="isPower()" data-label="Total Sample Size">{{result.model.total_n}}</td>
+          <td *ngIf="isSamplesize()" id="{{'targetpower_' + i}}" data-label="Target Power">{{result.model.target_power}}</td>
+          <td id="{{'means_scale_factor_' + i}}" data-label="Means Scale Factor">{{ result.model.means_scale_factor }}</td>
+          <td id="{{'variance_scale_factor_' + i}}" data-label="Variability Scale Factor">{{ result.model.variance_scale_factor }}</td>
+          <td id="{{'test_' + i}}" data-label="Test">{{ result.model.test }}</td>
+          <td id="{{'power_method_' + i}}" data-label="Power Method">{{ result.model.power_method }}</td>
+          <td id="{{'alpha_' + i}}" data-label="Alpha">{{ result.model.alpha }}</td>
+        </tr>
+      </table>
+      <div *ngIf="isShowDetail">
+        <h4>Details</h4>
+        <div class="form-group">
+          <label>Power</label>
+          <label class="form-control ng-binding">{{ detailPower }}</label>
+        </div>
+        <div class="form-group">
+          <label>Independent Sampling Unit</label>
+          <div class="well white-box">
+            <ng-container *ngIf="detailCluster; else noClusterContent">
+              <label class="ng-binding">{{ detailClusterLevels[0]['levelName'] }}</label>
+              <ul *ngIf="detailClusterLevels.length > 0">
+                <li *ngFor="let line of detailClusterOverview; index as i" class="ng-binding" [attr.id]="'level_' + i">{{ line }}</li>
+              </ul>
+            </ng-container>
+            <ng-template #noClusterContent>
+              <label class="ng-binding">participant</label>
+            </ng-template>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Sample Size Details</label>
+          <div class="table-responsive">
+            <table class="table">
+              <ng-container *ngIf="detailPredictor.length > 0; else noPredictorContent">
+                <tr>
+                  <th *ngFor="let predictorObject of detailPredictor; index as i" [attr.id]="'predictor_'+i">{{predictorObject['name']}}</th>
+                  <th> {{ " Per Group Sample Size (" + detailClusterName + ")" }} </th>
+                </tr>
+                <tr *ngFor="let combination of detailPredictorCombination; index as i">
+                  <td *ngFor="let groupName of combination; index as j" [attr.id]="'group_'+i+'_'+j"> {{groupName}}</td>
+                  <td [attr.id]="'per_group_sample_size_'+i"> {{ smallestGroupSize * combinationsValueMap[combination.join('@')] }} </td>
+                </tr>
+                <tr>
+                  <td [attr.colspan]="detailPredictor.length"> Total no. of ISUs </td>
+                  <td id="totalsamplesize"> {{ detailSampleSize }} </td>
+                </tr>
+              </ng-container>
+              <ng-template #noPredictorContent>
+                <tr>
+                  <td data-label="Total Sample Size">
+                    Total Sample Size: {{ detailSampleSize }}
+                  </td>
+                </tr>
+              </ng-template>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="form-group">
-      <label>Sample Size Details</label>
-      <div class="table-responsive">
-        <table class="table">
-          <ng-container *ngIf="detailPredictor.length > 0; else noPredictorContent">
-            <tr>
-              <th *ngFor="let predictorObject of detailPredictor; index as i" [attr.id]="'predictor_'+i">{{predictorObject['name']}}</th>
-              <th> {{ " Per Group Sample Size (" + detailClusterName + ")" }} </th>
-            </tr>
-            <tr *ngFor="let combination of detailPredictorCombination; index as i">
-              <td *ngFor="let groupName of combination; index as j" [attr.id]="'group_'+i+'_'+j"> {{groupName}}</td>
-              <td [attr.id]="'per_group_sample_size_'+i"> {{ smallestGroupSize * combinationsValueMap[combination.join('@')] }} </td>
-            </tr>
-            <tr>
-              <td [attr.colspan]="detailPredictor.length"> Total no. of ISUs </td>
-              <td id="totalsamplesize"> {{ detailSampleSize }} </td>
-            </tr>
-          </ng-container>
-          <ng-template #noPredictorContent>
-            <tr>
-              <td data-label="Total Sample Size">
-                Total Sample Size: {{ detailSampleSize }}
-              </td>
-            </tr>
-          </ng-template>
-        </table>
-      </div>
+    <div class="tab-pane fade show" [class.active]="isTabSelected('matrices')" id="matricestab">
+      <div [mathJaxExpr]="essence_design_matrix_tex" style="padding-top: 10px"></div>
+      <div *ngIf="isFullBeta" [mathJaxExpr]="full_beta_tex" style="padding-top: 10px"></div>
+      <div *ngIf="isHypothesisBeta" [mathJaxExpr]="hypothesis_beta_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="c_matrix_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="u_matrix_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="sigma_star_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="theta_zero_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="alpha_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="theta_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="m_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="nu_e_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="rep_n_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="delta_tex" style="padding-top: 10px"></div>
     </div>
   </div>
-  <div id="results" [hidden]="!e2eTest">{{resultString | json}}</div>
+
+
+<div id="results" [hidden]="!e2eTest">{{resultString | json}}</div>
 </div>
 <div id="reviewDataModel" [hidden]="!e2eTest">{{outputString}}</div>
 <ng-template #helpText>

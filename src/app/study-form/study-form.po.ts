@@ -182,7 +182,7 @@ export class StudyFormComponentPage {
         setTimeout(() => {
           // resolve once the results are back. I don't like the sleep above.
           resolve(true);
-        }, 1000)
+        }, 2000)
       });
     });
   }

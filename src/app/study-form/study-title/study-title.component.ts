@@ -31,6 +31,7 @@ export class StudyTitleComponent implements OnInit, OnDestroy {
     this._studyTitleSubscription = this.study_service.studyTitle$.subscribe(title => {
       if (title !== this._studyTitle) {
         this._studyTitle = title;
+        this.buildForm();
       }
     });
     this._afterInit = false;
@@ -44,12 +45,13 @@ export class StudyTitleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._afterInit = true;
     this.buildForm();
-    if (isNullOrUndefined(this._studyTitle)) {
-      this._studyTitle = 'New Study';
-    }
   }
 
   ngOnDestroy() {
+    if (isNullOrUndefined(this.studyTitle)) {
+      this._studyTitle = 'New Study';
+    }
+    this.study_service.updateStudyTitle(this._studyTitle);
     this._studyTitleSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
   }
@@ -58,9 +60,6 @@ export class StudyTitleComponent implements OnInit, OnDestroy {
     this._studyTitleForm = this.fb.group({
       studyTitle: [this._studyTitle]
     });
-    this.studyTitleForm.valueChanges.subscribe( data => {
-      this.study_service.updateStudyTitle(data.studyTitle);
-    })
   }
 
   dismissHelp() {

@@ -45,6 +45,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   private _showHelpTextSubscription: Subscription;
   private _smallestGroupSize: number;
   private _sumOfCombinationsValue: number;
+  private _selected_tab: string;
 
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
@@ -83,6 +84,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
+    this._selected_tab = 'results';
   }
 
   ngOnInit() {
@@ -110,16 +112,16 @@ export class CalculateComponent implements OnInit, OnDestroy {
       environment.calculateUrl,
       output,
       this.jsonHeader()).toPromise().then(response => {
-        this.resultString = response;
-        this.buildResultTable();
-        if (this.detailCluster) {
-          this.detailClusterOverview = this.detailCluster.buildClusterOverview();
-        }
-        if (this.detailPredictor) {
-          this.generateCombinations(this.detailPredictor);
-        }
-        this.buildCombinationsValueMap(this.studyDesign['_isuFactors']['betweenIsuRelativeGroupSizes']);
-        this._sumOfCombinationsValue = this.getSumOfCombinationsValue();
+      this.resultString = response;
+      this.buildResultTable();
+      if (this.detailCluster) {
+        this.detailClusterOverview = this.detailCluster.buildClusterOverview();
+      }
+      if (this.detailPredictor) {
+        this.generateCombinations(this.detailPredictor);
+      }
+      this.buildCombinationsValueMap(this.studyDesign['_isuFactors']['betweenIsuRelativeGroupSizes']);
+      this._sumOfCombinationsValue = this.getSumOfCombinationsValue();
     }).catch(this.handleError);
   }
 
@@ -167,13 +169,141 @@ export class CalculateComponent implements OnInit, OnDestroy {
     } else {
       matrix.forEach(row => {
         row.forEach( col => {
-          texString = texString + col + ' & '
+          if (col < 0.00000000000001) {
+            col = 0.00;
+          }
+          texString = texString + col.toPrecision(3) + ' & '
         });
         texString = texString.slice(0, texString.length - 2) + '\\\\';
       });
     }
     texString = texString.slice(0, texString.length - 2) + '\\end{bmatrix}$';
     return texString;
+  }
+
+
+  private resultsContainModel() {
+    if (!isNullOrUndefined(this.resultString)
+      && !isNullOrUndefined(this.resultString.results)
+      && this.resultString.results.length > 0
+      && !isNullOrUndefined(this.resultString.results[0].model)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  get essence_design_matrix_tex() {
+    if (this.resultsContainModel()) {
+      return 'Es($\\bf{X}$) = ' + this.toTex(this.resultString.results[0].model.essence_design_matrix);
+    } else {
+      return 'No model in results'
+    }
+  }
+
+  get full_beta_tex() {
+    if (this.isFullBeta) {
+      return '$\\bf{B} = $' + this.toTex(this.resultString.results[0].model.hypothesis_beta);
+    } else {
+      return 'No model in results'
+    }
+  }
+
+  get isFullBeta() {
+    if (this.resultsContainModel()
+      && !isNullOrUndefined(this.resultString.results[0].model.full_beta)
+      && this.resultString.results[0].model.full_beta) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  get isHypothesisBeta() {
+    if (this.resultsContainModel()
+      && !isNullOrUndefined(this.resultString.results[0].model.hypothesis_beta)
+      && !this.resultString.results[0].model.full_beta) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  get hypothesis_beta_tex() {
+    if (this.isHypothesisBeta) {
+      return '$\\bf{B}_{hyp} = $' + this.toTex(this.resultString.results[0].model.hypothesis_beta);
+    } else {
+      return 'No model in results'
+    }
+  }
+  get c_matrix_tex() {
+    if (this.resultsContainModel()) {
+      return '$\\bf{C} = $' + this.toTex(this.resultString.results[0].model.c_matrix);
+    } else {
+      return 'No model in results'
+    }
+  }
+  get u_matrix_tex() {
+    if (this.resultsContainModel()) {
+      return '$\\bf{U} = $' + this.toTex(this.resultString.results[0].model.u_matrix);
+    } else {
+      return 'No model in results'
+    }
+  }
+  get sigma_star_tex() {
+    if (this.resultsContainModel()) {
+      return '$\\bf{\\Sigma_*} = $' + this.toTex(this.resultString.results[0].model.sigma_star);
+    } else {
+      return 'No model in results'
+    }
+  }
+  get theta_zero_tex() {
+    if (this.resultsContainModel()) {
+      return '$\\bf{\\Theta_0} = $' + this.toTex(this.resultString.results[0].model.theta);
+    } else {
+      return 'No model in results'
+    }
+  }
+  get alpha_tex() {
+    if (this.resultsContainModel()) {
+      return '$\\alpha = $' + this.resultString.results[0].model.alpha;
+    } else {
+      return 'No model in results'
+    }
+  }
+  get theta_tex() {
+    if (this.resultsContainModel()) {
+      return '$\\bf{\\Theta} = $' + this.toTex(this.resultString.results[0].model.theta);
+    } else {
+      return 'No model in results'
+    }
+  }
+  get m_tex() {
+    if (this.resultsContainModel()) {
+      return '$\\bf{M} = $' + this.toTex(this.resultString.results[0].model.m);
+    } else {
+      return 'No model in results'
+    }
+  }
+  get nu_e_tex() {
+    if (this.resultsContainModel()) {
+      return '$\\nu_e = $' + this.resultString.results[0].model.nu_e;    } else {
+      return 'No model in results'
+    }
+  }
+  get rep_n_tex() {
+    if (this.resultsContainModel()) {
+      return 'No. of replicated rows in design matrix: ' + this.resultString.results[0].model.repeated_rows_in_design_matrix;
+    } else {
+      return 'No model in results'
+    }
+  }
+  get delta_tex() {
+    if (this.resultsContainModel()) {
+      return '$\\bf{\\Delta} = $' + this.toTex(this.resultString.results[0].model.delta);
+    } else {
+      return 'No model in results'
+    }
   }
 
   get hasResults(): boolean {
@@ -262,6 +392,14 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   isSelected(index: number) {
     return index === this.currentSelected;
+  }
+
+  isTabSelected(tab: string) {
+    return this._selected_tab === tab ? true : false;
+  }
+
+  selectTab(tab: string) {
+    this._selected_tab = tab;
   }
 
   isPower(): boolean {
