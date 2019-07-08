@@ -396,6 +396,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     }
   }
 
+  getStudyName(): string {
+    let name = 'Untitled Study';
+    if (!isNullOrUndefined(this.study.name)) {
+      name = this.study.name;
+    }
+    return name;
+  }
+
   getStage(): number {
     const name = this.router.url.replace('/design/', '');
     const comp = name.split('/')[0];

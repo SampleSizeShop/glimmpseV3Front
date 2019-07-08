@@ -22,7 +22,7 @@ export class StudyService {
   private _next: string;
   private _stages;
 
-  private _studyTitleSource = new BehaviorSubject<string>('New Study');
+  private _studyTitleSource = new BehaviorSubject<string>(null);
   private _studyTitle$ = this._studyTitleSource.asObservable();
 
   private _modeSelectedSource = new Subject<boolean>();
