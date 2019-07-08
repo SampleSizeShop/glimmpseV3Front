@@ -7,12 +7,12 @@ import {NgxLoggerLevel} from 'ngx-logger';
 export const environment = {
   production: false,
   name: 'dev',
-  serverLoggingUrl: 'http://localhost:5000/api/clientsidelog',
-  calculateUrl: 'http://localhost:5000/api/calculate',
-  // serverLoggingUrl: 'http://54.161.9.34:5000/api/clientsidelog',
-  // calculateUrl: 'http://54.161.9.34:5000/api/calculate',
+  // serverLoggingUrl: 'http://localhost:5000/api/clientsidelog',
+  // calculateUrl: 'http://localhost:5000/api/calculate',
+  serverLoggingUrl: 'http://54.161.9.34:5000/api/clientsidelog',
+  calculateUrl: 'http://54.161.9.34:5000/api/calculate',
   loglevel: NgxLoggerLevel.DEBUG,
   serverLoglevel: NgxLoggerLevel.WARN,
   disableAnimations: true,
-  e2eTest: true
+  e2eTest: false
 };
