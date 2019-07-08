@@ -181,6 +181,12 @@ export class CalculateComponent implements OnInit, OnDestroy {
     return texString;
   }
 
+  formatNumber(num: number) {
+    if (num < 0.00000000000001) {
+      num = 0.00;
+    }
+    return num.toPrecision(3);
+  }
 
   private resultsContainModel() {
     if (!isNullOrUndefined(this.resultString)
