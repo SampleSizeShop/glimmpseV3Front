@@ -112,16 +112,16 @@ export class CalculateComponent implements OnInit, OnDestroy {
       environment.calculateUrl,
       output,
       this.jsonHeader()).toPromise().then(response => {
-        this.resultString = response;
-        this.buildResultTable();
-        if (this.detailCluster) {
-          this.detailClusterOverview = this.detailCluster.buildClusterOverview();
-        }
-        if (this.detailPredictor) {
-          this.generateCombinations(this.detailPredictor);
-        }
-        this.buildCombinationsValueMap(this.studyDesign['_isuFactors']['betweenIsuRelativeGroupSizes']);
-        this._sumOfCombinationsValue = this.getSumOfCombinationsValue();
+      this.resultString = response;
+      this.buildResultTable();
+      if (this.detailCluster) {
+        this.detailClusterOverview = this.detailCluster.buildClusterOverview();
+      }
+      if (this.detailPredictor) {
+        this.generateCombinations(this.detailPredictor);
+      }
+      this.buildCombinationsValueMap(this.studyDesign['_isuFactors']['betweenIsuRelativeGroupSizes']);
+      this._sumOfCombinationsValue = this.getSumOfCombinationsValue();
     }).catch(this.handleError);
   }
 
@@ -169,7 +169,10 @@ export class CalculateComponent implements OnInit, OnDestroy {
     } else {
       matrix.forEach(row => {
         row.forEach( col => {
-          texString = texString + col + ' & '
+          if (col < 0.00000000000001) {
+            col = 0.00;
+          }
+          texString = texString + col.toPrecision(3) + ' & '
         });
         texString = texString.slice(0, texString.length - 2) + '\\\\';
       });
@@ -178,44 +181,129 @@ export class CalculateComponent implements OnInit, OnDestroy {
     return texString;
   }
 
+
+  private resultsContainModel() {
+    if (!isNullOrUndefined(this.resultString)
+      && !isNullOrUndefined(this.resultString.results)
+      && this.resultString.results.length > 0
+      && !isNullOrUndefined(this.resultString.results[0].model)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   get essence_design_matrix_tex() {
-    return 'Es(X) = ' + this.toTex(this.resultString.results[0].model.essence_design_matrix);
+    if (this.resultsContainModel()) {
+      return 'Es($\\bf{X}$) = ' + this.toTex(this.resultString.results[0].model.essence_design_matrix);
+    } else {
+      return 'No model in results'
+    }
   }
+
   get full_beta_tex() {
-    return '';
+    if (this.isFullBeta) {
+      return '$\\bf{B} = $' + this.toTex(this.resultString.results[0].model.hypothesis_beta);
+    } else {
+      return 'No model in results'
+    }
   }
+
+  get isFullBeta() {
+    if (this.resultsContainModel()
+      && !isNullOrUndefined(this.resultString.results[0].model.full_beta)
+      && this.resultString.results[0].model.full_beta) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  get isHypothesisBeta() {
+    if (this.resultsContainModel()
+      && !isNullOrUndefined(this.resultString.results[0].model.hypothesis_beta)
+      && !this.resultString.results[0].model.full_beta) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   get hypothesis_beta_tex() {
-    return '$B_{hyp} = $' + this.toTex(this.resultString.results[0].model.hypothesis_beta);
+    if (this.isHypothesisBeta) {
+      return '$\\bf{B}_{hyp} = $' + this.toTex(this.resultString.results[0].model.hypothesis_beta);
+    } else {
+      return 'No model in results'
+    }
   }
   get c_matrix_tex() {
-    return 'C = ' + this.toTex(this.resultString.results[0].model.c_matrix);
+    if (this.resultsContainModel()) {
+      return '$\\bf{C} = $' + this.toTex(this.resultString.results[0].model.c_matrix);
+    } else {
+      return 'No model in results'
+    }
   }
   get u_matrix_tex() {
-    return 'U = ' + this.toTex(this.resultString.results[0].model.u_matrix);
+    if (this.resultsContainModel()) {
+      return '$\\bf{U} = $' + this.toTex(this.resultString.results[0].model.u_matrix);
+    } else {
+      return 'No model in results'
+    }
   }
   get sigma_star_tex() {
-    return '$\\Sigma_* = $' + this.toTex(this.resultString.results[0].model.sigma_star);
+    if (this.resultsContainModel()) {
+      return '$\\bf{\\Sigma_*} = $' + this.toTex(this.resultString.results[0].model.sigma_star);
+    } else {
+      return 'No model in results'
+    }
   }
   get theta_zero_tex() {
-    return '$\\Theta_0 = $' + this.toTex(this.resultString.results[0].model.theta);
+    if (this.resultsContainModel()) {
+      return '$\\bf{\\Theta_0} = $' + this.toTex(this.resultString.results[0].model.theta);
+    } else {
+      return 'No model in results'
+    }
   }
   get alpha_tex() {
-    return '$\\alpha = $' + this.resultString.results[0].model.alpha;
+    if (this.resultsContainModel()) {
+      return '$\\alpha = $' + this.resultString.results[0].model.alpha;
+    } else {
+      return 'No model in results'
+    }
   }
   get theta_tex() {
-    return '$\\Theta = $' + this.toTex(this.resultString.results[0].model.theta);
+    if (this.resultsContainModel()) {
+      return '$\\bf{\\Theta} = $' + this.toTex(this.resultString.results[0].model.theta);
+    } else {
+      return 'No model in results'
+    }
   }
   get m_tex() {
-    return '$M = $' + this.toTex(this.resultString.results[0].model.m);
+    if (this.resultsContainModel()) {
+      return '$\\bf{M} = $' + this.toTex(this.resultString.results[0].model.m);
+    } else {
+      return 'No model in results'
+    }
   }
   get nu_e_tex() {
-    return '$\\nu_e = $' + this.resultString.results[0].model.nu_e;
+    if (this.resultsContainModel()) {
+      return '$\\nu_e = $' + this.resultString.results[0].model.nu_e;    } else {
+      return 'No model in results'
+    }
   }
   get rep_n_tex() {
-    return 'rep$_n = $' + this.resultString.results[0].model.repeated_rows_in_design_matrix;
+    if (this.resultsContainModel()) {
+      return 'No. of replicated rows in design matrix: ' + this.resultString.results[0].model.repeated_rows_in_design_matrix;
+    } else {
+      return 'No model in results'
+    }
   }
   get delta_tex() {
-    return '$\\Delta = $' + this.toTex(this.resultString.results[0].model.delta);
+    if (this.resultsContainModel()) {
+      return '$\\bf{\\Delta} = $' + this.toTex(this.resultString.results[0].model.delta);
+    } else {
+      return 'No model in results'
+    }
   }
 
   get hasResults(): boolean {

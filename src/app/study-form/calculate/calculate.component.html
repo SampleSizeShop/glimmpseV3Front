@@ -100,8 +100,8 @@
     </div>
     <div class="tab-pane fade show" [class.active]="isTabSelected('matrices')" id="matricestab">
       <div [mathJaxExpr]="essence_design_matrix_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="full_beta_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="hypothesis_beta_tex" style="padding-top: 10px"></div>
+      <div *ngIf="isFullBeta" [mathJaxExpr]="full_beta_tex" style="padding-top: 10px"></div>
+      <div *ngIf="isHypothesisBeta" [mathJaxExpr]="hypothesis_beta_tex" style="padding-top: 10px"></div>
       <div [mathJaxExpr]="c_matrix_tex" style="padding-top: 10px"></div>
       <div [mathJaxExpr]="u_matrix_tex" style="padding-top: 10px"></div>
       <div [mathJaxExpr]="sigma_star_tex" style="padding-top: 10px"></div>
@@ -116,7 +116,7 @@
   </div>
 
 
-  <div id="results" [hidden]="!e2eTest">{{resultString | json}}</div>
+<div id="results" [hidden]="!e2eTest">{{resultString | json}}</div>
 </div>
 <div id="reviewDataModel" [hidden]="!e2eTest">{{outputString}}</div>
 <ng-template #helpText>
