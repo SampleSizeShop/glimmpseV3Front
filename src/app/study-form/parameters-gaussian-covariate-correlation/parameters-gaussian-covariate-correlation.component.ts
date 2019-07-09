@@ -122,7 +122,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
   _updateCovariateCorrelation() {
     this._corellations = []
     this._corellation_names.forEach(name => {
-      this._corellations.push(this.gaussianCovariateCorrForm.get(name).value);
+      this._corellations.push(this.gaussianCovariateCorrForm.controls[name].value);
     });
   }
 

@@ -1,12 +1,12 @@
-<div *ngIf="firstScaleFactor()" id="firstscaleFactor">
-  <h6>Name your first scale factor:</h6>
-</div>
-<div *ngIf="nextScaleFactor()" id="nextscaleFactor">
-  <h6>Would you like to add another scale factor?</h6>
-</div>
-<div *ngIf="!firstScaleFactor() && !nextScaleFactor()" id="scaleFactorsfull">
-  <h6>Whoa! That's a lot of scale factors!! We'll handle this lot, but if you really, really want to analyse more than {{max}} scale factors, consult a statstician... and good luck... or run multiple studies?</h6>
-</div>
+<!--<div *ngIf="firstScaleFactor()" id="firstscaleFactor">-->
+  <!--<h6>Name your first scale factor:</h6>-->
+<!--</div>-->
+<!--<div *ngIf="nextScaleFactor()" id="nextscaleFactor">-->
+  <!--<h6>Would you like to add another scale factor?</h6>-->
+<!--</div>-->
+<!--<div *ngIf="!firstScaleFactor() && !nextScaleFactor()" id="scaleFactorsfull">-->
+  <!--<h6>Whoa! That's a lot of scale factors!! We'll handle this lot, but if you really, really want to analyse more than {{max}} scale factors, consult a statstician... and good luck... or run multiple studies?</h6>-->
+<!--</div>-->
 <div>
   <p>
     Changes in variability can dramatically affect power and sample size results. It is not possible to know the variability until the experiment is observed. Scale factors allow you to consider alternative values for variability by scaling the calculated covariance matrix. For example, entering the scale factors 0.5, 1, and 2 would compute power for the covariance matrix divided by 2, the covariance matrix as entered, and the covariance matrix multiplied by 2. <br /><br />
