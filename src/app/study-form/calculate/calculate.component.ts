@@ -14,6 +14,7 @@ import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
 import {Result} from '../../shared/Results';
+import {isNumeric} from "tslint";
 
 @Component({
   selector: 'app-calculate',
@@ -182,10 +183,14 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   formatNumber(num: number) {
-    if (num < 0.00000000000001) {
-      num = 0.00;
+    if (isNaN(Number(num.toString()))) {
+      return num;
+    } else {
+      if (num < 0.00000000000001) {
+        num = 0.00;
+      }
+      return num.toPrecision(3);
     }
-    return num.toPrecision(3);
   }
 
   private resultsContainModel() {
