@@ -8,6 +8,7 @@ import {NGXLogger} from 'ngx-logger';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {GaussianCovariate} from '../../shared/GaussianCovariate';
 import {isNullOrUndefined} from "util";
+import {minMaxValidator} from "../../shared/minmax.validator";
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-variance',
@@ -99,7 +100,7 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
   }
 
   _defineControls() {
-    const controlArray = {'variance': this._variance};
+    const controlArray = {variance: [this._variance, minMaxValidator(0, 99999999999999)]};
     return controlArray;
   }
 
