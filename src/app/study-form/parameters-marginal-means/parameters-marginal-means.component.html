@@ -37,6 +37,17 @@
       </div>
     </div>
   </form>
+  <form [formGroup]="untouchedValuesForm" id="untouchedValuesForm">
+    <div class="container-fluid">
+      <p>
+        <label for="setDefaultsInupt">Set untouched values to:</label>
+        <input type="number" id="setDefaultsInupt" formControlName="untouchedValues" placeholder="value" step = 0.1>
+      </p>
+      <p>
+        <button class="btn btn-secondary btn-sm" (click)="setUntouchedValues()">Set Untouched Values</button>
+      </p>
+    </div>
+  </form>
 </div>
 <ng-template #helpText>
   <div class="modal-content">

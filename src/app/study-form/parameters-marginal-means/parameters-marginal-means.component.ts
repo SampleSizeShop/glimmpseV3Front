@@ -13,6 +13,7 @@ import {TooltipPosition} from '@angular/material';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
+import {minMaxValidator} from "../../shared/minmax.validator";
 
 @Component({
   selector: 'app-parameters-marginal-means',
@@ -22,6 +23,7 @@ import {NGXLogger} from 'ngx-logger';
 export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDestroy {
   private _isuFactors: ISUFactors;
   private _marginalMeansForm: FormGroup;
+  private _untouchedValuesForm: FormGroup;
   private _table$: Observable<MarginalMeansTable>;
   private _table: MarginalMeansTable;
 
@@ -88,8 +90,23 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
   }
 
   buildForm() {
-    this.marginalMeansForm = this.fb.group( {} );
+    this._marginalMeansForm = this.fb.group( {} );
+    this._untouchedValuesForm = this.fb.group( {
+      untouchedValues: [null]
+    } );
     this.updateMarginalMeansFormControls();
+  }
+
+  setUntouchedValues() {
+    if (!isNullOrUndefined(this.untouchedValuesForm.controls['untouchedValues']) &&
+    !isNullOrUndefined(this.untouchedValuesForm.controls['untouchedValues'].value)) {
+      const val = this.untouchedValuesForm.controls['untouchedValues'].value;
+      Object.keys(this.marginalMeansForm.controls).forEach( field => {
+        if (!this._marginalMeansForm.controls[field].dirty) {
+          this._marginalMeansForm.controls[field].setValue(val);
+        }
+      });
+    }
   }
 
   updateMarginalMeans() {
@@ -163,6 +180,10 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
 
   set marginalMeansForm(value: FormGroup) {
     this._marginalMeansForm = value;
+  }
+
+  get untouchedValuesForm(): FormGroup {
+    return this._untouchedValuesForm;
   }
 
   set isuFactorsSubscription(value: Subscription) {
