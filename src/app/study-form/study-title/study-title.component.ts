@@ -48,6 +48,10 @@ export class StudyTitleComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    if (!isNullOrUndefined(this.studyTitleForm.controls['studyTitle']) &&
+    !isNullOrUndefined(this.studyTitleForm.controls['studyTitle'].value)) {
+      this._studyTitle = this.studyTitleForm.controls['studyTitle'].value
+    }
     if (isNullOrUndefined(this.studyTitle)) {
       this._studyTitle = 'New Study';
     }
