@@ -270,7 +270,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
   get theta_zero_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{\\Theta_0} = $' + this.toTex(this.resultString.results[0].model.theta);
+      return '$\\bf{\\Theta_0} = $' + this.toTex(this.resultString.results[0].model.theta_zero);
     } else {
       return 'No model in results'
     }
