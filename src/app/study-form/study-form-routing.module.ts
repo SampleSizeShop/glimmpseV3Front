@@ -220,7 +220,8 @@ const studyFormRoutes: Routes = [
             {
               path: names[constants.STAGES.OPTIONAL_SPECS_CONFIDENCE_INTERVALS],
               component: OptionalSpecsConfidenceIntervalsComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_CONFIDENCE_INTERVALS}
+              data: {animation: constants.STAGES.OPTIONAL_SPECS_CONFIDENCE_INTERVALS},
+              canActivate: [ SolveForPowerGuard ]
             },
             {
               path: names[constants.STAGES.CALCULATE],
