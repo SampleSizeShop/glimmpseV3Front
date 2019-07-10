@@ -46,7 +46,7 @@ export const example_1_output = {
       means_scale_factor: 1,
       power: 1.0,
       target_power: null,
-      test: 'Huynh-Feldt Correction',
+      test: 'Huynh-Feldt Corrected',
       total_n: 10,
       variance_scale_factor: 1
     }
@@ -68,7 +68,7 @@ export const example_1_output = {
     hypothesis_sum_square: [ [ 64000 ] ],
     error_sum_square: [ [ 2025 ] ],
     full_beta: false,
-    test: 'Huynh-Feldt Correction',
+    test: 'Huynh-Feldt Corrected',
     target_power: null,
     smallest_group_size: 10,
     means_scale_factor: 1,

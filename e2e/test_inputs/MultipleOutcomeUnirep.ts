@@ -120,7 +120,7 @@ export const MultipleOutcomeUnirep_output = {
       'means_scale_factor': 0.5,
       'power': 0.00183566330260065,
       'target_power': null,
-      'test': 'Box Correction',
+      'test': 'Box Corrected',
       'total_n': 900,
       'variance_scale_factor': 0.5
     },
@@ -129,7 +129,7 @@ export const MultipleOutcomeUnirep_output = {
       'means_scale_factor': 0.5,
       'power': 0.10219032950287366,
       'target_power': null,
-      'test': 'Geisser-Greenhouse Correction',
+      'test': 'Geisser-Greenhouse Corrected',
       'total_n': 900,
       'variance_scale_factor': 0.5
     },
@@ -138,7 +138,7 @@ export const MultipleOutcomeUnirep_output = {
       'means_scale_factor': 0.5,
       'power': 0.10298539341371005,
       'target_power': null,
-      'test': 'Huynh-Feldt Correction',
+      'test': 'Huynh-Feldt Corrected',
       'total_n': 900,
       'variance_scale_factor': 0.5
     }

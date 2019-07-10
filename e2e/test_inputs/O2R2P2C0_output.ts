@@ -64,7 +64,7 @@ export const O2R2P2C0_output = {
       'means_scale_factor': 1,
       'power': 0.09274397766549403,
       'target_power': null,
-      'test': 'Repeated Measures: Box Correction',
+      'test': 'Repeated Measures: Box Corrected',
       'total_n': 30,
       'variance_scale_factor': 1
     },
@@ -73,7 +73,7 @@ export const O2R2P2C0_output = {
       'means_scale_factor': 1,
       'power': 0.09274397766549403,
       'target_power': null,
-      'test': 'Repeated Measures: Box Correction',
+      'test': 'Repeated Measures: Box Corrected',
       'total_n': 30,
       'variance_scale_factor': 1
     },
@@ -82,7 +82,7 @@ export const O2R2P2C0_output = {
       'means_scale_factor': 1,
       'power': 0.16867362343587666,
       'target_power': null,
-      'test': 'Repeated Measures: Geisser-Greenhouse Correction',
+      'test': 'Repeated Measures: Geisser-Greenhouse Corrected',
       'total_n': 30,
       'variance_scale_factor': 1
     },
@@ -91,7 +91,7 @@ export const O2R2P2C0_output = {
       'means_scale_factor': 1,
       'power': 0.16867362343587666,
       'target_power': null,
-      'test': 'Repeated Measures: Geisser-Greenhouse Correction',
+      'test': 'Repeated Measures: Geisser-Greenhouse Corrected',
       'total_n': 30,
       'variance_scale_factor': 1
     },
@@ -100,7 +100,7 @@ export const O2R2P2C0_output = {
       'means_scale_factor': 1,
       'power': 0.17931332749248874,
       'target_power': null,
-      'test': 'Repeated Measures: Huynh-Feldt Correction',
+      'test': 'Repeated Measures: Huynh-Feldt Corrected',
       'total_n': 30,
       'variance_scale_factor': 1
     },
