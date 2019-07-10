@@ -25,7 +25,7 @@
 
     <div *ngIf="isSampleSize()">
       <div class="row">
-        <label for="power" ng-non-bindable *ngIf="isRejection()" id="rejectnulllbl">Probability &#123;Reject null&#125;:</label>
+        <label for="power" ng-non-bindable *ngIf="isRejection()" id="rejectnulllbl">Power:</label>
         <label for="power" ng-non-bindable *ngIf="isCIWidth()" id="achieveciwidthlbl">Probability &#123;achieve CI Width&#125;:</label>
         <label for="power" ng-non-bindable *ngIf="isWAVR()" id="probwavrlbl">Probability &#123;WAVR&#125;:</label>
       </div>
@@ -38,7 +38,7 @@
                        class="form-control"
                        id="power"
                        aria-describedby="powerhelp"
-                       placeholder="0 > x > 1"
+                       placeholder="0 < power < 1"
                        formControlName="power"
                        (keyup.enter)="addPower()">
                 <div *ngIf="hasError()"
@@ -71,11 +71,11 @@
 
       </div>
       <div class="row">
-        <small id="powerhelp" class="form-text text-muted">Power must be a number between 0 > x > 1</small>
+        <small id="powerhelp" class="form-text text-muted">Power must be a number with value 0 < power < 1</small>
       </div>
       <div class="row"
            *ngIf="isCIWidth() || isWAVR()" >
-        <small id="ciwidthhelp" class="form-text text-muted">Confidence Interval width must be an integer between 0 > x > 10</small>
+        <small id="ciwidthhelp" class="form-text text-muted">Confidence Interval width must be an integer between 0 < x < 10</small>
       </div>
 
       <div class="row">
