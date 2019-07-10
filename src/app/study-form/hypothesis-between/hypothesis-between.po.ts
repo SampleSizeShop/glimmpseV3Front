@@ -13,6 +13,8 @@ export class HypothesisBetweenPo {
     if (hypothesis_between.nature === 'custom') {
       this.selectCustom();
       this.fillCustom(hypothesis_between);
+      // the mathjax rendering causes a loss of focus issue. This is to prevent that causing the test to time out.
+      browser.sleep(400);
     }
   }
 
