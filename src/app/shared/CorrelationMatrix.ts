@@ -221,6 +221,23 @@ export class CorrelationMatrix {
     return isNumeric;
   }
 
+  isOrderedNumeric() {
+    if (this._isNumeric()) {
+      const ordered  = [];
+      this.names.forEach(v => {ordered.push(v)});
+      ordered.sort((n1, n2) => n1 - n2);
+      let isOrdered = true;
+      ordered.forEach( (val, i) => {
+        if (val !== this.names[i]) {
+          isOrdered = false;
+        }
+      });
+      return isOrdered;
+    } else {
+      return false;
+    }
+  }
+
   /**
    * Populate as a diagonal square matrix of size: size.
    * @param {number} size size of square matrix
