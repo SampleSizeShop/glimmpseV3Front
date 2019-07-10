@@ -9,11 +9,16 @@ import {NGXLogger} from 'ngx-logger';
 @Injectable()
 export class RepeatedMeasureGuard implements CanActivate {
   private isuFactors: ISUFactors;
+  private fullBeta: boolean;
   private isuFactorsSubscription: Subscription;
+  private fullBetaSubscription: Subscription;
 
   constructor(private router: Router, private study_service: StudyService, private log: NGXLogger) {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
+    } );
+    this.fullBetaSubscription = this.study_service.defineFullBeta$.subscribe( fullBeta => {
+      this.fullBeta = fullBeta;
     } );
   }
 
@@ -22,7 +27,7 @@ export class RepeatedMeasureGuard implements CanActivate {
     if (
       !isNullOrUndefined(this.isuFactors)
       && !isNullOrUndefined(this.isuFactors.repeatedMeasures)
-      && this.isuFactors.repeatedMeasures.length > 0
+      && (this.isuFactors.repeatedMeasuresInHypothesis.length > 0 || this.fullBeta)
     ) {
       return true;
     } else {

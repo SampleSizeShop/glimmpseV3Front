@@ -430,6 +430,6 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   isNumeric() {
-    return this.uMatrix._isNumeric();
+    return this.uMatrix.isOrderedNumeric();
   }
 }

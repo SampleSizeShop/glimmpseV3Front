@@ -916,7 +916,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   get downloadStudy() {
-    return this.sanitizer.bypassSecurityTrustUrl('data:text/csv;charset=utf-8,' + encodeURI(JSON.stringify(this.study)));
+    return this.sanitizer.bypassSecurityTrustUrl('data:text/json;charset=utf-8,' + encodeURI(JSON.stringify(this.study)));
   }
 
   onFileChange(event) {
