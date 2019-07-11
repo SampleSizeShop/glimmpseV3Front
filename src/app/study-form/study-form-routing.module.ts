@@ -42,7 +42,8 @@ import {OutcomeCorrelationsGuard} from '../shared/outcome-correlation-guard.serv
 import {BetweenIsuGroupsGuard} from '../shared/between-isu-groups-guard.service';
 import {BetweenIsuSmallestGroupsGuard} from '../shared/between-isu-smallest-group.service';
 import {ParametersGaussianPowerComponent} from './parameters-gaussian-power/parameters-gaussian-power.component';
-import {OptionalSpecsConfidenceIntervalsComponent} from "./optional-specs-confidence-intervals/optional-specs-confidence-intervals.component";
+import {OptionalSpecsConfidenceIntervalsComponent} from './optional-specs-confidence-intervals/optional-specs-confidence-intervals.component';
+import {SolveForPowerGuard} from '../shared/solve-for-power-guard.service';
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -118,7 +119,8 @@ const studyFormRoutes: Routes = [
             },
             {path: names[constants.STAGES.GAUSSIAN_COVARIATE],
               component: GaussianCovariateComponent,
-              data: {animation: constants.STAGES.GAUSSIAN_COVARIATE}
+              data: {animation: constants.STAGES.GAUSSIAN_COVARIATE},
+              canActivate: [ SolveForPowerGuard ]
             },
             {
               path: names[constants.STAGES.HYPOTHESIS_EFFECT_CHOICE],
@@ -218,7 +220,8 @@ const studyFormRoutes: Routes = [
             {
               path: names[constants.STAGES.OPTIONAL_SPECS_CONFIDENCE_INTERVALS],
               component: OptionalSpecsConfidenceIntervalsComponent,
-              data: {animation: constants.STAGES.OPTIONAL_SPECS_CONFIDENCE_INTERVALS}
+              data: {animation: constants.STAGES.OPTIONAL_SPECS_CONFIDENCE_INTERVALS},
+              canActivate: [ SolveForPowerGuard ]
             },
             {
               path: names[constants.STAGES.CALCULATE],
@@ -251,7 +254,8 @@ const studyFormRoutes: Routes = [
     MarginalMeansGuard,
     OutcomeCorrelationsGuard,
     BetweenIsuGroupsGuard,
-    BetweenIsuSmallestGroupsGuard
+    BetweenIsuSmallestGroupsGuard,
+    SolveForPowerGuard,
   ]
 })
 export class StudyFormRoutingModule {}

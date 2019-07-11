@@ -890,7 +890,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     } else if (name === 'PARAMETERS_OUTCOME_CORRELATION') {
       return 'Outcome Correlation';
     } else if (name === 'PARAMETERS_REPEATED_MEASURE_ST_DEV') {
-      return 'Repeated Measure Standard Deviation';
+      return 'Repeated Measure Standard Deviation Ratios';
     } else if (name === 'PARAMETERS_REPEATED_MEASURE_CORRELATION') {
       return 'Repeated Measure Correlation';
     } else if (name === 'PARAMETERS_INTRA_CLASS_CORRELATION') {

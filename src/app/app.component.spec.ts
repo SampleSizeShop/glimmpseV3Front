@@ -8,8 +8,8 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {MatTooltipModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {StudyService} from './study-form/study.service';
-import {HttpClient} from "@angular/common/http";
-import {MockBackend} from "@angular/http/testing";
+import {HttpClient} from '@angular/common/http';
+import {MockBackend} from '@angular/http/testing';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {

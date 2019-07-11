@@ -273,6 +273,12 @@ export class StudyDesign {
   }
 
   checkDependencies() {
+    // do not allow gaussian covariates or confidence intervals when solving for samplesize
+    if (this.solveFor === constants.SOLVE_FOR.SAMPLE_SIZE) {
+      this.gaussianCovariate = null;
+      this.confidence_interval = null;
+    }
+
     // Are factorName groups made up of predictors we have defined
     if (!isNullOrUndefined(this.isuFactors.predictors) &&
       this.isuFactors.predictors.length > 0) {
