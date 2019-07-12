@@ -197,12 +197,12 @@
             <div *ngIf="formErrors.nocols" class="form-group has-danger">
               <div class="form-control-feedback">{{formErrors.nocols}}</div>
             </div>
-            <small id="nocolshelp" class="form-text text-muted">you must have 1 > x > {{maxCols}} cols</small>
+            <small id="nocolshelp" class="form-text text-muted">you must have between 1 and {{maxCols}} cols</small>
           </div>
         </form>
       </div>
     </div>
-    <button class="btn btn-secondary btn-sm" (click)="showInfo()">Back</button>
+    <button class="btn btn-secondary btn-sm" (click)="showInfo(true)">Back</button>
     <button class="btn btn-secondary btn-sm" (click)="editCustom()" [disabled]="!this.noRowsForm.valid" id="nextbtn">Next: Matrix</button>
   </div>
 

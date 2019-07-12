@@ -40,6 +40,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _contrast_matrix_for: string;
   private screenWidth;
   private _isMixed: boolean;
+  private _stashedNature: string;
 
   private _isuFactorsSubscription: Subscription;
   private _contrastMatrixSubscription: Subscription;
@@ -84,6 +85,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
+    this._stashedNature = this._isuFactors.cMatrix.type;
     this.buildForm();
     this.onResize();
   }
@@ -148,6 +150,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   selectHypothesisNature(nature: string) {
+    this._stashedNature = this._isuFactors.cMatrix.type;
     this._isuFactors.cMatrix.type = nature;
     if (nature === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
       this.setCustomCMatrix();
@@ -245,7 +248,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._stage = -1;
   }
 
-  showInfo() {
+  showInfo(cancel?: boolean) {
+    if (cancel) {
+      this._isuFactors.cMatrix.type = this._stashedNature;
+    }
     this._next = this._stages.INFO;
     this._stage = -1;
   }

@@ -214,12 +214,12 @@
           <div *ngIf="formErrors.norows" class="form-group has-danger">
             <div class="form-control-feedback">{{formErrors.norows}}</div>
           </div>
-          <small id="norowshelp" class="form-text text-muted">you must have 1 > x > {{maxRows}} rows</small>
+          <small id="norowshelp" class="form-text text-muted">you must have between 1 and {{maxRows}} rows</small>
         </div>
         </form>
       </div>
     </div>
-    <button class="btn btn-secondary btn-sm" (click)="showInfo()">Back</button>
+    <button class="btn btn-secondary btn-sm" (click)="showInfo(true)">Back</button>
     <button class="btn btn-secondary btn-sm" (click)="editCustom()" [disabled]="!this.noRowsForm.valid" id="nextbtn">Next: Matrix</button>
   </div>
 
