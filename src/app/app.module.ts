@@ -55,8 +55,9 @@ import {OptionalSpecsConfidenceIntervalsComponent} from './study-form/optional-s
 import { LinkVisualComponent } from './d3/visuals/shared/link-visual/link-visual.component';
 import { NodeVisualComponent } from './d3/visuals/shared/node-visual/node-visual.component';
 import {ZoomableDirective} from './d3/directives/zoomable.directive';
-import {CollapsibleTreeComponent} from "./d3/visuals/collapsible-tree/collapsible-tree.component";
-import {D3Service} from "./d3/d3.service";
+import {CollapsibleTreeComponent} from './d3/visuals/collapsible-tree/collapsible-tree.component';
+import {D3Service} from './d3/d3.service';
+import {HypothesisMixedComponent} from './study-form/hypothesis-mixed/hypothesis-mixed.component';
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import {D3Service} from "./d3/d3.service";
     BetweenIsuSmallestGroupComponent,
     GaussianCovariateComponent,
     HypothesisEffectChoiceComponent,
+    HypothesisMixedComponent,
     HypothesisBetweenComponent,
     HypothesisWithinComponent,
     HypothesisTheta0Component,

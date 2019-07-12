@@ -44,6 +44,7 @@ import {BetweenIsuSmallestGroupsGuard} from '../shared/between-isu-smallest-grou
 import {ParametersGaussianPowerComponent} from './parameters-gaussian-power/parameters-gaussian-power.component';
 import {OptionalSpecsConfidenceIntervalsComponent} from './optional-specs-confidence-intervals/optional-specs-confidence-intervals.component';
 import {SolveForPowerGuard} from '../shared/solve-for-power-guard.service';
+import {HypothesisMixedComponent} from "./hypothesis-mixed/hypothesis-mixed.component";
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -126,6 +127,12 @@ const studyFormRoutes: Routes = [
               path: names[constants.STAGES.HYPOTHESIS_EFFECT_CHOICE],
               component: HypothesisEffectChoiceComponent,
               data: {animation: constants.STAGES.HYPOTHESIS_EFFECT_CHOICE}
+            },
+            {
+              path: names[constants.STAGES.HYPOTHESIS_MIXED],
+              component: HypothesisMixedComponent,
+              canDeactivate: [CanDeactivatePredictorsGuardService],
+              data: {animation: constants.STAGES.HYPOTHESIS_BETWEEN}
             },
             {
               path: names[constants.STAGES.HYPOTHESIS_BETWEEN],
