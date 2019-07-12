@@ -360,5 +360,13 @@ export class HypothesisEffectChoiceComponent implements OnInit, OnDestroy {
   get defineMarginalHypothesis(): boolean {
     return this._defineMarginalHypothesis;
   }
+
+  get mixedHypothesisSelected(): boolean {
+    if (this._selected.nature.toString().includes('x')) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 

@@ -74,7 +74,12 @@
       </div>
     </div>
   </div>
-  <div class="row">
+
+
+  <div *ngIf="mixedHypothesisSelected" class="row">
+    <div class="col">Mixed hypothesis type:</div>
+  </div>
+  <div *ngIf="mixedHypothesisSelected" class="row">
     <div class="col">
       <div class="btn-group-sm" data-toggle="buttons">
         <label aria-pressed="true"
