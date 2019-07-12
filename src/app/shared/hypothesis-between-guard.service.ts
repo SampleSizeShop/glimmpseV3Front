@@ -2,14 +2,15 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 import {StudyService} from '../study-form/study.service';
 import {Subscription} from 'rxjs';
-import {isNullOrUndefined} from 'util';
 import {NGXLogger} from 'ngx-logger';
-import {ISUFactors} from "./ISUFactors";
+import {ISUFactors} from './ISUFactors';
 
 @Injectable()
 export class HypothesisBetweenGuard implements CanActivate {
   private isuFactors: ISUFactors;
   private isuFactorsSubscription: Subscription;
+  private defineMarginalHypothesisSubscription: Subscription;
+  private defineMarginalHypothesis: boolean;
 
   constructor(private router: Router,
               private study_service: StudyService,
@@ -19,12 +20,19 @@ export class HypothesisBetweenGuard implements CanActivate {
         this.isuFactors = isuFactors;
       }
     );
+    this.defineMarginalHypothesisSubscription = this.study_service.defineMarginalHypothesis$.subscribe( marginalHypothesis => {
+      this.defineMarginalHypothesis = marginalHypothesis;
+    });
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.log.debug('OutcomeCorrelation#canActivate called');
 
-    if (this.isuFactors.isHypothesisBetween && !this.isuFactors.isHypothesisWithin) {
+    if (
+      ( this.defineMarginalHypothesis && this.isuFactors.isHypothesisMixed)
+      ||
+      (this.isuFactors.isHypothesisBetween && !this.isuFactors.isHypothesisWithin)
+    ) {
       return true;
     } else {
       return false;

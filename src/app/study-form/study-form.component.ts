@@ -62,6 +62,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _powerCurveSubscription: Subscription;
   private _navDirectionSubsctiption: Subscription;
   private _defineFullBetaSubscription: Subscription;
+  private _defineMarginalHypothesisSubscription: Subscription;
   private _direction: string;
 
   private _validSubscription: Subscription;
@@ -757,6 +758,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.study.define_full_beta = fullbeta;
       }
     );
+
+    this._defineMarginalHypothesisSubscription = this.study_service.defineMarginalHypothesis$.subscribe(
+      marginalHypothesis => {
+        this.study.define_marginal_hypothesis = marginalHypothesis;
+      }
+    );
   }
 
   updateISUFactors() {
@@ -783,6 +790,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.varianceScaleFactorsSubscription.unsubscribe();
     this.powerCurveSubscription.unsubscribe();
     this._confidenceIntervalSubscription.unsubscribe();
+    this._defineFullBetaSubscription.unsubscribe();
+    this._defineMarginalHypothesisSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {

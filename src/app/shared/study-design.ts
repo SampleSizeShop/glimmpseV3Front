@@ -47,6 +47,7 @@ export class StudyDesign {
   private _varianceScaleFactors: number[];
   private _powerCurve: PowerCurve;
   private _define_full_beta: boolean;
+  private _define_marginal_hypothesis: boolean;
   private _confidence_interval: ConfidenceInterval;
 
   // fromJSON is used to convert an serialized version
@@ -94,6 +95,7 @@ export class StudyDesign {
     this.isuFactors = new ISUFactors();
     this.power = [];
     this._define_full_beta = false;
+    this._define_marginal_hypothesis = false;
   }
 
   get relativeGroupSizes() {
@@ -478,6 +480,14 @@ export class StudyDesign {
 
   set define_full_beta(value: boolean) {
     this._define_full_beta = value;
+  }
+
+  get define_marginal_hypothesis(): boolean {
+    return this._define_marginal_hypothesis;
+  }
+
+  set define_marginal_hypothesis(value: boolean) {
+    this._define_marginal_hypothesis = value;
   }
 
   get quantiles(): Array<number> {

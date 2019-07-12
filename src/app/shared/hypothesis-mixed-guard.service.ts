@@ -9,6 +9,8 @@ import {ISUFactors} from './ISUFactors';
 export class HypothesisMixedGuard implements CanActivate {
   private isuFactors: ISUFactors;
   private isuFactorsSubscription: Subscription;
+  private defineMarginalHypothesisSubscription: Subscription;
+  private defineMarginalHypothesis: boolean;
 
   constructor(private router: Router,
               private study_service: StudyService,
@@ -18,11 +20,13 @@ export class HypothesisMixedGuard implements CanActivate {
         this.isuFactors = isuFactors;
       }
     );
+    this.defineMarginalHypothesisSubscription = this.study_service.defineMarginalHypothesis$.subscribe( marginalHypothesis => {
+      this.defineMarginalHypothesis = marginalHypothesis;
+    });
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.log.debug('OutcomeCorrelation#canActivate called');
-
-    return this.isuFactors.isHypothesisMixed;
+    return (!this.defineMarginalHypothesis && this.isuFactors.isHypothesisMixed);
   }
 }

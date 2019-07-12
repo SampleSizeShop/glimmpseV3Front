@@ -2,7 +2,6 @@ import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ISUFactor} from '../../shared/ISUFactor';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
 import {Subscription} from 'rxjs';
-import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
@@ -22,9 +21,11 @@ export class HypothesisEffectChoiceComponent implements OnInit, OnDestroy {
   private _selected: HypothesisEffect;
   private _showInfo: boolean;
   private _defineFullBeta: boolean;
+  private _defineMarginalHypothesis: boolean;
 
   private _hypothesisEffectSubscription: Subscription;
   private _defineFullBetaSubscription: Subscription;
+  private _defineMarginalHypothesisSubscription: Subscription;
   private _isuFactorsSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
 
@@ -47,6 +48,9 @@ export class HypothesisEffectChoiceComponent implements OnInit, OnDestroy {
     });
     this._defineFullBetaSubscription = this._study_service.defineFullBeta$.subscribe( fullBeta => {
       this._defineFullBeta = fullBeta;
+    });
+    this._defineMarginalHypothesisSubscription = this._study_service.defineMarginalHypothesis$.subscribe( marginalHypothesis => {
+      this._defineMarginalHypothesis = marginalHypothesis;
     });
     this._afterInit = false;
     this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
@@ -301,6 +305,14 @@ export class HypothesisEffectChoiceComponent implements OnInit, OnDestroy {
     this.study_service.updateDefineFullBeta(true);
   }
 
+  selectSimpleHypothesis() {
+    this.study_service.updateMarginalHypothesis(false);
+  }
+
+  selectMarginalHypothesis() {
+    this.study_service.updateMarginalHypothesis(true);
+  }
+
   get possibleEffects(): HypothesisEffect[] {
     return this._possibleEffects;
   }
@@ -345,8 +357,8 @@ export class HypothesisEffectChoiceComponent implements OnInit, OnDestroy {
     return this._defineFullBeta;
   }
 
-  set defineFullBeta(value: boolean) {
-    this._defineFullBeta = value;
+  get defineMarginalHypothesis(): boolean {
+    return this._defineMarginalHypothesis;
   }
 }
 
