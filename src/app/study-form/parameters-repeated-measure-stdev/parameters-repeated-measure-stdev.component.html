@@ -1,6 +1,7 @@
 <div *ngIf="measure$ | async as measure">
   <div class="row">
     <p>Define the ratios of standard deviations for {{measure.name}}. One of your values should be 1 and the others should represent the ratio of that value to that value:</p>
+    <p>For example, if you believe that the standard deviation doubles at each time, enter the values 1, 2, 4, 8... etc.</p>
   </div>
   <div class="row">{{measure.name}}:</div>
   <div *ngFor="let val of measure.valueNames; let i = index">
