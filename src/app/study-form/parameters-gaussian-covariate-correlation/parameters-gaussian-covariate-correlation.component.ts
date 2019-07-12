@@ -4,9 +4,9 @@ import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {constants} from '../../shared/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {NavigationService} from "../../shared/navigation.service";
-import {GaussianCovariate} from "../../shared/GaussianCovariate";
-import {isNullOrUndefined} from "util";
+import {NavigationService} from '../../shared/navigation.service';
+import {GaussianCovariate} from '../../shared/GaussianCovariate';
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-correlation',
@@ -43,7 +43,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
           this._corellation_names = this.getCorellationNames();
           this._corellations = [];
           this._corellation_names.forEach(name => {
-            this._corellations.push(1);
+            this._corellations.push(0);
           });
         }
       }
