@@ -39,6 +39,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _contrast_matrix: PartialMatrix;
   private _contrast_matrix_for: string;
   private screenWidth;
+  private _isMixed: boolean;
 
   private _isuFactorsSubscription: Subscription;
   private _contrastMatrixSubscription: Subscription;
@@ -68,11 +69,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._showAdvancedOptions = false;
 
     this._isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
-        this._isuFactors = isuFactors;
+      this._isuFactors = isuFactors;
+      this._isMixed = isuFactors.isHypothesisMixed;
       if (isNullOrUndefined(this._isuFactors.cMatrix)) {
         this._isuFactors.cMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
       }
-    } );
+    });
     this._contrastMatrixSubscription = this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
       this.setContrastMatrix(contrast_matrix);
     });
@@ -406,5 +408,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   get cMatrixTex() {
     return this._isuFactors.cMatrix.toTeX();
+  }
+
+  get isMixed(): boolean {
+    return this._isMixed;
   }
 }

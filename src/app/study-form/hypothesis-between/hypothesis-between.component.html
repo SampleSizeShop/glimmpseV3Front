@@ -41,7 +41,99 @@
       </label>
     </div>
 
+    <div *ngIf="!isMixed && selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS" class="row" id="betweenonlyalldesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+        The parameters of interest are the group means.
+      </p>
+      <p>
+        The null hypothesis is that all pairwise differences between group means are the same.
+      </p>
+    </div>
+    <div *ngIf="!isMixed &&selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL" class="row" id="betweenonlytrendsdesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+      The parameters of interest are polynomial coefficients defining trends.
+      </p>
+      <p>
+      The null hypothesis is that all polynomial coefficients across your group labels are zero.
+        Polynomial trends up to one less than the number of groups are included (linear, quadratic, etc.).
+      </p>
+    </div>
+    <div *ngIf="!isMixed && selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY" class="row" id="betweenonlyidentitydesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+      The parameters of interest are group means.
+      </p>
+      <p>
+      The null hypothesis is that all group means are zero.
+      </p>
+      <p>
+      Warning: this hypothesis evaluates whether all mean differences are equal to zero AND whether the grand mean
+        is equal to zero. This should not be confused with the “all mean differences equal to zero” option.
+      </p>
+    </div>
+
+    <div  *ngIf="isMixed && selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS" class="row" id="mixedalldesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+      The parameters of interest are the averages across repeated measures for each group.
+      </p>
+      <p>
+      The null hypothesis is that the averages across repeated measures do not differ between groups.
+      </p>
+    </div>
+    <div *ngIf="isMixed &&selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL" class="row" id="mixedtrendsdesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+      The parameters of interest are polynomial coefficients defining trends across groups.
+      </p>
+      <p>
+      The null hypothesis is that the polynomial coefficients averaged across repeated measures are all zero.
+      </p>
+    </div>
+    <div *ngIf="isMixed && selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY" class="row" id="mixedidentitydesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+      The parameters of interest are group means.
+      </p>
+      <p>
+      The null hypothesis is that the average across repeated measures is zero for every group.
+      </p>
+      <p>
+      Warning: this hypothesis evaluates whether all mean differences are equal to zero AND whether the
+        grand mean is equal to zero. This should not be confused with the “all mean differences equal to zero” option.
+      </p>
+    </div>
+
     <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+      <div class="row">
+        <p>
+          A parameter is a characteristic of a population.
+        </p>
+        <p>
+        The parameters of interest are determined entirely by the user’s choice of coefficients.
+        </p>
+        <p>
+        The null hypothesis is determined entirely by the user’s choice of coefficients.
+        </p>
+        <p>
+        The software will only verify that the hypothesis is uniquely well-defined,
+          i.e. “testable” as per Muller & Stewart, 2006, chapter 16.
+        </p>
+      </div>
       <div class="row">
         <h6>Click on any of the marginal C matrices below to customise them:</h6>
       </div>
@@ -66,8 +158,22 @@
         </div>
       </div>
     </div>
-    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX"
-         class="row">
+    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX" class="row" id="customdesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+      The parameters of interest are determined entirely by the user’s choice of coefficients.
+      </p>
+      <p>
+      The null hypothesis is determined entirely by the user’s choice of coefficients.
+      </p>
+      <p>
+      The software will only verify that the hypothesis is uniquely well-defined,
+        i.e. “testable” as per Muller & Stewart, 2006, chapter 16.
+      </p>
+    </div>
+    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX" class="row">
       <div class="col-md-auto">
         <h6>Your custom C Matrix:</h6>
       </div>
