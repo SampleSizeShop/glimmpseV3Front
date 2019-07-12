@@ -8,6 +8,14 @@ export class HypothesisEffectChoicePo {
       const hypothesisRadio = element(by.id(source.hypothesis));
       hypothesisRadio.click();
     }
+    if (!isNullOrUndefined(source) && !isNullOrUndefined(source.marginal_hypothesis)) {
+      let id = 'simplehypothesisbtn';
+      if (source.marginal_hypothesis) {
+        id = 'marginalhypothesisbtn'
+      }
+      const marginalRadio = element(by.id(id));
+      marginalRadio.click();
+    }
     if (!isNullOrUndefined(source) && !isNullOrUndefined(source.definefullbeta)) {
       let id = 'hypothesisbetabtn';
       if (source.definefullbeta) {

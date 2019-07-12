@@ -242,6 +242,7 @@ export const O2R2P2C0_input = {
   ],
   gaussian_covariate: null,
   hypothesis: 'gender x race x Time x Device',
+  marginal_hypothesis: true,
   hypothesis_between: null,
   hypothesis_within: null,
   theta0: null,

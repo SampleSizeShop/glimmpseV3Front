@@ -22,6 +22,7 @@ export const cc_input = {
   ],
   gaussian_covariate: null,
   hypothesis: 'group1 x repMeas1',
+  marginal_hypothesis: true,
   hypothesis_between: {
     nature: 'custom',
     rows: 1,
