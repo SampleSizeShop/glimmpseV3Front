@@ -588,4 +588,31 @@ export class ISUFactors {
     return table
   }
 
+  get isHypothesisBetween(): boolean {
+    if (
+      (!isNullOrUndefined(this.predictorsInHypothesis) && this.predictorsInHypothesis.length > 0 )
+      ||
+      this.hypothesis.length === 0 ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  get isHypothesisWithin(): boolean {
+    if (!isNullOrUndefined(this.repeatedMeasuresInHypothesis) && this.repeatedMeasuresInHypothesis.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  get isHypothesisMixed(): boolean {
+    if (this.isHypothesisBetween && this.isHypothesisWithin) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

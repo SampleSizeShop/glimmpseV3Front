@@ -24,12 +24,7 @@ export class HypothesisWithinGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.log.debug('OutcomeCorrelation#canActivate called');
 
-    if (
-      (isNullOrUndefined(this.isuFactors.predictorsInHypothesis)
-        || this.isuFactors.predictorsInHypothesis.length === 0)
-      && (!isNullOrUndefined(this.isuFactors.repeatedMeasuresInHypothesis)
-      && this.isuFactors.repeatedMeasuresInHypothesis.length > 0)
-    ) {
+    if (!this.isuFactors.isHypothesisBetween && this.isuFactors.isHypothesisWithin) {
       return true;
     } else {
       return false;
