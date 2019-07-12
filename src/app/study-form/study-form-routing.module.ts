@@ -45,6 +45,9 @@ import {ParametersGaussianPowerComponent} from './parameters-gaussian-power/para
 import {OptionalSpecsConfidenceIntervalsComponent} from './optional-specs-confidence-intervals/optional-specs-confidence-intervals.component';
 import {SolveForPowerGuard} from '../shared/solve-for-power-guard.service';
 import {HypothesisMixedComponent} from "./hypothesis-mixed/hypothesis-mixed.component";
+import {HypothesisMixedGuard} from "../shared/hypothesis-mixed-guard.service";
+import {HypothesisBetweenGuard} from "../shared/hypothesis-between-guard.service";
+import {HypothesisWithinGuard} from "../shared/hypothesis-within-guard.service";
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -132,19 +135,22 @@ const studyFormRoutes: Routes = [
               path: names[constants.STAGES.HYPOTHESIS_MIXED],
               component: HypothesisMixedComponent,
               canDeactivate: [CanDeactivatePredictorsGuardService],
-              data: {animation: constants.STAGES.HYPOTHESIS_BETWEEN}
+              data: {animation: constants.STAGES.HYPOTHESIS_BETWEEN},
+              canActivate: [ HypothesisMixedGuard ]
             },
             {
               path: names[constants.STAGES.HYPOTHESIS_BETWEEN],
               component: HypothesisBetweenComponent,
               canDeactivate: [CanDeactivatePredictorsGuardService],
-              data: {animation: constants.STAGES.HYPOTHESIS_BETWEEN}
+              data: {animation: constants.STAGES.HYPOTHESIS_BETWEEN},
+              canActivate: [ HypothesisBetweenGuard ]
             },
             {
               path: names[constants.STAGES.HYPOTHESIS_WITHIN],
               component: HypothesisWithinComponent,
               canDeactivate: [CanDeactivatePredictorsGuardService],
-              data: {animation: constants.STAGES.HYPOTHESIS_WITHIN}
+              data: {animation: constants.STAGES.HYPOTHESIS_WITHIN},
+              canActivate: [ HypothesisWithinGuard ]
             },
             {
               path: names[constants.STAGES.HYPOTHESIS_THETA_0],
@@ -263,6 +269,9 @@ const studyFormRoutes: Routes = [
     BetweenIsuGroupsGuard,
     BetweenIsuSmallestGroupsGuard,
     SolveForPowerGuard,
+    HypothesisMixedGuard,
+    HypothesisBetweenGuard,
+    HypothesisWithinGuard
   ]
 })
 export class StudyFormRoutingModule {}
