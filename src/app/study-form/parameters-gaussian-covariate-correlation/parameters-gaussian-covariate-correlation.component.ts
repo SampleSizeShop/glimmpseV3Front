@@ -181,4 +181,13 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
   get corellation_names(): Array<string> {
     return this._corellation_names;
   }
+
+  get hasRepeatedMeasures(): boolean {
+    if (!isNullOrUndefined(this.isuFactors.repeatedMeasuresInHypothesis) &&
+      this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
