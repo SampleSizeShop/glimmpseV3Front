@@ -149,7 +149,8 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._afterInit = true;
     if (this._isuFactors.cMatrix.type === this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS ||
-      this._isuFactors.cMatrix.type === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
+      this._isuFactors.cMatrix.type === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX ||
+      this._isuFactors.cMatrix.type === this.HYPOTHESIS_NATURE.IDENTITY) {
       this.toggleAdvancedOptions();
     }
   }
@@ -186,6 +187,10 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     } else if (nature !== this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS) {
       this._isuFactors.predictors.forEach( predictor => {
           predictor.isuFactorNature = nature;
+        }
+      );
+      this._isuFactors.repeatedMeasures.forEach( measure => {
+          measure.isuFactorNature = nature;
         }
       );
     }

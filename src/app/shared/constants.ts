@@ -286,7 +286,7 @@ export const constants = {
   },
   CONTRAST_MATRIX_NATURE: {
     GLOBAL_TRENDS: 'All mean differences zero',
-    IDENTITY: 'Identity',
+    IDENTITY: 'All means zero',
     POLYNOMIAL: 'Trends (Polynomial)',
     USER_DEFINED_PARTIALS: 'Custom',
     CUSTOM_C_MATRIX: 'Custom between contrast (C) Matrix',
