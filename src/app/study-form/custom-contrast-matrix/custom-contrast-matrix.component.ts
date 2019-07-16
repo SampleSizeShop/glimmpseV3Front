@@ -1,5 +1,4 @@
-import * as math from 'mathjs';
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NGXLogger} from 'ngx-logger';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/index';
@@ -10,6 +9,7 @@ import {constants} from '../../shared/constants';
 import {TooltipPosition} from '@angular/material';
 import {zeroColsValidator} from './zerocols.validator';
 import {PartialMatrix} from '../../shared/PartialMatrix';
+import {zeroRowsValidator} from './zerorows.validator';
 
 @Component({
   selector: 'app-custom-matrix',
@@ -35,6 +35,8 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   private rows_subscription: Subscription;
   private cols_subscription: Subscription;
   private factor_subscription: Subscription;
+  private _validator;
+  @Input('between') between: boolean;
   left: TooltipPosition;
   below: TooltipPosition;
 
@@ -74,6 +76,7 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.buildForm();
   }
 
   _initializeProperties() {
@@ -91,7 +94,12 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this._defineFormControls();
-    this._contrast_matrix_form = this.fb.group(this.controlDefs, {validator: zeroColsValidator(this.contrast_matrix.values)});
+    if (this.between) {
+      this._validator = zeroRowsValidator;
+    } else {
+      this._validator = zeroColsValidator;
+    }
+    this._contrast_matrix_form = this.fb.group(this.controlDefs, {validator: this._validator(this.contrast_matrix.values)});
     this.contrast_matrix_form.valueChanges.subscribe(data => this.onValueChangedContrastMatrixForm(data));
   }
 

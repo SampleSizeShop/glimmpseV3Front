@@ -74,29 +74,6 @@
       </div>
     </div>
   </div>
-
-
-  <div *ngIf="mixedHypothesisSelected" class="row">
-    <div class="col">Mixed hypothesis type:</div>
-  </div>
-  <div *ngIf="mixedHypothesisSelected" class="row">
-    <div class="col">
-      <div class="btn-group-sm" data-toggle="buttons">
-        <label aria-pressed="true"
-               class="btn btn-secondary"
-               [class.active]="!defineMarginalHypothesis"
-               id="simplehypothesisbtn">
-          <input type="radio" id="simplehypothesisradio" (click)="selectSimpleHypothesis()"> Simple Hypothesis
-        </label>
-        <label aria-pressed="true"
-               class="btn btn-secondary"
-               [class.active]="defineMarginalHypothesis"
-               id="marginalhypothesisbtn">
-          <input type="radio" id="marginalhypothesisradio" (click)="selectMarginalHypothesis()">Marginal Hypothesis
-        </label>
-      </div>
-    </div>
-  </div>
 </div>
 <ng-template #helpText>
   <div class="modal-content">

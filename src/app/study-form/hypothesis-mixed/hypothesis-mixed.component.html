@@ -1,7 +1,7 @@
 <div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)" >
   <div *ngIf="isInfo()">
     <div class="row">
-      <p>What type of contrast do you wish among the levels of the response variables?</p>
+      <p>What type of contrast do you wish among the means defined by your groups and repeated measures?</p>
     </div>
     <div class="row"
          ngClass="{{getButtonClass()}}"
@@ -14,16 +14,31 @@
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
+             *ngIf="allPredictorsContinuous() && allMeasuresContinuous()"
+             id="polylbl"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
+      </label>
+      <label aria-pressed="true"
+             class="btn btn-secondary"
              id="identitylbl"
-             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY">
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY"
+             *ngIf="showAdvancedOptions">
         <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
-             *ngIf="isContinuous()"
-             id="polylbl"
-             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
+             id="partialslbl"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
+             *ngIf="showAdvancedOptions">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)">Custom (per factor)
+      </label>
+      <label aria-pressed="true"
+             class="btn btn-secondary"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX"
+             id="customlbl"
+             *ngIf="showAdvancedOptions">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_C_MATRIX)">Custom (full)
       </label>
     </div>
 
@@ -66,6 +81,118 @@
         The warning applies twice, once to the group dimension and once to the repeated measure dimension.
       </p>
     </div>
+    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+      <div class="row">
+        <p>
+          A parameter is a characteristic of a population.
+        </p>
+        <p>
+          The parameters of interest are determined entirely by the user’s choice of coefficients.
+        </p>
+        <p>
+          The null hypothesis is determined entirely by the user’s choice of coefficients.
+        </p>
+        <p>
+          The software will only verify that the hypothesis is uniquely well-defined,
+          i.e. “testable” as per Muller & Stewart, 2006, chapter 16.
+        </p>
+      </div>
+      <div class="row">
+        <h6>Click on any of the marginal between contrast (C) matrices below to customise them:</h6>
+      </div>
+      <div *ngFor="let predictor of predictorsIn" class="row">
+        <div class="col  col-md-auto">
+          <h6>{{predictor.name}}:</h6>
+        </div>
+        <div class="col  col-md-auto">
+          <div ngbDropdown class="h-25 d-inline-block">
+            <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>{{predictor.isuFactorNature}}</button>
+            <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
+              <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
+              <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
+              <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="isPredictorContinuous(predictor)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+              <button class="h-25 dropdown-item" (click)="setCustomPartialCMatrix(predictor)">Custom</button>
+            </div>
+          </div>
+        </div>
+        <div class="col  col-md-auto"
+             *ngIf="predictor.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS && predictor.hasPartialMatrix()"
+             [mathJaxExpr]="predictor.partialMatrix.toTeX()">
+        </div>
+      </div>
+      <div class="row">
+        <h6>Click on any of the marginal within contrast (U) matrices below to customise them:</h6>
+      </div>
+      <div *ngFor="let repMeasure of repeatedMeasuresIn" class="row">
+        <div class="col  col-md-auto">
+          <h6>{{repMeasure.name}}:</h6>
+        </div>
+        <div class="col  col-md-auto">
+          <div ngbDropdown class="h-25 d-inline-block">
+            <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownBasic2" ngbDropdownToggle>{{repMeasure.isuFactorNature}}</button>
+            <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic2">
+              <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
+              <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
+              <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="isMeasureContinuous(repMeasure)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
+              <button class="h-25 dropdown-item" (click)="setCustomPartialUMatrix(repMeasure)">Custom</button>
+            </div>
+          </div>
+        </div>
+        <div class="col  col-md-auto" *ngIf="repMeasure.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+          <div *ngIf="repMeasure.hasPartialMatrix()"
+               [mathJaxExpr]="repMeasure.partialMatrix.toTeX()"></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX" class="row" id="customdesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+        The parameters of interest are determined entirely by the user’s choice of coefficients.
+      </p>
+      <p>
+        The null hypothesis is determined entirely by the user’s choice of coefficients.
+      </p>
+      <p>
+        The software will only verify that the hypothesis is uniquely well-defined,
+        i.e. “testable” as per Muller & Stewart, 2006, chapter 16.
+      </p>
+    </div>
+    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX" class="row">
+      <div class="col-md-auto">
+        <p>Your custom between contrast (C) matrix:</p>
+      </div>
+      <div class="col-md-auto">
+        <div [mathJaxExpr]="cMatrixTex"></div>
+      </div>
+    </div>
+    <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX" class="row">
+      <div class="col-md-auto">
+        <p>Your custom within contrast (U) matrix:</p>
+      </div>
+      <div class="col-md-auto">
+        <div [mathJaxExpr]="uMatrixTex"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <button class="btn btn-secondary btn-sm"
+              style="margin-bottom: 0px;"
+              id="pb"
+              [class.active]="false"
+              *ngIf="predictorsInHypothesis() && !showAdvancedOptions"
+              (click)="toggleAdvancedOptions()">
+        Show Advanced Options
+      </button>
+      <button class="btn btn-secondary btn-sm"
+              style="margin-bottom: 0px;" [class.active]="false"
+              *ngIf="predictorsInHypothesis() && showAdvancedOptions"
+              (click)="toggleAdvancedOptions()"
+              [disabled]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS || selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX">
+        Hide Advanced Options
+      </button>
+    </div>
   </div>
 </div>
 
@@ -97,3 +224,61 @@
     <div class="modal-footer"> footer text</div>
   </div>
 </ng-template>
+
+<div *ngIf="isRows()">
+  <h6>How many rows would you like in your custom between contrast (C) matrix?</h6>
+  <div class="row">
+    <div class="col col-md-auto">
+      <form [formGroup]="noRowsForm" novalidate>
+        <div class="form-group">
+          <label for="norows">No. cols:</label>
+          <input type="number" class="form-control" id="norows" placeholder="Choose a number between 0 -> {{maxRows}}" formControlName="norows" required min="1" max="{{maxRows}}">
+          <div *ngIf="formErrors.norows" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.norows}}</div>
+          </div>
+          <small id="norowshelp" class="form-text text-muted">you must have between 1 and {{maxRows}} rows</small>
+        </div>
+      </form>
+    </div>
+  </div>
+  <button class="btn btn-secondary btn-sm" (click)="showInfo(true)">Back</button>
+  <button class="btn btn-secondary btn-sm" (click)="editCustomRows()" [disabled]="!this.noRowsForm.valid" id="nextbtn">Next: Matrix</button>
+</div>
+
+<div *ngIf="isCols()">
+  <h6>How many columns would you like in your custom within contrast (U) matrix?</h6>
+  <div class="row">
+    <div class="col col-md-auto">
+      <form [formGroup]="noColsForm" novalidate>
+        <div class="form-group">
+          <label for="nocols">No. cols:</label>
+          <input type="number" class="form-control" id="nocols" placeholder="Choose a number between 0 -> {{maxCols}}" formControlName="nocols" required min="1" max="{{maxCols}}">
+          <div *ngIf="formErrors.norows" class="form-group has-danger">
+            <div class="form-control-feedback">{{formErrors.norows}}</div>
+          </div>
+          <small id="nocolshelp" class="form-text text-muted">you must have between 1 and {{maxCols}} cols</small>
+        </div>
+      </form>
+    </div>
+  </div>
+  <button class="btn btn-secondary btn-sm" (click)="showInfo(true)">Back</button>
+  <button class="btn btn-secondary btn-sm" (click)="editCustomCols()" [disabled]="!this.noRowsForm.valid" id="nextcolsbtn">Next: Matrix</button>
+</div>
+
+
+
+<div *ngIf="isEditWithinCustom()">
+  <app-custom-matrix [between]="false"></app-custom-matrix>
+  <button class="btn btn-secondary btn-sm" (click)="cols()">Back</button>
+  <button class="btn btn-secondary btn-sm" (click)="showInfo()" id="withindonebtn">Done</button>
+</div>
+<div *ngIf="isEditBetweenPartialCustom()">
+  <app-custom-matrix [between]="true"></app-custom-matrix>
+  <button class="btn btn-secondary btn-sm" (click)="cols()">Back</button>
+  <button class="btn btn-secondary btn-sm" (click)="showInfo()" id="partialbetweendonebtn">Done</button>
+</div>
+<div *ngIf="isEditBetweenCustom()">
+  <app-custom-matrix [between]="true"></app-custom-matrix>
+  <button class="btn btn-secondary btn-sm" (click)="cols()">Back</button>
+  <button class="btn btn-secondary btn-sm" (click)="setCustomUMatrix()" id="betweendonebtn">Next</button>
+</div>

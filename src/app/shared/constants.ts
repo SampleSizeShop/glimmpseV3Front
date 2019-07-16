@@ -285,17 +285,24 @@ export const constants = {
     BETWEEN: 'Between'
   },
   CONTRAST_MATRIX_NATURE: {
-    GLOBAL_TRENDS: 'Global Trends',
+    GLOBAL_TRENDS: 'All mean differences zero',
     IDENTITY: 'Identity',
-    POLYNOMIAL: 'Polynomial',
-    USER_DEFINED_PARTIALS: 'Define partial contrasts',
-    CUSTOM_C_MATRIX: 'Define hypothesis C Matrix',
-    CUSTOM_U_MATRIX: 'Define hypothesis U Matrix',
+    POLYNOMIAL: 'Trends (Polynomial)',
+    USER_DEFINED_PARTIALS: 'Custom',
+    CUSTOM_C_MATRIX: 'Custom between contrast (C) Matrix',
+    CUSTOM_U_MATRIX: 'Custom within contrast (U) Matrix',
   },
   HYPOTHESIS_BETWEEN_STAGES: {
     INFO: 0,
     ROWS: 1,
     EDIT_CUSTOM: 2
+  },
+  HYPOTHESIS_MIXED_STAGES: {
+    INFO: 0,
+    ROWS: 1,
+    EDIT_BETWEEN_CUSTOM: 2,
+    COLS: 3,
+    EDIT_WITHIN_CUSTOM: 4
   },
   HYPOTHESIS_BETWEEN_FORM_ERRORS: {
     'norows': ''

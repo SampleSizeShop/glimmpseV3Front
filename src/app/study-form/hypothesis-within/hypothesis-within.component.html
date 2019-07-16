@@ -14,12 +14,6 @@
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
-             id="identitylbl"
-             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
-      </label>
-      <label aria-pressed="true"
-             class="btn btn-secondary"
              id="polylbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL"
               *ngIf="isContinuous()">
@@ -27,17 +21,24 @@
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
+             id="identitylbl"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY"
+             *ngIf="showAdvancedOptions">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
+      </label>
+      <label aria-pressed="true"
+             class="btn btn-secondary"
              id="partialslbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
              *ngIf="showAdvancedOptions">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> {{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> Custom (per factor)
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
              id="customlbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX"
              *ngIf="showAdvancedOptions">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_U_MATRIX)"> {{HYPOTHESIS_NATURE.CUSTOM_U_MATRIX}}
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_U_MATRIX)"> Custom (full)
       </label>
     </div>
 
@@ -121,7 +122,7 @@
         </p>
       </div>
       <div class="row">
-        <h6>Click on any of the marginal U matrices below to customise them:</h6>
+        <p>Click on any of the marginal within contrast (U) matrices below to customise them:</p>
       </div>
       <div *ngFor="let repMeasure of repeatedMeasuresIn" class="row">
         <div class="col  col-md-auto">
@@ -134,7 +135,7 @@
               <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
               <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
               <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="isMeasureContinuous(repMeasure)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
-              <button class="h-25 dropdown-item" (click)="setCustomPartialUMatrix(repMeasure)">{{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}</button>
+              <button class="h-25 dropdown-item" (click)="setCustomPartialUMatrix(repMeasure)">Custom</button>
             </div>
           </div>
         </div>
@@ -161,7 +162,7 @@
         </p>
       </div>
         <div class="col-md-auto">
-          <h6>Your custom U Matrix:</h6>
+          <p>Your custom within contrast (U) Matrix:</p>
         </div>
         <div class="col-md-auto">
           <div [mathJaxExpr]="uMatrixTex"></div>
@@ -187,7 +188,7 @@
   </div>
 
   <div *ngIf="isRows()">
-    <h6>How many columns would you like in your custom U matrix?</h6>
+    <h6>How many columns would you like in your custom within contrast (U) matrix?</h6>
     <div class="row">
       <div class="col col-md-auto">
         <form [formGroup]="noRowsForm" novalidate>
@@ -207,7 +208,7 @@
   </div>
 
   <div *ngIf="isEditCustom()">
-    <app-custom-matrix></app-custom-matrix>
+    <app-custom-matrix [between]="false"></app-custom-matrix>
     <button class="btn btn-secondary btn-sm" (click)="cols()">Back</button>
     <button class="btn btn-secondary btn-sm" (click)="showInfo()" id="donebtn">Done</button>
   </div>

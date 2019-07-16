@@ -11,14 +11,7 @@
              id="globaltrendslbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS">
         <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.GLOBAL_TRENDS)"> {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}
-      </label>
-      <label aria-pressed="true"
-             class="btn btn-secondary"
-             id="identitylbl"
-             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
-      </label>
-      <label aria-pressed="true"
+      </label><label aria-pressed="true"
              class="btn btn-secondary"
              *ngIf="isContinuous()"
              id="polylbl"
@@ -27,17 +20,24 @@
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
+             id="identitylbl"
+             *ngIf="showAdvancedOptions"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
+      </label>
+      <label aria-pressed="true"
+             class="btn btn-secondary"
              id="partialslbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
              *ngIf="showAdvancedOptions">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> {{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> Custom (per factor)
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX"
              id="customlbl"
              *ngIf="showAdvancedOptions">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_C_MATRIX)"> {{HYPOTHESIS_NATURE.CUSTOM_C_MATRIX}}
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_C_MATRIX)"> Custom (full)
       </label>
     </div>
 
@@ -135,7 +135,7 @@
         </p>
       </div>
       <div class="row">
-        <h6>Click on any of the marginal C matrices below to customise them:</h6>
+        <p>Click on any of the marginal between contrast (C) matrices below to customise them:</p>
       </div>
       <div *ngFor="let predictor of predictorsIn" class="row">
         <div class="col  col-md-auto">
@@ -148,7 +148,7 @@
               <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
               <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
               <button class="h-25 dropdown-item" (click)="setNature(predictor.name, HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="isPredictorContinuous(predictor)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
-              <button class="h-25 dropdown-item" (click)="setCustomPartialCMatrix(predictor)">{{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}</button>
+              <button class="h-25 dropdown-item" (click)="setCustomPartialCMatrix(predictor)">Custom</button>
             </div>
           </div>
         </div>
@@ -163,19 +163,19 @@
         A parameter is a characteristic of a population.
       </p>
       <p>
-      The parameters of interest are determined entirely by the user’s choice of coefficients.
+        The parameters of interest are determined entirely by the user’s choice of coefficients.
       </p>
       <p>
-      The null hypothesis is determined entirely by the user’s choice of coefficients.
+        The null hypothesis is determined entirely by the user’s choice of coefficients.
       </p>
       <p>
-      The software will only verify that the hypothesis is uniquely well-defined,
+        The software will only verify that the hypothesis is uniquely well-defined,
         i.e. “testable” as per Muller & Stewart, 2006, chapter 16.
       </p>
     </div>
     <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_C_MATRIX" class="row">
       <div class="col-md-auto">
-        <h6>Your custom C Matrix:</h6>
+        <p>Your custom between contrast (C) Matrix:</p>
       </div>
       <div class="col-md-auto">
         <div [mathJaxExpr]="cMatrixTex"></div>
@@ -204,7 +204,7 @@
 
   <div *ngIf="isRows()">
     <div class="row">
-      <h6>How many rows would you like in your custom C matrix?</h6></div>
+      <h6>How many rows would you like in your custom between contrast (C) matrix?</h6></div>
     <div class="row">
       <div class="col col-md-auto">
         <form [formGroup]="noRowsForm" novalidate>
@@ -224,7 +224,7 @@
   </div>
 
   <div *ngIf="isEditCustom()">
-    <app-custom-matrix></app-custom-matrix>
+    <app-custom-matrix [between]="true"></app-custom-matrix>
     <button class="btn btn-secondary btn-sm" (click)="rows()">Back</button>
     <button class="btn btn-secondary btn-sm" (click)="showInfo()" id="donebtn">Done</button>
   </div>

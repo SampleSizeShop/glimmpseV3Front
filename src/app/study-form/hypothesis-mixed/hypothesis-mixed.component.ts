@@ -15,6 +15,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/minmax.validator';
 import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
 import {fadeTransition} from '../../animations';
+import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
 
 @Component({
   selector: 'app-hypothesis-between',
@@ -24,7 +25,7 @@ import {fadeTransition} from '../../animations';
   styleUrls: ['./hypothesis-mixed.component.css']
 })
 export class HypothesisMixedComponent implements OnInit, OnDestroy {
-  private _stages = constants.HYPOTHESIS_BETWEEN_STAGES;
+  private _stages = constants.HYPOTHESIS_MIXED_STAGES;
   private _stage = this._stages.INFO;
   private _next = this._stages.INFO;
   private _showAdvancedOptions: boolean;
@@ -35,9 +36,14 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
   private _noRowsForm: FormGroup;
   private _maxRows: number;
   private _numCustomRows: number;
+  private _noColsForm: FormGroup;
+  private _maxCols: number;
+  private _numCustomCols: number;
   private _contrast_matrix: PartialMatrix;
   private _contrast_matrix_for: string;
   private screenWidth;
+  private _stashedBetweenNature: string;
+  private _stashedWithinNature: string;
 
   private _isuFactorsSubscription: Subscription;
   private _contrastMatrixSubscription: Subscription;
@@ -81,6 +87,8 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
+    this._stashedBetweenNature = this._isuFactors.cMatrix.type;
+    this._stashedWithinNature = this._isuFactors.uMatrix.type;
     this.buildForm();
     this.onResize();
   }
@@ -89,8 +97,12 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     this._noRowsForm = this.fb.group({
       norows: [this._numCustomRows, minMaxValidator(1, this._maxRows)]
     });
-
+    this._noColsForm = this.fb.group({
+      nocols: [this._numCustomCols, minMaxValidator(1, this._maxCols)]
+    });
     this._noRowsForm.valueChanges.subscribe(data => this.onValueChanged(data));
+    this._noColsForm.valueChanges.subscribe(data => this.onValueChanged(data));
+
     this.onValueChanged(); // (re)set validation messages now
   }
 
@@ -98,17 +110,35 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     if (!this.noRowsForm) {
       return;
     }
-    const form = this.noRowsForm;
+    if (!this._noColsForm) {
+      return;
+    }
+    const colsForm = this._noColsForm;
+    const rowsForm = this.noRowsForm;
 
     for (const field in this._formErrors) {
       if (this._formErrors.hasOwnProperty(field)) {
         this.formErrors[field] = '';
-        const control = form.get(field);
+        const control = rowsForm.get(field);
         if (control && control.dirty && !control.valid) {
           const messages = this._validationMessages[field];
           for (const key in control.errors) {
             if (control.errors.hasOwnProperty(key)) {
               this.formErrors[field] += messages[key] + ' ';
+            }
+          }
+        }
+      }
+    }
+    for (const field in this._formErrors) {
+      if (this._formErrors.hasOwnProperty(field)) {
+        this._formErrors[field] = '';
+        const control = colsForm.get(field);
+        if (control && control.dirty && !control.valid) {
+          const messages = this._validationMessages[field];
+          for (const key in control.errors) {
+            if (control.errors.hasOwnProperty(key)) {
+              this._formErrors[field] += messages[key] + ' ';
             }
           }
         }
@@ -145,6 +175,9 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
   }
 
   selectHypothesisNature(nature: string) {
+    this._stashedBetweenNature = this._isuFactors.cMatrix.type;
+    this._stashedWithinNature = this._isuFactors.uMatrix.type;
+
     this._isuFactors.cMatrix.type = nature;
     if (nature === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
       this.setCustomCMatrix();
@@ -161,11 +194,21 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     if (this._contrast_matrix_for === 'CMATRIX') {
       this._isuFactors.cMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX);
       this._isuFactors.cMatrix.values = this._contrast_matrix.values;
+    } else if (this._contrast_matrix_for === 'UMATRIX') {
+      this._isuFactors.uMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.CUSTOM_U_MATRIX);
+      this._isuFactors.uMatrix.values = this._contrast_matrix.values;
     } else {
       this._isuFactors.predictorsInHypothesis.forEach(predictor => {
         if (predictor.name === this._contrast_matrix_for) {
           predictor.partialMatrix = new PartialMatrix(this.selectedHypothesis);
           predictor.partialMatrix.values = this._contrast_matrix.values;
+        }
+      });
+
+      this._isuFactors.repeatedMeasuresInHypothesis.forEach(repMeasure => {
+        if (repMeasure.name === this._contrast_matrix_for) {
+          repMeasure.partialMatrix = new PartialMatrix(this.selectedHypothesis);
+          repMeasure.partialMatrix.values = this._contrast_matrix.values;
         }
       });
     }
@@ -182,29 +225,55 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
         predictor.isuFactorNature = nature;
       }
     });
+    this._isuFactors.repeatedMeasures.forEach( measure => {
+      if (measure.name === name) {
+        measure.isuFactorNature = nature;
+      }
+    });
   }
 
   setCustomPartialCMatrix(predictor: Predictor) {
     predictor.isuFactorNature = this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS;
     this._contrast_matrix_for = predictor.name;
     if (!isNullOrUndefined(predictor)) {
-      this.updateContrastMatrix(predictor);
+      this.updateContrastBetweenMatrix(predictor);
       this.buildForm();
     }
     this.rows();
+  }
+
+  setCustomPartialUMatrix(repMeasure: RepeatedMeasure) {
+    repMeasure.isuFactorNature = this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS;
+    this._contrast_matrix_for = repMeasure.name;
+    if (!isNullOrUndefined(repMeasure)) {
+      this.updateContrastWithinMatrix(repMeasure);
+      this.buildForm();
+    }
+    this.cols();
   }
 
   setCustomCMatrix() {
     this._contrast_matrix_for = 'CMATRIX';
     const cMatrixObject = this.createCustomCmatrixObject();
     if (!isNullOrUndefined(cMatrixObject)) {
-      this.updateContrastMatrix(cMatrixObject);
+      this.updateContrastBetweenMatrix(cMatrixObject);
       this.buildForm();
     }
     this.rows();
   }
 
-  private updateContrastMatrix(predictor: Predictor) {
+
+  setCustomUMatrix() {
+    this._contrast_matrix_for = 'UMATRIX';
+    const uMatrixObject = this.createCustomUmatrixObject();
+    if (!isNullOrUndefined(uMatrixObject)) {
+      this.updateContrastWithinMatrix(uMatrixObject);
+      this.buildForm();
+    }
+    this.cols();
+  }
+
+  private updateContrastBetweenMatrix(predictor: Predictor) {
     const contrast_matrix = new PartialMatrix();
     if (isNullOrUndefined(predictor.partialMatrix) || isNullOrUndefined(predictor.partialMatrix.values)) {
       predictor.partialMatrix = new PartialMatrix();
@@ -214,6 +283,18 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     this.contrast_matrix_service.update_factor(predictor);
     this.contrast_matrix_service.update_cols(predictor.valueNames.length);
     this._maxRows = predictor.valueNames.length;
+  }
+
+  private updateContrastWithinMatrix(repMeasue: RepeatedMeasure) {
+    const contrast_matrix = new PartialMatrix();
+    if (isNullOrUndefined(repMeasue.partialMatrix) || isNullOrUndefined(repMeasue.partialMatrix.values)) {
+      repMeasue.partialMatrix = new PartialMatrix();
+    }
+    contrast_matrix.values = repMeasue.partialMatrix.values;
+    this.contrast_matrix_service.update_contrast_matrix(contrast_matrix);
+    this.contrast_matrix_service.update_factor(repMeasue);
+    this.contrast_matrix_service.update_rows(repMeasue.valueNames.length);
+    this._maxCols = repMeasue.valueNames.length;
   }
 
   private createCustomCmatrixObject() {
@@ -231,18 +312,50 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     return cMatrixObject;
   }
 
+  private createCustomUmatrixObject() {
+    const uMatrixObject = new RepeatedMeasure();
+    uMatrixObject.name = 'your ';
+
+    this._isuFactors.outcomes.forEach(outcome  => {
+      this._isuFactors.repeatedMeasures.forEach(repMeasure => {
+        uMatrixObject.name = uMatrixObject.name + ' ' + outcome.name + ' ' +  repMeasure.name + ' x '
+        repMeasure.valueNames.forEach(name => {
+          uMatrixObject.valueNames.push(name);
+        });
+      });
+    });
+    uMatrixObject.name = uMatrixObject.name.slice(0, uMatrixObject.name.length - 2);
+    uMatrixObject.name = uMatrixObject.name + 'hypothesis';
+    return uMatrixObject;
+  }
+
   rows() {
     this._next = this._stages.ROWS;
     this._stage = -1;
   }
 
-  editCustom() {
-    this.contrast_matrix_service.update_rows(this._noRowsForm.get('norows').value);
-    this._next = this._stages.EDIT_CUSTOM;
+  cols() {
+    this._next = this._stages.COLS;
     this._stage = -1;
   }
 
-  showInfo() {
+  editCustomRows() {
+    this.contrast_matrix_service.update_rows(this._noRowsForm.get('norows').value);
+    this._next = this._stages.EDIT_BETWEEN_CUSTOM;
+    this._stage = -1;
+  }
+
+  editCustomCols() {
+    this.contrast_matrix_service.update_cols(this._noColsForm.get('nocols').value);
+    this._next = this._stages.EDIT_WITHIN_CUSTOM;
+    this._stage = -1;
+  }
+
+  showInfo(cancel?: boolean) {
+    if (cancel) {
+      this._isuFactors.cMatrix.type = this._stashedBetweenNature;
+      this._isuFactors.uMatrix.type = this._stashedWithinNature;
+    }
     this._next = this._stages.INFO;
     this._stage = -1;
   }
@@ -324,18 +437,54 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     }
   }
 
-  isEditCustom() {
-    if (this._stage === this._stages.EDIT_CUSTOM) {
+  isCols() {
+    if (this._stage === this._stages.COLS) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isEditBetweenPartialCustom() {
+    if (this._stage === this._stages.EDIT_BETWEEN_CUSTOM
+      && this.selectedHypothesis === this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS) {
       return true;
     } else {
       return false
     }
   }
 
-  isContinuous() {
+  isEditBetweenCustom() {
+    if (this._stage === this._stages.EDIT_BETWEEN_CUSTOM
+      && this.selectedHypothesis === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  isEditWithinCustom() {
+    if (this._stage === this._stages.EDIT_WITHIN_CUSTOM) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+  allPredictorsContinuous() {
     let isContinuous = true;
     this._isuFactors.predictors.forEach( predictor => {
       if ( predictor.type !== getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ) {
+        isContinuous = false;
+      }
+    });
+    return isContinuous;
+  }
+
+  allMeasuresContinuous() {
+    let isContinuous = true;
+    this._isuFactors.repeatedMeasures.forEach( measure => {
+      if ( measure.type !== 'Numeric') {
         isContinuous = false;
       }
     });
@@ -347,6 +496,14 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
       if ( predictor.type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ) {
         isContinuous = true;
       }
+    return isContinuous;
+  }
+
+  isMeasureContinuous(measure: RepeatedMeasure) {
+    let isContinuous = false;
+    if ( measure.type === 'Numeric') {
+      isContinuous = true;
+    }
     return isContinuous;
   }
 
@@ -383,6 +540,10 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     return this._isuFactors.predictorsInHypothesis;
   }
 
+  get repeatedMeasuresIn(): Array<RepeatedMeasure> {
+    return this._isuFactors.repeatedMeasuresInHypothesis;
+  }
+
   get stage(): number {
     return this._stage;
   }
@@ -395,8 +556,16 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     return this._noRowsForm;
   }
 
+  get noColsForm(): FormGroup {
+    return this._noColsForm;
+  }
+
   get maxRows(): number {
     return this._maxRows;
+  }
+
+  get maxCols(): number {
+    return this._maxCols;
   }
 
   get selectedHypothesis() {
@@ -405,5 +574,9 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
 
   get cMatrixTex() {
     return this._isuFactors.cMatrix.toTeX();
+  }
+
+  get uMatrixTex() {
+    return this._isuFactors.uMatrix.toTeX();
   }
 }

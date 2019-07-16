@@ -5,7 +5,6 @@ import {StudyService} from '../study.service';
 import {ISUFactors} from '../../shared/ISUFactors';
 import {PartialMatrix} from '../../shared/PartialMatrix';
 import {isNullOrUndefined} from 'util';
-import * as math from 'mathjs';
 import {Router} from '@angular/router';
 import {NGXLogger} from 'ngx-logger';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -92,10 +91,10 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
 
   buildForm(): void {
     this._noColsForm = this.fb.group({
-      nocols: [this._numCustomCols, minMaxValidator(1, this._maxCols)]
-    });
+    nocols: [this._numCustomCols, minMaxValidator(1, this._maxCols)]
+  });
 
-    this._noColsForm.valueChanges.subscribe(data => this.onValueChanged(data));
+  this._noColsForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set validation messages now
   }
 

@@ -100,9 +100,6 @@ export class StudyService {
   private _defineFullBetaSource = new BehaviorSubject<boolean>(false);
   private _defineFullBeta$ = this._defineFullBetaSource.asObservable();
 
-  private _defineMarginalHypothesisSource = new BehaviorSubject<boolean>(false);
-  private _defineMarginalHypothesis$ = this._defineMarginalHypothesisSource.asObservable();
-
   updateStudyTitle(title: string) {
     this._studyTitleSource.next(title);
   }
@@ -203,10 +200,6 @@ export class StudyService {
 
   updateDefineFullBeta(fullBeta: boolean) {
     this._defineFullBetaSource.next(fullBeta);
-  }
-
-  updateMarginalHypothesis(marginalHypothesis: boolean) {
-    this._defineMarginalHypothesisSource.next(marginalHypothesis);
   }
 
   constructor(private  http: HttpClient) {
@@ -432,14 +425,6 @@ export class StudyService {
 
   set defineFullBeta$(value: Observable<boolean>) {
     this._defineFullBeta$ = value;
-  }
-
-  get defineMarginalHypothesis$(): Observable<boolean> {
-    return this._defineMarginalHypothesis$;
-  }
-
-  set defineMarginalHypothesis$(value: Observable<boolean>) {
-    this._defineMarginalHypothesis$ = value;
   }
 
   get studyTitle$(): Observable<string> {

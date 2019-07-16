@@ -4,7 +4,6 @@ import {isNullOrUndefined} from 'util';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {testEnvironment} from '../../../environments/environment.test';
 import {environment} from '../../../environments/environment';
 import {Cluster} from '../../shared/Cluster';
 import {Predictor} from '../../shared/Predictor';
@@ -14,7 +13,6 @@ import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
 import {Result} from '../../shared/Results';
-import {isNumeric} from "tslint";
 
 @Component({
   selector: 'app-calculate',
@@ -183,7 +181,9 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   formatNumber(num: number) {
-    if (isNaN(Number(num.toString()))) {
+    if (isNullOrUndefined(num)) {
+      return ''
+    } else if (isNaN(Number(num.toString()))) {
       return num;
     } else {
       if (num < 0.00000000000001) {
