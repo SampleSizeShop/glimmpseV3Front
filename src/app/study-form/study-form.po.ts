@@ -29,6 +29,7 @@ import {constants, getStageName} from '../shared/constants';
 import {CalculatePo} from './calculate/calculate.po';
 import {OptionalSpecsConfidenceIntervalsPo} from './optional-specs-confidence-intervals/optional-specs-confidence-intervals.po';
 import {ParametersGaussianPowerPo} from './parameters-gaussian-power/parameters-gaussian-power.po';
+import {HypothesisMixedPo} from "./hypothesis-mixed/hypothesis-mixed.po";
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
@@ -46,6 +47,7 @@ export class StudyFormComponentPage {
   hypothesis: HypothesisEffectChoicePo;
   hypothesis_between: HypothesisBetweenPo;
   hypothesis_within: HypothesisWithinPo;
+  hypothesis_mixed: HypothesisMixedPo;
   theta0: HypothesisTheta0Po;
   marginal_means: ParametersMarginalMeansPo;
   parameters_scale_factor: ParametersScaleFactorPo;
@@ -77,6 +79,7 @@ export class StudyFormComponentPage {
     this.hypothesis = new HypothesisEffectChoicePo();
     this.hypothesis_between = new HypothesisBetweenPo();
     this.hypothesis_within = new HypothesisWithinPo();
+    this.hypothesis_mixed = new HypothesisMixedPo();
     this.theta0 = new HypothesisTheta0Po();
     this.marginal_means = new ParametersMarginalMeansPo();
     this.parameters_scale_factor = new ParametersScaleFactorPo();
@@ -143,6 +146,8 @@ export class StudyFormComponentPage {
       this.hypothesis_between.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.HYPOTHESIS_WITHIN))  {
       this.hypothesis_within.fromJSON(input);
+    }  else if ( this.isStage(url, constants.STAGES.HYPOTHESIS_MIXED))  {
+      this.hypothesis_mixed.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.HYPOTHESIS_THETA_0))  {
       this.theta0.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.PARAMETERS_MARGINAL_MEANS))  {

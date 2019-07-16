@@ -181,6 +181,7 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     this._isuFactors.cMatrix.type = nature;
     this._isuFactors.uMatrix.type = nature;
     if (nature === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
+      this._isuFactors.uMatrix.type = this.HYPOTHESIS_NATURE.CUSTOM_U_MATRIX;
       this.setCustomCMatrix();
     } else if (nature !== this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS) {
       this._isuFactors.predictors.forEach( predictor => {

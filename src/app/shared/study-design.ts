@@ -220,8 +220,12 @@ export class StudyDesign {
         }
         a = a * n
       });
-    } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX) {
+    } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX
+    && this.isuFactors.predictorsInHypothesis.length > 0) {
       a = this._isuFactors.cMatrix.values.size()[0]
+    } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX
+    && this.isuFactors.predictorsInHypothesis.length === 0) {
+      a = 1
     } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
       this._isuFactors.predictors.forEach(predictor => {
           a = a * predictor.valueNames.length;
@@ -255,8 +259,12 @@ export class StudyDesign {
         }
         b = b * n
       });
-    } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX) {
+    } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX
+                && this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
       b = this._isuFactors.uMatrix.values.size()[1];
+    } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX
+                && this.isuFactors.repeatedMeasuresInHypothesis.length === 0) {
+      b = 1;
     } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
       this._isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
         const n = repeatedMeasure.valueNames.length;
