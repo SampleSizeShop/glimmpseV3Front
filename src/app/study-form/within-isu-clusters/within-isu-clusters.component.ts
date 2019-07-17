@@ -12,6 +12,7 @@ import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
 import {NGXLogger} from 'ngx-logger';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-within-isu-clusters',
@@ -82,7 +83,9 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     })
     this._clusterLevelForm.valueChanges.subscribe(data => this.onValueChangedClusterLevelForm(data));
     this.initClusterLevelFormValidMessage();
-    this.setGraphData();
+    if (!isNullOrUndefined(this._cluster)) {
+      this.setGraphData();
+    }
   }
 
   ngOnInit() {
