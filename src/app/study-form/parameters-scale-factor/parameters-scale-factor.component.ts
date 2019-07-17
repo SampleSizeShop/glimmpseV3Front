@@ -49,6 +49,9 @@ export class ParametersScaleFactorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._afterInit = true;
+    if (!isNullOrUndefined(this.scaleFactor) && this.scaleFactor.length === 0) {
+      this.scaleFactor.push(1);
+    }
   }
 
   buildForm(): void {

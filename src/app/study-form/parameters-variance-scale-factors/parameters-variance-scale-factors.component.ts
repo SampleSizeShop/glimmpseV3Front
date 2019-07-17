@@ -52,6 +52,9 @@ private _afterInit: boolean;
 
   ngOnInit() {
     this._afterInit = true;
+    if (!isNullOrUndefined(this.scaleFactors) && this.scaleFactors.length === 0) {
+      this.scaleFactors.push(1);
+    }
     this.buildForm();
   }
 

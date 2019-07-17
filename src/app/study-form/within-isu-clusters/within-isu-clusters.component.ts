@@ -82,6 +82,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     })
     this._clusterLevelForm.valueChanges.subscribe(data => this.onValueChangedClusterLevelForm(data));
     this.initClusterLevelFormValidMessage();
+    this.setGraphData();
   }
 
   ngOnInit() {
