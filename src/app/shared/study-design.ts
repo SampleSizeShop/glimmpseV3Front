@@ -208,7 +208,8 @@ export class StudyDesign {
       this._isuFactors.predictors.forEach(predictor => {
         let n = 1;
         if (predictor.inHypothesis &&
-          predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS) {
+          (predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS
+        || predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL)) {
           n = predictor.valueNames.length - 1;
         } else if (predictor.inHypothesis &&
           predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
@@ -219,8 +220,12 @@ export class StudyDesign {
         }
         a = a * n
       });
-    } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX) {
+    } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX
+    && this.isuFactors.predictorsInHypothesis.length > 0) {
       a = this._isuFactors.cMatrix.values.size()[0]
+    } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX
+    && this.isuFactors.predictorsInHypothesis.length === 0) {
+      a = 1
     } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
       this._isuFactors.predictors.forEach(predictor => {
           a = a * predictor.valueNames.length;
@@ -246,13 +251,20 @@ export class StudyDesign {
           repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
           n = repeatedMeasure.valueNames.length
         } else if (repeatedMeasure.inHypothesis &&
+          repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL) {
+          n = repeatedMeasure.valueNames.length - 1;
+        } else if (repeatedMeasure.inHypothesis &&
           repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX) {
           n = repeatedMeasure.partialMatrix.values.size()[1]
         }
         b = b * n
       });
-    } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX) {
+    } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX
+                && this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
       b = this._isuFactors.uMatrix.values.size()[1];
+    } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX
+                && this.isuFactors.repeatedMeasuresInHypothesis.length === 0) {
+      b = 1;
     } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
       this._isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
         const n = repeatedMeasure.valueNames.length;
@@ -315,13 +327,25 @@ export class StudyDesign {
       }
     };
 
+    // is our outcome corellation matrix of the correct dimension? this should only happen when a user remopves an
+    // outcome such that we are back down to one
+    if (!isNullOrUndefined(this.isuFactors.outcomeCorrelationMatrix)
+      && this.isuFactors.outcomeCorrelationMatrix.values.size()[0] !== this.isuFactors.outcomes.length ) {
+      this.isuFactors.outcomeCorrelationMatrix.names = [];
+      this.isuFactors.outcomes.forEach( outcome => {
+        this.isuFactors.outcomeCorrelationMatrix.names.push(outcome.name)
+      });
+      this.isuFactors.outcomeCorrelationMatrix.values =math.matrix([[1]]);
+    }
+
+    // Is theta nought of the correct dimension?
+    if (this._isuFactors.theta0.length !== this.a || this._isuFactors.theta0[0].length !== this.b) {
+      this._isuFactors.theta0 = this.generateDefaultTheta0();
+    }
+
     // Are marginal means factorName groups made up of hypothesis we have chosen
     if (!isNullOrUndefined(this.isuFactors.hypothesis)) {
       this.isuFactors.marginalMeans = this.generateMarginalMeansTables();
-    }
-
-    if (this._isuFactors.theta0.length !== this.a || this._isuFactors.theta0[0].length !== this.b) {
-      this._isuFactors.theta0 = this.generateDefaultTheta0();
     }
 
     // TODO: Are our gaussian covariate correlations made up of outcomes and repeated measures we chosen.

@@ -21,7 +21,10 @@
       </div>
     </div>
   </form>
-  <div *ngIf="getFormErrors()" class="form-group has-danger">
+  <div *ngIf="getFormErrors() && between" class="form-group has-danger">
+    <div class="form-control-feedback">You cannot have a row of zeroes</div>
+  </div>
+  <div *ngIf="getFormErrors() && !between" class="form-group has-danger">
     <div class="form-control-feedback">You cannot have a column of zeroes</div>
   </div>
 </div>

@@ -28,6 +28,7 @@ export const MultipleOutcomeUnirep_input = {
   ],
   gaussian_covariate: null,
   hypothesis: 'gender x treatment x time',
+  marginal_hypothesis: true,
   hypothesis_between: null,
   hypothesis_within: null,
   theta0: null,

@@ -783,6 +783,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.varianceScaleFactorsSubscription.unsubscribe();
     this.powerCurveSubscription.unsubscribe();
     this._confidenceIntervalSubscription.unsubscribe();
+    this._defineFullBetaSubscription.unsubscribe();
   };
 
   subscribeToNavigationService() {

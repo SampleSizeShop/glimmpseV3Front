@@ -1,8 +1,7 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ISUFactor} from '../../shared/ISUFactor';
 import {HypothesisEffect} from '../../shared/HypothesisEffect';
 import {Subscription} from 'rxjs';
-import {ISUFactors} from '../../shared/ISUFactors';
 import {StudyService} from '../study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
@@ -343,10 +342,6 @@ export class HypothesisEffectChoiceComponent implements OnInit, OnDestroy {
 
   get defineFullBeta(): boolean {
     return this._defineFullBeta;
-  }
-
-  set defineFullBeta(value: boolean) {
-    this._defineFullBeta = value;
   }
 }
 

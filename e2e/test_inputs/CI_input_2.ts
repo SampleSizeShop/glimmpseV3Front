@@ -22,6 +22,7 @@ export const CI_input_2 = {
   ],
   gaussian_covariate: null,
   hypothesis: 'Treatment x Time',
+  marginal_hypothesis: true,
   hypothesis_between: null,
   hypothesis_within: null,
   theta0: null,

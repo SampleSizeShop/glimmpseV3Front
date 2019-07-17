@@ -86,7 +86,7 @@ export class ParametersOutcomeCorrelationsComponent implements OnInit, DoCheck, 
       && this.isuFactors.outcomes.length > 0)) {
       this.isuFactors.outcomes.forEach( outcome => {
         this.names.push(outcome.name)
-      })
+      });
     } else {
       this.names = ['']
     }

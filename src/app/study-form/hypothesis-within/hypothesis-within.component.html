@@ -14,12 +14,6 @@
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
-             id="identitylbl"
-             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
-      </label>
-      <label aria-pressed="true"
-             class="btn btn-secondary"
              id="polylbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL"
               *ngIf="isContinuous()">
@@ -27,22 +21,108 @@
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
+             id="identitylbl"
+             [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY"
+             *ngIf="showAdvancedOptions">
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.IDENTITY)"> {{HYPOTHESIS_NATURE.IDENTITY}}
+      </label>
+      <label aria-pressed="true"
+             class="btn btn-secondary"
              id="partialslbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS"
              *ngIf="showAdvancedOptions">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> {{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS)"> Custom (per factor)
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"
              id="customlbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX"
              *ngIf="showAdvancedOptions">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_U_MATRIX)"> {{HYPOTHESIS_NATURE.CUSTOM_U_MATRIX}}
+        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.CUSTOM_U_MATRIX)"> Custom (full)
       </label>
     </div>
+
+    <div *ngIf="!isMixed && selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS" class="row" id="withinonlyalldesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+        The parameters of interest are repeated measures means.
+      </p>
+      <p>
+        The null hypothesis is that the difference between all pairs of repeated measures means are the same.
+      </p>
+    </div>
+    <div *ngIf="!isMixed && selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL"  class="row" id="withinonlytrendsdesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+        The parameters of interest are polynomial coefficients defining trends.
+      </p>
+      <p>
+        The null hypothesis is that all polynomial coefficients across repeated measures are zero.
+      </p>
+      <p>
+        Polynomial trends up to one less than the number of repeated measures are included (linear, quadratic, etc.).
+      </p>
+    </div>
+    <div *ngIf="!isMixed && selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY"  class="row" id="withinonlyidentitydesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+        The parameters of interest are means for each repeated measure.
+      </p>
+      <p>
+        The null hypothesis is that all repeated measures means are zero.
+      </p>
+      <p>
+        Warning: this hypothesis evaluates whether all mean differences are equal to zero AND whether the grand mean
+        is equal to zero. This should not be confused with the “all mean differences equal to zero” option.
+      </p>
+    </div>
+
+    <div *ngIf="isMixed && selectedHypothesis === HYPOTHESIS_NATURE.GLOBAL_TRENDS"  class="row" id="mixedalldesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+        The parameters of interest are the averages across group for each repeated measure.
+      </p>
+      <p>
+        The null hypothesis is that the averages across groups do not differ between repeated measures.
+      </p>
+    </div>
+    <div *ngIf="isMixed && selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL"  class="row" id="mixedtrendsdesc">
+      <p>
+        A parameter is a characteristic of a population.
+      </p>
+      <p>
+        The parameters of interest are polynomial coefficients defining trends across repeated measures.
+      </p>
+      <p>
+        The null hypothesis is that the polynomial coefficients averaged across groups are all zero.
+      </p>
+    </div>
+    <div *ngIf="isMixed && selectedHypothesis === HYPOTHESIS_NATURE.IDENTITY"  class="row" id="mixedidentitydesc"></div>
+
     <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
+      <div class="row" id="customdesc">
+        <p>
+          A parameter is a characteristic of a population.
+        </p>
+        <p>
+          The parameters of interest are determined entirely by the user’s choice of coefficients.
+        </p>
+        <p>
+          The null hypothesis is determined entirely by the user’s choice of coefficients.
+          The software will only verify that the hypothesis is uniquely well-defined,
+          i.e. “testable” as per Muller & Stewart, 2006, chapter 16.
+        </p>
+      </div>
       <div class="row">
-        <h6>Click on any of the marginal U matrices below to customise them:</h6>
+        <p>Click on any of the marginal within contrast (U) matrices below to customise them:</p>
       </div>
       <div *ngFor="let repMeasure of repeatedMeasuresIn" class="row">
         <div class="col  col-md-auto">
@@ -55,7 +135,7 @@
               <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.GLOBAL_TRENDS)">  {{HYPOTHESIS_NATURE.GLOBAL_TRENDS}}</button>
               <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.IDENTITY)">  {{HYPOTHESIS_NATURE.IDENTITY}}</button>
               <button class="h-25 dropdown-item" (click)="setNature(repMeasure.name, HYPOTHESIS_NATURE.POLYNOMIAL)" *ngIf="isMeasureContinuous(repMeasure)">  {{HYPOTHESIS_NATURE.POLYNOMIAL}}</button>
-              <button class="h-25 dropdown-item" (click)="setCustomPartialUMatrix(repMeasure)">{{HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS}}</button>
+              <button class="h-25 dropdown-item" (click)="setCustomPartialUMatrix(repMeasure)">Custom</button>
             </div>
           </div>
         </div>
@@ -68,8 +148,21 @@
 
     <div *ngIf="selectedHypothesis === HYPOTHESIS_NATURE.CUSTOM_U_MATRIX"
         class="row">
+      <div class="row" id="customdesc">
+        <p>
+          A parameter is a characteristic of a population.
+        </p>
+        <p>
+          The parameters of interest are determined entirely by the user’s choice of coefficients.
+        </p>
+        <p>
+          The null hypothesis is determined entirely by the user’s choice of coefficients.
+          The software will only verify that the hypothesis is uniquely well-defined,
+          i.e. “testable” as per Muller & Stewart, 2006, chapter 16.
+        </p>
+      </div>
         <div class="col-md-auto">
-          <h6>Your custom U Matrix:</h6>
+          <p>Your custom within contrast (U) Matrix:</p>
         </div>
         <div class="col-md-auto">
           <div [mathJaxExpr]="uMatrixTex"></div>
@@ -95,7 +188,7 @@
   </div>
 
   <div *ngIf="isRows()">
-    <h6>How many columns would you like in your custom U matrix?</h6>
+    <h6>How many columns would you like in your custom within contrast (U) matrix?</h6>
     <div class="row">
       <div class="col col-md-auto">
         <form [formGroup]="noRowsForm" novalidate>
@@ -105,17 +198,17 @@
             <div *ngIf="formErrors.nocols" class="form-group has-danger">
               <div class="form-control-feedback">{{formErrors.nocols}}</div>
             </div>
-            <small id="nocolshelp" class="form-text text-muted">you must have 1 > x > {{maxCols}} cols</small>
+            <small id="nocolshelp" class="form-text text-muted">you must have between 1 and {{maxCols}} cols</small>
           </div>
         </form>
       </div>
     </div>
-    <button class="btn btn-secondary btn-sm" (click)="showInfo()">Back</button>
+    <button class="btn btn-secondary btn-sm" (click)="showInfo(true)">Back</button>
     <button class="btn btn-secondary btn-sm" (click)="editCustom()" [disabled]="!this.noRowsForm.valid" id="nextbtn">Next: Matrix</button>
   </div>
 
   <div *ngIf="isEditCustom()">
-    <app-custom-matrix></app-custom-matrix>
+    <app-custom-matrix [between]="false"></app-custom-matrix>
     <button class="btn btn-secondary btn-sm" (click)="cols()">Back</button>
     <button class="btn btn-secondary btn-sm" (click)="showInfo()" id="donebtn">Done</button>
   </div>

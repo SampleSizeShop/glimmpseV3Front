@@ -39,6 +39,8 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _contrast_matrix: PartialMatrix;
   private _contrast_matrix_for: string;
   private screenWidth;
+  private _isMixed: boolean;
+  private _stashedNature: string;
 
   private _isuFactorsSubscription: Subscription;
   private _contrastMatrixSubscription: Subscription;
@@ -68,11 +70,12 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._showAdvancedOptions = false;
 
     this._isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
-        this._isuFactors = isuFactors;
+      this._isuFactors = isuFactors;
+      this._isMixed = isuFactors.isHypothesisMixed;
       if (isNullOrUndefined(this._isuFactors.cMatrix)) {
         this._isuFactors.cMatrix = new PartialMatrix(this.HYPOTHESIS_NATURE.GLOBAL_TRENDS);
       }
-    } );
+    });
     this._contrastMatrixSubscription = this.contrast_matrix_service.contrast_matrix$.subscribe(contrast_matrix => {
       this.setContrastMatrix(contrast_matrix);
     });
@@ -82,6 +85,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
+    this._stashedNature = this._isuFactors.cMatrix.type;
     this.buildForm();
     this.onResize();
   }
@@ -146,6 +150,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   }
 
   selectHypothesisNature(nature: string) {
+    this._stashedNature = this._isuFactors.cMatrix.type;
     this._isuFactors.cMatrix.type = nature;
     if (nature === this.HYPOTHESIS_NATURE.CUSTOM_C_MATRIX) {
       this.setCustomCMatrix();
@@ -243,7 +248,10 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     this._stage = -1;
   }
 
-  showInfo() {
+  showInfo(cancel?: boolean) {
+    if (cancel) {
+      this._isuFactors.cMatrix.type = this._stashedNature;
+    }
     this._next = this._stages.INFO;
     this._stage = -1;
   }
@@ -406,5 +414,9 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
 
   get cMatrixTex() {
     return this._isuFactors.cMatrix.toTeX();
+  }
+
+  get isMixed(): boolean {
+    return this._isMixed;
   }
 }
