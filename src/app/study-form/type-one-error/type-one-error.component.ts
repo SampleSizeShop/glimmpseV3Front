@@ -172,7 +172,8 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     const value = this.typeOneErrorRateForm.value.typeoneerror;
     if (!isNullOrUndefined(value) &&
       value !== '' &&
-      this.typeOneErrorRate.indexOf(value) === -1) {
+      this.typeOneErrorRate.indexOf(value) === -1
+    && this.typeOneErrorRateForm.valid) {
       this._typeOneErrorRate.push(this.typeOneErrorRateForm.value.typeoneerror);
       this.typeOneErrorRateForm.reset();
     }
