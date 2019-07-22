@@ -11,6 +11,8 @@ export class ParametersVarianceScaleFactorsPo {
 
   fillForm(input) {
     if (!isNullOrUndefined(input)) {
+      const del = element(by.id('removescalefactor'));
+      del.click();
       const scaleFactorInput = element(by.id('scaleFactors'));
       const scaleFactorAdd = element(by.id('addscaleFactor'));
       input.forEach( scaleFactor => {

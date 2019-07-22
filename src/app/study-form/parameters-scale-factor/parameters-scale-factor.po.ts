@@ -11,6 +11,8 @@ export class ParametersScaleFactorPo {
 
   fillForm(input) {
     if (!isNullOrUndefined(input)) {
+      const del = element(by.id('removescalefactor'));
+      del.click();
       const scaleFactorInput = element(by.id('scalefactor'));
       const scaleFactorAdd = element(by.id('addfactor'));
       for (const betascale of input) {
