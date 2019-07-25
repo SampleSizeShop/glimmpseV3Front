@@ -13,6 +13,7 @@ import {NavigationService} from '../../shared/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/constants';
 import {Result} from '../../shared/Results';
+import * as math from 'mathjs';
 
 @Component({
   selector: 'app-calculate',
@@ -168,7 +169,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
     } else {
       matrix.forEach(row => {
         row.forEach( col => {
-          if (col < 0.00000000000001) {
+          if (math.abs(col) < 0.00000000000001) {
             col = 0.00;
           }
           texString = texString + col.toPrecision(3) + ' & '

@@ -7,6 +7,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {NavigationService} from '../../shared/navigation.service';
 import {GaussianCovariate} from '../../shared/GaussianCovariate';
 import {isNullOrUndefined} from 'util';
+import {CombinationId} from '../../shared/CombinationId';
+import {ISUFactorCombination} from '../../shared/ISUFactorCombination';
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-correlation',
@@ -52,19 +54,27 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
   }
 
   private getCorellationNames() {
-    const corellations = []
-    this.isuFactors.outcomes.forEach(outcome => {
-      if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) && this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
-        this.isuFactors.repeatedMeasuresInHypothesis.forEach(measure => {
-          measure.valueNames.forEach(val => {
-            const name = outcome.name + ', ' + measure.name + ' ' + +val;
-            corellations.push(name);
-          });
+    const ids = []
+    this.isuFactors.outcomes.forEach( (outcome, index) => {
+      const input = []
+      const outcomeId = new CombinationId(outcome.name, outcome.isuFactorNature, '', index);
+      this.isuFactors.repeatedMeasures.forEach( measure => {
+        input.push(measure);
+      });
+      const a  = this.isuFactors.generateCombinations(input);
+      if (a.length > 0) {
+        a.forEach( combination => {
+          const i = new ISUFactorCombination(combination.id);
+          i.id.unshift(outcomeId);
+          ids.push(combination);
         });
       } else {
-        const name = outcome.name;
-        corellations.push(name);
+        ids.push(new ISUFactorCombination([outcomeId]));
       }
+    });
+    const corellations = []
+    ids.forEach( i => {
+      corellations.push(i.name);
     });
     return corellations;
   }
