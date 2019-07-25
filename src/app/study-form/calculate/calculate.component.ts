@@ -609,4 +609,12 @@ export class CalculateComponent implements OnInit, OnDestroy {
   set smallestGroupSize(value: number) {
     this._smallestGroupSize = value;
   }
+
+  get orthonormalized(): boolean {
+    if (this.resultsContainModel()) {
+      return this.resultString.results[0].model.orthonormalize_u_matrix;
+    } else {
+      return false;
+    }
+  }
 }
