@@ -189,6 +189,15 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
     });
   }
 
+  setPolynomialOrder(name: string, order: number) {
+    this.log.debug( name + ' set: ' + order );
+    this._isuFactors.repeatedMeasures.forEach( measure => {
+      if (measure.name === name) {
+        measure.polynomialOrder = order;
+      }
+    });
+  }
+
   setCustomPartialUMatrix(repMeasure: RepeatedMeasure) {
     repMeasure.isuFactorNature = this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS;
     this._contrast_matrix_for = repMeasure.name;

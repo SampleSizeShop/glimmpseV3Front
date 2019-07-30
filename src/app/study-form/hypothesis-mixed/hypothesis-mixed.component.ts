@@ -239,6 +239,24 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
     });
   }
 
+  setMeasurePolynomialOrder(name: string, order: number) {
+    this.log.debug( name + ' set: ' + order );
+    this._isuFactors.repeatedMeasures.forEach( measure => {
+      if (measure.name === name) {
+        measure.polynomialOrder = order;
+      }
+    });
+  }
+
+  setPredictorPolynomialOrder(name: string, order: number) {
+    this.log.debug( name + ' set: ' + order );
+    this._isuFactors.predictors.forEach( predictor => {
+      if (predictor.name === name) {
+        predictor.polynomialOrder = order;
+      }
+    });
+  }
+
   setCustomPartialCMatrix(predictor: Predictor) {
     predictor.isuFactorNature = this.HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS;
     this._contrast_matrix_for = predictor.name;

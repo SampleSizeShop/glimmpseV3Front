@@ -98,6 +98,8 @@
       </div>
     </div>
     <div class="tab-pane fade show" [class.active]="isTabSelected('matrices')" id="matricestab">
+      <p *ngIf="orthonormalized">You have selected one or more unirep tests. We have orthonormalized your U
+        matrix so that the test theory is well defined.</p>
       <div [mathJaxExpr]="essence_design_matrix_tex" style="padding-top: 10px"></div>
       <div *ngIf="isFullBeta" [mathJaxExpr]="full_beta_tex" style="padding-top: 10px"></div>
       <div *ngIf="isHypothesisBeta" [mathJaxExpr]="hypothesis_beta_tex" style="padding-top: 10px"></div>

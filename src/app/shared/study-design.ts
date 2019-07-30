@@ -204,13 +204,18 @@ export class StudyDesign {
 
   get a() {
     let a = 1;
+    let predictors = this._isuFactors.predictorsInHypothesis;
+    if (this.define_full_beta) {
+      predictors = this._isuFactors.predictors;
+    }
     if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.USER_DEFINED_PARTIALS) {
-      this._isuFactors.predictors.forEach(predictor => {
+      predictors.forEach(predictor => {
         let n = 1;
         if (predictor.inHypothesis &&
-          (predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS
-        || predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL)) {
+          predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS) {
           n = predictor.valueNames.length - 1;
+        } else if (predictor.inHypothesis && predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL) {
+          n = predictor.polynomialOrder - 1;
         } else if (predictor.inHypothesis &&
           predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
           n = predictor.valueNames.length
@@ -221,17 +226,17 @@ export class StudyDesign {
         a = a * n
       });
     } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX
-    && this.isuFactors.predictorsInHypothesis.length > 0) {
+    && predictors.length > 0) {
       a = this._isuFactors.cMatrix.values.size()[0]
     } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_C_MATRIX
-    && this.isuFactors.predictorsInHypothesis.length === 0) {
-      a = 1
+    && predictors.length === 0) {
+      a = 1;
     } else if (this._isuFactors.cMatrix.type === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
-      this._isuFactors.predictors.forEach(predictor => {
+      predictors.forEach(predictor => {
           a = a * predictor.valueNames.length;
       });
     } else {
-      this._isuFactors.predictors.forEach(predictor => {
+      predictors.forEach(predictor => {
         if (predictor.inHypothesis) {a = a * (predictor.valueNames.length - 1);
         }
       });
@@ -241,8 +246,13 @@ export class StudyDesign {
 
   get b() {
     let b = this._isuFactors.outcomes.length;
+
+    let measures = this._isuFactors.repeatedMeasuresInHypothesis;
+    if (this.define_full_beta) {
+      measures = this._isuFactors.repeatedMeasures;
+    }
     if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.USER_DEFINED_PARTIALS) {
-      this._isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
+      measures.forEach(repeatedMeasure => {
         let n = 1;
         if (repeatedMeasure.inHypothesis &&
           repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS) {
@@ -252,7 +262,7 @@ export class StudyDesign {
           n = repeatedMeasure.valueNames.length
         } else if (repeatedMeasure.inHypothesis &&
           repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL) {
-          n = repeatedMeasure.valueNames.length - 1;
+          n = repeatedMeasure.polynomialOrder - 1;
         } else if (repeatedMeasure.inHypothesis &&
           repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX) {
           n = repeatedMeasure.partialMatrix.values.size()[1]
@@ -260,19 +270,19 @@ export class StudyDesign {
         b = b * n
       });
     } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX
-                && this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
+                && measures.length > 0) {
       b = this._isuFactors.uMatrix.values.size()[1];
     } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX
-                && this.isuFactors.repeatedMeasuresInHypothesis.length === 0) {
+                && measures.length === 0) {
       b = 1;
     } else if (this._isuFactors.uMatrix.type === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
-      this._isuFactors.repeatedMeasures.forEach(repeatedMeasure => {
+      measures.forEach(repeatedMeasure => {
         const n = repeatedMeasure.valueNames.length;
         b = b * n;
       });
     } else {
       const c = []
-      this.isuFactors.repeatedMeasures.forEach(measure => {
+      measures.forEach(measure => {
         if (measure.inHypothesis) {
           c.push(measure.partialUMatrix.values.size()[1]);
         }
@@ -380,6 +390,14 @@ export class StudyDesign {
 
     if (!isNullOrUndefined(this.gaussianCovariate) && !isNullOrUndefined(this.gaussianCovariate.corellations)) {
       const corellations = []
+      const input = []
+      this.isuFactors.outcomes.forEach( outcome => {
+        input.push(outcome);
+      });
+      this.isuFactors.repeatedMeasuresInHypothesis.forEach( measure => {
+        input.push(measure);
+      });
+      const a  = this.isuFactors.generateCombinations(input);
       this.isuFactors.outcomes.forEach(outcome => {
         if (!isNullOrUndefined(this.isuFactors.repeatedMeasures) && this.isuFactors.repeatedMeasuresInHypothesis.length > 0) {
           this.isuFactors.repeatedMeasuresInHypothesis.forEach(measure => {

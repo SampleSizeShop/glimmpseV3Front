@@ -217,11 +217,15 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
     });
     const index = names.indexOf(predictor.name);
     if (index !== -1) {
+      if (this.betweenIsuPredictors[index].polynomialOrder > this.betweenIsuPredictors[index].maxPolynomialOrder) {
+        this.betweenIsuPredictors[index].polynomialOrder = this.betweenIsuPredictors[index].maxPolynomialOrder;
+      }
       this.betweenIsuPredictors[index].name = this.predictorForm.value.predictorName;
       this.betweenIsuPredictors[index].type = this._type;
       this.betweenIsuPredictors[index].units = this.groupsForm.value.units;
       this.betweenIsuPredictors[index].valueNames = this.groups;
     } else {
+      predictor.polynomialOrder = predictor.maxPolynomialOrder;
       this.betweenIsuPredictors.push(predictor);
     }
     this.resetForms();
