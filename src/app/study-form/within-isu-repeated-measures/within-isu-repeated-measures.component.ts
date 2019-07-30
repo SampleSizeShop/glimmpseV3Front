@@ -290,9 +290,13 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       this._spacingValues.push(this._spacingForm.get(name.toString()).value.toString());
     }
     measure.valueNames = this._spacingValues;
+    if (measure.polynomialOrder > measure.maxPolynomialOrder) {
+      measure.polynomialOrder = measure.maxPolynomialOrder;
+    }
     measure.correlationMatrix = new CorrelationMatrix(measure.valueNames);
 
     if (index === -1) {
+      measure.polynomialOrder = measure.maxPolynomialOrder;
       this.repeatedMeasures.push(measure);
     }
 

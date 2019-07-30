@@ -139,6 +139,17 @@
             </div>
           </div>
         </div>
+        <div class="col  col-md-auto"
+             *ngIf="repMeasure.isuFactorNature === HYPOTHESIS_NATURE.POLYNOMIAL">
+          <div ngbDropdown class="h-25 d-inline-block">
+            <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownLevels" ngbDropdownToggle>{{repMeasure.getPolynomialOrderName(repMeasure.polynomialOrder)}}</button>
+            <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
+              <button *ngFor="let order of repMeasure.possibleOrders"
+                      class="h-25 dropdown-item" (click)="setPolynomialOrder(repMeasure.name, order)">
+                {{repMeasure.getPolynomialOrderName(order)}}</button>
+            </div>
+          </div>
+        </div>
         <div class="col  col-md-auto" *ngIf="repMeasure.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS">
           <div *ngIf="repMeasure.hasPartialMatrix()"
                [mathJaxExpr]="repMeasure.partialMatrix.toTeX()"></div>
