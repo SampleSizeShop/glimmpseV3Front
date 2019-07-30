@@ -15,6 +15,7 @@ export interface ISUFactorJSON {
   child: ISUFactor;
   inHypothesis: boolean;
   partialMatrix: PartialMatrix;
+  polynomialOrder: number;
 }
 
 /**
@@ -31,9 +32,10 @@ export class ISUFactor {
   child: ISUFactor;
   inHypothesis: boolean;
   partialMatrix?: PartialMatrix;
+  private _polynomialOrder?: number;
 
   static parseChild(json: ISUFactorJSON) {
-    if (!isNullOrUndefined(json.child)){
+    if (!isNullOrUndefined(json.child)) {
       ISUFactor.fromJSON(JSON.stringify(json.child))
     } else {
       return null;
@@ -211,5 +213,55 @@ export class ISUFactor {
       return true;
     }
     return false;
+  }
+
+  /**
+   * Function which returns the appropriate name for polynomial of a particular order**/
+  getPolynomialOrderName(order: number): String {
+    let name = 'linear';
+    if (order === 3) {
+      name = 'quadratic'
+    } else if (order === 4) {
+      name = 'cubic'
+    } else if (order === 5) {
+      name = 'quartic'
+    } else if (order === 6) {
+      name = 'quintic'
+    } else if (order === 7) {
+      name = 'sextic'
+    } else if (order === 8) {
+      name = 'septic'
+    } else if (order === 9) {
+      name = 'octic'
+    } else if (order === 10) {
+      name = 'nonic'
+    } else if (order === 11) {
+      name = 'decic'
+    }
+    if (order === this.maxPolynomialOrder) {
+      name = name + ' (saturated)'
+    }
+    return name;
+  }
+
+  get possibleOrders() {
+    const possibleOrders = Array<number>();
+    this.valueNames.forEach((name, i) => {
+      possibleOrders.push(i + 1);
+    });
+    possibleOrders.shift();
+    return possibleOrders
+  }
+
+  get polynomialOrder(): number {
+    return this._polynomialOrder;
+  }
+
+  set polynomialOrder(value: number) {
+    this._polynomialOrder = value;
+  }
+
+  get maxPolynomialOrder() {
+    return this.valueNames.length;
   }
 }

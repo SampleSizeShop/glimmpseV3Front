@@ -153,6 +153,17 @@
           </div>
         </div>
         <div class="col  col-md-auto"
+             *ngIf="predictor.isuFactorNature === HYPOTHESIS_NATURE.POLYNOMIAL">
+          <div ngbDropdown class="h-25 d-inline-block">
+            <button class="h-25 btn btn-secondary dropdown-toggle" id="dropdownLevels" ngbDropdownToggle>{{predictor.getPolynomialOrderName(predictor.polynomialOrder)}}</button>
+            <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
+              <button *ngFor="let order of predictor.possibleOrders"
+                      class="h-25 dropdown-item" (click)="setPolynomialOrder(predictor.name, order)">
+              {{predictor.getPolynomialOrderName(order)}}</button>
+            </div>
+          </div>
+        </div>
+        <div class="col  col-md-auto"
              *ngIf="predictor.isuFactorNature === HYPOTHESIS_NATURE.USER_DEFINED_PARTIALS && predictor.hasPartialMatrix()"
              [mathJaxExpr]="predictor.partialMatrix.toTeX()">
         </div>
