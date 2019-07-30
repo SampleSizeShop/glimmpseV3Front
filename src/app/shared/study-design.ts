@@ -212,9 +212,10 @@ export class StudyDesign {
       predictors.forEach(predictor => {
         let n = 1;
         if (predictor.inHypothesis &&
-          (predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS
-        || predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL)) {
+          predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.GLOBAL_TRENDS) {
           n = predictor.valueNames.length - 1;
+        } else if (predictor.inHypothesis && predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL) {
+          n = predictor.polynomialOrder - 1;
         } else if (predictor.inHypothesis &&
           predictor.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.IDENTITY) {
           n = predictor.valueNames.length
@@ -261,7 +262,7 @@ export class StudyDesign {
           n = repeatedMeasure.valueNames.length
         } else if (repeatedMeasure.inHypothesis &&
           repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL) {
-          n = repeatedMeasure.valueNames.length - 1;
+          n = repeatedMeasure.polynomialOrder - 1;
         } else if (repeatedMeasure.inHypothesis &&
           repeatedMeasure.isuFactorNature === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX) {
           n = repeatedMeasure.partialMatrix.values.size()[1]
