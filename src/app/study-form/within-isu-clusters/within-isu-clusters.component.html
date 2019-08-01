@@ -144,7 +144,7 @@
               <b>N</b> {{elementForm.get('name').value}} in study
             </td>
             <td class="col col-md-auto">
-              stuff
+              <i class="material-icons" (click)="editISU()" style="margin-bottom: 5px" id="editISU">edit</i>
             </td>
           </tr>
           <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i+1)">
@@ -158,6 +158,7 @@
               {{levelDescription(level)}}
             </td>
             <td class="col col-md-auto">
+              <i class="material-icons" (click)="editLevel(level)" style="margin-bottom: 5px" id="removeLevel">edit</i>
               <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">delete_forever</i>
             </td>
           </tr>

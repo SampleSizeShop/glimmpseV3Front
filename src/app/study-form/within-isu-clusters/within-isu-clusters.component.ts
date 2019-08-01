@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   DoCheck,
   OnDestroy,
@@ -49,6 +48,8 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   private _afterInit: boolean;
   private _isuAdded: boolean;
   private _levelAdded: boolean;
+  private _editingLevel: boolean;
+  private _editingLevelName: string;
 
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
@@ -59,8 +60,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
               private study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
-              private log: NGXLogger,
-              private changeDetector: ChangeDetectorRef) {
+              private log: NGXLogger) {
 
     this._validationMessages = constants.CLUSTERS_FORM_VALIDATION_MESSAGES;
     this._formErrors = constants.CLUSTERS_FORM_ERRORS;
@@ -82,6 +82,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     });
     this._isuAdded = false;
     this._levelAdded = false;
+    this._editingLevel = false;
   }
 
   buildForm() {
@@ -90,7 +91,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     });
     this._elementForm.valueChanges.subscribe(data => this.onValueChangedElementForm(data));
     this._clusterLevelForm = this._fb.group({
-      levelName: ['', clusterValidator(this.levels)],
+      levelName: ['', clusterValidator(this.elementForm.controls['name'].value, this.levels, this._editingLevel)],
       noElements: [2, minMaxValidator(2, 10000)]
     });
     this._clusterLevelForm.valueChanges.subscribe(data => this.onValueChangedClusterLevelForm(data));
@@ -209,15 +210,28 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this._levelAdded = true;
     // dynamically add required validator and update control then form validity.
     // this prevents the user being shown that the form is invalid before they have tried to submit it.
-    this.clusterLevelForm.controls['levelName'].setValidators([clusterValidator(this.levels), Validators.required]);
+    this.clusterLevelForm.controls['levelName'].setValidators([clusterValidator(this.elementForm.controls['name'].value,
+      this.levels, this._editingLevel), Validators.required]);
     this.clusterLevelForm.controls['levelName'].updateValueAndValidity();
     this.clusterLevelForm.updateValueAndValidity();
     const level = new ClusterLevel();
     level.levelName = this.clusterLevelForm.value.levelName;
     level.noElements = this.clusterLevelForm.value.noElements;
     if (this.clusterLevelForm.valid && level.levelName && level.noElements) {
-      this.levels.push(level);
-      this.clusterLevelForm.controls['levelName'].setValidators([clusterValidator(this.levels)]);
+      if (this._editingLevel) {
+        this.levels.forEach(l => {
+          if (this._editingLevelName === l.levelName) {
+            l.levelName = level.levelName;
+            l.noElements = level.noElements;
+          }
+          this._editingLevel = false
+        })
+      } else {
+        this.levels.push(level);
+      }
+      this.clusterLevelForm.controls['levelName'].setValidators([
+        clusterValidator(this.elementForm.controls['name'].value, this.levels, this._editingLevel)
+      ]);
       this._levelAdded = false;
       this.clusterLevelForm.reset();
     }
@@ -257,6 +271,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   setStage(next: number) {
     this._stage = next;
     if (this.isInfo()) {
+      this._editingLevel = false;
       this.navigation_service.updateInternalFormSource(false);
       this.navigation_service.updateValid(true);
     } else {
@@ -271,6 +286,19 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
         this._levels.splice(index, 1);
       }
     });
+  }
+
+  editISU() {
+    this._editingLevel = false;
+    this.includeClusters();
+  }
+
+  editLevel(level: ClusterLevel) {
+    this.setStage(this.stages.LEVELS);
+    this._editingLevel = true;
+    this._editingLevelName = level.levelName;
+    this.clusterLevelForm.controls['levelName'].setValue(level.levelName);
+    this.clusterLevelForm.controls['noElements'].setValue(level.noElements);
   }
 
   startTransition(event) {
