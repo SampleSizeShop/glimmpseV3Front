@@ -240,20 +240,20 @@ export const constants = {
   MAX_LEVELS: 10,
   MAX_ELEMENTS: 10,
   CLUSTERS_FORM_ERRORS: {
-    'cluster': 'Value needs to be filled in.',
-    'clusterlevelname': 'Value needs to be filled in.',
+    'cluster': 'ISU name is required.',
+    'clusterlevelname': 'Each level of clustering must have a name.',
     'elementnumber': 'Value too low.',
-    'clusterlevelrequired': 'Need to specify at least one cluster level.'
+    'clusterlevelrequired': 'You must to specify at least one level of clustering.'
   },
   CLUSTERS_FORM_VALIDATION_MESSAGES: {
     'cluster': {
-      'required': 'Value needs to be filled in.'
+      'required': 'ISU name is required.'
     },
     'outcomes': {
       'duplicate': 'You have already added that outcome.'
     },
     'clusterlevelname': {
-      'required': 'Value needs to be filled in.',
+      'required': 'Each level of clustering must have a name.',
       'duplicate': 'You have already added that cluster.'
     },
     'elementnumber': {
