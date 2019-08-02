@@ -141,7 +141,7 @@
               {{elementForm.get('name').value}}
             </td>
             <td class="col col-md-auto">
-              <b>N</b> {{elementForm.get('name').value}} in study
+              <b>N</b> {{elementForm.get('name').value}}(s) in study
             </td>
             <td class="col col-md-auto">
               <i class="material-icons" (click)="editISU()" style="margin-bottom: 5px" id="editISU">edit</i>
@@ -210,7 +210,7 @@
               {{elementForm.get('name').value}}
             </td>
             <td class="col col-md-auto">
-              <b>N</b> {{elementForm.get('name').value}} in study
+              <b>N</b> {{elementForm.get('name').value}}(s) in study
             </td>
           </tr>
           <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i+1)">

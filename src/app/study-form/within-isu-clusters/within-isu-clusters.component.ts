@@ -210,9 +210,14 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this._levelAdded = true;
     // dynamically add required validator and update control then form validity.
     // this prevents the user being shown that the form is invalid before they have tried to submit it.
-    this.clusterLevelForm.controls['levelName'].setValidators([clusterValidator(this.elementForm.controls['name'].value,
+    this.clusterLevelForm.controls['levelName'].setValidators([
+      clusterValidator(this.elementForm.controls['name'].value,
       this.levels, this._editingLevel), Validators.required]);
     this.clusterLevelForm.controls['levelName'].updateValueAndValidity();
+    this.clusterLevelForm.controls['noElements'].setValidators([
+      minMaxValidator(2, 10000),  Validators.required
+    ]);
+    this.clusterLevelForm.controls['noElements'].updateValueAndValidity();
     this.clusterLevelForm.updateValueAndValidity();
     const level = new ClusterLevel();
     level.levelName = this.clusterLevelForm.value.levelName;
@@ -232,6 +237,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
       this.clusterLevelForm.controls['levelName'].setValidators([
         clusterValidator(this.elementForm.controls['name'].value, this.levels, this._editingLevel)
       ]);
+      this.clusterLevelForm.controls['noElements'].setValidators([minMaxValidator(2, 10000)]);
       this._levelAdded = false;
       this.clusterLevelForm.reset();
     }
@@ -465,7 +471,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   levelDescription(level) {
-    let desc = level.noElements + ' ' + level.levelName + ' in each ';
+    let desc = level.noElements + ' ' + level.levelName + '(s) in each ';
     const idx = this.levels.indexOf(level);
     if (idx === 0) {
       desc = desc + this.elementForm.get('name').value;
