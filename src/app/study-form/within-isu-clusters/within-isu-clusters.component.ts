@@ -1,6 +1,12 @@
-import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {
+  Component,
+  DoCheck,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {Cluster} from '../../shared/Cluster';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StudyService} from '../study.service';
 import {NavigationService} from '../../shared/navigation.service';
 import {constants} from '../../shared/constants';
@@ -12,7 +18,7 @@ import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
 import {NGXLogger} from 'ngx-logger';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
 
 @Component({
   selector: 'app-within-isu-clusters',
@@ -40,6 +46,10 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   @ViewChild('helpText') helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
+  private _isuAdded: boolean;
+  private _levelAdded: boolean;
+  private _editingLevel: boolean;
+  private _editingLevelName: string;
 
   @ViewChild('canDeactivate') canDeactivateModal;
   private modalReference: any;
@@ -70,6 +80,9 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
+    this._isuAdded = false;
+    this._levelAdded = false;
+    this._editingLevel = false;
   }
 
   buildForm() {
@@ -78,9 +91,9 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     });
     this._elementForm.valueChanges.subscribe(data => this.onValueChangedElementForm(data));
     this._clusterLevelForm = this._fb.group({
-      levelName: ['', clusterValidator(this.levels)],
-      noElements: [0, minMaxValidator(2, 10000)]
-    })
+      levelName: ['', clusterValidator(this.elementForm.controls['name'].value, this.levels, this._editingLevel)],
+      noElements: [2, minMaxValidator(2, 10000)]
+    });
     this._clusterLevelForm.valueChanges.subscribe(data => this.onValueChangedClusterLevelForm(data));
     this.initClusterLevelFormValidMessage();
     if (!isNullOrUndefined(this._cluster)) {
@@ -95,12 +108,20 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck() {
+    if (this._stage === this._stages.ELEMENT_NAME) {
+      if (this.isuAdded && (isNullOrUndefined(this.elementForm.get('name').value)
+        || this.elementForm.get('name').value === '') ) {
+        this._formErrors.required = 'ISU name is required.'
+      } else {
+        this._formErrors.required = null
+      }
+    }
     if (this._stage === this._stages.LEVELS) {
       if (this._levels && this.levels.length > 0) {
         this._formErrors.clusterlevelrequired = ''
         this._validLevels = true;
       } else {
-        this._formErrors.clusterlevelrequired = 'Need to specify at least one cluster level.'
+        this._formErrors.clusterlevelrequired = 'You must to specify at least level one of clustering.'
         this._validLevels = false;
       }
     }
@@ -113,7 +134,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   onValueChangedElementForm(data?: any) {
-    if (!this.elementForm) {
+    if (!this.elementForm || !this._isuAdded) {
       return;
     }
     const form = this.elementForm;
@@ -121,8 +142,8 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this._formErrors['cluster'] = '';
     for (const field of Object.keys(form.value)) {
       const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
-        const messages = this._validationMessages['cluster'];
+      const messages = this._validationMessages['cluster'];
+      if (!isNullOrUndefined(control.errors)) {
         for (const key of Object.keys(control.errors)) {
           this._formErrors['cluster'] = messages[key];
         }
@@ -136,20 +157,20 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     }
     const form = this.clusterLevelForm;
     let control = form.get('levelName');
-    if (control.dirty) {
-      this._formErrors['clusterlevelname'] = '';
-      if (control && control.dirty && !control.valid) {
-        const messages = this.validationMessages['clusterlevelname'];
+    this._formErrors['clusterlevelname'] = '';
+    if (control && !control.valid) {
+      const messages = this.validationMessages['clusterlevelname'];
+      if (!isNullOrUndefined(control.errors)) {
         for (const key of Object.keys(control.errors)) {
           this._formErrors['clusterlevelname'] = messages[key];
         }
       }
     }
     control = form.get('noElements');
-    if (control.dirty) {
-      this._formErrors['elementnumber'] = '';
-      if (control && control.dirty && !control.valid) {
-        const messages = this._validationMessages['elementnumber'];
+    this._formErrors['elementnumber'] = '';
+    if (control && !control.valid) {
+      const messages = this._validationMessages['elementnumber'];
+      if (!isNullOrUndefined(control.errors)) {
         for (const key of Object.keys(control.errors) ) {
           this._formErrors['elementnumber'] += messages[key];
         }
@@ -158,7 +179,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   initClusterLevelFormValidMessage() {
-    this._formErrors.clusterlevelname = 'Value needs to be filled in.';
     this._formErrors.elementnumber = 'Value too low.';
   }
 
@@ -187,12 +207,52 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   addLevel() {
+    this._levelAdded = true;
+    // dynamically add required validator and update control then form validity.
+    // this prevents the user being shown that the form is invalid before they have tried to submit it.
+    this.clusterLevelForm.controls['levelName'].setValidators([
+      clusterValidator(this.elementForm.controls['name'].value,
+      this.levels, this._editingLevel), Validators.required]);
+    this.clusterLevelForm.controls['levelName'].updateValueAndValidity();
+    this.clusterLevelForm.controls['noElements'].setValidators([
+      minMaxValidator(2, 10000),  Validators.required
+    ]);
+    this.clusterLevelForm.controls['noElements'].updateValueAndValidity();
+    this.clusterLevelForm.updateValueAndValidity();
     const level = new ClusterLevel();
     level.levelName = this.clusterLevelForm.value.levelName;
     level.noElements = this.clusterLevelForm.value.noElements;
-    if (level.levelName && level.noElements) {
-      this.levels.push(level);
+    if (this.clusterLevelForm.valid && level.levelName && level.noElements) {
+      if (this._editingLevel) {
+        this.levels.forEach(l => {
+          if (this._editingLevelName === l.levelName) {
+            l.levelName = level.levelName;
+            l.noElements = level.noElements;
+          }
+          this._editingLevel = false
+        })
+      } else {
+        this.levels.push(level);
+      }
+      this.clusterLevelForm.controls['levelName'].setValidators([
+        clusterValidator(this.elementForm.controls['name'].value, this.levels, this._editingLevel)
+      ]);
+      this.clusterLevelForm.controls['noElements'].setValidators([minMaxValidator(2, 10000)]);
+      this._levelAdded = false;
       this.clusterLevelForm.reset();
+    }
+  }
+
+  addISU() {
+    this._isuAdded = true;
+    // dynamically add required validator and update control then form validity.
+    // this prevents the user being shown that the form is invalid before they have tried to submit it.
+    this.elementForm.controls['name'].setValidators([Validators.required]);
+    this.elementForm.get('name').updateValueAndValidity();
+    this.elementForm.updateValueAndValidity();
+    this.onValueChangedElementForm();
+    if (this.elementForm.valid && this._isuAdded) {
+      this.setStage(this.stages.LEVELS);
     }
   }
 
@@ -217,6 +277,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   setStage(next: number) {
     this._stage = next;
     if (this.isInfo()) {
+      this._editingLevel = false;
       this.navigation_service.updateInternalFormSource(false);
       this.navigation_service.updateValid(true);
     } else {
@@ -231,6 +292,19 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
         this._levels.splice(index, 1);
       }
     });
+  }
+
+  editISU() {
+    this._editingLevel = false;
+    this.includeClusters();
+  }
+
+  editLevel(level: ClusterLevel) {
+    this.setStage(this.stages.LEVELS);
+    this._editingLevel = true;
+    this._editingLevelName = level.levelName;
+    this.clusterLevelForm.controls['levelName'].setValue(level.levelName);
+    this.clusterLevelForm.controls['noElements'].setValue(level.noElements);
   }
 
   startTransition(event) {
@@ -396,6 +470,17 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     return pos;
   }
 
+  levelDescription(level) {
+    let desc = level.noElements + ' ' + level.levelName + '(s) in each ';
+    const idx = this.levels.indexOf(level);
+    if (idx === 0) {
+      desc = desc + this.elementForm.get('name').value;
+    } else {
+      desc = desc + this.levels[idx - 1].levelName
+    }
+    return desc;
+  }
+
   get graphData() {
 
     // return this.data4;
@@ -452,5 +537,13 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   get validLevels() {
     return this._validLevels;
+  }
+
+  get isuAdded(): boolean {
+    return this._isuAdded;
+  }
+
+  get levelAdded(): boolean {
+    return this._levelAdded;
   }
 }

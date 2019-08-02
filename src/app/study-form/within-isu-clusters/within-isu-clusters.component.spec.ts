@@ -97,6 +97,7 @@ describe('WithinIsuClustersComponent', () => {
     component.elementForm.get('name').setValue('Name')
     component.setStage(component.stages.LEVELS);
     component.clusterLevelForm.get('levelName').setValue('levelName');
+    component.clusterLevelForm.get('noElements').setValue('');
     component.addLevel();
     fixture.detectChanges();
     expect(component.levels.length).toBe(0);
@@ -106,9 +107,9 @@ describe('WithinIsuClustersComponent', () => {
     component.includeClusters();
     component.elementForm.get('name').setValue('Name')
     fixture.detectChanges();
-    component.setStage(component.stages.LEVELS);
+    component.addISU();
     component.clusterLevelForm.get('levelName').setValue('levelName');
-    component.clusterLevelForm.get('noElements').setValue(1);
+    component.clusterLevelForm.get('noElements').setValue(2);
     component.addLevel();
     component.addCluster();
     fixture.detectChanges();
@@ -118,6 +119,6 @@ describe('WithinIsuClustersComponent', () => {
 
     const level = component.cluster.levels.pop();
     expect(level.levelName).toBe('levelName')
-    expect(level.noElements).toBe(1)
+    expect(level.noElements).toBe(2)
   });
 });
