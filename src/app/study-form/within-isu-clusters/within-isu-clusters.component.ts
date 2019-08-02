@@ -121,7 +121,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
         this._formErrors.clusterlevelrequired = ''
         this._validLevels = true;
       } else {
-        this._formErrors.clusterlevelrequired = 'Need to specify at least level of clustering.'
+        this._formErrors.clusterlevelrequired = 'You must to specify at least level one of clustering.'
         this._validLevels = false;
       }
     }

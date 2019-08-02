@@ -242,7 +242,7 @@ export const constants = {
   CLUSTERS_FORM_ERRORS: {
     'cluster': 'ISU name is required.',
     'clusterlevelname': 'Each level of clustering must have a name.',
-    'elementnumber': 'Value too low.',
+    'elementnumber': 'You must have between 2 and 10000 elements in each level.',
     'clusterlevelrequired': 'You must to specify at least one level of clustering.'
   },
   CLUSTERS_FORM_VALIDATION_MESSAGES: {
@@ -257,9 +257,9 @@ export const constants = {
       'duplicate': 'You have already added that cluster.'
     },
     'elementnumber': {
-      'minval': 'Value too low.',
-      'maxval': 'Value too high',
-      'required': 'Value needs to be filled in.'
+      'minval': 'You must have between 2 and 10000 elements in each level.',
+      'maxval': 'You must have between 2 and 10000 elements in each level.',
+      'required': 'You must specify a number of elements in each clustering level.'
     }
   },
   CLUSTER_STAGES: {
