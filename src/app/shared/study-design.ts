@@ -109,8 +109,11 @@ export class StudyDesign {
   }
 
   _getRelativeGroupSizeTableIds() {
+    let factors = this.isuFactors.predictorsInHypothesis;
+    if (this.define_full_beta) {
+      factors = this.isuFactors.predictors;
+    }
     let tableIds = [null];
-    const factors = this.isuFactors.predictors;
     factors.shift();
     factors.shift();
     if (factors.length > 0) {
@@ -138,11 +141,15 @@ export class StudyDesign {
 
   generateGroupSizeTables() {
     const tables = Array<RelativeGroupSizeTable>();
-    if (this.isuFactors.predictors.length > 0) {
+    let factors = this.isuFactors.predictorsInHypothesis;
+    if (this.define_full_beta) {
+      factors = this.isuFactors.predictors;
+    }
+    if (factors.length > 0) {
       const tableIds = this._getRelativeGroupSizeTableIds();
       tableIds.forEach( tableId => {
         const table = new RelativeGroupSizeTable(tableId);
-        table.populateTable(this.isuFactors.generateCombinations(this.isuFactors.predictors));
+        table.populateTable(this.isuFactors.generateCombinations(factors));
         let pushed = false;
         this.isuFactors.betweenIsuRelativeGroupSizes.forEach( existingTable => {
           if (existingTable.compareSizeAndDimensions(table)) {
@@ -305,7 +312,11 @@ export class StudyDesign {
     if (!isNullOrUndefined(this.isuFactors.predictors) &&
       this.isuFactors.predictors.length > 0) {
         const groups = this.relativeGroupSizes;
-        const combinations = this.isuFactors.generateCombinations(this.isuFactors.predictors);
+        let factors = this.isuFactors.predictorsInHypothesis;
+        if (this.define_full_beta) {
+          factors = this.isuFactors.predictors
+        }
+        const combinations = this.isuFactors.generateCombinations(factors);
         if (groups.length !== combinations.length) {
           this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables();
         }
