@@ -273,7 +273,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   get displayName() {
     let name = '';
     if (!isNullOrUndefined(this.table) && !isNullOrUndefined(this.table.tableId)) {
-      name = this.table.tableId.name;
+      name = this.table.tableId.name + ',';
     }
     return name;
   }
