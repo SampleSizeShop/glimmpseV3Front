@@ -169,15 +169,10 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.parameters.push(currentIndex + 1);
           next = this.stages.BETWEEN_ISU_GROUPS;
         } else {
-          next = this.stages.GAUSSIAN_COVARIATE;
+          next = this.stages.PARAMETERS_MARGINAL_MEANS;
+          this.parameters = [];
+          this.parameters.push(0);
         }
-      } else if (
-      current === this.stages.HYPOTHESIS_THETA_0
-      && !isNullOrUndefined(this.study.isuFactors.outcomes)
-      && this.study.isuFactors.outcomes.length > 0) {
-        next = this.stages.PARAMETERS_MARGINAL_MEANS;
-        this.parameters = [];
-        this.parameters.push(0);
       } else if (
         current === this.stages.PARAMETERS_MARGINAL_MEANS
         && !isNullOrUndefined(this.study.isuFactors.outcomes)
@@ -257,8 +252,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     }
     if (current > 0) {
       if (current === this.stages.BETWEEN_ISU_GROUPS
-        && (isNullOrUndefined(this.study.isuFactors)
-          || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
+          && this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0) {
         const currentIndex = this.parameters.pop();
         const previousIndex = currentIndex - 1;
         if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
@@ -268,22 +262,11 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.parameters = []
           previous = this.stages.BETWEEN_ISU_SMALLEST_GROUP;
         }
-      } else if (current === this.stages.GAUSSIAN_COVARIATE
-        && (isNullOrUndefined(this.study.isuFactors)
-        || this.study.isuFactors.betweenIsuRelativeGroupSizes.length === 0)) {
-        previous = this.stages.BETWEEN_ISU_SMALLEST_GROUP;
-      } else if  (current === this.stages.GAUSSIAN_COVARIATE
-        && (isNullOrUndefined(this.study.isuFactors)
-        || this.study.isuFactors.betweenIsuRelativeGroupSizes.length > 0)) {
-        const currentIndex = this.study.isuFactors.betweenIsuRelativeGroupSizes.length - 1;
-        this.parameters = [];
-        this.parameters .push(currentIndex);
-        previous = this.stages.BETWEEN_ISU_GROUPS;
       } else if (
         current === this.stages.PARAMETERS_MARGINAL_MEANS
         && !isNullOrUndefined(this.study.isuFactors.outcomes)
         && this.study.isuFactors.outcomes.length > 0) {
-        const currentIndex = this.parameters.pop();
+        let currentIndex = this.parameters.pop();
         const previousIndex = currentIndex - 1;
         this.parameters = [];
         if (!isNullOrUndefined(previousIndex) && previousIndex >= 0) {
@@ -291,7 +274,10 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
           this.parameters.push(previousIndex);
           previous = this.stages.PARAMETERS_MARGINAL_MEANS;
         } else {
-          previous = this.stages.HYPOTHESIS_THETA_0;
+          currentIndex = this.study.isuFactors.betweenIsuRelativeGroupSizes.length - 1;
+          this.parameters = [];
+          this.parameters.push(currentIndex);
+          previous = this.stages.BETWEEN_ISU_GROUPS;
         }
       } else if (current === this.stages.PARAMETERS_SCALE_FACTOR
         && !isNullOrUndefined(this.study.isuFactors.outcomes)

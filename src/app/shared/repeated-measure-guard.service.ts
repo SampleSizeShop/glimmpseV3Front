@@ -27,7 +27,10 @@ export class RepeatedMeasureGuard implements CanActivate {
     if (
       !isNullOrUndefined(this.isuFactors)
       && !isNullOrUndefined(this.isuFactors.repeatedMeasures)
-      && (this.isuFactors.repeatedMeasuresInHypothesis.length > 0 || this.fullBeta)
+      && (
+        this.isuFactors.repeatedMeasuresInHypothesis.length > 0
+      || (this.fullBeta && this.isuFactors.repeatedMeasures.length > 0)
+      )
     ) {
       return true;
     } else {

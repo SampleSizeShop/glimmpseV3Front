@@ -239,6 +239,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
       ]);
       this.clusterLevelForm.controls['noElements'].setValidators([minMaxValidator(2, 10000)]);
       this._levelAdded = false;
+      this._editingLevel = false;
       this.clusterLevelForm.reset();
     }
   }

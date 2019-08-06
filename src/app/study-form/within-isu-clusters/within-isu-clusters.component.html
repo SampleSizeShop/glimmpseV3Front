@@ -26,7 +26,8 @@
     <div *ngIf="isElementName()">
       <div class="row">
         <div class="col" id="clustersheader">
-          <h6>What term would you like to use for an independent sampling unit in the study? (For example, school.)</h6>
+          <p>What term would you like to use for the independent sampling unit in the study? (For example, school.)</p>
+          <p>All levels of clustering are nested within the independent sampling unit.</p>
         </div>
       </div>
       <div class="row">
@@ -53,7 +54,7 @@
     <form [formGroup]="clusterLevelForm" id="clusterLevelForm" *ngIf="isLevels()">
       <div class="row">
         <div class="col">
-          <h6>Name each level in the cluster and the number of elements in that level (e.g. level 1: class, level 2: student):</h6>
+          <p>Name each level of clustering within the independent sampling unit (ISU), and specify the number of elements each level (e.g. level 1 class has 5 members; level 2 student has 22 members):</p>
         </div>
       </div>
       <div class="row">

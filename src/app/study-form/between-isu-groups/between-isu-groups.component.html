@@ -19,7 +19,7 @@
         <tbody class="matrix-input-brackets">
         <tr *ngFor="let row of table.table;">
           <td *ngFor="let col of row;">
-            <div matTooltip="{{table.getCellLabel(col)}}"
+            <div matTooltip="{{displayName + ' ' + table.getCellLabel(col)}}"
                  [matTooltipPosition]="left">
               <input type="number"
                      class="matrix-input-control"
