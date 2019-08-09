@@ -13,6 +13,7 @@ import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/index';
 import {DomSanitizer} from '@angular/platform-browser';
+import {MatIconRegistry} from '@angular/material';
 
 
 @Component({
@@ -100,13 +101,43 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     private navigation_service: NavigationService,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
   ) {
     this._isInternal = false;
+    this.setupProgressIcons();
     this.study = new StudyDesign();
     this.subscribeToStudyService();
     this.subscribeToNavigationService();
     this.setupRouting();
+  }
+
+  private setupProgressIcons() {
+    this.matIconRegistry.addSvgIcon(
+      `aperture_0`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_0.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      `aperture_1`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_1.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      `aperture_2`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_2.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      `aperture_3`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_3.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      `aperture_4`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_4.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      `aperture_5`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_5.svg')
+    );
   }
 
   private setupRouting() {
