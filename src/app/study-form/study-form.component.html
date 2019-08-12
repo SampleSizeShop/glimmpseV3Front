@@ -7,8 +7,23 @@
       </h6>
     </div>
     <div class="col-4"></div>
-    <div class="col-1 col-md-auto">
-      <mat-icon svgIcon="aperture_0"></mat-icon>
+    <div *ngIf="getStage() < 9" class="col-1 col-md-auto">
+      <mat-icon svgIcon="aperture_0" (click)="toggleHelpText()"></mat-icon>
+    </div>
+    <div *ngIf="getStage() > 8 && getStage() < 13" class="col-1 col-md-auto">
+      <mat-icon svgIcon="aperture_1" (click)="toggleHelpText()"></mat-icon>
+    </div>
+    <div *ngIf="getStage() > 12 && getStage() < 16" class="col-1 col-md-auto">
+      <mat-icon svgIcon="aperture_2" (click)="toggleHelpText()"></mat-icon>
+    </div>
+    <div *ngIf="getStage() > 15 && getStage() < 27" class="col-1 col-md-auto">
+      <mat-icon svgIcon="aperture_3" (click)="toggleHelpText()"></mat-icon>
+    </div>
+    <div *ngIf="getStage() === 27" class="col-1 col-md-auto">
+      <mat-icon svgIcon="aperture_4" (click)="toggleHelpText()"></mat-icon>
+    </div>
+    <div *ngIf="getStage() === 28" class="col-1 col-md-auto">
+      <mat-icon svgIcon="aperture_5" (click)="toggleHelpText()"></mat-icon>
     </div>
     <div class="col-1 col-md-auto">
       <mat-icon (click)="toggleHelpText()">info_outline</mat-icon>

@@ -13,9 +13,7 @@ import {Predictor} from '../shared/Predictor';
 import {ISUFactors} from '../shared/ISUFactors';
 import {PowerCurve} from '../shared/PowerCurve';
 import {StudyDesign} from '../shared/study-design';
-import {Router} from '@angular/router';
-import enumerate = Reflect.enumerate;
-import {ConfidenceInterval} from "../shared/ConfidenceInterval";
+import {ConfidenceInterval} from '../shared/ConfidenceInterval';
 
 @Injectable()
 export class StudyService {
