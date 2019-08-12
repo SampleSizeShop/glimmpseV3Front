@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
@@ -14,6 +14,7 @@ import {map, pairwise, share, startWith} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/index';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 
 @Component({
@@ -81,6 +82,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   private _isInternal: boolean;
 
+  @ViewChild('status') statusModal;
+  private statusModalReference: any;
+
 
   afuConfig3 = {
     theme: 'dragNDrop',
@@ -103,7 +107,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     private ref: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
     private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private modalService: NgbModal
   ) {
     this._isInternal = false;
     this.setupProgressIcons();
@@ -111,6 +116,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.subscribeToStudyService();
     this.subscribeToNavigationService();
     this.setupRouting();
+  }
+
+  showStatus() {
+    this.modalService.open(this.statusModal);
+  }
+
+  dismissStatus() {
+    this.modalService.dismissAll();
   }
 
   private setupProgressIcons() {
