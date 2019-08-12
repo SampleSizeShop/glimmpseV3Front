@@ -58,6 +58,7 @@ import {ZoomableDirective} from './d3/directives/zoomable.directive';
 import {CollapsibleTreeComponent} from './d3/visuals/collapsible-tree/collapsible-tree.component';
 import {D3Service} from './d3/d3.service';
 import {HypothesisMixedComponent} from './study-form/hypothesis-mixed/hypothesis-mixed.component';
+import { StatusComponent } from './study-form/status/status.component';
 
 
 @NgModule({
@@ -104,6 +105,7 @@ import {HypothesisMixedComponent} from './study-form/hypothesis-mixed/hypothesis
     NodeVisualComponent,
     ZoomableDirective,
     CollapsibleTreeComponent,
+    StatusComponent,
   ],
   imports: [
     NgbModule.forRoot(),
