@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ParametersGaussianCovariateVarianceComponent } from './parameters-gaussian-covariate-variance.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClient} from '@angular/common/http';
 import {StudyService} from '../study.service';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';

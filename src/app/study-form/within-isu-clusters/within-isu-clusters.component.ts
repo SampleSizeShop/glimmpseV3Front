@@ -5,15 +5,15 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {Cluster} from '../../shared/Cluster';
+import {Cluster} from '../../shared/model/Cluster';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StudyService} from '../study.service';
-import {NavigationService} from '../../shared/navigation.service';
-import {constants} from '../../shared/constants';
+import {NavigationService} from '../../shared/services/navigation.service';
+import {constants} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
-import {minMaxValidator} from '../../shared/minmax.validator';
+import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {clusterValidator} from './cluster.validator';
-import {ClusterLevel} from '../../shared/ClusterLevel';
+import {ClusterLevel} from '../../shared/model/ClusterLevel';
 import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';

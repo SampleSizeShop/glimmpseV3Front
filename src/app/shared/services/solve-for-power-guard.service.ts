@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {StudyService} from '../study-form/study.service';
+import {StudyService} from '../../study-form/study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
-import {constants} from './constants';
+import {constants} from '../model/constants';
 
 /**
  * SolveForPower guard allows access to a route if and only if the currently loaded StudyDesign is solving for power.

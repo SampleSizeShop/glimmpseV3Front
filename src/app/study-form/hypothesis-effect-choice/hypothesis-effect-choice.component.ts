@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ISUFactor} from '../../shared/ISUFactor';
-import {HypothesisEffect} from '../../shared/HypothesisEffect';
+import {ISUFactor} from '../../shared/model/ISUFactor';
+import {HypothesisEffect} from '../../shared/model/HypothesisEffect';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
-import {constants} from '../../shared/constants';
+import {constants} from '../../shared/model/constants';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 
 @Component({

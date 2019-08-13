@@ -1,14 +1,14 @@
 import {Component, DoCheck, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import {ISUFactors} from '../../shared/ISUFactors';
+import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Subscription, Observable, of} from 'rxjs';
 import {StudyService} from '../study.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
-import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
+import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 import {switchMap} from 'rxjs/operators';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 
 @Component({

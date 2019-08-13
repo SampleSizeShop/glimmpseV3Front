@@ -7,8 +7,8 @@ import {ActivatedRoute} from '@angular/router';
 import {StudyService} from '../study.service';
 import {HttpClient} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
-import {constants} from '../../shared/constants';
-import {NavigationService} from '../../shared/navigation.service';
+import {constants} from '../../shared/model/constants';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 
 describe('HypothesisTheta0Component', () => {

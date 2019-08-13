@@ -1,12 +1,12 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ISUFactors} from '../../shared/ISUFactors';
+import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {constants} from '../../shared/constants';
-import {minMaxValidator} from '../../shared/minmax.validator';
+import {constants} from '../../shared/model/constants';
+import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 
 @Component({

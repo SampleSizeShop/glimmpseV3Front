@@ -1,18 +1,18 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {StudyDesign} from '../../shared/study-design';
+import {StudyDesign} from '../../shared/model/study-design';
 import {isNullOrUndefined} from 'util';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Cluster} from '../../shared/Cluster';
-import {Predictor} from '../../shared/Predictor';
+import {Cluster} from '../../shared/model/Cluster';
+import {Predictor} from '../../shared/model/Predictor';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
-import {constants} from '../../shared/constants';
-import {Result} from '../../shared/Results';
+import {constants} from '../../shared/model/constants';
+import {Result} from '../../shared/model/Results';
 import * as math from 'mathjs';
 
 @Component({

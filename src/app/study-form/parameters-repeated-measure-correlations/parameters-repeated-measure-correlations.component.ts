@@ -5,14 +5,14 @@ import {map, switchMap} from 'rxjs/operators';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 
-import {ISUFactors} from '../../shared/ISUFactors';
+import {ISUFactors} from '../../shared/model/ISUFactors';
 import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
 import {StudyService} from '../study.service';
-import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
+import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
 import {isNullOrUndefined} from 'util';
-import {CorrelationMatrix} from '../../shared/CorrelationMatrix';
+import {CorrelationMatrix} from '../../shared/model/CorrelationMatrix';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 
 @Component({

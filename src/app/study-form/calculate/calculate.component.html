@@ -1,4 +1,7 @@
 <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate</button>
+<div *ngIf="!hasResults">
+  <app-status></app-status>
+</div>
 <div *ngIf="hasResults">
   <br>
   <button (click)="downloadResult()" class="btn btn-sm">Download result</button>

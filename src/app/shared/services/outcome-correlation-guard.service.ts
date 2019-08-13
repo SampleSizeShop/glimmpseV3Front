@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {StudyService} from '../study-form/study.service';
+import {StudyService} from '../../study-form/study.service';
 import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {NGXLogger} from 'ngx-logger';
-import {Outcome} from './Outcome';
-import {CorrelationMatrixService} from '../study-form/correlation-matrix/correlationMatrix.service';
+import {Outcome} from '../model/Outcome';
+import {CorrelationMatrixService} from '../../study-form/correlation-matrix/correlationMatrix.service';
 import {BsDropdownModule} from 'ngx-bootstrap';
-import {MathJaxService} from '../mathjax/mathjax.service';
+import {MathJaxService} from '../../mathjax/mathjax.service';
 
 @Injectable()
 export class OutcomeCorrelationsGuard implements CanActivate {

@@ -1,33 +1,32 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {StudyService} from '../study-form/study.service';
+import {StudyService} from '../../study-form/study.service';
 import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {NGXLogger} from 'ngx-logger';
-import {constants} from './constants';
-
+import {Predictor} from '../model/Predictor';
 
 @Injectable()
-export class BetweenIsuSmallestGroupsGuard implements CanActivate {
-  private solveFor: string;
-  private solveForSubscription: Subscription;
+export class BetweenIsuGroupsGuard implements CanActivate {
+  private predictors: Array<Predictor>;
+  private predictorSubscription: Subscription;
 
   constructor(private router: Router,
               private study_service: StudyService,
               private log: NGXLogger) {
-    this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
-      solveFor => {
-        this.solveFor = solveFor;
+    this.predictorSubscription = this.study_service.betweenIsuPredictors$.subscribe(
+      predictors => {
+        this.predictors = predictors;
       }
     );
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    this.log.debug('BetweenIsuSmallestGroups#canActivate called');
+    this.log.debug('OutcomeCorrelation#canActivate called');
 
     if (
-      !isNullOrUndefined(this.solveFor)
-      && this.solveFor === constants.SOLVE_FOR_POWER
+      !isNullOrUndefined(this.predictors)
+      && this.predictors.length > 0
     ) {
       return true;
     } else {

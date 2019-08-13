@@ -1,5 +1,5 @@
 import {by, element} from 'protractor';
-import {constants} from '../../shared/constants';
+import {constants} from '../../shared/model/constants';
 
 export class CalculatePo {
 

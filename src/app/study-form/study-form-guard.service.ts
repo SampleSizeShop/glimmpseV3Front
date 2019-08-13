@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {constants} from '../shared/constants';
+import {constants} from '../shared/model/constants';
 import {StudyService} from './study.service';
 import {NGXLogger} from "ngx-logger";
 

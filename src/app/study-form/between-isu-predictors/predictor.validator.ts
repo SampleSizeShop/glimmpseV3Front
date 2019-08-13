@@ -1,6 +1,6 @@
 import {AbstractControl, ValidatorFn} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
-import {Predictor} from '../../shared/Predictor';
+import {Predictor} from '../../shared/model/Predictor';
 
 export function predictorValidator(predictors: Array<Predictor>, editing?: Predictor): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {

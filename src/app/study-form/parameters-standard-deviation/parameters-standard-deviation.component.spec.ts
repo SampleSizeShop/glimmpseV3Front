@@ -9,7 +9,7 @@ import {MockBackend} from '@angular/http/testing';
 import {StudyService} from '../study.service';
 import {testEnvironment} from '../../../environments/environment.test';
 import {MatTooltip} from '@angular/material';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 
 describe('ParametersStandardDeviationComponent', () => {
   let component: ParametersStandardDeviationComponent;

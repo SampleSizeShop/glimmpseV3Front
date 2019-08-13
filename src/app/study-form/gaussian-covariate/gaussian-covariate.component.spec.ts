@@ -8,7 +8,7 @@ import {StudyService} from '../study.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {NGXLogger} from 'ngx-logger';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 
 describe('GaussianCovariateComponent', () => {
   let component: GaussianCovariateComponent;

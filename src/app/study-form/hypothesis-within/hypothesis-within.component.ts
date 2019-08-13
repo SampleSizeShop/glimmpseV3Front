@@ -1,19 +1,19 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {constants, getName} from '../../shared/constants';
+import {constants, getName} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
-import {ISUFactors} from '../../shared/ISUFactors';
-import {PartialMatrix} from '../../shared/PartialMatrix';
+import {ISUFactors} from '../../shared/model/ISUFactors';
+import {PartialMatrix} from '../../shared/model/PartialMatrix';
 import {isNullOrUndefined} from 'util';
 import {Router} from '@angular/router';
 import {NGXLogger} from 'ngx-logger';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
-import {minMaxValidator} from '../../shared/minmax.validator';
+import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {Observable} from 'rxjs/Observable';
-import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
+import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
 import {fadeTransition} from '../../animations';
 
 @Component({

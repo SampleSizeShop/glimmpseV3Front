@@ -2,11 +2,11 @@ import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
-import {Predictor} from '../../shared/Predictor';
-import {constants, getName} from '../../shared/constants';
+import {Predictor} from '../../shared/model/Predictor';
+import {constants, getName} from '../../shared/model/constants';
 import {predictorValidator} from './predictor.validator';
 import {groupValidator} from './group.validator';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import {Observable} from 'rxjs/Observable';
 import {isNullOrUndefined} from 'util';

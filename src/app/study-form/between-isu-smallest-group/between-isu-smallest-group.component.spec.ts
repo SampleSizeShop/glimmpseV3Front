@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BetweenIsuSmallestGroupComponent } from './between-isu-smallest-group.component';
-import {ISUFactors} from '../../shared/ISUFactors';
+import {ISUFactors} from '../../shared/model/ISUFactors';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -11,7 +11,7 @@ import {HttpClient} from '@angular/common/http';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
 import {StudyService} from '../study.service';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 
 describe('BetweenIsuSmallestGroupComponent', () => {
   let component: BetweenIsuSmallestGroupComponent;

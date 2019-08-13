@@ -1,11 +1,11 @@
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {constants} from '../../shared/constants';
+import {constants} from '../../shared/model/constants';
 import {outcomeValidator} from './outcome.validator';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {StudyService} from '../study.service';
-import {Outcome} from '../../shared/Outcome';
+import {Outcome} from '../../shared/model/Outcome';
 import {isNullOrUndefined} from 'util';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NGXLogger} from 'ngx-logger';

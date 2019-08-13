@@ -8,12 +8,12 @@ import {MockBackend} from '@angular/http/testing';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
 import {ActivatedRoute} from '@angular/router';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {ISUFactors} from '../../shared/ISUFactors';
-import {RelativeGroupSizeTable} from '../../shared/RelativeGroupSizeTable';
-import {ISUFactorCombination} from '../../shared/ISUFactorCombination';
-import {CombinationId} from '../../shared/CombinationId';
+import {ISUFactors} from '../../shared/model/ISUFactors';
+import {RelativeGroupSizeTable} from '../../shared/model/RelativeGroupSizeTable';
+import {ISUFactorCombination} from '../../shared/model/ISUFactorCombination';
+import {CombinationId} from '../../shared/model/CombinationId';
 import {MatTooltip} from '@angular/material';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 
 describe('BetweenIsuGroupsComponent', () => {
   let component: BetweenIsuGroupsComponent;

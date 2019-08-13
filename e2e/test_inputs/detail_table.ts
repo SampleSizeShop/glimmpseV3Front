@@ -1,4 +1,4 @@
-import {constants} from '../../src/app/shared/constants';
+import {constants} from '../../src/app/shared/model/constants';
 
 
 export const com_calculate_detail_input = {

@@ -5,7 +5,7 @@ import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {StudyService} from '../study.service';
 import {ReactiveFormsModule} from '@angular/forms';
-import {NavigationService} from "../../shared/navigation.service";
+import {NavigationService} from "../../shared/services/navigation.service";
 
 describe('ParametersGaussianCovariateCorrelationComponent', () => {
   let component: ParametersGaussianCovariateCorrelationComponent;

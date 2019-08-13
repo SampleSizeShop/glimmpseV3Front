@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {environment} from '../environments/environment';
 import {Router} from '@angular/router';
-import {StudyDesign} from './shared/study-design';
+import {StudyDesign} from './shared/model/study-design';
 import {StudyService} from './study-form/study.service';
 
 @Component({

@@ -25,7 +25,7 @@ import {ParametersRepeatedMeasureCorellationsPo} from './parameters-repeated-mea
 import {ParametersIntraClassCorellationPo} from './parameters-intra-class-correlation/parameters-intra-class-corellation.po';
 import {ParametersGaussianCovariateVariancePo} from './parameters-gaussian-covariate-variance/parameters-gaussian-covariate-variance.po';
 import {ParametersGaussianCovariateCorellationPo} from './parameters-gaussian-covariate-correlation/parameters-gaussian-covariate-corellation.po';
-import {constants, getStageName} from '../shared/constants';
+import {constants, getStageName} from '../shared/model/constants';
 import {CalculatePo} from './calculate/calculate.po';
 import {OptionalSpecsConfidenceIntervalsPo} from './optional-specs-confidence-intervals/optional-specs-confidence-intervals.po';
 import {ParametersGaussianPowerPo} from './parameters-gaussian-power/parameters-gaussian-power.po';

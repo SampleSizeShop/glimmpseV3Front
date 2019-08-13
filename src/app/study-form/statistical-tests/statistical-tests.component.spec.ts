@@ -4,7 +4,7 @@ import { StatisticalTestsComponent } from './statistical-tests.component';
 import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 import {StudyService} from '../study.service';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';

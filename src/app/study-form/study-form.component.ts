@@ -2,9 +2,9 @@ import {ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit, ViewChild} fro
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
-import {constants, getStageName} from '../shared/constants';
-import {NavigationService} from '../shared/navigation.service';
-import {StudyDesign} from '../shared/study-design';
+import {constants, getStageName} from '../shared/model/constants';
+import {NavigationService} from '../shared/services/navigation.service';
+import {StudyDesign} from '../shared/model/study-design';
 import {isNullOrUndefined} from 'util';
 import {NavigationEnd, Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -14,7 +14,7 @@ import {map, pairwise, share, startWith} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/index';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material';
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({

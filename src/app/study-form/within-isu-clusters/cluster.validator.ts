@@ -1,5 +1,5 @@
 import {AbstractControl, ValidatorFn} from '@angular/forms';
-import {ClusterLevel} from '../../shared/ClusterLevel';
+import {ClusterLevel} from '../../shared/model/ClusterLevel';
 
 export function clusterValidator(isuName: string, levels: ClusterLevel[], editingLevel: boolean): ValidatorFn {
   return (control: AbstractControl): {[key: string]: any} => {

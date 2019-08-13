@@ -1,6 +1,6 @@
 import {NGXLogger} from 'ngx-logger';
 import {FormGroup, ValidatorFn} from '@angular/forms';
-import {constants} from '../../shared/constants';
+import {constants} from '../../shared/model/constants';
 import {isNullOrUndefined} from 'util';
 import Matrix = mathjs.Matrix;
 import * as math from 'mathjs';

@@ -7,7 +7,7 @@ import {MockBackend} from '@angular/http/testing';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {ReactiveFormsModule} from '@angular/forms';
 import {testEnvironment} from '../../../environments/environment.test';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 
 describe('ParametersScaleFactorComponent', () => {
   let component: ParametersScaleFactorComponent;

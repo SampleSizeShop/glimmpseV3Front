@@ -1,15 +1,15 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {constants} from '../../shared/constants';
+import {constants} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations';
 import {NGXLogger} from 'ngx-logger';
 import {isNullOrUndefined} from 'util';
-import {minMaxValidator} from "../../shared/minmax.validator";
-import {ConfidenceInterval} from "../../shared/ConfidenceInterval";
+import {minMaxValidator} from "../../shared/validators/minmax.validator";
+import {ConfidenceInterval} from "../../shared/model/ConfidenceInterval";
 
 @Component({
   selector: 'app-optional-specs-confidence-intervals',

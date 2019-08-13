@@ -1,6 +1,6 @@
 import { by, element } from 'protractor';
 import {isNullOrUndefined} from 'util';
-import {constants} from '../../shared/constants';
+import {constants} from '../../shared/model/constants';
 
 export class StatisticalTestsPo {
 

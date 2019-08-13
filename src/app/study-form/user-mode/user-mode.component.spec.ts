@@ -6,7 +6,7 @@ import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 
 describe('UserModeComponent', () => {

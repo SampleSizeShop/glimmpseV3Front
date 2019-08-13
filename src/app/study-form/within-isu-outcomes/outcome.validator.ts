@@ -1,5 +1,5 @@
 import {AbstractControl, ValidatorFn} from '@angular/forms';
-import {Outcome} from '../../shared/Outcome';
+import {Outcome} from '../../shared/model/Outcome';
 
 export function outcomeValidator(outcomes: Outcome[], isClickNext: {value: boolean}): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {

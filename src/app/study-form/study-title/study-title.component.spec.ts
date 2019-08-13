@@ -6,7 +6,7 @@ import {StudyService} from '../study.service';
 import { StudyTitleComponent } from './study-title.component';
 import {HttpClient} from '@angular/common/http';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {MockBackend} from '@angular/http/testing';
 
 describe('StudyTitleComponent', () => {

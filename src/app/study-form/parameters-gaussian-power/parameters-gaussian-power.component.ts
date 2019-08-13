@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StudyService} from '../study.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {isNullOrUndefined} from 'util';
-import {constants} from '../../shared/constants';
+import {constants} from '../../shared/model/constants';
 import {of as observableOf, Subscription} from 'rxjs';
-import {minMaxValidator} from '../../shared/minmax.validator';
-import {GaussianCovariate} from '../../shared/GaussianCovariate';
+import {minMaxValidator} from '../../shared/validators/minmax.validator';
+import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
 import {gaussianPowerValidator} from './parameters-gaussian-power.validator';
 
 

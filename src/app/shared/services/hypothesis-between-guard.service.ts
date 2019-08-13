@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {StudyService} from '../study-form/study.service';
+import {StudyService} from '../../study-form/study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
-import {ISUFactors} from './ISUFactors';
+import {ISUFactors} from '../model/ISUFactors';
 
 @Injectable()
-export class HypothesisMixedGuard implements CanActivate {
+export class HypothesisBetweenGuard implements CanActivate {
   private isuFactors: ISUFactors;
   private isuFactorsSubscription: Subscription;
 
@@ -22,6 +22,11 @@ export class HypothesisMixedGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.log.debug('OutcomeCorrelation#canActivate called');
-    return this.isuFactors.isHypothesisMixed;
+
+    if (this.isuFactors.isHypothesisBetween && !this.isuFactors.isHypothesisWithin) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

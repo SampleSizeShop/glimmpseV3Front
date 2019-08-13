@@ -10,7 +10,7 @@ import {By} from '@angular/platform-browser';
 import {LoggerModule, NGXLogger} from 'ngx-logger';
 import {NGXLoggerMock} from 'ngx-logger';
 import {testEnvironment} from '../../../environments/environment.test';
-import {NavigationService} from "../../shared/navigation.service";
+import {NavigationService} from "../../shared/services/navigation.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 describe('SolveForComponent', () => {

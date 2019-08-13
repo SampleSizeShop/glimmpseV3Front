@@ -1,14 +1,14 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
-import {ISUFactors} from '../../shared/ISUFactors';
+import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../study.service';
-import {constants} from '../../shared/constants';
+import {constants} from '../../shared/model/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {NavigationService} from '../../shared/navigation.service';
-import {GaussianCovariate} from '../../shared/GaussianCovariate';
+import {NavigationService} from '../../shared/services/navigation.service';
+import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
 import {isNullOrUndefined} from 'util';
-import {CombinationId} from '../../shared/CombinationId';
-import {ISUFactorCombination} from '../../shared/ISUFactorCombination';
+import {CombinationId} from '../../shared/model/CombinationId';
+import {ISUFactorCombination} from '../../shared/model/ISUFactorCombination';
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-correlation',

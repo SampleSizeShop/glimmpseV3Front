@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {StudyService} from '../study-form/study.service';
-import {ISUFactors} from './ISUFactors';
+import {StudyService} from '../../study-form/study.service';
+import {ISUFactors} from '../model/ISUFactors';
 import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {NGXLogger} from 'ngx-logger';

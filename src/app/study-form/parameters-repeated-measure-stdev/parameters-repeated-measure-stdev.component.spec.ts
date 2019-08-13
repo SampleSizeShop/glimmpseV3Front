@@ -11,9 +11,9 @@ import {StudyService} from '../study.service';
 import 'rxjs/add/operator/switchMap';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
-import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
-import {ISUFactors} from '../../shared/ISUFactors';
-import {NavigationService} from '../../shared/navigation.service';
+import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
+import {ISUFactors} from '../../shared/model/ISUFactors';
+import {NavigationService} from '../../shared/services/navigation.service';
 
 let component: ParametersRepeatedMeasureStdevComponent;
 let fixture: ComponentFixture<ParametersRepeatedMeasureStdevComponent>;

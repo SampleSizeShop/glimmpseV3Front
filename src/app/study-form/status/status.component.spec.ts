@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StatusComponent } from './status.component';
+import {MatIconModule} from "@angular/material/icon";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 describe('StatusComponent', () => {
   let component: StatusComponent;
@@ -8,7 +10,11 @@ describe('StatusComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StatusComponent ]
+      declarations: [ StatusComponent ],
+      imports: [
+        NgbModule,
+        MatIconModule
+      ],
     })
     .compileComponents();
   }));

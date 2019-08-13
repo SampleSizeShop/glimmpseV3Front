@@ -7,9 +7,9 @@ import {MockBackend} from '@angular/http/testing';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {ReactiveFormsModule} from '@angular/forms';
 import {testEnvironment} from '../../../environments/environment.test';
-import {Outcome} from '../../shared/Outcome';
-import {Cluster} from '../../shared/Cluster';
-import {NavigationService} from '../../shared/navigation.service';
+import {Outcome} from '../../shared/model/Outcome';
+import {Cluster} from '../../shared/model/Cluster';
+import {NavigationService} from '../../shared/services/navigation.service';
 
 describe('ParametersIntraClassCorrelationComponent', () => {
   let component: ParametersIntraClassCorrelationComponent;

@@ -1,21 +1,21 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {constants, getName} from 'app/shared/constants';
+import {constants, getName} from 'app/shared/model/constants';
 import {StudyService} from '../study.service';
 import {Subscription} from 'rxjs';
-import {ISUFactors} from '../../shared/ISUFactors';
+import {ISUFactors} from '../../shared/model/ISUFactors';
 import {isNullOrUndefined} from 'util';
-import {PartialMatrix} from '../../shared/PartialMatrix';
+import {PartialMatrix} from '../../shared/model/PartialMatrix';
 import {Router} from '@angular/router';
-import {Predictor} from '../../shared/Predictor';
+import {Predictor} from '../../shared/model/Predictor';
 import {NGXLogger} from 'ngx-logger';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {minMaxValidator} from '../../shared/minmax.validator';
+import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
 import {fadeTransition} from '../../animations';
-import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
+import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
 
 @Component({
   selector: 'app-hypothesis-between',

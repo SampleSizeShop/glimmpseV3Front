@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {StudyService} from '../study-form/study.service';
+import {StudyService} from '../../study-form/study.service';
 import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
-import {GaussianCovariate} from './GaussianCovariate';
+import {GaussianCovariate} from '../model/GaussianCovariate';
 import {NGXLogger} from 'ngx-logger';
 
 /**
