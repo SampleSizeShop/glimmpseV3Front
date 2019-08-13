@@ -6,7 +6,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {testEnvironment} from '../../../environments/environment.test';
 import {MatDialogModule, MatTooltip, MatTooltipModule} from '@angular/material';
 import {OverlayModule} from '@angular/cdk/overlay';

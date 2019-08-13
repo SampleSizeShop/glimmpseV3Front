@@ -3,13 +3,13 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/model/constants';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {StudyDesign} from '../../shared/model/study-design';
-import {typeOneErrorValidator} from './type-one-error.validator';
+import {typeOneErrorValidator} from '../../shared/validators/type-one-error.validator';
 
 @Component({
   selector: 'app-type-one-error',

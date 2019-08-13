@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {Subscription} from 'rxjs/index';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';

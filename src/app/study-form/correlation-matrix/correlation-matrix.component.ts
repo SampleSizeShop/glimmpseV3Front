@@ -1,6 +1,6 @@
 import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup} from '@angular/forms';
-import {CorrelationMatrixService} from './correlationMatrix.service';
+import {CorrelationMatrixService} from '../../shared/services/correlationMatrix.service';
 import {Subscription} from 'rxjs';
 import {constants} from '../../shared/model/constants';
 import {CorrelationMatrix} from '../../shared/model/CorrelationMatrix';

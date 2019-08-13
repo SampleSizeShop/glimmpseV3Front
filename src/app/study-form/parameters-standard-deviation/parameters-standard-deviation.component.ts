@@ -1,7 +1,7 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Subscription} from 'rxjs';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {constants} from '../../shared/model/constants';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';

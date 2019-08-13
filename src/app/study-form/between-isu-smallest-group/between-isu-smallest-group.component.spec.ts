@@ -9,7 +9,7 @@ import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
 

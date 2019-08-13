@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
@@ -9,7 +9,7 @@ import {constants} from '../../shared/model/constants';
 import {of as observableOf, Subscription} from 'rxjs';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
-import {gaussianPowerValidator} from './parameters-gaussian-power.validator';
+import {gaussianPowerValidator} from '../../shared/validators/parameters-gaussian-power.validator';
 
 
 @Component({

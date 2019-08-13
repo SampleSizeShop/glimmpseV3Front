@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {ReactiveFormsModule} from '@angular/forms';
 
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 
 import { StudyTitleComponent } from './study-title.component';
 import {HttpClient} from '@angular/common/http';

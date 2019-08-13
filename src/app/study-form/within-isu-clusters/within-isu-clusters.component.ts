@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {Cluster} from '../../shared/model/Cluster';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {constants} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
@@ -16,7 +16,7 @@ import {clusterValidator} from './cluster.validator';
 import {ClusterLevel} from '../../shared/model/ClusterLevel';
 import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {fadeTransition} from '../../animations';
+import {fadeTransition} from '../../animations/animations';
 import {NGXLogger} from 'ngx-logger';
 import {isNullOrUndefined} from 'util';
 

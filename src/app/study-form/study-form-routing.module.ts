@@ -20,8 +20,8 @@ import {ParametersOutcomeCorrelationsComponent} from './parameters-outcome-corre
 import {ParametersRepeatedMeasureStdevComponent} from './parameters-repeated-measure-stdev/parameters-repeated-measure-stdev.component';
 import {ParametersRepeatedMeasureCorrelationsComponent} from './parameters-repeated-measure-correlations/parameters-repeated-measure-correlations.component';
 import {NgModule} from '@angular/core';
-import {StudyFormGuard} from './study-form-guard.service';
-import {StudyService} from './study.service';
+import {StudyFormGuard} from '../shared/services/study-form-guard.service';
+import {StudyService} from '../shared/services/study.service';
 import {RepeatedMeasureGuard} from '../shared/services/repeated-measure-guard.service';
 import {NavigationService} from '../shared/services/navigation.service';
 import {ParametersIntraClassCorrelationComponent} from './parameters-intra-class-correlation/parameters-intra-class-correlation.component';
@@ -33,10 +33,10 @@ import {ParametersGaussianCovariateVarianceComponent} from './parameters-gaussia
 import {CalculateComponent} from './calculate/calculate.component';
 import {PowerCurveGuard} from '../shared/services/power-curve-guard.service';
 import {ConfidenceIntervalGuard} from '../shared/services/ci-guard.service';
-import {MarginalMeansGuard} from './parameters-marginal-means/marginal-means-guard.service';
+import {MarginalMeansGuard} from '../shared/services/marginal-means-guard.service';
 import {BetweenIsuSmallestGroupComponent} from './between-isu-smallest-group/between-isu-smallest-group.component';
 import {HypothesisTheta0Component} from './hypothesis-theta-0/hypothesis-theta-0.component';
-import {CanDeactivatePredictorsGuardService} from './between-isu-predictors/can-deactivate-predictors-guard.service';
+import {CanDeactivatePredictorsGuardService} from '../shared/services/can-deactivate-predictors-guard.service';
 import {StudyTitleComponent} from './study-title/study-title.component';
 import {OutcomeCorrelationsGuard} from '../shared/services/outcome-correlation-guard.service';
 import {BetweenIsuGroupsGuard} from '../shared/services/between-isu-groups-guard.service';

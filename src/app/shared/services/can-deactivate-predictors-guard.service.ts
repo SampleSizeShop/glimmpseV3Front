@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot} from '@angular/router';
-import {BetweenIsuPredictorsComponent} from './between-isu-predictors.component';
+import {BetweenIsuPredictorsComponent} from '../../study-form/between-isu-predictors/between-isu-predictors.component';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()

@@ -7,7 +7,7 @@ import {Cluster} from '../../shared/model/Cluster';
 import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
 import {Predictor} from '../../shared/model/Predictor';
 import {HypothesisEffect} from '../../shared/model/HypothesisEffect';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';

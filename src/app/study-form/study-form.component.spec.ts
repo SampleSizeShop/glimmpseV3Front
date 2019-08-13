@@ -2,7 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {StudyFormComponent} from './study-form.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {StudyService} from './study.service';
+import {StudyService} from '../shared/services/study.service';
 import {UserModeComponent} from './user-mode/user-mode.component';
 import {TargetEventComponent} from './target-event/target-event.component';
 import {SolveForComponent} from './solve-for/solve-for.component';

@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 import { ParametersRepeatedMeasureStdevComponent } from './parameters-repeated-measure-stdev.component';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 
 import 'rxjs/add/operator/switchMap';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';

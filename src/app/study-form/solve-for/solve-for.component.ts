@@ -1,6 +1,6 @@
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';

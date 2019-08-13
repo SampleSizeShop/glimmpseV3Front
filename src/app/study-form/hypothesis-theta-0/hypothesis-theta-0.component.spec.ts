@@ -4,7 +4,7 @@ import { HypothesisTheta0Component } from './hypothesis-theta-0.component';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {HttpClient} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {constants} from '../../shared/model/constants';

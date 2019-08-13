@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {StudyService} from './study.service';
+import {StudyService} from '../shared/services/study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
 import {constants, getStageName} from '../shared/model/constants';
@@ -8,7 +8,7 @@ import {StudyDesign} from '../shared/model/study-design';
 import {isNullOrUndefined} from 'util';
 import {NavigationEnd, Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {routeSlideAnimation} from '../animations';
+import {routeSlideAnimation} from '../animations/animations';
 import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/index';

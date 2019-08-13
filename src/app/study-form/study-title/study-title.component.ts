@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/index';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {isNullOrUndefined} from 'util';
 import {StudyDesign} from '../../shared/model/study-design';
 import {NavigationService} from '../../shared/services/navigation.service';

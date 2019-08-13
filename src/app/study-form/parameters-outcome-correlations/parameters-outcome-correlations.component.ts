@@ -1,9 +1,9 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ISUFactors} from '../../shared/model/ISUFactors';
-import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
+import {CorrelationMatrixService} from '../../shared/services/correlationMatrix.service';
 import {isNull, isNullOrUndefined} from 'util';
 import {Subscription} from 'rxjs';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {FormBuilder} from '@angular/forms';
 import {CorrelationMatrix} from '../../shared/model/CorrelationMatrix';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';

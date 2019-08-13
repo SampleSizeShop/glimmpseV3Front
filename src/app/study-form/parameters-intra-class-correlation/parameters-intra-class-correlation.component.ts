@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {Subscription} from 'rxjs';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Cluster} from '../../shared/model/Cluster';

@@ -4,7 +4,7 @@ import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import {RelativeGroupSizeTable} from '../../shared/model/RelativeGroupSizeTable';
@@ -16,7 +16,7 @@ import {constants} from '../../shared/model/constants';
 import {TooltipPosition} from '@angular/material';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {relativeGroupSizeValidator} from './relative.group.size.validator';
+import {relativeGroupSizeValidator} from '../../shared/validators/relative.group.size.validator';
 
 @Component({
   selector: 'app-between-isu-groups',

@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, OnDestroy} from '@angular/core';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {constants} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
 import {NavigationService} from '../../shared/services/navigation.service';

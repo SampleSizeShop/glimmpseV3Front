@@ -5,7 +5,7 @@ import {map, switchMap} from 'rxjs/operators';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ISUFactors} from '../../shared/model/ISUFactors';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {isNullOrUndefined} from 'util';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {MarginalMeansTable} from '../../shared/model/MarginalMeansTable';

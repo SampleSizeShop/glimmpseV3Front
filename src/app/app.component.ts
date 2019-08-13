@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {environment} from '../environments/environment';
 import {Router} from '@angular/router';
 import {StudyDesign} from './shared/model/study-design';
-import {StudyService} from './study-form/study.service';
+import {StudyService} from './shared/services/study.service';
 
 @Component({
   selector: 'app-root',

@@ -5,7 +5,7 @@ import { TypeOneErrorComponent } from './type-one-error.component';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {testEnvironment} from '../../../environments/environment.test';
 import {NavigationService} from '../../shared/services/navigation.service';
 

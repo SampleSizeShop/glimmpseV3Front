@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StudyDesign} from '../../shared/model/study-design';
 import {isNullOrUndefined} from 'util';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {Subscription} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../../environments/environment';

@@ -1,7 +1,7 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ISUFactors} from '../../shared/model/ISUFactors';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {of as observableOf, Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
@@ -9,7 +9,7 @@ import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/model/constants';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {smallestGroupSizeValidator} from './between-isu-smallest-group.validator';
+import {smallestGroupSizeValidator} from '../../shared/validators/between-isu-smallest-group.validator';
 
 @Component({
   selector: 'app-between-isu-smallest-group',

@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ISUFactor} from '../../shared/model/ISUFactor';
 import {HypothesisEffect} from '../../shared/model/HypothesisEffect';
 import {Subscription} from 'rxjs';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {FormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 import {constants} from '../../shared/model/constants';

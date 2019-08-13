@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HypothesisWithinComponent } from './hypothesis-within.component';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {ActivatedRoute, Router} from '@angular/router';

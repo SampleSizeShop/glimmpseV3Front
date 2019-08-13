@@ -2,7 +2,7 @@ import {of as observableOf, Subscription} from 'rxjs';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {constants} from '../../shared/model/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';

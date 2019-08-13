@@ -5,7 +5,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {Outcome} from '../../shared/model/Outcome';

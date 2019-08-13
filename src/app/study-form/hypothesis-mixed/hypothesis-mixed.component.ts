@@ -1,6 +1,6 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {constants, getName} from 'app/shared/model/constants';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {Subscription} from 'rxjs';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {isNullOrUndefined} from 'util';
@@ -14,7 +14,7 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
-import {fadeTransition} from '../../animations';
+import {fadeTransition} from '../../animations/animations';
 import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
 
 @Component({

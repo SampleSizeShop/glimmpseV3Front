@@ -6,8 +6,8 @@ import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 
 import {ISUFactors} from '../../shared/model/ISUFactors';
-import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
-import {StudyService} from '../study.service';
+import {CorrelationMatrixService} from '../../shared/services/correlationMatrix.service';
+import {StudyService} from '../../shared/services/study.service';
 import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
 import {isNullOrUndefined} from 'util';
 import {CorrelationMatrix} from '../../shared/model/CorrelationMatrix';

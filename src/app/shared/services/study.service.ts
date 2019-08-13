@@ -2,18 +2,18 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 import {Subject, BehaviorSubject, Observable} from 'rxjs';
-import {constants} from '../shared/model/constants';
-import {RepeatedMeasure} from '../shared/model/RepeatedMeasure';
-import {Cluster} from '../shared/model/Cluster';
-import {GaussianCovariate} from '../shared/model/GaussianCovariate';
-import {HypothesisEffect} from '../shared/model/HypothesisEffect';
-import {ISUFactor} from '../shared/model/ISUFactor';
-import {Outcome} from '../shared/model/Outcome';
-import {Predictor} from '../shared/model/Predictor';
-import {ISUFactors} from '../shared/model/ISUFactors';
-import {PowerCurve} from '../shared/model/PowerCurve';
-import {StudyDesign} from '../shared/model/study-design';
-import {ConfidenceInterval} from '../shared/model/ConfidenceInterval';
+import {constants} from '../model/constants';
+import {RepeatedMeasure} from '../model/RepeatedMeasure';
+import {Cluster} from '../model/Cluster';
+import {GaussianCovariate} from '../model/GaussianCovariate';
+import {HypothesisEffect} from '../model/HypothesisEffect';
+import {ISUFactor} from '../model/ISUFactor';
+import {Outcome} from '../model/Outcome';
+import {Predictor} from '../model/Predictor';
+import {ISUFactors} from '../model/ISUFactors';
+import {PowerCurve} from '../model/PowerCurve';
+import {StudyDesign} from '../model/study-design';
+import {ConfidenceInterval} from '../model/ConfidenceInterval';
 
 @Injectable()
 export class StudyService {

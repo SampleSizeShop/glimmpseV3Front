@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {constants} from '../../shared/model/constants';
-import {StudyService} from '../study.service';
-import {ISUFactors} from '../../shared/model/ISUFactors';
+import {constants} from '../model/constants';
+import {StudyService} from './study.service';
+import {ISUFactors} from '../model/ISUFactors';
 import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 import {NGXLogger} from 'ngx-logger';

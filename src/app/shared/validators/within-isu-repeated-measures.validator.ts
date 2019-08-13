@@ -1,6 +1,6 @@
 import {AbstractControl, ValidatorFn} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
-import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
+import {RepeatedMeasure} from '../model/RepeatedMeasure';
 
 export function WithinIsuRepeatedMeasuresValidator(isClickNext: {value: boolean},
                                                    measures: Array<RepeatedMeasure>,

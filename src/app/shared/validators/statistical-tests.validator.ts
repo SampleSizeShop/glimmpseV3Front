@@ -1,5 +1,5 @@
 import {AbstractControl, ValidatorFn} from '@angular/forms';
-import {Outcome} from '../../shared/model/Outcome';
+import {Outcome} from '../model/Outcome';
 
 export function statisticalTestsValidator(selectedTests: string[]): ValidatorFn {
   return (control: AbstractControl): { [key: string]: any } => {

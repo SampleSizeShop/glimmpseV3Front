@@ -1,7 +1,7 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {constants, getName} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {PartialMatrix} from '../../shared/model/PartialMatrix';
 import {isNullOrUndefined} from 'util';
@@ -14,7 +14,7 @@ import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.s
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {Observable} from 'rxjs/Observable';
 import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
-import {fadeTransition} from '../../animations';
+import {fadeTransition} from '../../animations/animations';
 
 @Component({
   selector: 'app-hypothesis-within',

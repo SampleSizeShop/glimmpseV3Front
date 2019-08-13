@@ -1,7 +1,7 @@
 import {Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Subscription} from 'rxjs';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {constants} from '../../shared/model/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {NavigationService} from '../../shared/services/navigation.service';

@@ -3,18 +3,18 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
 import {constants} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {CorrelationMatrix} from '../../shared/model/CorrelationMatrix';
 import {noDuplicatesValidator} from '../../shared/validators/noduplicates.validator';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {fadeTransition} from '../../animations';
+import {fadeTransition} from '../../animations/animations';
 import {Observable} from 'rxjs/Observable';
 import {NGXLogger} from 'ngx-logger';
 import {integerValidator} from '../../shared/validators/integer.validator';
 import {isNullOrUndefined} from 'util';
-import {WithinIsuRepeatedMeasuresValidator} from './within-isu-repeated-measures.validator';
+import {WithinIsuRepeatedMeasuresValidator} from '../../shared/validators/within-isu-repeated-measures.validator';
 import {orderedValidator} from '../../shared/validators/ordered.validator';
 
 @Component({

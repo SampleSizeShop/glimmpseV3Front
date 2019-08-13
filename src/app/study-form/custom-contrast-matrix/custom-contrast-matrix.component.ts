@@ -7,9 +7,9 @@ import {ContrastMatrixService} from './contrast-matrix.service';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {constants} from '../../shared/model/constants';
 import {TooltipPosition} from '@angular/material';
-import {zeroColsValidator} from './zerocols.validator';
+import {zeroColsValidator} from '../../shared/validators/zerocols.validator';
 import {PartialMatrix} from '../../shared/model/PartialMatrix';
-import {zeroRowsValidator} from './zerorows.validator';
+import {zeroRowsValidator} from '../../shared/validators/zerorows.validator';
 
 @Component({
   selector: 'app-custom-matrix',
