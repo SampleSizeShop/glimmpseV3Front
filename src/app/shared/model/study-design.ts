@@ -11,6 +11,7 @@ import {MarginalMeansTable} from './MarginalMeansTable';
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {CombinationId} from './CombinationId';
 import {ConfidenceInterval} from './ConfidenceInterval';
+import {StudyProgress} from './StudyProgress';
 
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
@@ -30,6 +31,7 @@ interface StudyDesignJSON {
   _powerCurve: PowerCurve;
   _define_full_beta: boolean;
   _confidence_interval: ConfidenceInterval;
+  _progress: StudyProgress;
 }
 
 export class StudyDesign {
@@ -48,6 +50,7 @@ export class StudyDesign {
   private _powerCurve: PowerCurve;
   private _define_full_beta: boolean;
   private _confidence_interval: ConfidenceInterval;
+  private _progress: StudyProgress;
 
   // fromJSON is used to convert an serialized version
   // of the StudyDesign to an instance of the class
@@ -94,6 +97,7 @@ export class StudyDesign {
     this.isuFactors = new ISUFactors();
     this.power = [];
     this._define_full_beta = false;
+    this._progress = new StudyProgress();
   }
 
   get relativeGroupSizes() {
@@ -547,5 +551,13 @@ export class StudyDesign {
 
   set confidence_interval(value: ConfidenceInterval) {
     this._confidence_interval = value;
+  }
+
+  get progress(): StudyProgress {
+    return this._progress;
+  }
+
+  set progress(value: StudyProgress) {
+    this._progress = value;
   }
 }

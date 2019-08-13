@@ -3,7 +3,7 @@
     <ng-template ngbPanelHeader let-opened="opened">
       <div class="d-flex align-items-center justify-content-between" (click)="acc.toggle('Design')">
         <h5 class="m-0">Design</h5>
-        <mat-icon>check_circle_outline</mat-icon>
+        <mat-icon *ngIf="design">check_circle_outline</mat-icon>
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
@@ -19,7 +19,7 @@
     <ng-template ngbPanelHeader let-opened="opened">
       <div class="d-flex align-items-center justify-content-between" (click)="acc.toggle('Hypothesis')">
         <h5 class="m-0">Hypothesis</h5>
-        <mat-icon>check_circle_outline</mat-icon>
+        <mat-icon *ngIf="hypothesis">check_circle_outline</mat-icon>
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
@@ -35,7 +35,7 @@
     <ng-template ngbPanelHeader let-opened="opened">
       <div class="d-flex align-items-center justify-content-between" (click)="acc.toggle('Design Dimensions')">
         <h5 class="m-0">Design Dimensions</h5>
-        <mat-icon>check_circle_outline</mat-icon>
+        <mat-icon *ngIf="dimensions">check_circle_outline</mat-icon>
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
@@ -51,7 +51,7 @@
     <ng-template ngbPanelHeader let-opened="opened">
       <div class="d-flex align-items-center justify-content-between" (click)="acc.toggle('Parameters')">
         <h5 class="m-0">Parameters</h5>
-        <mat-icon>check_circle_outline</mat-icon>
+        <mat-icon *ngIf="parameters">check_circle_outline</mat-icon>
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
@@ -67,7 +67,7 @@
     <ng-template ngbPanelHeader let-opened="opened">
       <div class="d-flex align-items-center justify-content-between" (click)="acc.toggle('Optional Specifications')">
         <h5 class="m-0">Optional Specifications</h5>
-        <mat-icon>check_circle_outline</mat-icon>
+        <mat-icon *ngIf="optional">check_circle_outline</mat-icon>
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
