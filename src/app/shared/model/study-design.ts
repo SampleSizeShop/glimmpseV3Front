@@ -373,8 +373,40 @@ export class StudyDesign {
       this.isuFactors.marginalMeans = this.generateMarginalMeansTables();
     }
 
-    // TODO: Are our gaussian covariate correlations made up of outcomes and repeated measures we chosen.
-    // if length !== this.b then re-set.
+    // update study progress - this must always be the last stage of check dependencies.
+    this.updateProgress()
+  }
+
+  updateProgress() {
+    let design = false;
+    let hypothesis = false;
+    let dimensions = false;
+    let parameters = false;
+    let optional = false;
+    if (this._typeOneErrorRate.length > 0
+      && (this._solveFor === constants.SOLVE_FOR.POWER || this._power.length > 0)
+      && this._selectedTests.length > 0
+      && this.isuFactors.outcomes.length > 0) {
+      design = true;
+    }
+    if (design) {
+      hypothesis = true;
+    }
+    if (hypothesis
+      && (this.solveFor === constants.SOLVE_FOR_POWER && this.isuFactors.smallestGroupSize.length > 0
+          || this.solveFor === constants.SOLVE_FOR_SAMPLESIZE)
+    ) {
+      dimensions = true;
+    }
+    if (dimensions) {
+      parameters = true;
+    }
+    if (parameters) {
+      optional = true;
+    }
+    if (optional) {
+    }
+    this._progress = new StudyProgress(design, hypothesis, dimensions, parameters, optional);
   }
 
   get variables() {

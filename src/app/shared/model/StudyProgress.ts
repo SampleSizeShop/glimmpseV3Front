@@ -1,16 +1,28 @@
 export class StudyProgress {
-  private _design: boolean;
-  private _hypothesis: boolean;
-  private _dimensions: boolean;
-  private _parameters: boolean;
-  private _optional: boolean;
+  /**
+   * Class used to indicate completeion of study design, split into five sections.
+   *
+   * @type {boolean}
+   * @private
+   */
+  private _design = false;
+  private _hypothesis = false;
+  private _dimensions = false;
+  private _parameters = false;
+  private _optional = false;
 
-  constructor() {
-    this.design = false;
-    this.hypothesis = false;
-    this.dimensions = false;
-    this.parameters = false;
-    this.optional = false;
+  constructor(
+    design?: boolean,
+    hypothesis?: boolean,
+    dimensions?: boolean,
+    parameters?: boolean,
+    optional?: boolean
+  ) {
+    if (design) {this.design = design}
+    if (hypothesis) {this.hypothesis = hypothesis}
+    if (dimensions) {this.dimensions = dimensions}
+    if (parameters) {this.parameters = parameters}
+    if (optional) {this.optional = optional}
   }
 
   get design(): boolean {
