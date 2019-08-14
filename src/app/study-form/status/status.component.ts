@@ -37,10 +37,18 @@ export class StatusComponent implements OnInit {
   }
 
   get solveFor() {
-    if (this.study.solveFor === constants.SOLVE_FOR_POWER) {
+    if (this.solveForPower) {
       return 'Power'
     } else {
       return 'Samplesize, target power ' + this.study.power;
+    }
+  }
+
+  get solveForPower() {
+    if (this.study.solveFor === constants.SOLVE_FOR_POWER) {
+      return true;
+    } else {
+      return false;
     }
   }
 

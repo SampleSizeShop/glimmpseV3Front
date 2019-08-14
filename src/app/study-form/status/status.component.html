@@ -74,12 +74,14 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
-      aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-      craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-      occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-      labore sustainable VHS.
+      <div *ngIf="!dimensions">
+        Once you have defined your design dimensions, details will be available here.
+      </div>
+      <div *ngIf="dimensions">
+        <p></p>
+        <p *ngIf="solveForPower" style="padding-left: 0.5em"><b>Smallest group size:</b> {{thetaNought}}</p>
+        <p style="padding-left: 0.5em"><b>Relative group sizes:</b> {{thetaNought}}</p>
+      </div>
     </ng-template>
   </ngb-panel>
   <ngb-panel id="Parameters">
@@ -90,12 +92,15 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
-      aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-      craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-      occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-      labore sustainable VHS.
+      <p style="padding-left: 0.5em"><b>Contrast:</b> {{contrast}}</p>
+      <p style="padding-left: 0.5em"><b>Outcome correlation:</b> {{contrast}}</p>
+      <p style="padding-left: 0.5em"><b>Repeated measure standard deviation:</b> {{contrast}}</p>
+      <p style="padding-left: 0.5em"><b>Repeated measure correlation:</b> {{contrast}}</p>
+      <p style="padding-left: 0.5em"><b>Intra class correlation:</b> {{contrast}}</p>
+      <p style="padding-left: 0.5em"><b>Gaussian covariate variance:</b> {{contrast}}</p>
+      <p style="padding-left: 0.5em"><b>Gaussian covatiate correlation:</b> {{contrast}}</p>
+      <p style="padding-left: 0.5em"><b>Gaussian covariate power:</b> {{contrast}}</p>
+      <p style="padding-left: 0.5em"><b>Variance scale factor:</b> {{contrast}}</p>
     </ng-template>
   </ngb-panel>
   <ngb-panel id="Optional Specifications">
@@ -106,12 +111,7 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
-      aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-      craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-      occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-      labore sustainable VHS.
+      <p style="padding-left: 0.5em"><b>Confidence Intervals:</b> {{contrast}}</p>
     </ng-template>
   </ngb-panel>
 </ngb-accordion>
