@@ -374,7 +374,7 @@ export class StudyDesign {
     }
 
     // update study progress - this must always be the last stage of check dependencies.
-    this.updateProgress()
+    this.updateProgress();
   }
 
   updateProgress() {

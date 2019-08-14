@@ -284,6 +284,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         }
       }
     });
+    this.study_service.updateStudyDesign(this.study);
   }
 
   back(stage?: number): void {

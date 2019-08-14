@@ -7,12 +7,44 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
-      aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-      craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-      occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-      labore sustainable VHS.
+      <p style="padding-left: 0.5em"><b>Solve For:</b> {{solveFor}}</p>
+      <p style="padding-left: 0.5em"><b> Type I Error: </b> {{study.typeOneErrorRate | json}}</p>
+      <table class="table">
+        <thead>
+        <th class="col col-md-auto">
+          ISU Factor
+        </th>
+        <th class="col col-md-auto">
+          Type
+        </th>
+        <th class="col col-md-auto">
+          Details
+        </th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let factor of study.isuFactors.variables; let i = index" [class]="rowStyle(i)">
+          <td class="col col-md-auto" data-label="Dimension">
+            {{factor.name}}
+          </td>
+          <td class="col col-md-auto" data-label="Type">
+            {{getFactorType(factor)}}
+          </td>
+          <td class="col col-md-auto" data-label="Units">
+            {{getDetails(factor)}}
+          </td>
+        </tr>
+        <tr *ngIf="study.gaussianCovariate" [class]="rowStyle(study.isuFactors.variables.length)">
+          <td class="col col-md-auto" data-label="Dimension">
+            Gaussian Covariate
+          </td>
+          <td class="col col-md-auto" data-label="Type">
+            Gaussian Covariate
+          </td>
+          <td class="col col-md-auto" data-label="Units">
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </ng-template>
   </ngb-panel>
   <ngb-panel id="Hypothesis">
@@ -23,12 +55,15 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
-      aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-      sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
-      craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
-      occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
-      labore sustainable VHS.
+      <div *ngIf="!hypothesis">
+        <p>Once you have defined your hypothesis, details will become available here.</p>
+      </div>
+      <div *ngIf="hypothesis">
+        <p style="padding-left: 0.5em"><b>Hypothesis Effect:</b> {{hypothesisEffect.name}}</p>
+        <p style="padding-left: 0.5em"><b>Hypothesis Nature:</b> {{hypothesisEffect.nature}}</p>
+        <p style="padding-left: 0.5em"><b>Contrast:</b> {{contrast}}</p>
+        <p style="padding-left: 0.5em"><b>Theta nought:</b> {{thetaNought}}</p>
+      </div>
     </ng-template>
   </ngb-panel>
   <ngb-panel id="Design Dimensions">
