@@ -8,7 +8,8 @@
     </ng-template>
     <ng-template ngbPanelContent>
       <p style="padding-left: 0.5em"><b>Solve For:</b> {{solveFor}}</p>
-      <p style="padding-left: 0.5em"><b> Type I Error: </b> {{study.typeOneErrorRate | json}}</p>
+        <p style="padding-left: 0.5em"><b>Type I Error:</b> {{study.typeOneErrorRate | json}}</p>
+        <p style="padding-left: 0.5em"><b>Tests:</b> {{study.selectedTests | json}}</p>
       <table class="table">
         <thead>
         <th class="col col-md-auto">
@@ -74,15 +75,14 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      <div *ngIf="!design">
-        Once you have defined your design, details will be available here.
+      <div *ngIf="!design || !hypothesis">
+        Once you have defined your design and hypothesis, details will be available here.
       </div>
-      <div *ngIf="design">
-        <p></p>
+      <div *ngIf="design && hypothesis">
         <p *ngIf="solveForPower" style="padding-left: 0.5em"><b>Smallest group size:</b> {{thetaNought}}</p>
         <p style="padding-left: 0.5em"><b>Relative group sizes:</b></p>
         <div *ngFor="let groupsizetable of study.isuFactors.betweenIsuRelativeGroupSizes">
-          <p style="padding-left: 0.5em">Group sizes for: <b>{{groupsizetable}}</b></p>
+          <p style="padding-left: 0.5em"><b>Group sizes for:</b> {{groupsizetable}}</p>
           <div class="row">
             <div class="col-2"></div>
             <div class="col-md-auto" style="display:flex; justify-content: center">
@@ -107,12 +107,12 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      <div *ngIf="!design">
-        Once you have defined your design, details will be available here.
+      <div *ngIf="!design || !hypothesis">
+        Once you have defined your design and hypothesis, details will be available here.
       </div>
-      <div *ngIf="design">
+      <div *ngIf="design && hypothesis">
           <div *ngFor="let meanstable of study.isuFactors.marginalMeans">
-            <p style="padding-left: 0.5em">Marginal means for outcome: <b>{{meanstable.name}}</b></p>
+            <p style="padding-left: 0.5em"><b>Marginal means for outcome:</b> {{meanstable.name}}</p>
             <div class="row">
               <div class="col"></div>
               <div class="col">
@@ -126,37 +126,36 @@
               </div>
             </div>
           </div>
-
-        </div>
-        <p style="padding-left: 0.5em"><b>Scale Factor:</b> {{study.scaleFactor | json}}</p>
-        <p style="padding-left: 0.5em"><b>Standard Deviation:</b> {{contrast}}</p>
-        <p style="padding-left: 0.5em"><b>Outcome correlation:</b></p> <div [mathJaxExpr]="study.isuFactors.outcomeCorrelationMatrix.toTeX()" style="overflow: scroll"></div>
-        <div *ngIf="study.isuFactors.repeatedMeasuresInHypothesis.length > 0">
-          <div *ngFor="let measure of study.isuFactors.repeatedMeasuresInHypothesis"
-               style="padding-left: 0.5em">
-            <p>Standard deviation for <b>{{measure.name}}:</b> {{measure.standard_deviations | json}}</p>
+          <p style="padding-left: 0.5em"><b>Scale Factor:</b> {{study.scaleFactor | json}}</p>
+          <p style="padding-left: 0.5em"><b>Standard Deviation:</b> {{contrast}}</p>
+          <p style="padding-left: 0.5em"><b>Outcome correlation:</b></p> <div [mathJaxExpr]="study.isuFactors.outcomeCorrelationMatrix.toTeX()" style="overflow: scroll"></div>
+          <div *ngIf="study.isuFactors.repeatedMeasuresInHypothesis.length > 0">
+            <div *ngFor="let measure of study.isuFactors.repeatedMeasuresInHypothesis"
+                 style="padding-left: 0.5em">
+              <p><b>Standard deviation for {{measure.name}}:</b> {{measure.standard_deviations | json}}</p>
+            </div>
           </div>
-        </div>
-        <div *ngIf="study.isuFactors.repeatedMeasuresInHypothesis.length > 0">
-          <div *ngFor="let measure of study.isuFactors.repeatedMeasuresInHypothesis"
-               style="padding-left: 0.5em">
-            <p>Correlation matrix for:<b> {{measure.name}}:</b></p>
+          <div *ngIf="study.isuFactors.repeatedMeasuresInHypothesis.length > 0">
+            <div *ngFor="let measure of study.isuFactors.repeatedMeasuresInHypothesis"
+                style="padding-left: 0.5em">
+              <p><b>Correlation matrix for {{measure.name}}:</b></p>
             <div [mathJaxExpr]="measure.correlationMatrix.toTeX()" style="overflow: scroll"></div>
+            </div>
           </div>
-        </div>
-        <div *ngIf="study.isuFactors.cluster" style="padding-left: 0.5em">
-          <p>Intra class correlation for cluster <b>{{study.isuFactors.cluster.name}}</b>:</p>
-          <div *ngFor="let level of study.isuFactors.cluster.levels">
-            <p>Level <b>{{level.levelName}}:</b> {{level.intraClassCorellation}}</p>
+          <div *ngIf="study.isuFactors.cluster" style="padding-left: 0.5em">
+            <p><b>Intra class correlation for cluster {{study.isuFactors.cluster.name}}</b>:</p>
+            <div *ngFor="let level of study.isuFactors.cluster.levels">
+              <p><b>Level {{level.levelName}}:</b> {{level.intraClassCorellation}}</p>
+            </div>
           </div>
-        </div>
-        <div *ngIf="study.gaussianCovariate" style="padding-left: 0.5em">
-          <p>Gaussian covariate variance: {{study.gaussianCovariate.standard_deviation}}</p>
-          <p>Gaussian covatiate correlation: {{study.gaussianCovariate.corellations | json}}</p>
-          <p>Gaussian covatiate power method(s): {{study.gaussianCovariate.power_method | json}}</p>
-          <p *ngIf="study.gaussianCovariate.isQuantile()">quantiles: {{study.quantiles | json}}</p>
-        </div>
-        <p style="padding-left: 0.5em">Variance scale factor(s): {{study.varianceScaleFactors | json}}</p>
+          <div *ngIf="study.gaussianCovariate" style="padding-left: 0.5em">
+            <p><b>Gaussian covariate variance:</b> {{study.gaussianCovariate.standard_deviation}}</p>
+            <p><b>Gaussian covatiate correlation:</b> {{study.gaussianCovariate.corellations | json}}</p>
+            <p><b>Gaussian covatiate power method(s):</b> {{study.gaussianCovariate.power_method | json}}</p>
+            <p *ngIf="study.gaussianCovariate.isQuantile()"><b>quantiles:</b> {{study.quantiles | json}}</p>
+          </div>
+          <p style="padding-left: 0.5em"><b>Variance scale factor(s):</b> {{study.varianceScaleFactors | json}}</p>
+      </div>
     </ng-template>
   </ngb-panel>
   <ngb-panel id="Optional Specifications">
