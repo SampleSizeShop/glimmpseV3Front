@@ -30,13 +30,15 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
       return JSON.parse(json, RelativeGroupSizeTable.reviver);
     } else {
       // create an instance of the RelativeGroupSizeTable class
-      const isuFactors = Object.create(RelativeGroupSizeTable.prototype);
-      // copy all the fields from the json object
-      return Object.assign(isuFactors, json, {
+      const relativegroupSizeTable = Object.create(RelativeGroupSizeTable.prototype);
+      const ob = {
         // convert fields that need converting
         dimensions: this.parseDimensions(json),
         table: this.parseTable(json),
-      });
+        _tableId: super.parseTableId(json)
+      };
+      // copy all the fields from the json object
+      return Object.assign(relativegroupSizeTable, ob);
     }
   }
 
