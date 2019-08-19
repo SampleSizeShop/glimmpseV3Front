@@ -12,6 +12,8 @@ import {ActivatedRouteStub} from '../../../testing/router-stubs';
 import {StudyService} from '../../shared/services/study.service';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatIconModule} from "@angular/material/icon";
 
 describe('BetweenIsuSmallestGroupComponent', () => {
   let component: BetweenIsuSmallestGroupComponent;
@@ -19,7 +21,9 @@ describe('BetweenIsuSmallestGroupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule,
+        NgbModule,
+        MatIconModule],
       declarations: [ BetweenIsuSmallestGroupComponent ],
       providers: [
         StudyService,

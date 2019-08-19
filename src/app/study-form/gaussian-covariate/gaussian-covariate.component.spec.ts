@@ -9,6 +9,8 @@ import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {NGXLogger} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
+import {MatIconModule} from "@angular/material/icon";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 describe('GaussianCovariateComponent', () => {
   let component: GaussianCovariateComponent;
@@ -16,7 +18,9 @@ describe('GaussianCovariateComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule,
+        NgbModule,
+        MatIconModule],
       declarations: [ GaussianCovariateComponent ],
       providers: [
         StudyService,

@@ -9,9 +9,10 @@ import {Predictor} from '../../shared/model/Predictor';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NGXLogger} from 'ngx-logger';
+import {MatIconModule} from "@angular/material/icon";
 
 
 describe('BetweenIsuPredictorsComponent', () => {
@@ -36,7 +37,11 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, BrowserAnimationsModule],
+      imports: [
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        NgbModule,
+        MatIconModule],
       declarations: [ BetweenIsuPredictorsComponent ],
       providers: [
         StudyService,

@@ -14,6 +14,8 @@ import {ISUFactorCombination} from '../../shared/model/ISUFactorCombination';
 import {CombinationId} from '../../shared/model/CombinationId';
 import {MatTooltip} from '@angular/material';
 import {NavigationService} from '../../shared/services/navigation.service';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatIconModule} from "@angular/material/icon";
 
 describe('BetweenIsuGroupsComponent', () => {
   let component: BetweenIsuGroupsComponent;
@@ -24,7 +26,9 @@ describe('BetweenIsuGroupsComponent', () => {
     activatedRoute = new ActivatedRouteStub();
     activatedRoute.testParamMap = {index: '0'};
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule,
+        NgbModule,
+        MatIconModule],
       declarations: [ BetweenIsuGroupsComponent,
         MatTooltip ],
       providers: [

@@ -16,8 +16,9 @@ import {LoggerModule, NGXLogger} from 'ngx-logger';
 import {CustomContrastMatrixComponent} from '../custom-contrast-matrix/custom-contrast-matrix.component';
 import {MatTooltip} from '@angular/material';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {MatIconModule} from '@angular/material/icon';
 
 describe('HypothesisBetweenComponent no factors', () => {
   let component: HypothesisBetweenComponent;
@@ -28,6 +29,8 @@ describe('HypothesisBetweenComponent no factors', () => {
       imports: [
         ReactiveFormsModule,
         BrowserAnimationsModule,
+        NgbModule,
+        MatIconModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,

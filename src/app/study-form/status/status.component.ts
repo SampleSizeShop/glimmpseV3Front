@@ -9,6 +9,7 @@ import {Predictor} from '../../shared/model/Predictor';
 import {Outcome} from '../../shared/model/Outcome';
 import {constants} from '../../shared/model/constants';
 import {HypothesisEffect} from '../../shared/model/HypothesisEffect';
+import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-status',
@@ -97,23 +98,43 @@ export class StatusComponent implements OnInit {
   }
 
   get design() {
+    if (isNullOrUndefined(this._studyDesign) || isNullOrUndefined(this._studyDesign.progress)) {
+      return false;
+    } else {
     return this._studyDesign.progress.design;
+    }
   }
 
   get hypothesis() {
-    return this._studyDesign.progress.hypothesis;
+    if (isNullOrUndefined(this._studyDesign) || isNullOrUndefined(this._studyDesign.progress)) {
+      return false;
+    } else {
+      return this._studyDesign.progress.hypothesis;
+    }
   }
 
   get dimensions() {
+    if (isNullOrUndefined(this._studyDesign) || isNullOrUndefined(this._studyDesign.progress)) {
+      return false;
+    } else {
     return this._studyDesign.progress.dimensions;
+    }
   }
 
   get parameters() {
+    if (isNullOrUndefined(this._studyDesign) || isNullOrUndefined(this._studyDesign.progress)) {
+      return false;
+    } else {
     return this._studyDesign.progress.parameters;
+    }
   }
 
   get optional() {
+    if (isNullOrUndefined(this._studyDesign) || isNullOrUndefined(this._studyDesign.progress)){
+      return false;
+    } else {
     return this._studyDesign.progress.optional;
+    }
   }
 
   get study(): StudyDesign {
