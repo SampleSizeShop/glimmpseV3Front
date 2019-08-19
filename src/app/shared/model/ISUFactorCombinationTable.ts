@@ -1,5 +1,6 @@
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {isNullOrUndefined} from 'util';
+import {json} from "d3-fetch";
 
 export interface ISUFactorCombinationTableJSON {
   _table: Array<Array<ISUFactorCombination>>;
@@ -153,5 +154,20 @@ export class ISUFactorCombinationTable {
       }
     }
     return name;
+  }
+
+  toTex() {
+    // start array
+    let texString = '$$\\begin{bmatrix}';
+    this.table.forEach(row => {
+      row.forEach(col => {
+        // values
+        texString = texString + col.value + '&';
+      });
+      texString = texString + '\\\\'
+    });
+    // finish matrix
+    texString = texString + '\\end{bmatrix}$$'
+    return texString;
   }
 }

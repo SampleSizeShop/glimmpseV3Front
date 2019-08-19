@@ -55,10 +55,10 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      <div *ngIf="!hypothesis">
-        <p>Once you have defined your hypothesis, details will become available here.</p>
+      <div *ngIf="!design">
+        <p>Once you have defined your design, details will become available here.</p>
       </div>
-      <div *ngIf="hypothesis">
+      <div *ngIf="design">
         <p style="padding-left: 0.5em"><b>Hypothesis Effect:</b> {{hypothesisEffect.name}}</p>
         <p style="padding-left: 0.5em"><b>Hypothesis Nature:</b> {{hypothesisEffect.nature}}</p>
         <p style="padding-left: 0.5em"><b>Contrast:</b> {{contrast}}</p>
@@ -74,13 +74,28 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      <div *ngIf="!dimensions">
-        Once you have defined your design dimensions, details will be available here.
+      <div *ngIf="!design">
+        Once you have defined your design, details will be available here.
       </div>
-      <div *ngIf="dimensions">
+      <div *ngIf="design">
         <p></p>
         <p *ngIf="solveForPower" style="padding-left: 0.5em"><b>Smallest group size:</b> {{thetaNought}}</p>
-        <p style="padding-left: 0.5em"><b>Relative group sizes:</b> {{thetaNought}}</p>
+        <p style="padding-left: 0.5em"><b>Relative group sizes:</b></p>
+        <div *ngFor="let groupsizetable of study.isuFactors.betweenIsuRelativeGroupSizes">
+          <p style="padding-left: 0.5em">Group sizes for: <b>{{groupsizetable}}</b></p>
+          <div class="row">
+            <div class="col-2"></div>
+            <div class="col-md-auto" style="display:flex; justify-content: center">
+              {{groupsizetable.getColDimensionLabel()}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="align-self:center; writing-mode: vertical-lr; transform: rotate(-180deg);">{{groupsizetable.getRowDimensionLabel()}}</div>
+            <div class="col-md-auto" style="display:flex; justify-content: left">
+              <div [mathJaxExpr]="groupsizetable.toTex()" style="overflow: scroll"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </ng-template>
   </ngb-panel>
@@ -92,15 +107,56 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      <p style="padding-left: 0.5em"><b>Contrast:</b> {{contrast}}</p>
-      <p style="padding-left: 0.5em"><b>Outcome correlation:</b> {{contrast}}</p>
-      <p style="padding-left: 0.5em"><b>Repeated measure standard deviation:</b> {{contrast}}</p>
-      <p style="padding-left: 0.5em"><b>Repeated measure correlation:</b> {{contrast}}</p>
-      <p style="padding-left: 0.5em"><b>Intra class correlation:</b> {{contrast}}</p>
-      <p style="padding-left: 0.5em"><b>Gaussian covariate variance:</b> {{contrast}}</p>
-      <p style="padding-left: 0.5em"><b>Gaussian covatiate correlation:</b> {{contrast}}</p>
-      <p style="padding-left: 0.5em"><b>Gaussian covariate power:</b> {{contrast}}</p>
-      <p style="padding-left: 0.5em"><b>Variance scale factor:</b> {{contrast}}</p>
+      <div *ngIf="!design">
+        Once you have defined your design, details will be available here.
+      </div>
+      <div *ngIf="design">
+          <div *ngFor="let meanstable of study.isuFactors.marginalMeans">
+            <p style="padding-left: 0.5em">Marginal means for outcome: <b>{{meanstable.name}}</b></p>
+            <div class="row">
+              <div class="col"></div>
+              <div class="col">
+                {{meanstable.getColDimensionLabel()}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col" style="align-self:center; writing-mode: vertical-lr; transform: rotate(-180deg);">{{meanstable.getRowDimensionLabel()}}</div>
+              <div class="col">
+                <div [mathJaxExpr]="meanstable.toTex()" style="overflow: scroll"></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <p style="padding-left: 0.5em"><b>Scale Factor:</b> {{study.scaleFactor | json}}</p>
+        <p style="padding-left: 0.5em"><b>Standard Deviation:</b> {{contrast}}</p>
+        <p style="padding-left: 0.5em"><b>Outcome correlation:</b></p> <div [mathJaxExpr]="study.isuFactors.outcomeCorrelationMatrix.toTeX()" style="overflow: scroll"></div>
+        <div *ngIf="study.isuFactors.repeatedMeasuresInHypothesis.length > 0">
+          <div *ngFor="let measure of study.isuFactors.repeatedMeasuresInHypothesis"
+               style="padding-left: 0.5em">
+            <p>Standard deviation for <b>{{measure.name}}:</b> {{measure.standard_deviations | json}}</p>
+          </div>
+        </div>
+        <div *ngIf="study.isuFactors.repeatedMeasuresInHypothesis.length > 0">
+          <div *ngFor="let measure of study.isuFactors.repeatedMeasuresInHypothesis"
+               style="padding-left: 0.5em">
+            <p>Correlation matrix for:<b> {{measure.name}}:</b></p>
+            <div [mathJaxExpr]="measure.correlationMatrix.toTeX()" style="overflow: scroll"></div>
+          </div>
+        </div>
+        <div *ngIf="study.isuFactors.cluster" style="padding-left: 0.5em">
+          <p>Intra class correlation for cluster <b>{{study.isuFactors.cluster.name}}</b>:</p>
+          <div *ngFor="let level of study.isuFactors.cluster.levels">
+            <p>Level <b>{{level.levelName}}:</b> {{level.intraClassCorellation}}</p>
+          </div>
+        </div>
+        <div *ngIf="study.gaussianCovariate" style="padding-left: 0.5em">
+          <p>Gaussian covariate variance: {{study.gaussianCovariate.standard_deviation}}</p>
+          <p>Gaussian covatiate correlation: {{study.gaussianCovariate.corellations | json}}</p>
+          <p>Gaussian covatiate power method(s): {{study.gaussianCovariate.power_method | json}}</p>
+          <p *ngIf="study.gaussianCovariate.isQuantile()">quantiles: {{study.quantiles | json}}</p>
+        </div>
+        <p style="padding-left: 0.5em">Variance scale factor(s): {{study.varianceScaleFactors | json}}</p>
     </ng-template>
   </ngb-panel>
   <ngb-panel id="Optional Specifications">
@@ -111,7 +167,17 @@
       </div>
     </ng-template>
     <ng-template ngbPanelContent>
-      <p style="padding-left: 0.5em"><b>Confidence Intervals:</b> {{contrast}}</p>
+      <div *ngIf="!study.confidence_interval">
+        <p>Confidence Interval not included</p>
+      </div>
+      <div *ngIf="study.confidence_interval">
+        <p>Confidence Intervals:</p>
+        <p style="padding-left: 0.5em"><b>Beta known:</b> {{study.confidence_interval.beta_known | json}}</p>
+        <p style="padding-left: 0.5em"><b>Lower tail probability:</b> {{study.confidence_interval.lower_tail}}</p>
+        <p style="padding-left: 0.5em"><b>Upper tail propbability:</b> {{study.confidence_interval.upper_tail}}</p>
+        <p style="padding-left: 0.5em"><b>Rank of design matrix:</b> {{study.confidence_interval.rank_est}}</p>
+        <p style="padding-left: 0.5em"><b>Total Sample Size:</b> {{study.confidence_interval.n_est}}</p>
+      </div>
     </ng-template>
   </ngb-panel>
 </ngb-accordion>

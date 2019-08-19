@@ -62,7 +62,7 @@ export class ISUFactorCombination {
     let name = '';
     this.id.forEach( conbinationId => {
       name = name + conbinationId.tooltip + ', ' ;
-    })
+    });
     name = name.substring(0, name.length - 2);
     name = name.trim();
     return name;

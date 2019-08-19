@@ -112,11 +112,26 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
   }
 
   getRowLabel(element: ISUFactorCombination): String {
-    const label = this._getDimensionLabel(element, 0);
+    const label = this._getDimensionValueLabel(element, 0);
     return label;
   }
 
   getColLabel(element: ISUFactorCombination): String {
+    let label = '';
+    if (this.dimensions.length > 1) {
+      label = this._getDimensionValueLabel(element, 1);
+    }
+    return label;
+  }
+
+  getRowDimensionLabel(): String {
+    const element = this.table[0][0];
+    const label = this._getDimensionLabel(element, 0);
+    return label;
+  }
+
+  getColDimensionLabel(): String {
+    const element = this.table[0][0];
     let label = '';
     if (this.dimensions.length > 1) {
       label = this._getDimensionLabel(element, 1);
@@ -126,10 +141,21 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
 
   getCellLabel(element: ISUFactorCombination) {
     let label = '';
-    label = this._getDimensionLabel(element, 0);
+    label = this._getDimensionValueLabel(element, 0);
     if (this.dimensions.length > 1) {
-      label = label + ', ' + this._getDimensionLabel(element, 1);
+      label = label + ', ' + this._getDimensionValueLabel(element, 1);
     }
+    return label;
+  }
+
+  _getDimensionValueLabel(element: ISUFactorCombination, dimensionIndex: number) {
+    const factorName = this.dimensions[dimensionIndex].factorName;
+    let label = 'undefined';
+    element.id.forEach( factor => {
+      if (factorName === factor.factorName) {
+        label = factorName + ': ' + factor.value;
+      }
+    });
     return label;
   }
 
@@ -138,7 +164,7 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
     let label = 'undefined';
     element.id.forEach( factor => {
       if (factorName === factor.factorName) {
-        label = factorName + ': ' + factor.value;
+        label = factorName;
       }
     });
     return label;

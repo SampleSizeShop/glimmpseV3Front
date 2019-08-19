@@ -98,6 +98,32 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     return label.trim();
   }
 
+  getRowDimensionLabel() {
+    const separator = ', ';
+    const element = this.table[0][0];
+    let label = '';
+    element.id.forEach( factor => {
+      if (factor.factorType === constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR) {
+        label = label + separator + factor.factorName;
+      }
+    });
+    label = label.substring(separator.length, label.length);
+    return label.trim();
+  }
+
+  getColDimensionLabel() {
+    const separator = ', ';
+    const element = this.table[0][0];
+    let label = '';
+    element.id.forEach( factor => {
+      if (factor.factorType === constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE) {
+        label = label + separator + factor.factorName;
+      }
+    });
+    label = label.substring(separator.length, label.length);
+    return label.trim();
+  }
+
   getCellLabel(element: ISUFactorCombination) {
     let label = '';
     const row = this.getRowLabel(element);
