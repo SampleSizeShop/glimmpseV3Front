@@ -15,6 +15,9 @@
     <li class="nav-item">
       <div class="nav-link" data-toggle="tab" [class.active]="isTabSelected('matrices')" (click)="selectTab('matrices')">Matrices</div>
     </li>
+    <li class="nav-item">
+      <div class="nav-link" data-toggle="tab" [class.active]="isTabSelected('design')" (click)="selectTab('design')">Design</div>
+    </li>
   </ul>
   <div id="myTabContent" class="tab-content">
     <div class="tab-pane fade show" [class.active]="isTabSelected('results')" id="resultstab">
@@ -116,6 +119,9 @@
       <div [mathJaxExpr]="nu_e_tex" style="padding-top: 10px"></div>
       <div [mathJaxExpr]="rep_n_tex" style="padding-top: 10px"></div>
       <div [mathJaxExpr]="delta_tex" style="padding-top: 10px"></div>
+    </div>
+    <div class="tab-pane fade show" [class.active]="isTabSelected('design')" id="designtab">
+      <app-status></app-status>
     </div>
   </div>
 
