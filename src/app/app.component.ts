@@ -3,6 +3,7 @@ import {environment} from '../environments/environment';
 import {Router} from '@angular/router';
 import {StudyDesign} from './shared/model/study-design';
 import {StudyService} from './shared/services/study.service';
+import 'hammerjs';
 
 @Component({
   selector: 'app-root',
