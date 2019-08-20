@@ -70,6 +70,7 @@ describe('StudyFormComponent', () => {
           level: testEnvironment.loglevel,
           serverLogLevel: testEnvironment.loglevel}) ],
       declarations: [
+        MatTooltip,
         StudyFormComponent,
         UserModeComponent,
         StudyTitleComponent,

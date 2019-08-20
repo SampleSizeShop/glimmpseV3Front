@@ -13,7 +13,7 @@ import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/index';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry} from '@angular/material';
+import {MatIconRegistry, TooltipPosition} from '@angular/material';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -81,6 +81,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _stage$ = this._stageSource.asObservable();
 
   private _isInternal: boolean;
+  below: TooltipPosition;
 
   @ViewChild('status') statusModal;
   private statusModalReference: any;
@@ -116,6 +117,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.subscribeToStudyService();
     this.subscribeToNavigationService();
     this.setupRouting();
+    this.below = 'below';
   }
 
   showStatus() {
@@ -962,5 +964,9 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.study_service.updateAll(a);
       }
     };
+  }
+
+  get showDelay() {
+    return 500;
   }
 }
