@@ -34,12 +34,12 @@ export const fadeTransition =
   transition('* => *', [
       query(':enter',
         useAnimation(fadeIn, {
-          params: { timing: 0.2}
+          params: { timing: 0.1}
         }), {optional: true}
       ),
       query(':leave',
         useAnimation(fadeOut, {
-          params: { timing: 0.2}
+          params: { timing: 0.1}
         }), {optional: true})
     ]
   )
