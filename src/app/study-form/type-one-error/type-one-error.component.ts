@@ -173,7 +173,10 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     if (!isNullOrUndefined(value) &&
       value !== '' &&
       this.typeOneErrorRate.indexOf(value) === -1
-    && this.typeOneErrorRateForm.valid) {
+    && (
+      this.typeOneErrorRateForm.valid
+      || this.formErrors.typeoneerror.trim() === constants.TYPE_ONE_ERROR_VALIDATION_MESSAGES.typeoneerror.noalpha.trim()
+      )) {
       this._typeOneErrorRate.push(this.typeOneErrorRateForm.value.typeoneerror);
       this.typeOneErrorRateForm.reset();
     }
