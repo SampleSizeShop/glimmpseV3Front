@@ -966,6 +966,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     };
   }
 
+  onSwipeRight(evt) {
+    this.back();
+  }
+
+  onSwipeLeft(evt) {
+    this.next();
+  }
+
   get showDelay() {
     return 500;
   }
