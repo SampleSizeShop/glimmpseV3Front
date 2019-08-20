@@ -151,6 +151,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
       results.push(Result.fromJSON(JSON.stringify(result)));
     }
     this.resultForDisplay = results;
+    this._selected_tab = 'results';
   }
 
   private handleError(error: any): Promise<any> {

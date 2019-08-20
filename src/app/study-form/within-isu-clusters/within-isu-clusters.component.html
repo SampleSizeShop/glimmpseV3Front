@@ -1,5 +1,6 @@
 <div class="container-fluid">
-  <div *ngIf="isInfo()" id="firstcluster">
+  <div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)">
+    <div *ngIf="isInfo()" id="firstcluster">
     <div class="row">
       <div class="col">
         <p>
@@ -20,228 +21,229 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <div *ngIf="isElementName() || isLevels()">
-    <div *ngIf="isElementName()">
-      <div class="row">
-        <div class="col" id="clustersheader">
-          <p>What term would you like to use for the independent sampling unit in the study? (For example, school.)</p>
-          <p>All levels of clustering are nested within the independent sampling unit.</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <form [formGroup]="elementForm" (submit)="addISU()">
-            <div class="form-group">
-              <input class="form-control"
-                     formControlName="name"
-                     id="name">
-              <div *ngIf="formErrors.cluster && isuAdded" class="form-group has-danger">
-                <div class="form-control-feedback" id="nameerr">{{formErrors.cluster}}</div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="col">
-          <i class="material-icons"
-             (click)="addISU()"
-             style="font-size: 2em; padding-top: 0.2em" id="addISU">add_box</i>
-        </div>
-      </div>
-    </div>
-
-    <form [formGroup]="clusterLevelForm" id="clusterLevelForm" *ngIf="isLevels()">
-      <div class="row">
-        <div class="col">
-          <p>Name each level of clustering within the independent sampling unit (ISU), and specify the number of elements each level (e.g. level 1 class has 5 members; level 2 student has 22 members):</p>
-          <p>We use <b>N</b> to indicate the total number of independent sampling units and <b>n</b> to indicate the total number of observations.</p>
-        </div>
-      </div>
-      <div class="row">
-
-          <div class="col">
-            <div class="row">
-              <div class="col">
-                <label for="levelName">Clustering level name:</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <input class="form-control" formControlName="levelName" id="levelName">
-                <div *ngIf="formErrors.clusterlevelname && levelAdded"
-                     class="form-group has-danger">
-                  <div class="form-control-feedback" id="levelnameerr">{{formErrors.clusterlevelname}}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="row">
-              <div class="col">
-                <label for="noElements">Number of elements:</label>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <input class="form-control" formControlName="noElements" type="number" id="noElements">
-                <div *ngIf="formErrors.elementnumber"
-                     class="form-group has-danger">
-                  <div *ngIf="clusterLevelForm.get('noElements').dirty && clusterLevelForm.get('noElements').touched"
-                       class="form-control-feedback" id="noelementserr">{{formErrors.elementnumber}}</div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col">
-                <small id="noElementsHelp" class="form-text text-muted"># Elements must be an integer between 2 and 10000 (inclusive)</small>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <br>
-            <i class="material-icons"
-               (click)="addLevel()"
-               (keyup.enter)="addLevel()"
-               style="font-size: 2em; padding-top: 0.2em" id="addLevel">add_box</i>
-          </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div *ngIf="formErrors.clusterlevelrequired && clusterLevelForm.get('noElements').dirty && clusterLevelForm.get('noElements').touched" class="form-group has-danger">
-            <div class="form-control-feedback">{{formErrors.clusterlevelrequired}}</div>
-          </div>
-        </div>
-      </div>
-    </form>
-
-    <div class="row">
-      <div class="col">
-        <table class="table" *ngIf="hasLevels()" >
-          <thead>
-          <th class="col col-md-auto">
-            Level
-          </th>
-          <th class="col col-md-auto">
-            Level Name
-          </th>
-          <th class="col col-md-auto">
-            No. Elements
-          </th>
-          <th class="col col-md-auto">
-            Remove/Edit
-          </th>
-          </thead>
-          <tbody>
-          <tr [class]="rowStyle(0)">
-            <td class="col col-md-auto">
-              ISU
-            </td>
-            <td class="col col-md-auto">
-              {{elementForm.get('name').value}}
-            </td>
-            <td class="col col-md-auto">
-              <b>N</b> {{elementForm.get('name').value}}(s) in study
-            </td>
-            <td class="col col-md-auto">
-              <i class="material-icons" (click)="editISU()" style="margin-bottom: 5px" id="editISU">edit</i>
-            </td>
-          </tr>
-          <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i+1)">
-            <td class="col col-md-auto">
-              {{i + 1}}
-            </td>
-            <td class="col col-md-auto">
-              {{level.levelName}}
-            </td>
-            <td class="col col-md-auto">
-              {{levelDescription(level)}}
-            </td>
-            <td class="col col-md-auto">
-              <i class="material-icons" (click)="editLevel(level)" style="margin-bottom: 5px" id="removeLevel">edit</i>
-              <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">delete_forever</i>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <button type="button" class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="levelscancelbtn">Cancel</button>
-        <button type="button" class="btn btn-primary btn-sm" (click)="addCluster()" #buttons id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
-      </div>
-    </div>
-  </div>
-
-  <br>
-
-  <div *ngIf="hasCluster() && isInfo()" >
-    <div class="row">
-      <div class="col">
-        <app-graph-component [data]="graphData"></app-graph-component>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <h6>Levels of clustering within independent sampling unit {{cluster.name}}:</h6>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <table class="table" *ngIf="hasLevels()" >
-          <thead>
-          <th class="col col-md-auto">
-            Level
-          </th>
-          <th class="col col-md-auto">
-            Level Name
-          </th>
-          <th class="col col-md-auto">
-            No. Elements
-          </th>
-          </thead>
-          <tbody>
-          <tr [class]="rowStyle(0)">
-            <td class="col col-md-auto">
-              ISU
-            </td>
-            <td class="col col-md-auto">
-              {{elementForm.get('name').value}}
-            </td>
-            <td class="col col-md-auto">
-              <b>N</b> {{elementForm.get('name').value}}(s) in study
-            </td>
-          </tr>
-          <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i+1)">
-            <td class="col col-md-auto">
-              {{i + 1}}
-            </td>
-            <td class="col col-md-auto">
-              {{level.levelName}}
-            </td>
-            <td class="col col-md-auto">
-              {{levelDescription(level)}}
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
     <br>
-    <div class="row">
-      <div class="col">
-        <div class="btn-group" data-toggle="buttons">
-          <label id="removeclusterbtn" class="btn btn-sm btn-secondary">
-            <input type="radio" id="removeclusterradio" (click)="removeCluster()">Remove Clustering
-          </label>
+
+    <div *ngIf="hasCluster()" >
+      <div class="row">
+        <div class="col">
+          <app-graph-component [data]="graphData"></app-graph-component>
         </div>
-        <div class="btn-group" data-toggle="buttons">
-          <label id="editclusterbtn" class="btn btn-sm btn-secondary">
-            <input type="radio" id="editclusterradio" (click)="editCluster()">Edit Clustering
-          </label>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h6>Levels of clustering within independent sampling unit {{cluster.name}}:</h6>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <table class="table" *ngIf="hasLevels()" >
+            <thead>
+            <th class="col col-md-auto">
+              Level
+            </th>
+            <th class="col col-md-auto">
+              Level Name
+            </th>
+            <th class="col col-md-auto">
+              No. Elements
+            </th>
+            </thead>
+            <tbody>
+            <tr [class]="rowStyle(0)">
+              <td class="col col-md-auto">
+                ISU
+              </td>
+              <td class="col col-md-auto">
+                {{elementForm.get('name').value}}
+              </td>
+              <td class="col col-md-auto">
+                <b>N</b> {{elementForm.get('name').value}}(s) in study
+              </td>
+            </tr>
+            <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i+1)">
+              <td class="col col-md-auto">
+                {{i + 1}}
+              </td>
+              <td class="col col-md-auto">
+                {{level.levelName}}
+              </td>
+              <td class="col col-md-auto">
+                {{levelDescription(level)}}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <div class="btn-group" data-toggle="buttons">
+            <label id="removeclusterbtn" class="btn btn-sm btn-secondary">
+              <input type="radio" id="removeclusterradio" (click)="removeCluster()">Remove Clustering
+            </label>
+          </div>
+          <div class="btn-group" data-toggle="buttons">
+            <label id="editclusterbtn" class="btn btn-sm btn-secondary">
+              <input type="radio" id="editclusterradio" (click)="editCluster()">Edit Clustering
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <div *ngIf="isElementName() || isLevels()">
+      <div *ngIf="isElementName()">
+        <div class="row">
+          <div class="col" id="clustersheader">
+            <p>What term would you like to use for the independent sampling unit in the study? (For example, school.)</p>
+            <p>All levels of clustering are nested within the independent sampling unit.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <form [formGroup]="elementForm" (submit)="addISU()">
+              <div class="form-group">
+                <input class="form-control"
+                       formControlName="name"
+                       id="name">
+                <div *ngIf="formErrors.cluster && isuAdded" class="form-group has-danger">
+                  <div class="form-control-feedback" id="nameerr">{{formErrors.cluster}}</div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col">
+            <i class="material-icons"
+               (click)="addISU()"
+               style="font-size: 2em; padding-top: 0.2em" id="addISU">add_box</i>
+          </div>
+        </div>
+      </div>
+
+      <form [formGroup]="clusterLevelForm" id="clusterLevelForm" *ngIf="isLevels()">
+        <div class="row">
+          <div class="col">
+            <p>Name each level of clustering within the independent sampling unit (ISU), and specify the number of elements each level (e.g. level 1 class has 5 members; level 2 student has 22 members):</p>
+            <p>We use <b>N</b> to indicate the total number of independent sampling units and <b>n</b> to indicate the total number of observations.</p>
+          </div>
+        </div>
+        <div class="row">
+
+            <div class="col">
+              <div class="row">
+                <div class="col">
+                  <label for="levelName">Clustering level name:</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <input class="form-control" formControlName="levelName" id="levelName">
+                  <div *ngIf="formErrors.clusterlevelname && levelAdded"
+                       class="form-group has-danger">
+                    <div class="form-control-feedback" id="levelnameerr">{{formErrors.clusterlevelname}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="row">
+                <div class="col">
+                  <label for="noElements">Number of elements:</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <input class="form-control" formControlName="noElements" type="number" id="noElements">
+                  <div *ngIf="formErrors.elementnumber"
+                       class="form-group has-danger">
+                    <div *ngIf="clusterLevelForm.get('noElements').dirty && clusterLevelForm.get('noElements').touched"
+                         class="form-control-feedback" id="noelementserr">{{formErrors.elementnumber}}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <small id="noElementsHelp" class="form-text text-muted"># Elements must be an integer between 2 and 10000 (inclusive)</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <br>
+              <i class="material-icons"
+                 (click)="addLevel()"
+                 (keyup.enter)="addLevel()"
+                 style="font-size: 2em; padding-top: 0.2em" id="addLevel">add_box</i>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div *ngIf="formErrors.clusterlevelrequired && clusterLevelForm.get('noElements').dirty && clusterLevelForm.get('noElements').touched" class="form-group has-danger">
+              <div class="form-control-feedback">{{formErrors.clusterlevelrequired}}</div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col">
+          <table class="table" *ngIf="hasLevels()" >
+            <thead>
+            <th class="col col-md-auto">
+              Level
+            </th>
+            <th class="col col-md-auto">
+              Level Name
+            </th>
+            <th class="col col-md-auto">
+              No. Elements
+            </th>
+            <th class="col col-md-auto">
+              Remove/Edit
+            </th>
+            </thead>
+            <tbody>
+            <tr [class]="rowStyle(0)">
+              <td class="col col-md-auto">
+                ISU
+              </td>
+              <td class="col col-md-auto">
+                {{elementForm.get('name').value}}
+              </td>
+              <td class="col col-md-auto">
+                <b>N</b> {{elementForm.get('name').value}}(s) in study
+              </td>
+              <td class="col col-md-auto">
+                <i class="material-icons" (click)="editISU()" style="margin-bottom: 5px" id="editISU">edit</i>
+              </td>
+            </tr>
+            <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i+1)">
+              <td class="col col-md-auto">
+                {{i + 1}}
+              </td>
+              <td class="col col-md-auto">
+                {{level.levelName}}
+              </td>
+              <td class="col col-md-auto">
+                {{levelDescription(level)}}
+              </td>
+              <td class="col col-md-auto">
+                <i class="material-icons" (click)="editLevel(level)" style="margin-bottom: 5px" id="editLevel">edit</i>
+                <i class="material-icons" (click)="removeLevel(level)" style="margin-bottom: 5px" id="removeLevel">delete_forever</i>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()" id="levelscancelbtn">Cancel</button>
+          <button type="button" class="btn btn-primary btn-sm" (click)="addCluster()" #buttons id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
         </div>
       </div>
     </div>

@@ -52,14 +52,6 @@ describe('WithinIsuClustersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show the Element form when the user chooses to add clustering', () => {
-    component.includeClusters();
-    fixture.detectChanges();
-    const form: DebugElement = fixture.debugElement.query(By.css('#name'));
-    const el = form.nativeElement;
-    expect(el).toBeTruthy();
-  });
-
   it('should show the cluster level form when the user clicks next after naming their cluster.', () => {
     component.includeClusters();
     component.elementForm.get('name').setValue('Name')
