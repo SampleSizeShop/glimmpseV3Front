@@ -1,26 +1,27 @@
 <button (click)="postModel()" class="btn btn-primary btn-lg btn-block" id="calculate">Calculate</button>
-<div *ngIf="!hasResults">
-  <app-status></app-status>
-</div>
-<div *ngIf="hasResults">
-  <br>
-  <button (click)="downloadResult()" class="btn btn-sm">Download result</button>
-  <a id="downloadCsv" [attr.href]="downloadData" download="result.csv" hidden>Download result</a>
-  <br>
-  <br>
-  <ul class="nav nav-tabs">
-    <li class="nav-item">
-      <div class="nav-link" [class.active]="isTabSelected('results')" data-toggle="tab" (click)="selectTab('results')">Results</div>
-    </li>
-    <li class="nav-item">
-      <div class="nav-link" data-toggle="tab" [class.active]="isTabSelected('matrices')" (click)="selectTab('matrices')">Matrices</div>
-    </li>
-    <li class="nav-item">
-      <div class="nav-link" data-toggle="tab" [class.active]="isTabSelected('design')" (click)="selectTab('design')">Design</div>
-    </li>
-  </ul>
-  <div id="myTabContent" class="tab-content">
-    <div class="tab-pane fade show" [class.active]="isTabSelected('results')" id="resultstab">
+
+<br>
+<button (click)="downloadResult()" [disabled]="!hasResults" class="btn btn-sm">Download result</button>
+<a id="downloadCsv" [attr.href]="downloadData" download="result.csv" hidden>Download result</a>
+<br>
+<br>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <div class="nav-link" [class.active]="isTabSelected('results')" data-toggle="tab" (click)="selectTab('results')">Results</div>
+  </li>
+  <li class="nav-item">
+    <div class="nav-link" data-toggle="tab" [class.active]="isTabSelected('matrices')"  (click)="selectTab('matrices')">Matrices</div>
+  </li>
+  <li class="nav-item">
+    <div class="nav-link" data-toggle="tab" [class.active]="isTabSelected('design')" (click)="selectTab('design')">Design</div>
+  </li>
+</ul>
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane fade show" [class.active]="isTabSelected('results')" id="resultstab">
+    <div *ngIf="!hasResults">
+      <p>Click calculate to get your results.</p>
+    </div>
+    <div *ngIf="hasResults">
       <table class="table">
         <tr>
           <th>Power</th>
@@ -103,7 +104,12 @@
         </div>
       </div>
     </div>
-    <div class="tab-pane fade show" [class.active]="isTabSelected('matrices')" id="matricestab">
+  </div>
+  <div class="tab-pane fade show" [class.active]="isTabSelected('matrices')" id="matricestab">
+    <div *ngIf="!hasResults">
+      <p>Once you have calculated your results, matrices representing your scenario will be shown here.</p>
+    </div>
+    <div *ngIf="hasResults">
       <p *ngIf="orthonormalized">You have selected one or more unirep tests. We have orthonormalized your U
         matrix so that the test theory is well defined.</p>
       <div [mathJaxExpr]="essence_design_matrix_tex" style="padding-top: 10px"></div>
@@ -120,14 +126,15 @@
       <div [mathJaxExpr]="rep_n_tex" style="padding-top: 10px"></div>
       <div [mathJaxExpr]="delta_tex" style="padding-top: 10px"></div>
     </div>
-    <div class="tab-pane fade show" [class.active]="isTabSelected('design')" id="designtab">
-      <app-status></app-status>
-    </div>
   </div>
+  <div class="tab-pane fade show" [class.active]="isTabSelected('design')" id="designtab">
+    <app-status></app-status>
+  </div>
+</div>
 
 
 <div id="results" [hidden]="!e2eTest">{{resultString | json}}</div>
-</div>
+
 <div id="reviewDataModel" [hidden]="!e2eTest">{{outputString}}</div>
 <ng-template #helpText>
   <div class="modal-content">

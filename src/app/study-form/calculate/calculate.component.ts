@@ -96,6 +96,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
       this.outputString = 'HMMM......';
       this.resultString = 'no results yet';
     }
+    this.selectTab('design');
   }
 
   ngOnDestroy() {
