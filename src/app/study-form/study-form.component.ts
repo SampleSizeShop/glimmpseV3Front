@@ -1,18 +1,20 @@
-import {ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit} from '@angular/core';
-import {StudyService} from './study.service';
+import {ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {StudyService} from '../shared/services/study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
-import {constants, getStageName} from '../shared/constants';
-import {NavigationService} from '../shared/navigation.service';
-import {StudyDesign} from '../shared/study-design';
+import {constants, getStageName} from '../shared/model/constants';
+import {NavigationService} from '../shared/services/navigation.service';
+import {StudyDesign} from '../shared/model/study-design';
 import {isNullOrUndefined} from 'util';
 import {NavigationEnd, Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {routeSlideAnimation} from '../animations';
+import {routeSlideAnimation} from '../animations/animations';
 import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/index';
 import {DomSanitizer} from '@angular/platform-browser';
+import {MatIconRegistry, TooltipPosition} from '@angular/material';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -79,6 +81,10 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _stage$ = this._stageSource.asObservable();
 
   private _isInternal: boolean;
+  below: TooltipPosition;
+
+  @ViewChild('status') statusModal;
+  private statusModalReference: any;
 
 
   afuConfig3 = {
@@ -100,13 +106,53 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     private navigation_service: NavigationService,
     private router: Router,
     private ref: ChangeDetectorRef,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer,
+    private modalService: NgbModal
   ) {
     this._isInternal = false;
+    this.setupProgressIcons();
     this.study = new StudyDesign();
     this.subscribeToStudyService();
     this.subscribeToNavigationService();
     this.setupRouting();
+    this.below = 'below';
+  }
+
+  showStatus() {
+    this.modalService.open(this.statusModal);
+  }
+
+  dismissStatus() {
+    this.modalService.dismissAll();
+  }
+
+  private setupProgressIcons() {
+    this.matIconRegistry.addSvgIcon(
+      `aperture_0`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_0.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      `aperture_1`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_1.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      `aperture_2`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_2.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      `aperture_3`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_3.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      `aperture_4`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_4.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      `aperture_5`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/aperture_5.svg')
+    );
   }
 
   private setupRouting() {
@@ -240,6 +286,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         }
       }
     });
+    this.study_service.updateStudyDesign(this.study);
   }
 
   back(stage?: number): void {
@@ -917,5 +964,17 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.study_service.updateAll(a);
       }
     };
+  }
+
+  onSwipeRight(evt) {
+    this.back();
+  }
+
+  onSwipeLeft(evt) {
+    this.next();
+  }
+
+  get showDelay() {
+    return 500;
   }
 }

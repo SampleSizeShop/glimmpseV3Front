@@ -2,18 +2,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BetweenIsuGroupsComponent } from './between-isu-groups.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
 import {ActivatedRoute} from '@angular/router';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {ISUFactors} from '../../shared/ISUFactors';
-import {RelativeGroupSizeTable} from '../../shared/RelativeGroupSizeTable';
-import {ISUFactorCombination} from '../../shared/ISUFactorCombination';
-import {CombinationId} from '../../shared/CombinationId';
+import {ISUFactors} from '../../shared/model/ISUFactors';
+import {RelativeGroupSizeTable} from '../../shared/model/RelativeGroupSizeTable';
+import {ISUFactorCombination} from '../../shared/model/ISUFactorCombination';
+import {CombinationId} from '../../shared/model/CombinationId';
 import {MatTooltip} from '@angular/material';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatIconModule} from "@angular/material/icon";
 
 describe('BetweenIsuGroupsComponent', () => {
   let component: BetweenIsuGroupsComponent;
@@ -24,7 +26,9 @@ describe('BetweenIsuGroupsComponent', () => {
     activatedRoute = new ActivatedRouteStub();
     activatedRoute.testParamMap = {index: '0'};
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule,
+        NgbModule,
+        MatIconModule],
       declarations: [ BetweenIsuGroupsComponent,
         MatTooltip ],
       providers: [

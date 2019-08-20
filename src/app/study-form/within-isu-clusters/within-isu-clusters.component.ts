@@ -5,18 +5,18 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {Cluster} from '../../shared/Cluster';
+import {Cluster} from '../../shared/model/Cluster';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {StudyService} from '../study.service';
-import {NavigationService} from '../../shared/navigation.service';
-import {constants} from '../../shared/constants';
+import {StudyService} from '../../shared/services/study.service';
+import {NavigationService} from '../../shared/services/navigation.service';
+import {constants} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
-import {minMaxValidator} from '../../shared/minmax.validator';
+import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {clusterValidator} from './cluster.validator';
-import {ClusterLevel} from '../../shared/ClusterLevel';
+import {ClusterLevel} from '../../shared/model/ClusterLevel';
 import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {fadeTransition} from '../../animations';
+import {fadeTransition} from '../../animations/animations';
 import {NGXLogger} from 'ngx-logger';
 import {isNullOrUndefined} from 'util';
 
@@ -68,6 +68,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this._maxLevels = constants.MAX_LEVELS;
     this._levels = [];
     this._stages = constants.CLUSTER_STAGES;
+    this._next = this._stages.INFO;
     this._stage = this._stages.INFO;
     this._clusterSubscription = this.study_service.withinIsuCluster$.subscribe(
       cluster => {
@@ -104,7 +105,6 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   ngOnInit() {
     this._afterInit = true;
     this.buildForm();
-    this.setStage(this._stages.INFO);
   }
 
   ngDoCheck() {
@@ -192,13 +192,13 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this.study_service.updateWithinIsuCluster(this.cluster);
 
     this.setGraphData();
-    this.setStage(this._stages.INFO);
+    this.stage = this._stages.INFO;
   }
 
   editCluster() {
     this.elementForm.get('name').setValue(this._cluster.name);
     this._levels = this._cluster.levels;
-    this.setStage(this._stages.ELEMENT_NAME);
+    this.stage = this._stages.ELEMENT_NAME;
   }
 
   removeCluster() {
@@ -253,7 +253,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this.elementForm.updateValueAndValidity();
     this.onValueChangedElementForm();
     if (this.elementForm.valid && this._isuAdded) {
-      this.setStage(this.stages.LEVELS);
+      this.stage = this.stages.LEVELS;
     }
   }
 
@@ -262,7 +262,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     if (cluster) {
       this._cluster = cluster;
     }
-    this.setStage(this._stages.ELEMENT_NAME);
+    this.stage = this._stages.ELEMENT_NAME;
   }
 
   getStageStatus(stage: number): string {
@@ -275,14 +275,16 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     return 'INVALID';
   }
 
+  cancel() {
+    this.stage = this.stages.INFO;
+  }
+
   setStage(next: number) {
     this._stage = next;
     if (this.isInfo()) {
       this._editingLevel = false;
-      this.navigation_service.updateInternalFormSource(false);
       this.navigation_service.updateValid(true);
     } else {
-      this.navigation_service.updateInternalFormSource(true);
       this.navigation_service.updateValid(false);
     }
   }
@@ -301,7 +303,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   editLevel(level: ClusterLevel) {
-    this.setStage(this.stages.LEVELS);
+    this.stage = this.stages.LEVELS;
     this._editingLevel = true;
     this._editingLevelName = level.levelName;
     this.clusterLevelForm.controls['levelName'].setValue(level.levelName);
@@ -517,7 +519,8 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   set stage(value: number) {
-    this._stage = value;
+    this._next = value;
+    this._stage = -1;
   }
 
   get validationMessages() {

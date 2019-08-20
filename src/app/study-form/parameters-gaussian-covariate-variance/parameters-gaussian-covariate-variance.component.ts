@@ -1,14 +1,14 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {constants} from '../../shared/constants';
+import {constants} from '../../shared/model/constants';
 import {Subscription} from 'rxjs/Subscription';
-import {StudyService} from '../study.service';
-import {NavigationService} from '../../shared/navigation.service';
+import {StudyService} from '../../shared/services/study.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {GaussianCovariate} from '../../shared/GaussianCovariate';
+import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
 import {isNullOrUndefined} from "util";
-import {minMaxValidator} from "../../shared/minmax.validator";
+import {minMaxValidator} from "../../shared/validators/minmax.validator";
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-variance',

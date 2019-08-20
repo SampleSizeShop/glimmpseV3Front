@@ -1,4 +1,4 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
@@ -58,7 +58,8 @@ import {ZoomableDirective} from './d3/directives/zoomable.directive';
 import {CollapsibleTreeComponent} from './d3/visuals/collapsible-tree/collapsible-tree.component';
 import {D3Service} from './d3/d3.service';
 import {HypothesisMixedComponent} from './study-form/hypothesis-mixed/hypothesis-mixed.component';
-
+import { StatusComponent } from './study-form/status/status.component';
+import {CustomHammerConfig} from "./hammer/CustomHammerConfig";
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import {HypothesisMixedComponent} from './study-form/hypothesis-mixed/hypothesis
     NodeVisualComponent,
     ZoomableDirective,
     CollapsibleTreeComponent,
+    StatusComponent,
   ],
   imports: [
     NgbModule.forRoot(),
@@ -123,7 +125,11 @@ import {HypothesisMixedComponent} from './study-form/hypothesis-mixed/hypothesis
     MatIconModule,
     Angular2CsvModule
   ],
-  providers: [MathJaxService, D3Service],
+  providers: [
+    MathJaxService,
+    D3Service,
+    {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

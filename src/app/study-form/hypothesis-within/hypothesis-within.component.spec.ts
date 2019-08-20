@@ -3,19 +3,19 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HypothesisWithinComponent } from './hypothesis-within.component';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ISUFactors} from '../../shared/ISUFactors';
-import {Outcome} from '../../shared/Outcome';
+import {ISUFactors} from '../../shared/model/ISUFactors';
+import {Outcome} from '../../shared/model/Outcome';
 import {testEnvironment} from '../../../environments/environment.test';
 import {LoggerModule, NGXLogger} from 'ngx-logger';
 import {MatTooltip} from '@angular/material';
 import {CustomContrastMatrixComponent} from '../custom-contrast-matrix/custom-contrast-matrix.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 describe('HypothesisWithinComponent', () => {

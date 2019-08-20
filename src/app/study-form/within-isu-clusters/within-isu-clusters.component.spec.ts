@@ -2,10 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WithinIsuClustersComponent } from './within-isu-clusters.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -50,14 +50,6 @@ describe('WithinIsuClustersComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should show the Element form when the user chooses to add clustering', () => {
-    component.includeClusters();
-    fixture.detectChanges();
-    const form: DebugElement = fixture.debugElement.query(By.css('#name'));
-    const el = form.nativeElement;
-    expect(el).toBeTruthy();
   });
 
   it('should show the cluster level form when the user clicks next after naming their cluster.', () => {

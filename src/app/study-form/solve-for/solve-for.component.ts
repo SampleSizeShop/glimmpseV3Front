@@ -1,12 +1,12 @@
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {NGXLogger} from 'ngx-logger';
-import {minMaxValidator} from '../../shared/minmax.validator';
-import {constants} from '../../shared/constants';
+import {minMaxValidator} from '../../shared/validators/minmax.validator';
+import {constants} from '../../shared/model/constants';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {isNullOrUndefined} from "util";
 
 @Component({

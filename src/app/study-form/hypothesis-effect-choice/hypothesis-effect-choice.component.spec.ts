@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisEffectChoiceComponent } from './hypothesis-effect-choice.component';
-import {ISUFactor} from '../../shared/ISUFactor';
-import {Outcome} from '../../shared/Outcome';
-import {Cluster} from '../../shared/Cluster';
-import {RepeatedMeasure} from '../../shared/RepeatedMeasure';
-import {Predictor} from '../../shared/Predictor';
-import {HypothesisEffect} from '../../shared/HypothesisEffect';
-import {StudyService} from '../study.service';
+import {ISUFactor} from '../../shared/model/ISUFactor';
+import {Outcome} from '../../shared/model/Outcome';
+import {Cluster} from '../../shared/model/Cluster';
+import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
+import {Predictor} from '../../shared/model/Predictor';
+import {HypothesisEffect} from '../../shared/model/HypothesisEffect';
+import {StudyService} from '../../shared/services/study.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
-import {constants} from '../../shared/constants';
+import {constants} from '../../shared/model/constants';
 import {NGXLogger} from 'ngx-logger';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;

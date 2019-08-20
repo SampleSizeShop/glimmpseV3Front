@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BetweenIsuSmallestGroupComponent } from './between-isu-smallest-group.component';
-import {ISUFactors} from '../../shared/ISUFactors';
+import {ISUFactors} from '../../shared/model/ISUFactors';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {ReactiveFormsModule} from '@angular/forms';
@@ -9,9 +9,11 @@ import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatIconModule} from "@angular/material/icon";
 
 describe('BetweenIsuSmallestGroupComponent', () => {
   let component: BetweenIsuSmallestGroupComponent;
@@ -19,7 +21,9 @@ describe('BetweenIsuSmallestGroupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule,
+        NgbModule,
+        MatIconModule],
       declarations: [ BetweenIsuSmallestGroupComponent ],
       providers: [
         StudyService,

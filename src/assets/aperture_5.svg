@@ -1,0 +1,18 @@
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" xml:space="preserve" width="192" height="192" viewBox="0 0 192 192">
+	<style>
+		.outerring{fill:#616161;stroke-width:1.4;cursor: pointer;}
+		.progressicon:hover .outerring{fill:#2196f3;stroke-width:1.4;cursor: pointer;}
+		.completed{fill:#2196f3;opacity:0.8;stroke-width:6;cursor: pointer;}
+		.incomplete{fill:#e0e0e0;opacity:0.8;stroke-width:6;cursor: pointer;}
+		.background{fill:#e0e0e0;opacity:0;stroke-width:0;cursor: pointer;}
+	</style>
+	<g class="progressicon">
+		<path id="ring" d="M96 8.5A87.5 87.5 0 0 0 8.5 96 87.5 87.5 0 0 0 96 183.5 87.5 87.5 0 0 0 183.5 96 87.5 87.5 0 0 0 96 8.5zM96 24A72 72 0 0 1 168 96 72 72 0 0 1 96 168 72 72 0 0 1 24 96 72 72 0 0 1 96 24z" class="outerring"/>
+		<path id="section0" d="M133.3 44.1 100.9 67.9 158.3 110.3A64 64 0 0 0 160 96 64 64 0 0 0 133.3 44.1Z" class="completed"/>
+		<path id="section1" d="M124.1 92.5 101.9 159.7A64 64 0 0 0 156.6 116.5Z" class="completed"/>
+		<path id="section2" d="m37.3 121.4a64 64 0 0 0 58.1 38.6l12.7-38.3z" class="completed"/>
+    <path id="section4" d="M53.8 48A64 64 0 0 0 32 96a64 64 0 0 0 3.1 19.4l40.3 0.1z" class="completed"/>
+    <path id="section5" d="M96 32A64 64 0 0 0 58.8 44l12.3 38.4 56.9-41.7A64 64 0 0 0 96 32Z" class="completed"/>
+		<rect x="0" y="0" width="176" height="176" class="background"></rect>
+	</g>
+</svg>

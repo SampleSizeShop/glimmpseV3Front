@@ -1,17 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BetweenIsuPredictorsComponent } from './between-isu-predictors.component';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
-import {Predictor} from '../../shared/Predictor';
-import {NavigationService} from '../../shared/navigation.service';
+import {Predictor} from '../../shared/model/Predictor';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NGXLogger} from 'ngx-logger';
+import {MatIconModule} from "@angular/material/icon";
 
 
 describe('BetweenIsuPredictorsComponent', () => {
@@ -36,7 +37,11 @@ describe('BetweenIsuPredictorsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, BrowserAnimationsModule],
+      imports: [
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        NgbModule,
+        MatIconModule],
       declarations: [ BetweenIsuPredictorsComponent ],
       providers: [
         StudyService,

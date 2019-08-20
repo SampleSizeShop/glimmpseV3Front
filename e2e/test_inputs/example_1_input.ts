@@ -1,4 +1,4 @@
-import {constants} from '../../src/app/shared/constants';
+import {constants} from '../../src/app/shared/model/constants';
 
 export const example_1_input = {
   user_mode: constants.USER_MODE.GUIDED,

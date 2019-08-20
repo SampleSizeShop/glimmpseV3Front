@@ -1,14 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CalculateComponent } from './calculate.component';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
-import {Predictor} from '../../shared/Predictor';
+import {Predictor} from '../../shared/model/Predictor';
 import {testCombinationMap1, testCombinationMap2} from './test_inputs/testCombinationMap';
 import {NGXLogger} from 'ngx-logger';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
+import {StatusComponent} from '../status/status.component';
+import {NgbAccordion, NgbModule, NgbPanel} from '@ng-bootstrap/ng-bootstrap';
+import {MatIcon} from "@angular/material";
+import {MatIconModule} from "@angular/material/icon";
 
 describe('CalculateComponent', () => {
   let component: CalculateComponent;
@@ -18,7 +22,12 @@ describe('CalculateComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         CalculateComponent,
-        MathJaxDirective],
+        MathJaxDirective,
+        StatusComponent],
+      imports: [
+        NgbModule,
+        MatIconModule
+      ],
       providers: [
         StudyService,
        {provide: HttpClient, useClass: MockBackend},

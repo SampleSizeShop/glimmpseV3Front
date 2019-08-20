@@ -2,14 +2,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParametersGaussianPowerComponent } from './parameters-gaussian-power.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClient} from '@angular/common/http';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
 import {MockBackend} from '@angular/http/testing';
 import {ActivatedRoute} from '@angular/router';
-import {GaussianCovariate} from '../../shared/GaussianCovariate';
+import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
 
 describe('ParametersGaussianPowerComponent', () => {
   let component: ParametersGaussianPowerComponent;

@@ -1,15 +1,15 @@
 import {Component, DoCheck, OnInit, OnDestroy, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {minMaxValidator} from '../../shared/minmax.validator';
+import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
-import {constants} from '../../shared/constants';
-import {StudyService} from '../study.service';
+import {constants} from '../../shared/model/constants';
+import {StudyService} from '../../shared/services/study.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {isNullOrUndefined} from 'util';
-import {StudyDesign} from '../../shared/study-design';
-import {typeOneErrorValidator} from './type-one-error.validator';
+import {StudyDesign} from '../../shared/model/study-design';
+import {typeOneErrorValidator} from '../../shared/validators/type-one-error.validator';
 
 @Component({
   selector: 'app-type-one-error',
@@ -173,7 +173,10 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     if (!isNullOrUndefined(value) &&
       value !== '' &&
       this.typeOneErrorRate.indexOf(value) === -1
-    && this.typeOneErrorRateForm.valid) {
+    && (
+      this.typeOneErrorRateForm.valid
+      || this.formErrors.typeoneerror.trim() === constants.TYPE_ONE_ERROR_VALIDATION_MESSAGES.typeoneerror.noalpha.trim()
+      )) {
       this._typeOneErrorRate.push(this.typeOneErrorRateForm.value.typeoneerror);
       this.typeOneErrorRateForm.reset();
     }

@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserModeComponent } from './user-mode.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 
 describe('UserModeComponent', () => {

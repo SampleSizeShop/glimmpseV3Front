@@ -1,27 +1,36 @@
 <br>
-<div style="vertical-align: middle">
+<div style="vertical-align: middle"
+     (swipeRight)="onSwipeRight($event)"
+     (swipeLeft)="onSwipeLeft($event)">
   <div class="row">
     <div class="col-5">
       <h6>
         {{getStudyName()}}: {{getCurrentStageName()}}
-        <div ngbDropdown class="h-25 d-inline-block">
-          <div ngbDropdownToggle class="h-25 dropdown-toggle" style="cursor: pointer;"></div>
-          <div ngbDropdownMenu>
-            <div *ngFor="let s of stageNames">
-              <label class="h-25 dropdown-item"
-                     [class.active]="s === getCurrentStageName()"
-                     [class.disabled]="s != getCurrentStageName()"
-              style="cursor: default">{{s}}</label>
-            </div>
-          </div>
-        </div>
       </h6>
     </div>
-    <div class="col-5"></div>
-    <div class="col-1 col-md-auto">
+    <div class="col-4"></div>
+    <div *ngIf="getStage() < 9" class="col-1 col-md-auto" matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+      <mat-icon svgIcon="aperture_0" (click)="showStatus()"></mat-icon>
+    </div>
+    <div *ngIf="getStage() > 8 && getStage() < 13" class="col-1 col-md-auto"  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+      <mat-icon svgIcon="aperture_1" (click)="showStatus()"></mat-icon>
+    </div>
+    <div *ngIf="getStage() > 12 && getStage() < 16" class="col-1 col-md-auto"  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+      <mat-icon svgIcon="aperture_2" (click)="showStatus()"></mat-icon>
+    </div>
+    <div *ngIf="getStage() > 15 && getStage() < 27" class="col-1 col-md-auto"  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+      <mat-icon svgIcon="aperture_3" (click)="showStatus()"></mat-icon>
+    </div>
+    <div *ngIf="getStage() === 27" class="col-1 col-md-auto"  matTooltip="status"  [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+      <mat-icon svgIcon="aperture_4" (click)="showStatus()"></mat-icon>
+    </div>
+    <div *ngIf="getStage() === 28" class="col-1 col-md-auto"  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+      <mat-icon svgIcon="aperture_5" (click)="showStatus()"></mat-icon>
+    </div>
+    <div class="col-1 col-md-auto"  matTooltip="help" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
       <mat-icon (click)="toggleHelpText()">info_outline</mat-icon>
     </div>
-    <div class="col-1 col md col-md-auto">
+    <div class="col-1 col md col-md-auto"  matTooltip="download" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
       <mat-icon id="downloadbtn" (click)="download()">save_alt</mat-icon>
     </div>
   </div>
@@ -40,7 +49,7 @@
                   padding-top: 50%"
          id="navigate_before">navigate_before</i>
     </div>
-    <div [@routeSlide]="navDirection$ | async" class="col-8">
+    <div class="col-8">
       <router-outlet #outlet="outlet"></router-outlet>
     </div>
     <div class="col-2 justify-content-end"
@@ -59,5 +68,19 @@
 
 </div>
 <hr>
+
+<ng-template #status>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Status</h5>
+        <button type="button" class="close" (click)="dismissStatus()">
+          <i class="material-icons">close</i>
+        </button>
+    </div>
+    <div class="modal-body">
+      <app-status></app-status>
+    </div>
+  </div>
+</ng-template>
 
 <a id="downloadStudy" [attr.href]="downloadStudy" download="{{study.name}}.json" hidden>Download result</a>

@@ -1,4 +1,4 @@
-import {constants} from '../../src/app/shared/constants';
+import {constants} from '../../src/app/shared/model/constants';
 
 // A multilevel study with a hypothesis test of a between-independent sampling unit factor.
 

@@ -6,10 +6,10 @@ import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
-import {StudyService} from '../study.service';
+import {StudyService} from '../../shared/services/study.service';
 import {testEnvironment} from '../../../environments/environment.test';
 import {MatTooltip} from '@angular/material';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 
 describe('ParametersStandardDeviationComponent', () => {
   let component: ParametersStandardDeviationComponent;

@@ -4,16 +4,16 @@ import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {ISUFactors} from '../../shared/ISUFactors';
-import {StudyService} from '../study.service';
+import {ISUFactors} from '../../shared/model/ISUFactors';
+import {StudyService} from '../../shared/services/study.service';
 import {isNullOrUndefined} from 'util';
 import {ActivatedRoute, ParamMap} from '@angular/router';
-import {MarginalMeansTable} from '../../shared/MarginalMeansTable';
+import {MarginalMeansTable} from '../../shared/model/MarginalMeansTable';
 import {TooltipPosition} from '@angular/material';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
-import {minMaxValidator} from "../../shared/minmax.validator";
+import {minMaxValidator} from "../../shared/validators/minmax.validator";
 
 @Component({
   selector: 'app-parameters-marginal-means',

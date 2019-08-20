@@ -1,4 +1,4 @@
-import {constants} from '../../src/app/shared/constants';
+import {constants} from '../../src/app/shared/model/constants';
 
 export const O2R2P2C0_output = {
   message: 'OK',

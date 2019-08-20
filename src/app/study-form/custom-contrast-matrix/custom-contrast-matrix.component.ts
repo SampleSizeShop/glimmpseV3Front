@@ -4,12 +4,12 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/index';
 import {isNullOrUndefined} from 'util';
 import {ContrastMatrixService} from './contrast-matrix.service';
-import {minMaxValidator} from '../../shared/minmax.validator';
-import {constants} from '../../shared/constants';
+import {minMaxValidator} from '../../shared/validators/minmax.validator';
+import {constants} from '../../shared/model/constants';
 import {TooltipPosition} from '@angular/material';
-import {zeroColsValidator} from './zerocols.validator';
-import {PartialMatrix} from '../../shared/PartialMatrix';
-import {zeroRowsValidator} from './zerorows.validator';
+import {zeroColsValidator} from '../../shared/validators/zerocols.validator';
+import {PartialMatrix} from '../../shared/model/PartialMatrix';
+import {zeroRowsValidator} from '../../shared/validators/zerorows.validator';
 
 @Component({
   selector: 'app-custom-matrix',

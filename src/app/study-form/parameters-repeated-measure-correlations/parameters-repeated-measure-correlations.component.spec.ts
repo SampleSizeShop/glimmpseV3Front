@@ -7,14 +7,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { ParametersRepeatedMeasureCorrelationsComponent } from './parameters-repeated-measure-correlations.component';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
-import {CorrelationMatrixService} from '../correlation-matrix/correlationMatrix.service';
-import {StudyService} from '../study.service';
+import {CorrelationMatrixService} from '../../shared/services/correlationMatrix.service';
+import {StudyService} from '../../shared/services/study.service';
 
 import 'rxjs/add/operator/switchMap';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
 import {MatTooltip} from '@angular/material';
-import {NavigationService} from '../../shared/navigation.service';
+import {NavigationService} from '../../shared/services/navigation.service';
 
 let component: ParametersRepeatedMeasureCorrelationsComponent;
 let fixture: ComponentFixture<ParametersRepeatedMeasureCorrelationsComponent>;
