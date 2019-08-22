@@ -80,9 +80,8 @@
       </div>
       <div *ngIf="design && hypothesis">
         <p *ngIf="solveForPower" style="padding-left: 0.5em"><b>Smallest group size:</b> {{thetaNought}}</p>
-        <p style="padding-left: 0.5em"><b>Relative group sizes:</b></p>
         <div *ngFor="let groupsizetable of study.isuFactors.betweenIsuRelativeGroupSizes">
-          <p style="padding-left: 0.5em"><b>Group sizes for:</b> {{groupsizetable.name}}</p>
+          <p style="padding-left: 0.5em"><b>Relative group sizes for:</b> {{groupsizetable.name}}</p>
           <div class="row">
             <div class="col-2"></div>
             <div class="col-md-auto" style="display:flex; justify-content: center">
