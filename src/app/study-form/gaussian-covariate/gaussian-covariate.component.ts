@@ -6,7 +6,7 @@ import {isNullOrUndefined} from 'util';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {constants} from '../../shared/model/constants';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Subscription} from 'rxjs/Rx';
+import {Subscription} from 'rxjs';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 

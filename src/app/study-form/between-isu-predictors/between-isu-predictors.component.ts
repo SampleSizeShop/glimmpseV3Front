@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Subscription} from 'rxjs';
+import {Subscription, Observable} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
 import {Predictor} from '../../shared/model/Predictor';
 import {constants, getName} from '../../shared/model/constants';
@@ -8,7 +8,6 @@ import {predictorValidator} from '../../shared/validators/predictor.validator';
 import {groupValidator} from '../../shared/validators/group.validator';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-import {Observable} from 'rxjs/Observable';
 import {isNullOrUndefined} from 'util';
 import {fadeTransition} from '../../animations/animations';
 import {NGXLogger} from 'ngx-logger';

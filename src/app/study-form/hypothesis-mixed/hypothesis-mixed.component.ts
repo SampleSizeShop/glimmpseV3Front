@@ -1,7 +1,7 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {constants, getName} from 'app/shared/model/constants';
 import {StudyService} from '../../shared/services/study.service';
-import {Subscription} from 'rxjs';
+import {Subscription, Observable} from 'rxjs';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import {PartialMatrix} from '../../shared/model/PartialMatrix';
@@ -9,7 +9,6 @@ import {Router} from '@angular/router';
 import {Predictor} from '../../shared/model/Predictor';
 import {NGXLogger} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';

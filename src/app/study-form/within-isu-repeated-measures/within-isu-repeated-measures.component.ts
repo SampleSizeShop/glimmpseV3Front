@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
 import {constants} from '../../shared/model/constants';
-import {Subscription} from 'rxjs';
+import {Subscription, Observable} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {CorrelationMatrix} from '../../shared/model/CorrelationMatrix';
@@ -10,7 +10,6 @@ import {noDuplicatesValidator} from '../../shared/validators/noduplicates.valida
 import {NavigationService} from '../../shared/services/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations/animations';
-import {Observable} from 'rxjs/Observable';
 import {NGXLogger} from 'ngx-logger';
 import {integerValidator} from '../../shared/validators/integer.validator';
 import {isNullOrUndefined} from 'util';
