@@ -1,23 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ParametersIntraClassCorrelationComponent } from './parameters-intra-class-correlation.component';
 import {StudyService} from '../../shared/services/study.service';
-import {HttpClient} from '@angular/common/http';
-import {MockBackend} from '@angular/http/testing';
-import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {LoggerModule} from 'ngx-logger';
 import {ReactiveFormsModule} from '@angular/forms';
 import {testEnvironment} from '../../../environments/environment.test';
-import {Outcome} from '../../shared/model/Outcome';
 import {Cluster} from '../../shared/model/Cluster';
 import {NavigationService} from '../../shared/services/navigation.service';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import { HttpClient } from '@angular/common/http';
 
 describe('ParametersIntraClassCorrelationComponent', () => {
   let component: ParametersIntraClassCorrelationComponent;
   let fixture: ComponentFixture<ParametersIntraClassCorrelationComponent>;
 
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -30,12 +32,12 @@ describe('ParametersIntraClassCorrelationComponent', () => {
       ],
       providers: [
         StudyService,
-        NavigationService,
-        {provide: HttpClient, useClass: MockBackend},
-        {provide: NGXLogger, useClass: NGXLoggerMock}
+        NavigationService
         ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

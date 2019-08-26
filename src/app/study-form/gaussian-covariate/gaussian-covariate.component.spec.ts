@@ -6,30 +6,38 @@ import {By} from '@angular/platform-browser';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../../shared/services/study.service';
 import {HttpClient} from '@angular/common/http';
-import {MockBackend} from '@angular/http/testing';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {MatIconModule} from "@angular/material/icon";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatIconModule} from '@angular/material/icon';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
 
 describe('GaussianCovariateComponent', () => {
   let component: GaussianCovariateComponent;
   let fixture: ComponentFixture<GaussianCovariateComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule,
+        HttpClientTestingModule,
         NgbModule,
         MatIconModule],
       declarations: [ GaussianCovariateComponent ],
       providers: [
         StudyService,
-        {provide: HttpClient, useClass: MockBackend},
         NGXLogger,
+        {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
+        {provide: NGXMapperService, useClass: NGXMapperServiceMock},
+        {provide: LoggerConfig, useValue: {level: NgxLoggerLevel.ERROR}},
         NavigationService
       ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

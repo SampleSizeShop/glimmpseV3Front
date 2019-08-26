@@ -4,7 +4,7 @@ import { CustomContrastMatrixComponent } from './custom-contrast-matrix.componen
 import {ReactiveFormsModule} from '@angular/forms';
 import { MatTooltip } from '@angular/material/tooltip';
 import {ContrastMatrixService} from './contrast-matrix.service';
-import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {NGXLogger} from 'ngx-logger';
 
 describe('CustomMatrixComponent', () => {
   // let component: CustomContrastMatrixComponent;
@@ -18,7 +18,7 @@ describe('CustomMatrixComponent', () => {
   //       MatTooltip],
   //     providers: [
   //       ContrastMatrixService,
-  //       {provide: NGXLogger, useClass: NGXLoggerMock}]
+  //       ]
   //   })
   //   .compileComponents();
   // }));

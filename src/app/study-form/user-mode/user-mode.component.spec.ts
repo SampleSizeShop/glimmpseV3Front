@@ -2,24 +2,32 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserModeComponent } from './user-mode.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../../shared/services/study.service';
-import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
 
 describe('UserModeComponent', () => {
   let component: UserModeComponent;
   let fixture: ComponentFixture<UserModeComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ ReactiveFormsModule ],
+      imports: [ ReactiveFormsModule, HttpClientTestingModule ],
       declarations: [ UserModeComponent ],
-      providers: [ StudyService, NavigationService, NGXLogger, { provide: HttpClient, useClass: MockBackend } ]
+      providers: [ StudyService, NavigationService, NGXLogger,
+        {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
+        {provide: NGXMapperService, useClass: NGXMapperServiceMock},
+        {provide: LoggerConfig, useValue: {level: NgxLoggerLevel.ERROR}} ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
 
     fixture = TestBed.createComponent(UserModeComponent);
     component = fixture.componentInstance;

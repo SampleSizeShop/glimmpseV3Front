@@ -427,4 +427,8 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   get isMixed(): boolean {
     return this._isMixed;
   }
+
+  get isuFactors(): ISUFactors {
+    return this._isuFactors;
+  }
 }

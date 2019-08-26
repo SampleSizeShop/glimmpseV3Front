@@ -2,22 +2,27 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParametersStandardDeviationComponent } from './parameters-standard-deviation.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {LoggerModule, NGXLogger, } from 'ngx-logger';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {HttpClient} from '@angular/common/http';
-import {MockBackend} from '@angular/http/testing';
+
 import {StudyService} from '../../shared/services/study.service';
 import {testEnvironment} from '../../../environments/environment.test';
 import { MatTooltip } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
+import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 
 describe('ParametersStandardDeviationComponent', () => {
   let component: ParametersStandardDeviationComponent;
   let fixture: ComponentFixture<ParametersStandardDeviationComponent>;
 
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -33,11 +38,13 @@ describe('ParametersStandardDeviationComponent', () => {
       providers: [
         StudyService,
         NavigationService,
-        {provide: HttpClient, useClass: MockBackend},
-        {provide: NGXLogger, useClass: NGXLoggerMock}
+
+
       ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

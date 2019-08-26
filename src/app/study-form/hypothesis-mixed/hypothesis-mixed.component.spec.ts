@@ -1,7 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { HypothesisMixedComponent } from './hypothesis-mixed.component';
-import {MockBackend} from '@angular/http/testing';
 import {HttpClient} from '@angular/common/http';
 import {StudyService} from '../../shared/services/study.service';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
@@ -9,23 +7,35 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Outcome} from 'app/shared/model/Outcome';
 import {Predictor} from '../../shared/model/Predictor';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
+import {Router} from '@angular/router';
+import {RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
-import {LoggerModule, NGXLogger} from 'ngx-logger';
+import {
+  LoggerConfig,
+  LoggerModule,
+  NGXLogger,
+  NGXLoggerHttpService,
+  NgxLoggerLevel,
+  NGXMapperService
+} from 'ngx-logger';
 import {CustomContrastMatrixComponent} from '../custom-contrast-matrix/custom-contrast-matrix.component';
 import { MatTooltip } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
-describe('HypothesisBetweenComponent no factors', () => {
+describe('HypothesisMixedComponent no factors', () => {
   let component: HypothesisMixedComponent;
   let fixture: ComponentFixture<HypothesisMixedComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
         LoggerModule.forRoot({
@@ -45,11 +55,15 @@ describe('HypothesisBetweenComponent no factors', () => {
         NavigationService,
         NgbModal,
         NGXLogger,
-        {provide: HttpClient, useClass: MockBackend},
+        {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
+        {provide: NGXMapperService, useClass: NGXMapperServiceMock},
+        {provide: LoggerConfig, useValue: {level: NgxLoggerLevel.ERROR}},
         {provide: Router, useClass: RouterStub}
         ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {
@@ -70,9 +84,11 @@ describe('HypothesisBetweenComponent no factors', () => {
   });
 });
 
-describe('HypothesisBetweenComponent with Factors', () => {
+describe('HypothesisMixedComponent with Factors', () => {
   let component: HypothesisMixedComponent;
   let fixture: ComponentFixture<HypothesisMixedComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   class MockISUFactors extends ISUFactors {
     constructor() {
@@ -93,6 +109,7 @@ describe('HypothesisBetweenComponent with Factors', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
         LoggerModule.forRoot({
@@ -111,11 +128,13 @@ describe('HypothesisBetweenComponent with Factors', () => {
         StudyService,
         NavigationService,
         NgbModal,
-        {provide: HttpClient, useClass: MockBackend},
+
         {provide: Router, useClass: RouterStub}
       ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

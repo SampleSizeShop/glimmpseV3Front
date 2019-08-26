@@ -1,21 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 
 import { WithinIsuClustersComponent } from './within-isu-clusters.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../../shared/services/study.service';
-import {HttpClient} from '@angular/common/http';
-import {MockBackend} from '@angular/http/testing';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {CollapsibleTreeComponent} from '../../d3/visuals/collapsible-tree/collapsible-tree.component';
 import {NodeVisualComponent} from '../../d3/visuals/shared/node-visual/node-visual.component';
 import {LinkVisualComponent} from '../../d3/visuals/shared/link-visual/link-visual.component';
 import {ZoomableDirective} from '../../d3/directives/zoomable.directive';
 import {D3Service} from "../../d3/d3.service";
+import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
 
 describe('WithinIsuClustersComponent', () => {
   let component: WithinIsuClustersComponent;
@@ -24,7 +24,7 @@ describe('WithinIsuClustersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule, BrowserAnimationsModule
+        ReactiveFormsModule, BrowserAnimationsModule, HttpClientTestingModule
       ],
       declarations: [
         WithinIsuClustersComponent,
@@ -35,7 +35,9 @@ describe('WithinIsuClustersComponent', () => {
       providers: [ StudyService,
                   NgbModal,
                   NGXLogger,
-                  { provide: HttpClient, useClass: MockBackend},
+                  {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
+                  {provide: NGXMapperService, useClass: NGXMapperServiceMock},
+                  {provide: LoggerConfig, useValue: {level: NgxLoggerLevel.ERROR}},
                   D3Service,
                   NavigationService]
     })

@@ -4,30 +4,39 @@ import { ParametersGaussianPowerComponent } from './parameters-gaussian-power.co
 import {ReactiveFormsModule} from '@angular/forms';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClient} from '@angular/common/http';
-import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StudyService} from '../../shared/services/study.service';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
-import {MockBackend} from '@angular/http/testing';
+
 import {ActivatedRoute} from '@angular/router';
 import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from "ngx-logger";
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
 
 describe('ParametersGaussianPowerComponent', () => {
   let component: ParametersGaussianPowerComponent;
   let fixture: ComponentFixture<ParametersGaussianPowerComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [ReactiveFormsModule, HttpClientTestingModule],
       declarations: [ ParametersGaussianPowerComponent ],
       providers: [
         StudyService,
         NavigationService,
-        {provide: HttpClient, useClass: MockBackend},
+        NGXLogger,
+        {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
+        {provide: NGXMapperService, useClass: NGXMapperServiceMock},
+        {provide: LoggerConfig, useValue: {level: NgxLoggerLevel.ERROR}},
         {provide: ActivatedRoute, useClass: ActivatedRouteStub },
-        {provide: NGXLogger, useClass: NGXLoggerMock}
+
       ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {
