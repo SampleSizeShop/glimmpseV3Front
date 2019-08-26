@@ -38,47 +38,4 @@ describe('HypothesisBetweenComponent', () => {
       this.variables.push(outcome);
     }
   }
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        LoggerModule.forRoot({
-          serverLoggingUrl: testEnvironment.serverLoggingUrl,
-          level: testEnvironment.loglevel,
-          serverLogLevel: testEnvironment.loglevel
-        })
-      ],
-      declarations: [
-        HypothesisBetweenComponent,
-        MathJaxDirective,
-        CustomContrastMatrixComponent,
-        MatTooltip ],
-      providers: [
-        StudyService,
-        NavigationService,
-        NgbModal,
-        NGXLogger,
-        {provide: ISUFactors, useClass: MockISUFactors},
-        {provide: Router, useClass: RouterStub},
-        {provide: ActivatedRoute, useClass: ActivatedRouteStub}
-      ]
-    })
-      .compileComponents();
-    httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HypothesisBetweenComponent);
-    component = fixture.componentInstance;
-    component.isuFactors.variables.push(new Outcome('outcome'));
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });
