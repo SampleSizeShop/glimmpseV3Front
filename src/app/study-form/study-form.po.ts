@@ -1,6 +1,5 @@
 import { browser, by, element } from 'protractor';
 import {UserModePo} from './user-mode/user-mode.po';
-import {TargetEventPo} from './target-event/target-event.po';
 import {SolveForPo} from './solve-for/solve-for.po';
 import {StatisticalTestsPo} from './statistical-tests/statistical-tests.po';
 import {TypeOneErrorPo} from './type-one-error/type-one-error.po';
@@ -33,7 +32,6 @@ import {HypothesisMixedPo} from "./hypothesis-mixed/hypothesis-mixed.po";
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
-  target_event: TargetEventPo;
   solve_for: SolveForPo;
   statistical_tests: StatisticalTestsPo;
   type_one_error: TypeOneErrorPo;
@@ -65,7 +63,6 @@ export class StudyFormComponentPage {
 
   constructor() {
     this.user_mode = new UserModePo();
-    this.target_event = new TargetEventPo();
     this.solve_for = new SolveForPo();
     this.statistical_tests = new StatisticalTestsPo();
     this.type_one_error = new TypeOneErrorPo();

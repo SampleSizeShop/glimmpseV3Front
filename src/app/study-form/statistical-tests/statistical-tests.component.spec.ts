@@ -6,21 +6,33 @@ import {DebugElement} from '@angular/core';
 import {StudyService} from '../../shared/services/study.service';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClient} from '@angular/common/http';
-import {MockBackend} from '@angular/http/testing';
 import {ReactiveFormsModule} from '@angular/forms';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
 
 describe('StatisticalTestsComponent', () => {
   let component: StatisticalTestsComponent;
   let fixture: ComponentFixture<StatisticalTestsComponent>;
 
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [HttpClientTestingModule, ReactiveFormsModule],
       declarations: [ StatisticalTestsComponent ],
-      providers: [ StudyService, NGXLogger, {provide: HttpClient, useClass: MockBackend}, NavigationService]
+      providers: [ StudyService,
+        NGXLogger,
+        {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
+        {provide: NGXMapperService, useClass: NGXMapperServiceMock},
+        {provide: LoggerConfig, useValue: {level: NgxLoggerLevel.ERROR}},
+        NavigationService
+      ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

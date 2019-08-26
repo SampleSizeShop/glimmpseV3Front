@@ -3,20 +3,22 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CalculateComponent } from './calculate.component';
 import {StudyService} from '../../shared/services/study.service';
 import {HttpClient} from '@angular/common/http';
-import {MockBackend} from '@angular/http/testing';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {Predictor} from '../../shared/model/Predictor';
 import {testCombinationMap1, testCombinationMap2} from './test_inputs/testCombinationMap';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {StatusComponent} from '../status/status.component';
-import {NgbAccordion, NgbModule, NgbPanel} from '@ng-bootstrap/ng-bootstrap';
-import { MatIcon } from "@angular/material/icon";
-import {MatIconModule} from "@angular/material/icon";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {MatIconModule} from '@angular/material/icon';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
 
 describe('CalculateComponent', () => {
   let component: CalculateComponent;
   let fixture: ComponentFixture<CalculateComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,16 +27,21 @@ describe('CalculateComponent', () => {
         MathJaxDirective,
         StatusComponent],
       imports: [
+        HttpClientTestingModule,
         NgbModule,
         MatIconModule
       ],
       providers: [
         StudyService,
-       {provide: HttpClient, useClass: MockBackend},
         NGXLogger,
+        {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
+        {provide: NGXMapperService, useClass: NGXMapperServiceMock},
+        {provide: LoggerConfig, useValue: {level: NgxLoggerLevel.ERROR}},
         NavigationService]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

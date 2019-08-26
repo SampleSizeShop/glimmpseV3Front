@@ -1,25 +1,26 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
 import { SolveForComponent } from './solve-for.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../../shared/services/study.service';
-import {HttpClient} from '@angular/common/http';
-import { MockBackend } from '@angular/http/testing';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
-import {LoggerModule, NGXLogger} from 'ngx-logger';
-import {NGXLoggerMock} from 'ngx-logger';
+import {LoggerModule} from 'ngx-logger';
 import {testEnvironment} from '../../../environments/environment.test';
-import {NavigationService} from "../../shared/services/navigation.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {NavigationService} from '../../shared/services/navigation.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {HttpClient} from '@angular/common/http';
 
 describe('SolveForComponent', () => {
   let component: SolveForComponent;
   let fixture: ComponentFixture<SolveForComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -31,10 +32,11 @@ describe('SolveForComponent', () => {
         StudyService,
         NavigationService,
         NgbModal,
-        { provide: HttpClient, useClass: MockBackend },
-        {provide: NGXLogger, useClass: NGXLoggerMock} ]
+         ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {
@@ -77,10 +79,13 @@ describe('SolveForComponent', () => {
 describe('SolveForComponen_targetEvent_Rejection', () => {
   let component: SolveForComponent;
   let fixture: ComponentFixture<SolveForComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -92,10 +97,11 @@ describe('SolveForComponen_targetEvent_Rejection', () => {
         NavigationService,
         NgbModal,
         StudyService,
-        { provide: HttpClient, useClass: MockBackend },
-        {provide: NGXLogger, useClass: NGXLoggerMock} ]
+         ]
     })
       .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {
@@ -145,10 +151,12 @@ describe('SolveForComponen_targetEvent_Rejection', () => {
 describe('SolveForComponent_targetEvent_CIWIDTH', () => {
   let component: SolveForComponent;
   let fixture: ComponentFixture<SolveForComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
+      imports: [HttpClientTestingModule,
         ReactiveFormsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -160,10 +168,11 @@ describe('SolveForComponent_targetEvent_CIWIDTH', () => {
         NavigationService,
         NgbModal,
         StudyService,
-        { provide: HttpClient, useClass: MockBackend },
-        {provide: NGXLogger, useClass: NGXLoggerMock} ]
+         ]
     })
       .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {
@@ -212,9 +221,13 @@ describe('SolveForComponent_targetEvent_WAVR', () => {
   let component: SolveForComponent;
   let fixture: ComponentFixture<SolveForComponent>;
 
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -226,10 +239,11 @@ describe('SolveForComponent_targetEvent_WAVR', () => {
         NavigationService,
         NgbModal,
         StudyService,
-        { provide: HttpClient, useClass: MockBackend },
-        {provide: NGXLogger, useClass: NGXLoggerMock} ]
+         ]
     })
       .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

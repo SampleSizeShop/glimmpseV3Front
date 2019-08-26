@@ -10,26 +10,33 @@ import {HypothesisEffect} from '../../shared/model/HypothesisEffect';
 import {StudyService} from '../../shared/services/study.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
-import {MockBackend} from '@angular/http/testing';
 import {constants} from '../../shared/model/constants';
-import {NGXLogger} from 'ngx-logger';
+import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
 
 describe('HypothesisEffectChoiceComponent', () => {
   let component: HypothesisEffectChoiceComponent;
   let fixture: ComponentFixture<HypothesisEffectChoiceComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule],
+      imports: [HttpClientTestingModule, ReactiveFormsModule],
       declarations: [ HypothesisEffectChoiceComponent ],
       providers: [
         StudyService,
-        { provide: HttpClient, useClass: MockBackend },
         NGXLogger,
+        {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
+        {provide: NGXMapperService, useClass: NGXMapperServiceMock},
+        {provide: LoggerConfig, useValue: {level: NgxLoggerLevel.ERROR}},
         NavigationService]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

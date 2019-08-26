@@ -1,24 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {HttpClient} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MockBackend} from '@angular/http/testing';
+
 import {ActivatedRoute, Router} from '@angular/router';
 
 import { ParametersRepeatedMeasureCorrelationsComponent } from './parameters-repeated-measure-correlations.component';
-import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {LoggerModule, NGXLogger, } from 'ngx-logger';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {CorrelationMatrixService} from '../../shared/services/correlationMatrix.service';
 import {StudyService} from '../../shared/services/study.service';
-
-import 'rxjs/add/operator/switchMap';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
 import { MatTooltip } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
 let component: ParametersRepeatedMeasureCorrelationsComponent;
 let fixture: ComponentFixture<ParametersRepeatedMeasureCorrelationsComponent>;
 let activatedRoute: ActivatedRouteStub;
+
+let httpClient: HttpClient;
+let httpTestingController: HttpTestingController;
 
 describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
   beforeEach(() => {
@@ -29,6 +31,7 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
     activatedRoute.testParamMap = {name: 'Test'};
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -46,12 +49,12 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
         CorrelationMatrixService,
         NavigationService,
         {provide: Router, useClass: RouterStub},
-        {provide: HttpClient, useClass: MockBackend},
-        {provide: NGXLogger, useClass: NGXLoggerMock},
         {provide: ActivatedRoute, useClass: ActivatedRouteStub }
       ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

@@ -15,7 +15,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AppRoutingModule} from './app-routing-module';
 import {UserModeComponent} from './study-form/user-mode/user-mode.component';
 import {StudyFormComponent} from './study-form/study-form.component';
-import {TargetEventComponent} from './study-form/target-event/target-event.component';
 import {SolveForComponent} from './study-form/solve-for/solve-for.component';
 import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 import {environment} from '../environments/environment';
@@ -68,7 +67,6 @@ import {CustomHammerConfig} from "./hammer/CustomHammerConfig";
     MathJaxDirective,
     UserModeComponent,
     StudyFormComponent,
-    TargetEventComponent,
     SolveForComponent,
     StatisticalTestsComponent,
     TypeOneErrorComponent,

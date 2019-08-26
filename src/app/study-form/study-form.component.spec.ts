@@ -4,11 +4,8 @@ import {StudyFormComponent} from './study-form.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {StudyService} from '../shared/services/study.service';
 import {UserModeComponent} from './user-mode/user-mode.component';
-import {TargetEventComponent} from './target-event/target-event.component';
 import {SolveForComponent} from './solve-for/solve-for.component';
-import {MockBackend} from '@angular/http/testing';
-import {HttpClient} from '@angular/common/http';
-import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {LoggerModule} from 'ngx-logger';
 import {StatisticalTestsComponent} from './statistical-tests/statistical-tests.component';
 import {TypeOneErrorComponent} from './type-one-error/type-one-error.component';
 import {CorrelationMatrixComponent} from './correlation-matrix/correlation-matrix.component';
@@ -47,7 +44,6 @@ import {ZoomableDirective} from '../d3/directives/zoomable.directive';
 import {CollapsibleTreeComponent} from '../d3/visuals/collapsible-tree/collapsible-tree.component';
 import {StatusComponent} from './status/status.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import {Observable} from "rxjs/Observable";
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -63,9 +59,6 @@ describe('StudyFormComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule,
         Angular2CsvModule,
-        RouterTestingModule.withRoutes([
-          { path: 'design/TARGET_EVENT', component: TargetEventComponent}
-        ]),
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
@@ -75,7 +68,6 @@ describe('StudyFormComponent', () => {
         StudyFormComponent,
         UserModeComponent,
         StudyTitleComponent,
-        TargetEventComponent,
         SolveForComponent,
         StatisticalTestsComponent,
         TypeOneErrorComponent,
@@ -110,8 +102,7 @@ describe('StudyFormComponent', () => {
         CustomContrastMatrixComponent,
         StatusComponent],
       providers: [ StudyService,
-        { provide: HttpClient, useClass: MockBackend },
-        {provide: NGXLogger, useClass: NGXLoggerMock},
+        ,
         RouterTestingModule ]
     })
     .compileComponents();

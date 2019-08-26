@@ -3,11 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CorrelationMatrixComponent } from './correlation-matrix.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CorrelationMatrixService} from '../../shared/services/correlationMatrix.service';
-import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
-import {HttpClient} from '@angular/common/http';
-import {MockBackend} from '@angular/http/testing';
+import {LoggerConfig, LoggerModule, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {testEnvironment} from '../../../environments/environment.test';
-import { MatTooltip } from "@angular/material/tooltip";
+import { MatTooltip } from '@angular/material/tooltip';
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
 
 describe('CorrelationMatrixComponent', () => {
   let component: CorrelationMatrixComponent;
@@ -22,7 +21,10 @@ describe('CorrelationMatrixComponent', () => {
           serverLogLevel: testEnvironment.loglevel
         })],
       declarations: [ CorrelationMatrixComponent, MatTooltip ],
-      providers: [ CorrelationMatrixService, { provide: HttpClient, useClass: MockBackend }, {provide: NGXLogger, useClass: NGXLoggerMock} ]
+      providers: [ CorrelationMatrixService,
+        {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
+        {provide: NGXMapperService, useClass: NGXMapperServiceMock},
+        {provide: LoggerConfig, useValue: {level: NgxLoggerLevel.ERROR}} ]
     })
     .compileComponents();
   }));

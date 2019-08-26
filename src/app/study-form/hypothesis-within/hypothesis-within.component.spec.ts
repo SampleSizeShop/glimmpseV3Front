@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HypothesisWithinComponent } from './hypothesis-within.component';
-import {MockBackend} from '@angular/http/testing';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {StudyService} from '../../shared/services/study.service';
 import {MathJaxDirective} from '../../mathjax/mathjax.directive';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
@@ -17,10 +16,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 
 describe('HypothesisWithinComponent', () => {
   let component: HypothesisWithinComponent;
   let fixture: ComponentFixture<HypothesisWithinComponent>;
+
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   class MockISUFactors extends ISUFactors {
     constructor() {
@@ -33,6 +36,7 @@ describe('HypothesisWithinComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
         LoggerModule.forRoot({
@@ -51,13 +55,14 @@ describe('HypothesisWithinComponent', () => {
         NavigationService,
         NgbModal,
         NGXLogger,
-        {provide: HttpClient, useClass: MockBackend},
         {provide: ISUFactors, useClass: MockISUFactors},
         {provide: Router, useClass: RouterStub},
         {provide: ActivatedRoute, useClass: ActivatedRouteStub}
         ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

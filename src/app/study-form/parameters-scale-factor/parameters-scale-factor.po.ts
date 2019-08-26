@@ -11,7 +11,6 @@ export class ParametersScaleFactorPo {
 
   fillForm(input) {
     if (!isNullOrUndefined(input)) {
-      console.log('shouldnt be here');
       const del = element(by.id('removescalefactor'));
       del.click();
       const scaleFactorInput = element(by.id('scalefactor'));

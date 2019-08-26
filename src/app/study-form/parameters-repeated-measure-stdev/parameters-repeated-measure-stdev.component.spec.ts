@@ -1,14 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import {HttpClient} from '@angular/common/http';
-import {MockBackend} from '@angular/http/testing';
+
 import {ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import { ParametersRepeatedMeasureStdevComponent } from './parameters-repeated-measure-stdev.component';
-import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {LoggerModule} from 'ngx-logger';
 import {StudyService} from '../../shared/services/study.service';
-
-import 'rxjs/add/operator/switchMap';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
 import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
@@ -43,8 +41,8 @@ describe('ParametersRepeatedMeasureOutcomeStDevComponent', () => {
         StudyService,
         NavigationService,
         {provide: Router, useClass: RouterStub},
-        {provide: HttpClient, useClass: MockBackend},
-        {provide: NGXLogger, useClass: NGXLoggerMock},
+
+        ,
         {provide: ActivatedRoute, useClass: ActivatedRouteStub }
       ]
     })

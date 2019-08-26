@@ -9,12 +9,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {StudyService} from './shared/services/study.service';
 import {HttpClient} from '@angular/common/http';
-import {MockBackend} from '@angular/http/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
 describe('AppComponent', () => {
+
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         RouterTestingModule,
         MatTooltipModule,
@@ -28,9 +33,10 @@ describe('AppComponent', () => {
       providers: [
         StudyService,
         RouterTestingModule,
-        { provide: HttpClient, useClass: MockBackend },
       ]
     }).compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   it('should create the app', async(() => {

@@ -3,23 +3,25 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ParametersOutcomeCorrelationsComponent } from './parameters-outcome-correlations.component';
 import {CorrelationMatrixComponent} from '../correlation-matrix/correlation-matrix.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MockBackend} from '@angular/http/testing';
+
 import {HttpClient} from '@angular/common/http';
-import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {LoggerModule, NGXLogger, } from 'ngx-logger';
 import {StudyService} from '../../shared/services/study.service';
 import {testEnvironment} from '../../../environments/environment.test';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
-import {OverlayModule} from '@angular/cdk/overlay';
+import {MatTooltipModule } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
 describe('ParametersOutcomeCorrelationsComponent', () => {
   let component: ParametersOutcomeCorrelationsComponent;
   let fixture: ComponentFixture<ParametersOutcomeCorrelationsComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         ReactiveFormsModule,
         MatTooltipModule,
         LoggerModule.forRoot({
@@ -36,11 +38,13 @@ describe('ParametersOutcomeCorrelationsComponent', () => {
         NGXLogger,
         NavigationService,
         StudyService,
-        {provide: HttpClient, useClass: MockBackend},
-        {provide: NGXLogger, useClass: NGXLoggerMock}
+
+
         ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {

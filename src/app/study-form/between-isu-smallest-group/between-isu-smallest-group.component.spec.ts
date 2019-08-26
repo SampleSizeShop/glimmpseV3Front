@@ -5,35 +5,46 @@ import {ISUFactors} from '../../shared/model/ISUFactors';
 import {DebugElement} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MockBackend} from '@angular/http/testing';
+
 import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {ActivatedRouteStub} from '../../../testing/router-stubs';
 import {StudyService} from '../../shared/services/study.service';
-import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
+import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {MatIconModule} from "@angular/material/icon";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {MatIconModule} from '@angular/material/icon';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {LoggerTestingModule, NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
 
 describe('BetweenIsuSmallestGroupComponent', () => {
   let component: BetweenIsuSmallestGroupComponent;
   let fixture: ComponentFixture<BetweenIsuSmallestGroupComponent>;
+  let httpClient: HttpClient;
+  let httpTestingController: HttpTestingController;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule,
+      imports: [
+        LoggerTestingModule,
+        HttpClientTestingModule,
+        ReactiveFormsModule,
         NgbModule,
         MatIconModule],
       declarations: [ BetweenIsuSmallestGroupComponent ],
       providers: [
         StudyService,
         NavigationService,
-        { provide: HttpClient, useClass: MockBackend },
         {provide: ActivatedRoute, useClass: ActivatedRouteStub },
-        NGXLogger
+        NGXLogger,
+        {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
+        {provide: NGXMapperService, useClass: NGXMapperServiceMock},
+        {provide: LoggerConfig, useValue: {level: NgxLoggerLevel.ERROR}}
       ]
     })
     .compileComponents();
+    httpClient = TestBed.get(HttpClient);
+    httpTestingController = TestBed.get(HttpTestingController);
   }));
 
   beforeEach(() => {
