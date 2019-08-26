@@ -1,5 +1,5 @@
 import * as math from 'mathjs';
-import Matrix = math.Matrix;
+import Matrix = mathjs.Matrix;
 import {constants} from './constants';
 import {NGXLogger} from 'ngx-logger';
 import {isNullOrUndefined} from 'util';
