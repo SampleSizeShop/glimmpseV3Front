@@ -23,7 +23,7 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
   private _validationMessages = constants.GAUSSIAN_COVARIATE_VALIDATION_MESSAGES;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText') helpTextModal;
+  @ViewChild('helpText', {static: false}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

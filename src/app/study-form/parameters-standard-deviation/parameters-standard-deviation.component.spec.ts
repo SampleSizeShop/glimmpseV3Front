@@ -8,7 +8,7 @@ import {HttpClient} from '@angular/common/http';
 import {MockBackend} from '@angular/http/testing';
 import {StudyService} from '../../shared/services/study.service';
 import {testEnvironment} from '../../../environments/environment.test';
-import {MatTooltip} from '@angular/material';
+import { MatTooltip } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
 
 describe('ParametersStandardDeviationComponent', () => {

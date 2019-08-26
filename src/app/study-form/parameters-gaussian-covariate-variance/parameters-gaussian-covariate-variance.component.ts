@@ -25,7 +25,7 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
   private _showHelpTextSubscription: Subscription;
 
 
-  @ViewChild('helpText') helpTextModal;
+  @ViewChild('helpText', {static: false}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

@@ -1,5 +1,5 @@
 import * as math from 'mathjs';
-import Matrix = mathjs.Matrix;
+import Matrix = math.Matrix;
 import {isNull, isNullOrUndefined} from 'util';
 
 // A representation of CorrelationMatrix's data that can be converted to

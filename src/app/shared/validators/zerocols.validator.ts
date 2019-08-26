@@ -2,7 +2,7 @@ import {NGXLogger} from 'ngx-logger';
 import {FormGroup, ValidatorFn} from '@angular/forms';
 import {constants} from '../model/constants';
 import {isNullOrUndefined} from 'util';
-import Matrix = mathjs.Matrix;
+import Matrix = math.Matrix;
 import * as math from 'mathjs';
 
 /** Validator function which takes a Math.js matrix and returns an error if we have a columns of zeroes**/

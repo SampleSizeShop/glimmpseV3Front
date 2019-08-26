@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CustomContrastMatrixComponent } from './custom-contrast-matrix.component';
 import {ReactiveFormsModule} from '@angular/forms';
-import {MatTooltip} from '@angular/material';
+import { MatTooltip } from '@angular/material/tooltip';
 import {ContrastMatrixService} from './contrast-matrix.service';
 import {NGXLogger, NGXLoggerMock} from 'ngx-logger';
 

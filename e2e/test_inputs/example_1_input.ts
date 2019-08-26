@@ -52,7 +52,6 @@ export const example_1_output = {
     }
     ],
   model: {
-    orthonormalize_u_matrix: true,
     errors: [],
     essence_design_matrix: [ [ 1 ] ],
     repeated_rows_in_design_matrix: 10,

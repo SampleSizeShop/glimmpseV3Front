@@ -13,7 +13,7 @@ import {StudyService} from '../../shared/services/study.service';
 import 'rxjs/add/operator/switchMap';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
-import {MatTooltip} from '@angular/material';
+import { MatTooltip } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
 
 let component: ParametersRepeatedMeasureCorrelationsComponent;

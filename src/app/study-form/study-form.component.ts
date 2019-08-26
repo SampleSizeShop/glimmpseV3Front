@@ -12,7 +12,8 @@ import {routeSlideAnimation} from '../animations/animations';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/index';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry, TooltipPosition} from '@angular/material';
+import { MatIconRegistry } from '@angular/material/icon';
+import { TooltipPosition } from '@angular/material/tooltip';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -82,7 +83,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _isInternal: boolean;
   below: TooltipPosition;
 
-  @ViewChild('status') statusModal;
+  @ViewChild('status', {static: false}) statusModal;
   private statusModalReference: any;
 
 
@@ -958,7 +959,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       const file = event.target.files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
-        const str = atob(reader.result.split(',')[1]);
+        const res = reader.result.toString();
+        const str = atob(res.split(',')[1]);
         const a = JSON.parse(str, StudyDesign.reviver);
         this.study_service.updateAll(a);
       }

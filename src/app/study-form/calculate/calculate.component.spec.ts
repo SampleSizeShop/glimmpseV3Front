@@ -11,7 +11,7 @@ import {NGXLogger} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {StatusComponent} from '../status/status.component';
 import {NgbAccordion, NgbModule, NgbPanel} from '@ng-bootstrap/ng-bootstrap';
-import {MatIcon} from "@angular/material";
+import { MatIcon } from "@angular/material/icon";
 import {MatIconModule} from "@angular/material/icon";
 
 describe('CalculateComponent', () => {

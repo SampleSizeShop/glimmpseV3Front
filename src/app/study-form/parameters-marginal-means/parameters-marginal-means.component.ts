@@ -9,7 +9,7 @@ import {StudyService} from '../../shared/services/study.service';
 import {isNullOrUndefined} from 'util';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {MarginalMeansTable} from '../../shared/model/MarginalMeansTable';
-import {TooltipPosition} from '@angular/material';
+import { TooltipPosition } from '@angular/material/tooltip';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
@@ -30,7 +30,7 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
   private _isuFactorsSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText') helpTextModal;
+  @ViewChild('helpText', {static: false}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

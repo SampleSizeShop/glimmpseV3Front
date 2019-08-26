@@ -22,7 +22,8 @@ export class AppComponent {
       const file = event.target.files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
-        const str = atob(reader.result.split(',')[1]);
+        const res = reader.result.toString()
+        const str = atob(res.split(',')[1]);
         const study = JSON.parse(str, StudyDesign.reviver);
         this.study_service.updateAll(study);
       }

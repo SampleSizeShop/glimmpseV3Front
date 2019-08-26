@@ -14,7 +14,7 @@ export class UserModeComponent implements OnInit, OnDestroy {
   guided: boolean;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText') helpTextModal;
+  @ViewChild('helpText', {static: false}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

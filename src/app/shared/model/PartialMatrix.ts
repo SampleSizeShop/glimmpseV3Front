@@ -1,10 +1,8 @@
 import * as math from 'mathjs';
-import Matrix = mathjs.Matrix;
+import Matrix = math.Matrix;
 import {constants} from './constants';
 import {NGXLogger} from 'ngx-logger';
 import {isNullOrUndefined} from 'util';
-import {StudyDesign} from "./study-design";
-import {ISUFactors} from "./ISUFactors";
 
 // A representation of PartialMatrix's data that can be converted to
 // and from JSON without being altered.

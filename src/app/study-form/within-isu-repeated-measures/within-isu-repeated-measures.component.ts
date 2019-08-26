@@ -48,11 +48,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   private _isClickNext: boolean;
   private _isClickNextReference: {value: boolean};
 
-  @ViewChild('canDeactivate') canDeactivateModal;
+  @ViewChild('canDeactivate', {static: false}) canDeactivateModal;
   private modalReference: any;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText') helpTextModal;
+  @ViewChild('helpText', {static: false}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
