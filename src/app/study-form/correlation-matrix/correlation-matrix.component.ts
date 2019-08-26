@@ -8,7 +8,7 @@ import * as math from 'mathjs';
 import {minMaxValidator} from 'app/shared/validators/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {isNull, isNullOrUndefined} from 'util';
-import {TooltipPosition} from '@angular/material';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-correlation-matrix',
@@ -217,6 +217,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
       rows.add(parts[0]);
     }
     for (const row of Array.from(rows.values())) {
+      const r = Number(row);
       const rowVals: number[] = [];
       for (const name of Object.keys (this.values)) {
         const parts = this.splitName(name);
@@ -225,7 +226,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
         }
       }
 
-      vals[row] = rowVals;
+      vals[r] = rowVals;
     }
     this.uMatrix.values = math.matrix(vals);
   }

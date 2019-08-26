@@ -30,7 +30,7 @@ export const Gaussian_quantile_1_input = {
     {means: [[0], [0], [0]]},
     {means: [[0], [0], [0]]}
   ],
-  parameters_scale_factor: 1,
+  parameters_scale_factor: [1],
   parameters_standard_deviation: [
     {outcome: 'O1', st_dev: 1},
     {outcome: 'O2', st_dev: 1},

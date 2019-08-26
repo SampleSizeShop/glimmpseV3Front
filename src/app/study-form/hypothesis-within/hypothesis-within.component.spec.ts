@@ -11,7 +11,7 @@ import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Outcome} from '../../shared/model/Outcome';
 import {testEnvironment} from '../../../environments/environment.test';
 import {LoggerModule, NGXLogger} from 'ngx-logger';
-import {MatTooltip} from '@angular/material';
+import { MatTooltip } from '@angular/material/tooltip';
 import {CustomContrastMatrixComponent} from '../custom-contrast-matrix/custom-contrast-matrix.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';

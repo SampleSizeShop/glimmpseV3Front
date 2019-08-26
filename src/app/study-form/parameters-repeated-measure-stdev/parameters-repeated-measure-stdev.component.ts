@@ -10,6 +10,7 @@ import {switchMap} from 'rxjs/operators';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-parameters-repeated-measure-outcome-stdev',
@@ -25,7 +26,7 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
   private _measure: RepeatedMeasure;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText') helpTextModal;
+  @ViewChild('helpText', {static: false}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
@@ -99,10 +100,12 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
   getMeasures() { return of(this.isuFactors.repeatedMeasures); }
 
   private getMeasure(name: string | any) {
-    return this.getMeasures().map(
-      measures => measures.find(
+    return this.getMeasures().pipe(
+      map(measures => measures.find(
         measure => measure.name === name
-      ));
+        )
+      )
+    );
   }
 
   dismissHelp() {

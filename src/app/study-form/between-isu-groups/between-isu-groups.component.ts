@@ -13,7 +13,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/model/constants';
-import {TooltipPosition} from '@angular/material';
+import { TooltipPosition } from '@angular/material/tooltip';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {relativeGroupSizeValidator} from '../../shared/validators/relative.group.size.validator';
@@ -37,7 +37,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   private _isuFactorsSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText') helpTextModal;
+  @ViewChild('helpText', {static: false}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

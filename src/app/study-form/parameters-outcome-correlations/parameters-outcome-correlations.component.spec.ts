@@ -8,7 +8,8 @@ import {HttpClient} from '@angular/common/http';
 import {LoggerModule, NGXLogger, NGXLoggerMock} from 'ngx-logger';
 import {StudyService} from '../../shared/services/study.service';
 import {testEnvironment} from '../../../environments/environment.test';
-import {MatDialogModule, MatTooltip, MatTooltipModule} from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTooltip, MatTooltipModule } from '@angular/material/tooltip';
 import {OverlayModule} from '@angular/cdk/overlay';
 import {NavigationService} from '../../shared/services/navigation.service';
 

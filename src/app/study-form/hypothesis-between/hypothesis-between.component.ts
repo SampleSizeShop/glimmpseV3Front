@@ -1,7 +1,7 @@
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {constants, getName} from 'app/shared/model/constants';
 import {StudyService} from '../../shared/services/study.service';
-import {Subscription} from 'rxjs';
+import {Subscription, Observable} from 'rxjs';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {isNullOrUndefined} from 'util';
 import * as math from 'mathjs';
@@ -10,7 +10,6 @@ import {Router} from '@angular/router';
 import {Predictor} from '../../shared/model/Predictor';
 import {NGXLogger} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
@@ -46,13 +45,13 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _contrastMatrixSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText') helpTextModal;
+  @ViewChild('helpText', {static: false}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
   texString = '';
 
-  @ViewChild('canDeactivate') canDeactivateModal;
+  @ViewChild('canDeactivate', {static: false}) canDeactivateModal;
   private modalReference: any;
 
   @HostListener('window:resize', ['$event'])

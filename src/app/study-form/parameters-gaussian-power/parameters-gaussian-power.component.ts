@@ -32,7 +32,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
   private _isClickNext: boolean;
   private _isClickNextReference: {value: boolean};
 
-  @ViewChild('helpText') helpTextModal;
+  @ViewChild('helpText', {static: false}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

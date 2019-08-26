@@ -10,11 +10,10 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {StudyService} from '../../shared/services/study.service';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {constants} from '../../shared/model/constants';
-import {Subscription} from 'rxjs';
+import {Subscription, Observable} from 'rxjs';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {clusterValidator} from './cluster.validator';
 import {ClusterLevel} from '../../shared/model/ClusterLevel';
-import {Observable} from 'rxjs/Observable';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {fadeTransition} from '../../animations/animations';
 import {NGXLogger} from 'ngx-logger';
@@ -43,7 +42,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   private _clusterSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText') helpTextModal;
+  @ViewChild('helpText', {static: false}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
   private _isuAdded: boolean;
@@ -51,7 +50,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   private _editingLevel: boolean;
   private _editingLevelName: string;
 
-  @ViewChild('canDeactivate') canDeactivateModal;
+  @ViewChild('canDeactivate', {static: false}) canDeactivateModal;
   private modalReference: any;
 
   public _graphData = [];

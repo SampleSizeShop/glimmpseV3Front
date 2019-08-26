@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StudyService} from '../shared/services/study.service';
-import {Subscription} from 'rxjs';
+import {Subscription, Observable} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
 import {constants, getStageName} from '../shared/model/constants';
 import {NavigationService} from '../shared/services/navigation.service';
@@ -9,11 +9,11 @@ import {isNullOrUndefined} from 'util';
 import {NavigationEnd, Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {routeSlideAnimation} from '../animations/animations';
-import {Observable} from 'rxjs/Observable';
 import {map, pairwise, share, startWith} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/index';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MatIconRegistry, TooltipPosition} from '@angular/material';
+import { MatIconRegistry } from '@angular/material/icon';
+import { TooltipPosition } from '@angular/material/tooltip';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
@@ -83,7 +83,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _isInternal: boolean;
   below: TooltipPosition;
 
-  @ViewChild('status') statusModal;
+  @ViewChild('status', {static: false}) statusModal;
   private statusModalReference: any;
 
 
@@ -959,7 +959,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       const file = event.target.files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
-        const str = atob(reader.result.split(',')[1]);
+        const res = reader.result.toString();
+        const str = atob(res.split(',')[1]);
         const a = JSON.parse(str, StudyDesign.reviver);
         this.study_service.updateAll(a);
       }
