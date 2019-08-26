@@ -46,7 +46,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
     this._quantilesSubscription = this._study_service.quantiles$.subscribe(
       quantiles => {
         if (!isNullOrUndefined(quantiles)) {
-          this._quantiles = new Set(quantiles.values());
+          this._quantiles = new Set( quantiles.values() );
         }
       }
     );
