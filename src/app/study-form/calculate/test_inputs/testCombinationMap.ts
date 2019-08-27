@@ -11,7 +11,7 @@ export const testCombinationMap1 = {
           'nature':    'Between',
           'origin':    'Between ISU Predictor',
           'name':    'p1',
-          'type':    'ORDINAL',
+          'type':    'CONTINUOUS',
           'units':    '',
           'child':    null
         },
@@ -203,7 +203,7 @@ export const testCombinationMap2 = {
         'nature': 'Between',
         'origin': 'Between ISU Predictor',
         'name': 'p1',
-        'type': 'ORDINAL',
+        'type': 'CONTINUOUS',
         'units': '',
         'child': {
           'valueNames': [
@@ -216,7 +216,7 @@ export const testCombinationMap2 = {
           'nature': 'Between',
           'origin': 'Between ISU Predictor',
           'name': 'p2',
-          'type': 'ORDINAL',
+          'type': 'CONTINUOUS',
           'units': '',
           'child': null
         }
@@ -232,7 +232,7 @@ export const testCombinationMap2 = {
         'nature': 'Between',
         'origin': 'Between ISU Predictor',
         'name': 'p2',
-        'type': 'ORDINAL',
+        'type': 'CONTINUOUS',
         'units': '',
         'child': null
       },

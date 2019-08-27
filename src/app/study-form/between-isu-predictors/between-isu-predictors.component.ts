@@ -424,17 +424,12 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
   selectNominal() {
     this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL)
   }
-  selectOrdinal() {
-    this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL)
-  }
   selectContinuous() {
     this._type = getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS)
   }
   selectByType(predictor: Predictor) {
     if (this.isNominal(predictor)) {
       this.selectNominal();
-    } else if (this.isOrdinal(predictor)) {
-      this.selectOrdinal();
     } else if (this.isContinuous(predictor)) {
       this.selectContinuous();
     }
@@ -444,13 +439,6 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
       return predictor.type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL) ? true : false;
     } else {
       return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.NOMINAL) ? true : false;
-    }
-  }
-  isOrdinal(predictor?: Predictor) {
-    if (!isNullOrUndefined(predictor)) {
-      return predictor.type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL) ? true : false;
-    } else {
-      return this._type === getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.ORDINAL) ? true : false;
     }
   }
   isContinuous(predictor?: Predictor) {
