@@ -352,7 +352,7 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
 
   isContinuous() {
     let isContinuous = true;
-    this._isuFactors.repeatedMeasures.forEach( measure => {
+    this._isuFactors.repeatedMeasuresInHypothesis.forEach( measure => {
       if ( measure.type !== 'Numeric') {
         isContinuous = false;
       }

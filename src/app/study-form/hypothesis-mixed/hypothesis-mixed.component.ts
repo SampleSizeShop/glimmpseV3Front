@@ -497,7 +497,7 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
 
   allPredictorsContinuous() {
     let isContinuous = true;
-    this._isuFactors.predictors.forEach( predictor => {
+    this._isuFactors.predictorsInHypothesis.forEach( predictor => {
       if ( predictor.type !== getName(constants.BETWEEN_ISU_TYPES, constants.BETWEEN_ISU_TYPES.CONTINUOUS) ) {
         isContinuous = false;
       }
@@ -507,7 +507,7 @@ export class HypothesisMixedComponent implements OnInit, OnDestroy {
 
   allMeasuresContinuous() {
     let isContinuous = true;
-    this._isuFactors.repeatedMeasures.forEach( measure => {
+    this._isuFactors.repeatedMeasuresInHypothesis.forEach( measure => {
       if ( measure.type !== 'Numeric') {
         isContinuous = false;
       }

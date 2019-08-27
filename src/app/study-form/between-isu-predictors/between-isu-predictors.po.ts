@@ -35,8 +35,6 @@ export class BetweenIsuPredictorsPo {
     const noRepeatsInput = element(by.formControlName('predictorName'));
     if (predictorType === constants.BETWEEN_ISU_TYPES.NOMINAL) {
       element(by.id('nominalbtn')).click();
-    } else if (predictorType === constants.BETWEEN_ISU_TYPES.ORDINAL) {
-      element(by.id('ordinalbtn')).click();
     } else {
       element(by.id('continuousbtn')).click();
     }

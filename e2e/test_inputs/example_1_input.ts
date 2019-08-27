@@ -65,6 +65,7 @@ export const example_1_output = {
     theta: [ [ 80 ] ],
     m: [ [ 1 ] ],
     nu_e: 9,
+    orthonormalize_u_matrix: true,
     hypothesis_sum_square: [ [ 64000 ] ],
     error_sum_square: [ [ 2025 ] ],
     full_beta: false,

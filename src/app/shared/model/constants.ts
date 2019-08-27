@@ -212,7 +212,7 @@ export const constants = {
     REPEATS: 3,
     SPACING: 4
   },
-  REPEATED_MEASURE_TYPES: ['Categorical', 'Ordinal', 'Numeric'],
+  REPEATED_MEASURE_TYPES: ['Categorical', 'Numeric'],
   REPEATED_MEASURE_FORM_ERRORS: {
     'space': '',
     'dimensionunits': '',
@@ -275,8 +275,7 @@ export const constants = {
   },
   BETWEEN_ISU_TYPES: {
     NOMINAL: 0,
-    ORDINAL: 1,
-    CONTINUOUS: 2
+    CONTINUOUS: 1
   },
   MAX_PREDICTORS: 5,
   MAX_GROUPS: 10,
