@@ -442,6 +442,7 @@ export class StudyService {
   }
 
   updateAll(study: StudyDesign) {
+    this.updateDefineFullBeta(study.define_full_beta);
     this.updateStudyTitle(study.name);
     this.selectTargetEvent(study.targetEvent);
     this.updateSolveFor(study.solveFor);
