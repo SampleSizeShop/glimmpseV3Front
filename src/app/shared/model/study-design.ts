@@ -352,7 +352,7 @@ export class StudyDesign {
       }
     };
 
-    // is our outcome corellation matrix of the correct dimension? this should only happen when a user remopves an
+    // is our outcome correlation matrix of the correct dimension? this should only happen when a user remopves an
     // outcome such that we are back down to one
     if (!isNullOrUndefined(this.isuFactors.outcomeCorrelationMatrix)
       && this.isuFactors.outcomeCorrelationMatrix.values.size()[0] !== this.isuFactors.outcomes.length ) {
@@ -360,7 +360,7 @@ export class StudyDesign {
       this.isuFactors.outcomes.forEach( outcome => {
         this.isuFactors.outcomeCorrelationMatrix.names.push(outcome.name)
       });
-      this.isuFactors.outcomeCorrelationMatrix.values =math.matrix([[1]]);
+      this.isuFactors.outcomeCorrelationMatrix.values = math.matrix([[1]]);
     }
 
     // Is theta nought of the correct dimension?
