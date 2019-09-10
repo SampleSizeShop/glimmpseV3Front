@@ -281,9 +281,11 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   setStage(next: number) {
     this._stage = next;
     if (this.isInfo()) {
+      this.navigation_service.updateInternalFormSource(false);
       this._editingLevel = false;
       this.navigation_service.updateValid(true);
     } else {
+      this.navigation_service.updateInternalFormSource(true);
       this.navigation_service.updateValid(false);
     }
   }
