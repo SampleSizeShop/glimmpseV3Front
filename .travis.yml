@@ -6,7 +6,7 @@ node_js:
 branches:
   only:
   - master
-  - VER3-252_buildProcess
+  - VER3-546_updateBuild
 addons:
   chrome: stable
 apt:
