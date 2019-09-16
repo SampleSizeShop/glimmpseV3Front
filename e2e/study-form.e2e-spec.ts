@@ -26,6 +26,7 @@ import {
   Gaussian_unconditional_25_output
 } from './test_inputs/Gaussian_unconditional_25';
 import {example1_input, example1_output} from './test_inputs/POWERLIB_Example_1';
+import {example2_input, example2_output} from './test_inputs/POWERLIB_Example_2';
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -459,10 +460,44 @@ describe('Glimmpse v3 automated integration tests', () => {
   //   });
   // });
 
+  // it('Should return the correct power', async function() {
+  //   const expected = example1_output;
+  //   let actual = null;
+  //   await page.fromJSON(example1_input);
+  //   await page.calculate();
+  //   await page.output().then(text => {
+  //     console.log(text);
+  //     actual = JSON.parse(text);
+  //   });
+  //
+  //   actual.results.forEach((result) => {
+  //     let match = false;
+  //     let r = null;
+  //     let e = null;
+  //     expected.results.forEach(exp => {
+  //       if (
+  //         exp.alpha === result.model.alpha
+  //         && exp.mean_scale_factor === result.model.means_scale_factor
+  //         && exp.variability_scale_factor === result.model.variance_scale_factor
+  //         && exp.test === result.test
+  //         && exp.total_N === result.model.total_n) {
+  //         match = true;
+  //         r = result;
+  //         e = exp;
+  //       }
+  //     });
+  //     if (!match) {
+  //       expect(false).toBe(true);
+  //     } else {
+  //       expect(r.power).toBeCloseTo(e.power, 3);
+  //     }
+  //     });
+  //   });
+
   it('Should return the correct power', async function() {
-    const expected = example1_output;
+    const expected = example2_output;
     let actual = null;
-    await page.fromJSON(example1_input);
+    await page.fromJSON(example2_input);
     await page.calculate();
     await page.output().then(text => {
       console.log(text);
@@ -490,7 +525,7 @@ describe('Glimmpse v3 automated integration tests', () => {
       } else {
         expect(r.power).toBeCloseTo(e.power, 3);
       }
-      });
     });
+  });
 });
 

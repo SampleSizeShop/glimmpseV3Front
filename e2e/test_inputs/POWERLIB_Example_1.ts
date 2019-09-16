@@ -1,6 +1,6 @@
 import {constants} from '../../src/app/shared/model/constants';
 
-// A multilevel study with a hypothesis test of a between-independent sampling unit factor.
+// POWERLIB example 1, two sample t-test
 
 export const example1_input = {
   user_mode: constants.USER_MODE.GUIDED,
