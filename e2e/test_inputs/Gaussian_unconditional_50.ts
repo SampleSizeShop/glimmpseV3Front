@@ -15,7 +15,7 @@ export const Gaussian_unconditional_50_input = {
   predictors: [
     {name: 'group', groups: ['g1', 'g2', 'g3']}
   ],
-  smallest_group: 50,
+  smallest_group: [50],
   groups: [
     {group: '', table: [[1], [1], [1]]},
   ],

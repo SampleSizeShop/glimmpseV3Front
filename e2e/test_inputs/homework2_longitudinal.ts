@@ -16,7 +16,7 @@ export const hw2_input = {
   predictors: [
     {name: 'Treatment', groups: ['SensoryFocus', 'StandardCare']}
   ],
-  smallest_group: 15,
+  smallest_group: [15],
   groups: [
     {group: '', table: [[1], [1]]}
   ],

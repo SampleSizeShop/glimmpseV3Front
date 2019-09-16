@@ -15,7 +15,7 @@ export const Gaussian_quantile_1_input = {
   predictors: [
     {name: 'group', groups: ['g1', 'g2', 'g3']}
   ],
-  smallest_group: 5,
+  smallest_group: [5],
   groups: [
     {group: '', table: [[1], [1], [1]]},
   ],

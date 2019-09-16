@@ -2,7 +2,7 @@ import {constants} from '../../src/app/shared/model/constants';
 
 // POWERLIB example 1, two sample t-test
 
-export const example1_input = {
+export const powerlib_example1_input = {
   user_mode: constants.USER_MODE.GUIDED,
   solve_for: null,
   statistical_tests: [
@@ -15,7 +15,7 @@ export const example1_input = {
   predictors: [
     {name: 'group', groups: ['g1', 'g2']}
   ],
-  smallest_group: 10,
+  smallest_group: [10],
   groups: [
     {group: '', table: [[1], [1]]},
   ],
@@ -43,7 +43,7 @@ export const example1_input = {
 };
 
 
-export const example1_output = {
+export const powerlib_example1_output = {
   message: 'OK',
   status: 200,
   mimetype: 'application/json',

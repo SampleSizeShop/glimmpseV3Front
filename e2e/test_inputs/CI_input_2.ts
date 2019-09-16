@@ -16,7 +16,7 @@ export const CI_input_2 = {
   predictors: [
     {name: 'Treatment', groups: ['SensoryFocus', 'StandardCare']}
   ],
-  smallest_group: 15,
+  smallest_group: [15],
   groups: [
     {group: '', table: [[1], [1]]}
   ],

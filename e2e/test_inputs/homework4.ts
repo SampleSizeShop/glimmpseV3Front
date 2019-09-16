@@ -16,7 +16,7 @@ export const hw4_input = {
   predictors: [
     {name: 'Treatment', groups: ['Alchohol Education Program', 'StandardCare']}
   ],
-  smallest_group: 15,
+  smallest_group: [15],
   groups: [
     {group: '', table: [[2], [1]]}
   ],
