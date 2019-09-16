@@ -58,7 +58,7 @@ import {CollapsibleTreeComponent} from './d3/visuals/collapsible-tree/collapsibl
 import {D3Service} from './d3/d3.service';
 import {HypothesisMixedComponent} from './study-form/hypothesis-mixed/hypothesis-mixed.component';
 import { StatusComponent } from './study-form/status/status.component';
-import {CustomHammerConfig} from "./hammer/CustomHammerConfig";
+import {CustomHammerConfig} from './hammer/CustomHammerConfig';
 
 @NgModule({
   declarations: [
