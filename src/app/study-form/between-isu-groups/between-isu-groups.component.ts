@@ -111,6 +111,16 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     );
   }
 
+  warningFractionalGroups(): boolean {
+    let fractional = false;
+    Object.keys(this.relativeGroupSizeForm.controls).forEach(key => {
+      if (!Number.isInteger(this.relativeGroupSizeForm.controls[key].value)) {
+        fractional = true;
+      }
+    });
+    return fractional;
+  }
+
   onValueChanged(data?: any) {
     if (!this.relativeGroupSizeForm) {
       return;
