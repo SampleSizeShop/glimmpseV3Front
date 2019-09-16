@@ -12,10 +12,12 @@ import {ISUFactorCombination} from './ISUFactorCombination';
 import {CombinationId} from './CombinationId';
 import {ConfidenceInterval} from './ConfidenceInterval';
 import {StudyProgress} from './StudyProgress';
+import { version } from '../../../../package.json';
 
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
 interface StudyDesignJSON {
+  _glimmpse_ui_version: string;
   _name: string;
   _targetEvent: string;
   _solveFor: string;
@@ -35,6 +37,7 @@ interface StudyDesignJSON {
 }
 
 export class StudyDesign {
+  private _glimmpse_ui_version: string = version;
   private _name: string;
   private _targetEvent: string;
   private _solveFor: string;
