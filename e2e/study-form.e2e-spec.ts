@@ -29,6 +29,8 @@ import {powerlib_example1_input, powerlib_example1_output} from './test_inputs/P
 import {powerlib_example2_input, powerlib_example2_output} from './test_inputs/POWERLIB_Example_2';
 import {powerlib_example3_input, powerlib_example3_output} from './test_inputs/POWERLIB_Example_3';
 import {powerlib_example4_input, powerlib_example4_output} from './test_inputs/POWERLIB_Example_4';
+import {powerlib_example5_input, powerlib_example5_output} from './test_inputs/POWERLIB_Example_5';
+import {powerlib_example6_input, powerlib_example6_output} from './test_inputs/POWERLIB_Example_6';
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -564,10 +566,78 @@ describe('Glimmpse v3 automated integration tests', () => {
   //   });
   // });
 
+  // it('Should return the correct power', async function() {
+  //   const expected = powerlib_example4_output;
+  //   let actual = null;
+  //   await page.fromJSON(powerlib_example4_input);
+  //   await page.calculate();
+  //   await page.output().then(text => {
+  //     console.log(text);
+  //     actual = JSON.parse(text);
+  //   });
+  //
+  //   actual.results.forEach((result) => {
+  //     let match = false;
+  //     let r = null;
+  //     let e = null;
+  //     expected.results.forEach(exp => {
+  //       if (
+  //         exp.alpha === result.model.alpha
+  //         && exp.mean_scale_factor === result.model.means_scale_factor
+  //         && exp.variability_scale_factor === result.model.variance_scale_factor
+  //         && exp.test === result.test
+  //         && exp.total_N === result.model.total_n) {
+  //         match = true;
+  //         r = result;
+  //         e = exp;
+  //       }
+  //     });
+  //     if (!match) {
+  //       expect(false).toBe(true);
+  //     } else {
+  //       expect(r.power).toBeCloseTo(e.power, 3);
+  //     }
+  //   });
+  // });
+
+  // it('Should return the correct power', async function() {
+  //   const expected = powerlib_example5_output;
+  //   let actual = null;
+  //   await page.fromJSON(powerlib_example5_input);
+  //   await page.calculate();
+  //   await page.output().then(text => {
+  //     console.log(text);
+  //     actual = JSON.parse(text);
+  //   });
+  //
+  //   actual.results.forEach((result) => {
+  //     let match = false;
+  //     let r = null;
+  //     let e = null;
+  //     expected.results.forEach(exp => {
+  //       if (
+  //         exp.alpha === result.model.alpha
+  //         && exp.mean_scale_factor === result.model.means_scale_factor
+  //         && exp.variability_scale_factor === result.model.variance_scale_factor
+  //         && exp.test === result.test
+  //         && exp.total_N === result.model.total_n) {
+  //         match = true;
+  //         r = result;
+  //         e = exp;
+  //       }
+  //     });
+  //     if (!match) {
+  //       expect(false).toBe(true);
+  //     } else {
+  //       expect(r.power).toBeCloseTo(e.power, 3);
+  //     }
+  //   });
+  // });
+
   it('Should return the correct power', async function() {
-    const expected = powerlib_example4_output;
+    const expected = powerlib_example6_output;
     let actual = null;
-    await page.fromJSON(powerlib_example4_input);
+    await page.fromJSON(powerlib_example6_input);
     await page.calculate();
     await page.output().then(text => {
       console.log(text);
@@ -593,7 +663,9 @@ describe('Glimmpse v3 automated integration tests', () => {
       if (!match) {
         expect(false).toBe(true);
       } else {
-        expect(r.power).toBeCloseTo(e.power, 3);
+        expect(r.power).toBeCloseTo(e.power, 5);
+        expect(r.lower_bound).toBeCloseTo(e.lower_bound, 4);
+        expect(r.upper_bound).toBeCloseTo(e.upper_bound, 5);
       }
     });
   });
