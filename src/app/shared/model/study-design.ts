@@ -13,6 +13,7 @@ import {CombinationId} from './CombinationId';
 import {ConfidenceInterval} from './ConfidenceInterval';
 import {StudyProgress} from './StudyProgress';
 import { version } from '../../../../package.json';
+import {getIndexOutputFile} from "@angular-devkit/build-angular/src/utils/webpack-browser-config";
 
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
@@ -63,6 +64,11 @@ export class StudyDesign {
       return JSON.parse(json, StudyDesign.reviver);
     } else {
       // create an instance of the StudyDesign class
+      if (Object.keys(json).indexOf('uuid') !== -1 ) {
+        alert('V2!');
+      } else {
+        alert('V3');
+      }
       const study = Object.create(StudyDesign.prototype);
       // copy all the fields from the json object
       return Object.assign(study, json, {
