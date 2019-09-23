@@ -24,7 +24,7 @@ export class ParametersScaleFactorComponent implements OnInit, OnDestroy {
   private _scaleFactorSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

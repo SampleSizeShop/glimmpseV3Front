@@ -31,7 +31,7 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
   private _isClickNext: boolean;
   private _isClickNextReference: {value: boolean};
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

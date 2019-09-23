@@ -29,7 +29,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   private _isClickNext: boolean;
   private _isClickNextReference: {value: boolean};
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

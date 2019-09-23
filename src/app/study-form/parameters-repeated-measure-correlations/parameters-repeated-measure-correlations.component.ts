@@ -30,7 +30,7 @@ export class ParametersRepeatedMeasureCorrelationsComponent implements OnInit, D
   private _measure: RepeatedMeasure;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

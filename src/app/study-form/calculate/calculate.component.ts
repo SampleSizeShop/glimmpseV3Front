@@ -47,7 +47,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   private _sumOfCombinationsValue: number;
   private _selected_tab: string;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

@@ -83,7 +83,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _isInternal: boolean;
   below: TooltipPosition;
 
-  @ViewChild('status', {static: false}) statusModal;
+  @ViewChild('status', {static: true}) statusModal;
   private statusModalReference: any;
 
 

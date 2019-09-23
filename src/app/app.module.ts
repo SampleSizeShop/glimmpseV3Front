@@ -47,7 +47,7 @@ import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypot
 import { CustomContrastMatrixComponent } from './study-form/custom-contrast-matrix/custom-contrast-matrix.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
-import { Angular2CsvModule } from 'angular2-csv';
+// import { Angular2CsvModule } from 'angular2-csv';
 import { StudyTitleComponent } from './study-form/study-title/study-title.component';
 import {ParametersGaussianPowerComponent} from './study-form/parameters-gaussian-power/parameters-gaussian-power.component';
 import {OptionalSpecsConfidenceIntervalsComponent} from './study-form/optional-specs-confidence-intervals/optional-specs-confidence-intervals.component';
@@ -121,7 +121,7 @@ import {CustomHammerConfig} from './hammer/CustomHammerConfig';
     AppRoutingModule,
     MatTooltipModule,
     MatIconModule,
-    Angular2CsvModule
+    // Angular2CsvModule
   ],
   providers: [
     MathJaxService,

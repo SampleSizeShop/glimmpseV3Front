@@ -32,7 +32,7 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
 
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

@@ -35,12 +35,12 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
 
   private _betweenIsuPredictorsSubscription: Subscription;
 
-  @ViewChild('canDeactivate', {static: false}) canDeactivateModal;
+  @ViewChild('canDeactivate', {static: true}) canDeactivateModal;
   private modalReference: any;
 
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

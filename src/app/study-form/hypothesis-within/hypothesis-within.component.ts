@@ -45,11 +45,11 @@ export class HypothesisWithinComponent implements OnInit, OnDestroy {
   texString = '';
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  @ViewChild('canDeactivate', {static: false}) canDeactivateModal;
+  @ViewChild('canDeactivate', {static: true}) canDeactivateModal;
   private modalReference: any;
 
   @HostListener('window:resize', ['$event'])
