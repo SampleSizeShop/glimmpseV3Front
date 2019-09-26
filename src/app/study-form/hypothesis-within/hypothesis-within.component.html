@@ -17,7 +17,7 @@
              id="polylbl"
              [class.active]="selectedHypothesis === HYPOTHESIS_NATURE.POLYNOMIAL"
               *ngIf="isContinuous()">
-        <input type="radio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
+        <input type="radio" id="polyradio" (click)="selectHypothesisNature(HYPOTHESIS_NATURE.POLYNOMIAL)"> {{HYPOTHESIS_NATURE.POLYNOMIAL}}
       </label>
       <label aria-pressed="true"
              class="btn btn-secondary"

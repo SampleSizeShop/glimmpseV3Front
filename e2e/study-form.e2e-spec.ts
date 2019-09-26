@@ -600,44 +600,10 @@ describe('Glimmpse v3 automated integration tests', () => {
   //   });
   // });
 
-  // it('Should return the correct power', async function() {
-  //   const expected = powerlib_example5_output;
-  //   let actual = null;
-  //   await page.fromJSON(powerlib_example5_input);
-  //   await page.calculate();
-  //   await page.output().then(text => {
-  //     console.log(text);
-  //     actual = JSON.parse(text);
-  //   });
-  //
-  //   actual.results.forEach((result) => {
-  //     let match = false;
-  //     let r = null;
-  //     let e = null;
-  //     expected.results.forEach(exp => {
-  //       if (
-  //         exp.alpha === result.model.alpha
-  //         && exp.mean_scale_factor === result.model.means_scale_factor
-  //         && exp.variability_scale_factor === result.model.variance_scale_factor
-  //         && exp.test === result.test
-  //         && exp.total_N === result.model.total_n) {
-  //         match = true;
-  //         r = result;
-  //         e = exp;
-  //       }
-  //     });
-  //     if (!match) {
-  //       expect(false).toBe(true);
-  //     } else {
-  //       expect(r.power).toBeCloseTo(e.power, 3);
-  //     }
-  //   });
-  // });
-
   it('Should return the correct power', async function() {
-    const expected = powerlib_example6_output;
+    const expected = powerlib_example5_output;
     let actual = null;
-    await page.fromJSON(powerlib_example6_input);
+    await page.fromJSON(powerlib_example5_input);
     await page.calculate();
     await page.output().then(text => {
       console.log(text);
@@ -663,12 +629,46 @@ describe('Glimmpse v3 automated integration tests', () => {
       if (!match) {
         expect(false).toBe(true);
       } else {
-        expect(r.power).toBeCloseTo(e.power, 5);
-        expect(r.lower_bound).toBeCloseTo(e.lower_bound, 4);
-        expect(r.upper_bound).toBeCloseTo(e.upper_bound, 5);
+        expect(r.power).toBeCloseTo(e.power, 3);
       }
     });
   });
+
+  // it('Should return the correct power', async function() {
+  //   const expected = powerlib_example6_output;
+  //   let actual = null;
+  //   await page.fromJSON(powerlib_example6_input);
+  //   await page.calculate();
+  //   await page.output().then(text => {
+  //     console.log(text);
+  //     actual = JSON.parse(text);
+  //   });
+  //
+  //   actual.results.forEach((result) => {
+  //     let match = false;
+  //     let r = null;
+  //     let e = null;
+  //     expected.results.forEach(exp => {
+  //       if (
+  //         exp.alpha === result.model.alpha
+  //         && exp.mean_scale_factor === result.model.means_scale_factor
+  //         && exp.variability_scale_factor === result.model.variance_scale_factor
+  //         && exp.test === result.test
+  //         && exp.total_N === result.model.total_n) {
+  //         match = true;
+  //         r = result;
+  //         e = exp;
+  //       }
+  //     });
+  //     if (!match) {
+  //       expect(false).toBe(true);
+  //     } else {
+  //       expect(r.power).toBeCloseTo(e.power, 5);
+  //       expect(r.lower_bound).toBeCloseTo(e.lower_bound, 4);
+  //       expect(r.upper_bound).toBeCloseTo(e.upper_bound, 5);
+  //     }
+  //   });
+  // });
 
 });
 
