@@ -12,20 +12,26 @@
           Welcome to GLIMMPSE. The GLIMMPSE software calculates power and sample size for study designs with normally
           distributed outcomes. Select one of the options below to begin your power or sample size calculation.
         </p>
-        <p class="w-75">'New Study' if you wish to start a new design.</p>
-        <p class="w-75">'Upload' if you have previously used GLIMMPSE and wish to work on a saved design.</p>
       </div>
     </div>
     <div *ngIf="isLanding()" class="row">
-      <div class="col col-md-auto" style="padding-right: 10px">
-        <label class="btn btn-secondary">
-          New  Study<input class="" type="radio" (click)="newStudy()" style="display: none">
+      <div class="col col-lg-2 col-md-2 col-xs-12" style="padding-right: 10px">
+        <label class="btn btn-primary btn-block">
+          New  Study<input class="" type="radio" (click)="newStudy()" style="display: none;">
         </label>
       </div>
-      <div class="col col-md-auto">
-        <label class="btn btn-secondary">
-          Upload<input class="" type="file" (change)="onFileChange($event)" style="display: none">
+      <div class="col col-lg-10 col-md-10 col-xs-12" style="padding-right: 10px">
+        <p class="w-75">Start a new design.</p>
+      </div>
+    </div>
+    <div *ngIf="isLanding()" class="row">
+      <div class="col col-lg-2 col-md-2 col-xs-12" style="padding-right: 10px">
+        <label class="btn btn-primary btn-block">
+          Upload<input class="" type="file" (change)="onFileChange($event)" style="display: none;">
         </label>
+      </div>
+      <div class="col col-lg-10 col-md-10 col-xs-12">
+        <p class="w-75">You have previously used GLIMMPSE and wish to work on a saved design.</p>
       </div>
     </div>
     <hr *ngIf="isLanding()">
