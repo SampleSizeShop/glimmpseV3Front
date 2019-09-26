@@ -152,8 +152,9 @@ export class CorrelationMatrix {
             vals.set([c, r], base);
           }
           if (r > c  && dMin !== dMax ) {
-            const rho_j_k =  Math.pow(base,
-              dMin / scale + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin)));
+            let rho_j_k =  new Number(Math.pow(base,
+              dMin / scale + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin))));
+            rho_j_k = rho_j_k.toPrecision(3);
             vals.set([r, c], rho_j_k );
             vals.set([c, r], rho_j_k );
           }
