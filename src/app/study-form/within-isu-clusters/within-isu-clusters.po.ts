@@ -27,7 +27,7 @@ export class WithinIsuClustersPo {
       const noRepeatsInput = element(by.id('name'));
       noRepeatsInput.clear().then(() => noRepeatsInput.sendKeys(input.element))
     }
-    const nextBtn = element(by.id('addISU'));
+    const nextBtn = element(by.id('levelsnextbtn'));
     nextBtn.click();
   }
 

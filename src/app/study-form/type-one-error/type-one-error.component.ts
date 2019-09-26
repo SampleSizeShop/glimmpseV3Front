@@ -79,10 +79,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   }
 
   buildForm(): void {
-    let typeOneDefault = 0.01;
-    if (!isNullOrUndefined(this.typeOneErrorRate) && this.typeOneErrorRate.length > 0) {
-      typeOneDefault = null
-    }
+    const typeOneDefault = null;
     this.typeOneErrorRateForm = this.fb.group({
       typeoneerror: [typeOneDefault,
                       [minMaxValidator(0, 1, this.log),
@@ -137,7 +134,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
 
   validTypeOneErrorByPower() {
     this.warningTypeOneErrorFromPower = false;
-    if (this.typeOneErrorRate.length > 0 && this.studyDesign['_solveFor'] === constants.SOLVE_FOR_SAMPLESIZE) {
+    if (this.typeOneErrorRate.length > 0 && this.studyDesign !== null && this.studyDesign['_solveFor'] === constants.SOLVE_FOR_SAMPLESIZE) {
       const maxTypeOneError = Math.max(...this.typeOneErrorRate);
       const minPower = this.smallestPower;
 

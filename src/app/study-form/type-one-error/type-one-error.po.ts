@@ -11,6 +11,9 @@ export class TypeOneErrorPo {
 
   fillForm(input) {
     if (!isNullOrUndefined(input)) {
+      // remove default value
+      const remove = element(by.id('removealpha'));
+      remove.click();
       const typeOneErrorInput = element(by.id('typeoneerror'));
       const typeOneErrorAdd = element(by.id('addalpha'));
       for (const alpha of input) {
