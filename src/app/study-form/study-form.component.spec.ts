@@ -36,7 +36,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CustomContrastMatrixComponent} from './custom-contrast-matrix/custom-contrast-matrix.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
-import {Angular2CsvModule} from 'angular2-csv';
 import {StudyTitleComponent} from './study-title/study-title.component';
 import {NodeVisualComponent} from '../d3/visuals/shared/node-visual/node-visual.component';
 import {LinkVisualComponent} from '../d3/visuals/shared/link-visual/link-visual.component';
@@ -58,7 +57,6 @@ describe('StudyFormComponent', () => {
         NgbModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        Angular2CsvModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,

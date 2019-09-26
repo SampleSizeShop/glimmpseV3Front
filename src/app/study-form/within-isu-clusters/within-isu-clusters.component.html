@@ -115,11 +115,6 @@
               </div>
             </form>
           </div>
-          <div class="col">
-            <i class="material-icons"
-               (click)="addISU()"
-               style="font-size: 2em; padding-top: 0.2em" id="addISU">add_box</i>
-          </div>
         </div>
       </div>
 
@@ -191,7 +186,7 @@
 
       <div class="row">
         <div class="col">
-          <table class="table" *ngIf="hasLevels()" >
+          <table class="table" *ngIf="hasLevels()  && !isElementName()" >
             <thead>
             <th class="col col-md-auto">
               Level
@@ -243,7 +238,8 @@
       <div class="row">
         <div class="col">
           <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()" id="levelscancelbtn">Cancel</button>
-          <button type="button" class="btn btn-primary btn-sm" (click)="addCluster()" #buttons id="levelsnextbtn" [disabled]="!validLevels">Finish</button>
+          <button *ngIf="isElementName()" type="button" class="btn btn-primary btn-sm" (click)="addISU()" #buttons id="levelsnextbtn" [disabled]="!elementForm.valid">Next: Levels</button>
+          <button *ngIf="!isElementName()" type="button" class="btn btn-primary btn-sm" (click)="addCluster()" #buttons id="finishbtn" [disabled]="!validLevels">Finish</button>
         </div>
       </div>
     </div>

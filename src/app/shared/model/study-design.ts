@@ -13,7 +13,7 @@ import {CombinationId} from './CombinationId';
 import {ConfidenceInterval} from './ConfidenceInterval';
 import {StudyProgress} from './StudyProgress';
 import { version } from '../../../../package.json';
-import {getIndexOutputFile} from "@angular-devkit/build-angular/src/utils/webpack-browser-config";
+import {V2StudyDesign} from './v2-study-design';
 
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
@@ -64,19 +64,34 @@ export class StudyDesign {
       return JSON.parse(json, StudyDesign.reviver);
     } else {
       // create an instance of the StudyDesign class
+      const study = Object.create(StudyDesign.prototype);
       if (Object.keys(json).indexOf('uuid') !== -1 ) {
         alert('V2!');
+        const v2study = Object.create(V2StudyDesign.prototype);
+        Object.assign(v2study, json);
+        study._progress = new StudyProgress();
+        study._name = 'converted from GLIMMPSE V2';
+        study._define_full_beta = true;
+        study._solveFor = v2study.getSolveFor();
+        study._power =  [];
+        study._selectedTests = v2study.getTests();
+        study._typeOneErrorRate = v2study.alphaList;
+        study._quantiles = v2study.quantileList;
+        study._gaussianCovariate = null;
+        study._scaleFactor = v2study.sigmaScaleList;
+        study._varianceScaleFactors = v2study.sigmaScaleList;
+        study._isuFactors = new ISUFactors();
+        study._confidence_interval = null;
       } else {
-        alert('V3');
+        // copy all the fields from the json object
+        Object.assign(study, json, {
+          // convert fields that need converting
+          _isuFactors: ISUFactors.fromJSON(JSON.stringify(json._isuFactors)),
+          _gaussianCovariate: GaussianCovariate.fromJSON(JSON.stringify(json._gaussianCovariate)),
+          _confidence_interval: ConfidenceInterval.fromJSON(JSON.stringify(json._confidence_interval)),
+        });
       }
-      const study = Object.create(StudyDesign.prototype);
-      // copy all the fields from the json object
-      return Object.assign(study, json, {
-        // convert fields that need converting
-        _isuFactors: ISUFactors.fromJSON(JSON.stringify(json._isuFactors)),
-        _gaussianCovariate: GaussianCovariate.fromJSON(JSON.stringify(json._gaussianCovariate)),
-        _confidence_interval: ConfidenceInterval.fromJSON(JSON.stringify(json._confidence_interval)),
-      });
+      return study;
     }
   }
 

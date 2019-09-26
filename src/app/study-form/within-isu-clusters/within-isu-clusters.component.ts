@@ -72,6 +72,12 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     this._clusterSubscription = this.study_service.withinIsuCluster$.subscribe(
       cluster => {
         this._cluster = cluster;
+        if (cluster !== null && cluster !== undefined) {
+          this._levels = cluster.levels;
+          this._elementForm = this._fb.group({
+            name: [this._cluster.name]
+          });
+        }
       }
     );
     this._afterInit = false;

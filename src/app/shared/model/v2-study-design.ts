@@ -1,4 +1,5 @@
 import { version } from '../../../../package.json';
+import {constants} from "./constants";
 
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
@@ -91,7 +92,7 @@ export class V2StudyDesign {
     sigmaScaleList: [],
     relativeGroupSizeList: [],
     sampleSizeList: [],
-    statisticalTestList: [],
+    statisticalTestList: {idx, type}[],
     powerMethodList: [],
     quantileList: [],
     nominalPowerList: [],
@@ -103,6 +104,49 @@ export class V2StudyDesign {
     covariance: [],
     matrixSet: []
   ) {
-    // do something?
+    this.statisticalTestList = [];
+  }
+
+  getSolveFor() {
+    if (this.solutionTypeEnum === 'POWER') {
+      return 'POWER';
+    } else {
+      return 'SAMPLESIZE';
+    }
+  }
+
+  getTests() {
+    const tests = [];
+    const v2tests = [];
+    if (this.statisticalTestList !== null && this.statisticalTestList !== undefined) {
+      for (let i = 0; i < this.statisticalTestList.length; i++) {
+        // v2tests.push(this.statisticalTestList[i].type);
+      }
+    }
+    if (v2tests.indexOf('HLT') !== -1) {
+      tests.push(constants.STATISTICAL_TESTS.HOTELLING_LAWLEY);
+    }
+    if (v2tests.indexOf('PBT') !== -1) {
+      tests.push(constants.STATISTICAL_TESTS.PILLAI_BARTLET);
+    }
+    if (v2tests.indexOf('WL') !== -1) {
+      tests.push(constants.STATISTICAL_TESTS.WILKS_LIKLIEHOOD);
+    }
+    if (v2tests.indexOf('UNIREPBOX') !== -1) {
+      tests.push(constants.STATISTICAL_TESTS.BOX_CORRECTION);
+    }
+    if (v2tests.indexOf('UNIREPGG') !== -1) {
+      tests.push(constants.STATISTICAL_TESTS.GEISSER_GREENHOUSE);
+    }
+    if (v2tests.indexOf('UNIREPHF') !== -1) {
+      tests.push(constants.STATISTICAL_TESTS.HUYNH_FELDT);
+    }
+    if (v2tests.indexOf('UNIREP') !== -1) {
+      tests.push(constants.STATISTICAL_TESTS.UNCORRECTED);
+    }
+    if (v2tests.length === 0 ) {
+      tests.push(constants.STATISTICAL_TESTS.HOTELLING_LAWLEY);
+    }
+    return tests;
   }
 }
