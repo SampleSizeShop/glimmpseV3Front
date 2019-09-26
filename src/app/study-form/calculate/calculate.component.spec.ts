@@ -12,7 +12,7 @@ import {StatusComponent} from '../status/status.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatIconModule} from '@angular/material/icon';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
 
 describe('CalculateComponent', () => {
   let component: CalculateComponent;

@@ -37,7 +37,7 @@
     "jasminewd2": "^2.2.0",
     "jquery": "^3.4.1",
     "karma-firefox-launcher": "^1.2.0",
-    "mathjax": "^2.7.5",
+    "mathjax": "2.7.1",
     "mathjs": "^6.1.0",
     "ng-animate": "^0.3.4",
     "ngx-bootstrap": "^5.1.1",

@@ -773,7 +773,7 @@ describe('StudyDesign', () => {
         }
       ]
     };
-    const study = JSON.parse(str, StudyDesign.reviver);
+    // const study = JSON.parse(str, StudyDesign.reviver);
     const a = 1;
   });
 
