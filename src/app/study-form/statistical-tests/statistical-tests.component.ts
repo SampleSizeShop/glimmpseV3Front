@@ -4,8 +4,6 @@ import {StudyService} from '../../shared/services/study.service';
 import {Subscription} from 'rxjs';
 import {FormBuilder, FormGroup, FormArray, FormControl} from '@angular/forms';
 import {statisticalTestsValidator} from '../../shared/validators/statistical-tests.validator';
-import {Observable, of as observableOf} from 'rxjs/index';
-import {Outcome} from '../../shared/model/Outcome';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NGXLogger} from 'ngx-logger';

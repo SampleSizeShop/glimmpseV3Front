@@ -45,6 +45,20 @@ export class ISUFactors {
     }
   }
 
+  get allMarginalMeansDefined(): boolean {
+    if (this.marginalMeans !== null && this.marginalMeans !== undefined ) {
+      let complete = true;
+      this.marginalMeans.forEach( table => {
+        if (!table.allValuesDefined) {
+          complete = false;
+        }
+        return complete;
+      });
+    } else {
+      return false;
+    }
+  }
+
   static parseCorrelationMatrix(json) {
     if (!isNullOrUndefined(json)) {
       return CorrelationMatrix.fromJSON(JSON.stringify(json))

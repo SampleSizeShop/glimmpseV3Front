@@ -161,7 +161,7 @@ export class StudyDesign {
           '',
           0
           )],
-        1
+        null
       ));
     });
     return tableIds;

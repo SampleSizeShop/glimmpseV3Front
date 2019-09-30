@@ -53,7 +53,7 @@ export class ISUFactorCombination {
 
   constructor(id: Array<CombinationId>, value?: number) {
     this.id = id;
-    if (!isNullOrUndefined(value)) {
+    if (value !== undefined) {
       this.value = value;
     }
   }

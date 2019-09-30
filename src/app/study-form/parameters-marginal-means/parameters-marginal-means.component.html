@@ -36,6 +36,9 @@
         </table>
       </div>
     </div>
+    <div *ngIf="!valid" class="form-group has-danger">
+      <div class="form-control-feedback" id="outcomeserr">You must choose an expected mean value for each group in your design.</div>
+    </div>
   </form>
   <form [formGroup]="untouchedValuesForm" id="untouchedValuesForm">
     <div class="container-fluid">

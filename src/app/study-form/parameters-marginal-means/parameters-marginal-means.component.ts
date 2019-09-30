@@ -3,7 +3,7 @@ import {of as observableOf, Subscription, Observable} from 'rxjs';
 
 import {map, switchMap} from 'rxjs/operators';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {StudyService} from '../../shared/services/study.service';
 import {isNullOrUndefined} from 'util';
@@ -13,7 +13,6 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
-import {minMaxValidator} from "../../shared/validators/minmax.validator";
 
 @Component({
   selector: 'app-parameters-marginal-means',
@@ -29,6 +28,11 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
 
   private _isuFactorsSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
+
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
+  private _valid: boolean
 
   @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
@@ -53,12 +57,27 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
       }
     });
 
+    this._isClickNextReference = {value: false};
+    this._isClickNext = false;
+    this._isClickNextSubscription = this.navigation_service.isClickNext$.subscribe(
+      isClickNext => {
+        this.isClickNext = isClickNext;
+        this._isClickNextReference.value = this.isClickNext;
+        if (this._isClickNext && this.marginalMeansForm !== null && this.marginalMeansForm !== undefined) {
+          Object.keys(this.marginalMeansForm.controls).forEach( control => {
+            this.marginalMeansForm.controls[control].setValidators(Validators.required);
+            this.marginalMeansForm.controls[control].updateValueAndValidity();
+          });
+        }
+      }
+    );
 
     this.left = 'left';
     this.below = 'below';
   }
 
   ngOnInit() {
+    this.navigation_service.updateIsClickNext(false);
     this._afterInit = true;
     this.isuFactorsSubscription = this._study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
@@ -73,11 +92,33 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
 
   ngOnDestroy() {
     this._showHelpTextSubscription.unsubscribe();
+    this._isClickNextSubscription.unsubscribe();
+    this.setNextEnabled('VALID');
   }
 
   ngDoCheck() {
+    this.checkValidBeforeNavigation();
     this.updateMarginalMeans();
     this._study_service.updateIsuFactors(this.isuFactors);
+  }
+
+  checkValidBeforeNavigation(): void {
+    if (this._table !== null && this._table !== undefined && this._table.allValuesDefined) {
+      this.setNextEnabled('VALID');
+      this._valid = true;
+    } else {
+      this.setNextEnabled('INVALID');
+      if (this._isClickNext) {
+        this._valid = false;
+      } else {
+        this._valid = true;
+      }
+    }
+  }
+
+  setNextEnabled(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this.navigation_service.updateValid(valid);
   }
 
   getRelativeGroupSizeTables() { return observableOf(this.isuFactors.marginalMeans); }
@@ -130,7 +171,7 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
     } else {
       const controlDefs = this._table.controlDefs;
       this.marginalMeansForm = this.fb.group(controlDefs);
-      if (!isNullOrUndefined(this.table)) {
+      if ((this.table !== null && this.table !== undefined)) {
         let r = 0;
         this.table.table.forEach( row => {
           let c = 0;
@@ -255,5 +296,17 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
     } else {
       return false;
     }
+  }
+
+  get valid(): boolean {
+    return this._valid;
+  }
+
+  get isClickNext(): boolean {
+    return this._isClickNext;
+  }
+
+  set isClickNext(value: boolean) {
+    this._isClickNext = value;
   }
 }
