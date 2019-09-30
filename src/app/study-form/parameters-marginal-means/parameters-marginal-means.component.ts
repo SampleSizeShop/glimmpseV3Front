@@ -138,12 +138,16 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
     this.updateMarginalMeansFormControls();
   }
 
-  setUntouchedValues() {
-    if (!isNullOrUndefined(this.untouchedValuesForm.controls['untouchedValues']) &&
-    !isNullOrUndefined(this.untouchedValuesForm.controls['untouchedValues'].value)) {
+  setBlankValues() {
+    if (this.untouchedValuesForm.controls['untouchedValues'] !== null
+      && this.untouchedValuesForm.controls['untouchedValues'] !== undefined
+      && this.untouchedValuesForm.controls['untouchedValues'].value !== null
+      && this.untouchedValuesForm.controls['untouchedValues'].value !== undefined) {
       const val = this.untouchedValuesForm.controls['untouchedValues'].value;
       Object.keys(this.marginalMeansForm.controls).forEach( field => {
-        if (!this._marginalMeansForm.controls[field].dirty) {
+        if (this._marginalMeansForm.controls[field].value === null
+          || this._marginalMeansForm.controls[field].value === undefined
+          || this._marginalMeansForm.controls[field].value === '') {
           this._marginalMeansForm.controls[field].setValue(val);
         }
       });
