@@ -16,7 +16,7 @@ export const cc_input = {
   predictors: [
     {name: 'group1', groups: ['0', '1']}
   ],
-  smallest_group: 5,
+  smallest_group: [5],
   groups: [
     {group: '', table: [[1], [1]]}
   ],

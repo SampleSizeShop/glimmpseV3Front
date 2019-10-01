@@ -24,7 +24,7 @@ export const generic_model = {
     {name: 'gender', groups: ['m', 'f']},
     {name: 'colour', groups: ['red', 'green', 'blue']},
     {name: 'c', groups: ['red', 'green', 'blue']}],
-  smallest_group: 10,
+  smallest_group: [10],
   groups: [
     {group: '', table: [[1, 3, 4], [5, 6, 7]]},
   ],

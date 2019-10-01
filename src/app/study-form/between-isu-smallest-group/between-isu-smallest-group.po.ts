@@ -5,10 +5,18 @@ export class BetweenIsuSmallestGroupPo {
 
   fromJSON(source) {
     if (!isNullOrUndefined(source) && !isNullOrUndefined(source.smallest_group)) {
-      const smallestGroupInput = element(by.formControlName('smallestGroupSize'));
+      this.fillForm(source.smallest_group);
+    }
+  }
+
+  fillForm(input) {
+    if (!isNullOrUndefined(input)) {
+      const smallestGroupInput = element(by.id('smallestgroupsize'));
       const smallestGroupAdd = element(by.id('addgroupsize'));
-      smallestGroupInput.clear().then(() => smallestGroupInput.sendKeys(source.smallest_group));
-      smallestGroupAdd.click();
+      for (const groupsize of input) {
+        smallestGroupInput.clear().then(() => smallestGroupInput.sendKeys(groupsize));
+        smallestGroupAdd.click();
+      }
     }
   }
 }

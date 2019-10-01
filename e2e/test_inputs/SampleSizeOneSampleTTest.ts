@@ -13,7 +13,7 @@ export const SampleSizeOneSampleTTest_input = {
   repeated_measures: null,
   cluster: null,
   predictors: null,
-  smallest_group: 1,
+  smallest_group: [1],
   groups: null,
   gaussian_covariate: null,
   hypothesis: null,

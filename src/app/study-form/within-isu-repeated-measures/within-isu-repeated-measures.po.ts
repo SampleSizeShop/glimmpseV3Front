@@ -40,7 +40,7 @@ export class WithinIsuRepeatedMeasuresPo {
 
   fillDataType(input) {
     if (!isNullOrUndefined(input.type)) {
-      element(by.id('0')).click();
+      element(by.id(input.type)).click();
     }
     element(by.id('typenextbtn')).click();
   }

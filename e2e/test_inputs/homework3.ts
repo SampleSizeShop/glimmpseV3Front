@@ -15,7 +15,7 @@ export const hw3_input = {
   predictors: [
     {name: 'LiteracyProgram', groups: ['ABRA', 'English', 'Bi-lingual']}
     ],
-  smallest_group: 15,
+  smallest_group: [15],
   groups: [
     {group: '', table: [[1], [1], [1]]},
   ],
