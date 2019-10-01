@@ -11,7 +11,7 @@ export const example_1_input = {
   repeated_measures: null,
   cluster: null,
   predictors: null,
-  smallest_group: 10,
+  smallest_group: [10],
   groups: null,
   gaussian_covariate: null,
   hypothesis: null,

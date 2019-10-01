@@ -22,7 +22,7 @@ export const MultipleOutcomeUnirep_input = {
   predictors: [
     {name: 'gender', groups: ['m', 'f']},
     {name: 'treatment', groups: ['cell', 'placebo']}],
-  smallest_group: 100,
+  smallest_group: [100],
   groups: [
     {group: '', table: [[3, 1], [4, 1]]}
   ],

@@ -82,7 +82,7 @@
       <form [formGroup]="typeForm" id="type">
         <div class="form-group">
           <div class="btn-group" data-toggle="buttons" *ngFor="let t of types; let i = index">
-            <label aria-pressed="true" class="btn btn-secondary" [class.active]="typeSelected(t)" id="{{i}}">
+            <label aria-pressed="true" class="btn btn-secondary" [class.active]="typeSelected(t)" id="{{types[i]}}">
               <input type="radio" id="nominal" (click)="selectType(t)" > {{t}}
             </label>
           </div>

@@ -17,7 +17,7 @@ export const hw5_input = {
     {name: 'Treatment', groups: ['Placebo', 'Chemotherapy']},
     {name: 'Genotype', groups: ['A', 'B', 'C', 'D']}
   ],
-  smallest_group: 5,
+  smallest_group: [5],
   groups: [
     {group: '', table: [[1, 1, 1, 2], [1, 1, 1, 2]]}
   ],

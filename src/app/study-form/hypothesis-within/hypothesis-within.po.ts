@@ -14,6 +14,9 @@ export class HypothesisWithinPo {
       this.selectCustom();
       this.fillCustom(hypothesis_within);
     }
+    if (hypothesis_within.nature === 'trends') {
+      this.selectTrends();
+    }
   }
 
   selectCustom() {
@@ -23,6 +26,11 @@ export class HypothesisWithinPo {
     if (input.getAttribute('class').then(classStr => classStr === 'active')) {
       input.click();
     }
+  }
+
+  selectTrends() {
+    const input = element(by.id('polylbl'));
+    input.click();
   }
 
   fillCustom(source) {
