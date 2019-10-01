@@ -585,6 +585,14 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this._autoFillbool = !this._autoFillbool;
   }
 
+  selectAutoFill() {
+    this._autoFillbool = true;
+  }
+
+  selectManual() {
+    this._autoFillbool = false;
+  }
+
   isAutoFill() {
     return this._autoFillbool;
   }

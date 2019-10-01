@@ -1,6 +1,11 @@
 <div  [@.disabled]="disableAnimationa">
   <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
-      <a class="navbar-brand" href="#" style="padding-left: 10px;">GLIMMPSE</a>
+    <div class="container-fluid" style="margin-left: 0; padding-left: 0;">
+      <div class="row">
+        <a class="navbar-brand" href="#" style="padding-left: 10px; padding-bottom: 0px; margin-bottom: 0em;"> <mat-icon svgIcon="glimmpsediamond" (click)="showStatus()"></mat-icon> GLIMMPSE</a>
+      </div>
+      <div class="row d-none d-sm-block" style="padding-left: 12px; margin-bottom: 0em; color: white;">General Linear Mixed Model Power and Sample Size</div>
+    </div>
   </nav>
   <div class="container-fluid">
     <br *ngIf="isLanding()">

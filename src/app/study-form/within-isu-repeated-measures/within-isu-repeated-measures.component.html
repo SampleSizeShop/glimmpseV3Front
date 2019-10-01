@@ -63,8 +63,8 @@
       <div class="form-group">
         <label for="dimension">Dimension:</label>
         <input class="form-control" formControlName="dimension" id="dimension" placeholder="Enter the name of the dimension for this repeated measure (time, scenarios, etc.)">
-        <div *ngIf="formErrors.dimensionunits" class="form-group has-danger">
-          <div class="form-control-feedback" id="outcomeserr">{{formErrors.dimensionunits}}</div>
+        <div *ngIf="!dimensionForm.valid" class="form-group has-danger">
+          <div class="form-control-feedback" id="outcomeserr">You must choose a name for the dimension you are measuring.</div>
         </div>
       </div>
       <div class="form-group">
@@ -73,7 +73,6 @@
       </div>
     </form>
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="dimcancelbtn">Cancel</button>
-    <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="dimbackbtn">Back</button>
     <button class="btn btn-primary btn-sm" (click)="setStage(stages.TYPE)"   id="dimnextbtn" [ngClass]="{disabled : !this.dimensionForm.valid }">Next: Type</button>
   </div>
 
@@ -135,60 +134,75 @@
       <h6>Spacing</h6>
       <p>If the repeated measures are numeric, the spacing values must be unique nonnegative integers, in ascending order.</p>
       <form [formGroup]="spacingForm">
-        <div class="container-fluid">
-          <div class="row">
+        <div class="row">
+          <div class="col">
+            <div class="btn-group-sm" data-toggle="buttons">
+              <label aria-pressed="true" class="btn btn-secondary btn-sm" [class.active]="!isAutoFill()" id="manualfillbtn">
+                <input type="radio" id="manualfillradio" (click)="selectManual()">Set values myself
+              </label>
+              <label aria-pressed="true" class="btn btn-secondary btn-sm" [class.active]="isAutoFill()" id="autofillbtn">
+                <input type="radio" id="autofillradio" (click)="selectAutoFill()"> Select values by series
+              </label>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div>
 
-            <div class="col" *ngIf="!isAutoFill()">
-              <div class="form-group" id="spacinginput" *ngFor="let space of spacingControlNames">
-                <div class="container-fluid">
-                  <div class="row">
-                    <div class="col">
-                      Measurement #{{space + 1}} at
-                    </div>
-                    <div class="col">
-                      <input [type]="spacingInputType()" class="form-control" id="spacing-{{space}}" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
-                      <div *ngIf="formErrors.valueNames" class="form-group has-danger">
-                        <div class="form-control-feedback">{{formErrors.valueNames}}</div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      {{dimensionForm.value.units}}
-                    </div>
+          <div *ngIf="!isAutoFill()">
+            <div class="form-group" id="spacinginput" *ngFor="let space of spacingControlNames">
+              <div class="row">
+                <div class="col col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                  Measurement #{{space + 1}} at
+                </div>
+                <div class="col col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                  <input [type]="spacingInputType()" class="form-control" id="spacing-{{space}}" aria-describedby="spacinghelp" formControlName="{{space}}" step="1" required>
+                  <div *ngIf="formErrors.valueNames" class="form-group has-danger">
+                    <div class="form-control-feedback">{{formErrors.valueNames}}</div>
                   </div>
                 </div>
-              </div>
-              <div *ngIf="formErrors.space" class="form-group has-danger">
-                <div class="form-control-feedback">{{formErrors.space}}</div>
+                <div class="col col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                  {{dimensionForm.value.units}}
+                </div>
               </div>
             </div>
+            <div *ngIf="formErrors.space" class="form-group has-danger">
+              <div class="form-control-feedback">{{formErrors.space}}</div>
+            </div>
+          </div>
 
-            <div class="col" *ngIf="isAutoFill()">
-              <div class="row">
-                <h6>Auto fill with measurements at regular intervals?</h6>
+          <div *ngIf="isAutoFill()">
+            <div class="row">
+              <div class="col">
+                <h6>Choose value for your first measurement and the interval at which further measurements will be taken.</h6>
               </div>
-              <div class="row">
+            </div>
+            <div class="row">
+              <div class="col col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <label for="first">First measurement:</label>
+              </div>
+              <div class="col col-lg-2 col-md-6 col-sm-12 col-xs-12">
                 <input type="number" id="first" class="form-control" formControlName="first">
               </div>
-              <div class="row">
+            </div>
+            <div class="row">
+              <div class="col col-lg-3 col-md-6 col-sm-12 col-xs-12">
                 <label for="interval">Interval:</label>
+              </div>
+              <div class="col col-lg-2 col-md-6 col-sm-12 col-xs-12">
                 <input type="number" id="interval" class="form-control" formControlName="interval">
               </div>
-              <div class="row">
-                <button class="btn btn-primary btn-sm" (click)="autoFill()" style="margin-top: 10px">Fill</button>
-              </div>
-              <br>
             </div>
-
           </div>
+
+          <br>
         </div>
       </form>
     </div>
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="spacecancelbtn">Cancel</button>
-    <button class="btn btn-sm btn-secondary" *ngIf="!isAutoFill()" (click)="toggleAutoFill()">auto fill values</button>
-    <button class="btn btn-sm btn-secondary" *ngIf="isAutoFill()" (click)="toggleAutoFill()">Set values myself</button>
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)" id="spacebackbtn">Back</button>
-    <button class="btn btn-primary btn-sm" (click)="addRepeatedMeasure()" id="spacenextbtn" [disabled]="!this.spacingForm.valid">Finish</button>
+    <button *ngIf="isAutoFill()" class="btn btn-primary btn-sm" (click)="autoFill()">Fill values</button>
+    <button *ngIf="!isAutoFill()" class="btn btn-primary btn-sm" (click)="addRepeatedMeasure()" id="spacenextbtn" [disabled]="!this.spacingForm.valid">Add repeated measure to study</button>
   </div>
 </div>
 
