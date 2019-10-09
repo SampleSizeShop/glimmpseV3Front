@@ -150,12 +150,59 @@ export class RelativeGroupSizeTable extends ISUFactorCombinationTable {
     return label;
   }
 
+  getCellRowLabel(element: ISUFactorCombination) {
+    let label = '';
+    label = this._getDimensionLabel(element, 0);
+    return label;
+  }
+
+  getCellColLabel(element: ISUFactorCombination) {
+    let label = '';
+    if (this.dimensions.length > 1) {
+      label = label + this._getDimensionLabel(element, 1);
+    }
+    return label;
+  }
+
+  get hasCols() {
+    if (this.dimensions.length > 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getCellRowValueLabel(element: ISUFactorCombination) {
+    let label = '';
+    label = this._getValueLabel(element, 0);
+    return label;
+  }
+
+  getCellColValueLabel(element: ISUFactorCombination) {
+    let label = '';
+    if (this.dimensions.length > 1) {
+      label = label + this._getValueLabel(element, 1);
+    }
+    return label;
+  }
+
   _getDimensionValueLabel(element: ISUFactorCombination, dimensionIndex: number) {
     const factorName = this.dimensions[dimensionIndex].factorName;
     let label = 'undefined';
     element.id.forEach( factor => {
       if (factorName === factor.factorName) {
         label = factorName + ': ' + factor.value;
+      }
+    });
+    return label;
+  }
+
+  _getValueLabel(element: ISUFactorCombination, dimensionIndex: number) {
+    const factorName = this.dimensions[dimensionIndex].factorName;
+    let label = 'undefined';
+    element.id.forEach( factor => {
+      if (factorName === factor.factorName) {
+        label = factor.value;
       }
     });
     return label;
