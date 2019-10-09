@@ -14,18 +14,9 @@
       </p>
       <p *ngIf="warningFractionalGroups()" class="text-warning">Warning: You have chosen a fractional relative group size. Please ensure that your choices make sense (including being physically realizable).</p>
     </div>
-    <br>
     <div class="table-responsive">
-      <h5 *ngIf="hasDisplayName">Relative group sizes for {{displayName}}</h5>
-      <table style="border-bottom: none; border-top: none;">
-        <thead *ngIf="table.hasCols">
-          <tr *ngIf="table.hasCols">
-            <th *ngIf="table.hasCols"></th>
-            <th *ngIf="table.hasCols">
-              {{table.getCellColLabel(table.table[0][0])}}
-            </th>
-          </tr>
-        </thead>
+      <p *ngIf="hasDisplayName">Group size ratios relative to <b>{{displayName}}</b></p>
+      <table>
         <tbody>
           <td>
             <div style="-webkit-transform: rotate(-180deg);
@@ -36,23 +27,31 @@
             </div>
           </td>
           <td>
-            <table class="table table-bordered" >
+            <table class="table" >
               <thead  *ngIf="table.hasCols">
                 <tr>
-                  <td></td>
-                  <td *ngFor="let col of table.table[0];">
-                    {{table.getCellColValueLabel(col)}}
+                  <td *ngFor="let col of table.table[0]; let j = index;"
+                  style="border-right: transparent; border-top: 0px solid transparent;">
+                    <div *ngIf="j === 1">
+                      <b>{{table.getCellColLabel(table.table[0][0])}}</b>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="border-top: 0px solid transparent;"></td>
+                  <td *ngFor="let col of table.table[0];" style="text-align:center; border-top: 0px solid transparent;">
+                    <b>{{table.getCellColValueLabel(col)}}</b>
                   </td>
                 </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let row of table.table">
-                <td>
-                  {{table.getCellRowValueLabel(row[0])}}
+              <tr *ngFor="let row of table.table; let i = index;">
+                <td [style.border-top]="getRowStyle(i, table.hasCols)">
+                  <b>{{table.getCellRowValueLabel(row[0])}}</b>
                 </td>
-                <td *ngFor="let col of row;">
+                <td *ngFor="let col of row;" [style.border-top]="getRowStyle(i, table.hasCols)">
                   <div>
-                    <input type="number" style="box-shadow: none;"
+                    <input type="number" style="box-shadow: none; text-align:center;"
                            formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
                            id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
                            required>
