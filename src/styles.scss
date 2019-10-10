@@ -68,6 +68,26 @@ only screen and (max-width: 760px),
   overflow: scroll;
   width: border-box;}
 
+.matrix-headers {
+  background-image: linear-gradient(transparent, transparent),
+  linear-gradient(transparent, transparent),
+  linear-gradient(transparent, transparent),
+  linear-gradient(transparent, transparent);
+
+  background-repeat: no-repeat;
+  background-size: 8px 1px;
+  background-position: top left, top right, bottom left, bottom right;
+
+  border: solid rgba(0,0,0,0);
+  text-align: justify;
+  border-width: 0 1px;
+  display: inline-block;
+  vertical-align: top;
+  padding: 5px 15px;
+  margin: 2px;
+  overflow: scroll;
+  width: border-box;}
+
 input[type=number]{
   text-align: right;
 }
