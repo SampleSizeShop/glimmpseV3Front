@@ -17,24 +17,57 @@
       </div>
       <p *ngIf="grandMean">What is the mean value for outcome {{table.name}}?</p>
 
-      <div class="table-responsive" style="padding:-200px 0;">
-        <table class="table">
-          <tbody class="matrix-input-brackets">
-          <tr *ngFor="let row of table.table;">
-            <td *ngFor="let col of row;">
-              <div matTooltip="{{table.getCellLabel(col)}}"
-                [matTooltipPosition]="left">
-                <input type="number"
-                       formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
-                       id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
-                       class="matrix-input-control"
-                        step="0.1">
-              </div>
-            </td>
-          </tr>
+      <div class="table-responsive">
+        <p *ngIf="hasDisplayName">Group size ratios relative to <b>{{displayName}}</b></p>
+        <table>
+          <tbody>
+          <td>
+            <div style="-webkit-transform: rotate(-180deg);
+                        -moz-transform: rotate(-180deg);
+                        writing-mode: vertical-lr;
+                        font-weight: bold">
+              {{table.getRowLabel(table.table[0][0])}}
+            </div>
+          </td>
+          <td>
+            <table class="table" >
+              <thead  *ngIf="table.hasCols">
+              <tr>
+                <td *ngFor="let col of table.table[0]; let j = index;"
+                    style="border-right: transparent; border-top: 0px solid transparent;">
+                  <div *ngIf="j === 1">
+                    <b>{{table.getColLabel(table.table[0][0])}}</b>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="border-top: 0px solid transparent;"></td>
+                <td *ngFor="let col of table.table[0];" style="text-align:center; border-top: 0px solid transparent;">
+                  <b>{{table.getColValueLabel(col)}}</b>
+                </td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let row of table.table; let i = index;">
+                <td [style.border-top]="getRowStyle(i, table.hasCols)" style="padding: 2px">
+                  <b>{{table.getRowValueLabel(row[0])}}</b>
+                </td>
+                <td *ngFor="let col of row;" [style.border-top]="getRowStyle(i, table.hasCols)">
+                  <div>
+                    <input type="number" style="box-shadow: none; text-align:center;"
+                           formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
+                           placeholder=" "
+                           id="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}">
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
           </tbody>
         </table>
       </div>
+
     </div>
     <div *ngIf="!valid" class="form-group has-danger">
       <div class="form-control-feedback" id="outcomeserr">You must choose an expected mean value for each group in your design.</div>
@@ -47,7 +80,7 @@
           <button class="btn btn-secondary btn-sm" (click)="setBlankValues()">Set blank values to</button>
         </div>
         <div class="col col-lg-9 col-md-9 col-xs-12">
-          <input type="number" id="setDefaultsInupt" formControlName="untouchedValues" placeholder="value" step = 0.1>
+          <input type="number" id="setDefaultsInupt" formControlName="untouchedValues" placeholder="value" style="background-color: transparent" step = 0.1>
         </div>
       </div>
     </div>

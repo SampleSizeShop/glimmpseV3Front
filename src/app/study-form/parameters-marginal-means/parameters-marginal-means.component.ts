@@ -211,6 +211,14 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
       });
   }
 
+  getRowStyle(i, hasCols) {
+    if (i === 0 && hasCols) {
+      return '1px solid #3c4043';
+    } else {
+      return '0px solid transparent';
+    }
+  }
+
   get isuFactors(): ISUFactors {
     return this._isuFactors;
   }

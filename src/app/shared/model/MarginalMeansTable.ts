@@ -82,9 +82,21 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     let label = '';
     element.id.forEach( factor => {
       if (factor.factorType === constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR) {
-        label = label + ' ' + factor.factorName + ' : ' + factor.value;
+        label = label + ', ' + factor.factorName;
       }
     });
+    label = label.substring(2, label.length);
+    return label.trim();
+  }
+
+  getRowValueLabel(element: ISUFactorCombination) {
+    let label = '';
+    element.id.forEach( factor => {
+      if (factor.factorType === constants.HYPOTHESIS_ORIGIN.BETWEEN_PREDICTOR) {
+        label = label + ', ' + factor.value;
+      }
+    });
+    label = label.substring(2, label.length);
     return label.trim();
   }
 
@@ -92,10 +104,34 @@ export class MarginalMeansTable extends ISUFactorCombinationTable {
     let label = '';
     element.id.forEach( factor => {
       if (factor.factorType === constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE) {
-        label = label + factor.factorName + ' : ' + factor.value;
+        label = label + ', ' + factor.factorName;
       }
     });
+    label = label.substring(2, label.length);
     return label.trim();
+  }
+
+  getColValueLabel(element: ISUFactorCombination) {
+    let label = '';
+    element.id.forEach( factor => {
+      if (factor.factorType === constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE) {
+        label = label + ', ' + factor.value;
+      }
+    });
+    label = label.substring(2, label.length);
+    return label.trim();
+  }
+
+  get hasCols() {
+    let count = 0;
+    if (this.table !== null && this.table !== undefined) {
+      this.table[0][0].id.forEach( factor => {
+        if (factor.factorType === constants.HYPOTHESIS_ORIGIN.REPEATED_MEASURE) {
+          count = count + 1;
+        }
+      });
+    }
+    return count > 0;
   }
 
   getRowDimensionLabel() {
