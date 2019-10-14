@@ -44,10 +44,10 @@ import {BetweenIsuSmallestGroupsGuard} from '../shared/services/between-isu-smal
 import {ParametersGaussianPowerComponent} from './parameters-gaussian-power/parameters-gaussian-power.component';
 import {OptionalSpecsConfidenceIntervalsComponent} from './optional-specs-confidence-intervals/optional-specs-confidence-intervals.component';
 import {SolveForPowerGuard} from '../shared/services/solve-for-power-guard.service';
-import {HypothesisMixedComponent} from "./hypothesis-mixed/hypothesis-mixed.component";
-import {HypothesisMixedGuard} from "../shared/services/hypothesis-mixed-guard.service";
-import {HypothesisBetweenGuard} from "../shared/services/hypothesis-between-guard.service";
-import {HypothesisWithinGuard} from "../shared/services/hypothesis-within-guard.service";
+import {HypothesisMixedComponent} from './hypothesis-mixed/hypothesis-mixed.component';
+import {HypothesisMixedGuard} from '../shared/services/hypothesis-mixed-guard.service';
+import {HypothesisBetweenGuard} from '../shared/services/hypothesis-between-guard.service';
+import {HypothesisWithinGuard} from '../shared/services/hypothesis-within-guard.service';
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 

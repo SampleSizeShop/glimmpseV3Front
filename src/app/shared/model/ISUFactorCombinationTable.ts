@@ -1,6 +1,7 @@
 import {ISUFactorCombination} from './ISUFactorCombination';
 import {isNullOrUndefined} from 'util';
 import {json} from "d3-fetch";
+import {Validators} from "@angular/forms";
 
 export interface ISUFactorCombinationTableJSON {
   _table: Array<Array<ISUFactorCombination>>;
@@ -24,6 +25,22 @@ export class ISUFactorCombinationTable {
       return tab;
     } else {
       return null;
+    }
+  }
+
+  get allValuesDefined(): boolean {
+    if (this._table !== null && this._table !== undefined) {
+      let complete = true;
+      this._table.forEach(row => {
+        row.forEach(col => {
+          if (col.value === null || col.value === undefined) {
+            complete = false;
+          }
+        });
+      });
+      return complete;
+    } else {
+      return false;
     }
   }
 

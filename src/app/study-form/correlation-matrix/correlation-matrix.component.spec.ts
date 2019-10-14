@@ -75,16 +75,6 @@ describe('CorrelationMatrixComponent', () => {
     expect(component._transposeName(actual)).toEqual(expected);
   });
 
-  it('Should return true if element is not on a diagonal', () => {
-    const actual = '1-0';
-    expect(component._linkToTranspose(actual)).toEqual(true);
-  });
-
-  it('Should return false if element is on a diagonal', () => {
-    const actual = '1-1';
-    expect(component._linkToTranspose(actual)).toEqual(false);
-  });
-
   it('Should correctly build a mathjs matrix from the values in the control', () => {
     component.values = {'0-0': 1, '0-1': 0, '1-0': 0, '1-1': 1};
     component._setUMatrixFromValues();

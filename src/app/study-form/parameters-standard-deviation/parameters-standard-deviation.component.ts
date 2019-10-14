@@ -22,7 +22,7 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
   private _validationMessages = constants.PARAMETERS_STANDARD_DEVIATION_VALIDATION_MESSAGES;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

@@ -48,11 +48,11 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   private _isClickNext: boolean;
   private _isClickNextReference: {value: boolean};
 
-  @ViewChild('canDeactivate', {static: false}) canDeactivateModal;
+  @ViewChild('canDeactivate', {static: true}) canDeactivateModal;
   private modalReference: any;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
@@ -583,6 +583,14 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   toggleAutoFill() {
     this._autoFillbool = !this._autoFillbool;
+  }
+
+  selectAutoFill() {
+    this._autoFillbool = true;
+  }
+
+  selectManual() {
+    this._autoFillbool = false;
   }
 
   isAutoFill() {

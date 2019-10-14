@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {constants} from '../model/constants';
 import {StudyService} from './study.service';
 import {ISUFactors} from '../model/ISUFactors';
 import {Subscription} from 'rxjs';
-import {isNullOrUndefined} from 'util';
 import {NGXLogger} from 'ngx-logger';
 
 @Injectable()
@@ -21,8 +19,8 @@ export class MarginalMeansGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.log.debug('MarginalMeans#canActivate called');
     if (
-      !isNullOrUndefined(this.isuFactors)
-      && !isNullOrUndefined(this.isuFactors.hypothesis)
+      this.isuFactors !== null && this.isuFactors !== undefined &&
+      this.isuFactors.hypothesis  !== null && this.isuFactors.hypothesis !== undefined
     ) {
       return true;
     } else {

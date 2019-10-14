@@ -37,7 +37,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   private _isuFactorsSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
@@ -114,7 +114,11 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   warningFractionalGroups(): boolean {
     let fractional = false;
     Object.keys(this.relativeGroupSizeForm.controls).forEach(key => {
-      if (!Number.isInteger(this.relativeGroupSizeForm.controls[key].value)) {
+      if (!(
+          Number.isInteger(this.relativeGroupSizeForm.controls[key].value)
+          || this.relativeGroupSizeForm.controls[key].value === null
+          || this.relativeGroupSizeForm.controls[key].value === undefined
+      )) {
         fractional = true;
       }
     });
@@ -204,6 +208,14 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
       });
   }
 
+  getRowStyle(i, hasCols) {
+    if (i === 0 && hasCols) {
+      return '1px solid #3c4043';
+    } else {
+      return '0px solid transparent';
+    }
+  }
+
   get relativeGroupSizeForm(): FormGroup {
     return this._relativeGroupSizeForm;
   }
@@ -283,9 +295,17 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   get displayName() {
     let name = '';
     if (!isNullOrUndefined(this.table) && !isNullOrUndefined(this.table.tableId)) {
-      name = this.table.tableId.name + ',';
+      name = this.table.tableId.name;
     }
     return name;
+  }
+
+  get hasDisplayName() {
+    if (this.displayName === '') {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   get isIntercept(): boolean {

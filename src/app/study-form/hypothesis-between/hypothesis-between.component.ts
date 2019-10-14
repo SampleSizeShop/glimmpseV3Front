@@ -45,13 +45,13 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _contrastMatrixSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
   texString = '';
 
-  @ViewChild('canDeactivate', {static: false}) canDeactivateModal;
+  @ViewChild('canDeactivate', {static: true}) canDeactivateModal;
   private modalReference: any;
 
   @HostListener('window:resize', ['$event'])

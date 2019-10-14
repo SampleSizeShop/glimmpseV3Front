@@ -28,6 +28,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   private _correlationMatrixForm: FormGroup;
   private _learForm: FormGroup;
   private _learFormSubscription: Subscription;
+  private _correlationMatrixFormSubscriptionMap: Map<string, Subscription>;
   private _correlationMatrixSubscription: Subscription;
   private _sizeSubscription: Subscription;
   private _uMatrix: CorrelationMatrix;
@@ -63,7 +64,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
           && size > 0
           && this.uMatrix.values.size()[0] > 0
         ) {
-          this.buildForm();
+          // this.buildForm();
           this.sizeArray = Array.from(Array(this.size).keys());
         }
       }
@@ -85,13 +86,6 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngDoCheck() {
-    if (this._check !== this.size) {
-      if (!isNullOrUndefined(this.size)
-        && this.size > 0
-        && this.uMatrix.values.size()[0] > 0) {
-        this.buildForm();
-      }
-    }
     this._uMatrix.base = this._learForm.get('base').value;
     this._uMatrix.decay = this._learForm.get('decay').value;
     this._uMatrix.scaled = this._learForm.get('scale').value;
@@ -100,17 +94,20 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnDestroy() {
     this.correlationMatrixSubscription.unsubscribe();
+    Object.keys(this.controlDefs).forEach(key => {
+      this._correlationMatrixFormSubscriptionMap.get(key).unsubscribe();
+    });
+    this._learFormSubscription.unsubscribe();
+    this.correlationMatrixSubscription.unsubscribe();
+    this._sizeSubscription.unsubscribe();
   }
 
   buildForm(): void {
     this._initializeProperties();
     this._defineMatrixFormControls();
     this._defineLearFormControls();
-
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
-    this.trackControlChanges();
-    this.updateMatrix();
-
+    this._defineMatrixFormSubscriptions();
     this._learFormSubscription = this._learForm.valueChanges.subscribe(value => this.onLearChange(value));
   }
 
@@ -167,20 +164,25 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
       for (const c of this.sizeArray) {
         const name = this.buildName(r.toString(), c.toString());
         this.validationMessages[name] = this.messages;
-        if (r > c) {
-          this.controlDefs[name] = [this.uMatrix.values.get([r, c]), minMaxValidator(this.min, this.max, this.log)];
-        }
         if (r === c) {
           this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true},
                                     minMaxValidator(this.min, this.max, this.log)];
-        }
-        if (r < c) {
-          this.controlDefs[name] = [{value: this.uMatrix.values.get([r, c]), disabled: true},
+        } else {
+          this.controlDefs[name] = [this.uMatrix.values.get([r, c]),
                                     minMaxValidator(this.min, this.max, this.log)];
         }
         this.values[name] = this.uMatrix.values.get([r, c]);
       }
     };
+  }
+
+  _defineMatrixFormSubscriptions() {
+    this._correlationMatrixFormSubscriptionMap = new Map<string, Subscription>();
+    Object.keys(this.controlDefs).forEach(controlName => {
+      let sub = new Subscription();
+      sub = this._correlationMatrixForm.get(controlName).valueChanges.subscribe( value => {this.trackControlChanges(value, controlName)});
+      this._correlationMatrixFormSubscriptionMap.set(controlName, sub);
+    });
   }
 
   _defineLearFormControls() {
@@ -204,11 +206,6 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     return name;
   }
 
-  _linkToTranspose(name: string): boolean {
-    const parts = this.splitName(name);
-    return (parts.length === 2 && parseInt(parts[0], 10) > parseInt(parts[1], 10)) ? true : false;
-  }
-
   _setUMatrixFromValues() {
     const vals = new Array();
     const rows = new Set();
@@ -222,7 +219,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
       for (const name of Object.keys (this.values)) {
         const parts = this.splitName(name);
         if (parts[0] === row) {
-          rowVals[parts[1]] = this.values[name];
+          rowVals[parts[1]] = +this.values[name];
         }
       }
 
@@ -239,20 +236,19 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     return first + constants.SEPARATOR + second;
   }
 
-  trackControlChanges() {
-    for (const name of Object.keys(this.controlDefs)) {
-      this.controls[name] = this.correlationMatrixForm.get(name);
-      this.controls[name].valueChanges.forEach((value: number) => {
-        this.values[name] = value;
-        if (this._linkToTranspose(name)) {
-          const transpose = this._transposeName(name);
-          this.values[transpose] = value;
-          this.correlationMatrixForm.get(transpose).setValue(value);
-          this.onValueChanged();
-        }
-        this.updateMatrix()
-      });
-    }
+  trackControlChanges(value: number, controlName: string) {
+    const transpose = this._transposeName(controlName);
+    this._correlationMatrixFormSubscriptionMap.get(transpose).unsubscribe()
+    this.correlationMatrixForm.get(transpose).setValue(value);
+    let sub = new Subscription();
+    sub = this._correlationMatrixForm.get(transpose).valueChanges.subscribe( val => {
+      this.trackControlChanges(val, transpose)
+    });
+    this.values[controlName] = +value;
+    this.values[transpose] = +value;
+    this.updateMatrix();
+    this._correlationMatrixFormSubscriptionMap.set(transpose, sub);
+    this.onValueChanged();
   }
 
   getStyle(row: number, col: number): string {

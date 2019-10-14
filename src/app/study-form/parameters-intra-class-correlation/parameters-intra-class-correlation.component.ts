@@ -24,7 +24,7 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
   private _validationMessages = constants.PARAMETERS_INTRA_CLASS_CORRELATION_VALIDATION_MESSAGES;
   private _showHelpTextSubscription: Subscription;
 
-  @ViewChild('helpText', {static: false}) helpTextModal;
+  @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
 

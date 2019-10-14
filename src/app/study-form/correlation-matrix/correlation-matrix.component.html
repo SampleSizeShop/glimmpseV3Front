@@ -45,23 +45,33 @@
   </div>
 </form>
 <div class="row">
-  <form [formGroup]="correlationMatrixForm" class="matrix-input-brackets">
+  <form [formGroup]="correlationMatrixForm">
     <div class="col col-md-auto">
       <table>
-        <thead></thead>
-        <tbody>
-        <tr *ngFor="let r of sizeArray; let a=index">
+        <tbody class="matrix-headers">
+        <tr><b>{{title}}</b></tr>
+        <tr>
           <td *ngFor="let c of sizeArray; let b=index">
-            <div matTooltip="{{labels[a]}}, {{labels[b]}}"
-                 [matTooltipPosition]="left">
-              <input type="number"
-                     class="form-control matrix-input-control"
-                     [style.background-color]="getStyle(r, c)"e
-                     formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}"
-                     step="0.1" min={{min}} max="{{max}}">
-            </div>
-
+              <input type="number" disabled
+                     class="matrix-input-control"
+                     placeholder="{{labels[b]}}">
           </td>
+        </tr>
+        </tbody>
+      </table>
+      <table>
+        <tbody class="matrix-input-brackets">
+        <tr *ngFor="let r of sizeArray; let a=index">
+            <td *ngFor="let c of sizeArray; let b=index">
+              <div matTooltip="{{labels[a]}}, {{labels[b]}}"
+                   [matTooltipPosition]="left">
+                <input type="number"
+                       class="form-control matrix-input-control"
+                       [style.background-color]="getStyle(r, c)"e
+                       formControlName="{{r}}-{{c}}" id="{{r}}-{{c}}"
+                       step="0.1" min={{min}} max="{{max}}">
+              </div>
+            </td>
         </tr>
         </tbody>
       </table>

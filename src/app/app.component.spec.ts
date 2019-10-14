@@ -10,6 +10,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {StudyService} from './shared/services/study.service';
 import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {MatIconModule} from '@angular/material/icon';
 
 describe('AppComponent', () => {
 
@@ -19,6 +20,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        MatIconModule,
         HttpClientTestingModule,
         ReactiveFormsModule,
         RouterTestingModule,

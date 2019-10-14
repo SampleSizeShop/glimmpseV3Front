@@ -3,6 +3,8 @@ import {environment} from '../environments/environment';
 import {Router} from '@angular/router';
 import {StudyDesign} from './shared/model/study-design';
 import {StudyService} from './shared/services/study.service';
+import {DomSanitizer} from '@angular/platform-browser';
+import {MatIconRegistry} from '@angular/material/icon';
 
 
 @Component({
@@ -13,13 +15,20 @@ import {StudyService} from './shared/services/study.service';
 export class AppComponent {
   disableAnimationa: boolean;
 
-  constructor(private router: Router, private study_service: StudyService) {
+  constructor(private router: Router,
+              private study_service: StudyService,
+              private domSanitizer: DomSanitizer,
+              private matIconRegistry: MatIconRegistry) {
     this.disableAnimationa = environment.disableAnimations;
+    this.matIconRegistry.addSvgIcon(
+      `glimmpsediamond`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/glimmpse_diamond_min.svg')
+    );
   }
 
   onFileChange(event) {
     const reader = new FileReader();
-    if(event.target.files && event.target.files.length > 0) {
+    if (event.target.files && event.target.files.length > 0) {
       const file = event.target.files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
