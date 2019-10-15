@@ -5,7 +5,7 @@
 </div>
 <form [formGroup]="stDevForm">
   <div *ngFor="let outcome of isuFactors.outcomes" class="row">
-    <div class="col-3 align-self-center" style="overflow-x: scroll; white-space: nowrap">
+    <div class="col-3 align-self-center" style="overflow: hidden; white-space: nowrap">
       <label>{{outcome.name}}:</label>
     </div>
     <div class="col col-md-auto align-self-center">
