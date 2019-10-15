@@ -57,6 +57,7 @@ only screen and (max-width: 760px),
   background-repeat: no-repeat;
   background-size: 8px 1px;
   background-position: top left, top right, bottom left, bottom right;
+  overflow: hidden;
 
   border: solid #69696b;
   text-align: justify;
@@ -77,6 +78,8 @@ only screen and (max-width: 760px),
   background-repeat: no-repeat;
   background-size: 8px 1px;
   background-position: top left, top right, bottom left, bottom right;
+  background-color: transparent;
+  overflow: hidden;
 
   border: solid rgba(0,0,0,0);
   text-align: justify;
