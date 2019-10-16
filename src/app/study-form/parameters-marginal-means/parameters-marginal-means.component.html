@@ -15,9 +15,12 @@
           Also, at least two groups should have means which differ by a scientifically meaningful amount.
         </p>
       </div>
-      <p *ngIf="grandMean">What is the mean value for outcome {{table.name}}?</p>
+      <p *ngIf="grandMean">What is the mean value for outcome {{table.name}}? <input type="number" style="box-shadow: none; text-align:center;"
+                                                                                     formControlName="0-0"
+                                                                                     placeholder=" " style="background-color: transparent"
+                                                                                     id="0-0"></p>
 
-      <div class="table-responsive">
+      <div class="table-responsive" *ngIf="!grandMean">
         <p *ngIf="hasDisplayName">Group size ratios relative to <b>{{displayName}}</b></p>
         <table>
           <tbody>
@@ -73,7 +76,7 @@
       <div class="form-control-feedback" id="outcomeserr">You must choose an expected mean value for each group in your design.</div>
     </div>
   </form>
-  <form [formGroup]="untouchedValuesForm" id="untouchedValuesForm">
+  <form [formGroup]="untouchedValuesForm" id="untouchedValuesForm" *ngIf="!grandMean">
     <div class="container-fluid">
       <div class="row">
         <div class="col col-lg-3 col-md-3 col-xs-12">
