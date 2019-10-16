@@ -118,7 +118,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
       output,
       this.jsonHeader()
     ).pipe(
-      timeout(4000), catchError(error => this.handleError(error))
+      timeout(10000), catchError(error => this.handleError(error))
     );
   }
 

@@ -14,9 +14,9 @@ export class BetweenIsuGroupsGuard implements CanActivate {
   constructor(private router: Router,
               private study_service: StudyService,
               private log: NGXLogger) {
-    this.predictorSubscription = this.study_service.betweenIsuPredictors$.subscribe(
-      predictors => {
-        this.predictors = predictors;
+    this.predictorSubscription = this.study_service.isuFactors$.subscribe(
+      isuFactors => {
+        this.predictors = isuFactors.predictorsInHypothesis;
       }
     );
   }

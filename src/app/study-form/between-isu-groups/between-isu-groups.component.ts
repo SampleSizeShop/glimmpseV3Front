@@ -210,7 +210,15 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   getRowStyle(i, hasCols) {
     if (i === 0 && hasCols) {
-      return '1px solid #3c4043';
+      return '2px solid #3c4043';
+    } else {
+      return '0px solid transparent';
+    }
+  }
+
+  getColStyle(i) {
+    if (i === 0) {
+      return '2px solid #3c4043';
     } else {
       return '0px solid transparent';
     }
@@ -313,7 +321,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     if ( isNullOrUndefined(this.table) ||
         (!isNullOrUndefined(this.table)
           && !isNullOrUndefined(this.table.tableId)
-          && this.table.tableId.name === 'InterceptIntercept'
+          && this.table.tableId.name === 'Intercept: Intercept'
     )) {
       isIntercept = true;
     }
