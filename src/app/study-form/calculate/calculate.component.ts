@@ -14,6 +14,9 @@ import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/model/constants';
 import {Result} from '../../shared/model/Results';
 import * as math from 'mathjs';
+import {timeout, catchError} from 'rxjs/operators';
+import {Observable} from 'rxjs/internal/Observable';
+import { of } from 'rxjs'
 
 @Component({
   selector: 'app-calculate',
@@ -46,6 +49,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   private _smallestGroupSize: number;
   private _sumOfCombinationsValue: number;
   private _selected_tab: string;
+  private _resultSubscription: Subscription;
 
   @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
@@ -106,13 +110,20 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this._showHelpTextSubscription.unsubscribe();
   }
 
-  postModel() {
+  get postModel(): Observable<any> {
     this.isShowDetail = false;
     const output = this.outputString;
-    this.http.post(
+    return this.http.post(
       environment.calculateUrl,
       output,
-      this.jsonHeader()).toPromise().then(response => {
+      this.jsonHeader()
+    ).pipe(
+      timeout(4000), catchError(error => this.handleError(error))
+    );
+  }
+
+  calculateResults() {
+    this._resultSubscription = this.postModel.subscribe(response => {
       this.resultString = response;
       this.buildResultTable();
       if (this.detailCluster) {
@@ -123,7 +134,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
       }
       this.buildCombinationsValueMap(this.studyDesign['_isuFactors']['betweenIsuRelativeGroupSizes']);
       this._sumOfCombinationsValue = this.getSumOfCombinationsValue();
-    }).catch(this.handleError);
+    });
   }
 
   downloadResult() {
@@ -154,9 +165,8 @@ export class CalculateComponent implements OnInit, OnDestroy {
     this._selected_tab = 'results';
   }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
+  private handleError(error): Observable<any> {
+    return of({'status': 200, 'mimetype': 'application/json', 'results': [{'test': null, 'samplesize': ' Sorry, something seems to have gone wrong with our calculations. Please contact us at samplesizeshop@gmail.com.', 'power': ' Sorry, something seems to have gone wrong with our calculations. Please contact us at samplesizeshop@gmail.com.', 'model': {'essence_design_matrix': null, 'repeated_rows_in_design_matrix': null, 'full_beta': false, 'hypothesis_beta': null, 'c_matrix': null, 'u_matrix': null, 'sigma_star': null, 'theta_zero': null, 'alpha': null, 'total_n': null, 'theta': null, 'm': null, 'nu_e': null, 'hypothesis_sum_square': null, 'error_sum_square': null, 'errors': [['Sorry, something seems to have gone wrong with our calculations. Please contact us at samplesizeshop@gmail.com.']], 'test': null, 'target_power': null, 'smallest_group_size': null, 'means_scale_factor': null, 'variance_scale_factor': null, 'smallest_realizable_design': null, 'delta': null, 'groups': null, 'power_method': null, 'quantile': null, 'confidence_interval': null, 'orthonormalize_u_matrix': false}, 'glimmpse_calc_version': '0.0.0'}]});
   }
 
   private jsonHeader() {
@@ -618,5 +628,9 @@ export class CalculateComponent implements OnInit, OnDestroy {
     } else {
       return false;
     }
+  }
+
+  get postTimedOut(): boolean {
+    return this._timeout;
   }
 }
