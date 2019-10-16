@@ -112,19 +112,19 @@
     <div *ngIf="hasResults">
       <p *ngIf="orthonormalized">You have selected one or more unirep tests. We have orthonormalized your U
         matrix so that the test theory is well defined.</p>
-      <div [mathJaxExpr]="essence_design_matrix_tex" style="padding-top: 10px"></div>
-      <div *ngIf="isFullBeta" [mathJaxExpr]="full_beta_tex" style="padding-top: 10px"></div>
-      <div *ngIf="isHypothesisBeta" [mathJaxExpr]="hypothesis_beta_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="c_matrix_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="u_matrix_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="sigma_star_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="theta_zero_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="alpha_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="theta_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="m_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="nu_e_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="rep_n_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="delta_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="essence_design_matrix_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div *ngIf="isFullBeta" [mathJaxExpr]="full_beta_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div *ngIf="isHypothesisBeta" [mathJaxExpr]="hypothesis_beta_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="c_matrix_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="u_matrix_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="sigma_star_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="theta_zero_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="alpha_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="theta_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="m_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="nu_e_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="rep_n_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="delta_tex" class="row justify-content-md-center" style="padding: 10px"></div>
     </div>
   </div>
   <div class="tab-pane fade show" [class.active]="isTabSelected('design')" id="designtab">

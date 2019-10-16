@@ -217,9 +217,18 @@ export class CalculateComponent implements OnInit, OnDestroy {
     }
   }
 
+  private matrixWithLabel(label, m) {
+    if (m !== null) {
+      const mtex = this.toTex(m);
+      return '$' + label + mtex.substring(1, mtex.length);
+    } else {
+      return '';
+    }
+  }
+
   get essence_design_matrix_tex() {
     if (this.resultsContainModel()) {
-      return 'Es($\\bf{X}$) = ' + this.toTex(this.resultString.results[0].model.essence_design_matrix);
+      return this.matrixWithLabel('Es(\\bf{X}) = ', this.resultString.results[0].model.essence_design_matrix);
     } else {
       return 'No model in results'
     }
@@ -227,7 +236,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   get full_beta_tex() {
     if (this.isFullBeta) {
-      return '$\\bf{B} = $' + this.toTex(this.resultString.results[0].model.hypothesis_beta);
+      return this.matrixWithLabel('\\bf{B} = ', this.resultString.results[0].model.hypothesis_beta);
     } else {
       return 'No model in results'
     }
@@ -255,63 +264,65 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   get hypothesis_beta_tex() {
     if (this.isHypothesisBeta) {
-      return '$\\bf{B}_{hyp} = $' + this.toTex(this.resultString.results[0].model.hypothesis_beta);
+      return this.matrixWithLabel('\\bf{B}_{hyp} = ', this.resultString.results[0].model.hypothesis_beta);
     } else {
       return 'No model in results'
     }
   }
+
   get c_matrix_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{C} = $' + this.toTex(this.resultString.results[0].model.c_matrix);
+      return this.matrixWithLabel('\\bf{C} = ', this.resultString.results[0].model.c_matrix);
     } else {
       return 'No model in results'
     }
   }
   get u_matrix_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{U} = $' + this.toTex(this.resultString.results[0].model.u_matrix);
+      return this.matrixWithLabel('\\bf{U} = ', this.resultString.results[0].model.u_matrix);
     } else {
       return 'No model in results'
     }
   }
   get sigma_star_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{\\Sigma_*} = $' + this.toTex(this.resultString.results[0].model.sigma_star);
+      return this.matrixWithLabel('\\bf{\\Sigma_*} = ', this.resultString.results[0].model.sigma_star);
     } else {
       return 'No model in results'
     }
   }
   get theta_zero_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{\\Theta_0} = $' + this.toTex(this.resultString.results[0].model.theta_zero);
+      return this.matrixWithLabel('\\bf{\\Theta_0} = ', this.resultString.results[0].model.theta_zero);
     } else {
       return 'No model in results'
     }
   }
   get alpha_tex() {
     if (this.resultsContainModel()) {
-      return '$\\alpha = $' + this.resultString.results[0].model.alpha;
+      return '$\\alpha = ' + this.resultString.results[0].model.alpha + '$';
     } else {
       return 'No model in results'
     }
   }
   get theta_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{\\Theta} = $' + this.toTex(this.resultString.results[0].model.theta);
+      return this.matrixWithLabel('\\bf{\\Theta} = ', this.resultString.results[0].model.theta);
     } else {
       return 'No model in results'
     }
   }
   get m_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{M} = $' + this.toTex(this.resultString.results[0].model.m);
+      return this.matrixWithLabel('\\bf{M} = ', this.resultString.results[0].model.m);
     } else {
       return 'No model in results'
     }
   }
   get nu_e_tex() {
     if (this.resultsContainModel()) {
-      return '$\\nu_e = $' + this.resultString.results[0].model.nu_e;    } else {
+      return '$\\nu_e = ' + this.resultString.results[0].model.nu_e + '$';
+    } else {
       return 'No model in results'
     }
   }
@@ -324,7 +335,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
   get delta_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{\\Delta} = $' + this.toTex(this.resultString.results[0].model.delta);
+      return this.matrixWithLabel('\\bf{\\Delta} = ', this.resultString.results[0].model.delta);
     } else {
       return 'No model in results'
     }
