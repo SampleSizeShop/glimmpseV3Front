@@ -629,8 +629,4 @@ export class CalculateComponent implements OnInit, OnDestroy {
       return false;
     }
   }
-
-  get postTimedOut(): boolean {
-    return this._timeout;
-  }
 }
