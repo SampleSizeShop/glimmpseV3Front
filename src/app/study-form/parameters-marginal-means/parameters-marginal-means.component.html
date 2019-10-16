@@ -15,7 +15,7 @@
           Also, at least two groups should have means which differ by a scientifically meaningful amount.
         </p>
       </div>
-      <p *ngIf="grandMean">What is the mean value for outcome {{table.name}}? <input type="number" style="box-shadow: none; text-align:center;"
+      <p *ngIf="grandMean">What is the mean value for outcome <b>{{table.name}}</b>? <input type="number" style="box-shadow: none; text-align:center;"
                                                                                      formControlName="0-0"
                                                                                      placeholder=" " style="background-color: transparent"
                                                                                      id="0-0"></p>
@@ -45,7 +45,7 @@
               </tr>
               <tr>
                 <td style="border-top: 0px solid transparent;"></td>
-                <td *ngFor="let col of table.table[0];" style="text-align:center; border-top: 0px solid transparent;">
+                <td *ngFor="let col of table.table[0]; let l = index" style="text-align:center; border-top: 0px solid transparent;" [style.border-left]="getColStyle(l)">
                   <b>{{table.getColValueLabel(col)}}</b>
                 </td>
               </tr>
@@ -55,7 +55,7 @@
                 <td [style.border-top]="getRowStyle(i, table.hasCols)" style="padding: 2px">
                   <b>{{table.getRowValueLabel(row[0])}}</b>
                 </td>
-                <td *ngFor="let col of row;" [style.border-top]="getRowStyle(i, table.hasCols)">
+                <td *ngFor="let col of row; let k = index" [style.border-top]="getRowStyle(i, table.hasCols)" [style.border-left]="getColStyle(k)">
                   <div>
                     <input type="number" style="box-shadow: none; text-align:center;"
                            formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
