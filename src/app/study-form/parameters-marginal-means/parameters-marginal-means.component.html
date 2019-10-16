@@ -3,22 +3,25 @@
     <div class="container-fluid">
       <div *ngIf="!grandMean">
         <p *ngIf="hasMultipleDimensions()">
-          The matrix below shows the mean values for outcome <b>{{table.name}}</b> within each group in the study.
-          Each group is represented by a row in the matrix, and each repeated measure dimension is represented by a column.</p>
+          The table below shows the mean values for outcome <b>{{table.name}}</b> within each group in the study.
+          Each group is represented by a row in the table, and each repeated measure dimension is represented by a column.</p>
         <p>
         <p *ngIf="!hasMultipleDimensions()">
-          The matrix below shows the mean values for outcome <b>{{table.name}}</b> within each group in the study.
-          Each group is represented by a row in the matrix.</p>
+          The table below shows the mean values for outcome <b>{{table.name}}</b> within each group in the study.
+          Each group is represented by a row in the table.</p>
         <p>
           Enter the mean values you expect to observe for outcome <b>{{table.name}}</b> within each group.
-          The matrix should contain at least one value that is non-zero.
+          The table should contain at least one value that is non-zero.
           Also, at least two groups should have means which differ by a scientifically meaningful amount.
         </p>
       </div>
-      <p *ngIf="grandMean">What is the mean value for outcome {{table.name}}?</p>
+      <p *ngIf="grandMean">What is the expected mean value for outcome <b>{{table.name}}</b>? <input type="number" style="box-shadow: none; text-align:center;"
+                                                                                     formControlName="0-0"
+                                                                                     placeholder=" " style="background-color: transparent"
+                                                                                     id="0-0"></p>
 
-      <div class="table-responsive">
-        <p *ngIf="hasDisplayName">Group size ratios relative to <b>{{displayName}}</b></p>
+      <div class="table-responsive" *ngIf="!grandMean">
+        <p><b>Expected mean values, per group, for <i>{{table.name}}</i></b></p>
         <table>
           <tbody>
           <td>
@@ -42,17 +45,17 @@
               </tr>
               <tr>
                 <td style="border-top: 0px solid transparent;"></td>
-                <td *ngFor="let col of table.table[0];" style="text-align:center; border-top: 0px solid transparent;">
+                <td *ngFor="let col of table.table[0]; let l = index" style="text-align:center; border-top: 0px solid transparent;" [style.border-left]="getColStyle(l)">
                   <b>{{table.getColValueLabel(col)}}</b>
                 </td>
               </tr>
               </thead>
               <tbody>
               <tr *ngFor="let row of table.table; let i = index;">
-                <td [style.border-top]="getRowStyle(i, table.hasCols)" style="padding: 2px">
+                <td [style.border-top]="getRowStyle(i, table.hasCols)" style="vertical-align: middle; padding: 2px;">
                   <b>{{table.getRowValueLabel(row[0])}}</b>
                 </td>
-                <td *ngFor="let col of row;" [style.border-top]="getRowStyle(i, table.hasCols)">
+                <td *ngFor="let col of row; let k = index" [style.border-top]="getRowStyle(i, table.hasCols)" [style.border-left]="getColStyle(k)">
                   <div>
                     <input type="number" style="box-shadow: none; text-align:center;"
                            formControlName="{{table.table.indexOf(row)}}-{{row.indexOf(col)}}"
@@ -73,7 +76,7 @@
       <div class="form-control-feedback" id="outcomeserr">You must choose an expected mean value for each group in your design.</div>
     </div>
   </form>
-  <form [formGroup]="untouchedValuesForm" id="untouchedValuesForm">
+  <form [formGroup]="untouchedValuesForm" id="untouchedValuesForm" *ngIf="!grandMean">
     <div class="container-fluid">
       <div class="row">
         <div class="col col-lg-3 col-md-3 col-xs-12">
