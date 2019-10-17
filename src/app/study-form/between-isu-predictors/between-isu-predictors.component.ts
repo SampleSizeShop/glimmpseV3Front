@@ -28,6 +28,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
   private _betweenIsuPredictors: Array<Predictor>;
   private _validationMessages;
   private _formErrors;
+  private _editing = false;
+  private _edited_name: string;
 
   private _stages;
   private _stage: number;
@@ -214,7 +216,10 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
     this.betweenIsuPredictors.forEach( p => {
       names.push(p.name);
     });
-    const index = names.indexOf(predictor.name);
+    let index = names.indexOf(predictor.name);
+    if (this.editing) {
+      index = names.indexOf(this._edited_name);
+    }
     if (index !== -1) {
       if (this.betweenIsuPredictors[index].polynomialOrder > this.betweenIsuPredictors[index].maxPolynomialOrder) {
         this.betweenIsuPredictors[index].polynomialOrder = this.betweenIsuPredictors[index].maxPolynomialOrder;
@@ -240,6 +245,8 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
   }
 
   editPredictor(predictor: Predictor) {
+    this._editing = true;
+    this._edited_name = predictor.name;
     this.predictorForm = this.fb.group({
       predictorName: ['', predictorValidator(this.betweenIsuPredictors, predictor)]
     });
@@ -261,6 +268,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
 
   setStage(next: number) {
     if (next === this.stages.INFO) {
+      this._editing = false;
       this.navigation_service.updateInternalFormSource(false);
       this.navigation_service.updateValid(true);
     } else {
@@ -507,5 +515,9 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
     } else {
       return 'col col-md-auto table-primary';
     }
+  }
+
+  get editing(): boolean {
+    return this._editing;
   }
 }

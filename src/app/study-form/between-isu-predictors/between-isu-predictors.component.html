@@ -132,7 +132,8 @@
             <div class="btn-group-sm">
               <button type="button" id="cancelpredictorbtn" (click)="cancelPredictor()" class="btn btn-secondary btn-sm">Cancel</button>
               <button type="button" id="addtypebackbtn"  (click)="addName()" class="btn btn-secondary btn-sm">Back: Type</button>
-              <button type="submit" id="addpredictorbtn"  (click)="addPredictor()" (keyup.enter)="addPredictor()" class="btn btn-primary btn-sm" [disabled]="!groupsValid()">Add predictor to study.</button>
+              <button type="submit" *ngIf="!editing" id="addpredictorbtn"  (click)="addPredictor()" (keyup.enter)="addPredictor()" class="btn btn-primary btn-sm" [disabled]="!groupsValid()">Add predictor to study</button>
+              <button type="submit" *ngIf="editing" id="updatepredictorbtn"  (click)="addPredictor()" (keyup.enter)="addPredictor()" class="btn btn-primary btn-sm" [disabled]="!groupsValid()">Update predictor</button>
             </div>
           </div>
         </div>
@@ -149,7 +150,7 @@
 
 
   <div class="row">
-    <div class="col" *ngIf="hasPredictors()">
+    <div class="col" *ngIf="hasPredictors() && isStage(stages.INFO)">
     <br>
       <h6>Between ISU Predictors:</h6>
         <table class="table">
