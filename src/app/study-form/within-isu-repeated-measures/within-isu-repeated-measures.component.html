@@ -202,12 +202,13 @@
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="spacecancelbtn">Cancel</button>
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.REPEATS)" id="spacebackbtn">Back</button>
     <button *ngIf="isAutoFill()" class="btn btn-primary btn-sm" (click)="autoFill()">Fill values</button>
-    <button *ngIf="!isAutoFill()" class="btn btn-primary btn-sm" (click)="addRepeatedMeasure()" id="spacenextbtn" [disabled]="!this.spacingForm.valid">Add repeated measure to study</button>
+    <button *ngIf="!isAutoFill()  && !editing" class="btn btn-primary btn-sm" (click)="addRepeatedMeasure()" id="spacenextbtn" [disabled]="!this.spacingForm.valid">Add repeated measure to study</button>
+    <button *ngIf="!isAutoFill()  && editing" class="btn btn-primary btn-sm" (click)="addRepeatedMeasure()" id="spacenextbtnedit" [disabled]="!this.spacingForm.valid">Update repeated measure</button>
   </div>
 </div>
 
 
-<div *ngIf="hasRepeatedMeasures()">
+<div *ngIf="hasRepeatedMeasures() && isInfo()">
   <br>
   <br>
         <table class="table">
