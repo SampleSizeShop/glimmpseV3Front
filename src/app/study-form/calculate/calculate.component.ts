@@ -284,9 +284,59 @@ export class CalculateComponent implements OnInit, OnDestroy {
       return 'No model in results'
     }
   }
+  get sigma_star_description_tex() {
+    if (!this.resultsContainModel()) {
+      return 'No model in results';
+    }
+    if (this.isCustomOrPolynomialHypothesis) {
+      let description =  '$\\bf{\\Sigma_*} = \\bf{U}\'' +
+        ' \\otimes (\\bf{\\Sigma}_o \\otimes \\bf{\\Sigma}_r \\otimes \\bf{\\Sigma}_c) ' +
+        '\\otimes \\bf{U}';
+      if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
+        description = description + ' - \\textrm{ Adj. for Gaussian covariate}'
+      }
+      description = description + '$';
+      return description;
+    } else {
+      let description =  '$\\bf{\\Sigma_*} = (\\bf{U}_o\' \\bf{\\Sigma}_o \\bf{U}_o) ' +
+      ' \\otimes (\\bf{U}_r\' \\bf{\\Sigma}_r \\bf{U}_r) ' +
+      '\\otimes (\\bf{U}_c\' \\bf{\\Sigma}_c \\bf{U}_c)';
+      if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
+        description = description + ' - \\textrm{ Adj. for Gaussian covariate}'
+      }
+      description = description + '$';
+      return description;
+    }
+  }
   get sigma_star_tex() {
     if (this.resultsContainModel()) {
-      return this.matrixWithLabel('\\bf{\\Sigma_*} = ', this.resultString.results[0].model.sigma_star);
+      if (this.isCustomOrPolynomialHypothesis) {} else {}
+      let outcome_component = this.toTex(this.resultString.results[0].model.sigma_star_outcome_component);
+      outcome_component = outcome_component.substring(1, outcome_component.length - 1);
+      let cluster_component = this.toTex(this.resultString.results[0].model.sigma_star_cluster_component);
+      cluster_component = cluster_component.substring(1, cluster_component.length - 1);
+      let repeated_measure_component = this.toTex(this.resultString.results[0].model.sigma_star_repeated_measure_component);
+      repeated_measure_component = repeated_measure_component.substring(1, repeated_measure_component.length - 1);
+      let gaussian_adjustment = this.toTex(this.resultString.results[0].model.sigma_star_gaussian_adjustment);
+      gaussian_adjustment = gaussian_adjustment.substring(1, gaussian_adjustment.length - 1);
+      let sigma_star = this.toTex(this.resultString.results[0].model.sigma_star);
+      sigma_star = sigma_star.substring(1, sigma_star.length - 1);
+
+      let start = '$= ';
+      let end  = '';
+
+      if (this.isCustomOrPolynomialHypothesis) {
+        start = start + '\\bf{U}\' \\otimes (';
+        end = ') \\otimes \\bf{U}' + end;
+      }
+
+      if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
+        return start + outcome_component + ' \\otimes ' + repeated_measure_component + ' \\otimes ' + cluster_component
+          + ' - ' + gaussian_adjustment + end + ' = ' + sigma_star + '$';
+      } else {
+        return start + outcome_component + ' \\otimes ' + repeated_measure_component + ' \\otimes ' + cluster_component
+          + end + ' = ' + sigma_star + '$';
+      }
     } else {
       return 'No model in results'
     }
@@ -335,7 +385,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
   get delta_tex() {
     if (this.resultsContainModel()) {
-      return this.matrixWithLabel('\\bf{\\Delta} = ', this.resultString.results[0].model.delta);
+      return this.matrixWithLabel('Es(\\bf{\\Delta}) = ', this.resultString.results[0].model.delta);
     } else {
       return 'No model in results'
     }
@@ -636,6 +686,19 @@ export class CalculateComponent implements OnInit, OnDestroy {
   get orthonormalized(): boolean {
     if (this.resultsContainModel()) {
       return this.resultString.results[0].model.orthonormalize_u_matrix;
+    } else {
+      return false;
+    }
+  }
+
+  get isCustomOrPolynomialHypothesis(): boolean {
+    if (this._studyDesign === null || this._studyDesign === undefined) {
+      return false;
+    }
+    const uMatrixType = this._studyDesign.isuFactors.uMatrix.type;
+    if ((uMatrixType === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX || uMatrixType === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL)
+    && this._studyDesign.isuFactors.uMatrix.values.size() !== [1]) {
+      return true;
     } else {
       return false;
     }
