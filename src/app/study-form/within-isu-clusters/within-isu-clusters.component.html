@@ -239,8 +239,9 @@
         <div class="col">
           <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()" id="levelscancelbtn">Cancel</button>
           <button *ngIf="isElementName()" type="button" class="btn btn-primary btn-sm" (click)="addISU()" #buttons id="levelsnextbtn" [disabled]="!elementForm.valid">Next: Levels</button>
-          <button *ngIf="!isElementName()" class="btn btn-secondary btn-sm" (click)="setStage(stages)" id="spacebackbtn">Back</button>
-          <button *ngIf="!isElementName()" type="button" class="btn btn-primary btn-sm" (click)="addCluster()" #buttons id="finishbtn" [disabled]="!validLevels">Add clustering to study</button>
+          <button *ngIf="!isElementName()" class="btn btn-secondary btn-sm" (click)="editISU()" id="spacebackbtn">Back</button>
+          <button *ngIf="!isElementName() && !editing" type="button" class="btn btn-primary btn-sm" (click)="addCluster()" #buttons id="finishbtn" [disabled]="!validLevels">Add clustering to study</button>
+          <button *ngIf="!isElementName() && editing" type="button" class="btn btn-primary btn-sm" (click)="addCluster()" #buttons id="finisheditbtn" [disabled]="!validLevels">Update clustering</button>
         </div>
       </div>
     </div>
@@ -275,3 +276,4 @@
     <div class="modal-footer"> </div>
   </div>
 </ng-template>
+

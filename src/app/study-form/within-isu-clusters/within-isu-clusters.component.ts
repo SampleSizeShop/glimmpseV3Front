@@ -41,6 +41,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   private _levels: ClusterLevel[];
   private _clusterSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
+  private _editing = false;
 
   @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
@@ -201,6 +202,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   editCluster() {
+    this._editing = true;
     this.elementForm.get('name').setValue(this._cluster.name);
     this._levels = this._cluster.levels;
     this.stage = this._stages.ELEMENT_NAME;
@@ -287,6 +289,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
   setStage(next: number) {
     this._stage = next;
     if (this.isInfo()) {
+      this._editing = false;
       this.navigation_service.updateInternalFormSource(false);
       this._editingLevel = false;
       this.navigation_service.updateValid(true);
@@ -556,5 +559,9 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   get levelAdded(): boolean {
     return this._levelAdded;
+  }
+
+  get editing(): boolean {
+    return this._editing;
   }
 }
