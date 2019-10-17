@@ -293,7 +293,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
         ' \\otimes (\\bf{\\Sigma}_o \\otimes \\bf{\\Sigma}_r \\otimes \\bf{\\Sigma}_c) ' +
         '\\otimes \\bf{U}';
       if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
-        description = description + ' - \\textrm{ Adj. for Gaussian covariate}'
+        description = description + ' - \\bf{U}\'\\bf{\\Sigma}_{yg}\\sigma_{g}^{-2}\\bf{\\Sigma}_{yg}\'\\bf{U}';
       }
       description = description + '$';
       return description;
@@ -302,7 +302,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
       ' \\otimes (\\bf{U}_r\' \\bf{\\Sigma}_r \\bf{U}_r) ' +
       '\\otimes (\\bf{U}_c\' \\bf{\\Sigma}_c \\bf{U}_c)';
       if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
-        description = description + ' - \\textrm{ Adj. for Gaussian covariate}'
+        description = description + ' - \\bf{U}\'\\bf{\\Sigma}_{yg}\\sigma_{g}^{-2}\\bf{\\Sigma}_{yg}\'\\bf{U}'
       }
       description = description + '$';
       return description;
