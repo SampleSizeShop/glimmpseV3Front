@@ -43,6 +43,7 @@ import {ZoomableDirective} from '../d3/directives/zoomable.directive';
 import {CollapsibleTreeComponent} from '../d3/visuals/collapsible-tree/collapsible-tree.component';
 import {StatusComponent} from './status/status.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ControlHelpTextComponent} from './control-help-text/control-help-text.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -98,7 +99,8 @@ describe('StudyFormComponent', () => {
         ZoomableDirective,
         CollapsibleTreeComponent,
         CustomContrastMatrixComponent,
-        StatusComponent],
+        StatusComponent,
+        ControlHelpTextComponent],
       providers: [ StudyService,
         ,
         RouterTestingModule ]

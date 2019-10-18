@@ -17,6 +17,8 @@ import {testEnvironment} from '../../../environments/environment.test';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {LoggerTestingModule, NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('ParametersScaleFactorComponent', () => {
   let component: ParametersScaleFactorComponent;
@@ -28,13 +30,17 @@ describe('ParametersScaleFactorComponent', () => {
     TestBed.configureTestingModule({imports: [
       HttpClientTestingModule,
       ReactiveFormsModule,
+        MatIconModule,
         LoggerTestingModule,
       LoggerModule.forRoot({
         serverLoggingUrl: testEnvironment.serverLoggingUrl,
         level: testEnvironment.loglevel,
         serverLogLevel: testEnvironment.loglevel
       })],
-      declarations: [ ParametersScaleFactorComponent ],
+      declarations: [
+        ParametersScaleFactorComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         StudyService,
         NavigationService,

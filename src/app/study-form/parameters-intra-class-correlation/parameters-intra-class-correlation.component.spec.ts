@@ -8,6 +8,8 @@ import {Cluster} from '../../shared/model/Cluster';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
+import {MatIconModule} from "@angular/material";
 
 describe('ParametersIntraClassCorrelationComponent', () => {
   let component: ParametersIntraClassCorrelationComponent;
@@ -21,6 +23,7 @@ describe('ParametersIntraClassCorrelationComponent', () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
+        MatIconModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
@@ -28,7 +31,8 @@ describe('ParametersIntraClassCorrelationComponent', () => {
         })
       ],
       declarations: [
-        ParametersIntraClassCorrelationComponent
+        ParametersIntraClassCorrelationComponent,
+        ControlHelpTextComponent
       ],
       providers: [
         StudyService,

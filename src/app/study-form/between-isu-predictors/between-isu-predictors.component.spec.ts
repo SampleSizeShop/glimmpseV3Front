@@ -14,6 +14,7 @@ import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapper
 import {MatIconModule} from '@angular/material/icon';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 
 describe('BetweenIsuPredictorsComponent', () => {
@@ -43,10 +44,14 @@ describe('BetweenIsuPredictorsComponent', () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
+        MatIconModule,
         BrowserAnimationsModule,
         NgbModule,
         MatIconModule],
-      declarations: [ BetweenIsuPredictorsComponent ],
+      declarations: [
+        BetweenIsuPredictorsComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         StudyService,
         NGXLogger,

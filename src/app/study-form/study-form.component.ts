@@ -269,6 +269,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       }
       this.navigate(next, 'NEXT');
       this.setNextBack();
+      this.updateStageReached(next);
     }
   }
 
@@ -384,6 +385,14 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
    } else {
      this.hasBack = false;
    }
+  }
+
+  private updateStageReached(next) {
+    this.study.currentStage = this.getStage();
+    if (next > this.study.stageReached) {
+      this.study.stageReached = next;
+    }
+    this.study.updateProgress();
   }
 
   ngOnInit() {

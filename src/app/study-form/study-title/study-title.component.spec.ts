@@ -9,6 +9,8 @@ import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapper
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
+import {MatIconModule} from "@angular/material";
 
 
 describe('StudyTitleComponent', () => {
@@ -20,8 +22,10 @@ describe('StudyTitleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ HttpClientTestingModule, ReactiveFormsModule ],
-      declarations: [ StudyTitleComponent ],
+      imports: [ HttpClientTestingModule, ReactiveFormsModule, MatIconModule ],
+      declarations: [
+        StudyTitleComponent,
+        ControlHelpTextComponent ],
       providers: [ StudyService, NGXLogger,
         {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
         {provide: NGXMapperService, useClass: NGXMapperServiceMock},

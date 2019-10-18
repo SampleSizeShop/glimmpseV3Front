@@ -95,7 +95,9 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   ngOnDestroy() {
     this.correlationMatrixSubscription.unsubscribe();
     Object.keys(this.controlDefs).forEach(key => {
-      this._correlationMatrixFormSubscriptionMap.get(key).unsubscribe();
+      if (this._correlationMatrixFormSubscriptionMap.get(key) !== null && this._correlationMatrixFormSubscriptionMap.get(key) !== undefined) {
+        this._correlationMatrixFormSubscriptionMap.get(key).unsubscribe();
+      }
     });
     this._learFormSubscription.unsubscribe();
     this.correlationMatrixSubscription.unsubscribe();

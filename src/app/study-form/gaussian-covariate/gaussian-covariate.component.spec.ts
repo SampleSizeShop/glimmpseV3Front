@@ -12,6 +12,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('GaussianCovariateComponent', () => {
   let component: GaussianCovariateComponent;
@@ -25,7 +26,10 @@ describe('GaussianCovariateComponent', () => {
         HttpClientTestingModule,
         NgbModule,
         MatIconModule],
-      declarations: [ GaussianCovariateComponent ],
+      declarations: [
+        GaussianCovariateComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         StudyService,
         NGXLogger,

@@ -16,6 +16,8 @@ import {ZoomableDirective} from '../../d3/directives/zoomable.directive';
 import {D3Service} from "../../d3/d3.service";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('WithinIsuClustersComponent', () => {
   let component: WithinIsuClustersComponent;
@@ -24,11 +26,12 @@ describe('WithinIsuClustersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        ReactiveFormsModule, BrowserAnimationsModule, HttpClientTestingModule
+        ReactiveFormsModule, MatIconModule, BrowserAnimationsModule, HttpClientTestingModule
       ],
       declarations: [
         WithinIsuClustersComponent,
         CollapsibleTreeComponent,
+        ControlHelpTextComponent,
         LinkVisualComponent,
         NodeVisualComponent,
         ZoomableDirective],

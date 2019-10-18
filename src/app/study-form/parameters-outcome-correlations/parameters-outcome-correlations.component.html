@@ -1,3 +1,10 @@
+<div class="row">
+  <p>
+    For a given research participant, responses vary across outcomes and across repeated measurements.
+    The amount of variability can dramatically impact power and sample size.
+  </p>
+  <p>Define your outcome correlation matrix, by entering correlations you expect to observe among the outcomes in your study:</p>
+</div>
 <app-correlation-matrix [size]="size" [title]="title" [labels]="names" [min]="-1" [max]="1"></app-correlation-matrix>
 <ng-template #helpText>
   <div class="modal-content">
@@ -7,7 +14,7 @@
     </button>
     </div>
     <div class="modal-body">
-      <h6>Glimmpse Tutorials are found <a href="https://samplesizeshop.org/education/tutorials/" target="_blank">here</a></h6>
+      <app-control-help-text></app-control-help-text>
     </div>
     <div class="modal-footer"> </div>
   </div>

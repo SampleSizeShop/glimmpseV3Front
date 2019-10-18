@@ -16,6 +16,8 @@ import {NavigationService} from '../../shared/services/navigation.service';
 import {LoggerTestingModule, NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
 import {HttpClient} from '@angular/common/http';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('TypeOneErrorComponent', () => {
   let component: TypeOneErrorComponent;
@@ -29,12 +31,15 @@ describe('TypeOneErrorComponent', () => {
         ReactiveFormsModule,
         LoggerTestingModule,
         HttpClientTestingModule,
+        MatIconModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
           serverLogLevel: testEnvironment.loglevel
         })],
-      declarations: [ TypeOneErrorComponent ],
+      declarations: [
+        TypeOneErrorComponent,
+        ControlHelpTextComponent ],
       providers: [ StudyService, NGXLogger,
         {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
         {provide: NGXMapperService, useClass: NGXMapperServiceMock},

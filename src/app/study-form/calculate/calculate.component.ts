@@ -17,6 +17,7 @@ import * as math from 'mathjs';
 import {timeout, catchError} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 import { of } from 'rxjs'
+import {csv} from "d3-fetch";
 
 @Component({
   selector: 'app-calculate',
@@ -144,13 +145,20 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   makeCsvFile() {
-    let csvContent = 'actualPower,alpha,test\r\n';
-    for (const result of this.resultString.results) {
-      for (const variability_scale_factor of this.studyDesign['_varianceScaleFactors']) {
-        csvContent += this.getOutput(result) + ',';
-        csvContent += this.studyDesign['_typeOneErrorRate'] + ',';
-        csvContent += result.test + '\r\n';
+    let csvContent = '';
+    Object.keys( this.resultString.results[0]).forEach(key => {
+      if (key !== 'model') {
+        csvContent = csvContent + key.replace('_', ' ') + ',';
       }
+    });
+    csvContent = csvContent + 'means scale factor,variability scale factor\r\n';
+    for (const result of this.resultString.results) {
+      Object.keys(result).forEach(key => {
+        if (key !== 'model') {
+          csvContent = csvContent + result[key] + ',';
+        }
+      });
+      csvContent = csvContent + result.model.means_scale_factor + ',' + result.model.variance_scale_factor + '\r\n';
     }
     this.downloadData = this.sanitizer.bypassSecurityTrustUrl('data:text/csv;charset=utf-8,' + encodeURI(csvContent));
   }
@@ -217,9 +225,18 @@ export class CalculateComponent implements OnInit, OnDestroy {
     }
   }
 
+  private matrixWithLabel(label, m) {
+    if (m !== null) {
+      const mtex = this.toTex(m);
+      return '$' + label + mtex.substring(1, mtex.length);
+    } else {
+      return '';
+    }
+  }
+
   get essence_design_matrix_tex() {
     if (this.resultsContainModel()) {
-      return 'Es($\\bf{X}$) = ' + this.toTex(this.resultString.results[0].model.essence_design_matrix);
+      return this.matrixWithLabel('Es(\\bf{X}) = ', this.resultString.results[0].model.essence_design_matrix);
     } else {
       return 'No model in results'
     }
@@ -227,7 +244,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   get full_beta_tex() {
     if (this.isFullBeta) {
-      return '$\\bf{B} = $' + this.toTex(this.resultString.results[0].model.hypothesis_beta);
+      return this.matrixWithLabel('\\bf{B} = ', this.resultString.results[0].model.hypothesis_beta);
     } else {
       return 'No model in results'
     }
@@ -255,63 +272,115 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   get hypothesis_beta_tex() {
     if (this.isHypothesisBeta) {
-      return '$\\bf{B}_{hyp} = $' + this.toTex(this.resultString.results[0].model.hypothesis_beta);
+      return this.matrixWithLabel('\\bf{B}_{hyp} = ', this.resultString.results[0].model.hypothesis_beta);
     } else {
       return 'No model in results'
     }
   }
+
   get c_matrix_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{C} = $' + this.toTex(this.resultString.results[0].model.c_matrix);
+      return this.matrixWithLabel('\\bf{C} = ', this.resultString.results[0].model.c_matrix);
     } else {
       return 'No model in results'
     }
   }
   get u_matrix_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{U} = $' + this.toTex(this.resultString.results[0].model.u_matrix);
+      return this.matrixWithLabel('\\bf{U} = ', this.resultString.results[0].model.u_matrix);
     } else {
       return 'No model in results'
     }
   }
+  get sigma_star_description_tex() {
+    if (!this.resultsContainModel()) {
+      return 'No model in results';
+    }
+    if (this.isCustomOrPolynomialHypothesis) {
+      let description =  '$\\bf{\\Sigma_*} = \\bf{U}\'' +
+        ' \\otimes (\\bf{\\Sigma}_o \\otimes \\bf{\\Sigma}_r \\otimes \\bf{\\Sigma}_c) ' +
+        '\\otimes \\bf{U}';
+      if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
+        description = description + ' - \\bf{U}\'\\bf{\\Sigma}_{yg}\\sigma_{g}^{-2}\\bf{\\Sigma}_{yg}\'\\bf{U}';
+      }
+      description = description + '$';
+      return description;
+    } else {
+      let description =  '$\\bf{\\Sigma_*} = (\\bf{U}_o\' \\bf{\\Sigma}_o \\bf{U}_o) ' +
+      ' \\otimes (\\bf{U}_r\' \\bf{\\Sigma}_r \\bf{U}_r) ' +
+      '\\otimes (\\bf{U}_c\' \\bf{\\Sigma}_c \\bf{U}_c)';
+      if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
+        description = description + ' - \\bf{U}\'\\bf{\\Sigma}_{yg}\\sigma_{g}^{-2}\\bf{\\Sigma}_{yg}\'\\bf{U}'
+      }
+      description = description + '$';
+      return description;
+    }
+  }
   get sigma_star_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{\\Sigma_*} = $' + this.toTex(this.resultString.results[0].model.sigma_star);
+      if (this.isCustomOrPolynomialHypothesis) {} else {}
+      let outcome_component = this.toTex(this.resultString.results[0].model.sigma_star_outcome_component);
+      outcome_component = outcome_component.substring(1, outcome_component.length - 1);
+      let cluster_component = this.toTex(this.resultString.results[0].model.sigma_star_cluster_component);
+      cluster_component = cluster_component.substring(1, cluster_component.length - 1);
+      let repeated_measure_component = this.toTex(this.resultString.results[0].model.sigma_star_repeated_measure_component);
+      repeated_measure_component = repeated_measure_component.substring(1, repeated_measure_component.length - 1);
+      let gaussian_adjustment = this.toTex(this.resultString.results[0].model.sigma_star_gaussian_adjustment);
+      gaussian_adjustment = gaussian_adjustment.substring(1, gaussian_adjustment.length - 1);
+      let sigma_star = this.toTex(this.resultString.results[0].model.sigma_star);
+      sigma_star = sigma_star.substring(1, sigma_star.length - 1);
+
+      let start = '$= ';
+      let end  = '';
+
+      if (this.isCustomOrPolynomialHypothesis) {
+        start = start + '\\bf{U}\' \\otimes (';
+        end = ') \\otimes \\bf{U}' + end;
+      }
+
+      if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
+        return start + outcome_component + ' \\otimes ' + repeated_measure_component + ' \\otimes ' + cluster_component
+          + ' - ' + gaussian_adjustment + end + ' = ' + sigma_star + '$';
+      } else {
+        return start + outcome_component + ' \\otimes ' + repeated_measure_component + ' \\otimes ' + cluster_component
+          + end + ' = ' + sigma_star + '$';
+      }
     } else {
       return 'No model in results'
     }
   }
   get theta_zero_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{\\Theta_0} = $' + this.toTex(this.resultString.results[0].model.theta_zero);
+      return this.matrixWithLabel('\\bf{\\Theta_0} = ', this.resultString.results[0].model.theta_zero);
     } else {
       return 'No model in results'
     }
   }
   get alpha_tex() {
     if (this.resultsContainModel()) {
-      return '$\\alpha = $' + this.resultString.results[0].model.alpha;
+      return '$\\alpha = ' + this.resultString.results[0].model.alpha + '$';
     } else {
       return 'No model in results'
     }
   }
   get theta_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{\\Theta} = $' + this.toTex(this.resultString.results[0].model.theta);
+      return this.matrixWithLabel('\\bf{\\Theta} = ', this.resultString.results[0].model.theta);
     } else {
       return 'No model in results'
     }
   }
   get m_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{M} = $' + this.toTex(this.resultString.results[0].model.m);
+      return this.matrixWithLabel('\\bf{M} = ', this.resultString.results[0].model.m);
     } else {
       return 'No model in results'
     }
   }
   get nu_e_tex() {
     if (this.resultsContainModel()) {
-      return '$\\nu_e = $' + this.resultString.results[0].model.nu_e;    } else {
+      return '$\\nu_e = ' + this.resultString.results[0].model.nu_e + '$';
+    } else {
       return 'No model in results'
     }
   }
@@ -324,7 +393,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
   get delta_tex() {
     if (this.resultsContainModel()) {
-      return '$\\bf{\\Delta} = $' + this.toTex(this.resultString.results[0].model.delta);
+      return this.matrixWithLabel('Es(\\bf{\\Delta}) = ', this.resultString.results[0].model.delta);
     } else {
       return 'No model in results'
     }
@@ -625,6 +694,19 @@ export class CalculateComponent implements OnInit, OnDestroy {
   get orthonormalized(): boolean {
     if (this.resultsContainModel()) {
       return this.resultString.results[0].model.orthonormalize_u_matrix;
+    } else {
+      return false;
+    }
+  }
+
+  get isCustomOrPolynomialHypothesis(): boolean {
+    if (this._studyDesign === null || this._studyDesign === undefined) {
+      return false;
+    }
+    const uMatrixType = this._studyDesign.isuFactors.uMatrix.type;
+    if ((uMatrixType === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX || uMatrixType === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL)
+    && this._studyDesign.isuFactors.uMatrix.values.size() !== [1]) {
+      return true;
     } else {
       return false;
     }

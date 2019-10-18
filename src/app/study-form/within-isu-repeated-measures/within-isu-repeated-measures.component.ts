@@ -41,6 +41,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   private _repeats: number;
   private _spacingValues: string[];
   private _autoFillbool: boolean;
+  private _editing = false;
+  private _edited_name: string;
 
   private _repeatedMeasuresSubscription: Subscription;
 
@@ -277,7 +279,10 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     });
 
     let measure = new RepeatedMeasure();
-    const index = names.indexOf(this._dimensionForm.value.dimension);
+    let index = names.indexOf(this._dimensionForm.value.dimension);
+    if (this.editing) {
+      index = names.indexOf(this._edited_name);
+    }
     if (index !== -1) {
       measure = this.repeatedMeasures[index];
     }
@@ -309,6 +314,8 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   }
 
   editRepeatedMeasure(measure: RepeatedMeasure) {
+    this._editing = true;
+    this._edited_name = measure.name;
     this._repMeasure = measure;
     this._type = measure.type;
     this._repeats = measure.noRepeats;
@@ -372,6 +379,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   setStage(stage: number) {
     this.navigation_service.updateIsClickInternalNext(false);
     if (stage === this._stages.INFO) {
+      this._editing = false;
       this.navigation_service.updateInternalFormSource(false);
       this.navigation_service.updateValid(true);
       this._dimensionForm = this._fb.group({
@@ -651,5 +659,9 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     } else {
       return 'number';
     }
+  }
+
+  get editing(): boolean {
+    return this._editing;
   }
 }

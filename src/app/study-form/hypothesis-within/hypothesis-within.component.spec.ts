@@ -17,6 +17,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('HypothesisWithinComponent', () => {
   let component: HypothesisWithinComponent;
@@ -39,6 +41,7 @@ describe('HypothesisWithinComponent', () => {
         HttpClientTestingModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
+        MatIconModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
@@ -49,6 +52,7 @@ describe('HypothesisWithinComponent', () => {
         HypothesisWithinComponent,
         MathJaxDirective,
         CustomContrastMatrixComponent,
+        ControlHelpTextComponent,
         MatTooltip ],
       providers: [
         StudyService,

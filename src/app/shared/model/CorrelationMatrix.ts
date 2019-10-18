@@ -147,16 +147,16 @@ export class CorrelationMatrix {
       for ( let r = 0; r < vals.size()[0]; r++ ) {
         for (let c = 0; c < vals.size()[1]; c++ ) {
           if (r === c ) { vals.set([r, c],  1); }
-          if (r > c  && dMin === dMax ) {
-            vals.set([r, c], base);
-            vals.set([c, r], base);
+          if (r !== c  && dMin === dMax ) {
+            vals.set([r, c], +base);
+            vals.set([c, r], +base);
           }
-          if (r > c  && dMin !== dMax ) {
+          if (r !== c  && dMin !== dMax ) {
             const rho_j_k = Math.pow(base,
               dMin / scale + decay * (((levels[r] - levels[c]) - dMin) / (dMax - dMin)));
             const rjk = rho_j_k.toPrecision(3);
-            vals.set([r, c], rjk );
-            vals.set([c, r], rjk );
+            vals.set([r, c], +rjk );
+            vals.set([c, r], +rjk );
           }
         }
       }

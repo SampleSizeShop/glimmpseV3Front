@@ -10,6 +10,8 @@ import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {HttpClient} from '@angular/common/http';
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('SolveForComponent', () => {
   let component: SolveForComponent;
@@ -21,13 +23,17 @@ describe('SolveForComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        MatIconModule,
         ReactiveFormsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
           serverLogLevel: testEnvironment.loglevel
         })],
-      declarations: [ SolveForComponent ],
+      declarations: [
+        SolveForComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         StudyService,
         NavigationService,
@@ -87,12 +93,16 @@ describe('SolveForComponen_targetEvent_Rejection', () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
+        MatIconModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
           serverLogLevel: testEnvironment.loglevel
         })],
-      declarations: [ SolveForComponent ],
+      declarations: [
+        SolveForComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         NavigationService,
         NgbModal,
@@ -158,12 +168,16 @@ describe('SolveForComponent_targetEvent_CIWIDTH', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule,
         ReactiveFormsModule,
+        MatIconModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
           serverLogLevel: testEnvironment.loglevel
         })],
-      declarations: [ SolveForComponent ],
+      declarations: [
+        SolveForComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         NavigationService,
         NgbModal,
@@ -229,12 +243,16 @@ describe('SolveForComponent_targetEvent_WAVR', () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
+        MatIconModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
           serverLogLevel: testEnvironment.loglevel
         })],
-      declarations: [ SolveForComponent ],
+      declarations: [
+        SolveForComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         NavigationService,
         NgbModal,

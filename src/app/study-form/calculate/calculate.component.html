@@ -112,19 +112,29 @@
     <div *ngIf="hasResults">
       <p *ngIf="orthonormalized">You have selected one or more unirep tests. We have orthonormalized your U
         matrix so that the test theory is well defined.</p>
-      <div [mathJaxExpr]="essence_design_matrix_tex" style="padding-top: 10px"></div>
-      <div *ngIf="isFullBeta" [mathJaxExpr]="full_beta_tex" style="padding-top: 10px"></div>
-      <div *ngIf="isHypothesisBeta" [mathJaxExpr]="hypothesis_beta_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="c_matrix_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="u_matrix_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="sigma_star_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="theta_zero_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="alpha_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="theta_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="m_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="nu_e_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="rep_n_tex" style="padding-top: 10px"></div>
-      <div [mathJaxExpr]="delta_tex" style="padding-top: 10px"></div>
+      <div [mathJaxExpr]="essence_design_matrix_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div *ngIf="isFullBeta" [mathJaxExpr]="full_beta_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div *ngIf="isHypothesisBeta" [mathJaxExpr]="hypothesis_beta_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="c_matrix_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="u_matrix_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="sigma_star_description_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="sigma_star_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="theta_zero_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="alpha_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="theta_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="m_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="nu_e_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="rep_n_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <div [mathJaxExpr]="delta_tex" class="row justify-content-md-center" style="padding: 10px"></div>
+      <p>
+        For notation details, please see
+      </p>
+      <p>
+        1. Glueck DH, Muller KE. Adjusting power for a baseline covariate in linear models. Statistics in Medicine. 2003;22:2535-2551.
+      </p>
+      <p>
+        2. Muller KE, Stewart PW. Linear Model Theory: Univariate, Multivariate, and Mixed Models. Hoboken, NJ: Wiley; 2006.
+      </p>
     </div>
   </div>
   <div class="tab-pane fade show" [class.active]="isTabSelected('design')" id="designtab">
@@ -144,7 +154,7 @@
     </button>
     </div>
     <div class="modal-body">
-      <h6>Glimmpse Tutorials are found <a href="https://samplesizeshop.org/education/tutorials/" target="_blank">here</a></h6>
+      <app-control-help-text></app-control-help-text>
     </div>
     <div class="modal-footer"> </div>
   </div>

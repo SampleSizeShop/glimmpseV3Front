@@ -59,6 +59,7 @@ import {D3Service} from './d3/d3.service';
 import {HypothesisMixedComponent} from './study-form/hypothesis-mixed/hypothesis-mixed.component';
 import { StatusComponent } from './study-form/status/status.component';
 import {CustomHammerConfig} from './hammer/CustomHammerConfig';
+import { ControlHelpTextComponent } from './study-form/control-help-text/control-help-text.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import {CustomHammerConfig} from './hammer/CustomHammerConfig';
     ZoomableDirective,
     CollapsibleTreeComponent,
     StatusComponent,
+    ControlHelpTextComponent,
   ],
   imports: [
     NgbModule,

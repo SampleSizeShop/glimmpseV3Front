@@ -35,6 +35,7 @@ interface StudyDesignJSON {
   _define_full_beta: boolean;
   _confidence_interval: ConfidenceInterval;
   _progress: StudyProgress;
+  _stageReached: number;
 }
 
 export class StudyDesign {
@@ -55,6 +56,9 @@ export class StudyDesign {
   private _define_full_beta: boolean;
   private _confidence_interval: ConfidenceInterval;
   private _progress: StudyProgress;
+  private _stageReached: number;
+  private _currentStage: number;
+
 
   // fromJSON is used to convert an serialized version
   // of the StudyDesign to an instance of the class
@@ -116,8 +120,12 @@ export class StudyDesign {
               scaleFactor?: number,
               varianceScaleFactors?: number[],
               powerCurve?: PowerCurve,
-              confidence_interval?: ConfidenceInterval
+              confidence_interval?: ConfidenceInterval,
+              stageReached?: number,
+              currentStage?: number
 ) {
+    this.stageReached = 0;
+    this.currentStage = 0;
     this.isuFactors = new ISUFactors();
     this.power = [];
     this._define_full_beta = false;
@@ -329,15 +337,21 @@ export class StudyDesign {
     return b;
   }
 
+
+  updateStageReached() {
+    this.stageReached = this.currentStage;
+  }
+
   checkDependencies() {
     // do not allow gaussian covariates or confidence intervals when solving for samplesize
     if (this.solveFor === constants.SOLVE_FOR.SAMPLE_SIZE) {
       this.gaussianCovariate = null;
       this.confidence_interval = null;
+      this.updateStageReached();
     }
 
     // Are factorName groups made up of predictors we have defined
-    if (!isNullOrUndefined(this.isuFactors.predictors) &&
+    if ((this.isuFactors.predictors !== null && this.isuFactors.predictors !== undefined) &&
       this.isuFactors.predictors.length > 0) {
         const groups = this.relativeGroupSizes;
         let factors = this.isuFactors.predictorsInHypothesis;
@@ -347,8 +361,11 @@ export class StudyDesign {
         const combinations = this.isuFactors.generateCombinations(factors);
         if (groups.length !== combinations.length) {
           this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables();
+          this.updateStageReached();
         }
-    } else if (isNullOrUndefined(this.isuFactors.betweenIsuRelativeGroupSizes) || this.isuFactors.predictors.length < 1) {
+    } else if (
+      (this.isuFactors.betweenIsuRelativeGroupSizes === null || this.isuFactors.betweenIsuRelativeGroupSizes === undefined)
+      || this.isuFactors.predictors.length < 1) {
       this.isuFactors.betweenIsuRelativeGroupSizes = this.generateGroupSizeTables()
     }
 
@@ -373,28 +390,34 @@ export class StudyDesign {
       }
       if (!possibleEffect) {
         this.isuFactors.clearHypothesis();
+        this.updateStageReached();
       }
     };
 
     // is our outcome correlation matrix of the correct dimension? this should only happen when a user remopves an
     // outcome such that we are back down to one
-    if (!isNullOrUndefined(this.isuFactors.outcomeCorrelationMatrix)
-      && this.isuFactors.outcomeCorrelationMatrix.values.size()[0] !== this.isuFactors.outcomes.length ) {
+    if (
+      (this.isuFactors.outcomeCorrelationMatrix !== null && this.isuFactors.outcomeCorrelationMatrix !== undefined)
+      && this.isuFactors.outcomeCorrelationMatrix.values.size()[0] !== this.isuFactors.outcomes.length
+    ) {
       this.isuFactors.outcomeCorrelationMatrix.names = [];
       this.isuFactors.outcomes.forEach( outcome => {
         this.isuFactors.outcomeCorrelationMatrix.names.push(outcome.name)
       });
       this.isuFactors.outcomeCorrelationMatrix.values = math.matrix([[1]]);
+      this.updateStageReached();
     }
 
     // Is theta nought of the correct dimension?
     if (this._isuFactors.theta0.length !== this.a || this._isuFactors.theta0[0].length !== this.b) {
       this._isuFactors.theta0 = this.generateDefaultTheta0();
+      this.updateStageReached();
     }
 
     // Are marginal means factorName groups made up of hypothesis we have chosen
-    if (!isNullOrUndefined(this.isuFactors.hypothesis)) {
+    if (this.isuFactors.hypothesis !== null && this.isuFactors.hypothesis !== undefined) {
       this.isuFactors.marginalMeans = this.generateMarginalMeansTables();
+      this.updateStageReached();
     }
 
     // update study progress - this must always be the last stage of check dependencies.
@@ -407,28 +430,35 @@ export class StudyDesign {
     let dimensions = false;
     let parameters = false;
     let optional = false;
-    if (this._typeOneErrorRate.length > 0
+    if (
+      this.stageReached > 8
+      && this._typeOneErrorRate.length > 0
       && (this._solveFor === constants.SOLVE_FOR.POWER || this._power.length > 0)
       && this._selectedTests.length > 0
-      && this.isuFactors.outcomes.length > 0) {
+      && this.isuFactors.outcomes.length > 0
+    ) {
       design = true;
     }
-    if (design) {
+    if (this.stageReached > 12 && design) {
       hypothesis = true;
     }
-    if (hypothesis
+    if (this.stageReached > 15
+      && hypothesis
       && (this.solveFor === constants.SOLVE_FOR_POWER && this.isuFactors.smallestGroupSize.length > 0
           || this.solveFor === constants.SOLVE_FOR_SAMPLESIZE)
     ) {
       dimensions = true;
     }
-    if (dimensions) {
+    if (this.stageReached > 25
+      && dimensions) {
       parameters = true;
     }
-    if (parameters) {
+    if (this.stageReached > 26
+      && parameters) {
       optional = true;
     }
-    if (optional) {
+    if (this.stageReached > 27
+      && optional) {
     }
     this._progress = new StudyProgress(design, hypothesis, dimensions, parameters, optional);
   }
@@ -615,5 +645,21 @@ export class StudyDesign {
 
   set progress(value: StudyProgress) {
     this._progress = value;
+  }
+
+  get stageReached(): number {
+    return this._stageReached;
+  }
+
+  set stageReached(value: number) {
+    this._stageReached = value;
+  }
+
+  get currentStage(): number {
+    return this._currentStage;
+  }
+
+  set currentStage(value: number) {
+    this._currentStage = value;
   }
 }

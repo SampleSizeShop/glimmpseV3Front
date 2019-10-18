@@ -12,6 +12,8 @@ import {Outcome} from '../../shared/model/Outcome';
 import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
+import {MatIconModule} from "@angular/material";
 
 describe('WithinIsuOutcomesComponent', () => {
   let component: WithinIsuOutcomesComponent;
@@ -22,8 +24,10 @@ describe('WithinIsuOutcomesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, ReactiveFormsModule],
-      declarations: [ WithinIsuOutcomesComponent ],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, MatIconModule],
+      declarations: [
+        WithinIsuOutcomesComponent,
+        ControlHelpTextComponent ],
       providers: [StudyService, NGXLogger,
         {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
         {provide: NGXMapperService, useClass: NGXMapperServiceMock},

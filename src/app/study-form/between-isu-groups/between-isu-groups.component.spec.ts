@@ -15,8 +15,9 @@ import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatIconModule} from '@angular/material/icon';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from "ngx-logger";
-import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
+import {ControlHelpTextComponent} from '../control-help-text/control-help-text.component';
 
 describe('BetweenIsuGroupsComponent', () => {
   let component: BetweenIsuGroupsComponent;
@@ -33,8 +34,10 @@ describe('BetweenIsuGroupsComponent', () => {
       imports: [HttpClientTestingModule, ReactiveFormsModule,
         NgbModule,
         MatIconModule],
-      declarations: [ BetweenIsuGroupsComponent,
-        MatTooltip ],
+      declarations: [
+        BetweenIsuGroupsComponent,
+        MatTooltip,
+        ControlHelpTextComponent ],
       providers: [
         StudyService,
         NavigationService,

@@ -13,6 +13,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('WithinIsuRepeatedMeasuresComponent', () => {
   let component: OptionalSpecsConfidenceIntervalsComponent;
@@ -23,8 +25,11 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, ReactiveFormsModule, BrowserAnimationsModule],
-      declarations: [ OptionalSpecsConfidenceIntervalsComponent ],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, MatIconModule, BrowserAnimationsModule],
+      declarations: [
+        OptionalSpecsConfidenceIntervalsComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         StudyService,
         NGXLogger,

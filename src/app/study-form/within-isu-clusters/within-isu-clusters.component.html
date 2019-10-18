@@ -4,11 +4,22 @@
     <div class="row">
       <div class="col">
         <p>
-          In a clustered design, the independent sampling unit is a cluster, such as a community, school, or classroom. Observations within a cluster are correlated. The labels for observations within a cluster must be exchangeable. For example, child "id" within classroom can be reassigned arbitrarily. In contrast, observations across time cannot be reassigned and should not be considered clustered observations. Clustering, or repeated measures, or a combination, creates a multilevel design. The common correlation between any pair of cluster members is termed the intraclass correlation or intracluster correlation. <br /><br />
-
-          To include clustering in the study, click "Add Clustering" and follow the prompts. <br /><br />
-
-          You may specify up to 10 levels of clustering. <br /><br />
+          An independent sampling unit (ISU) provides one or more observations such that observations from one unit are
+          statistically independent from any other distinct unit while observations from the same unit may be correlated.
+        </p>
+        <p>
+          In a clustered design, the independent sampling unit is a cluster, such as a community, school, or classroom.
+          Observations within a cluster are correlated. The labels for observations within a cluster must be exchangeable.
+          For example, child "id" within classroom can be reassigned arbitrarily. In contrast, observations across time
+          cannot be reassigned and should not be considered clustered observations. Clustering, or repeated measures,
+          or a combination, creates a multilevel design. The common correlation between any pair of cluster members
+          is termed the intraclass correlation or intracluster correlation.
+        </p>
+        <p>
+          To include clustering in the study, click "Add Clustering" and follow the prompts.
+        </p>
+        <p>
+          You may specify up to 10 levels of clustering.
         </p>
       </div>
     </div>
@@ -239,8 +250,9 @@
         <div class="col">
           <button type="button" class="btn btn-secondary btn-sm" (click)="cancel()" id="levelscancelbtn">Cancel</button>
           <button *ngIf="isElementName()" type="button" class="btn btn-primary btn-sm" (click)="addISU()" #buttons id="levelsnextbtn" [disabled]="!elementForm.valid">Next: Levels</button>
-          <button *ngIf="!isElementName()" class="btn btn-secondary btn-sm" (click)="setStage(stages)" id="spacebackbtn">Back</button>
-          <button *ngIf="!isElementName()" type="button" class="btn btn-primary btn-sm" (click)="addCluster()" #buttons id="finishbtn" [disabled]="!validLevels">Add clustering to study</button>
+          <button *ngIf="!isElementName()" class="btn btn-secondary btn-sm" (click)="editISU()" id="spacebackbtn">Back</button>
+          <button *ngIf="!isElementName() && !editing" type="button" class="btn btn-primary btn-sm" (click)="addCluster()" #buttons id="finishbtn" [disabled]="!validLevels">Add clustering to study</button>
+          <button *ngIf="!isElementName() && editing" type="button" class="btn btn-primary btn-sm" (click)="addCluster()" #buttons id="finisheditbtn" [disabled]="!validLevels">Update clustering</button>
         </div>
       </div>
     </div>
@@ -270,8 +282,9 @@
     </button>
     </div>
     <div class="modal-body">
-      <h6>Glimmpse Tutorials are found <a href="https://samplesizeshop.org/education/tutorials/" target="_blank">here</a></h6>
+      <app-control-help-text></app-control-help-text>
     </div>
     <div class="modal-footer"> </div>
   </div>
 </ng-template>
+

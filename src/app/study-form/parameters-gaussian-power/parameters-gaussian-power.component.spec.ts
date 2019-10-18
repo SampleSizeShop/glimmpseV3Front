@@ -12,6 +12,8 @@ import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from "ngx-logger";
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('ParametersGaussianPowerComponent', () => {
   let component: ParametersGaussianPowerComponent;
@@ -21,8 +23,11 @@ describe('ParametersGaussianPowerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, HttpClientTestingModule],
-      declarations: [ ParametersGaussianPowerComponent ],
+      imports: [ReactiveFormsModule, MatIconModule, HttpClientTestingModule],
+      declarations: [
+        ParametersGaussianPowerComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         StudyService,
         NavigationService,
