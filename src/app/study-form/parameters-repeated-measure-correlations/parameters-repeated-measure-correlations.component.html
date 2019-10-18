@@ -1,4 +1,13 @@
 <div *ngIf="repeatedMeasure$ | async as repeatedMeasure">
+  <div class="row">
+    <p>
+      For a given research participant, responses vary across outcomes and across repeated measurements.
+      The amount of variability can dramatically impact power and sample size.
+    </p>
+    <p>
+      Define your <b>{{repeatedMeasure.name}}</b> correlation matrix, by entering correlations you expect to observe
+      among your chosen spacing values of <b>{{repeatedMeasure.name}}</b>:</p>
+  </div>
   <app-correlation-matrix [size]="repeatedMeasure.valueNames.length" [title]="repeatedMeasure.name" [labels]="repeatedMeasure.valueNames"></app-correlation-matrix>
 </div>
 <ng-template #helpText>

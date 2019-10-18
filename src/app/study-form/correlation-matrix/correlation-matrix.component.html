@@ -1,7 +1,4 @@
 <script src="correlation-matrix.component.ts"></script>
-<div class="row">
-  <p>Define your {{title}}correlation matrix:</p>
-</div>
 <div class="row"  *ngIf="isNumeric()">
   <div class="btn-group" data-toggle="buttons">
     <label aria-pressed="true" class="btn btn-secondary" [class.active]="isUnstructured()" id="unstructuredbtn" >
@@ -13,6 +10,21 @@
   </div>
 </div>
 <form [formGroup]="learForm">
+  <div class="row" *ngIf="isLear()">
+    <p>
+      The LEAR model describes correlation which monotonically decreases with distance or time between repeated measurements.
+      The model has two correlation parameters, the base correlation and the decay rate.
+      The base correlation describes the correlation between measurements taken 1 unit apart.
+      The decay rate describes the rate of decrease in the base correlation as the distance or time between repeated measurements increases.
+      Our experience with biological and behavioral data leads us to suggest using decay values between 0.05 and 0.5.
+    </p>
+    <p>
+      In addition, you may request that the LEAR model correlation matrix be computed with scaled spacing values: that is,
+      spacing values scaled so that the minimum distance or time between measurements is 1 unit. With this scaling,
+      the base correlation will appear in the correlation matrix for every element representing measurements whose
+      separation in distance or time is the minimum.
+    </p>
+  </div>
   <div class="row" *ngIf="isLear()">
     <label id="basecorellationlbl" for="basecorellation">Base Correlation:</label>
     <input type="number"
