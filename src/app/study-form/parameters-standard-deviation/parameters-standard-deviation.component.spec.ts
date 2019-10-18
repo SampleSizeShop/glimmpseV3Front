@@ -10,7 +10,9 @@ import {StudyService} from '../../shared/services/study.service';
 import {testEnvironment} from '../../../environments/environment.test';
 import { MatTooltip } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {MatIconModule} from '@angular/material';
+import {ControlHelpTextComponent} from '../control-help-text/control-help-text.component';
 
 describe('ParametersStandardDeviationComponent', () => {
   let component: ParametersStandardDeviationComponent;
@@ -23,6 +25,7 @@ describe('ParametersStandardDeviationComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        MatIconModule,
         ReactiveFormsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -33,6 +36,7 @@ describe('ParametersStandardDeviationComponent', () => {
       declarations: [
         ParametersStandardDeviationComponent,
         CorrelationMatrixComponent,
+        ControlHelpTextComponent,
         MatTooltip
       ],
       providers: [

@@ -13,6 +13,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatIconModule} from '@angular/material/icon';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('CalculateComponent', () => {
   let component: CalculateComponent;
@@ -25,6 +26,7 @@ describe('CalculateComponent', () => {
       declarations: [
         CalculateComponent,
         MathJaxDirective,
+        ControlHelpTextComponent,
         StatusComponent],
       imports: [
         HttpClientTestingModule,

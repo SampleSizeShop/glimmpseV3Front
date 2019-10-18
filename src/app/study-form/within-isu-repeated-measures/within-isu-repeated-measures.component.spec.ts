@@ -11,8 +11,10 @@ import {By} from '@angular/platform-browser';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
-import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
-import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
+import {ControlHelpTextComponent} from '../control-help-text/control-help-text.component';
+import {MatIconModule} from '@angular/material';
 
 describe('WithinIsuRepeatedMeasuresComponent', () => {
   let component: WithinIsuRepeatedMeasuresComponent;
@@ -23,8 +25,11 @@ describe('WithinIsuRepeatedMeasuresComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, ReactiveFormsModule, BrowserAnimationsModule],
-      declarations: [ WithinIsuRepeatedMeasuresComponent ],
+      imports: [HttpClientTestingModule, MatIconModule, ReactiveFormsModule, BrowserAnimationsModule],
+      declarations: [
+        WithinIsuRepeatedMeasuresComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         StudyService,
         NGXLogger,

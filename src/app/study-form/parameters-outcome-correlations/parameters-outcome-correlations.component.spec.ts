@@ -11,6 +11,8 @@ import {testEnvironment} from '../../../environments/environment.test';
 import {MatTooltipModule } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('ParametersOutcomeCorrelationsComponent', () => {
   let component: ParametersOutcomeCorrelationsComponent;
@@ -23,6 +25,7 @@ describe('ParametersOutcomeCorrelationsComponent', () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
+        MatIconModule,
         MatTooltipModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -32,7 +35,8 @@ describe('ParametersOutcomeCorrelationsComponent', () => {
       ],
       declarations: [
         ParametersOutcomeCorrelationsComponent,
-        CorrelationMatrixComponent
+        CorrelationMatrixComponent,
+        ControlHelpTextComponent
       ],
       providers: [
         NGXLogger,

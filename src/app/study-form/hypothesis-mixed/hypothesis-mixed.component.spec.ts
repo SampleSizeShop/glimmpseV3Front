@@ -25,6 +25,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('HypothesisMixedComponent no factors', () => {
   let component: HypothesisMixedComponent;
@@ -37,6 +39,7 @@ describe('HypothesisMixedComponent no factors', () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
+        MatIconModule,
         BrowserAnimationsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -47,6 +50,7 @@ describe('HypothesisMixedComponent no factors', () => {
       declarations: [
         MathJaxDirective,
         HypothesisMixedComponent,
+        ControlHelpTextComponent,
         CustomContrastMatrixComponent,
         MatTooltip,
          ],
@@ -111,6 +115,7 @@ describe('HypothesisMixedComponent with Factors', () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
+        MatIconModule,
         BrowserAnimationsModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
@@ -121,6 +126,7 @@ describe('HypothesisMixedComponent with Factors', () => {
       declarations: [
         MathJaxDirective,
         HypothesisMixedComponent,
+        ControlHelpTextComponent,
         CustomContrastMatrixComponent,
         MatTooltip,
       ],

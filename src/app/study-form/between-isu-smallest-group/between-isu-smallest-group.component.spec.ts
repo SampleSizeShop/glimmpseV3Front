@@ -16,6 +16,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatIconModule} from '@angular/material/icon';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {LoggerTestingModule, NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('BetweenIsuSmallestGroupComponent', () => {
   let component: BetweenIsuSmallestGroupComponent;
@@ -31,7 +32,10 @@ describe('BetweenIsuSmallestGroupComponent', () => {
         ReactiveFormsModule,
         NgbModule,
         MatIconModule],
-      declarations: [ BetweenIsuSmallestGroupComponent ],
+      declarations: [
+        BetweenIsuSmallestGroupComponent,
+        ControlHelpTextComponent
+      ],
       providers: [
         StudyService,
         NavigationService,

@@ -12,6 +12,8 @@ import {NavigationService} from '../../shared/services/navigation.service';
 import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {LoggerTestingModule, NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('HypothesisTheta0Component', () => {
   let component: HypothesisTheta0Component;
@@ -26,8 +28,11 @@ describe('HypothesisTheta0Component', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule,
         LoggerTestingModule,
-        ReactiveFormsModule],
-      declarations: [ HypothesisTheta0Component ],
+        ReactiveFormsModule,
+        MatIconModule],
+      declarations: [
+        HypothesisTheta0Component,
+        ControlHelpTextComponent ],
       providers: [
         StudyService,
         NGXLogger,

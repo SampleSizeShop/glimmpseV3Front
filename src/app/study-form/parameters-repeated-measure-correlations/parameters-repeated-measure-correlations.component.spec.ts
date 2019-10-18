@@ -14,6 +14,8 @@ import {testEnvironment} from '../../../environments/environment.test';
 import { MatTooltip } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
+import {MatIconModule} from "@angular/material";
 
 let component: ParametersRepeatedMeasureCorrelationsComponent;
 let fixture: ComponentFixture<ParametersRepeatedMeasureCorrelationsComponent>;
@@ -33,6 +35,7 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
       imports: [
         HttpClientTestingModule,
         ReactiveFormsModule,
+        MatIconModule,
         LoggerModule.forRoot({
           serverLoggingUrl: testEnvironment.serverLoggingUrl,
           level: testEnvironment.loglevel,
@@ -42,7 +45,8 @@ describe('ParametersRepeatedMeasureCorrelationsComponent', () => {
       declarations: [
         ParametersRepeatedMeasureCorrelationsComponent,
         CorrelationMatrixComponent,
-        MatTooltip
+        MatTooltip,
+        ControlHelpTextComponent
       ],
       providers: [
         StudyService,

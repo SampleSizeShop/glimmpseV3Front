@@ -1,1 +1,104 @@
-<p>control-help-text works!</p>
+<h5>Designing a Study with GLIMMPSE</h5>
+<p>
+  To enable you to quickly perform power or sample size analysis,
+  GLIMMPSE will guide you step by step through the process of specifying your study design.
+</p>
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" [class.active]="isTabSelected('navigation')" style="height: 47px" data-toggle="tab" (click)="selectTab('navigation')">Navigation</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" [class.active]="isTabSelected('inputs')" style="height: 47px" data-toggle="tab" (click)="selectTab('inputs')">Inputs</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [class.active]="isTabSelected('buttons')" data-toggle="tab" style="height: 47px" (click)="selectTab('buttons')">
+      <mat-icon svgIcon="aperture_2"></mat-icon>
+      <mat-icon>info_outline</mat-icon>
+      <mat-icon>save_alt</mat-icon>
+    </a>
+  </li>
+</ul>
+<div id="myTabContent" class="tab-content">
+  <div class="tab-pane fade show" id="navigation" [class.active]="isTabSelected('navigation')">
+    <p>
+      The arrow buttons allow you to navigate forward and back through the steps in the process.
+      A green arrow indicated that the current step is a valid state and you may move on.
+    </p>
+    <i class="material-icons"
+       style="font-size: 92px; opacity: 0.2;">navigate_before</i>
+    <i class="material-icons"
+       style="font-size: 92px; opacity: 0.2;">navigate_next</i>
+    <i class="material-icons"
+       style="font-size: 92px; opacity: 0.8; color: yellowgreen">navigate_next</i>
+    <p>
+      If you try to move on when the current step is not ina valid state,
+      an error message will tell you what is invalid or missing.</p>
+    <p>
+      Some steps, for example choosing a Type I Error Rate, are required for every study design. Others, for example
+      specifying Repeated Measures are optional. Depending on the design you specify, the steps given may change.
+    </p>
+    <p>
+      When adding repeated measures, clustering or predictors to your design requires the navigation arrows are unavailable.
+      Follow the directions on the page and navigate using the <button class="btn btn-secondary btn-sm">small</button><button class="btn btn-primary btn-sm">buttons</button>
+      to return to the main flow.
+    </p>
+    <p>
+      If you navigate to an earlier step and change your design, any later input which is inconsistent with that change will be reset to default values.
+    </p>
+  </div>
+  <div class="tab-pane fade show" id="inputs" [class.active]="isTabSelected('inputs')">
+    <div class="row">
+      <div class="col col-2">
+        <i class="material-icons" style="font-size: 2em; padding-top: 0.2em">add_box</i>
+      </div>
+      <div class="col col-9">
+        This button indicates that you can add several values of this type, e.g. you can add up to 10 values for type I
+        error and a power or samplesize will be calculated for each value. You must click the button of press enter to
+        add a value. it will then be added to the table of those values.
+        Navigating to another step will not add a value in the input field.
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-2">
+        <i class="material-icons" style="font-size: 2em; padding-top: 0.2em">edit</i>
+      </div>
+      <div class="col col-9 align-self-center">
+        Click this button to edit the value it is attached to.
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-2">
+        <i class="material-icons" style="font-size: 2em; padding-top: 0.2em">delete_forever</i>
+      </div>
+      <div class="col col-9 align-self-center">
+        Click this button to delete the value it is attached to.
+      </div>
+    </div>
+  </div>
+  <div class="tab-pane fade show" id="buttons" [class.active]="isTabSelected('buttons')">
+    <div class="row">
+      <div class="col col-2">
+        <mat-icon svgIcon="aperture_2" (click)="showStatus()"></mat-icon>
+      </div>
+      <div class="col col-9">
+        Progress indicator. The icon colours each segment blue as you complete one of the five stages of your design:
+        Design, Hypothesis, Design Dimensions, Parameters and Optional Specifications
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-2">
+        <mat-icon (click)="toggleHelpText()">info_outline</mat-icon>
+      </div>
+      <div class="col col-9 align-self-center">
+        Help
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-2">
+        <mat-icon (click)="download()">save_alt</mat-icon>
+      </div>
+      <div class="col col-9 align-self-center">
+        Save your design as a .json file. This can then be uploaed at a later date.
+      </div>
+    </div>  </div>
+</div>

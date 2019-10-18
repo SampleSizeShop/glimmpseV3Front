@@ -10,6 +10,8 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
+import {MatIconModule} from "@angular/material";
+import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('StatisticalTestsComponent', () => {
   let component: StatisticalTestsComponent;
@@ -20,8 +22,10 @@ describe('StatisticalTestsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, ReactiveFormsModule],
-      declarations: [ StatisticalTestsComponent ],
+      imports: [HttpClientTestingModule, ReactiveFormsModule, MatIconModule],
+      declarations: [
+        StatisticalTestsComponent,
+        ControlHelpTextComponent ],
       providers: [ StudyService,
         NGXLogger,
         {provide: NGXLoggerHttpService, useClass: NGXLoggerHttpServiceMock},
