@@ -17,6 +17,7 @@ import * as math from 'mathjs';
 import {timeout, catchError} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 import { of } from 'rxjs'
+import {csv} from "d3-fetch";
 
 @Component({
   selector: 'app-calculate',
@@ -144,13 +145,20 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   makeCsvFile() {
-    let csvContent = 'actualPower,alpha,test\r\n';
-    for (const result of this.resultString.results) {
-      for (const variability_scale_factor of this.studyDesign['_varianceScaleFactors']) {
-        csvContent += this.getOutput(result) + ',';
-        csvContent += this.studyDesign['_typeOneErrorRate'] + ',';
-        csvContent += result.test + '\r\n';
+    let csvContent = '';
+    Object.keys( this.resultString.results[0]).forEach(key => {
+      if (key !== 'model') {
+        csvContent = csvContent + key.replace('_', ' ') + ',';
       }
+    });
+    csvContent = csvContent + 'means scale factor,variability scale factor\r\n';
+    for (const result of this.resultString.results) {
+      Object.keys(result).forEach(key => {
+        if (key !== 'model') {
+          csvContent = csvContent + result[key] + ',';
+        }
+      });
+      csvContent = csvContent + result.model.means_scale_factor + ',' + result.model.variance_scale_factor + '\r\n';
     }
     this.downloadData = this.sanitizer.bypassSecurityTrustUrl('data:text/csv;charset=utf-8,' + encodeURI(csvContent));
   }
