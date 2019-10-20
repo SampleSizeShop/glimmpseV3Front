@@ -100,6 +100,12 @@ input[type=number]{
   width: 70px;
 }
 
+.table-input-control {
+  border-bottom: none!important;
+  box-shadow: none!important;
+  text-align: center!important;
+}
+
 hr {
   border-top: 1px solid rgba(0,0,0,0.2);
 }

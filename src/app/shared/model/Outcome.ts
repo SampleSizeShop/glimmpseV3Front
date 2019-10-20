@@ -38,7 +38,7 @@ export class Outcome extends ISUFactor {
     super(name);
     this.nature = constants.HYPOTHESIS_NATURE.WITHIN;
     this.origin = constants.HYPOTHESIS_ORIGIN.OUTCOME;
-    this.standardDeviation = 1;
-    this.gaussian_corellation = 1;
+    this.standardDeviation = null;
+    this.gaussian_corellation = null;
   }
 }

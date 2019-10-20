@@ -129,12 +129,12 @@ export const constants = {
   },
   PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE_VALIDATION_MESSAGES: {
     'covariatevariance': {
-      'required': 'Value needs to be filled in.'
+      'required': 'You must define a value for the standard deviation pf your gaussian covariate.'
     },
   },
   PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_VALIDATION_MESSAGES: {
     'covariatecorrelation': {
-      'required': 'ALL values need to be filled in.'
+      'required': 'All values need to be filled in.'
     },
   },
   PARAMETERS_GAUSSIAN_COVARIATE_POWER_VALIDATION_MESSAGES: {

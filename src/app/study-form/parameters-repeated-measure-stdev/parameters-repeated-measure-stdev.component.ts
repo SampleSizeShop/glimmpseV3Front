@@ -4,7 +4,7 @@ import {Subscription, Observable, of} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 import {switchMap} from 'rxjs/operators';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +21,7 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _measure$: Observable<RepeatedMeasure>;
-  private _stdevForm: FormGroup;
+  private _stDevForm: FormGroup;
 
   private _measure: RepeatedMeasure;
   private _showHelpTextSubscription: Subscription;
@@ -29,6 +29,10 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
   @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
+
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
 
   constructor(private study_service: StudyService,
               private route: ActivatedRoute,
@@ -49,9 +53,25 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
         this.showHelpText(this.helpTextModal);
       }
     });
+
+    this._isClickNextReference = {value: false};
+    this._isClickNext = false;
+    this._isClickNextSubscription = this.navigation_service.isClickNext$.subscribe(
+      isClickNext => {
+        this.isClickNext = isClickNext;
+        this._isClickNextReference.value = this.isClickNext;
+        if (this._isClickNext && this._stDevForm !== null && this._stDevForm !== undefined) {
+          Object.keys(this._stDevForm.controls).forEach(control => {
+            this._stDevForm.controls[control].setValidators(Validators.required);
+            this._stDevForm.controls[control].updateValueAndValidity();
+          });
+        }
+      }
+    );
   }
 
   ngOnInit() {
+    this.navigation_service.updateIsClickNext(false);
     this._afterInit = true;
     this.measure$.subscribe( measure => {
       this.measure = measure;
@@ -60,11 +80,25 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
   }
 
   ngDoCheck() {
+    this.checkValidBeforeNavigation();
     this.updateStDevs();
   }
 
   ngOnDestroy() {
     this._showHelpTextSubscription.unsubscribe();
+  }
+
+  checkValidBeforeNavigation(): void {
+    if (this._stDevForm !== null && this._stDevForm !== undefined && this.allControlsFilledIn) {
+      this.setNextEnabled('VALID');
+    } else {
+      this.setNextEnabled('INVALID');
+    }
+  }
+
+  setNextEnabled(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this.navigation_service.updateValid(valid);
   }
 
   buildForm() {
@@ -75,8 +109,8 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
     const controlDefs = {};
     if (!isNullOrUndefined(this.measure)) {
       this.measure.valueNames.forEach( (name, i) => {
-        if (isNullOrUndefined(this.measure.standard_deviations[i])) {
-          controlDefs[name] = 1;
+        if (this.measure.standard_deviations[i] === null  || this.measure.standard_deviations[i] === undefined) {
+          controlDefs[name] = null;
         } else {
           controlDefs[name] = this.measure.standard_deviations[i];
         }
@@ -129,6 +163,18 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
       });
   }
 
+  get allControlsFilledIn() {
+    let ret = true;
+    Object.keys(this._stDevForm.controls).forEach(
+      name => {
+        if (this._stDevForm.get(name).value === null) {
+          ret =  false;
+        }
+      }
+    );
+    return ret;
+  }
+
   get isuFactors(): ISUFactors {
     return this._isuFactors;
   }
@@ -150,11 +196,11 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
   }
 
   get stdevForm(): FormGroup {
-    return this._stdevForm;
+    return this._stDevForm;
   }
 
   set stdevForm(value: FormGroup) {
-    this._stdevForm = value;
+    this._stDevForm = value;
   }
 
   get measure(): RepeatedMeasure {
@@ -164,5 +210,21 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
   set measure(value: RepeatedMeasure) {
     this._measure = value;
     this.buildForm();
+  }
+
+  get stDevForm(): FormGroup {
+    return this._stDevForm;
+  }
+
+  set stDevForm(value: FormGroup) {
+    this._stDevForm = value;
+  }
+
+  get isClickNext(): boolean {
+    return this._isClickNext;
+  }
+
+  set isClickNext(value: boolean) {
+    this._isClickNext = value;
   }
 }

@@ -4,22 +4,30 @@
   </p></div>
 </div>
 <form [formGroup]="stDevForm">
-  <div *ngFor="let outcome of isuFactors.outcomes" class="row">
-    <div class="col-3 align-self-center" style="overflow: hidden; white-space: nowrap">
-      <label>{{outcome.name}}:</label>
-    </div>
-    <div class="col col-md-auto align-self-center">
-      <input type="number"
-             class="form-control"
-             id="{{outcome.name}}"
-             formControlName="{{outcome.name}}"
-             value="{{outcome.standardDeviation}}"
-             step="0.1"
-             required>
-    </div>
-  </div>
-  <div *ngIf="formErrors.vectorofstandarddeviations" class="form-group has-danger">
-    <div class="form-control-feedback">{{formErrors.vectorofstandarddeviations}}</div>
+  <table class="table-responsive">
+    <thead>
+      <th style="border-bottom: 2px solid #3c4043; border-right: 2px solid #3c4043; padding-right: 5px;">Outcome</th>
+      <th style="border-bottom: 2px solid #3c4043; padding-left: 5px">Standard Deviation</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let outcome of isuFactors.outcomes">
+        <td style="border-right: 2px solid #3c4043; padding-right: 5px; text-align: center">
+          {{outcome.name}}
+        </td>
+        <td>
+          <input type="number"
+                 class="form-control table-input-control"
+                 placeholder=" "
+                 id="{{outcome.name}}"
+                 formControlName="{{outcome.name}}"
+                 value="{{outcome.standardDeviation}}"
+                 step="0.1">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="!stDevForm.valid" class="form-group has-danger">
+    <div class="form-control-feedback">You must define an expected standard deviation for each outcome.</div>
   </div>
 </form>
 <ng-template #helpText>
