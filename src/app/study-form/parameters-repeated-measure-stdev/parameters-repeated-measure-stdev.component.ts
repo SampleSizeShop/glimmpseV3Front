@@ -75,8 +75,8 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
     const controlDefs = {};
     if (!isNullOrUndefined(this.measure)) {
       this.measure.valueNames.forEach( (name, i) => {
-        if (isNullOrUndefined(this.measure.standard_deviations[i])) {
-          controlDefs[name] = 1;
+        if (this.measure.standard_deviations[i] === null  || this.measure.standard_deviations[i] === undefined) {
+          controlDefs[name] = null;
         } else {
           controlDefs[name] = this.measure.standard_deviations[i];
         }
