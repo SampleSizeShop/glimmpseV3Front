@@ -40,7 +40,7 @@ export class GaussianCovariate {
     if (standard_deviation) {
       this.standard_deviation = standard_deviation;
     } else {
-      this.standard_deviation = 1;
+      this.standard_deviation = null;
     }
     if (power_method) {
       this.power_method = power_method;

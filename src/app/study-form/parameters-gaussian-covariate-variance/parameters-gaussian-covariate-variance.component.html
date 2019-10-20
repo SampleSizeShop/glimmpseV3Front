@@ -1,16 +1,12 @@
 <form [formGroup]="gaussianCovariateVarForm">
   <div class="row">
-    <h6>What is the standard deviation of your gaussian covariate?</h6>
-  </div>
-  <div class="row">
-    <div class="col-md-auto align-self-center">Standard deviation: </div>
-    <div class="col-md-auto align-self-center">
-      <input type="number"
-             formControlName="variance"
-             value=1 id="variance"
-             step="0.1"
-             required>
-    </div>
+    <p>What is the standard deviation of your gaussian covariate? <input type="number"
+                                                                         class="table-input-control"
+                                                                         placeholder=" "
+                                                                         formControlName="variance"
+                                                                         id="variance"
+                                                                         step="0.1"
+                                                                         required></p>
   </div>
   <div *ngIf="formErrors.covariatevariance" class="form-group has-danger">
     <div class="form-control-feedback">{{formErrors.covariatevariance}}</div>
