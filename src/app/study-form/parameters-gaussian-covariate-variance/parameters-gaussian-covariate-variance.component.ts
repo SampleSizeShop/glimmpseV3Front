@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {constants} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
@@ -15,7 +15,7 @@ import {minMaxValidator} from "../../shared/validators/minmax.validator";
   templateUrl: './parameters-gaussian-covariate-variance.component.html',
   styleUrls: ['./parameters-gaussian-covariate-variance.component.scss']
 })
-export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnDestroy {
+export class ParametersGaussianCovariateVarianceComponent implements OnInit, DoCheck, OnDestroy {
   private _gaussianCovariateVarForm: FormGroup;
   private _gaussianCovariatesSubscription: Subscription;
   private _variance: number;
@@ -23,6 +23,10 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
   private _formErrors = constants.PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE_ERRORS;
   private _validationMessages = constants.PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE_VALIDATION_MESSAGES;
   private _showHelpTextSubscription: Subscription;
+
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
 
 
   @ViewChild('helpText', {static: true}) helpTextModal;
@@ -36,7 +40,7 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
               private log: NGXLogger) {
     this._gaussianCovariate = new GaussianCovariate();
     this._gaussianCovariatesSubscription = this.study_service.gaussianCovariate$.subscribe(gaussianCovariate => {
-        if (!isNullOrUndefined(gaussianCovariate)) {
+        if (gaussianCovariate !== null && gaussianCovariate !== undefined) {
           this._gaussianCovariate = gaussianCovariate;
           this._variance = this._gaussianCovariate.standard_deviation;
         }
@@ -48,19 +52,69 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
         this.showHelpText(this.helpTextModal);
       }
     });
+    this._isClickNextReference = {value: false};
+    this._isClickNext = false;
+    this._isClickNextSubscription = this.navigation_service.isClickNext$.subscribe(
+      isClickNext => {
+        this.isClickNext = isClickNext;
+        this._isClickNextReference.value = this.isClickNext;
+        if (this._isClickNext && this.gaussianCovariateVarForm !== null && this.gaussianCovariateVarForm !== undefined) {
+          Object.keys(this.gaussianCovariateVarForm.controls).forEach(control => {
+            this.gaussianCovariateVarForm.controls[control].setValidators(Validators.required);
+            this.gaussianCovariateVarForm.controls[control].updateValueAndValidity();
+          });
+        }
+      }
+    );
   }
 
   ngOnInit() {
     this.buildForm();
   }
 
-  ngOnDestroy() {
+  ngDoCheck() {
+    this.checkValidBeforeNavigation();
+  }
 
-    this.navigation_service.updateValid(true);
-    if (!isNullOrUndefined(this._gaussianCovariate)) {this._gaussianCovariate.standard_deviation = this._variance;}
-    if (!isNullOrUndefined(this.study_service)) {this.study_service.updateGaussianCovariate(this._gaussianCovariate);}
-    if (!isNullOrUndefined(this._gaussianCovariatesSubscription)) {this._gaussianCovariatesSubscription.unsubscribe();}
-    if (!isNullOrUndefined(this._showHelpTextSubscription)) {this._showHelpTextSubscription.unsubscribe();}
+  ngOnDestroy() {
+    if (this._gaussianCovariate !== null && this._gaussianCovariate !== undefined) {
+      this._gaussianCovariate.standard_deviation = this._variance;
+    }
+    if (this.study_service !== null && this.study_service !== undefined) {
+      this.study_service.updateGaussianCovariate(this._gaussianCovariate);
+    }
+    if (this._gaussianCovariatesSubscription !== null && this._gaussianCovariatesSubscription !== undefined) {
+      this._gaussianCovariatesSubscription.unsubscribe();
+    }
+    if (this._showHelpTextSubscription !== null && this._showHelpTextSubscription !== undefined) {
+      this._showHelpTextSubscription.unsubscribe();
+    }
+    this.setNextEnabled('VALID');
+  }
+
+  checkValidBeforeNavigation(): void {
+    if (this.gaussianCovariateVarForm !== null && this.gaussianCovariateVarForm !== undefined) {
+      this.setNextEnabled('VALID');
+    } else {
+      this.setNextEnabled('INVALID');
+    }
+  }
+
+  setNextEnabled(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this.navigation_service.updateValid(valid);
+  }
+
+  get allControlsFilledIn() {
+    let ret = true;
+    Object.keys(this.gaussianCovariateVarForm.controls).forEach(
+      name => {
+        if (this.gaussianCovariateVarForm.get(name).value === null) {
+          ret =  false;
+        }
+      }
+    );
+    return ret;
   }
 
   buildForm() {
@@ -69,14 +123,6 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
     );
     this.gaussianCovariateVarForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set validation messages now
-  }
-
-  checkValidBeforeNavigation() {
-    if (this._gaussianCovariateVarForm.status === 'VALID') {
-      this.navigation_service.updateValid(true);
-    } else {
-      this.navigation_service.updateValid(false);
-    }
   }
 
   onValueChanged(data?: any) {
@@ -171,5 +217,13 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, OnD
           this.log.debug(dismissReason);
         }
       });
+  }
+
+  get isClickNext(): boolean {
+    return this._isClickNext;
+  }
+
+  set isClickNext(value: boolean) {
+    this._isClickNext = value;
   }
 }

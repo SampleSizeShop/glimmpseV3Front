@@ -100,6 +100,7 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
     const valid = status === 'VALID' ? true : false;
     this.navigation_service.updateValid(valid);
   }
+
   buildForm() {
     this.stdevForm = this.fb.group(this.getStDevControls());
   };
