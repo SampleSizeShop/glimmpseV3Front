@@ -3,17 +3,29 @@
     <p>Define the ratios of standard deviations for {{measure.name}}. One of your values should be 1 and the others should represent the ratio of that value to that value:</p>
     <p>For example, if you believe that the standard deviation doubles at each time, enter the values 1, 2, 4, 8... etc.</p>
   </div>
-  <div class="row">{{measure.name}}:</div>
-  <div *ngFor="let val of measure.valueNames; let i = index">
+  <div class="row">
     <form [formGroup]="stdevForm">
-      <div class="row">
-        <div class="col-2 align-self-center" style="padding-left: 0px;">
-          <label>{{val}}:</label>
-        </div>
-        <div class="col-md-auto align-self-center">
-          <input class="form-control" formControlName="{{val}}" id="{{i}}" type="number" step="0.1">
-        </div>
-      </div>
+      <table class="table-responsive">
+        <thead>
+        <th style="border-bottom: 2px solid #3c4043; border-right: 2px solid #3c4043; padding-right: 5px;">{{measure.name}}</th>
+        <th style="border-bottom: 2px solid #3c4043; padding-left: 5px">Standard Deviation Ratio</th>
+        </thead>
+        <tbody>
+        <tr *ngFor="let val of measure.valueNames; let i = index">
+          <td style="border-right: 2px solid #3c4043; padding-right: 5px; text-align: center">
+            {{val}}
+          </td>
+          <td>
+            <input type="number"
+                   class="form-control table-input-control"
+                   placeholder=" "
+                   id="{{i}}"
+                   formControlName="{{val}}"
+                   step="0.1">
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </form>
   </div>
 </div>
