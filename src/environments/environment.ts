@@ -14,5 +14,5 @@ export const environment = {
   loglevel: NgxLoggerLevel.DEBUG,
   serverLoglevel: NgxLoggerLevel.WARN,
   disableAnimations: false,
-  e2eTest: false,
+  e2eTest: true,
 };

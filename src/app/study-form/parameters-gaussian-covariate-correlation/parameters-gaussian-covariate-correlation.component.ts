@@ -39,6 +39,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
         if (!isNullOrUndefined(gaussianCovariate)
           && !isNullOrUndefined(gaussianCovariate.corellations)
           && gaussianCovariate.corellations.length !== 0) {
+          this._gaussianCovariate = gaussianCovariate;
           this._corellations = gaussianCovariate.corellations;
           this._corellation_names = this.getCorellationNames();
         } else {
