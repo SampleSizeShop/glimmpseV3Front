@@ -8,3 +8,7 @@ input[type="number"]::-webkit-inner-spin-button {
 ::ng-deep input[type="number"] {
   -moz-appearance: textfield;
 }
+
+input:placeholder-shown {
+  background-color: rgba(0,0,0,0.075);
+}
