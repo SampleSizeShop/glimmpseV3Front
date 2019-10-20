@@ -2,9 +2,8 @@ import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {constants} from '../../shared/model/constants';
-import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
@@ -21,6 +20,11 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
   private _formErrors = constants.PARAMETERS_STANDARD_DEVIATION_ERRORS;
   private _validationMessages = constants.PARAMETERS_STANDARD_DEVIATION_VALIDATION_MESSAGES;
   private _showHelpTextSubscription: Subscription;
+
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
+  private _valid: boolean
 
   @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
@@ -41,20 +45,57 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
         this.showHelpText(this.helpTextModal);
       }
     });
+
+    this._isClickNextReference = {value: false};
+    this._isClickNext = false;
+    this._isClickNextSubscription = this.navigation_service.isClickNext$.subscribe(
+      isClickNext => {
+        this.isClickNext = isClickNext;
+        this._isClickNextReference.value = this.isClickNext;
+        if (this._isClickNext && this.stDevForm !== null && this.stDevForm !== undefined) {
+          Object.keys(this.stDevForm.controls).forEach( control => {
+            this.stDevForm.controls[control].setValidators(Validators.required);
+            this.stDevForm.controls[control].updateValueAndValidity();
+          });
+        }
+      }
+    );
   }
 
   ngOnInit() {
+    this.navigation_service.updateIsClickNext(false);
     this._afterInit = true;
     this.buildForm();
   }
 
   ngDoCheck() {
+    this.checkValidBeforeNavigation();
     this._updateStandardDeviations();
+  }
+
+  checkValidBeforeNavigation(): void {
+    if (this.stDevForm !== null && this.stDevForm !== undefined && this.allControlsFilledIn) {
+      this.setNextEnabled('VALID');
+      this._valid = true;
+    } else {
+      this.setNextEnabled('INVALID');
+      if (this._isClickNext) {
+        this._valid = false;
+      } else {
+        this._valid = true;
+      }
+    }
+  }
+
+  setNextEnabled(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this.navigation_service.updateValid(valid);
   }
 
   ngOnDestroy() {
     this.isuFactorsSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
+    this.setNextEnabled('VALID');
   }
 
   buildForm() {
@@ -73,6 +114,18 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
       }
     );
     return controlArray;
+  }
+
+  get allControlsFilledIn() {
+    let ret = true;
+    Object.keys(this.stDevForm.controls).forEach(
+      name => {
+        if (this.stDevForm.get(name).value === null) {
+          ret =  false;
+        }
+      }
+    );
+    return ret;
   }
 
   onValueChanged(data?: any) {
@@ -167,5 +220,17 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
 
   set stDevForm(value: FormGroup) {
     this._stDevForm = value;
+  }
+
+  get isClickNext(): boolean {
+    return this._isClickNext;
+  }
+
+  set isClickNext(value: boolean) {
+    this._isClickNext = value;
+  }
+
+  get valid(): boolean {
+    return this._valid;
   }
 }

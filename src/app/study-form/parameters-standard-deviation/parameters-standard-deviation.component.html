@@ -14,12 +14,11 @@
              id="{{outcome.name}}"
              formControlName="{{outcome.name}}"
              value="{{outcome.standardDeviation}}"
-             step="0.1"
-             required>
+             step="0.1">
     </div>
   </div>
-  <div *ngIf="formErrors.vectorofstandarddeviations" class="form-group has-danger">
-    <div class="form-control-feedback">{{formErrors.vectorofstandarddeviations}}</div>
+  <div *ngIf="!stDevForm.valid" class="form-group has-danger">
+    <div class="form-control-feedback">You must define an expected standard deviation for each outcome.</div>
   </div>
 </form>
 <ng-template #helpText>
