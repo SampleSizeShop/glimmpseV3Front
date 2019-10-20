@@ -3,13 +3,29 @@
     <h6 *ngIf="!hasRepeatedMeasures">Specify how strongly the covariate is correlated with each outcome.</h6>
     <h6 *ngIf="hasRepeatedMeasures">Specify how strongly the covariate is correlated with each outcome for each repeated measure.</h6>
   </div>
-  <div *ngFor="let name of corellation_names; let i = index" class="row">
-    <div class="col-md-auto align-self-centre" style="overflow: hidden; margin-top:0.71em;">
-        {{name}}:
-    </div>
-    <div class="col-md-auto align-self-center">
-      <input type="number"  formControlName="{{name}}" id="{{i}}" step="0.1" required>
-    </div>
+  <div class="row">
+    <table class="table-responsive">
+      <thead>
+      <th style="border-bottom: 2px solid #3c4043; border-right: 2px solid #3c4043; padding-right: 5px;" *ngIf="!hasRepeatedMeasures">Outcome</th>
+      <th style="border-bottom: 2px solid #3c4043; border-right: 2px solid #3c4043; padding-right: 5px;" *ngIf="hasRepeatedMeasures">Outcome/Repeated Measure</th>
+      <th style="border-bottom: 2px solid #3c4043; padding-left: 5px">Correlation</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let name of corellation_names; let i = index">
+        <td style="border-right: 2px solid #3c4043; padding-right: 5px; text-align: center">
+          {{name}}
+        </td>
+        <td>
+          <input type="number"
+                 class="form-control table-input-control"
+                 placeholder=" "
+                 id="{{i}}"
+                 formControlName="{{name}}"
+                 step="0.1">
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
   <div *ngIf="formErrors.covariatecorrelation" class="form-group has-danger">
     <div class="form-control-feedback">{{formErrors.covariatecorrelation}}</div>
