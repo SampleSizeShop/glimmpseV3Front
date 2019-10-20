@@ -134,7 +134,7 @@ export const constants = {
   },
   PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_VALIDATION_MESSAGES: {
     'covariatecorrelation': {
-      'required': 'ALL values need to be filled in.'
+      'required': 'All values need to be filled in.'
     },
   },
   PARAMETERS_GAUSSIAN_COVARIATE_POWER_VALIDATION_MESSAGES: {
