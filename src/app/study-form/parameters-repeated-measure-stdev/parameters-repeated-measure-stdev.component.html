@@ -26,6 +26,9 @@
         </tr>
         </tbody>
       </table>
+      <div *ngIf="!stDevForm.valid" class="form-group has-danger">
+        <div class="form-control-feedback">You must define an expected standard deviation ratio for each repeated measure spacing value.</div>
+      </div>
     </form>
   </div>
 </div>
