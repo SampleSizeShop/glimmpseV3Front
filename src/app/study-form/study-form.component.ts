@@ -947,7 +947,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     } else if (name === 'PARAMETERS_SCALE_FACTOR_VARIANCE') {
       return 'Scale Factor Variance';
     } else if (name === 'OPTIONAL_SPECS_CONFIDENCE_INTERVALS') {
-      return 'Conficence Intervals';
+      return 'Confidence Intervals';
     } else if (name === 'CALCULATE') {
       return 'Calculate';
     }
