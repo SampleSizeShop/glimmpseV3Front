@@ -7,7 +7,12 @@
       <div class="row d-none d-sm-block" style="padding-left: 12px; margin-bottom: 0em; color: white;">General Linear Mixed Model Power and Sample Size</div>
     </div>
   </nav>
-  <div class="container-fluid">
+  <div class="container-fluid" style="
+  padding-bottom: 15px;
+  background: white;
+  -webkit-box-shadow: 2px 8px 6px -12px rgba(0,0,0,0.2);
+  -moz-box-shadow: 2px 8px 6px -12px rgba(0,0,0,0.2);
+  box-shadow: 2px 8px 6px -6px rgba(0,0,0,0.2)">
     <br *ngIf="isLanding()">
     <hr *ngIf="isLanding()">
     <div *ngIf="isLanding()" class="row">
@@ -39,7 +44,6 @@
         <p class="w-75" style="margin-bottom: 10px">You have previously used GLIMMPSE and wish to work on a saved design.</p>
       </div>
     </div>
-    <hr *ngIf="isLanding()">
     <router-outlet></router-outlet>
   </div>
 </div>

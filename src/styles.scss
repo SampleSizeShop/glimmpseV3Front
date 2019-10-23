@@ -1,6 +1,7 @@
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 .btn{
+  font-size: 1rem;
   cursor: pointer;
   text-transform:none;
   border:none;
@@ -25,12 +26,14 @@
 }
 
 .navbar-inverse {
-  -webkit-box-shadow: 0 8px 6px -6px #999;
-  -moz-box-shadow: 0 8px 6px -6px #999;
-  box-shadow: 0 8px 6px -6px #999;
+  -webkit-box-shadow: 2px 8px 6px -12px rgba(0,0,0,0.3);
+  -moz-box-shadow: 2px 8px 6px -12px rgba(0,0,0,0.3);
+  box-shadow: 2px 8px 6px -6px rgba(0,0,0,0.3);
+  z-index: 100;
 }
 
 body {
+  background: whitesmoke;
   min-width:360px;
   font-size: 1em;
 }
