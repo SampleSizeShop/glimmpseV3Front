@@ -22,7 +22,7 @@ export class AppComponent {
     this.disableAnimationa = environment.disableAnimations;
     this.matIconRegistry.addSvgIcon(
       `glimmpsediamond`,
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/glimmpse_diamond_min.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/glimmpse_diamond_min_blue.svg')
     );
   }
 

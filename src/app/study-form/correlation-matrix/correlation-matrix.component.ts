@@ -256,7 +256,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   getStyle(row: number, col: number): string {
     let style = 'inherit';
     if ( row === col) {
-      style = 'rgba(2, 117, 216, 0.21)';
+      style = 'rgba(90, 136, 183, 0.25)';
     }
     if ( row > col) {
       style = '#ffffff';

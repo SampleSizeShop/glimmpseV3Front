@@ -1,8 +1,8 @@
 <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" xml:space="preserve" width="192" height="192" viewBox="0 0 192 192">
 	<style>
 		.outerring{fill:#3c4043;stroke-width:1.4;cursor: pointer;}
-		.progressicon:hover .outerring{fill:#2196f3;stroke-width:1.4;cursor: pointer;}
-		.completed{fill:#2196f3;opacity:0.8;stroke-width:6;cursor: pointer;}
+		.progressicon:hover .outerring{fill:#265b87;stroke-width:1.4;cursor: pointer;}
+		.completed{fill:#265b87;opacity:0.8;stroke-width:6;cursor: pointer;}
 		.incomplete{fill:#e0e0e0;opacity:0.8;stroke-width:6;cursor: pointer;}
 		.background{fill:#e0e0e0;opacity:0;stroke-width:0;cursor: pointer;}
 	</style>
