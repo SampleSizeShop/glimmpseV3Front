@@ -31,6 +31,7 @@ import {powerlib_example4_input, powerlib_example4_output} from './test_inputs/P
 import {powerlib_example5_input, powerlib_example5_output} from './test_inputs/POWERLIB_Example_5';
 import {powerlib_example6_input, powerlib_example6_output} from './test_inputs/POWERLIB_Example_6';
 import {powerlib_example7_input, powerlib_example7_output} from './test_inputs/POWERLIB_Example_7';
+import {GLMM_F_example7__output, GLMM_F_example7_input} from './test_inputs/GLMM(F)_example7';
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -461,7 +462,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     });
   });
 
-  it('Example1, should return the correct power', async function() {
+  it('Powerlib Example1, should return the correct power', async function() {
     const expected = powerlib_example1_output;
     let actual = null;
     await page.fromJSON(powerlib_example1_input);
@@ -495,7 +496,7 @@ describe('Glimmpse v3 automated integration tests', () => {
       });
     });
 
-  it('Example2, should return the correct power', async function() {
+  it('Powerlib Example2, should return the correct power', async function() {
     const expected = powerlib_example2_output;
     let actual = null;
     await page.fromJSON(powerlib_example2_input);
@@ -529,7 +530,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     });
   });
 
-  it('Example3, should return the correct power', async function() {
+  it('Powerlib Example3, should return the correct power', async function() {
     const expected = powerlib_example3_output;
     let actual = null;
     await page.fromJSON(powerlib_example3_input);
@@ -563,7 +564,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     });
   });
 
-  it('Example4, should return the correct power', async function() {
+  it('Powerlib Example4, should return the correct power', async function() {
     const expected = powerlib_example4_output;
     let actual = null;
     await page.fromJSON(powerlib_example4_input);
@@ -597,7 +598,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     });
   });
 
-  it('Example5, should return the correct power', async function() {
+  it('Powerlib Example5, should return the correct power', async function() {
     const expected = powerlib_example5_output;
     let actual = null;
     await page.fromJSON(powerlib_example5_input);
@@ -631,7 +632,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     });
   });
 
-  it('Example6, should return the correct power', async function() {
+  it('Powerlib Example6, should return the correct power', async function() {
     const expected = powerlib_example6_output;
     let actual = null;
     await page.fromJSON(powerlib_example6_input);
@@ -667,7 +668,7 @@ describe('Glimmpse v3 automated integration tests', () => {
     });
   });
 
-  it('Example7, should return the correct power', async function() {
+  it('Powerlib Example7, should return the correct power', async function() {
     const expected = powerlib_example7_output;
     let actual = null;
     await page.fromJSON(powerlib_example7_input);
@@ -703,5 +704,38 @@ describe('Glimmpse v3 automated integration tests', () => {
     });
   });
 
+  it('GLMM(F) Example7, should return the correct power', async function() {
+    const expected = GLMM_F_example7__output;
+    let actual = null;
+    await page.fromJSON(GLMM_F_example7_input);
+    await page.calculate();
+    await page.output().then(text => {
+      console.log(text);
+      actual = JSON.parse(text);
+    });
+
+    actual.results.forEach((result) => {
+      let match = false;
+      let r = null;
+      let e = null;
+      expected.results.forEach(exp => {
+        if (
+          exp.alpha === result.model.alpha
+          && exp.mean_scale_factor === result.model.means_scale_factor
+          && exp.variability_scale_factor === result.model.variance_scale_factor
+          && exp.test === result.test
+          && exp.total_N === result.model.total_n) {
+          match = true;
+          r = result;
+          e = exp;
+        }
+      });
+      if (!match) {
+        expect(false).toBe(true);
+      } else {
+        expect(r.power).toBeCloseTo(e.power, 4);
+      }
+    });
+  });
 });
 

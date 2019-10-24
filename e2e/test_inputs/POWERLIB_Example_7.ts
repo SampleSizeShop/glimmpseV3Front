@@ -1,5 +1,7 @@
 import {constants} from '../../src/app/shared/model/constants';
 
+// POWERLIB example 7, Confidence limits for a UNIREP test in a multivariate model;
+
 export const powerlib_example7_input = {
   user_mode: constants.USER_MODE.GUIDED,
   solve_for: null,
@@ -60,7 +62,7 @@ export const powerlib_example7_input = {
   parameters_intra_class_correlation: [1],
   parameters_gaussian_covariate_variance: null,
   parameters_gaussian_covariate_correlation: null,
-  parameters_scale_factor_variance: [1],
+  parameters_scale_factor_variance: null,
   power_method: null,
   power_curve: null,
   confidence_interval: {
