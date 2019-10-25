@@ -20,12 +20,9 @@
           <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" id="pb" [class.active]="isSelected(statisticalTests.PILLAI_BARTLET)">
             <input formControlName="1" type="checkbox" (click)="selectTest(statisticalTests.PILLAI_BARTLET)">{{statisticalTests.PILLAI_BARTLET}}
           </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" [class.active]="isSelected(statisticalTests.WILKS_LIKLIEHOOD)" id="wl">
+          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.WILKS_LIKLIEHOOD)" id="wl">
             <input formControlName="2" type="checkbox" (click)="selectTest(statisticalTests.WILKS_LIKLIEHOOD)">{{statisticalTests.WILKS_LIKLIEHOOD}}
           </label>
-        </div>
-
-        <div class="btn-group-vertical  btn-block" data-toggle="buttons">
           <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.BOX_CORRECTION)" id="bc">
             <input formControlName="3" type="checkbox" (click)="selectTest(statisticalTests.BOX_CORRECTION)">{{statisticalTests.BOX_CORRECTION}}
           </label>

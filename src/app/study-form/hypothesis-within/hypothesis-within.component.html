@@ -1,7 +1,7 @@
 <div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)" >
   <div *ngIf="isInfo()">
     <div class="row">
-      <p>What is the nature of your within hypothesis?</p>
+      <p>What is the nature of the within hypothesis?</p>
     </div>
     <div class="row"
          ngClass="{{getButtonClass()}}"
@@ -199,7 +199,7 @@
   </div>
 
   <div *ngIf="isRows()">
-    <h6>How many columns would you like in your custom within contrast (U) matrix?</h6>
+    <h6>How many columns would you like in the custom within contrast (U) matrix?</h6>
     <div class="row">
       <div class="col col-md-auto">
         <form [formGroup]="noRowsForm" novalidate>
