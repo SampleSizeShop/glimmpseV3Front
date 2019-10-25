@@ -1,6 +1,7 @@
 @import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 .btn{
+  font-size: 1rem;
   cursor: pointer;
   text-transform:none;
   border:none;
@@ -10,13 +11,31 @@
   -o-transition:all 0.4s;
   transition:all 0.4s}
 
+
+
+.btn-secondary.active {
+  background-color: #265b87 !important;
+  border-color: #00325a !important;
+}
+
+.btn-secondary:hover {
+  background-color: #5a88b7 !important;
+}
+.btn-primary {
+  background-color: #265b87 !important;
+  border-color: #00325a !important;
+}
+
+.btn-primary:hover {
+  background-color: #5a88b7 !important;
+}
+
 .material-icons{
   cursor: pointer;
 }
 
-
 .material-icons:hover {
-  color: #2196F3;
+  color: #5a88b7;
 }
 
 .ng-invalid:not(form)  {
@@ -25,12 +44,18 @@
 }
 
 .navbar-inverse {
-  -webkit-box-shadow: 0 8px 6px -6px #999;
-  -moz-box-shadow: 0 8px 6px -6px #999;
-  box-shadow: 0 8px 6px -6px #999;
+  -webkit-box-shadow: 2px 8px 6px -12px rgba(0,0,0,0.3);
+  -moz-box-shadow: 2px 8px 6px -12px rgba(0,0,0,0.3);
+  box-shadow: 2px 8px 6px -6px rgba(0,0,0,0.3);
+  z-index: 100;
+}
+
+.bg-primary {
+  background-color: #265b87 !important;
 }
 
 body {
+  background: rgba(90, 136, 183, 0.09);
   min-width:360px;
   font-size: 1em;
 }
@@ -92,6 +117,18 @@ only screen and (max-width: 760px),
 input[type=number]{
   text-align: right;
 }
+input[type=radio]:checked:before{
+  border-color: #265b87;
+}
+input[type=radio]:after{
+  border-color: #265b87;
+}
+input[type=radio]:checked:after{
+  border-color: #265b87;
+}
+input[type=radio]:before{
+  background-color: #265b87;
+}
 
 .matrix-input-control {
   border-bottom: none!important;
@@ -111,3 +148,9 @@ hr {
 }
 
 div { outline-style:none;}
+
+
+
+.nav-tabs a:active{
+  color: #265b87;
+}

@@ -26,7 +26,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
     routeSlideAnimation,
     trigger('validInvalid',
       [
-        state('valid', style({ color: 'yellowgreen', fontSize: '112px', opacity: 0.8, verticalAlign: 'middle'})),
+        state('valid', style({ color: 'rgba(88, 206, 20, 0.81)', fontSize: '112px', opacity: 0.8, verticalAlign: 'middle'})),
         state('invalid', style({color: 'darkgrey', fontSize: '92px', opacity: 0.5, verticalAlign: 'middle'})),
         transition('invalid => valid', [animate('0.4s')]),
         transition('valid => invalid', [animate('0.4s')])

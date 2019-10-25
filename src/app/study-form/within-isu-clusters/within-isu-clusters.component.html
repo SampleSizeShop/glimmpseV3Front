@@ -4,16 +4,15 @@
     <div class="row">
       <div class="col">
         <p>
-          An independent sampling unit (ISU) provides one or more observations such that observations from one unit are
+          An independent sampling unit provides one or more observations such that observations from one unit are
           statistically independent from any other distinct unit while observations from the same unit may be correlated.
         </p>
         <p>
           In a clustered design, the independent sampling unit is a cluster, such as a community, school, or classroom.
           Observations within a cluster are correlated. The labels for observations within a cluster must be exchangeable.
           For example, child "ID" within classroom can be reassigned arbitrarily. In contrast, observations across time
-          cannot be reassigned and should not be considered clustered observations. Clustering, or repeated measures,
-          or a combination, creates a multilevel design. The common correlation between any pair of cluster members
-          is termed the intraclass correlation or intracluster correlation.
+          cannot be reassigned and should not be considered clustered observations.
+          The common correlation between any pair of cluster members is termed the intraclass correlation or intracluster correlation.
         </p>
         <p>
           To include clustering in the study, click "Add Clustering" and follow the prompts.
@@ -132,7 +131,7 @@
       <form [formGroup]="clusterLevelForm" id="clusterLevelForm" *ngIf="isLevels()">
         <div class="row">
           <div class="col">
-            <p>Name each level of clustering within the independent sampling unit (ISU), and specify the number of elements each level (e.g. level 1 class has 5 members; level 2 student has 22 members):</p>
+            <p>Name each level of clustering within the independent sampling unit, and specify the number of elements each level (e.g. level 1 class has 5 members; level 2 student has 22 members):</p>
             <p>We use <b>N</b> to indicate the total number of independent sampling units and <b>n</b> to indicate the total number of observations.</p>
           </div>
         </div>

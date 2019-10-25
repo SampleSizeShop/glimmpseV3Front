@@ -10,7 +10,7 @@
 </div>
 <form [formGroup]="groupSizeForm" class="form-horizontal" id="groupSizeForm">
     <div class="row" *ngIf="firstGroupSize()">
-      <label for="smallestgroupsize">Please enter the size of your smallest group:</label>
+      <label for="smallestgroupsize">Please enter the size of the smallest group:</label>
     </div>
     <div class="row" *ngIf="!firstGroupSize()">
       <label for="smallestgroupsize">Would you like to add another smallest group size?</label>

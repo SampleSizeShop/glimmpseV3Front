@@ -2,20 +2,25 @@
   <nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
     <div class="container-fluid" style="margin-left: 0; padding-left: 0;">
       <div class="row">
-        <a class="navbar-brand" href="#" style="padding-left: 10px; padding-bottom: 0px; margin-bottom: 0em;"> <mat-icon svgIcon="glimmpsediamond" (click)="showStatus()"></mat-icon> GLIMMPSE</a>
+        <a class="navbar-brand" href="#" style="padding-left: 10px; padding-bottom: 0px; margin-bottom: 0em;"> <mat-icon style="fill: rgba(35, 167, 231, 1);" svgIcon="glimmpsediamond" (click)="showStatus()"></mat-icon> GLIMMPSE</a>
       </div>
       <div class="row d-none d-sm-block" style="padding-left: 12px; margin-bottom: 0em; color: white;">General Linear Mixed Model Power and Sample Size</div>
     </div>
   </nav>
-  <div class="container-fluid">
+  <div class="container-fluid" style="
+  margin-top: 25px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-bottom: 15px;
+  background: white;">
     <br *ngIf="isLanding()">
     <hr *ngIf="isLanding()">
     <div *ngIf="isLanding()" class="row">
       <div class="col col-md-auto">
-        <h5>Start Your Study Design</h5>
+        <h5>Design a Study</h5>
         <p class="w-75">
           Welcome to GLIMMPSE. The GLIMMPSE software calculates power and sample size for study designs with normally
-          distributed outcomes. Select one of the options below to begin your power or sample size calculation.
+          distributed outcomes. Select one of the options below to begin a power or sample size calculation.
         </p>
       </div>
     </div>
@@ -39,7 +44,6 @@
         <p class="w-75" style="margin-bottom: 10px">You have previously used GLIMMPSE and wish to work on a saved design.</p>
       </div>
     </div>
-    <hr *ngIf="isLanding()">
     <router-outlet></router-outlet>
   </div>
 </div>

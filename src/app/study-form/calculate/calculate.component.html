@@ -110,7 +110,7 @@
       <p>Once you have calculated your results, matrices representing your scenario will be shown here.</p>
     </div>
     <div *ngIf="hasResults">
-      <p *ngIf="orthonormalized">You have selected one or more unirep tests. We have orthonormalized your U
+      <p *ngIf="orthonormalized">You have selected one or more unirep tests. We have orthonormalized the U
         matrix so that the test theory is well defined.</p>
       <div [mathJaxExpr]="essence_design_matrix_tex" class="row justify-content-md-center" style="padding: 10px"></div>
       <div *ngIf="isFullBeta" [mathJaxExpr]="full_beta_tex" class="row justify-content-md-center" style="padding: 10px"></div>

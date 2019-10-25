@@ -78,7 +78,7 @@ export class HypothesisEffectChoiceComponent implements OnInit, OnDestroy {
 
   rowStyle(index: number) {
     if (index % 2 === 0 ) {
-      return '#d9edf7';
+      return 'rgba(90, 136, 183, 0.25)';
     } else {
       return 'transparent';
     }
