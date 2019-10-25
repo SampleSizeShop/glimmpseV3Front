@@ -1,6 +1,6 @@
 import {constants} from '../../src/app/shared/model/constants';
 
-// Example4 -- Test in multivariate model with two within factors;
+// Example5 -- Test in multivariate model with two within factors;
 
 
 export const powerlib_example5_input = {
