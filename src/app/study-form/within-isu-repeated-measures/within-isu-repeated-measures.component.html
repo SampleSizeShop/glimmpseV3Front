@@ -56,7 +56,7 @@
 
   <div *ngIf="isDimensions()">
     <div id="dimensionsheader">
-      <p>What is the name of the dimension you will be measuring and in what units (if applicable) is it measured?</p>
+      <p>What is the name of the dimension you will be measuring?</p>
       <p>The text entered in the "Dimension" text box indicates the dimension over which measures
         were taken (e.g. time, days, locations, etc.). The choice of "Type" indicates whether the
         repeated measures are numeric (e.g. time), or categorical (e.g. arm, leg, hand). </p>
@@ -68,10 +68,6 @@
         <div *ngIf="!dimensionForm.valid" class="form-group has-danger">
           <div class="form-control-feedback" id="outcomeserr">You must choose a name for the dimension you are measuring.</div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="units">Unit (if applicable):</label>
-        <input class="form-control" formControlName="units" id="units">
       </div>
     </form>
     <button class="btn btn-secondary btn-sm" (click)="setStage(stages.INFO)" id="dimcancelbtn">Cancel</button>
@@ -163,9 +159,6 @@
                     <div class="form-control-feedback">{{formErrors.valueNames}}</div>
                   </div>
                 </div>
-                <div class="col col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                  {{dimensionForm.value.units}}
-                </div>
               </div>
             </div>
             <div *ngIf="formErrors.space" class="form-group has-danger">
@@ -223,9 +216,6 @@
             Type
           </th>
           <th class="col col-md-auto">
-            Units
-          </th>
-          <th class="col col-md-auto">
             Measurements
           </th>
           <th class="col  col-md-auto">
@@ -242,9 +232,6 @@
             </td>
             <td class="col col-md-auto" data-label="Type">
               {{repeatedMeasure.type}}
-            </td>
-            <td class="col col-md-auto" data-label="Units">
-              {{repeatedMeasure.units}}
             </td>
             <td class="col col-md-auto" data-label="Groups">
               {{repeatedMeasure.valueNames | json}}
