@@ -93,7 +93,7 @@ export const constants = {
     'typeoneerror': {
       'minval': 'Value too low.',
       'maxval': 'Value too high',
-      'noalpha': 'You must specify at least one Type I Error rate.'
+      'noalpha': 'You must specify at least one Type I error rate.'
     }
   },
   BETWEEN_ISU_VALIDATION_MESSAGES: {
