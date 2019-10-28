@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)">
     <div *ngIf="isInfo()" id="firstcluster">
-    <div class="row">
+    <div class="row" *ngIf="!hasCluster()">
       <div class="col">
         <p>
           An independent sampling unit provides one or more observations such that observations from one unit are
