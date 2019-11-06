@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div [@fade]="stage" (@fade.start)="startTransition($event)" (@fade.done)="doneTransition($event)">
     <div *ngIf="isInfo()" id="firstcluster">
-    <div class="row">
+    <div class="row" *ngIf="!hasCluster()">
       <div class="col">
         <p>
           An independent sampling unit provides one or more observations such that observations from one unit are
@@ -49,9 +49,6 @@
           <table class="table" *ngIf="hasLevels()" >
             <thead>
             <th class="col col-md-auto">
-              Level
-            </th>
-            <th class="col col-md-auto">
               Level Name
             </th>
             <th class="col col-md-auto">
@@ -61,9 +58,6 @@
             <tbody>
             <tr [class]="rowStyle(0)">
               <td class="col col-md-auto">
-                ISU
-              </td>
-              <td class="col col-md-auto">
                 {{elementForm.get('name').value}}
               </td>
               <td class="col col-md-auto">
@@ -71,9 +65,6 @@
               </td>
             </tr>
             <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i+1)">
-              <td class="col col-md-auto">
-                {{i + 1}}
-              </td>
               <td class="col col-md-auto">
                 {{level.levelName}}
               </td>
@@ -199,9 +190,6 @@
           <table class="table" *ngIf="hasLevels()  && !isElementName()" >
             <thead>
             <th class="col col-md-auto">
-              Level
-            </th>
-            <th class="col col-md-auto">
               Level Name
             </th>
             <th class="col col-md-auto">
@@ -214,9 +202,6 @@
             <tbody>
             <tr [class]="rowStyle(0)">
               <td class="col col-md-auto">
-                ISU
-              </td>
-              <td class="col col-md-auto">
                 {{elementForm.get('name').value}}
               </td>
               <td class="col col-md-auto">
@@ -227,9 +212,6 @@
               </td>
             </tr>
             <tr *ngFor="let level of levels; let i = index" [class]="rowStyle(i+1)">
-              <td class="col col-md-auto">
-                {{i + 1}}
-              </td>
               <td class="col col-md-auto">
                 {{level.levelName}}
               </td>

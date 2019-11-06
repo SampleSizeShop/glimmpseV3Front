@@ -7,10 +7,10 @@
         </p>
       </div>
       <div class="row" *ngIf="firstAlpha()">
-        <label for="typeoneerror">Enter a Type I Error rate:</label>
+        <label for="typeoneerror">Enter a Type I error rate:</label>
       </div>
       <div class="row" *ngIf="!firstAlpha()">
-        <label for="typeoneerror">Would you like to add another Type I Error rate?</label>
+        <label for="typeoneerror">Would you like to add another Type I error rate?</label>
       </div>
       <div class="row">
         <div class="col col-md-auto" style="padding-left: 0px">
@@ -33,10 +33,10 @@
         </div>
       </div>
       <div class="row">
-        <div *ngIf="warningInputTypeOneError()" class="warning">Warning: Type one error <= 0.1 recommended.</div>
+        <div *ngIf="warningInputTypeOneError()" class="warning">Warning: Type I error <= 0.1 recommended.</div>
       </div>
       <div class="row">
-        <div *ngIf="warningTypeOneErrorFromPower" class="warning">Warning: All type one errors should be smaller than powers recommended.</div>
+        <div *ngIf="warningTypeOneErrorFromPower" class="warning">Warning: All Type I errors should be smaller than powers recommended.</div>
       </div>
       <div class="row">
         <div *ngIf="formErrors.typeoneerror" class="form-group has-danger">
@@ -45,7 +45,7 @@
       </div>
       <div class="row">
         <small id="typeoneerrorhelp" class="form-text text-muted">
-          Type I Error rates must be a number between 0 < α < 1
+          Type I error rates must be a number between 0 < α < 1
         </small>
       </div>
 
@@ -53,12 +53,12 @@
         <div class="table-responsive">
           <table class="table">
             <thead>
-            <th style="padding-left: 0px">Type One Error Rate</th>
+            <th style="padding-left: 0px">Type I Error Rate</th>
             <th>remove</th>
             </thead>
             <tbody>
             <tr *ngIf="firstAlpha()">
-              <td style="padding-left: 0px"> You must enter at least one type I error rate.</td>
+              <td style="padding-left: 0px"> You must enter at least one Type I error rate.</td>
               <td></td>
             </tr>
             <tr *ngFor="let alpha of alphas$ | async; let i = index; " id="alphalist" [class]="rowStyle(i)">

@@ -158,7 +158,11 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   checkValidBeforeNavigation(): void {
-    if (isNullOrUndefined(this.outcomes) || this.outcomes.length === 0) {
+    if (
+      this.outcomes === null
+      || this.outcomes === undefined
+      || this.outcomes.length === 0
+    ) {
       this.setNextEnabled('INVALID');
     } else if (this.outcomes && !this.formErrors.outcomes) {
       this.setNextEnabled('VALID');

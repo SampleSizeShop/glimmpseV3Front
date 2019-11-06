@@ -99,8 +99,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this._dimensionForm = this._fb.group({
-      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)]],
-      units: ['']
+      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)]]
     });
     this._dimensionForm.get('dimension').valueChanges.subscribe(data => {
       if (this.stage === this.stages.DIMENSIONS) {
@@ -287,7 +286,6 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       measure = this.repeatedMeasures[index];
     }
     measure.name = this._dimensionForm.value.dimension;
-    measure.units = this._dimensionForm.value.units;
     measure.noRepeats = this._repeatsForm.value.repeats;
     measure.type = this._typeForm.value.type;
     for (const name of this._spacingControlNames) {
@@ -305,8 +303,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     }
 
     this._dimensionForm = this._fb.group({
-      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)]],
-      units: ['']
+      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)]]
     });
     this.resetForms();
     this.buildForm();
@@ -322,8 +319,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     this._spacingValues = measure.valueNames;
 
     this._dimensionForm = this._fb.group({
-      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures, measure)]],
-      units: ['']
+      dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures, measure)]]
     });
     this._dimensionForm.get('dimension').valueChanges.subscribe(data => {
       if (this.stage === this.stages.DIMENSIONS) {
@@ -383,8 +379,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
       this.navigation_service.updateInternalFormSource(false);
       this.navigation_service.updateValid(true);
       this._dimensionForm = this._fb.group({
-        dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)]],
-        units: ['']
+        dimension: ['', [WithinIsuRepeatedMeasuresValidator(this._isClickNextReference, this._repeatedMeasures)]]
       });
     } else {
       this.navigation_service.updateInternalFormSource(true);
