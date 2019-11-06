@@ -60,6 +60,7 @@ import {HypothesisMixedComponent} from './study-form/hypothesis-mixed/hypothesis
 import { StatusComponent } from './study-form/status/status.component';
 import {CustomHammerConfig} from './hammer/CustomHammerConfig';
 import { ControlHelpTextComponent } from './study-form/control-help-text/control-help-text.component';
+import { TargetPowerComponent } from './study-form/target-power/target-power.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { ControlHelpTextComponent } from './study-form/control-help-text/control
     CollapsibleTreeComponent,
     StatusComponent,
     ControlHelpTextComponent,
+    TargetPowerComponent,
   ],
   imports: [
     NgbModule,

@@ -48,6 +48,8 @@ import {HypothesisMixedComponent} from './hypothesis-mixed/hypothesis-mixed.comp
 import {HypothesisMixedGuard} from '../shared/services/hypothesis-mixed-guard.service';
 import {HypothesisBetweenGuard} from '../shared/services/hypothesis-between-guard.service';
 import {HypothesisWithinGuard} from '../shared/services/hypothesis-within-guard.service';
+import {TargetPowerComponent} from './target-power/target-power.component'
+import {SolveForSampleSizeGuard} from "../shared/services/solve-for-sample-size-guard.service";
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -69,6 +71,12 @@ const studyFormRoutes: Routes = [
               path: names[constants.STAGES.SOLVE_FOR],
               component: SolveForComponent,
               data: {animation: constants.STAGES.SOLVE_FOR}
+            },
+            {
+              path: names[constants.STAGES.TARGET_POWER],
+              component: TargetPowerComponent,
+              data: {animation: constants.STAGES.TARGET_POWER},
+              canActivate: [SolveForSampleSizeGuard]
             },
             {
               path: names[constants.STAGES.STATISTICAL_TESTS],
@@ -269,6 +277,7 @@ const studyFormRoutes: Routes = [
     BetweenIsuGroupsGuard,
     BetweenIsuSmallestGroupsGuard,
     SolveForPowerGuard,
+    SolveForSampleSizeGuard,
     HypothesisMixedGuard,
     HypothesisBetweenGuard,
     HypothesisWithinGuard
