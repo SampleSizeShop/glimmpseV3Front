@@ -49,7 +49,7 @@ import {HypothesisMixedGuard} from '../shared/services/hypothesis-mixed-guard.se
 import {HypothesisBetweenGuard} from '../shared/services/hypothesis-between-guard.service';
 import {HypothesisWithinGuard} from '../shared/services/hypothesis-within-guard.service';
 import {TargetPowerComponent} from './target-power/target-power.component'
-import {SolveForSampleSizeGuard} from "../shared/services/solve-for-sample-size-guard.service";
+import {SolveForSampleSizeGuard} from '../shared/services/solve-for-sample-size-guard.service';
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
