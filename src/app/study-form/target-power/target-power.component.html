@@ -1,1 +1,68 @@
-<p>target-power works!</p>
+<div class="row">
+  <label for="power" ng-non-bindable id="rejectnulllbl">Power:</label>
+</div>
+<div class="row">
+  <form [formGroup]="powerSampleSizeForm" novalidate>
+    <div class="col col-md-auto align-self-centre" style="padding-left: 0px">
+      <div class="form-group" id="powerinput">
+        <input type="number"
+               step="0.1"
+               class="form-control"
+               id="power"
+               aria-describedby="powerhelp"
+               placeholder="0 < power < 1"
+               formControlName="power"
+               (keyup.enter)="addPower()">
+        <div *ngIf="hasError()"
+             class="form-group has-danger">
+          <div class="form-control-feedback">{{formErrors.power}}</div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+
+  <div class="col col-md-auto align-self-center">
+    <i class="material-icons" (click)="addPower()" style="font-size: 2em; padding-top: 0.2em" id="addpower">add_box</i>
+  </div>
+
+</div>
+<div class="row">
+  <small id="powerhelp" class="form-text text-muted">Power must be a number with value 0 < power < 1</small>
+</div>
+
+<div class="row">
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <th style="padding-left: 0px">Target Power</th>
+      <th>remove</th>
+      </thead>
+      <tbody>
+      <tr *ngIf="firstPower()" style="padding-left: 0px">
+        <td style="padding-left: 0px"> You must enter at least one target power</td>
+        <td></td>
+      </tr>
+      <tr *ngFor="let power of powers$ | async; let i = index; " id="powerlist" [class]="rowStyle(i)">
+        <td>{{power}}</td>
+        <td><i class="material-icons" (click)="removePower(power)" style="margin-bottom: 5px" id="removepower">delete_forever</i></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #helpText>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Solve For Help</h5> <button type="button" class="close" (click)="dismissHelp()">
+      <i class="material-icons">close</i>
+    </button>
+    </div>
+    <div class="modal-body">
+      <app-control-help-text></app-control-help-text>
+    </div>
+    <div class="modal-footer"> </div>
+  </div>
+</ng-template>
