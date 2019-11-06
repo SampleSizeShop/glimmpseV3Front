@@ -6,12 +6,15 @@
     </div>
   </div>
   <div class="row">
+    <div class="col">
+      <div *ngIf="formErrors.statisticaltestsoptions" class="form-group has-danger">
+        <div class="form-control-feedback" id="testserr">{{formErrors.statisticaltestsoptions}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col col-md-auto">
       <form [formGroup]="statisticalTestsForm">
-      <div *ngIf="formErrors.statisticaltestsoptions" class="form-group has-danger">
-        <div class="form-control-feedback" id="outcomeserr">{{formErrors.statisticaltestsoptions}}</div>
-      </div>
-
         <div class="btn-group-vertical btn-block" data-toggle="buttons">
           <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(statisticalTests.HOTELLING_LAWLEY)">
             <input formControlName="0" type="checkbox" (click)="selectTest(statisticalTests.HOTELLING_LAWLEY)">
@@ -55,4 +58,3 @@
     <div class="modal-footer"></div>
   </div>
 </ng-template>
-

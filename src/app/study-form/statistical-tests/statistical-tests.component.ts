@@ -24,6 +24,10 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   private _items;
   private _statisticalTestsOption;
 
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
+
   private _showHelpTextSubscription: Subscription;
 
   @ViewChild('helpText', {static: true}) helpTextModal;
@@ -48,6 +52,24 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
       {id: 'uc', name: this.statisticalTests.UNCORRECTED}
     ];
 
+
+    this._isClickNextReference = {value: false};
+    this._isClickNextSubscription = this.navigation_service.isClickNext$.subscribe(
+      isClickNext => {
+        this._isClickNext = isClickNext;
+        this._isClickNextReference.value = isClickNext;
+        if (this.statisticalTestsForm !== null && this.statisticalTestsForm !== undefined) {
+          this.statisticalTestsForm.get('hlt').updateValueAndValidity();
+          this.statisticalTestsForm.get('pb').updateValueAndValidity();
+          this.statisticalTestsForm.get('wl').updateValueAndValidity();
+          this.statisticalTestsForm.get('bc').updateValueAndValidity();
+          this.statisticalTestsForm.get('gg').updateValueAndValidity();
+          this.statisticalTestsForm.get('hf').updateValueAndValidity();
+          this.statisticalTestsForm.get('uc').updateValueAndValidity();
+        }
+      }
+    );
+
     this.selectedTestsSubscription = this.study_service.selectdTests$.subscribe(
       selectedTests => {
         this.selectedTests = selectedTests;
@@ -68,6 +90,7 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnInit() {
     this._afterInit = true;
+    this.updateIsClickNext(false);
     if (this.selectedTests.length === 0) {
       this.setNextEnabled('INVALID');
     }
@@ -80,16 +103,22 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.setNextEnabled('VALID');
     this.navigationSubscription.unsubscribe();
     this.selectedTestsSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
+    this._isClickNextSubscription.unsubscribe();
+  }
+
+  updateIsClickNext(value: boolean) {
+    this.navigation_service.updateIsClickNext(value);
   }
 
   buildForm() {
     const controls = this.statisticalTestsOption.map(c => new FormControl(false));
 
     this.statisticalTestsForm = this.fb.group({
-      statisticaltestsoptions: new FormArray(controls, statisticalTestsValidator(this.selectedTests))
+      statisticaltestsoptions: new FormArray(controls, statisticalTestsValidator(this.selectedTests, this._isClickNextReference))
     });
     this.statisticalTestsForm.valueChanges.subscribe(data => this.emptyErrorMessage());
 
@@ -114,6 +143,9 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
     } else {
       this.selectedTests.push(value);
     }
+    if (this.selectedTests.length < 1) {
+      this.setNextEnabled('INVALID');
+    }
   }
 
   isSelected(value: string): boolean {
@@ -125,8 +157,10 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   checkValidBeforeNavigation(direction: string): void {
-    if ( direction === 'NEXT' ) {
+    if (this._isClickNext) {
       this.checkValidator();
+    }
+    if ( direction === 'NEXT' ) {
       if (!this.formErrors.statisticaltestsoptions) {
         this.setNextEnabled('VALID');
       } else {
@@ -136,7 +170,7 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   checkValidator(data?: any) {
-    if (!this.statisticalTestsForm) {
+    if (!this.statisticalTestsForm || !this._isClickNext) {
       return;
     }
     const form = this.statisticalTestsForm;
@@ -250,5 +284,9 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
 
   set statisticalTestsOption(value) {
     this._statisticalTestsOption = value;
+  }
+
+  get isClickNext(): boolean {
+    return this._isClickNext;
   }
 }
