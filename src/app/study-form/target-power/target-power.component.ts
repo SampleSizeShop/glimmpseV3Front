@@ -1,5 +1,4 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Observable, Subscription} from 'rxjs/index';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {constants} from '../../shared/model/constants';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -8,8 +7,6 @@ import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NGXLogger} from 'ngx-logger';
 import {StudyService} from '../../shared/services/study.service';
 import {of as observableOf, Subscription, Observable} from 'rxjs';
-import {minMaxValidator} from '../../shared/validators/minmax.validator';
-import {FormBuilder, FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -26,6 +23,8 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
   private _power: number[];
   private _formErrors = constants.TARGET_EVENT_FORM_ERRORS;
   private _validationMessages = constants.TARGET_EVENT_VALIDATION_MESSAGES;
+  private _directionCommand: string;
+
 
   @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
@@ -78,17 +77,8 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   buildForm(): void {
-    let powerDefault = 0.9;
-    if (
-      this.power !== null
-      && this.power !== undefined
-      && this.power.length > 0
-    ) {
-      powerDefault = null;
-    }
     this.powerSampleSizeForm = this.fb.group({
-      power: [powerDefault, minMaxValidator(0, 1, this.log)],
-      ciwidth: [this.ciwidth, minMaxValidator(0, 10, this.log)]
+      power: [null, minMaxValidator(0, 1, this.log)]
     });
 
     this.powerSampleSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));

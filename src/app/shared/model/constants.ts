@@ -84,10 +84,6 @@ export const constants = {
     'power': {
       'minval': 'Value too low.',
       'maxval': 'Value too high'
-    },
-    'ciwidth': {
-      'minval': 'Value too low.',
-      'maxval': 'Value too high'
     }
   },
   TYPE_ONE_ERROR_VALIDATION_MESSAGES: {

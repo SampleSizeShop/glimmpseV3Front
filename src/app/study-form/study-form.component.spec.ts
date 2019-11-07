@@ -69,6 +69,7 @@ describe('StudyFormComponent', () => {
         UserModeComponent,
         StudyTitleComponent,
         SolveForComponent,
+        TargetPowerComponent,
         StatisticalTestsComponent,
         TypeOneErrorComponent,
         WithinIsuOutcomesComponent,
