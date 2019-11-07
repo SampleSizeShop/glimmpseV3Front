@@ -25,6 +25,10 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
   private _validationMessages = constants.TARGET_EVENT_VALIDATION_MESSAGES;
   private _directionCommand: string;
 
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
+
 
   @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
@@ -52,6 +56,19 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
+    this._isClickNextReference = {value: false};
+    this._isClickNextSubscription = this._navigation_service.isClickNext$.subscribe(
+      isClickNext => {
+        this._isClickNext = isClickNext;
+        this._isClickNextReference.value = this.isClickNext;
+        if (
+          this._powerSampleSizeForm !== null
+          && this._powerSampleSizeForm !== undefined
+        ) {
+          this._powerSampleSizeForm.get('power').updateValueAndValidity();
+        }
+      }
+    );
     this.buildForm();
   }
 
@@ -62,6 +79,7 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
     ) {
       this.setNextEnabled('INVALID');
     }
+    this.updateIsClickNext(false);
   }
 
   ngDoCheck() {
@@ -74,6 +92,10 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
     this._powerSubscription.unsubscribe();
     this._navigationSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
+  }
+
+  updateIsClickNext(value: boolean) {
+    this._navigation_service.updateIsClickNext(value);
   }
 
   buildForm(): void {
@@ -150,7 +172,6 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   checkValidBeforeNavigation(direction: string): void {
-    this.checkValidator();
     if ( direction === 'NEXT' ) {
       if (
         this._power === null || this._power === undefined || this._power.length === 0
@@ -159,6 +180,10 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
       } else if (this._power && !this.formErrors.power) {
         this.setNextEnabled('VALID');
       }
+    }
+
+    if (this.isClickNext) {
+      this.checkValidator();
     }
   }
 
@@ -251,4 +276,7 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
     this._powerSampleSizeForm = value;
   }
 
+  get isClickNext(): boolean {
+    return this._isClickNext;
+  }
 }
