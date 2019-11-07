@@ -117,8 +117,8 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
     this.powerSampleSizeForm.reset();
   }
 
-  firstPower(): boolean {
-    return this.power.length === 0 ? true : false;
+  hasPower(): boolean {
+    return this.power.length > 0 ? true : false;
   }
 
   get powers$(): Observable<number[]> {
