@@ -25,6 +25,13 @@
      class="form-group has-danger">
   <div class="form-control-feedback">{{formErrors.power}}</div>
 </div>
+<div *ngIf="isClickNext && !hasPower()" class="form-group has-danger">
+  <p class="form-control-feedback">
+    You must select at least one target power.
+    Please enter a value between 0 and 1 and press the
+    <i class="material-icons" (click)="addPower()">add_box</i> button.
+  </p>
+</div>
 
 <div class="row" *ngIf="hasPower()">
   <div class="table-responsive">

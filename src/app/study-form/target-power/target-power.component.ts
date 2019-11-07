@@ -119,6 +119,7 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
       this._power.push(value);
       this.powerSampleSizeForm.reset();
     }
+    this.updateIsClickNext(false);
   }
 
   removePower(value: number) {
