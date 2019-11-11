@@ -898,6 +898,8 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
       return 'Choose Target Event';
     } else if (name === 'SOLVE_FOR') {
       return 'Solve For';
+    } else if (name === 'TARGET_POWER') {
+      return 'Target Power';
     } else if (name === 'STATISTICAL_TESTS') {
       return 'Statistical Tests';
     } else if (name === 'TYPE_ONE_ERROR') {
