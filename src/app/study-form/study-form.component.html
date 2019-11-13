@@ -2,36 +2,110 @@
 <div style="vertical-align: middle"
      (swipeRight)="onSwipeRight($event)"
      (swipeLeft)="onSwipeLeft($event)">
-  <div class="row">
-    <div class="col-5">
-      <h6>
-        {{getStudyName()}}: {{getCurrentStageName()}}
-      </h6>
+  <div class="d-block d-sm-none">
+    <div class="row justify-content-end">
+      <div class="col-xs-6">
+        <div ngbDropdown class="h-25">
+          <button class="dropdown-toggle" id="dropdownBasic1" ngbDropdownToggle>Menu</button>
+          <div ngbDropdownMenu aria-labelledby="h-25 dropdownBasic1">
+            <div class="h-25 dropdown-item" (click)="showStatus()">
+              <div class="row justify-content-end">
+                <div class="align-self-center">Status</div>
+                <div *ngIf="getStage() < 9" class="col-1" matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+                  <mat-icon svgIcon="aperture_0" (click)="showStatus()"></mat-icon>
+                </div>
+                <div *ngIf="getStage() > 8 && getStage() < 13" class="col-1 "  matTooltip="progress" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+                  <mat-icon svgIcon="aperture_1" (click)="showStatus()"></mat-icon>
+                </div>
+                <div *ngIf="getStage() > 12 && getStage() < 16" class="col-1 "  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+                  <mat-icon svgIcon="aperture_2" (click)="showStatus()"></mat-icon>
+                </div>
+                <div *ngIf="getStage() > 15 && getStage() < 27" class="col-1 "  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+                  <mat-icon svgIcon="aperture_3" (click)="showStatus()"></mat-icon>
+                </div>
+                <div *ngIf="getStage() === 27" class="col-1 "  matTooltip="status"  [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+                  <mat-icon svgIcon="aperture_4" (click)="showStatus()"></mat-icon>
+                </div>
+                <div *ngIf="getStage() === 28" class="col-1 "  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+                  <mat-icon svgIcon="aperture_5" (click)="showStatus()"></mat-icon>
+                </div>
+              </div>
+            </div>
+            <div class="h-25 dropdown-item" (click)="toggleHelpText()">
+              <div class="row justify-content-end">
+                <div class="align-self-center">Help</div>
+                <div class="col-1 "  matTooltip="help" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+                  <mat-icon (click)="toggleHelpText()">help_outline</mat-icon>
+                </div>
+              </div>
+            </div>
+            <div class="h-25 dropdown-item" (click)="download()">
+              <div class="row justify-content-end">
+                <div class="align-self-center">Save</div>
+                <div class="col-1 "  matTooltip="help" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+                  <mat-icon (click)="toggleHelpText()">save_alt</mat-icon>
+                </div>
+              </div>
+            </div>
+            <a class="h-25 dropdown-item" href="#">
+              <div class="row justify-content-end">
+                <div class="align-self-center">Help</div>
+                <div class="col-1 "  matTooltip="help" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+                  <a href="#" style="padding: 0px; color: #3c4043;">
+                    <mat-icon >home</mat-icon>
+                  </a>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-4"></div>
-    <div *ngIf="getStage() < 9" class="col-1 col-md-auto" matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
-      <mat-icon svgIcon="aperture_0" (click)="showStatus()"></mat-icon>
-    </div>
-    <div *ngIf="getStage() > 8 && getStage() < 13" class="col-1 col-md-auto"  matTooltip="progress" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
-      <mat-icon svgIcon="aperture_1" (click)="showStatus()"></mat-icon>
-    </div>
-    <div *ngIf="getStage() > 12 && getStage() < 16" class="col-1 col-md-auto"  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
-      <mat-icon svgIcon="aperture_2" (click)="showStatus()"></mat-icon>
-    </div>
-    <div *ngIf="getStage() > 15 && getStage() < 27" class="col-1 col-md-auto"  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
-      <mat-icon svgIcon="aperture_3" (click)="showStatus()"></mat-icon>
-    </div>
-    <div *ngIf="getStage() === 27" class="col-1 col-md-auto"  matTooltip="status"  [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
-      <mat-icon svgIcon="aperture_4" (click)="showStatus()"></mat-icon>
-    </div>
-    <div *ngIf="getStage() === 28" class="col-1 col-md-auto"  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
-      <mat-icon svgIcon="aperture_5" (click)="showStatus()"></mat-icon>
-    </div>
-    <div class="col-1 col-md-auto"  matTooltip="help" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
-      <mat-icon (click)="toggleHelpText()">help_outline</mat-icon>
-    </div>
-    <div class="col-1 col md col-md-auto"  matTooltip="save design" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
-      <mat-icon id="downloadbtn" (click)="download()">save_alt</mat-icon>
+  </div>
+  <div class="d-none d-sm-block">
+    <div class="row">
+      <div class="col-xl-6 col-lg-4 col-md-5 col-sm-6 col-xs-1 justify-content-start">
+        <h6>
+          {{getStudyName()}}: {{getCurrentStageName()}}
+        </h6>
+      </div>
+      <div class="col-xl-6 col-lg-8 col-md-7 col-sm-6 col-xs-1">
+        <div class="row justify-content-end">
+          <div class="d-none d-lg-block d-xl-block ">Status</div>
+          <div *ngIf="getStage() < 9" class="col-1 " matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+            <mat-icon svgIcon="aperture_0" (click)="showStatus()"></mat-icon>
+          </div>
+          <div *ngIf="getStage() > 8 && getStage() < 13" class="col-1 "  matTooltip="progress" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+            <mat-icon svgIcon="aperture_1" (click)="showStatus()"></mat-icon>
+          </div>
+          <div *ngIf="getStage() > 12 && getStage() < 16" class="col-1 "  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+            <mat-icon svgIcon="aperture_2" (click)="showStatus()"></mat-icon>
+          </div>
+          <div *ngIf="getStage() > 15 && getStage() < 27" class="col-1 "  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+            <mat-icon svgIcon="aperture_3" (click)="showStatus()"></mat-icon>
+          </div>
+          <div *ngIf="getStage() === 27" class="col-1 "  matTooltip="status"  [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+            <mat-icon svgIcon="aperture_4" (click)="showStatus()"></mat-icon>
+          </div>
+          <div *ngIf="getStage() === 28" class="col-1 "  matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+            <mat-icon svgIcon="aperture_5" (click)="showStatus()"></mat-icon>
+          </div>
+          <div class="d-none d-lg-block d-xl-block ">Help</div>
+          <div class="col-1 "  matTooltip="help" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+            <mat-icon (click)="toggleHelpText()">help_outline</mat-icon>
+          </div>
+          <div class="d-none d-lg-block d-xl-block ">Save</div>
+          <div class="col-1"  matTooltip="save design" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+            <mat-icon id="downloadbtn" (click)="download()">save_alt</mat-icon>
+          </div>
+          <div class="d-none d-lg-block d-xl-block ">Home</div>
+          <div class="col-1" matTooltip="home" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+            <a href="#" style="padding: 0px; color: #3c4043;">
+              <mat-icon id="homebtn">home</mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <hr style="margin-top: 2px;">
