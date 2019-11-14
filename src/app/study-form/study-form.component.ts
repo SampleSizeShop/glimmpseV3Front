@@ -31,6 +31,14 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
         transition('invalid => valid', [animate('0.4s')]),
         transition('valid => invalid', [animate('0.4s')])
       ]
+    ),
+    trigger('validInvalidMob',
+      [
+        state('validMob', style({ color: 'rgba(88, 206, 20, 0.81)', fontSize: '48px', opacity: 0.8, verticalAlign: 'middle'})),
+        state('invalidMob', style({color: 'darkgrey', fontSize: '48px', opacity: 0.5, verticalAlign: 'middle'})),
+        transition('invalidMob => validMob', [animate('0.4s')]),
+        transition('validMob => invalidMob', [animate('0.4s')])
+      ]
     )
   ]
 })
@@ -41,6 +49,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _hasBack: boolean;
   private _guided: boolean;
   private _study: StudyDesign;
+  private _afterInit: boolean;
 
   private __studyTitleSubscription: Subscription;
   private _modeSubscription: Subscription;
@@ -112,6 +121,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     private modalService: NgbModal
   ) {
     this._isInternal = false;
+    this._afterInit = false;
     this.setupProgressIcons();
     this.study = new StudyDesign();
     this.subscribeToStudyService();
@@ -402,6 +412,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
     this.hasNext = true;
     this.hasBack = false;
+    this._afterInit = true;
   }
 
   ngDoCheck() {
@@ -868,7 +879,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   get nextValid(): boolean {
-    return this._nextValid;
+    return this._afterInit && this._nextValid;
   }
 
   set nextValid(value: boolean) {
