@@ -1,42 +1,35 @@
 import { by, element } from 'protractor';
-import {isNullOrUndefined} from 'util';
 import {constants} from '../../shared/model/constants';
 
 export class SolveForPo {
 
   fromJSON(source) {
-    if (!isNullOrUndefined(source) && !isNullOrUndefined(source.solve_for)) {
+    if (
+      source !== null
+      && source !== undefined
+      && source.solve_for !== null
+      && source.solve_for !== undefined
+    ) {
       if (source.solve_for.solve_for === constants.SOLVE_FOR.POWER) {
         this.selectPower();
       }
       if (source.solve_for.solve_for === constants.SOLVE_FOR.SAMPLE_SIZE) {
         this.selectSampleSize();
-        this.fillForm(source.solve_for);
       }
     }
   }
 
   selectPower() {
-    if (!isNullOrUndefined(element(by.id('powerbtn')))) {
-      element(by.id('powerbtn')).click();
-    } else if (!isNullOrUndefined(element(by.id('probabilitybtn')))) {
-      element(by.id('probabilitybtn')).click();
+    const powerBtn = element(by.id('powerbtn'));
+    const probBtn = element(by.id('probabilitybtn'));
+    if (powerBtn !== null && powerBtn !== undefined) {
+      powerBtn.click();
+    } else if (probBtn !== null && probBtn !== undefined ) {
+      probBtn.click();
     }
   }
 
   selectSampleSize() {
     element(by.id('samplesizebtn')).click();
-  }
-
-  fillForm(input) {
-    if (!isNullOrUndefined(input)) {
-      if (!isNullOrUndefined(input.power)) {
-        input.power.forEach( pow => {
-          const powerInput = element(by.id('power'));
-          powerInput.clear().then(() => powerInput.sendKeys(pow));
-          element(by.id('addpower')).click();
-        });
-      }
-    }
   }
 }

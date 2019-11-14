@@ -31,6 +31,14 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
         transition('invalid => valid', [animate('0.4s')]),
         transition('valid => invalid', [animate('0.4s')])
       ]
+    ),
+    trigger('validInvalidMob',
+      [
+        state('validMob', style({ color: 'rgba(88, 206, 20, 0.81)', fontSize: '48px', opacity: 0.8, verticalAlign: 'middle'})),
+        state('invalidMob', style({color: 'darkgrey', fontSize: '48px', opacity: 0.5, verticalAlign: 'middle'})),
+        transition('invalidMob => validMob', [animate('0.4s')]),
+        transition('validMob => invalidMob', [animate('0.4s')])
+      ]
     )
   ]
 })
@@ -41,6 +49,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   private _hasBack: boolean;
   private _guided: boolean;
   private _study: StudyDesign;
+  private _afterInit: boolean;
 
   private __studyTitleSubscription: Subscription;
   private _modeSubscription: Subscription;
@@ -112,6 +121,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     private modalService: NgbModal
   ) {
     this._isInternal = false;
+    this._afterInit = false;
     this.setupProgressIcons();
     this.study = new StudyDesign();
     this.subscribeToStudyService();
@@ -402,6 +412,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
     this.hasNext = true;
     this.hasBack = false;
+    this._afterInit = true;
   }
 
   ngDoCheck() {
@@ -868,7 +879,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   get nextValid(): boolean {
-    return this._nextValid;
+    return this._afterInit && this._nextValid;
   }
 
   set nextValid(value: boolean) {
@@ -893,61 +904,65 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   getUserFriendlyComponentName(name: string) {
     if (name === 'STUDY_TITLE') {
-      return 'Study Title'
+      return 'Study title'
     } else if (name === 'TARGET_EVENT') {
-      return 'Choose Target Event';
+      return 'Choose target event';
     } else if (name === 'SOLVE_FOR') {
-      return 'Solve For';
+      return 'Solve for';
+    } else if (name === 'TARGET_POWER') {
+      return 'Target power';
     } else if (name === 'STATISTICAL_TESTS') {
-      return 'Statistical Tests';
+      return 'Statistical tests';
     } else if (name === 'TYPE_ONE_ERROR') {
       return 'Type I error rates';
     } else if (name === 'WITHIN_ISU_OUTCOMES') {
       return 'Outcomes';
     } else if (name === 'WITHIN_ISU_REPEATED_MEASURES') {
-      return 'Repeated Measures';
+      return 'Repeated measures';
     } else if (name === 'WITHIN_ISU_CLUSTERS') {
-      return 'Are your outcomes measured in a cluster?';
+      return 'Clustering';
     } else if (name === 'BETWEEN_ISU_PREDICTORS') {
       return 'Predictors';
     } else if (name === 'BETWEEN_ISU_SMALLEST_GROUP') {
-      return 'What size is your smallest group?';
+      return 'Smallest group size';
     } else if (name === 'BETWEEN_ISU_GROUPS') {
-      return 'Specify the relative sizes of the groups';
+      return 'Group size ratios';
     } else if (name === 'GAUSSIAN_COVARIATE') {
-      return 'Variability Due to the Gaussian Covariate';
+      return 'Variability due to the gaussian covariate';
     } else if (name === 'HYPOTHESIS_EFFECT_CHOICE') {
-      return 'Hypothesis Choice';
+      return 'Hypothesis choice';
     } else if (name === 'HYPOTHESIS_BETWEEN') {
-      return 'Between Hypothesis';
+      return 'Between hypothesis';
     } else if (name === 'HYPOTHESIS_WITHIN') {
-      return 'Within Hypothesis';
+      return 'Within hypothesis';
+    } else if (name === 'HYPOTHESIS_MIXED') {
+      return 'Hypothesis';
     } else if (name === 'HYPOTHESIS_THETA_0') {
       return 'Theta 0';
     } else if (name === 'PARAMETERS_MARGINAL_MEANS') {
-      return 'Marginal Means';
+      return 'Marginal means';
     } else if (name === 'PARAMETERS_SCALE_FACTOR') {
-      return 'Please specify the scale factor for the marginal means';
+      return 'Scale factor for the marginal means';
     } else if (name === 'PARAMETERS_STANDARD_DEVIATION') {
-      return 'Variability across Outcomes';
+      return 'Variability across outcomes';
     } else if (name === 'PARAMETERS_OUTCOME_CORRELATION') {
-      return 'Outcome Correlation';
+      return 'Outcome correlation';
     } else if (name === 'PARAMETERS_REPEATED_MEASURE_ST_DEV') {
-      return 'Repeated Measure Standard Deviation Ratios';
+      return 'Repeated measure standard deviation ratios';
     } else if (name === 'PARAMETERS_REPEATED_MEASURE_CORRELATION') {
-      return 'Repeated Measure Correlation';
+      return 'Repeated measure correlation';
     } else if (name === 'PARAMETERS_INTRA_CLASS_CORRELATION') {
-      return 'Intra Class Correlation';
+      return 'Intra-class correlation';
     } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_VARIANCE') {
-      return 'Gaussian Covariate Standard Deviation';
+      return 'Gaussian covariate standard deviation';
     } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION') {
-      return 'Gaussian Covariate Correlation';
+      return 'Gaussian covariate correlation';
     } else if (name === 'PARAMETERS_GAUSSIAN_COVARIATE_POWER') {
-      return 'Gaussian Covariate Power';
+      return 'Gaussian covariate power';
     } else if (name === 'PARAMETERS_SCALE_FACTOR_VARIANCE') {
-      return 'Scale Factor Variance';
+      return 'Scale factor variance';
     } else if (name === 'OPTIONAL_SPECS_CONFIDENCE_INTERVALS') {
-      return 'Confidence Intervals';
+      return 'Confidence intervals';
     } else if (name === 'CALCULATE') {
       return 'Calculate';
     }

@@ -11,11 +11,8 @@
 
     <div class="row">
         <div class="btn-group" data-toggle="buttons">
-          <label *ngIf="isRejection()" aria-pressed="true" class="btn btn-secondary" [class.active]="isPower()" id="powerbtn">
+          <label aria-pressed="true" class="btn btn-secondary" [class.active]="isPower()" id="powerbtn">
             <input type="radio" id="powerradio" (click)="selectPower()"> Power
-          </label>
-          <label *ngIf="isCIWidth() || isWAVR()" aria-pressed="true" class="btn btn-secondary" [class.active]="isPower()" id="probabilitybtn">
-            <input type="radio" id="probabilityradio" (click)="selectPower()"> Probability
           </label>
           <label class="btn btn-secondary" aria-pressed="true" [class.active]="isSampleSize()" id="samplesizebtn">
             <input type="radio" id="samplesizeradio" (click)="selectSampleSize()"> Sample Size
@@ -23,82 +20,7 @@
         </div>
     </div>
 
-    <div *ngIf="isSampleSize()">
-      <div class="row">
-        <label for="power" ng-non-bindable *ngIf="isRejection()" id="rejectnulllbl">Power:</label>
-        <label for="power" ng-non-bindable *ngIf="isCIWidth()" id="achieveciwidthlbl">Probability &#123;achieve CI Width&#125;:</label>
-        <label for="power" ng-non-bindable *ngIf="isWAVR()" id="probwavrlbl">Probability &#123;WAVR&#125;:</label>
-      </div>
-      <div class="row">
-          <form [formGroup]="powerSampleSizeForm" novalidate>
-            <div class="col col-md-auto align-self-centre" style="padding-left: 0px">
-              <div class="form-group" id="powerinput">
-                <input type="number"
-                       step="0.1"
-                       class="form-control"
-                       id="power"
-                       aria-describedby="powerhelp"
-                       placeholder="0 < power < 1"
-                       formControlName="power"
-                       (keyup.enter)="addPower()">
-                <div *ngIf="hasError()"
-                     class="form-group has-danger">
-                  <div class="form-control-feedback">{{formErrors.power}}</div>
-                </div>
-                <div class="form-group" *ngIf="isCIWidth() || isWAVR()">
-                  <label for="ciwidth">Confidence Interval Width:</label>
-                  <input type="number"
-                         step="0.1"
-                         class="form-control"
-                         id="ciwidth"
-                         aria-describedby="ciwidthhelp"
-                         placeholder="0 -> 10"
-                         formControlName="ciwidth"
-                         required>
-                  <div *ngIf="formErrors.ciwidth" class="form-group has-danger">
-                    <div class="form-control-feedback">{{formErrors.ciwidth}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
 
-
-
-        <div class="col col-md-auto align-self-center">
-          <i class="material-icons" (click)="addPower()" style="font-size: 2em; padding-top: 0.2em" id="addpower">add_box</i>
-        </div>
-
-      </div>
-      <div class="row">
-        <small id="powerhelp" class="form-text text-muted">Power must be a number with value 0 < power < 1</small>
-      </div>
-      <div class="row"
-           *ngIf="isCIWidth() || isWAVR()" >
-        <small id="ciwidthhelp" class="form-text text-muted">Confidence Interval width must be an integer between 0 < x < 10</small>
-      </div>
-
-      <div class="row">
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-            <th style="padding-left: 0px">Target Power</th>
-            <th>remove</th>
-            </thead>
-            <tbody>
-            <tr *ngIf="firstPower()" style="padding-left: 0px">
-              <td style="padding-left: 0px"> You must enter at least one target power</td>
-              <td></td>
-            </tr>
-            <tr *ngFor="let power of powers$ | async; let i = index; " id="powerlist" [class]="rowStyle(i)">
-              <td>{{power}}</td>
-              <td><i class="material-icons" (click)="removePower(power)" style="margin-bottom: 5px" id="removepower">delete_forever</i></td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
 
 <ng-template #helpText>
   <div class="modal-content">

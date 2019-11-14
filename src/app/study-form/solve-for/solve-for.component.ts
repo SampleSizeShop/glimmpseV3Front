@@ -1,13 +1,10 @@
-import {of as observableOf, Subscription, Observable} from 'rxjs';
-import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Subscription} from 'rxjs';
+import {Component, OnDestroy, ViewChild} from '@angular/core';
 import {StudyService} from '../../shared/services/study.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
 import {NGXLogger} from 'ngx-logger';
-import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {constants} from '../../shared/model/constants';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
-import {isNullOrUndefined} from "util";
 
 @Component({
   selector: 'app-solve-for',
@@ -15,20 +12,11 @@ import {isNullOrUndefined} from "util";
   styleUrls: ['./solve-for.component.scss'],
   providers: [NGXLogger]
 })
-export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
+export class SolveForComponent implements OnDestroy {
   private _solveFor: string;
-  private _power: number[];
-  private _ciwidth: number;
-  private _targetEvent: string;
-  private _powerSampleSizeForm: FormGroup;
-  private _targetEventSubscription: Subscription;
   private _solveForSubscription: Subscription;
-  private _powerSubscription: Subscription;
-  private _ciwidthSubscription: Subscription;
   private _navigationSubscription: Subscription;
   private _directionCommand: string;
-  private _formErrors = constants.TARGET_EVENT_FORM_ERRORS;
-  private _validationMessages = constants.TARGET_EVENT_VALIDATION_MESSAGES;
 
   private _showHelpTextSubscription: Subscription;
 
@@ -37,34 +25,17 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
   private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
-              private fb: FormBuilder,
               private log: NGXLogger,
               private _navigation_service: NavigationService,
               private modalService: NgbModal) {
-    this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
-      targetEvent => {
-        this.targetEvent = targetEvent;
-      }
-    )
     this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
       solveFor => {
         this.solveFor = solveFor;
       }
     );
-    this.powerSubscription = this.study_service.power$.subscribe(
-      power => {
-        this.power = power;
-      }
-    );
-    this.ciwidthSubscription = this.study_service.ciwidth$.subscribe(
-      ciwidth => {
-        this.ciwidth = ciwidth;
-      }
-    );
     this._navigationSubscription = this.study_service.navigationDirection$.subscribe(
       direction => {
         this._directionCommand = direction;
-        this.checkValidBeforeNavigation(this._directionCommand);
       }
     );
     this._afterInit = false;
@@ -73,102 +44,21 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
-    this.buildForm();
-  }
-
-  buildForm(): void {
-    let powerDefault = 0.9;
-    if (!isNullOrUndefined(this.power) && this.power.length > 0) {
-      powerDefault = null;
-    }
-    this.powerSampleSizeForm = this.fb.group({
-      power: [powerDefault, minMaxValidator(0, 1, this.log)],
-      ciwidth: [this.ciwidth, minMaxValidator(0, 10, this.log)]
-    });
-
-    this.powerSampleSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
-    this.onValueChanged(); // (re)set validation messages now
-  }
-
-  onValueChanged(data?: any) {
-    if (!this.powerSampleSizeForm) {
-      return;
-    }
-    const form = this.powerSampleSizeForm;
-
-    for (const field of Object.keys(this.formErrors)) {
-      this.formErrors[field] = '';
-      const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
-        const messages = this.validationMessages[field];
-        for (const key of Object.keys(control.errors)) {
-            this.formErrors[field] += messages[key] + ' ';
-        }
-      }
-    }
-   }
-
-  addPower() {
-    const value = this.powerSampleSizeForm.value.power;
-    if (!isNullOrUndefined(value) &&
-      value !== '' &&
-      this._power.indexOf(value) === -1
-      && !this.formErrors.power) {
-      this._power.push(value);
-      this.powerSampleSizeForm.reset();
-    }
-  }
-
-  isRejection(): boolean {
-    return this.targetEvent === constants.REJECTION_EVENT;
-  }
-
-  isCIWidth(): boolean {
-    return this.targetEvent === constants.CIWIDTH_EVENT;
-  }
-
-  isWAVR(): boolean {
-    return this.targetEvent === constants.WAVR_EVENT;
-  }
-
-  ngOnInit() {
-    this._afterInit = true;
-    if (this.isSampleSize()
-      && (isNullOrUndefined(this._power) || this._power.length === 0)) {
-      this.setNextEnabled('INVALID');
-    }
-  }
-
-  ngDoCheck() {
-    this.study_service.updateSolveFor(this.solveFor);
-    if (this.isSampleSize()) {
-      this.study_service.updatePower(this.power);
-      if (this.isCIWidth() || this.isWAVR()) {
-        this.study_service.updateCiWidth(this.powerSampleSizeForm.value.ciwidth);
-      }
-    }
-    this.checkValidBeforeNavigation('NEXT')
   }
 
   ngOnDestroy() {
-    this.setNextEnabled('VALID');
-    this.targetEventSubscription.unsubscribe();
     this.solveForSubscription.unsubscribe();
-    this.powerSubscription.unsubscribe();
-    this.ciwidthSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
   }
 
   selectPower() {
     this.solveFor = constants.SOLVE_FOR_POWER;
     this.study_service.updateSolveFor(this.solveFor);
-    this.setNextEnabled('VALID');
   }
 
   selectSampleSize() {
     this.solveFor = constants.SOLVE_FOR_SAMPLESIZE;
     this.study_service.updateSolveFor(this.solveFor);
-    this.checkValidBeforeNavigation('NEXT');
   }
 
   isPower(): boolean {
@@ -179,91 +69,12 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     return this.solveFor === constants.SOLVE_FOR_SAMPLESIZE;
   }
 
-  removePower(value: number) {
-    const index = this.power.indexOf(value);
-    if (index > -1) {
-      this.power.splice(index, 1);
-    }
-    this.powerSampleSizeForm.reset();
-  }
-
-  firstPower(): boolean {
-    return this.power.length === 0 ? true : false;
-  }
-
-  get powers$(): Observable<number[]> {
-    return observableOf(this.power)
-  }
-
   get solveFor(): string {
     return this._solveFor;
   }
 
   set solveFor(value: string) {
     this._solveFor = value;
-  }
-
-  get targetEvent(): string {
-    return this._targetEvent;
-  }
-
-  set targetEvent(value: string) {
-    this._targetEvent = value;
-  }
-
-  get powerSampleSizeForm(): FormGroup {
-    return this._powerSampleSizeForm;
-  }
-
-  set powerSampleSizeForm(value: FormGroup) {
-    this._powerSampleSizeForm = value;
-  }
-
-  get formErrors(): { power: string; ciwidth: string } {
-    return this._formErrors;
-  }
-
-  set formErrors(value: { power: string; ciwidth: string }) {
-    this._formErrors = value;
-  }
-
-  get targetEventSubscription(): Subscription {
-    return this._targetEventSubscription;
-  }
-
-  set targetEventSubscription(value: Subscription) {
-    this._targetEventSubscription = value;
-  }
-
-  get validationMessages(): {
-      power: { minval: string; maxval: string };
-      ciwidth: { minval: string; maxval: string }
-    } {
-    return this._validationMessages;
-  }
-
-  set validationMessages(value: {
-      power: { minval: string; maxval: string };
-      ciwidth: { minval: string; maxval: string }
-    }) {
-    this._validationMessages = value;
-  }
-
-
-  get power(): number[] {
-    return this._power;
-  }
-
-  set power(value: number[]) {
-    this._power = value;
-  }
-
-  get ciwidth(): number {
-    return this._ciwidth;
-  }
-
-  set ciwidth(value: number) {
-    this._ciwidth = value;
   }
 
   get solveForSubscription(): Subscription {
@@ -274,76 +85,8 @@ export class SolveForComponent implements OnInit, DoCheck, OnDestroy {
     this._solveForSubscription = value;
   }
 
-  get powerSubscription(): Subscription {
-    return this._powerSubscription;
-  }
-
-  set powerSubscription(value: Subscription) {
-    this._powerSubscription = value;
-  }
-
-  get ciwidthSubscription(): Subscription {
-    return this._ciwidthSubscription;
-  }
-
-  set ciwidthSubscription(value: Subscription) {
-    this._ciwidthSubscription = value;
-  }
-
   dismissHelp() {
     this.helpTextModalReference.close();
-  }
-
-  hasError() {
-    if (isNullOrUndefined(this._formErrors.power)) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  rowStyle(index: number) {
-    if (index % 2 === 1) {
-      return 'col col-md-auto table-active';
-    } else {
-      return 'col col-md-auto table-primary';
-    }
-  }
-
-  checkValidBeforeNavigation(direction: string): void {
-    this.checkValidator();
-    if ( direction === 'NEXT' ) {
-      if (this.isSampleSize()
-        && (isNullOrUndefined(this._power) || this._power.length === 0)) {
-        this.setNextEnabled('INVALID');
-      } else if (this._power && !this.formErrors.power) {
-        this.setNextEnabled('VALID');
-      }
-    }
-  }
-
-  checkValidator(data?: any) {
-    if (!this.powerSampleSizeForm) {
-      return;
-    }
-    const form = this.powerSampleSizeForm;
-
-    for (const field of Object.keys(this.validationMessages)) {
-      this.formErrors[field] = '';
-      const control = form.get(field);
-
-      if (control && !control.valid) {
-        const messages = this.validationMessages[field];
-        for (const key of Object.keys(control.errors)) {
-          this.formErrors[field] += messages[key] + ' ';
-        }
-      }
-    }
-  }
-
-  setNextEnabled(status: string) {
-    const valid = status === 'VALID' ? true : false;
-    this._navigation_service.updateValid(valid);
   }
 
   showHelpText(content) {

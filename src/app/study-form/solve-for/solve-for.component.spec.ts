@@ -10,8 +10,8 @@ import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {HttpClient} from '@angular/common/http';
-import {MatIconModule} from "@angular/material";
-import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
+import {MatIconModule} from '@angular/material';
+import {ControlHelpTextComponent} from '../control-help-text/control-help-text.component';
 
 describe('SolveForComponent', () => {
   let component: SolveForComponent;
@@ -118,10 +118,6 @@ describe('SolveForComponen_targetEvent_Rejection', () => {
     fixture = TestBed.createComponent(SolveForComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    spyOn(component, 'isRejection').and.returnValue(true);
-    spyOn(component, 'isCIWidth').and.returnValue(false);
-    spyOn(component, 'isWAVR').and.returnValue(false);
   });
 
   it('should show the power button when target event is rejection and solving for power', () => {
@@ -140,168 +136,5 @@ describe('SolveForComponen_targetEvent_Rejection', () => {
     const desc: DebugElement = fixture.debugElement.query(By.css('.active'));
     const el = desc.nativeElement;
     expect(el.id).toEqual('samplesizebtn')
-  });
-
-
-  it('should show the power input and correct power label input when target event is rejection and solving for samplesize', () => {
-    component.selectSampleSize();
-    fixture.detectChanges();
-
-    const desc: DebugElement = fixture.debugElement.query(By.css('#powerinput'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy()
-
-    const lbldesc: DebugElement = fixture.debugElement.query(By.css('#rejectnulllbl'));
-    const lblel = lbldesc.nativeElement;
-    expect(lblel).toBeTruthy()
-
-  });
-});
-
-describe('SolveForComponent_targetEvent_CIWIDTH', () => {
-  let component: SolveForComponent;
-  let fixture: ComponentFixture<SolveForComponent>;
-  let httpClient: HttpClient;
-  let httpTestingController: HttpTestingController;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        LoggerModule.forRoot({
-          serverLoggingUrl: testEnvironment.serverLoggingUrl,
-          level: testEnvironment.loglevel,
-          serverLogLevel: testEnvironment.loglevel
-        })],
-      declarations: [
-        SolveForComponent,
-        ControlHelpTextComponent
-      ],
-      providers: [
-        NavigationService,
-        NgbModal,
-        StudyService,
-         ]
-    })
-      .compileComponents();
-    httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SolveForComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    spyOn(component, 'isRejection').and.returnValue(false);
-    spyOn(component, 'isCIWidth').and.returnValue(true);
-    spyOn(component, 'isWAVR').and.returnValue(false);
-  });
-
-  it('should show the probability button when target event is ci width and solving for power', () => {
-    component.selectPower();
-    fixture.detectChanges();
-
-    const desc: DebugElement = fixture.debugElement.query(By.css('.active'));
-    const el = desc.nativeElement;
-    expect(el.id).toEqual('probabilitybtn')
-  });
-
-  it('should show the sample size button when target event is ci width and solving for samplesize', () => {
-    component.selectSampleSize();
-    fixture.detectChanges();
-
-    const desc: DebugElement = fixture.debugElement.query(By.css('.active'));
-    const el = desc.nativeElement;
-    expect(el.id).toEqual('samplesizebtn')
-  });
-
-  it('should show the power input and correct power label input when target event is ci width and solving for samplesize', () => {
-    component.selectSampleSize();
-    fixture.detectChanges();
-
-    const desc: DebugElement = fixture.debugElement.query(By.css('#powerinput'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy()
-
-    const lbldesc: DebugElement = fixture.debugElement.query(By.css('#achieveciwidthlbl'));
-    const lblel = lbldesc.nativeElement;
-    expect(lblel).toBeTruthy()
-  });
-});
-
-describe('SolveForComponent_targetEvent_WAVR', () => {
-  let component: SolveForComponent;
-  let fixture: ComponentFixture<SolveForComponent>;
-
-  let httpClient: HttpClient;
-  let httpTestingController: HttpTestingController;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        LoggerModule.forRoot({
-          serverLoggingUrl: testEnvironment.serverLoggingUrl,
-          level: testEnvironment.loglevel,
-          serverLogLevel: testEnvironment.loglevel
-        })],
-      declarations: [
-        SolveForComponent,
-        ControlHelpTextComponent
-      ],
-      providers: [
-        NavigationService,
-        NgbModal,
-        StudyService,
-         ]
-    })
-      .compileComponents();
-    httpClient = TestBed.get(HttpClient);
-    httpTestingController = TestBed.get(HttpTestingController);
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SolveForComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    spyOn(component, 'isRejection').and.returnValue(false);
-    spyOn(component, 'isCIWidth').and.returnValue(false);
-    spyOn(component, 'isWAVR').and.returnValue(true);
-  });
-
-  it('should show the probability button when target event is WAVR and solving for power', () => {
-    component.selectPower();
-    fixture.detectChanges();
-
-    const desc: DebugElement = fixture.debugElement.query(By.css('.active'));
-    const el = desc.nativeElement;
-    expect(el.id).toEqual('probabilitybtn')
-  });
-
-  it('should show the sample size button when target event is WAVR and solving for samplesize', () => {
-    component.selectSampleSize();
-    fixture.detectChanges();
-
-    const desc: DebugElement = fixture.debugElement.query(By.css('.active'));
-    const el = desc.nativeElement;
-    expect(el.id).toEqual('samplesizebtn')
-  });
-
-  it('should show the power input and correct power label input when target event is WAVR and solving for samplesize', () => {
-    component.selectSampleSize();
-    fixture.detectChanges();
-
-    const desc: DebugElement = fixture.debugElement.query(By.css('#powerinput'));
-    const el = desc.nativeElement;
-    expect(el).toBeTruthy()
-
-    const lbldesc: DebugElement = fixture.debugElement.query(By.css('#probwavrlbl'));
-    const lblel = lbldesc.nativeElement;
-    expect(lblel).toBeTruthy()
   });
 });

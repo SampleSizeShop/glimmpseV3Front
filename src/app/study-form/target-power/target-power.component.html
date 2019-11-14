@@ -1,0 +1,65 @@
+<div class="row">
+  <p>Please choose one or more power values, for which you wish to calculate minimum sample size.</p>
+  <p>All target power values must be between 0 and 1, exclusive.</p>
+</div>
+
+<form [formGroup]="powerSampleSizeForm" novalidate>
+  <div class="row">
+    <div class="col-md-auto">
+      <div id="powerinput">
+        <input type="number"
+               step="0.1"
+               id="power"
+               aria-describedby="powerhelp"
+               placeholder=" "
+               formControlName="power"
+               (keyup.enter)="addPower()">
+      </div>
+    </div>
+    <div class="col-md-auto">
+      <i class="material-icons" (click)="addPower()" style="font-size: 2em; padding-top: 0.2em" id="addpower">add_box</i>
+    </div>
+  </div>
+</form>
+<div *ngIf="hasError()"
+     class="form-group has-danger">
+  <div class="form-control-feedback">{{formErrors.power}}</div>
+</div>
+<div *ngIf="isClickNext && !hasPower()" class="form-group has-danger">
+  <p class="form-control-feedback">
+    You must select at least one target power.
+    Please enter a value between 0 and 1 and press the
+    <i class="material-icons">add_box</i> button.
+  </p>
+</div>
+
+<div class="row" *ngIf="hasPower()">
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+      <th style="padding-left: 0px">Target Power</th>
+      <th>remove</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let power of powers$ | async; let i = index; " id="powerlist" [class]="rowStyle(i)">
+        <td>{{power}}</td>
+        <td><i class="material-icons" (click)="removePower(power)" style="margin-bottom: 5px" id="removepower">delete_forever</i></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #helpText>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Solve For Help</h5> <button type="button" class="close" (click)="dismissHelp()">
+      <i class="material-icons">close</i>
+    </button>
+    </div>
+    <div class="modal-body">
+      <app-control-help-text></app-control-help-text>
+    </div>
+    <div class="modal-footer"> </div>
+  </div>
+</ng-template>

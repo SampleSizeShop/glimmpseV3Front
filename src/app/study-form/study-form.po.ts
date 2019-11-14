@@ -29,10 +29,12 @@ import {CalculatePo} from './calculate/calculate.po';
 import {OptionalSpecsConfidenceIntervalsPo} from './optional-specs-confidence-intervals/optional-specs-confidence-intervals.po';
 import {ParametersGaussianPowerPo} from './parameters-gaussian-power/parameters-gaussian-power.po';
 import {HypothesisMixedPo} from "./hypothesis-mixed/hypothesis-mixed.po";
+import {TargetPowerPo} from "./target-power/target-power.po";
 
 export class StudyFormComponentPage {
   user_mode: UserModePo;
   solve_for: SolveForPo;
+  target_power: TargetPowerPo;
   statistical_tests: StatisticalTestsPo;
   type_one_error: TypeOneErrorPo;
   outcomes: WithinIsuOutcomesPo;
@@ -64,6 +66,7 @@ export class StudyFormComponentPage {
   constructor() {
     this.user_mode = new UserModePo();
     this.solve_for = new SolveForPo();
+    this.target_power = new TargetPowerPo();
     this.statistical_tests = new StatisticalTestsPo();
     this.type_one_error = new TypeOneErrorPo();
     this.outcomes = new WithinIsuOutcomesPo();
@@ -119,6 +122,8 @@ export class StudyFormComponentPage {
     let ret = true
     if ( this.isStage(url, constants.STAGES.SOLVE_FOR))  {
       this.solve_for.fromJSON(input);
+    } else if ( this.isStage(url, constants.STAGES.TARGET_POWER))  {
+      this.target_power.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.STATISTICAL_TESTS))  {
       this.statistical_tests.fromJSON(input);
     } else if ( this.isStage(url, constants.STAGES.TYPE_ONE_ERROR))  {

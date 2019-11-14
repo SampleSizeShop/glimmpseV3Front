@@ -59,13 +59,9 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
         this._isClickNext = isClickNext;
         this._isClickNextReference.value = isClickNext;
         if (this.statisticalTestsForm !== null && this.statisticalTestsForm !== undefined) {
-          this.statisticalTestsForm.get('hlt').updateValueAndValidity();
-          this.statisticalTestsForm.get('pb').updateValueAndValidity();
-          this.statisticalTestsForm.get('wl').updateValueAndValidity();
-          this.statisticalTestsForm.get('bc').updateValueAndValidity();
-          this.statisticalTestsForm.get('gg').updateValueAndValidity();
-          this.statisticalTestsForm.get('hf').updateValueAndValidity();
-          this.statisticalTestsForm.get('uc').updateValueAndValidity();
+          Object.keys(this.statisticalTestsForm.controls).forEach( control => {
+            this.statisticalTestsForm.get(control).updateValueAndValidity();
+          });
         }
       }
     );

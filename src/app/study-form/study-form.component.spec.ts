@@ -44,6 +44,7 @@ import {CollapsibleTreeComponent} from '../d3/visuals/collapsible-tree/collapsib
 import {StatusComponent} from './status/status.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ControlHelpTextComponent} from './control-help-text/control-help-text.component';
+import {TargetPowerComponent} from './target-power/target-power.component';
 
 describe('StudyFormComponent', () => {
   let component: StudyFormComponent;
@@ -68,6 +69,7 @@ describe('StudyFormComponent', () => {
         UserModeComponent,
         StudyTitleComponent,
         SolveForComponent,
+        TargetPowerComponent,
         StatisticalTestsComponent,
         TypeOneErrorComponent,
         WithinIsuOutcomesComponent,
@@ -100,7 +102,8 @@ describe('StudyFormComponent', () => {
         CollapsibleTreeComponent,
         CustomContrastMatrixComponent,
         StatusComponent,
-        ControlHelpTextComponent],
+        ControlHelpTextComponent,
+        TargetPowerComponent],
       providers: [ StudyService,
         ,
         RouterTestingModule ]

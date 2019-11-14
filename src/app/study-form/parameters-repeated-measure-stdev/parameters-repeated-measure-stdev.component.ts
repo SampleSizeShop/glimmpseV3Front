@@ -85,6 +85,7 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
   }
 
   ngOnDestroy() {
+    this.setNextEnabled('VALID');
     this._showHelpTextSubscription.unsubscribe();
   }
 
