@@ -25,7 +25,7 @@
            (keyup.ArrowRight)="next()"
            style="opacity: 0.2; font-size: 48px"
            id="navigate_next_mob"
-           [class.disabled]="!valid" [@validInvalidMob]="nextValid? 'validMob': 'invalidMob'">navigate_next</i>
+           [class.disabled]="!valid$ | async" [@validInvalidMob]="valid? 'valid' : 'invalid'">navigate_next</i>
       </div>
 
       <div class="ml-auto p-2 align-self-center">
@@ -160,7 +160,7 @@
          (keyup.ArrowRight)="next()"
          style="font-size:
          92px; opacity: 0.2; padding-top: 50%;" id="navigate_next"
-         [class.disabled]="!valid" [@validInvalid]="nextValid? 'valid': 'invalid'">navigate_next</i>
+         [class.disabled]="!valid$ | async" [@validInvalid]="valid? 'valid' : 'invalid'">navigate_next</i>
     </div>
   </div>
 
