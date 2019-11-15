@@ -111,8 +111,7 @@
   <div class="row align-items-start">
     <div class="col-2 justify-content-start d-none d-sm-block"
          (mouseenter)="mouseEnterBack('div a')"
-         (mouseleave)="mouseLeaveBack('div A')"
-         style="padding-left: 0px;">
+         (mouseleave)="mouseLeaveBack('div A')">
       <i class="material-icons"
          *ngIf="!isInternal && hasBack"
          (click)="back()"
@@ -126,8 +125,7 @@
     </div>
     <div class="col-2 justify-content-end d-none d-sm-block"
          (mouseenter)="mouseEnterNext('div a')"
-         (mouseleave)="mouseLeaveNext('div A')"
-         style="padding-left: 0px;">
+         (mouseleave)="mouseLeaveNext('div A')">
       <i class="material-icons"
          *ngIf="!isInternal && hasNext"
          (click)="next()"
