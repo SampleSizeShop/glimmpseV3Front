@@ -26,16 +26,38 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
     routeSlideAnimation,
     trigger('validInvalid',
       [
-        state('valid', style({ color: 'rgba(88, 206, 20, 0.81)', fontSize: '112px', opacity: 0.8, verticalAlign: 'middle'})),
-        state('invalid', style({color: 'darkgrey', fontSize: '92px', opacity: 0.5, verticalAlign: 'middle'})),
+        state('valid', style({
+          backgroundColor: 'rgba(88, 206, 20, 0.81)',
+          color: 'rgba(255, 255, 255, 1)',
+          borderRadius: '64px',
+          fontSize: '92px',
+          opacity: 0.8
+        })),
+        state('invalid', style({
+          color: 'darkgrey',
+          fontSize: '92px',
+          borderRadius: '64px',
+          opacity: 0.5
+        })),
         transition('invalid => valid', [animate('0.4s')]),
         transition('valid => invalid', [animate('0.4s')])
       ]
     ),
     trigger('validInvalidMob',
       [
-        state('valid', style({ color: 'rgba(88, 206, 20, 0.81)', opacity: 0.8, fontSize: '48px'})),
-        state('invalid', style({color: 'darkgrey', fontSize: '48px', opacity: 0.5})),
+        state('valid', style({
+          backgroundColor: 'rgba(88, 206, 20, 0.81)',
+          color: 'rgba(255, 255, 255, 1)',
+          borderRadius: '25px',
+          opacity: 0.8,
+          fontSize: '48px'
+        })),
+        state('invalid', style({
+          color: 'darkgrey',
+          fontSize: '48px',
+          borderRadius: '25px',
+          opacity: 0.5
+        })),
         transition('invalid => valid', [animate('0.4s')]),
         transition('valid => invalid', [animate('0.4s')])
       ]
