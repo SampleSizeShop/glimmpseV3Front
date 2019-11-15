@@ -34,8 +34,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
     ),
     trigger('validInvalidMob',
       [
-        state('valid', style({ color: 'rgba(88, 206, 20, 0.81)', fontSize: '48px', opacity: 0.8, verticalAlign: 'middle'})),
-        state('invalid', style({color: 'darkgrey', fontSize: '48px', opacity: 0.5, verticalAlign: 'middle'})),
+        state('valid', style({ color: 'rgba(88, 206, 20, 0.81)', opacity: 0.8, fontSize: '48px'})),
+        state('invalid', style({color: 'darkgrey', fontSize: '48px', opacity: 0.5})),
         transition('invalid => valid', [animate('0.4s')]),
         transition('valid => invalid', [animate('0.4s')])
       ]
