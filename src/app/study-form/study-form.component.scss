@@ -19,6 +19,20 @@ i.icon-disabled {
   padding-top: 0%;
 }
 
+@media(min-width: 720px) {
+  .fix-icon-col-width {
+    padding-left: 4px; -ms-flex: 0 0 24px; flex: 0 0 24px;
+  }
+}
+
+.nav-text {
+  color: #3c4043;
+}
+
+.nav-text:hover {
+  color: #5a88b7;
+}
+
 .matrix-brackets {
   background-image: linear-gradient(#69696b, #69696b),
   linear-gradient(#69696b, #69696b),
