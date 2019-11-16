@@ -3,7 +3,7 @@ import {environment} from '../environments/environment';
 import {Router} from '@angular/router';
 import {StudyDesign} from './shared/model/study-design';
 import {StudyService} from './shared/services/study.service';
-import {DomSanitizer} from '@angular/platform-browser';
+import {DomSanitizer, Title} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 
 
@@ -18,7 +18,9 @@ export class AppComponent {
   constructor(private router: Router,
               private study_service: StudyService,
               private domSanitizer: DomSanitizer,
-              private matIconRegistry: MatIconRegistry) {
+              private matIconRegistry: MatIconRegistry,
+              private titleService: Title) {
+    this.titleService.setTitle( 'Glimmpse 3.0.0' );
     this.disableAnimationa = environment.disableAnimations;
     this.matIconRegistry.addSvgIcon(
       `glimmpsediamond`,

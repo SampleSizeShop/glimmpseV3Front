@@ -1,4 +1,4 @@
-import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from '@angular/platform-browser';
+import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig, Title} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
@@ -128,6 +128,7 @@ import { TargetPowerComponent } from './study-form/target-power/target-power.com
     // Angular2CsvModule
   ],
   providers: [
+    Title,
     MathJaxService,
     D3Service,
     {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
