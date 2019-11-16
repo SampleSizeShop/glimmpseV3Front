@@ -54,7 +54,7 @@
         <div class="p-1  "  matTooltip="help" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
           <mat-icon (click)="toggleHelpText()">save_alt</mat-icon>
         </div>
-        <div class="p-1  "  matTooltip="help" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
+        <div class="p-1  "  matTooltip="home" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
           <a href="#" style="padding: 0px; color: #3c4043;">
             <mat-icon >home</mat-icon>
           </a>
@@ -70,7 +70,7 @@
       </div>
       <div class="col-xl-6 col-lg-8 col-md-7 col-sm-6 col-xs-1">
         <div class="row justify-content-end">
-          <div class="d-none d-lg-block d-xl-block nav-text no-div-highlight" (click)="showStatus()">Status</div>
+          <div class="d-none d-lg-block d-xl-block nav-text no-div-highlight" (click)="showStatus()">Progress</div>
           <div *ngIf="getStage() < 9" class="col-1 fix-icon-col-width no-div-highlight" matTooltip="status" [matTooltipShowDelay]="showDelay" [matTooltipPosition]="below">
             <mat-icon svgIcon="aperture_0" (click)="showStatus()"></mat-icon>
           </div>
