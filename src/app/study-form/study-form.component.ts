@@ -31,13 +31,13 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
           color: 'rgba(255, 255, 255, 1)',
           borderRadius: '64px',
           fontSize: '92px',
-          opacity: 0.8
+          opacity: 0.75
         })),
         state('invalid', style({
           color: 'darkgrey',
           fontSize: '92px',
           borderRadius: '64px',
-          opacity: 0.5
+          opacity: 0.75
         })),
         transition('invalid => valid', [animate('0.4s')]),
         transition('valid => invalid', [animate('0.4s')])
