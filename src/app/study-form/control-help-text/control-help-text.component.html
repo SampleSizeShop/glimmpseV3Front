@@ -78,7 +78,7 @@
   <div class="tab-pane fade show" id="buttons" [class.active]="isTabSelected('buttons')">
     <div class="row">
       <div class="col col-2">
-        <mat-icon svgIcon="aperture_2" (click)="showStatus()"></mat-icon>
+        <mat-icon svgIcon="aperture_2"></mat-icon>
       </div>
       <div class="col col-9">
         Progress indicator. The icon colors each segment blue as you complete one of the five stages of your design:
@@ -87,7 +87,7 @@
     </div>
     <div class="row">
       <div class="col col-2">
-        <mat-icon (click)="toggleHelpText()">help_outline</mat-icon>
+        <mat-icon>help_outline</mat-icon>
       </div>
       <div class="col col-9 align-self-center">
         Help
@@ -95,7 +95,7 @@
     </div>
     <div class="row">
       <div class="col col-2">
-        <mat-icon (click)="download()">save_alt</mat-icon>
+        <mat-icon>save_alt</mat-icon>
       </div>
       <div class="col col-9 align-self-center">
         Save your design as a .json file. This can then be uploaded at a later date.
