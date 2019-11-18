@@ -417,7 +417,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     }
     this.navigate(previous, 'BACK');
     this.setNextBack();
-    // this.valid = true;
   }
 
   setNextBack(): void {
@@ -695,21 +694,18 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
         this.guided = guided;
-        this.valid = guided;
       }
     );
 
     this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
       targetEvent => {
         this.study.targetEvent = targetEvent;
-        this.valid = true;
       }
     );
 
     this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
       solveFor => {
         this.study.solveFor = solveFor;
-        this.valid = true;
       }
     );
 

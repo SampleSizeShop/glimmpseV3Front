@@ -6,7 +6,7 @@ export class NavigationService {
   private _navigationSource = new Subject<string>();
   private _navigation$ = this.navigationSource.asObservable();
 
-  private _validSource = new BehaviorSubject<boolean>(true);
+  private _validSource = new BehaviorSubject<boolean>(false);
   private _valid$ = this.validSource.asObservable();
 
   private _isClickNextSource = new BehaviorSubject<boolean>(false);
