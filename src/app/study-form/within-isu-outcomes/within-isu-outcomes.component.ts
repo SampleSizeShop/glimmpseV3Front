@@ -6,7 +6,6 @@ import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {StudyService} from '../../shared/services/study.service';
 import {Outcome} from '../../shared/model/Outcome';
-import {isNullOrUndefined} from 'util';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NGXLogger} from 'ngx-logger';
 
@@ -52,7 +51,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
       isClickNext => {
         this.isClickNext = isClickNext;
         this._isClickNextReference.value = this.isClickNext;
-        if (!isNullOrUndefined(this.outcomesForm)) {
+        if (this.outcomesForm !== null && this.outcomesForm !== undefined) {
           this.outcomesForm.get('outcomes').updateValueAndValidity();
         }
       }

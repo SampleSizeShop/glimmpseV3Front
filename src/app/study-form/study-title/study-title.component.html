@@ -1,14 +1,31 @@
-<p>
-  Please pick a concise title for the study:
-</p>
+<div class="row">
+  <div class="col-auto">
+    <p>
+      Please pick a concise title for the study:
+    </p>
+  </div>
+</div>
 <form [formGroup]="studyTitleForm">
-  <input type="text"
-         class="form-control"
-         id="stydytitleinput"
-         placeholder="New Study"
-         formControlName="studyTitle"
-         required>
+  <div class="row">
+    <div class="col-auto">
+        <input type="text"
+               class="form-control"
+               id="stydytitleinput"
+               placeholder=" "
+               formControlName="studyTitle">
+    </div>
+  </div>
+  <div class="row" *ngIf="isClickNext && ! validTitle">
+    <div class="col-auto">
+      <div class="form-group has-danger">
+        <div class="form-control-feedback">
+          You must choose a title for your study.
+        </div>
+      </div>
+    </div>
+  </div>
 </form>
+
 
 <ng-template #helpText>
   <div class="modal-content">

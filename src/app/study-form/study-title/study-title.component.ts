@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/index';
 import {StudyService} from '../../shared/services/study.service';
@@ -13,11 +13,15 @@ import {NGXLogger} from 'ngx-logger';
   templateUrl: './study-title.component.html',
   styleUrls: ['./study-title.component.scss']
 })
-export class StudyTitleComponent implements OnInit, OnDestroy {
+export class StudyTitleComponent implements OnInit, DoCheck, OnDestroy {
   private _studyTitle: string;
   private _studyTitleForm: FormGroup;
   private _studyTitleSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
+
+  private _isClickNextSubscription: Subscription;
+  private _isClickNext: boolean;
+  private _isClickNextReference: {value: boolean};
 
   @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
@@ -34,6 +38,16 @@ export class StudyTitleComponent implements OnInit, OnDestroy {
         this.buildForm();
       }
     });
+    this._isClickNextReference = {value: false};
+    this._isClickNextSubscription = this.navigation_service.isClickNext$.subscribe(
+      isClickNext => {
+        this._isClickNext = isClickNext;
+        this._isClickNextReference.value = this._isClickNext;
+        if (this._studyTitleForm !== null && this._studyTitleForm !== undefined) {
+          this._studyTitleForm.get('studyTitle').updateValueAndValidity();
+        }
+      }
+    );
     this._afterInit = false;
     this._showHelpTextSubscription = this.navigation_service.helpText$.subscribe( help => {
       if (this._afterInit) {
@@ -45,19 +59,52 @@ export class StudyTitleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._afterInit = true;
     this.buildForm();
+    this.updateIsClickNext(false);
+    this.checkValidBeforeNavigation()
+  }
+
+  ngDoCheck() {
+    this.checkValidBeforeNavigation()
   }
 
   ngOnDestroy() {
-    if (!isNullOrUndefined(this.studyTitleForm.controls['studyTitle']) &&
-    !isNullOrUndefined(this.studyTitleForm.controls['studyTitle'].value)) {
+    if (this.validTitle) {
       this._studyTitle = this.studyTitleForm.controls['studyTitle'].value
-    }
-    if (isNullOrUndefined(this.studyTitle)) {
-      this._studyTitle = 'New Study';
     }
     this.study_service.updateStudyTitle(this._studyTitle);
     this._studyTitleSubscription.unsubscribe();
     this._showHelpTextSubscription.unsubscribe();
+  }
+
+  get validTitle(): boolean {
+    const titleControl = this.studyTitleForm.controls['studyTitle'];
+    if (
+      titleControl !== null
+      && titleControl !== undefined
+      && titleControl.value !== null
+      && titleControl.value !== undefined
+      && titleControl.value.trim().length !== 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  updateIsClickNext(value: boolean) {
+    this.navigation_service.updateIsClickNext(value);
+  }
+
+  checkValidBeforeNavigation(): void {
+    if (this.validTitle) {
+      this.setNextEnabled('VALID');
+    } else {
+      this.setNextEnabled('INVALID');
+    }
+  }
+
+  setNextEnabled(status: string) {
+    const valid = status === 'VALID' ? true : false;
+    this.navigation_service.updateValid(valid);
   }
 
   buildForm(): void {
@@ -93,5 +140,9 @@ export class StudyTitleComponent implements OnInit, OnDestroy {
 
   get studyTitle(): string {
     return this._studyTitle;
+  }
+
+  get isClickNext(): boolean {
+    return this._isClickNext;
   }
 }

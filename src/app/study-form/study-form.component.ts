@@ -9,7 +9,7 @@ import {isNullOrUndefined} from 'util';
 import {NavigationEnd, Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {routeSlideAnimation} from '../animations/animations';
-import {map, pairwise, share, startWith} from 'rxjs/operators';
+import {map, pairwise, share, startWith, tap, delay} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/index';
 import {DomSanitizer} from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
@@ -26,30 +26,51 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
     routeSlideAnimation,
     trigger('validInvalid',
       [
-        state('valid', style({ color: 'rgba(88, 206, 20, 0.81)', fontSize: '112px', opacity: 0.8, verticalAlign: 'middle'})),
-        state('invalid', style({color: 'darkgrey', fontSize: '92px', opacity: 0.5, verticalAlign: 'middle'})),
+        state('valid', style({
+          backgroundColor: 'rgba(88, 206, 20, 0.81)',
+          color: 'rgba(255, 255, 255, 1)',
+          borderRadius: '64px',
+          fontSize: '92px',
+          opacity: 0.75
+        })),
+        state('invalid', style({
+          color: 'darkgrey',
+          fontSize: '92px',
+          borderRadius: '64px',
+          opacity: 0.75
+        })),
         transition('invalid => valid', [animate('0.4s')]),
         transition('valid => invalid', [animate('0.4s')])
       ]
     ),
     trigger('validInvalidMob',
       [
-        state('validMob', style({ color: 'rgba(88, 206, 20, 0.81)', fontSize: '48px', opacity: 0.8, verticalAlign: 'middle'})),
-        state('invalidMob', style({color: 'darkgrey', fontSize: '48px', opacity: 0.5, verticalAlign: 'middle'})),
-        transition('invalidMob => validMob', [animate('0.4s')]),
-        transition('validMob => invalidMob', [animate('0.4s')])
+        state('valid', style({
+          backgroundColor: 'rgba(88, 206, 20, 0.81)',
+          color: 'rgba(255, 255, 255, 1)',
+          borderRadius: '25px',
+          opacity: 0.8,
+          fontSize: '48px'
+        })),
+        state('invalid', style({
+          color: 'darkgrey',
+          fontSize: '48px',
+          borderRadius: '25px',
+          opacity: 0.5
+        })),
+        transition('invalid => valid', [animate('0.4s')]),
+        transition('valid => invalid', [animate('0.4s')])
       ]
     )
   ]
 })
 export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
-  private _valid = false;
-  private _nextValid = false;
+  private _valid: boolean;
+  private _nextValid: boolean;
   private _hasNext: boolean;
   private _hasBack: boolean;
   private _guided: boolean;
   private _study: StudyDesign;
-  private _afterInit: boolean;
 
   private __studyTitleSubscription: Subscription;
   private _modeSubscription: Subscription;
@@ -107,7 +128,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     formatsAllowed: '.json',
     multiple: false
   };
-  resetUpload3: boolean;
 
   constructor(
     private study_service: StudyService,
@@ -121,13 +141,30 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     private modalService: NgbModal
   ) {
     this._isInternal = false;
-    this._afterInit = false;
     this.setupProgressIcons();
     this.study = new StudyDesign();
+    this.below = 'below';
+  }
+
+  ngOnInit() {
     this.subscribeToStudyService();
     this.subscribeToNavigationService();
     this.setupRouting();
-    this.below = 'below';
+    this._stages = constants.STAGES;
+    this._noStages = Object.keys(this._stages).length - 1;
+    this.study_service.selectTargetEvent(constants.REJECTION_EVENT);
+
+    this.hasNext = true;
+    this.hasBack = false;
+  }
+
+  ngDoCheck() {
+    this.study_service.updateStudyDesign(this.study);
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeFromStudyService();
+    this.unsubscribeFromNavigationService();
   }
 
   showStatus() {
@@ -380,7 +417,6 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     }
     this.navigate(previous, 'BACK');
     this.setNextBack();
-    // this.valid = true;
   }
 
   setNextBack(): void {
@@ -405,27 +441,12 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.study.updateProgress();
   }
 
-  ngOnInit() {
-    this._stages = constants.STAGES;
-    this._noStages = Object.keys(this._stages).length - 1;
-    this.study_service.selectTargetEvent(constants.REJECTION_EVENT);
-
-    this.hasNext = true;
-    this.hasBack = false;
-    this._afterInit = true;
-  }
-
-  ngDoCheck() {
-    this.study_service.updateStudyDesign(this.study);
-  }
-
-  ngOnDestroy() {
-    this.unsubscribeFromStudyService();
-    this.unsubscribeFromNavigationService();
-  }
-
   get valid(): boolean {
     return this._valid;
+  }
+
+  get valid$(): Observable<boolean> {
+    return this.navigation_service.valid$;
   }
 
   set valid(value: boolean) {
@@ -673,21 +694,18 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     this.modeSubscription = this.study_service.modeSelected$.subscribe(
       guided => {
         this.guided = guided;
-        this.valid = guided;
       }
     );
 
     this.targetEventSubscription = this.study_service.targetEventSelected$.subscribe(
       targetEvent => {
         this.study.targetEvent = targetEvent;
-        this.valid = true;
       }
     );
 
     this.solveForSubscription = this.study_service.solveForSelected$.subscribe(
       solveFor => {
         this.study.solveFor = solveFor;
-        this.valid = true;
       }
     );
 
@@ -841,11 +859,22 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   subscribeToNavigationService() {
 
-    this.validSubscription = this.navigation_service.valid$.subscribe(
-      valid => {
+    // nasty hack to avoid change detection errors as the update gathered here changes the dom.
+    // This is the solution given by angular university for ExpressionchangedAfterCheckedError.... barf
+    //
+    // This tap statement is designed for things like logging before and after a subscription picks up an event.
+    // The delay(0) moves the value update to the next javascript turn.
+    // This ensures that valid/invalid behaviours happen consistently.
+    this.validSubscription = this.navigation_service.valid$.pipe(
+      startWith(false),
+      delay(0),
+      tap(valid => {
         this.valid = valid;
         this.nextValid = valid;
-      }
+      })
+    ).subscribe(
+      // really the logic for this event should go here but can't because we get
+      // unreliable behaviours as this logic alters the dom. see comment above.
     );
     this._isInternalSubscription = this.navigation_service.internalForm$.subscribe( isInternal => {
       this._isInternal = isInternal;
@@ -879,7 +908,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   get nextValid(): boolean {
-    return this._afterInit && this._nextValid;
+    return this._nextValid;
   }
 
   set nextValid(value: boolean) {

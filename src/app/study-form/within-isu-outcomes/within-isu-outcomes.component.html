@@ -11,16 +11,9 @@
   </div>
   <div class="row">
     <div class="col"
-         *ngIf="firstOutcome()"
+         *ngIf="firstOutcome() || nextOutcome()"
          id="firstoutcome">
-      <h6>Name the first outcome:</h6>
-    </div>
-  </div>
-  <div class="row">
-    <div  class="col"
-          *ngIf="nextOutcome()"
-          id="nextoutcome">
-      <h6>Would you like to add another outcome?</h6>
+      <h6>Please name the one or more outcomes.</h6>
     </div>
   </div>
   <div class="row">
@@ -47,7 +40,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="nextOutcome() || (!firstOutcome() && !nextOutcome())">
     <div class="col">
       <div class="table-responsive">
         <table class="table">
@@ -56,10 +49,6 @@
           <th>remove</th>
           </thead>
           <tbody>
-          <tr *ngIf="firstOutcome()">
-            <td> You must enter at least one outcome</td>
-            <td></td>
-          </tr>
           <tr *ngFor="let outcome of outcomes$ | async; let i = index; " id="outcomelist" [class]="rowStyle(i)">
             <td>{{outcome.name}}</td>
             <td><i class="material-icons" (click)="removeOutcome(outcome)" style="margin-bottom: 5px" id="removeoutcome">delete_forever</i></td>

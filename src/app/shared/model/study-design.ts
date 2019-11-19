@@ -70,21 +70,21 @@ export class StudyDesign {
       // create an instance of the StudyDesign class
       const study = Object.create(StudyDesign.prototype);
       if (Object.keys(json).indexOf('uuid') !== -1 ) {
-        alert('V2!');
+        alert('You have loaded a study design from GLIMMPSE version 2.');
         const v2study = Object.create(V2StudyDesign.prototype);
         Object.assign(v2study, json);
         study._progress = new StudyProgress();
         study._name = 'converted from GLIMMPSE V2';
         study._define_full_beta = true;
         study._solveFor = v2study.getSolveFor();
-        study._power =  [];
+        study._power =  v2study.getPowers();
         study._selectedTests = v2study.getTests();
-        study._typeOneErrorRate = v2study.alphaList;
-        study._quantiles = v2study.quantileList;
-        study._gaussianCovariate = null;
-        study._scaleFactor = v2study.sigmaScaleList;
-        study._varianceScaleFactors = v2study.sigmaScaleList;
-        study._isuFactors = new ISUFactors();
+        study._typeOneErrorRate = v2study.getTypeIErrorRates();
+        study._quantiles = v2study.getQuantiles();
+        study._gaussianCovariate = v2study.getGaussianCovariate();
+        study._scaleFactor = v2study.getScaleFactors();
+        study._varianceScaleFactors = v2study.getVarianceScaleFactors();
+        study._isuFactors = v2study.getIsuFactors();
         study._confidence_interval = null;
       } else {
         // copy all the fields from the json object

@@ -82,7 +82,7 @@ describe('WithinIsuOutcomesComponent', () => {
   it('should show the appropriate message if we have outcomes stored and can still add more', () => {
     component.outcomes.push(new Outcome('ABC'));
     fixture.detectChanges();
-    const desc: DebugElement = fixture.debugElement.query(By.css('#nextoutcome'));
+    const desc: DebugElement = fixture.debugElement.query(By.css('#firstoutcome'));
     const el = desc.nativeElement;
     expect(el).toBeTruthy()
   });

@@ -88,8 +88,8 @@ export const constants = {
   },
   TYPE_ONE_ERROR_VALIDATION_MESSAGES: {
     'typeoneerror': {
-      'minval': 'Value too low.',
-      'maxval': 'Value too high',
+      'minval': 'Too low. Values for α must be greater than zero and less than 1.',
+      'maxval': 'Too high. Values for α must be greater than zero and less than 1.',
       'noalpha': 'You must specify at least one Type I error rate.'
     }
   },

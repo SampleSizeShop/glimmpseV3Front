@@ -6,12 +6,6 @@
           A Type I error rate can range from 0 to 1. Although the most commonly used value is 0.05, we recommend 0.01.
         </p>
       </div>
-      <div class="row" *ngIf="firstAlpha()">
-        <label for="typeoneerror">Enter a Type I error rate:</label>
-      </div>
-      <div class="row" *ngIf="!firstAlpha()">
-        <label for="typeoneerror">Would you like to add another Type I error rate?</label>
-      </div>
       <div class="row">
         <div class="col col-md-auto" style="padding-left: 0px">
           <div class="form-group" id="typeoneerrorinput">
@@ -21,7 +15,7 @@
                    id="typeoneerror"
                    aria-describedby="typeoneerrorhelp"
                    step="0.01"
-                   placeholder="0 < α < 1"
+                   placeholder=" "
                    formControlName="typeoneerror"
                    (keyup.enter)="addAlpha()"
                    [class]="typeOneErrorStyle()">
@@ -43,13 +37,8 @@
           <div class="form-control-feedback">{{formErrors.typeoneerror}}</div>
         </div>
       </div>
-      <div class="row">
-        <small id="typeoneerrorhelp" class="form-text text-muted">
-          Type I error rates must be a number between 0 < α < 1
-        </small>
-      </div>
 
-      <div class="row">
+      <div class="row" *ngIf="!firstAlpha()">
         <div class="table-responsive">
           <table class="table">
             <thead>
