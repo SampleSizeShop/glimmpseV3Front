@@ -84,7 +84,7 @@ export class StudyDesign {
         study._gaussianCovariate = v2study.getGaussianCovariate();
         study._scaleFactor = v2study.getScaleFactors();
         study._varianceScaleFactors = v2study.getVarianceScaleFactors();
-        study._isuFactors = new ISUFactors();
+        study._isuFactors = v2study.getIsuFactors();
         study._confidence_interval = null;
       } else {
         // copy all the fields from the json object

@@ -1,6 +1,8 @@
 import { version } from '../../../../package.json';
 import {constants} from './constants';
 import {GaussianCovariate} from './GaussianCovariate';
+import {ISUFactors} from "./ISUFactors";
+import {Outcome} from "./Outcome";
 
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
@@ -225,5 +227,24 @@ export class V2StudyDesign {
     } else {
       return null;
     }
+  }
+
+  getIsuFactors() {
+    const factors = new ISUFactors();
+    // outcomes
+    if (
+      this.responseList !== null
+      && this.responseList !== undefined
+      && this.responseList.length > 0 ) {
+      this.responseList.forEach( response => {
+        const outcome = new Outcome(response.name);
+        factors.variables.push(outcome);
+      });
+    // repeated measures
+    // clusters
+    // predictors
+    // parameters
+    }
+    return factors;
   }
 }
