@@ -292,6 +292,11 @@ export class V2StudyDesign {
       });
     }
     // parameters
+    const sgs = []
+    this.sampleSizeList.forEach( s => {
+      sgs.push(s.value);
+    })
+    factors.smallestGroupSize = sgs;
     return factors;
   }
 }
