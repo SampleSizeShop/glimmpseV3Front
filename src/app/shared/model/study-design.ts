@@ -77,13 +77,13 @@ export class StudyDesign {
         study._name = 'converted from GLIMMPSE V2';
         study._define_full_beta = true;
         study._solveFor = v2study.getSolveFor();
-        study._power =  [];
+        study._power =  v2study.getPowers();
         study._selectedTests = v2study.getTests();
         study._typeOneErrorRate = v2study.getTypeIErrorRates();
-        study._quantiles = v2study.quantileList;
+        study._quantiles = v2study.getQuantiles();
         study._gaussianCovariate = null;
-        study._scaleFactor = v2study.sigmaScaleList;
-        study._varianceScaleFactors = v2study.sigmaScaleList;
+        study._scaleFactor = v2study.getScaleFactors();
+        study._varianceScaleFactors = v2study.getVarianceScaleFactors();
         study._isuFactors = new ISUFactors();
         study._confidence_interval = null;
       } else {

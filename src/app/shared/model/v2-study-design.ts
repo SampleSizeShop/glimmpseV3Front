@@ -4,57 +4,57 @@ import {constants} from "./constants";
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
 interface V2StudyDesignJSON {
-  uuid: [];
-  name: null;
-  gaussianCovariate: boolean;
-  solutionTypeEnum: null;
-  participantLabel: null;
-  viewTypeEnum: null;
-  confidenceIntervalDescriptions: null;
-  powerCurveDescriptions: null;
-  alphaList: [];
-  betaScaleList: [];
-  sigmaScaleList: [];
-  relativeGroupSizeList: [];
-  sampleSizeList: [];
-  statisticalTestList: [];
-  powerMethodList: [];
-  quantileList: [];
-  nominalPowerList: [];
-  responseList: [];
-  betweenParticipantFactorList: [];
-  repeatedMeasuresTree: [];
-  clusteringTree: [];
-  hypothesis: [];
-  covariance: [];
-  matrixSet: [];
+  uuid;
+  name;
+  gaussianCovariate;
+  solutionTypeEnum;
+  participantLabel;
+  viewTypeEnum;
+  confidenceIntervalDescriptions;
+  powerCurveDescriptions;
+  alphaList;
+  betaScaleList;
+  sigmaScaleList;
+  relativeGroupSizeList;
+  sampleSizeList;
+  statisticalTestList;
+  powerMethodList;
+  quantileList;
+  nominalPowerList;
+  responseList;
+  betweenParticipantFactorList;
+  repeatedMeasuresTree;
+  clusteringTree;
+  hypothesis;
+  covariance;
+  matrixSet;
 }
 
 export class V2StudyDesign {
-  uuid: [];
-  name: null;
-  gaussianCovariate: boolean;
-  solutionTypeEnum: null;
-  participantLabel: null;
-  viewTypeEnum: null;
-  confidenceIntervalDescriptions: null;
-  powerCurveDescriptions: null;
-  alphaList: [];
-  betaScaleList: [];
-  sigmaScaleList: [];
-  relativeGroupSizeList: [];
-  sampleSizeList: [];
-  statisticalTestList: [];
-  powerMethodList: [];
-  quantileList: [];
-  nominalPowerList: [];
-  responseList: [];
-  betweenParticipantFactorList: [];
-  repeatedMeasuresTree: [];
-  clusteringTree: [];
-  hypothesis: [];
-  covariance: [];
-  matrixSet: [];
+  uuid;
+  name;
+  gaussianCovariate;
+  solutionTypeEnum;
+  participantLabel;
+  viewTypeEnum;
+  confidenceIntervalDescriptions;
+  powerCurveDescriptions;
+  alphaList;
+  betaScaleList;
+  sigmaScaleList;
+  relativeGroupSizeList;
+  sampleSizeList;
+  statisticalTestList;
+  powerMethodList;
+  quantileList;
+  nominalPowerList;
+  responseList;
+  betweenParticipantFactorList;
+  repeatedMeasuresTree;
+  clusteringTree;
+  hypothesis;
+  covariance;
+  matrixSet;
 
   // fromJSON is used to convert an serialized version
   // of the StudyDesign to an instance of the class
@@ -79,30 +79,30 @@ export class V2StudyDesign {
   }
 
   constructor(
-    uuid: [],
-    name: null,
-    gaussianCovariate: true,
-    solutionTypeEnum: null,
-    participantLabel: null,
-    viewTypeEnum: null,
-    confidenceIntervalDescriptions: null,
-    powerCurveDescriptions: null,
-    alphaList: [],
-    betaScaleList: [],
-    sigmaScaleList: [],
-    relativeGroupSizeList: [],
-    sampleSizeList: [],
-    statisticalTestList: {idx, type}[],
-    powerMethodList: [],
-    quantileList: [],
-    nominalPowerList: [],
-    responseList: [],
-    betweenParticipantFactorList: [],
-    repeatedMeasuresTree: [],
-    clusteringTree: [],
-    hypothesis: [],
-    covariance: [],
-    matrixSet: []
+    uuid,
+    name,
+    gaussianCovariate,
+    solutionTypeEnum,
+    participantLabel,
+    viewTypeEnum,
+    confidenceIntervalDescriptions,
+    powerCurveDescriptions,
+    alphaList,
+    betaScaleList,
+    sigmaScaleList,
+    relativeGroupSizeList,
+    sampleSizeList,
+    statisticalTestList,
+    powerMethodList,
+    quantileList,
+    nominalPowerList,
+    responseList,
+    betweenParticipantFactorList,
+    repeatedMeasuresTree,
+    clusteringTree,
+    hypothesis,
+    covariance,
+    matrixSet
   ) {
     this.statisticalTestList = [];
   }
@@ -120,8 +120,56 @@ export class V2StudyDesign {
     if ( this.alphaList !== null
       && this.alphaList !== undefined
       && this.alphaList.length > 0) {
-      this.alphalist.forEach( alpha => {
+      this.alphaList.forEach( alpha => {
         l.push(alpha.alphaValue);
+      });
+    }
+    return l;
+  }
+
+  getVarianceScaleFactors() {
+    const l = [];
+    if ( this.sigmaScaleList !== null
+      && this.sigmaScaleList !== undefined
+      && this.sigmaScaleList.length > 0) {
+      this.sigmaScaleList.forEach( scale => {
+        l.push(scale.value);
+      });
+    }
+    return l;
+  }
+
+  getQuantiles() {
+    const l = [];
+    if ( this.quantileList !== null
+      && this.quantileList !== undefined
+      && this.quantileList.length > 0) {
+      this.quantileList.forEach( quantile => {
+        l.push(quantile.value);
+      });
+    }
+    return l;
+  }
+
+  getPowers() {
+    const l = [];
+    if ( this.nominalPowerList !== null
+      && this.nominalPowerList !== undefined
+      && this.nominalPowerList.length > 0) {
+      this.nominalPowerList.forEach( power => {
+        l.push(power.value);
+      });
+    }
+    return l;
+  }
+
+  getScaleFactors() {
+    const l = [];
+    if ( this.betaScaleList !== null
+      && this.betaScaleList !== undefined
+      && this.betaScaleList.length > 0) {
+      this.betaScaleList.forEach( scale => {
+        l.push(scale.value);
       });
     }
     return l;
