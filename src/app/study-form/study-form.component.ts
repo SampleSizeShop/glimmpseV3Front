@@ -859,10 +859,11 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
 
   subscribeToNavigationService() {
 
-    // nasty hack to avoid change detection errors.
-    // This is the solution given by angular university for ExpressionchangedAfterCheckedError.
+    // nasty hack to avoid change detection errors as the update gathered here changes the dom.
+    // This is the solution given by angular university for ExpressionchangedAfterCheckedError.... barf
+    //
+    // This tap statement is designed for things like logging before and after a subscription picks up an event.
     // The delay(0) moves the value update to the next javascript turn.
-    // the logic is in tap() rather than subscribe() so that it happens in that next turn.
     // This ensures that valid/invalid behaviours happen consistently.
     this.validSubscription = this.navigation_service.valid$.pipe(
       startWith(false),
@@ -871,7 +872,10 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
         this.valid = valid;
         this.nextValid = valid;
       })
-    ).subscribe();
+    ).subscribe(
+      // really the logic for this event should go here but can't because we get
+      // unreliable behaviours as this logic alters the dom. see comment above.
+    );
     this._isInternalSubscription = this.navigation_service.internalForm$.subscribe( isInternal => {
       this._isInternal = isInternal;
     });
