@@ -1,11 +1,12 @@
 import { version } from '../../../../package.json';
 import {constants} from './constants';
 import {GaussianCovariate} from './GaussianCovariate';
-import {ISUFactors} from "./ISUFactors";
-import {Outcome} from "./Outcome";
-import {RepeatedMeasure} from "./RepeatedMeasure";
-import {ClusterLevel} from "./ClusterLevel";
-import {Cluster} from "./Cluster";
+import {ISUFactors} from './ISUFactors';
+import {Outcome} from './Outcome';
+import {RepeatedMeasure} from './RepeatedMeasure';
+import {ClusterLevel} from './ClusterLevel';
+import {Cluster} from './Cluster';
+import {Predictor} from './Predictor';
 
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
@@ -276,6 +277,20 @@ export class V2StudyDesign {
       factors.variables.push(cluster);
     }
     // predictors
+    if (
+      this.betweenParticipantFactorList !== null
+      && this.betweenParticipantFactorList !== undefined
+      && this.betweenParticipantFactorList.length > 0 ) {
+      this.betweenParticipantFactorList.forEach( predictor => {
+        const p = new Predictor(predictor.predictorName);
+        const l = []
+        predictor.categoryList.forEach( val => {
+          l.push(val.category);
+        });
+        p.valueNames = l;
+        factors.variables.push(p);
+      });
+    }
     // parameters
     return factors;
   }
