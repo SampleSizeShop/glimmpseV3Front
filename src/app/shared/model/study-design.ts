@@ -81,7 +81,7 @@ export class StudyDesign {
         study._selectedTests = v2study.getTests();
         study._typeOneErrorRate = v2study.getTypeIErrorRates();
         study._quantiles = v2study.getQuantiles();
-        study._gaussianCovariate = null;
+        study._gaussianCovariate = v2study.getGaussianCovariate();
         study._scaleFactor = v2study.getScaleFactors();
         study._varianceScaleFactors = v2study.getVarianceScaleFactors();
         study._isuFactors = new ISUFactors();

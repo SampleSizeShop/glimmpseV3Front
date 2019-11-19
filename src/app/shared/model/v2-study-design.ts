@@ -1,5 +1,6 @@
 import { version } from '../../../../package.json';
-import {constants} from "./constants";
+import {constants} from './constants';
+import {GaussianCovariate} from './GaussianCovariate';
 
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
@@ -208,5 +209,21 @@ export class V2StudyDesign {
       tests.push(constants.STATISTICAL_TESTS.HOTELLING_LAWLEY);
     }
     return tests;
+  }
+
+  getGaussianCovariate() {
+    if (this.gaussianCovariate) {
+      const covariate = new GaussianCovariate()
+      if (
+        this.quantileList !== null
+        && this.quantileList !== undefined
+        && this.quantileList.length > 0 ) {
+        covariate.power_method = [ constants.POWER_METHOD.QUANTILE] ;
+      } else {
+        covariate.power_method = [ constants.POWER_METHOD.UNCONDITIONAL ];
+      }
+    } else {
+      return null;
+    }
   }
 }
