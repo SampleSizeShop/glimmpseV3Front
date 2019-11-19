@@ -115,6 +115,18 @@ export class V2StudyDesign {
     }
   }
 
+  getTypeIErrorRates() {
+    const l = [];
+    if ( this.alphaList !== null
+      && this.alphaList !== undefined
+      && this.alphaList.length > 0) {
+      this.alphalist.forEach( alpha => {
+        l.push(alpha.alphaValue);
+      });
+    }
+    return l;
+  }
+
   getTests() {
     const tests = [];
     const v2tests = [];

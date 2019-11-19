@@ -70,7 +70,7 @@ export class StudyDesign {
       // create an instance of the StudyDesign class
       const study = Object.create(StudyDesign.prototype);
       if (Object.keys(json).indexOf('uuid') !== -1 ) {
-        alert('V2!');
+        alert('You have loaded a study design from GLIMMPSE version 2.');
         const v2study = Object.create(V2StudyDesign.prototype);
         Object.assign(v2study, json);
         study._progress = new StudyProgress();
@@ -79,7 +79,7 @@ export class StudyDesign {
         study._solveFor = v2study.getSolveFor();
         study._power =  [];
         study._selectedTests = v2study.getTests();
-        study._typeOneErrorRate = v2study.alphaList;
+        study._typeOneErrorRate = v2study.getTypeIErrorRates();
         study._quantiles = v2study.quantileList;
         study._gaussianCovariate = null;
         study._scaleFactor = v2study.sigmaScaleList;
