@@ -3,6 +3,9 @@ import {constants} from './constants';
 import {GaussianCovariate} from './GaussianCovariate';
 import {ISUFactors} from "./ISUFactors";
 import {Outcome} from "./Outcome";
+import {RepeatedMeasure} from "./RepeatedMeasure";
+import {ClusterLevel} from "./ClusterLevel";
+import {Cluster} from "./Cluster";
 
 // A representation of StudyDesign's data that can be converted to
 // and from JSON without being altered.
@@ -240,11 +243,40 @@ export class V2StudyDesign {
         const outcome = new Outcome(response.name);
         factors.variables.push(outcome);
       });
+    }
     // repeated measures
+    if (
+      this.repeatedMeasuresTree !== null
+      && this.repeatedMeasuresTree !== undefined
+      && this.repeatedMeasuresTree.length > 0 ) {
+      this.repeatedMeasuresTree.forEach( measure => {
+        const repeatedMeasure = new RepeatedMeasure(measure.dimension);
+        repeatedMeasure.type = measure.repeatedMeasuresDimensionType;
+        repeatedMeasure.noRepeats = measure.numberOfMeasurements;
+        const l = []
+        measure.spacingList.forEach( val => {
+          l.push(val.value);
+        });
+        repeatedMeasure.valueNames = l;
+        factors.variables.push(repeatedMeasure);
+      });
+    }
     // clusters
+    if (
+      this.clusteringTree !== null
+      && this.clusteringTree !== undefined ) {
+      const cluster = new Cluster(this.participantLabel);
+      this.clusteringTree.forEach( level => {
+        const l = new ClusterLevel();
+        l.levelName = level.groupName;
+        l.noElements = level.groupSize;
+        l.intraClassCorellation = l.intraClassCorellation;
+        cluster.levels.push(l);
+      });
+      factors.variables.push(cluster);
+    }
     // predictors
     // parameters
-    }
     return factors;
   }
 }
