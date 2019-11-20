@@ -270,7 +270,7 @@ export class V2StudyDesign {
       this.clusteringTree.forEach( level => {
         const l = new ClusterLevel();
         l.levelName = level.groupName;
-        l.noElements = level.groupSize;
+        l.noElements = +level.groupSize;
         l.intraClassCorellation = l.intraClassCorellation;
         cluster.levels.push(l);
       });
