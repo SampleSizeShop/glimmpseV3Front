@@ -7,8 +7,7 @@ import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
-import {isNullOrUndefined} from "util";
-import {minMaxValidator} from "../../shared/validators/minmax.validator";
+import {minMaxValidator} from '../../shared/validators/minmax.validator';
 
 @Component({
   selector: 'app-parameters-gaussian-covariate-variance',
@@ -62,6 +61,7 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, DoC
           Object.keys(this.gaussianCovariateVarForm.controls).forEach(control => {
             this.gaussianCovariateVarForm.controls[control].setValidators(Validators.required);
             this.gaussianCovariateVarForm.controls[control].updateValueAndValidity();
+            this.onValueChanged();
           });
         }
       }
@@ -93,7 +93,9 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, DoC
   }
 
   checkValidBeforeNavigation(): void {
-    if (this.gaussianCovariateVarForm !== null && this.gaussianCovariateVarForm !== undefined) {
+    if (this.gaussianCovariateVarForm !== null
+      && this.gaussianCovariateVarForm !== undefined
+      && this.allControlsFilledIn) {
       this.setNextEnabled('VALID');
     } else {
       this.setNextEnabled('INVALID');
@@ -135,7 +137,7 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, DoC
     this.formErrors['covariatevariance'] = '';
     for (const field in form.value) {
       const control = form.get(field);
-      if (control && control.dirty && !control.valid) {
+      if (control && !control.valid) {
         const messages = this.validationMessages['covariatevariance'];
         for (const key in control.errors ) {
           this.formErrors['covariatevariance'] = messages[key];
@@ -187,8 +189,7 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, DoC
 
   get validationMessages(): {
     covariatevariance: { required: string; };
-  }
-  {
+  } {
     return this._validationMessages;
   }
 
