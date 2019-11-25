@@ -17,10 +17,10 @@
           If the study includes repeated measures, click "Add Repeated Measure" and follow the prompts.
         </p>
         <p>
-          You may specify up to {{max}} repeated measures.
+          You may specify up to {{max}} repeated measures. Each repeated measure you add will apply to each outcome you specified on the previous page.
         </p>
-        <p *ngIf="hasRepeatedMeasures() &&  nextRepeatedMeasure()">
-          Would you like to add another set of repeated measurements?
+        <p *ngIf="twoOrMore" class="warning">
+          The design you have described, means that every level of <b>{{secondMeasureName}}</b> is measured at every level of <b>{{firstMeasureName}}</b>. This concept applies to every combination of repeated measures.
         </p>
       </div>
     </div>
@@ -30,7 +30,7 @@
         <div class="col">
           <div class="btn-group" data-toggle="buttons">
             <label id="includerptmeasuresbtn" class="btn btn-primary" (click)="includeRepeatedMeasures()" for="includerptmeasuresradio">
-              <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
+              <input type="radio" id="includerptmeasuresradio" (click)="includeRepeatedMeasures()">Define Repeated Measure
             </label>
           </div>
         </div>
@@ -42,7 +42,7 @@
         <div class="col">
           <div class="btn-group" data-toggle="buttons">
             <label for="includenextrptmeasuresradio" id="includenextrptmeasuresbtn" class="btn btn-primary" (click)="includeRepeatedMeasures()">
-              <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Add Repeated Measure
+              <input type="radio" id="includenextrptmeasuresradio" (click)="includeRepeatedMeasures()">Define Repeated Measure
             </label>
           </div>
         </div>
