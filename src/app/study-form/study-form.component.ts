@@ -951,7 +951,7 @@ export class StudyFormComponent implements OnInit, OnDestroy, DoCheck {
     } else if (name === 'WITHIN_ISU_CLUSTERS') {
       return 'Clustering';
     } else if (name === 'BETWEEN_ISU_PREDICTORS') {
-      return 'Fixed Predictors';
+      return 'Fixed predictors';
     } else if (name === 'BETWEEN_ISU_SMALLEST_GROUP') {
       return 'Smallest group size';
     } else if (name === 'BETWEEN_ISU_GROUPS') {
