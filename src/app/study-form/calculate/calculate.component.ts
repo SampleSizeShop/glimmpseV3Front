@@ -235,7 +235,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   get essence_design_matrix_tex() {
     if (this.resultsContainModel()) {
-      return this.matrixWithLabel('Es(\\bf{X}) = ', this.resultString.results[0].model.essence_design_matrix);
+      return this.matrixWithLabel('Es(\\mathbf{X}) = ', this.resultString.results[0].model.essence_design_matrix);
     } else {
       return 'No model in results'
     }
@@ -243,7 +243,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   get full_beta_tex() {
     if (this.isFullBeta) {
-      return this.matrixWithLabel('\\bf{B} = ', this.resultString.results[0].model.hypothesis_beta);
+      return this.matrixWithLabel('\\mathbf{B} = ', this.resultString.results[0].model.hypothesis_beta);
     } else {
       return 'No model in results'
     }
@@ -271,7 +271,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   get hypothesis_beta_tex() {
     if (this.isHypothesisBeta) {
-      return this.matrixWithLabel('\\bf{B}_{hyp} = ', this.resultString.results[0].model.hypothesis_beta);
+      return this.matrixWithLabel('\\mathbf{B}_{hyp} = ', this.resultString.results[0].model.hypothesis_beta);
     } else {
       return 'No model in results'
     }
@@ -279,14 +279,14 @@ export class CalculateComponent implements OnInit, OnDestroy {
 
   get c_matrix_tex() {
     if (this.resultsContainModel()) {
-      return this.matrixWithLabel('\\bf{C} = ', this.resultString.results[0].model.c_matrix);
+      return this.matrixWithLabel('\\mathbf{C} = ', this.resultString.results[0].model.c_matrix);
     } else {
       return 'No model in results'
     }
   }
   get u_matrix_tex() {
     if (this.resultsContainModel()) {
-      return this.matrixWithLabel('\\bf{U} = ', this.resultString.results[0].model.u_matrix);
+      return this.matrixWithLabel('\\mathbf{U} = ', this.resultString.results[0].model.u_matrix);
     } else {
       return 'No model in results'
     }
@@ -296,20 +296,20 @@ export class CalculateComponent implements OnInit, OnDestroy {
       return 'No model in results';
     }
     if (this.isCustomOrPolynomialHypothesis) {
-      let description =  '$\\bf{\\Sigma_*} = \\bf{U}\'' +
-        ' \\otimes (\\bf{\\Sigma}_o \\otimes \\bf{\\Sigma}_r \\otimes \\bf{\\Sigma}_c) ' +
-        '\\otimes \\bf{U}';
+      let description =  '$\\mathbf{\\Sigma}_{*} = \\mathbf{U}\'' +
+        ' \\otimes (\\mathbf{\\Sigma}_o \\otimes \\mathbf{\\Sigma}_r \\otimes \\mathbf{\\Sigma}_c) ' +
+        '\\otimes \\mathbf{U}';
       if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
-        description = description + ' - \\bf{U}\'\\bf{\\Sigma}_{yg}\\sigma_{g}^{-2}\\bf{\\Sigma}_{yg}\'\\bf{U}';
+        description = description + ' - \\mathbf{U}\'\\mathbf{\\Sigma}_{yg}\\sigma_{g}^{-2}\\mathbf{\\Sigma}_{yg}\'\\mathbf{U}';
       }
       description = description + '$';
       return description;
     } else {
-      let description =  '$\\bf{\\Sigma_*} = (\\bf{U}_o\' \\bf{\\Sigma}_o \\bf{U}_o) ' +
-      ' \\otimes (\\bf{U}_r\' \\bf{\\Sigma}_r \\bf{U}_r) ' +
-      '\\otimes (\\bf{U}_c\' \\bf{\\Sigma}_c \\bf{U}_c)';
+      let description =  '$\\mathbf{\\Sigma}_{*} = (\\mathbf{U}\'_{o} \\mathbf{\\Sigma}_o \\mathbf{U}_o) ' +
+      ' \\otimes (\\mathbf{U}_r\' \\mathbf{\\Sigma}_r \\mathbf{U}_r) ' +
+      '\\otimes (\\mathbf{U}_c\' \\mathbf{\\Sigma}_c \\mathbf{U}_c)';
       if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
-        description = description + ' - \\bf{U}\'\\bf{\\Sigma}_{yg}\\sigma_{g}^{-2}\\bf{\\Sigma}_{yg}\'\\bf{U}'
+        description = description + ' - \\mathbf{U}\'\\mathbf{\\Sigma}_{yg}\\sigma_{g}^{-2}\\mathbf{\\Sigma}_{yg}\'\\mathbf{U}'
       }
       description = description + '$';
       return description;
@@ -333,8 +333,8 @@ export class CalculateComponent implements OnInit, OnDestroy {
       let end  = '';
 
       if (this.isCustomOrPolynomialHypothesis) {
-        start = start + '\\bf{U}\' \\otimes (';
-        end = ') \\otimes \\bf{U}' + end;
+        start = start + '\\mathbf{U}\' \\otimes (';
+        end = ') \\otimes \\mathbf{U}' + end;
       }
 
       if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
@@ -350,7 +350,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
   get theta_zero_tex() {
     if (this.resultsContainModel()) {
-      return this.matrixWithLabel('\\bf{\\Theta_0} = ', this.resultString.results[0].model.theta_zero);
+      return this.matrixWithLabel('\\mathbf{\\Theta}_{0} = ', this.resultString.results[0].model.theta_zero);
     } else {
       return 'No model in results'
     }
@@ -364,14 +364,14 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
   get theta_tex() {
     if (this.resultsContainModel()) {
-      return this.matrixWithLabel('\\bf{\\Theta} = ', this.resultString.results[0].model.theta);
+      return this.matrixWithLabel('\\mathbf{\\Theta} = ', this.resultString.results[0].model.theta);
     } else {
       return 'No model in results'
     }
   }
   get m_tex() {
     if (this.resultsContainModel()) {
-      return this.matrixWithLabel('\\bf{M} = ', this.resultString.results[0].model.m);
+      return this.matrixWithLabel('\\mathbf{M} = ', this.resultString.results[0].model.m);
     } else {
       return 'No model in results'
     }
@@ -392,7 +392,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
   get delta_tex() {
     if (this.resultsContainModel()) {
-      return this.matrixWithLabel('Es(\\bf{\\Delta}) = ', this.resultString.results[0].model.delta);
+      return this.matrixWithLabel('Es(\\mathbf{\\Delta}) = ', this.resultString.results[0].model.delta);
     } else {
       return 'No model in results'
     }
