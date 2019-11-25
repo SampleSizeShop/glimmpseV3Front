@@ -177,13 +177,15 @@ export const constants = {
   SOLVE_FOR_POWER: 'POWER',
   SOLVE_FOR_SAMPLESIZE: 'SAMPLESIZE',
   // Statistical Tests Constants
-  STATISTICAL_TESTS: {HOTELLING_LAWLEY: 'Hotelling Lawley Trace',
+  STATISTICAL_TESTS: {
+    HOTELLING_LAWLEY: 'Hotelling Lawley Trace',
     PILLAI_BARTLET: 'Pillai-Bartlett Trace',
-  WILKS_LIKLIEHOOD: 'Wilks Likelihood Ratio',
-  BOX_CORRECTION: 'Box Corrected',
-  GEISSER_GREENHOUSE: 'Geisser-Greenhouse Corrected',
-  HUYNH_FELDT: 'Huynh-Feldt Corrected',
-  UNCORRECTED: 'Uncorrected'},
+    WILKS_LIKLIEHOOD: 'Wilks Likelihood Ratio',
+    BOX_CORRECTION: 'Box Corrected',
+    GEISSER_GREENHOUSE: 'Geisser-Greenhouse Corrected',
+    HUYNH_FELDT: 'Huynh-Feldt Corrected',
+    UNCORRECTED: 'Uncorrected'
+  },
   SEPARATOR: '-',
   CORRELATION_MIN: -1,
   CORRELATION_MAX: 1,
