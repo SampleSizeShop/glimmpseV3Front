@@ -14,6 +14,10 @@
         <p>
           If the design has no fixed predictors, do not define any here.
         </p>
+        <p class="warning" *ngIf="twoOrMore">
+          The design you’ve described, means that every level of <b>{{secondPredictorName}}</b> occurs at every level of
+          <b>{{firstPredictorName}}</b>. This concept applies to every combination of fixed predictors.
+        </p>
       </div>
       <div class="col">
         <button id="addbetweenbtn" (click)="includePredictors()" class="btn btn-primary">Define Fixed Predictor</button>
