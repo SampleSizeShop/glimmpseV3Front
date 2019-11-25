@@ -17,7 +17,6 @@ import * as math from 'mathjs';
 import {timeout, catchError} from 'rxjs/operators';
 import {Observable} from 'rxjs/internal/Observable';
 import { of } from 'rxjs'
-import {csv} from "d3-fetch";
 
 @Component({
   selector: 'app-calculate',
