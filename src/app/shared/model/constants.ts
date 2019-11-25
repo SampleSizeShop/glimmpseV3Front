@@ -90,7 +90,7 @@ export const constants = {
     'typeoneerror': {
       'minval': 'Too low. Values for α must be greater than zero and less than 1.',
       'maxval': 'Too high. Values for α must be greater than zero and less than 1.',
-      'noalpha': 'You must specify at least one Type I error rate.'
+      'noalpha': 'You must specify at least one Type I error rate. If you have entered a value, press enter ot the + button to add it to your design.'
     }
   },
   BETWEEN_ISU_VALIDATION_MESSAGES: {
@@ -137,12 +137,12 @@ export const constants = {
   PARAMETERS_GAUSSIAN_COVARIATE_POWER_VALIDATION_MESSAGES: {
     'covariatepower': {
       'required': 'You must pick at least one power method. ',
-      'minlength': 'To calculate quantile powe you must specify one or more quantiles. ',
+      'minlength': 'To calculate quantile power you must specify one or more quantiles. ',
     },
   },
   BETWEEN_ISU_PREDICTORS_VALIDATION_MESSAGES: {
     'predictorform': {
-      'empty': 'Value needs to be filled in.',
+      'empty': 'You must name your predictor.',
       'duplicate': 'You have already added that predictor name.'
     },
     'groupsformduplicated': {
