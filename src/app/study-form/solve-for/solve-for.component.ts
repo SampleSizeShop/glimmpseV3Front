@@ -44,6 +44,7 @@ export class SolveForComponent implements OnDestroy {
         this.showHelpText(this.helpTextModal);
       }
     });
+    this._navigation_service.updateValid(true);
   }
 
   ngOnDestroy() {

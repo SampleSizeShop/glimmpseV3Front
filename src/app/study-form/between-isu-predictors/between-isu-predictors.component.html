@@ -4,24 +4,23 @@
     <div *ngIf="isStage(stages.INFO)" >
       <div class="col">
         <p>
-          An independent sampling unit provides one or more observations such that observations from one unit are
-          statistically independent from any other distinct unit while observations from the same unit may be correlated.
+          Each independent sampling unit has one or more observations which are statistically
+          independent from observations from any other unit.
         </p>
         <p>
-          GLIMMPSE allows you to define between-participant factors, specified as fixed predictors.
-          The values of the fixed predictors (that is, the levels of the between-participant factors) divide
-          the independent sampling units into groups. The choice of study design determines the fixed predictors
-          and their values. One common example of a fixed predictor is treatment, with values placebo and active,
-          for which the independent sampling unit is randomized to a placebo group or an active drug group.
-          Another is gender, with values male and female, for which the independent sampling unit is part of a
-          male group or a female group.
+          GLIMMPSE allows you to define fixed predictors which divide the independent
+          sampling unit into groups. One common example of a fixed predictor is treatment, with values placebo and drug, for which the independent sampling unit is randomized to a placebo group or a drug group. Another is gender, with values male or female.
+        </p>
+        <p>
+          If the design has no fixed predictors, do not define any here.
+        </p>
+        <p class="warning" *ngIf="twoOrMore">
+          The design you’ve described, means that every level of <b>{{secondPredictorName}}</b> occurs at every level of
+          <b>{{firstPredictorName}}</b>. This concept applies to every combination of fixed predictors.
         </p>
       </div>
       <div class="col">
-        <p>
-          If the design has no between-participant factors, don't define any predictors.
-        </p>
-        <button id="addbetweenbtn" (click)="includePredictors()" class="btn btn-primary">Define Between ISU Factor</button>
+        <button id="addbetweenbtn" (click)="includePredictors()" class="btn btn-primary">Define Fixed Predictor</button>
       </div>
     </div>
 
@@ -132,7 +131,7 @@
 
 
     <div *ngIf="!nextPredictors()" id="maxPredictors">
-      <h6>Maximum number of predictors for GLIMMPSE added.</h6>
+      <h6>Maximum number of fixee predictors for GLIMMPSE added.</h6>
     </div>
 
   </div>
@@ -142,7 +141,7 @@
   <div class="row">
     <div class="col" *ngIf="hasPredictors() && isStage(stages.INFO)">
     <br>
-      <h6> <b> Between ISU Predictors</b> </h6>
+      <h6> <b> Fixed Predictors</b> </h6>
         <table class="table">
           <thead>
           <th class="col col-md-auto">

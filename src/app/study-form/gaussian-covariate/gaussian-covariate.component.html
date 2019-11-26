@@ -2,7 +2,24 @@
 <div class="row">
   <div class="col">
     <p>
-      Does the design include a Gaussian (normally-distributed) covariate.
+      A common experimental design is an analysis of covariance,
+      which includes one or more fixed predictors and one or more continuous control variables,
+      the "covariates." For example, one might run an experiment with 10 males and 10 females,
+      with an indicator variable for gender as a fixed predictor and age as a covariate.
+    </p>
+    <p>
+      A common special case uses a series of repeated measurements on a continuous outcome.
+      The first measurement, observed prior to treatment, is used as a baseline covariate.
+      The other repeated measurements are outcomes in the general linear multivariate model.
+    </p>
+    <p>
+      GLIMMPSE can calculate power for hypotheses concerning the fixed predictors,
+      optionally controlling for a single normally distributed covariate.
+      If you plan to include a single normally distributed covariate in your model, use the switch below.
+    </p>
+    <p>
+      At present, the GLIMMPSE software does not calculate power for multiple normally distributed
+      covariates nor non-normally distributed covariates.
     </p>
   </div>
 </div>

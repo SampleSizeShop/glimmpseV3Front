@@ -321,6 +321,29 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
       });
   }
 
+  get twoOrMore(): boolean {
+    if (this.hasPredictors() && this.betweenIsuPredictors.length > 1) {
+      return true;
+    }
+    return false;
+  }
+
+  get firstPredictorName() {
+    if (this.twoOrMore) {
+      return this.betweenIsuPredictors[0].name;
+    } else {
+      return 'fixed predictor one'
+    }
+  }
+
+  get secondPredictorName() {
+    if (this.twoOrMore) {
+      return this.betweenIsuPredictors[1].name;
+    } else {
+      return 'fixed predictor two'
+    }
+  }
+
   get stageName() {
     return this.stages[this.stage]
   }

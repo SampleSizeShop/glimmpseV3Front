@@ -2,7 +2,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <p>Please choose one or more statistical tests. If you are unsure which to pick, we recommend a Hotelling Lawley Trace test as a sensible default.</p>
+      <p>Please choose one or more statistical tests. If you are unsure which to pick, we recommend the Hotelling Lawley Trace test due to its equivalence to a mixed model test.</p>
     </div>
   </div>
   <div class="row">
@@ -15,39 +15,27 @@
   <div class="row">
     <div class="col col-md-auto">
       <form [formGroup]="statisticalTestsForm">
-        <div class="btn-group-vertical btn-block" data-toggle="buttons">
-          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" id="hlt" [class.active]="isSelected(statisticalTests.HOTELLING_LAWLEY)">
-            <input formControlName="0" type="checkbox" (click)="selectTest(statisticalTests.HOTELLING_LAWLEY)">
-            {{statisticalTests.HOTELLING_LAWLEY}} (recommended)
-          </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" id="pb" [class.active]="isSelected(statisticalTests.PILLAI_BARTLET)">
-            <input formControlName="1" type="checkbox" (click)="selectTest(statisticalTests.PILLAI_BARTLET)">{{statisticalTests.PILLAI_BARTLET}}
-          </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.WILKS_LIKLIEHOOD)" id="wl">
-            <input formControlName="2" type="checkbox" (click)="selectTest(statisticalTests.WILKS_LIKLIEHOOD)">{{statisticalTests.WILKS_LIKLIEHOOD}}
-          </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.BOX_CORRECTION)" id="bc">
-            <input formControlName="3" type="checkbox" (click)="selectTest(statisticalTests.BOX_CORRECTION)">{{statisticalTests.BOX_CORRECTION}}
-          </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.GEISSER_GREENHOUSE)" id="gg">
-            <input formControlName="4" type="checkbox" (click)="selectTest(statisticalTests.GEISSER_GREENHOUSE)">{{statisticalTests.GEISSER_GREENHOUSE}}
-          </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" style="margin-bottom: 0px;" [class.active]="isSelected(statisticalTests.HUYNH_FELDT)" id="hf">
-            <input formControlName="5" type="checkbox" (click)="selectTest(statisticalTests.HUYNH_FELDT)">{{statisticalTests.HUYNH_FELDT}}
-          </label>
-          <label formArrayName="statisticaltestsoptions" class="btn btn-secondary" [class.active]="isSelected(statisticalTests.UNCORRECTED)" id="uc">
-            <input formControlName="6" type="checkbox" (click)="selectTest(statisticalTests.UNCORRECTED)">{{statisticalTests.UNCORRECTED}}
+
+        <div class="form-check" *ngFor="let test of statisticalTestsForm.controls.statisticaltestsoptions.controls; let i = index">
+          <label class="form-check-label"
+                 formArrayName="statisticaltestsoptions"
+                 id="i">
+            <input [formControlName]="i"
+                   class="form-check-input"
+                   type="checkbox">
+            {{statisticalTestsOption[i].name}}
           </label>
         </div>
 
-    </form></div>
+      </form>
+    </div>
   </div>
 </div>
 
 <ng-template #helpText>
   <div class="modal-content">
     <div class="modal-header">
-      <h5 class="modal-title">Statistical Test Help</h5> <button type="button" class="close" (click)="dismissHelp()">
+      <h5 class="modal-title">Statistical Test Help</h5> <button type="button" class="close" ng-checked="dismissHelp()">
       <i class="material-icons">close</i>
     </button>
     </div>

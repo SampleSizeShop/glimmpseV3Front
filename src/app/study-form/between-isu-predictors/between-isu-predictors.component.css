@@ -1,3 +1,6 @@
+.warning {
+  color: orange;
+}
 /*
 Max width before this PARTICULAR table gets nasty
 This query will take effect for any screen smaller than 760px

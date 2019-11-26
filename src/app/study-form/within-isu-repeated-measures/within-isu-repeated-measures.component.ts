@@ -428,6 +428,29 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  get twoOrMore(): boolean {
+    if (this.hasRepeatedMeasures() && this.repeatedMeasures.length > 1) {
+      return true;
+    }
+    return false;
+  }
+
+  get firstMeasureName() {
+    if (this.twoOrMore) {
+      return this.repeatedMeasures[0].name;
+    } else {
+      return 'repeated measure one'
+    }
+  }
+
+  get secondMeasureName() {
+    if (this.twoOrMore) {
+      return this.repeatedMeasures[1].name;
+    } else {
+      return 'repeated measure two'
+    }
+  }
+
   selectType(type: string) {
     this._typeForm.setValue({type: type});
     // if any of  the spacing values are non numeric and type is not Categorical, reset the spacing form to default.
