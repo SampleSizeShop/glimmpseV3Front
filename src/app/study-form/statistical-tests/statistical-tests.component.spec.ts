@@ -56,16 +56,4 @@ describe('StatisticalTestsComponent', () => {
   it('selectedTests should return false if value is not in selectedTests', () => {
     expect(component.isSelected(component.statisticalTests.PILLAI_BARTLET)).toEqual(false);
   });
-
-  it('should give all statistical test checkboxes active class if they are selected', () => {
-    // Start with an empty set
-    component.selectTest(component.statisticalTests.HOTELLING_LAWLEY)
-
-    for (const test of Object.keys(component.statisticalTests)) {
-      component.selectTest(component.statisticalTests[test]);
-    }
-    fixture.detectChanges();
-    const activeElements: DebugElement[] = fixture.debugElement.queryAll(By.css('.active'));
-    expect(activeElements.length).toEqual(component.selectedTests.length);
-  });
 });

@@ -43,13 +43,13 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
     this.formErrors = constants.STATISTICAL_TESTS_ERRORS;
     this.statisticalTests = constants.STATISTICAL_TESTS;
     this.statisticalTestsOption = [
-      {id: 'hlt', name: this.statisticalTests.HOTELLING_LAWLEY},
-      {id: 'pb', name: this.statisticalTests.PILLAI_BARTLET},
-      {id: 'wl', name: this.statisticalTests.WILKS_LIKLIEHOOD},
-      {id: 'bc', name: this.statisticalTests.BOX_CORRECTION},
-      {id: 'gg', name: this.statisticalTests.GEISSER_GREENHOUSE},
-      {id: 'hf', name: this.statisticalTests.HUYNH_FELDT},
-      {id: 'uc', name: this.statisticalTests.UNCORRECTED}
+      {id: '0', name: this.statisticalTests.HOTELLING_LAWLEY},
+      {id: '1', name: this.statisticalTests.PILLAI_BARTLET},
+      {id: '2', name: this.statisticalTests.WILKS_LIKLIEHOOD},
+      {id: '3', name: this.statisticalTests.BOX_CORRECTION},
+      {id: '4', name: this.statisticalTests.GEISSER_GREENHOUSE},
+      {id: '5', name: this.statisticalTests.HUYNH_FELDT},
+      {id: '6', name: this.statisticalTests.UNCORRECTED}
     ];
 
 
@@ -95,10 +95,13 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
 
   ngDoCheck() {
     this.checkValidator();
-    this.study_service.updateSelectedTests(this.selectedTests);
   }
 
   ngOnDestroy() {
+    this.selectedTests = this.statisticalTestsForm.value.statisticaltestsoptions
+      .map((v, i) => v ? this.statisticalTestsOption[i].name : null)
+      .filter(v => v !== null);
+    this.study_service.updateSelectedTests(this.selectedTests);
     this.setNextEnabled('VALID');
     this.navigationSubscription.unsubscribe();
     this.selectedTestsSubscription.unsubscribe();
@@ -111,10 +114,10 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   buildForm() {
-    const controls = this.statisticalTestsOption.map(c => new FormControl(false));
+    const controls = this.statisticalTestsOption.map(c => new FormControl(this.isSelected(c.name)));
 
     this.statisticalTestsForm = this.fb.group({
-      statisticaltestsoptions: new FormArray(controls, statisticalTestsValidator(this.selectedTests, this._isClickNextReference))
+      statisticaltestsoptions: new FormArray(controls, statisticalTestsValidator(1, this._isClickNextReference))
     });
     this.statisticalTestsForm.valueChanges.subscribe(data => this.emptyErrorMessage());
 
