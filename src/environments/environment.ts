@@ -10,7 +10,7 @@ export const environment = {
   // serverLoggingUrl: 'http://localhost:5000/api/clientsidelog',
   // calculateUrl: 'http://localhost:5000/api/calculate',
   serverLoggingUrl: 'http://54.161.9.34:5000/api/clientsidelog',
-  calculateUrl: 'http://54.161.9.34:5000/api/calculate',
+  calculateUrl: 'http://54.161.9.34/api/calculate',
   loglevel: NgxLoggerLevel.DEBUG,
   serverLoglevel: NgxLoggerLevel.WARN,
   disableAnimations: false,
