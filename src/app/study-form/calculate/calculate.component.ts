@@ -10,6 +10,7 @@ import {Predictor} from '../../shared/model/Predictor';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
+import {GoogleAnalyticsService} from '../../shared/services/google-analytics.service';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/model/constants';
 import {Result} from '../../shared/model/Results';
@@ -60,6 +61,7 @@ export class CalculateComponent implements OnInit, OnDestroy {
               private sanitizer: DomSanitizer,
               private ref: ChangeDetectorRef,
               private navigation_service: NavigationService,
+              private googleAnalyticsService: GoogleAnalyticsService,
               private modalService: NgbModal,
               private log: NGXLogger) {
     this.studySubscription = this.study_service.studyDesign$.subscribe( study => {
@@ -113,6 +115,12 @@ export class CalculateComponent implements OnInit, OnDestroy {
   get postModel(): Observable<any> {
     this.isShowDetail = false;
     const output = this.outputString;
+    this.googleAnalyticsService.eventEmitter(
+      'calculate',
+      'calculate ' + this.googleEventValue,
+      'calculate ' + this.googleEventValue,
+      'calculate ' + this.googleEventValue,
+      1);
     return this.http.post(
       environment.calculateUrl,
       output,
@@ -508,6 +516,12 @@ export class CalculateComponent implements OnInit, OnDestroy {
       ret =  this.studyDesign.solveFor === constants.SOLVE_FOR.POWER;
     }
     return !ret;
+  }
+
+  get googleEventValue(): string {
+    let ret = 'sample size';
+    if (this.isPower()) { ret = 'power' }
+    return ret;
   }
 
   hasConfidenceInterval(): boolean {
