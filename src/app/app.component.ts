@@ -5,6 +5,8 @@ import {StudyDesign} from './shared/model/study-design';
 import {StudyService} from './shared/services/study.service';
 import {DomSanitizer, Title} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
+import {GoogleAnalyticsService} from './shared/services/google-analytics.service';
+
 
 declare let gtag: Function;
 
@@ -19,6 +21,7 @@ export class AppComponent {
 
   constructor(private router: Router,
               private study_service: StudyService,
+              private googleAnalyticsService: GoogleAnalyticsService,
               private domSanitizer: DomSanitizer,
               private matIconRegistry: MatIconRegistry,
               private titleService: Title) {
@@ -50,12 +53,24 @@ export class AppComponent {
         const str = atob(res.split(',')[1]);
         const study = JSON.parse(str, StudyDesign.reviver);
         this.study_service.updateAll(study);
+        this.googleAnalyticsService.eventEmitter(
+            'json_upload',
+            'study',
+            'upload',
+            'upload',
+            1);
       }
     };
     this.navigateToStudy();
   }
 
   newStudy() {
+    this.googleAnalyticsService.eventEmitter(
+      'new_study',
+      'study',
+      'new',
+      'new',
+      1);
     this.navigateToStudy();
   }
 
