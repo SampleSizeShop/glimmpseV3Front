@@ -1,10 +1,12 @@
 import {Component} from '@angular/core';
 import {environment} from '../environments/environment';
-import {Router} from '@angular/router';
+import {Router, NavigationEnd} from '@angular/router';
 import {StudyDesign} from './shared/model/study-design';
 import {StudyService} from './shared/services/study.service';
 import {DomSanitizer, Title} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
+
+declare let gtag: Function;
 
 
 @Component({
@@ -25,6 +27,16 @@ export class AppComponent {
     this.matIconRegistry.addSvgIcon(
       `glimmpsediamond`,
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/glimmpse_diamond_min_blue.svg')
+    );
+    this.router.events.subscribe(event => {
+        if (event instanceof NavigationEnd) {
+          gtag('config', 'UA-21939703-3',
+            {
+              'page_path': event.urlAfterRedirects
+            }
+          );
+        }
+      }
     );
   }
 
