@@ -132,7 +132,7 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, DoC
       return;
     }
     const form = this.gaussianCovariateVarForm;
-    this._variance = +this.gaussianCovariateVarForm.value.variance;
+    this._variance = this.gaussianCovariateVarForm.value.variance;
 
     this.formErrors['covariatevariance'] = '';
     for (const field in form.value) {

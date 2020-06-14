@@ -32,7 +32,9 @@ export const powerlib_example2_input = {
     {outcome: 'Outcome', st_dev: 1.414214}
   ],
   parameters_outcome_correlation: null,
-  parameters_outcome_repeated_measure_stdev: null,
+  parameters_outcome_repeated_measure_stdev: [
+    {stdevs: [1, 1]}
+  ],
   parameters_repeated_measure_correlations: [
     {
       table: [

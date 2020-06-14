@@ -19,7 +19,7 @@
         <div class="form-check" *ngFor="let test of statisticalTestsForm.controls.statisticaltestsoptions.controls; let i = index">
           <label class="form-check-label"
                  formArrayName="statisticaltestsoptions"
-                 id="i">
+                 id="{{statisticalTestsOption[i].name}}">
             <input [formControlName]="i"
                    class="form-check-input"
                    type="checkbox">

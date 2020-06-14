@@ -31,10 +31,6 @@ export class WithinIsuRepeatedMeasuresPo {
       const dimensionInput = element(by.id('dimension'));
       dimensionInput.clear().then(() => dimensionInput.sendKeys(input.dimension));
     }
-    if (!isNullOrUndefined(input.units)) {
-      const dimensionInput = element(by.id('units'));
-      dimensionInput.clear().then(() => dimensionInput.sendKeys(input.units));
-    }
     element(by.id('dimnextbtn')).click();
   }
 

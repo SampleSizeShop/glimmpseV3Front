@@ -32,6 +32,7 @@ import {powerlib_example5_input, powerlib_example5_output} from './test_inputs/P
 import {powerlib_example6_input, powerlib_example6_output} from './test_inputs/POWERLIB_Example_6';
 import {powerlib_example7_input, powerlib_example7_output} from './test_inputs/POWERLIB_Example_7';
 import {GLMM_F_example7__output, GLMM_F_example7_input} from './test_inputs/GLMM(F)_example7';
+import {browser} from 'protractor';
 
 describe('Glimmpse v3 automated integration tests', () => {
   let page: StudyFormComponentPage;
@@ -40,13 +41,13 @@ describe('Glimmpse v3 automated integration tests', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     page = new StudyFormComponentPage();
     page.navigateTo('/design/SOLVE_FOR');
+    browser.waitForAngularEnabled(false);
   });
 
   it('Should correctly calculate power using custom contrast matrices', async function () {
     const expected = cc_output;
-    page.fromJSON(cc_input);
+    await page.fromJSON(cc_input);
     let actual = null;
-    await page.fromJSON(MultipleOutcomeSampleSize_input);
     await page.calculate();
     await page.output().then(text => {
       console.log(text);

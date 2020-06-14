@@ -43,6 +43,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
           this._corellations = gaussianCovariate.corellations;
           this._corellation_names = this.getCorellationNames();
         } else {
+          this._gaussianCovariate = gaussianCovariate;
           this._corellation_names = this.getCorellationNames();
           this._corellations = [];
           this._corellation_names.forEach(name => {
