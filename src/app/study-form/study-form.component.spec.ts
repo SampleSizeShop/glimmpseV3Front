@@ -52,7 +52,6 @@ describe('StudyFormComponent', () => {
   let getSpy;
 
   beforeEach(async(() => {
-    console.log('hello');
     TestBed.configureTestingModule({
       imports: [
         MatIconModule,
@@ -109,15 +108,10 @@ describe('StudyFormComponent', () => {
         RouterTestingModule ]
     })
     .compileComponents();
-    console.log('hello2');
     fixture = TestBed.createComponent(StudyFormComponent);
-    console.log('hello3');
     component = fixture.componentInstance;
-    console.log('hello4');
     // fixture.detectChanges();
-    console.log('hello5');
     getSpy = spyOn(component, 'getStage');
-    console.log('hello6');
   }));
 
   // it('Should correctly set next and back boolean flags for the first stage', () => {

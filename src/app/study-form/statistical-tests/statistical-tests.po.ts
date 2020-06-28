@@ -5,7 +5,6 @@ import {constants} from '../../shared/model/constants';
 export class StatisticalTestsPo {
 
   fromJSON(source) {
-    console.log('hello');
     if (!isNullOrUndefined(source) && !isNullOrUndefined(source.statistical_tests)) {
       // remove default selection of HLT
       element(by.id(constants.STATISTICAL_TESTS.HOTELLING_LAWLEY)).click();
