@@ -59,6 +59,7 @@ export class HypothesisEffectChoiceComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this._afterInit = true;
+    this.selectFullBeta();
     this.determinePossibleEffects();
     if ( isNullOrUndefined(this._selected) ) { this.selectEffect(this.possibleEffects[0]); }
   }
