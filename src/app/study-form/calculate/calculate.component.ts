@@ -305,8 +305,8 @@ export class CalculateComponent implements OnInit, OnDestroy {
     }
     if (this.isCustomOrPolynomialHypothesis) {
       let description =  '$\\mathbf{\\Sigma}_{*} = \\mathbf{U}\'' +
-        ' \\otimes (\\mathbf{\\Sigma}_o \\otimes \\mathbf{\\Sigma}_r \\otimes \\mathbf{\\Sigma}_c) ' +
-        '\\otimes \\mathbf{U}';
+        ' (\\mathbf{\\Sigma}_o \\otimes \\mathbf{\\Sigma}_r \\otimes \\mathbf{\\Sigma}_c) ' +
+        ' \\mathbf{U}';
       if (this.resultString.results[0].model.sigma_star_gaussian_adjustment !== null) {
         description = description + ' - \\mathbf{U}\'\\mathbf{\\Sigma}_{yg}\\sigma_{g}^{-2}\\mathbf{\\Sigma}_{yg}\'\\mathbf{U}';
       }
