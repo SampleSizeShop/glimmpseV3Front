@@ -61,6 +61,7 @@ import { StatusComponent } from './study-form/status/status.component';
 import {CustomHammerConfig} from './hammer/CustomHammerConfig';
 import { ControlHelpTextComponent } from './study-form/control-help-text/control-help-text.component';
 import { TargetPowerComponent } from './study-form/target-power/target-power.component';
+import {authStrategyProvider} from './shared/services/auth.strategy';
 
 @NgModule({
   declarations: [
@@ -132,6 +133,7 @@ import { TargetPowerComponent } from './study-form/target-power/target-power.com
     MathJaxService,
     D3Service,
     {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
+    authStrategyProvider,
   ],
   bootstrap: [AppComponent]
 })
