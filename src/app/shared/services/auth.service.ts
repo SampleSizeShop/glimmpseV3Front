@@ -45,7 +45,7 @@ export class AuthService {
   isLoggedIn$(): Observable<boolean> {
     return this.auth.getCurrentUser().pipe(
       map(user => !!user),
-      catchError(() => of(false))
+      catchError(() => of(true))
     );
   }
 
