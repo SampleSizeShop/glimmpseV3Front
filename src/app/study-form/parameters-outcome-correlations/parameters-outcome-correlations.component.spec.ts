@@ -11,7 +11,7 @@ import {testEnvironment} from '../../../environments/environment.test';
 import {MatTooltipModule } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {MatIconModule} from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
 import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('ParametersOutcomeCorrelationsComponent', () => {

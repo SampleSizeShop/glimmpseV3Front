@@ -15,7 +15,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
-import {MatIconModule} from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
 
 let component: ParametersRepeatedMeasureCorrelationsComponent;
 let fixture: ComponentFixture<ParametersRepeatedMeasureCorrelationsComponent>;

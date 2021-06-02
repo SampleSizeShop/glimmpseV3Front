@@ -13,7 +13,7 @@ import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapper
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
 import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
-import {MatIconModule} from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
 
 describe('WithinIsuOutcomesComponent', () => {
   let component: WithinIsuOutcomesComponent;

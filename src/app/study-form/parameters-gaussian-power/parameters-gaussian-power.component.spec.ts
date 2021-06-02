@@ -12,7 +12,7 @@ import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {LoggerConfig, NGXLogger, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from "ngx-logger";
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
-import {MatIconModule} from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
 import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('ParametersGaussianPowerComponent', () => {

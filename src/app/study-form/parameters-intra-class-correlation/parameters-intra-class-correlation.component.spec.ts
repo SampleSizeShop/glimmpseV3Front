@@ -9,7 +9,7 @@ import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import { HttpClient } from '@angular/common/http';
 import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
-import {MatIconModule} from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
 
 describe('ParametersIntraClassCorrelationComponent', () => {
   let component: ParametersIntraClassCorrelationComponent;

@@ -10,7 +10,7 @@ import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {HttpClient} from '@angular/common/http';
-import {MatIconModule} from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 import {ControlHelpTextComponent} from '../control-help-text/control-help-text.component';
 
 describe('SolveForComponent', () => {

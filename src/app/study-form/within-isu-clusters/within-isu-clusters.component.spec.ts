@@ -16,7 +16,7 @@ import {ZoomableDirective} from '../../d3/directives/zoomable.directive';
 import {D3Service} from "../../d3/d3.service";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
-import {MatIconModule} from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
 import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('WithinIsuClustersComponent', () => {

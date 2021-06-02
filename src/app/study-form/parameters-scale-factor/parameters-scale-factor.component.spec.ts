@@ -17,7 +17,7 @@ import {testEnvironment} from '../../../environments/environment.test';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {LoggerTestingModule, NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
-import {MatIconModule} from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
 import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('ParametersScaleFactorComponent', () => {
