@@ -6,6 +6,7 @@ import {NGXLogger} from 'ngx-logger';
 import {AuthService} from './auth.service';
 import {tap} from "rxjs/operators";
 import {Observable} from "rxjs/internal/Observable";
+import {of} from "rxjs/internal/observable/of";
 
 @Injectable()
 export class StudyFormGuard implements CanActivate {
@@ -18,11 +19,7 @@ export class StudyFormGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     this.log.debug('StudyFormGuard#canActivate called');
-    return this.authService.isLoggedIn$().pipe(
-      tap(isLoggedIn => {
-        if (!isLoggedIn) { this.router.navigate(['/login']); }
-      })
-    );
+    return of(true);
   }
 
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
