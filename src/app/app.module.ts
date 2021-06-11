@@ -113,8 +113,8 @@ import {AuthModule} from '@auth0/auth0-angular';
   imports: [
     // Import the module into the application, with configuration
     AuthModule.forRoot({
-      domain: 'dev-9mnzuul1.us.auth0.com',
-      clientId: 'UL74O5heOlXTVbClBnAYpjIHhAfA7ilP'
+      domain: 'samplesizeshop.us.auth0.com',
+      clientId: 'Xas70BGaLbcH45TzCgSCUtU2ve9pTOaw'
     }),
     NgbModule,
     LoggerModule.forRoot({

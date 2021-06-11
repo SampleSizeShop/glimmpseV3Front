@@ -50,6 +50,7 @@ import {HypothesisBetweenGuard} from '../shared/services/hypothesis-between-guar
 import {HypothesisWithinGuard} from '../shared/services/hypothesis-within-guard.service';
 import {TargetPowerComponent} from './target-power/target-power.component'
 import {SolveForSampleSizeGuard} from '../shared/services/solve-for-sample-size-guard.service';
+import {AuthGuard} from '@auth0/auth0-angular';
 const names = [];
 Object.keys(constants.STAGES).forEach(key => {names.push(key)});
 
@@ -57,7 +58,7 @@ const studyFormRoutes: Routes = [
       {
         path: 'design',
         component: StudyFormComponent,
-        canActivate: [StudyFormGuard],
+        canActivate: [AuthGuard, StudyFormGuard],
         children: [
           {
             path: '',

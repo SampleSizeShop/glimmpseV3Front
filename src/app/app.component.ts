@@ -6,6 +6,7 @@ import {StudyService} from './shared/services/study.service';
 import {DomSanitizer, Title} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material/icon';
 import {GoogleAnalyticsService} from './shared/services/google-analytics.service';
+import {AuthService} from '@auth0/auth0-angular';
 
 
 declare let gtag: Function;
@@ -20,6 +21,7 @@ export class AppComponent {
   disableAnimationa: boolean;
 
   constructor(private router: Router,
+              public  auth: AuthService,
               private study_service: StudyService,
               private googleAnalyticsService: GoogleAnalyticsService,
               private domSanitizer: DomSanitizer,
