@@ -13,12 +13,12 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "target": "es7",
     "typeRoots": [
       "node_modules/@types"
     ],
     "lib": [
-      "es5",
+      "es7",
       "dom"
     ],
     "module": "esnext"
