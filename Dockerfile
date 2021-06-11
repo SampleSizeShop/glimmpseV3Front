@@ -1,5 +1,5 @@
 # Stage 0, based on Node.js, to build and compile Angular
-FROM node:12.9.0 as node
+FROM node:14.17.0 as node
 ENV NPM_CONFIG_LOGLEVEL warn
 WORKDIR /app
 COPY package.json /app/
