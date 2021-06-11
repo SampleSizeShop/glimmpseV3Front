@@ -7,7 +7,8 @@ RUN npm install
 EXPOSE 4200
 COPY ./ /app/
 ARG env=prod
-RUN npm run build -- --no-aot --no-build-optimizer
+RUN npm run build
+#-- --no-aot --no-build-optimizer
 
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
