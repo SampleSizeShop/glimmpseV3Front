@@ -34,7 +34,7 @@ before_script:
 - npm install
 jobs:
   include:
-    #- stage: test
+    #- stage: test trigger build
       #script:
       #- npm install --save @ng-bootstrap/ng-bootstrap@4.0.0
       #- npm install -g karma
