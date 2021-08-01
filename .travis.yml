@@ -65,7 +65,7 @@ jobs:
       - export PATH=~/.local/bin:$PATH
       - mkdir -p ~/.aws
       - ./scripts/ecr_user.sh
-      - eval $(aws ecr get-login --no-include-email --region us-east-1)
+      - eval $(aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 543872078551.dkr.ecr.us-east-1.amazonaws.com)
       - VERSION=$(node -e "console.log(require('./package.json').version)")
       - docker build -t $REPO/$IMAGE:latest -t $REPO/$IMAGE:$VERSION .
       - docker push $REPO/$IMAGE:latest
