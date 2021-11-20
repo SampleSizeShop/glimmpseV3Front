@@ -26,7 +26,7 @@
     </div>
 
     <ng-template #loggedOut>
-      <div class="row">
+      <div class="row" *ngIf="isLanding()">
         <div class="col col-md-auto">
           <p>We are now requiring users to log in to use GLIMMPSE. This is required so that we can track our usage in order to continue funding this project.</p>
         </div>
@@ -67,7 +67,7 @@
       <div class="row">
         <div class="col col-lg-2 col-md-2 col-xs-12 align-self-center" style="padding-right: 10px">
           <label class="btn btn-primary btn-block">
-            Log out<input class="" type="radio" (click)="auth.logout({ returnTo: 'https://v3.glimmpse.samplesizeshop.org/' })" style="display: none;">
+            Log out<input class="" type="radio" (click)="auth.logout({ returnTo: 'https://glimmpse.samplesizeshop.org/' })" style="display: none;">
           </label>
         </div>
       </div>

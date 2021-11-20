@@ -109,7 +109,7 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
   getStDevControls() {
     const controlDefs = {};
     if (!isNullOrUndefined(this.measure)) {
-      this.measure.valueNames.forEach( (name, i) => {
+      this.measure.valueNames.forEach( (name: string, i: number) => {
         if (this.measure.standard_deviations[i] === null  || this.measure.standard_deviations[i] === undefined) {
           controlDefs[name] = null;
         } else {
@@ -168,7 +168,7 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
     let ret = true;
     Object.keys(this._stDevForm.controls).forEach(
       name => {
-        if (this._stDevForm.get(name).value === null) {
+        if (this._stDevForm.controls[name].value === null) {
           ret =  false;
         }
       }
