@@ -21,7 +21,6 @@ export class SessionAuthStrategy implements AuthStrategy<User> {
   }
 
   getCurrentUser(): Observable<User> {
-    console.log('hello!');
     if (this.loggedUser) {
       return of(this.loggedUser);
     } else {

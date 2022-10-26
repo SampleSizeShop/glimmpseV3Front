@@ -116,6 +116,11 @@ import {AuthModule} from '@auth0/auth0-angular';
       domain: 'samplesizeshop.us.auth0.com',
       clientId: 'Xas70BGaLbcH45TzCgSCUtU2ve9pTOaw'
     }),
+    // Local settings
+    // AuthModule.forRoot({
+    //   domain: 'dev-9mnzuul1.us.auth0.com',
+    //   clientId: 'UL74O5heOlXTVbClBnAYpjIHhAfA7ilP'
+    // }),
     NgbModule,
     LoggerModule.forRoot({
       serverLoggingUrl: environment.serverLoggingUrl,
