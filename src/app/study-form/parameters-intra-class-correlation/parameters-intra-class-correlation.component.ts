@@ -27,6 +27,7 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
   @ViewChild('helpText', {static: true}) helpTextModal;
   private helpTextModalReference: any;
   private _afterInit: boolean;
+  private _graphData = [];
 
   constructor(private study_service: StudyService,
               private _fb: FormBuilder,
@@ -66,6 +67,7 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
     this._defineControlsValidators();
     this.intraClassCorrForm.valueChanges.subscribe(data => this.onValueChanged(data));
     this.onValueChanged(); // (re)set validation messages now
+    this.setGraphData();
   }
 
   onValueChanged(data?: any) {
@@ -186,5 +188,85 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
     vectorofcorrelation: { required: string; minval: string; maxval: string;  };
   }) {
     this._validationMessages = value;
+  }
+
+
+
+  getLevelId(level, elementNo) {
+    return level + ' ' + elementNo;
+  }
+
+  getTreePosition(parent) {
+    const r = parent.split(' ');
+    const pos = r[r.length - 1];
+    return pos;
+  }
+
+  getElementNoFromPos(pos, parentId) {
+    let elementNo = 1;
+    if (parentId !== 'root') {
+      elementNo = pos;
+    }
+    return elementNo;
+  }
+
+  /**
+   * Build the input data for out d3 visualisation of the cluster.
+   * **/
+  setGraphData() {
+    const graphData = [];
+
+    // add the root
+    const isuId = this._cluster.name
+    let parentIds = ['root'];
+
+    graphData.push({id: parentIds[0], description: isuId});
+
+    this._cluster.levels.forEach( level => {
+      let newIds = [];
+      parentIds.forEach(parentId => {
+        let p = 'root';
+        if (parentId !== p) {
+          p = parentId[0];
+        }
+
+        // get position
+        let pos = 1
+        if (parentId !== 'root') {
+          pos = this.getTreePosition(parentId[0]);
+        }
+        const elementNo = this.getElementNoFromPos(pos, parentId) * level.noElements;
+
+        // set lower id
+        let id = this.getLevelId(level.levelName, elementNo - (level.noElements - 1));
+        newIds.push([id, level.noElements, level.noElements - 1]);
+        graphData.push({id: id, description: id, parent: p});
+
+        if (level.noElements > 2) {
+          id = level.levelName + ' ...';
+          graphData.push({id: id, description: id, parent: p});
+        }
+
+        // set upper id
+        id = this.getLevelId(level.levelName, elementNo);
+        newIds.push([id, level.noElements, 0]);
+        graphData.push({id: id, description: id, parent: p});
+      });
+      // remove extra branches we don't want to display - really I should sort this algorithmically, but this is simple.
+      if (newIds.length > 2) {
+        newIds = [newIds[0], newIds[newIds.length - 1]];
+      }
+      parentIds = newIds;
+    });
+
+    this._graphData = graphData;
+  }
+
+  get graphData(): any[] {
+    return this._graphData;
+  }
+
+  set graphData(value: any[]) {
+    this._graphData = value;
   }
 }
