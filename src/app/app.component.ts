@@ -27,7 +27,7 @@ export class AppComponent {
               private domSanitizer: DomSanitizer,
               private matIconRegistry: MatIconRegistry,
               private titleService: Title) {
-    this.titleService.setTitle( 'Glimmpse 3.0.0' );
+    this.titleService.setTitle( 'Glimmpse 3.1.0' );
     this.disableAnimationa = environment.disableAnimations;
     this.matIconRegistry.addSvgIcon(
       `glimmpsediamond`,

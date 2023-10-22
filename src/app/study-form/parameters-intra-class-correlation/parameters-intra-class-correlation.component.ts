@@ -102,7 +102,7 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
 
   _defineControlsValidators() {
     this.isuFactors.cluster.levels.forEach( level => {
-      this.intraClassCorrForm.controls[level.levelName].setValidators(minMaxValidator(-1 / (level.noElements - 1), 1));
+      this.intraClassCorrForm.controls[level.levelName].setValidators(minMaxValidator(0, 1));
     });
   }
 
