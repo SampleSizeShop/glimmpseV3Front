@@ -100,7 +100,7 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
 
   buildForm(): void {
     this.powerSampleSizeForm = this.fb.group({
-      power: [null, minMaxValidator(0, 1, this.log)]
+      power: [null, minMaxValidator(0.00000001, 0.9999999, this.log)]
     });
 
     this.powerSampleSizeForm.valueChanges.subscribe(data => this.onValueChanged(data));
