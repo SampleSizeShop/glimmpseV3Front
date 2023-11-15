@@ -28,7 +28,7 @@
     "@angular/platform-browser-dynamic": "9.1.13",
     "@angular/platform-server": "9.1.13",
     "@angular/router": "9.1.13",
-    "@auth0/auth0-angular": "1.5.1",
+    "@auth0/auth0-angular": "1.10.1",
     "@ng-bootstrap/ng-bootstrap": "6.1.0",
     "@types/mathjax": "0.0.35",
     "@types/mathjs": "0.0.38",

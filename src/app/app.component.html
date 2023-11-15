@@ -26,12 +26,12 @@
     </div>
 
     <ng-template #loggedOut>
-      <div class="row" *ngIf="isLanding()">
+      <div class="row" *ngIf="isLanding() && !auth.isAuthenticated$">
         <div class="col col-md-auto">
           <p>We are now requiring users to log in to use GLIMMPSE. This is required so that we can track our usage in order to continue funding this project.</p>
         </div>
       </div>
-      <div class="row" *ngIf="isLanding()">
+      <div class="row" *ngIf="isLanding() && !auth.isAuthenticated$">
         <div class="col col-lg-2 col-md-2 col-xs-12 align-self-center" style="padding-right: 10px">
           <label class="btn btn-primary btn-block">
             Login<input class="" type="radio" (click)="auth.loginWithRedirect()" style="display: none;">
