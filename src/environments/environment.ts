@@ -7,8 +7,8 @@ import {NgxLoggerLevel} from 'ngx-logger';
 export const environment = {
   production: false,
   name: 'dev',
-  // serverLoggingUrl: 'https://localhost:5000/api/clientsidelog',
-  // calculateUrl: 'https://localhost:5000/api/calculate',
+  // serverLoggingUrl: 'http://localhost:5000/api/clientsidelog',
+  // calculateUrl: 'http://localhost:5000/api/calculate',
   serverLoggingUrl: 'https://glimmpse.samplesizeshop.org:5000/api/clientsidelog',
   calculateUrl: 'https://glimmpse.samplesizeshop.org:5000/api/calculate',
   loglevel: NgxLoggerLevel.DEBUG,
