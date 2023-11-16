@@ -25,7 +25,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from 'ngx-logger/testing';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
-import {MatIconModule} from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
 import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";
 
 describe('HypothesisMixedComponent no factors', () => {

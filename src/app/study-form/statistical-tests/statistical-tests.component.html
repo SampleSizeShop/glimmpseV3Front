@@ -16,7 +16,7 @@
     <div class="col col-md-auto">
       <form [formGroup]="statisticalTestsForm">
 
-        <div class="form-check" *ngFor="let test of statisticalTestsForm.controls.statisticaltestsoptions.controls; let i = index">
+        <div class="form-check" *ngFor="let test of statisticalTestsForm.get('statisticaltestsoptions')['controls']; let i = index">
           <label class="form-check-label"
                  formArrayName="statisticaltestsoptions"
                  id="{{statisticalTestsOption[i].name}}">

@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TargetPowerComponent } from './target-power.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ControlHelpTextComponent} from '../control-help-text/control-help-text.component';
-import {MatIconModule} from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {StudyService} from '../../shared/services/study.service';

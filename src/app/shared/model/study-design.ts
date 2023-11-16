@@ -409,7 +409,8 @@ export class StudyDesign {
     }
 
     // Is theta nought of the correct dimension?
-    if (this._isuFactors.theta0.length !== this.a || this._isuFactors.theta0[0].length !== this.b) {
+    if ((this._isuFactors.theta0.length !== this.a || this._isuFactors.theta0[0].length !== this.b)
+      && this.generateDefaultTheta0().length !== 0 ) {
       this._isuFactors.theta0 = this.generateDefaultTheta0();
       this.updateStageReached();
     }

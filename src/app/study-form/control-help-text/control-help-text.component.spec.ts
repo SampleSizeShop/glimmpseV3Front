@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ControlHelpTextComponent } from './control-help-text.component';
-import {MatIconModule} from "@angular/material";
+import { MatIconModule } from "@angular/material/icon";
 
 describe('ControlHelpTextComponent', () => {
   let component: ControlHelpTextComponent;

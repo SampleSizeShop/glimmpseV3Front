@@ -1,10 +1,15 @@
 <div *ngIf="isuFactors.cluster">
   <form [formGroup]="intraClassCorrForm">
-    <h6>Define the intra class correlation for cluster {{cluster.name}}</h6>
+    <div class="row">
+      <div class="col">
+        <app-graph-component [data]="graphData"></app-graph-component>
+      </div>
+    </div>
+    <p>Beginning with Version 3.1 GLIMMPSE uses a variance component model for intraclass correlation, ICC (Longford, 1987, Biometrika, 74, 817-827). An ICC is the proportion of variance due to the cluster level.</p>
     <div *ngFor="let level of isuFactors.cluster.levels; let i = index">
       <div class="row">
         <div class="col-md-9 align-self-center">
-          The correlation within level <b>{{level.levelName}}</b> must be a number between {{(-1 / (level.noElements-1)).toFixed(3)}} < r < 1
+          The correlation within level <b>{{level.levelName}}</b> must be a number between 0 <= r < 1
         </div>
         <div class="col-md-3 align-self-center">
           <input type="number"
@@ -19,6 +24,7 @@
     <div *ngIf="formErrors.vectorofcorrelation" class="form-group has-danger">
       <div class="form-control-feedback">{{formErrors.vectorofcorrelation}}</div>
     </div>
+    <p style="font-size: x-small">Longford N.T. (1987). A fast scoring algorithm for maximum likelihood estimation in unbalanced mixed models with nested random effects. Biometrika, 74 (4), 817-827, https://doi.org/10.2307/2336476</p>
   </form>
 </div>
 <ng-template #helpText>

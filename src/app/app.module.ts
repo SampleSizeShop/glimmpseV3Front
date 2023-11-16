@@ -47,7 +47,6 @@ import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypot
 import { CustomContrastMatrixComponent } from './study-form/custom-contrast-matrix/custom-contrast-matrix.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatIconModule} from '@angular/material/icon';
-// import { Angular2CsvModule } from 'angular2-csv';
 import { StudyTitleComponent } from './study-form/study-title/study-title.component';
 import {ParametersGaussianPowerComponent} from './study-form/parameters-gaussian-power/parameters-gaussian-power.component';
 import {OptionalSpecsConfidenceIntervalsComponent} from './study-form/optional-specs-confidence-intervals/optional-specs-confidence-intervals.component';
@@ -61,6 +60,8 @@ import { StatusComponent } from './study-form/status/status.component';
 import {CustomHammerConfig} from './hammer/CustomHammerConfig';
 import { ControlHelpTextComponent } from './study-form/control-help-text/control-help-text.component';
 import { TargetPowerComponent } from './study-form/target-power/target-power.component';
+import {authStrategyProvider} from './shared/services/auth.strategy';
+import {AuthModule} from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -110,6 +111,16 @@ import { TargetPowerComponent } from './study-form/target-power/target-power.com
     TargetPowerComponent,
   ],
   imports: [
+    // Import the module into the application, with configuration
+    AuthModule.forRoot({
+      domain: 'samplesizeshop.us.auth0.com',
+      clientId: 'Xas70BGaLbcH45TzCgSCUtU2ve9pTOaw'
+    }),
+    // Local settings
+    // AuthModule.forRoot({
+    //   domain: 'dev-9mnzuul1.us.auth0.com',
+    //   clientId: 'UL74O5heOlXTVbClBnAYpjIHhAfA7ilP'
+    // }),
     NgbModule,
     LoggerModule.forRoot({
       serverLoggingUrl: environment.serverLoggingUrl,
@@ -132,6 +143,7 @@ import { TargetPowerComponent } from './study-form/target-power/target-power.com
     MathJaxService,
     D3Service,
     {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
+    authStrategyProvider,
   ],
   bootstrap: [AppComponent]
 })

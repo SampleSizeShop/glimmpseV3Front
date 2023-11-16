@@ -24,26 +24,57 @@
         </p>
       </div>
     </div>
-    <div *ngIf="isLanding()" class="row">
-      <div class="col col-lg-2 col-md-2 col-xs-12 align-self-center" style="padding-right: 10px">
-        <label class="btn btn-primary btn-block">
-          New  Study<input class="" type="radio" (click)="newStudy()" style="display: none;">
-        </label>
+
+    <ng-template #loggedOut>
+      <div class="row" *ngIf="isLanding()">
+        <div class="col col-md-auto">
+          <p>We are now requiring users to log in to use GLIMMPSE. This is required so that we can track our usage in order to continue funding this project.</p>
+        </div>
       </div>
-      <div class="col col-lg-10 col-md-10 col-xs-12 align-self-center" style="padding-right: 10px">
-        <p class="w-75" style="margin-bottom: 10px">Start a new design.</p>
+      <div class="row" *ngIf="isLanding()">
+        <div class="col col-lg-2 col-md-2 col-xs-12 align-self-center" style="padding-right: 10px">
+          <label class="btn btn-primary btn-block">
+            Login<input class="" type="radio" (click)="auth.loginWithRedirect()" style="display: none;">
+          </label>
+        </div>
+      </div>
+    </ng-template>
+
+    <div *ngIf="isLanding() && auth.isAuthenticated$ | async; else loggedOut">
+      <div class="row">
+        <div class="col col-lg-2 col-md-2 col-xs-12 align-self-center" style="padding-right: 10px">
+          <label class="btn btn-primary btn-block">
+            New  Study<input class="" type="radio" (click)="newStudy()" style="display: none;">
+          </label>
+        </div>
+        <div class="col col-lg-10 col-md-10 col-xs-12 align-self-center" style="padding-right: 10px">
+          <p class="w-75" style="margin-bottom: 10px">Start a new design.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-lg-2 col-md-2 col-xs-12 align-self-center" style="padding-right: 10px">
+          <label class="btn btn-primary btn-block">
+            Upload<input class="" type="file" (change)="onFileChange($event)" style="display: none;">
+          </label>
+        </div>
+        <div class="col col-lg-10 col-md-10 col-xs-12 align-self-center">
+          <p class="w-75" style="margin-bottom: 10px">You have previously used GLIMMPSE and wish to work on a saved design.</p>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="row">
+        <div class="col col-lg-2 col-md-2 col-xs-12 align-self-center" style="padding-right: 10px">
+          <label class="btn btn-primary btn-block">
+            Log out<input class="" type="radio" (click)="auth.logout({ returnTo: 'https://glimmpse.samplesizeshop.org/' })" style="display: none;">
+          </label>
+        </div>
       </div>
     </div>
-    <div *ngIf="isLanding()" class="row">
-      <div class="col col-lg-2 col-md-2 col-xs-12 align-self-center" style="padding-right: 10px">
-        <label class="btn btn-primary btn-block">
-          Upload<input class="" type="file" (change)="onFileChange($event)" style="display: none;">
-        </label>
-      </div>
-      <div class="col col-lg-10 col-md-10 col-xs-12 align-self-center">
-        <p class="w-75" style="margin-bottom: 10px">You have previously used GLIMMPSE and wish to work on a saved design.</p>
-      </div>
-    </div>
+
     <router-outlet></router-outlet>
   </div>
 </div>
+
+
