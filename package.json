@@ -15,19 +15,19 @@
   "private": true,
   "browserslist": [],
   "dependencies": {
-    "@angular/animations": "9.1.13",
+    "@angular/animations": "10.2.5",
     "@angular/cdk": "9.2.4",
-    "@angular/cli": "9.1.15",
-    "@angular/common": "9.1.13",
-    "@angular/compiler": "9.1.13",
-    "@angular/core": "9.1.13",
-    "@angular/forms": "9.1.13",
-    "@angular/localize": "9.1.13",
+    "@angular/cli": "10.2.4",
+    "@angular/common": "10.2.5",
+    "@angular/compiler": "10.2.5",
+    "@angular/core": "10.2.5",
+    "@angular/forms": "10.2.5",
+    "@angular/localize": "10.2.5",
     "@angular/material": "9.2.4",
-    "@angular/platform-browser": "9.1.13",
-    "@angular/platform-browser-dynamic": "9.1.13",
-    "@angular/platform-server": "9.1.13",
-    "@angular/router": "9.1.13",
+    "@angular/platform-browser": "10.2.5",
+    "@angular/platform-browser-dynamic": "10.2.5",
+    "@angular/platform-server": "10.2.5",
+    "@angular/router": "10.2.5",
     "@auth0/auth0-angular": "1.10.1",
     "@ng-bootstrap/ng-bootstrap": "6.1.0",
     "@types/mathjax": "0.0.35",
@@ -45,7 +45,6 @@
     "mathjax": "2.7.1",
     "mathjs": "6.1.0",
     "ng-animate": "0.3.4",
-    "ngx-bootstrap": "6.1.0",
     "npm": "6.11.2",
     "popper.js": "1.15.0",
     "rxjs": "6.6.7",
@@ -54,12 +53,12 @@
     "url-loader": "2.1.0",
     "webdriver-manager": "12.1.7",
     "webpack": "4.39.2",
-    "zone.js": "0.10.2"
+    "zone.js": "0.10.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.15",
-    "@angular/compiler-cli": "9.1.13",
-    "@angular/language-service": "9.1.13",
+    "@angular-devkit/build-angular": "~0.1002.4",
+    "@angular/compiler-cli": "10.2.5",
+    "@angular/language-service": "10.2.5",
     "@types/d3": "^5.7.2",
     "@types/d3-hierarchy": "^1.1.6",
     "@types/jasmine": "3.4.0",
@@ -80,6 +79,6 @@
     "protractor-jasmine2-html-reporter": "0.0.7",
     "ts-node": "^8.3.0",
     "tslint": "^5.19.0",
-    "typescript": "3.8.3"
+    "typescript": "4.0.8"
   }
 }
