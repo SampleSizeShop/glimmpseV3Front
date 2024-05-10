@@ -45,7 +45,7 @@ import { CalculateComponent } from './study-form/calculate/calculate.component';
 import { BetweenIsuSmallestGroupComponent } from './study-form/between-isu-smallest-group/between-isu-smallest-group.component';
 import { HypothesisTheta0Component } from './study-form/hypothesis-theta-0/hypothesis-theta-0.component';
 import { CustomContrastMatrixComponent } from './study-form/custom-contrast-matrix/custom-contrast-matrix.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import {MatIconModule} from '@angular/material/icon';
 import { StudyTitleComponent } from './study-form/study-title/study-title.component';
 import {ParametersGaussianPowerComponent} from './study-form/parameters-gaussian-power/parameters-gaussian-power.component';

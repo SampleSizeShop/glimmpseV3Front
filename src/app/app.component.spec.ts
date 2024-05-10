@@ -5,7 +5,7 @@ import {MathJaxComponent} from './mathjax/mathjax.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MathJaxDirective} from './mathjax/mathjax.directive';
 import {RouterTestingModule} from '@angular/router/testing';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {StudyService} from './shared/services/study.service';
 import {HttpClient} from '@angular/common/http';

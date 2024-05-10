@@ -13,7 +13,7 @@ import {map, pairwise, share, startWith, tap, delay} from 'rxjs/operators';
 import {BehaviorSubject} from 'rxjs/index';
 import {DomSanitizer} from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
-import { TooltipPosition } from '@angular/material/tooltip';
+import { LegacyTooltipPosition as TooltipPosition } from '@angular/material/legacy-tooltip';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 

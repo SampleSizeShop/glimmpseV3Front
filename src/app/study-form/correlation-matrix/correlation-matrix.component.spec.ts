@@ -5,7 +5,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {CorrelationMatrixService} from '../../shared/services/correlationMatrix.service';
 import {LoggerConfig, LoggerModule, NGXLoggerHttpService, NgxLoggerLevel, NGXMapperService} from 'ngx-logger';
 import {testEnvironment} from '../../../environments/environment.test';
-import { MatTooltip } from '@angular/material/tooltip';
+import { MatLegacyTooltip as MatTooltip } from '@angular/material/legacy-tooltip';
 import {NGXLoggerHttpServiceMock, NGXMapperServiceMock} from "ngx-logger/testing";
 
 describe('CorrelationMatrixComponent', () => {
