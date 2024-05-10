@@ -6,7 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {Cluster} from '../../shared/model/Cluster';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {StudyService} from '../../shared/services/study.service';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {constants} from '../../shared/model/constants';
@@ -27,8 +27,8 @@ import {isNullOrUndefined} from 'util';
 })
 export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
-  private _elementForm: FormGroup;
-  private _clusterLevelForm: FormGroup;
+  private _elementForm: UntypedFormGroup;
+  private _clusterLevelForm: UntypedFormGroup;
   private _cluster: Cluster;
   private _max: number;
   private _stages;
@@ -56,7 +56,7 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
 
   public _graphData = [];
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -506,11 +506,11 @@ export class WithinIsuClustersComponent implements OnInit, DoCheck, OnDestroy {
     return Object.keys(this._stages)[this.stage]
   }
 
-  get elementForm(): FormGroup {
+  get elementForm(): UntypedFormGroup {
     return this._elementForm;
   }
 
-  get clusterLevelForm(): FormGroup {
+  get clusterLevelForm(): UntypedFormGroup {
     return this._clusterLevelForm;
   }
 

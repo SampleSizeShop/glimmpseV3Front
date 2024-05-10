@@ -1,7 +1,7 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {constants} from '../../shared/model/constants';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NGXLogger} from 'ngx-logger';
@@ -19,7 +19,7 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
   private _powerSubscription: Subscription;
   private _navigationSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
-  private _powerSampleSizeForm: FormGroup;
+  private _powerSampleSizeForm: UntypedFormGroup;
   private _power: number[];
   private _formErrors = constants.TARGET_EVENT_FORM_ERRORS;
   private _validationMessages = constants.TARGET_EVENT_VALIDATION_MESSAGES;
@@ -35,7 +35,7 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
   private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               private log: NGXLogger,
               private _navigation_service: NavigationService,
               private modalService: NgbModal) {
@@ -269,11 +269,11 @@ export class TargetPowerComponent implements OnInit, DoCheck, OnDestroy {
     this._power = value;
   }
 
-  get powerSampleSizeForm(): FormGroup {
+  get powerSampleSizeForm(): UntypedFormGroup {
     return this._powerSampleSizeForm;
   }
 
-  set powerSampleSizeForm(value: FormGroup) {
+  set powerSampleSizeForm(value: UntypedFormGroup) {
     this._powerSampleSizeForm = value;
   }
 

@@ -2,7 +2,7 @@ import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {constants} from '../../shared/model/constants';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
@@ -16,7 +16,7 @@ import {NGXLogger} from 'ngx-logger';
 export class ParametersStandardDeviationComponent implements OnInit, DoCheck, OnDestroy {
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
-  private _stDevForm: FormGroup;
+  private _stDevForm: UntypedFormGroup;
   private _formErrors = constants.PARAMETERS_STANDARD_DEVIATION_ERRORS;
   private _validationMessages = constants.PARAMETERS_STANDARD_DEVIATION_VALIDATION_MESSAGES;
   private _showHelpTextSubscription: Subscription;
@@ -31,7 +31,7 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
   private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
-              private _fb: FormBuilder,
+              private _fb: UntypedFormBuilder,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
               private log: NGXLogger) {
@@ -190,7 +190,7 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
     this._isuFactorsSubscription = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
@@ -214,11 +214,11 @@ export class ParametersStandardDeviationComponent implements OnInit, DoCheck, On
     this._validationMessages = value;
   }
 
-  get stDevForm(): FormGroup {
+  get stDevForm(): UntypedFormGroup {
     return this._stDevForm;
   }
 
-  set stDevForm(value: FormGroup) {
+  set stDevForm(value: UntypedFormGroup) {
     this._stDevForm = value;
   }
 

@@ -128,7 +128,6 @@
       }
     }
   },
-  "defaultProject": "demo-app-front",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

@@ -3,7 +3,7 @@ import {StudyService} from '../../shared/services/study.service';
 import {Subscription} from 'rxjs';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Cluster} from '../../shared/model/Cluster';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {constants} from '../../shared/model/constants';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
@@ -19,7 +19,7 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _cluster: Cluster;
-  private _intraClassCorrForm: FormGroup;
+  private _intraClassCorrForm: UntypedFormGroup;
   private _formErrors = constants.PARAMETERS_INTRA_CLASS_CORRELATION_ERRORS;
   private _validationMessages = constants.PARAMETERS_INTRA_CLASS_CORRELATION_VALIDATION_MESSAGES;
   private _showHelpTextSubscription: Subscription;
@@ -30,7 +30,7 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
   private _graphData = [];
 
   constructor(private study_service: StudyService,
-              private _fb: FormBuilder,
+              private _fb: UntypedFormBuilder,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
               private log: NGXLogger) {
@@ -158,15 +158,15 @@ export class ParametersIntraClassCorrelationComponent implements OnInit, DoCheck
     this._cluster = value;
   }
 
-  get intraClassCorrForm(): FormGroup {
+  get intraClassCorrForm(): UntypedFormGroup {
     return this._intraClassCorrForm;
   }
 
-  set intraClassCorrForm(value: FormGroup) {
+  set intraClassCorrForm(value: UntypedFormGroup) {
     this._intraClassCorrForm = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
