@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {constants} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
@@ -18,7 +18,7 @@ import {ConfidenceInterval} from "../../shared/model/ConfidenceInterval";
   styleUrls: ['./optional-specs-confidence-intervals.component.scss']
 })
 export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDestroy {
-  private _confidenceIntervalForm: FormGroup;
+  private _confidenceIntervalForm: UntypedFormGroup;
   private _validationMessages;
   private _formErrors;
   private _showHelpTextSubscription: Subscription;
@@ -35,7 +35,7 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -179,7 +179,7 @@ export class OptionalSpecsConfidenceIntervalsComponent implements OnInit, OnDest
     this._isClickNext = value;
   }
 
-  get confidenceIntervalForm(): FormGroup {
+  get confidenceIntervalForm(): UntypedFormGroup {
     return this._confidenceIntervalForm;
   }
 

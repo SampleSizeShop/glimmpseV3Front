@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
 import {StudyService} from '../../shared/services/study.service';
 import {isNullOrUndefined} from 'util';
@@ -16,7 +16,7 @@ import {NGXLogger} from 'ngx-logger';
   styleUrls: ['./gaussian-covariate.component.css']
 })
 export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
-  private _gaussianCovariateForm: FormGroup;
+  private _gaussianCovariateForm: UntypedFormGroup;
   private _gaussianCovariatesSubscription;
   private _gaussianCovariate: GaussianCovariate;
   private _formErrors = constants.GAUSSIAN_COVARIATE_ERRORS;
@@ -27,7 +27,7 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -129,19 +129,19 @@ export class GaussianCovariateComponent implements OnInit, DoCheck, OnDestroy {
       });
   }
 
-  get gaussianCovariateForm(): FormGroup {
+  get gaussianCovariateForm(): UntypedFormGroup {
     return this._gaussianCovariateForm;
   }
 
-  set gaussianCovariateForm(value: FormGroup) {
+  set gaussianCovariateForm(value: UntypedFormGroup) {
     this._gaussianCovariateForm = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
-  set fb(value: FormBuilder) {
+  set fb(value: UntypedFormBuilder) {
     this._fb = value;
   }
 

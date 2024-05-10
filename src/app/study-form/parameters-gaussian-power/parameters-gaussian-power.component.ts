@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {StudyService} from '../../shared/services/study.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NGXLogger} from 'ngx-logger';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -19,7 +19,7 @@ import {gaussianPowerValidator} from '../../shared/validators/parameters-gaussia
 })
 export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
 
-  private _quantileForm: FormGroup;
+  private _quantileForm: UntypedFormGroup;
   private _quantiles: Set<number>;
   public _gaussianCovariate: GaussianCovariate;
   private _formErrors = constants.PARAMETERS_GAUSSIAN_COVARIATE_POWER_ERRORS;
@@ -36,7 +36,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private _study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -196,7 +196,7 @@ export class ParametersGaussianPowerComponent implements OnInit, OnDestroy {
     return this._formErrors;
   }
 
-  get quantileForm(): FormGroup {
+  get quantileForm(): UntypedFormGroup {
     return this._quantileForm;
   }
 

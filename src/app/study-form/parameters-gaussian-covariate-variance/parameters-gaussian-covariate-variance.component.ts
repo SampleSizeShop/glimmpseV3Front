@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {constants} from '../../shared/model/constants';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
@@ -15,7 +15,7 @@ import {minMaxValidator} from '../../shared/validators/minmax.validator';
   styleUrls: ['./parameters-gaussian-covariate-variance.component.scss']
 })
 export class ParametersGaussianCovariateVarianceComponent implements OnInit, DoCheck, OnDestroy {
-  private _gaussianCovariateVarForm: FormGroup;
+  private _gaussianCovariateVarForm: UntypedFormGroup;
   private _gaussianCovariatesSubscription: Subscription;
   private _variance: number;
   private _gaussianCovariate: GaussianCovariate;
@@ -32,7 +32,7 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, DoC
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -152,15 +152,15 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, DoC
     return controlArray;
   }
 
-  get intraClassCorrForm(): FormGroup {
+  get intraClassCorrForm(): UntypedFormGroup {
     return this._gaussianCovariateVarForm;
   }
 
-  set intraClassCorrForm(value: FormGroup) {
+  set intraClassCorrForm(value: UntypedFormGroup) {
     this._gaussianCovariateVarForm = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
@@ -171,11 +171,11 @@ export class ParametersGaussianCovariateVarianceComponent implements OnInit, DoC
   set variance(value: number) {
     this._variance = value;
   }
-  get gaussianCovariateVarForm(): FormGroup {
+  get gaussianCovariateVarForm(): UntypedFormGroup {
     return this._gaussianCovariateVarForm;
   }
 
-  set gaussianCovariateVarForm(value: FormGroup) {
+  set gaussianCovariateVarForm(value: UntypedFormGroup) {
     this._gaussianCovariateVarForm = value;
   }
 

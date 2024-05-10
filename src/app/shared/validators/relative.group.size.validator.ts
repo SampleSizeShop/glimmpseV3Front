@@ -1,7 +1,7 @@
-import {FormGroup, ValidatorFn} from '@angular/forms';
+import {UntypedFormGroup, ValidatorFn} from '@angular/forms';
 
 export function relativeGroupSizeValidator(): ValidatorFn {
-  return (fb: FormGroup): {[key: string]: any} => {
+  return (fb: UntypedFormGroup): {[key: string]: any} => {
     const relativeGroupSizeArray = [];
     const controls = fb.controls;
 

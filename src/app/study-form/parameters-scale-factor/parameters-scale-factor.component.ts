@@ -1,7 +1,7 @@
 import {of as observableOf, Subscription} from 'rxjs';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {constants} from '../../shared/model/constants';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {StudyService} from '../../shared/services/study.service';
 import {NGXLogger} from 'ngx-logger';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
@@ -17,7 +17,7 @@ import {isNullOrUndefined} from 'util';
 export class ParametersScaleFactorComponent implements OnInit, OnDestroy {
 
   private _scaleFactor: Array<number>;
-  private _scaleFactorForm: FormGroup;
+  private _scaleFactorForm: UntypedFormGroup;
   private _formErrors = constants.PARAMETERS_SCALE_FACTOR_ERRORS;
   private _validationMessages = constants.PARAMETERS_SCALE_FACTOR_VALIDATION_MESSAGES;
 
@@ -29,7 +29,7 @@ export class ParametersScaleFactorComponent implements OnInit, OnDestroy {
   private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
               private log: NGXLogger) {
@@ -136,11 +136,11 @@ export class ParametersScaleFactorComponent implements OnInit, OnDestroy {
     this._scaleFactor = value;
   }
 
-  get scaleFactorForm(): FormGroup {
+  get scaleFactorForm(): UntypedFormGroup {
     return this._scaleFactorForm;
   }
 
-  set scaleFactorForm(value: FormGroup) {
+  set scaleFactorForm(value: UntypedFormGroup) {
     this._scaleFactorForm = value;
   }
 

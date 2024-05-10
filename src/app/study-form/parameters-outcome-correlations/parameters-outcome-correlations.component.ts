@@ -4,7 +4,7 @@ import {CorrelationMatrixService} from '../../shared/services/correlationMatrix.
 import {isNull, isNullOrUndefined} from 'util';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
-import {FormBuilder} from '@angular/forms';
+import {UntypedFormBuilder} from '@angular/forms';
 import {CorrelationMatrix} from '../../shared/model/CorrelationMatrix';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
@@ -31,7 +31,7 @@ export class ParametersOutcomeCorrelationsComponent implements OnInit, DoCheck, 
   private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
-              private _fb: FormBuilder,
+              private _fb: UntypedFormBuilder,
               private matrix_service: CorrelationMatrixService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -134,7 +134,7 @@ export class ParametersOutcomeCorrelationsComponent implements OnInit, DoCheck, 
     this._isuFactorsSubscription = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 

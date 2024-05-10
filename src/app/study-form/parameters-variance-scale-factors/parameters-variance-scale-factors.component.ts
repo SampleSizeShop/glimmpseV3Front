@@ -1,7 +1,7 @@
 import {Component, DoCheck, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {constants} from '../../shared/model/constants';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {StudyService} from '../../shared/services/study.service';
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import {isNullOrUndefined} from "util";
   styleUrls: ['./parameters-variance-scale-factors.component.scss']
 })
 export class ParametersVarianceScaleFactorsComponent implements OnInit, DoCheck, OnDestroy {
-private _scaleFactorsForm: FormGroup;
+private _scaleFactorsForm: UntypedFormGroup;
 private _scaleFactors: number[];
 private _max: number;
 private _validationMessages;
@@ -27,7 +27,7 @@ private _showHelpTextSubscription: Subscription;
 private helpTextModalReference: any;
 private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -167,19 +167,19 @@ private _afterInit: boolean;
     this._scaleFactors = value;
   }
 
-  get scaleFactorsForm(): FormGroup {
+  get scaleFactorsForm(): UntypedFormGroup {
     return this._scaleFactorsForm;
   }
 
-  set scaleFactorsForm(value: FormGroup) {
+  set scaleFactorsForm(value: UntypedFormGroup) {
     this._scaleFactorsForm = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
-  set fb(value: FormBuilder) {
+  set fb(value: UntypedFormBuilder) {
     this._fb = value;
   }
 

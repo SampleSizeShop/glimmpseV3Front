@@ -1,6 +1,6 @@
 import {of as observableOf, Subscription, Observable} from 'rxjs';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {constants} from '../../shared/model/constants';
 import {outcomeValidator} from './outcome.validator';
 import {NavigationService} from '../../shared/services/navigation.service';
@@ -15,7 +15,7 @@ import {NGXLogger} from 'ngx-logger';
   styleUrls: ['./within-isu-outcomes.scss']
 })
 export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
-  private _outcomesForm: FormGroup;
+  private _outcomesForm: UntypedFormGroup;
   private _outcomes: Outcome[];
   private _max: number;
   private _validationMessages;
@@ -32,7 +32,7 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -209,19 +209,19 @@ export class WithinIsuOutcomesComponent implements OnInit, DoCheck, OnDestroy {
     this._outcomes = value;
   }
 
-  get outcomesForm(): FormGroup {
+  get outcomesForm(): UntypedFormGroup {
     return this._outcomesForm;
   }
 
-  set outcomesForm(value: FormGroup) {
+  set outcomesForm(value: UntypedFormGroup) {
     this._outcomesForm = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
-  set fb(value: FormBuilder) {
+  set fb(value: UntypedFormBuilder) {
     this._fb = value;
   }
 

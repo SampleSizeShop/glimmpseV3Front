@@ -1,5 +1,5 @@
 import {Component, DoCheck, Input, OnDestroy, OnInit} from '@angular/core';
-import { FormBuilder, FormGroup} from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {CorrelationMatrixService} from '../../shared/services/correlationMatrix.service';
 import {Subscription} from 'rxjs';
 import {constants} from '../../shared/model/constants';
@@ -25,8 +25,8 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   private _controlDefs: {};
   private _controls: {};
   private _values: {};
-  private _correlationMatrixForm: FormGroup;
-  private _learForm: FormGroup;
+  private _correlationMatrixForm: UntypedFormGroup;
+  private _learForm: UntypedFormGroup;
   private _learFormSubscription: Subscription;
   private _correlationMatrixFormSubscriptionMap: Map<string, Subscription>;
   private _correlationMatrixSubscription: Subscription;
@@ -44,7 +44,7 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
   below: TooltipPosition;
 
   constructor(
-    private _fb: FormBuilder,
+    private _fb: UntypedFormBuilder,
     private _correlationMatrixService: CorrelationMatrixService,
     private log: NGXLogger
   ) {
@@ -284,15 +284,15 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     this.correlationMatrixForm = this._fb.group(this.controlDefs);
   }
 
-  get learForm(): FormGroup {
+  get learForm(): UntypedFormGroup {
     return this._learForm;
   }
 
-  get correlationMatrixForm(): FormGroup {
+  get correlationMatrixForm(): UntypedFormGroup {
     return this._correlationMatrixForm;
   }
 
-  set correlationMatrixForm(value: FormGroup) {
+  set correlationMatrixForm(value: UntypedFormGroup) {
     this._correlationMatrixForm = value;
   }
 
@@ -338,11 +338,11 @@ export class CorrelationMatrixComponent implements OnInit, DoCheck, OnDestroy {
     this._correlationMatrixSubscription = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
-  set fb(value: FormBuilder) {
+  set fb(value: UntypedFormBuilder) {
     this._fb = value;
   }
 

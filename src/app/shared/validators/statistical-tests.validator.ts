@@ -1,7 +1,7 @@
-import { FormArray, ValidatorFn} from '@angular/forms';
+import { UntypedFormArray, ValidatorFn} from '@angular/forms';
 
 export function statisticalTestsValidator(min = 1, isClickNext: {value: boolean}) {
-  const validator: ValidatorFn = (formArray: FormArray) => {
+  const validator: ValidatorFn = (formArray: UntypedFormArray) => {
     if (isClickNext) {
       const totalSelected = formArray.controls
       // get a list of checkbox values (boolean)

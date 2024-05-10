@@ -4,7 +4,7 @@ import {Subscription, Observable, of} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 import {switchMap} from 'rxjs/operators';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -21,7 +21,7 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
   private _isuFactors: ISUFactors;
   private _isuFactorsSubscription: Subscription;
   private _measure$: Observable<RepeatedMeasure>;
-  private _stDevForm: FormGroup;
+  private _stDevForm: UntypedFormGroup;
 
   private _measure: RepeatedMeasure;
   private _showHelpTextSubscription: Subscription;
@@ -36,7 +36,7 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
 
   constructor(private study_service: StudyService,
               private route: ActivatedRoute,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
               private log: NGXLogger) {
@@ -196,11 +196,11 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
     return this._measure$;
   }
 
-  get stdevForm(): FormGroup {
+  get stdevForm(): UntypedFormGroup {
     return this._stDevForm;
   }
 
-  set stdevForm(value: FormGroup) {
+  set stdevForm(value: UntypedFormGroup) {
     this._stDevForm = value;
   }
 
@@ -213,11 +213,11 @@ export class ParametersRepeatedMeasureStdevComponent implements OnInit, DoCheck,
     this.buildForm();
   }
 
-  get stDevForm(): FormGroup {
+  get stDevForm(): UntypedFormGroup {
     return this._stDevForm;
   }
 
-  set stDevForm(value: FormGroup) {
+  set stDevForm(value: UntypedFormGroup) {
     this._stDevForm = value;
   }
 
