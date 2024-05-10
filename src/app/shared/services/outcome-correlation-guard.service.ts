@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
@@ -7,7 +7,7 @@ import {NGXLogger} from 'ngx-logger';
 import {Outcome} from '../model/Outcome';
 
 @Injectable()
-export class OutcomeCorrelationsGuard implements CanActivate {
+export class OutcomeCorrelationsGuard  {
   private outcomes: Outcome[];
   private outcomeSubscription: Subscription;
 

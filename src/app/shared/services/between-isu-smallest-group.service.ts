@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
@@ -8,7 +8,7 @@ import {constants} from '../model/constants';
 
 
 @Injectable()
-export class BetweenIsuSmallestGroupsGuard implements CanActivate {
+export class BetweenIsuSmallestGroupsGuard  {
   private solveFor: string;
   private solveForSubscription: Subscription;
 
