@@ -11,7 +11,7 @@ import {CorrelationMatrixService} from '../../shared/services/correlationMatrix.
 import {StudyService} from '../../shared/services/study.service';
 import {ActivatedRouteStub, RouterStub} from '../../../testing/router-stubs';
 import {testEnvironment} from '../../../environments/environment.test';
-import { MatLegacyTooltip as MatTooltip } from '@angular/material/legacy-tooltip';
+import { MatTooltip } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {ControlHelpTextComponent} from "../control-help-text/control-help-text.component";

@@ -8,7 +8,7 @@ import * as math from 'mathjs';
 import {minMaxValidator} from 'app/shared/validators/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {isNull, isNullOrUndefined} from 'util';
-import { LegacyTooltipPosition as TooltipPosition } from '@angular/material/legacy-tooltip';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-correlation-matrix',

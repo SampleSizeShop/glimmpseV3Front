@@ -10,7 +10,7 @@ import {ISUFactors} from '../../shared/model/ISUFactors';
 import {RelativeGroupSizeTable} from '../../shared/model/RelativeGroupSizeTable';
 import {ISUFactorCombination} from '../../shared/model/ISUFactorCombination';
 import {CombinationId} from '../../shared/model/CombinationId';
-import { MatLegacyTooltip as MatTooltip } from '@angular/material/legacy-tooltip';
+import { MatTooltip } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {MatIconModule} from '@angular/material/icon';

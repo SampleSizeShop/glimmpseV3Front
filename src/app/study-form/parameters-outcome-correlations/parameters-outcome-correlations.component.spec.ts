@@ -8,7 +8,7 @@ import {HttpClient} from '@angular/common/http';
 import {LoggerModule, NGXLogger, } from 'ngx-logger';
 import {StudyService} from '../../shared/services/study.service';
 import {testEnvironment} from '../../../environments/environment.test';
-import {MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import {MatTooltipModule } from '@angular/material/tooltip';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import { MatIconModule } from "@angular/material/icon";

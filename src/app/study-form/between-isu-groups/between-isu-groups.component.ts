@@ -13,7 +13,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/model/constants';
-import { LegacyTooltipPosition as TooltipPosition } from '@angular/material/legacy-tooltip';
+import { TooltipPosition } from '@angular/material/tooltip';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {relativeGroupSizeValidator} from '../../shared/validators/relative.group.size.validator';
