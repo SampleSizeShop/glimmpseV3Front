@@ -4,7 +4,10 @@
     "outDir": "../out-tsc/app",
     "resolveJsonModule": true,
     "baseUrl": "",
-    "types": ["mathjax"]
+    "types": [
+      "mathjax",
+      "@angular/localize"
+    ]
   },
   "files": [
     "main.ts",
