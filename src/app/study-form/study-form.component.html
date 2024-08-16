@@ -139,17 +139,17 @@
 </div>
 
 <ng-template #status>
-  <div class="modal-content">
+<div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title">Progress</h5>
-        <button type="button" class="close" (click)="dismissStatus()">
-          <i class="material-icons">close</i>
-        </button>
+      <button type="button" class="close" (click)="dismissStatus()">
+        <i class="material-icons">close</i>
+      </button>
     </div>
     <div class="modal-body">
       <app-status></app-status>
     </div>
-  </div>
+</div>
 </ng-template>
 
 <a id="downloadStudy" [attr.href]="downloadStudy" download="{{study.name}}.json" hidden>Download result</a>

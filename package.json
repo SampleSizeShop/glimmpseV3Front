@@ -9,8 +9,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ngcc"
+    "e2e": "ng e2e"
   },
   "private": true,
   "browserslist": [],
@@ -46,6 +45,8 @@
     "mathjax": "2.7.1",
     "mathjs": "6.1.0",
     "ng-animate": "0.3.4",
+    "ngx-bootstrap": "^12.0.0",
+    "ngx-logger": "^5.0.12",
     "npm": "6.11.2",
     "popper.js": "1.15.0",
     "rxjs": "6.6.7",
