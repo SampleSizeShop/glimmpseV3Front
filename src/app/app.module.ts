@@ -116,6 +116,8 @@ import {AccordionModule} from 'ngx-bootstrap/accordion';
     AuthModule.forRoot({
       domain: 'samplesizeshop.us.auth0.com',
       clientId: 'Xas70BGaLbcH45TzCgSCUtU2ve9pTOaw',
+      useRefreshTokens: true,
+      cacheLocation: 'localstorage',
       authorizationParams: {
         redirect_uri: window.location.origin
       }
@@ -128,6 +130,8 @@ import {AccordionModule} from 'ngx-bootstrap/accordion';
     // AuthModule.forRoot({
     //   domain: 'dev-a2swjm1l.us.auth0.com',
     //   clientId: 'w62sDH2I34hTs3QmQn7YylyA54n48fbr',
+    //   useRefreshTokens: true,
+    //   cacheLocation: 'localstorage',
     //   authorizationParams: {
     //     redirect_uri: window.location.origin
     //   }
