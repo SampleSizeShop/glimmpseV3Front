@@ -14,5 +14,5 @@ RUN ng build
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:1.13
-COPY --from=node20 /app/dist/ /usr/share/nginx/html
+COPY --from=node20 /app/dist/ /etc/nginx/html
 COPY ./docker_nginx.conf /etc/nginx/conf.d/default.conf
