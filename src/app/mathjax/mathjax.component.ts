@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {MathJaxService} from './mathjax.service';
 
-import {FormControl} from '@angular/forms';
+import {UntypedFormControl} from '@angular/forms';
 
 /**
  *  The MathJax component was a test component designed to demo the MathJaxDirective and the connection between the Angular app and the FLASK back end.
@@ -22,7 +22,7 @@ export class MathJaxComponent {
   /**
    * Form control to take user defined input.
    */
-  tex: FormControl = new FormControl();
+  tex: UntypedFormControl = new UntypedFormControl();
   /**
    * Gets formatted strings from FLASK
    */

@@ -1,6 +1,6 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {NGXLogger} from 'ngx-logger';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/index';
 import {isNullOrUndefined} from 'util';
 import {ContrastMatrixService} from './contrast-matrix.service';
@@ -30,7 +30,7 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   private messages = constants.CORRELATION_MATRIX_VALIDATION_MESSAGES;
 
   private _contrast_matrix: PartialMatrix;
-  private _contrast_matrix_form: FormGroup;
+  private _contrast_matrix_form: UntypedFormGroup;
   private contrast_matrix_subscription: Subscription;
   private rows_subscription: Subscription;
   private cols_subscription: Subscription;
@@ -41,7 +41,7 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
   below: TooltipPosition;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private contrast_matrix_service: ContrastMatrixService,
     private log: NGXLogger
   ) {
@@ -185,7 +185,7 @@ export class CustomContrastMatrixComponent implements OnInit, OnDestroy {
     this._contrast_matrix = value;
   }
 
-  get contrast_matrix_form(): FormGroup {
+  get contrast_matrix_form(): UntypedFormGroup {
     return this._contrast_matrix_form;
   }
 

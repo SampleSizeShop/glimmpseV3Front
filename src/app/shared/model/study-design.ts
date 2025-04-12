@@ -39,7 +39,7 @@ interface StudyDesignJSON {
 }
 
 export class StudyDesign {
-  private _glimmpse_ui_version: string = version;
+  // private _glimmpse_ui_version: string = version;
   private _name: string;
   private _targetEvent: string;
   private _solveFor: string;

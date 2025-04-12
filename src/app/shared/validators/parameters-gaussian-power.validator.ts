@@ -1,7 +1,7 @@
-import {FormGroup, ValidatorFn} from '@angular/forms';
+import {UntypedFormGroup, ValidatorFn} from '@angular/forms';
 
 export function gaussianPowerValidator(quantiles, isClickNext): ValidatorFn {
-  return (fb: FormGroup): {[key: string]: any} => {
+  return (fb: UntypedFormGroup): {[key: string]: any} => {
     const controls = fb.controls;
     if (isClickNext.value) {
       if (!controls['quantilePower'].value && !controls['unconditionalPower'].value) {

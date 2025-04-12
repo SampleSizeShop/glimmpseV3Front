@@ -181,7 +181,51 @@ export class CalculateComponent implements OnInit, OnDestroy {
   }
 
   private handleError(error): Observable<any> {
-    return of({'status': 200, 'mimetype': 'application/json', 'results': [{'test': null, 'samplesize': ' Sorry, something seems to have gone wrong with our calculations. Please contact us at samplesizeshop@gmail.com.', 'power': ' Sorry, something seems to have gone wrong with our calculations. Please contact us at samplesizeshop@gmail.com.', 'model': {'essence_design_matrix': null, 'repeated_rows_in_design_matrix': null, 'full_beta': false, 'hypothesis_beta': null, 'c_matrix': null, 'u_matrix': null, 'sigma_star': null, 'theta_zero': null, 'alpha': null, 'total_n': null, 'theta': null, 'm': null, 'nu_e': null, 'hypothesis_sum_square': null, 'error_sum_square': null, 'errors': [['Sorry, something seems to have gone wrong with our calculations. Please contact us at samplesizeshop@gmail.com.']], 'test': null, 'target_power': null, 'smallest_group_size': null, 'means_scale_factor': null, 'variance_scale_factor': null, 'smallest_realizable_design': null, 'delta': null, 'groups': null, 'power_method': null, 'quantile': null, 'confidence_interval': null, 'orthonormalize_u_matrix': false}, 'glimmpse_calc_version': '0.0.0'}]});
+    const samplesizeError = 'The inputs you gave did not allow computing a solution that met your requirements. \n' +
+    '\n' +
+    'It is possible that you are specifying a pattern corresponding to the null being true, for which power = alpha. \n' +
+    'Switch to calculating power for one or more fixed sample sizes (defined from smallest group size), and examine the results.\n' +
+    '\n' +
+    'If the error still persists, please contact us at samplesizeshop@gmail.com.';
+    const powerError = 'Sorry, something seems to have gone wrong with our calculations. Please contact us at samplesizeshop@gmail.com.';
+    return of({
+      'status': 200,
+      'mimetype': 'application/json',
+      'results': [{
+        'test': null,
+        'samplesize': this.isSamplesize() ? samplesizeError : powerError,
+        'power': this.isSamplesize() ? samplesizeError : powerError,
+        'model': {
+          'essence_design_matrix': null,
+          'repeated_rows_in_design_matrix': null,
+          'full_beta': false,
+          'hypothesis_beta': null,
+          'c_matrix': null,
+          'u_matrix': null,
+          'sigma_star': null,
+          'theta_zero': null,
+          'alpha': null,
+          'total_n': null,
+          'theta': null,
+          'm': null,
+          'nu_e': null,
+          'hypothesis_sum_square': null,
+          'error_sum_square': null,
+          'errors': [[this.isSamplesize() ? samplesizeError : powerError]],
+          'test': null,
+          'target_power': null,
+          'smallest_group_size': null,
+          'means_scale_factor': null,
+          'variance_scale_factor': null,
+          'smallest_realizable_design': null,
+          'delta': null,
+          'groups': null,
+          'power_method': null,
+          'quantile': null,
+          'confidence_interval': null,
+          'orthonormalize_u_matrix': false
+        },
+        'glimmpse_calc_version': '3.1.3'}]});
   }
 
   private jsonHeader() {
@@ -718,7 +762,8 @@ export class CalculateComponent implements OnInit, OnDestroy {
     }
     const uMatrixType = this._studyDesign.isuFactors.uMatrix.type;
     if ((uMatrixType === constants.CONTRAST_MATRIX_NATURE.CUSTOM_U_MATRIX || uMatrixType === constants.CONTRAST_MATRIX_NATURE.POLYNOMIAL)
-    && this._studyDesign.isuFactors.uMatrix.values.size() !== [1]) {
+    // && this._studyDesign.isuFactors.uMatrix.values.size() !== [1]
+    ) {
       return true;
     } else {
       return false;

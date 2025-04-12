@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {NGXLogger} from 'ngx-logger';
 import {ISUFactors} from '../model/ISUFactors';
 
 @Injectable()
-export class HypothesisWithinGuard implements CanActivate {
+export class HypothesisWithinGuard  {
   private isuFactors: ISUFactors;
   private isuFactorsSubscription: Subscription;
 

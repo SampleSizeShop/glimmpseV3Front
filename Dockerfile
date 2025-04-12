@@ -1,17 +1,18 @@
 # Stage 0, based on Node.js, to build and compile Angular
-FROM node:14.17.0 as node14
-ENV NPM_CONFIG_LOGLEVEL warn
+FROM node:20.13.0-alpine as node20
+ENV NPM_CONFIG_LOGLEVEL error
+ENV NODE_OPTIONS=--max_old_space_size=2048
 WORKDIR /app
 COPY package.json /app/
-RUN npm install
-RUN npm install -g @angular/cli@9.1.15
+RUN npm install --force
+RUN npm install -g @angular/cli@17.3.8
 
 EXPOSE 4200
 COPY ./ /app/
-RUN ng build -- --no-aot --no-build-optimizer
+RUN ng build
 
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:1.13
-COPY --from=node14 /app/dist/ /usr/share/nginx/html
+COPY --from=node20 /app/dist/ /etc/nginx/html
 COPY ./docker_nginx.conf /etc/nginx/conf.d/default.conf

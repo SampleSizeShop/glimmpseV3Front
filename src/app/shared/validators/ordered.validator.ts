@@ -1,9 +1,9 @@
 import {NGXLogger} from 'ngx-logger';
-import {FormGroup, ValidatorFn} from '@angular/forms';
+import {UntypedFormGroup, ValidatorFn} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 
 export function orderedValidator(names: number[], isCategorical: boolean,  log?: NGXLogger): ValidatorFn {
-  return (group: FormGroup): {[key: string]: any} => {
+  return (group: UntypedFormGroup): {[key: string]: any} => {
     const values = [];
     for (const name of names) {
       if (!isNullOrUndefined(group.get(String(name)))) {

@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {StudyService} from '../../shared/services/study.service';
 import {of as observableOf, Subscription} from 'rxjs';
@@ -19,7 +19,7 @@ import {smallestGroupSizeValidator} from '../../shared/validators/between-isu-sm
 export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
 
   private _isuFactors: ISUFactors;
-  private _groupSizeForm: FormGroup;
+  private _groupSizeForm: UntypedFormGroup;
   private _isuFactorsSubscription: Subscription;
   private _formErrors = constants.BETWEEN_ISU_ERRORS;
   private _validationMessages = constants.BETWEEN_ISU_VALIDATION_MESSAGES;
@@ -33,7 +33,7 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private _study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -187,11 +187,11 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
     this._isuFactors = value;
   }
 
-  get groupSizeForm(): FormGroup {
+  get groupSizeForm(): UntypedFormGroup {
     return this._groupSizeForm;
   }
 
-  set groupSizeForm(value: FormGroup) {
+  set groupSizeForm(value: UntypedFormGroup) {
     this._groupSizeForm = value;
   }
 
@@ -223,11 +223,11 @@ export class BetweenIsuSmallestGroupComponent implements OnInit, OnDestroy {
     this._isuFactorsSubscription = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
-  set fb(value: FormBuilder) {
+  set fb(value: UntypedFormBuilder) {
     this._fb = value;
   }
 

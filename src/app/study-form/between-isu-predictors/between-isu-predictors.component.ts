@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {Subscription, Observable} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
 import {Predictor} from '../../shared/model/Predictor';
@@ -19,9 +19,9 @@ import {NGXLogger} from 'ngx-logger';
   styleUrls: ['./between-isu-predictors.component.css']
 })
 export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterViewInit, OnDestroy {
-  private _predictorForm: FormGroup;
+  private _predictorForm: UntypedFormGroup;
   private _type: string;
-  private _groupsForm: FormGroup;
+  private _groupsForm: UntypedFormGroup;
   private _groups: string[];
   private _maxGroups: number;
   private _maxPredictors: number;
@@ -46,7 +46,7 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private _study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -348,19 +348,19 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
     return this.stages[this.stage]
   }
 
-  get predictorForm(): FormGroup {
+  get predictorForm(): UntypedFormGroup {
     return this._predictorForm;
   }
 
-  set predictorForm(value: FormGroup) {
+  set predictorForm(value: UntypedFormGroup) {
     this._predictorForm = value;
   }
 
-  get groupsForm(): FormGroup {
+  get groupsForm(): UntypedFormGroup {
     return this._groupsForm;
   }
 
-  set groupsForm(value: FormGroup) {
+  set groupsForm(value: UntypedFormGroup) {
     this._groupsForm = value;
   }
 
@@ -380,11 +380,11 @@ export class BetweenIsuPredictorsComponent implements OnInit, DoCheck, AfterView
     this._betweenIsuPredictorsSubscription = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
-  set fb(value: FormBuilder) {
+  set fb(value: UntypedFormBuilder) {
     this._fb = value;
   }
 

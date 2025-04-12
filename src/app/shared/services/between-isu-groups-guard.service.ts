@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
@@ -7,7 +7,7 @@ import {NGXLogger} from 'ngx-logger';
 import {Predictor} from '../model/Predictor';
 
 @Injectable()
-export class BetweenIsuGroupsGuard implements CanActivate {
+export class BetweenIsuGroupsGuard  {
   private predictors: Array<Predictor>;
   private predictorSubscription: Subscription;
 

@@ -3,7 +3,7 @@ import {of as observableOf, Subscription, Observable} from 'rxjs';
 
 import {map, switchMap} from 'rxjs/operators';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {StudyService} from '../../shared/services/study.service';
 import {isNullOrUndefined} from 'util';
@@ -21,8 +21,8 @@ import {NGXLogger} from 'ngx-logger';
 })
 export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDestroy {
   private _isuFactors: ISUFactors;
-  private _marginalMeansForm: FormGroup;
-  private _untouchedValuesForm: FormGroup;
+  private _marginalMeansForm: UntypedFormGroup;
+  private _untouchedValuesForm: UntypedFormGroup;
   private _table$: Observable<MarginalMeansTable>;
   private _table: MarginalMeansTable;
 
@@ -41,7 +41,7 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
   left: TooltipPosition;
   below: TooltipPosition;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private _route: ActivatedRoute,
               private _study_service: StudyService,
               private navigation_service: NavigationService,
@@ -235,15 +235,15 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
     this._isuFactors = value;
   }
 
-  get marginalMeansForm(): FormGroup {
+  get marginalMeansForm(): UntypedFormGroup {
     return this._marginalMeansForm;
   }
 
-  set marginalMeansForm(value: FormGroup) {
+  set marginalMeansForm(value: UntypedFormGroup) {
     this._marginalMeansForm = value;
   }
 
-  get untouchedValuesForm(): FormGroup {
+  get untouchedValuesForm(): UntypedFormGroup {
     return this._untouchedValuesForm;
   }
 
@@ -267,11 +267,11 @@ export class ParametersMarginalMeansComponent implements OnInit, DoCheck, OnDest
     this._table = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
-  set fb(value: FormBuilder) {
+  set fb(value: UntypedFormBuilder) {
     this._fb = value;
   }
 

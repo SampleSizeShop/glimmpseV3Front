@@ -3,7 +3,7 @@ import {ISUFactor} from '../../shared/model/ISUFactor';
 import {HypothesisEffect} from '../../shared/model/HypothesisEffect';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
-import {FormBuilder} from '@angular/forms';
+import {UntypedFormBuilder} from '@angular/forms';
 import {isNullOrUndefined} from 'util';
 import {constants} from '../../shared/model/constants';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -31,7 +31,7 @@ export class HypothesisEffectChoiceComponent implements OnInit, OnDestroy {
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private _study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {StudyService} from './study.service';
 import {ISUFactors} from '../model/ISUFactors';
 import {Subscription} from 'rxjs';
@@ -10,7 +10,7 @@ import {NGXLogger} from 'ngx-logger';
  * ClusterGuard guard allows access to a route if and only if the currently loaded StudyDesign has clustering defined.
  */
 @Injectable()
-export class ClusterGuard implements CanActivate {
+export class ClusterGuard  {
   private isuFactors: ISUFactors;
   private isuFactorsSubscription: Subscription;
 

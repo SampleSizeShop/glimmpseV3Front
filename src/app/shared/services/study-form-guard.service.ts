@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {constants} from '../model/constants';
 import {StudyService} from './study.service';
 import {NGXLogger} from 'ngx-logger';
@@ -9,7 +9,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {of} from "rxjs/internal/observable/of";
 
 @Injectable()
-export class StudyFormGuard implements CanActivate {
+export class StudyFormGuard  {
 
   constructor(private router: Router,
               private authService: AuthService,

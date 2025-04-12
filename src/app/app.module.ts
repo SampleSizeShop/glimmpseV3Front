@@ -8,7 +8,7 @@ import {MathJaxService} from './mathjax/mathjax.service';
 import {MathJaxComponent} from './mathjax/mathjax.component';
 import {MathJaxDirective} from './mathjax/mathjax.directive';
 
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbAccordionModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BsDropdownModule} from 'ngx-bootstrap/dropdown';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -62,6 +62,7 @@ import { ControlHelpTextComponent } from './study-form/control-help-text/control
 import { TargetPowerComponent } from './study-form/target-power/target-power.component';
 import {authStrategyProvider} from './shared/services/auth.strategy';
 import {AuthModule} from '@auth0/auth0-angular';
+import {AccordionModule} from 'ngx-bootstrap/accordion';
 
 @NgModule({
   declarations: [
@@ -114,14 +115,29 @@ import {AuthModule} from '@auth0/auth0-angular';
     // Import the module into the application, with configuration
     AuthModule.forRoot({
       domain: 'samplesizeshop.us.auth0.com',
-      clientId: 'Xas70BGaLbcH45TzCgSCUtU2ve9pTOaw'
+      clientId: 'Xas70BGaLbcH45TzCgSCUtU2ve9pTOaw',
+      useRefreshTokens: true,
+      cacheLocation: 'localstorage',
+      authorizationParams: {
+        redirect_uri: window.location.origin
+      }
     }),
     // Local settings
     // AuthModule.forRoot({
     //   domain: 'dev-9mnzuul1.us.auth0.com',
     //   clientId: 'UL74O5heOlXTVbClBnAYpjIHhAfA7ilP'
     // }),
+    // AuthModule.forRoot({
+    //   domain: 'dev-a2swjm1l.us.auth0.com',
+    //   clientId: 'w62sDH2I34hTs3QmQn7YylyA54n48fbr',
+    //   useRefreshTokens: true,
+    //   cacheLocation: 'localstorage',
+    //   authorizationParams: {
+    //     redirect_uri: window.location.origin
+    //   }
+    // }),
     NgbModule,
+    NgbAccordionModule,
     LoggerModule.forRoot({
       serverLoggingUrl: environment.serverLoggingUrl,
       level: NgxLoggerLevel.INFO,
@@ -136,6 +152,7 @@ import {AuthModule} from '@auth0/auth0-angular';
     AppRoutingModule,
     MatTooltipModule,
     MatIconModule,
+    AccordionModule,
     // Angular2CsvModule
   ],
   providers: [

@@ -1,5 +1,5 @@
 import {NGXLogger} from 'ngx-logger';
-import {FormGroup, ValidatorFn} from '@angular/forms';
+import {UntypedFormGroup, ValidatorFn} from '@angular/forms';
 import {constants} from '../model/constants';
 import {isNullOrUndefined} from 'util';
 import Matrix = mathjs.Matrix;
@@ -7,7 +7,7 @@ import * as math from 'mathjs';
 
 /** Validator function which takes a Math.js matrix and returns an error if we have a columns of zeroes**/
 export function zeroColsValidator(matrix: Matrix, log?: NGXLogger): ValidatorFn {
-  return (group: FormGroup): {[key: string]: any} => {
+  return (group: UntypedFormGroup): {[key: string]: any} => {
     if (!isNullOrUndefined(group) && !isNullOrUndefined(group.controls)) {
       Object.keys(group.controls).forEach(name => {
         const element = splitName(name);

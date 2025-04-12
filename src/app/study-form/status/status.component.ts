@@ -9,7 +9,8 @@ import {Predictor} from '../../shared/model/Predictor';
 import {Outcome} from '../../shared/model/Outcome';
 import {constants} from '../../shared/model/constants';
 import {HypothesisEffect} from '../../shared/model/HypothesisEffect';
-import {isNullOrUndefined} from "util";
+import {isNullOrUndefined} from 'util';
+import {NgbAccordionModule} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-status',

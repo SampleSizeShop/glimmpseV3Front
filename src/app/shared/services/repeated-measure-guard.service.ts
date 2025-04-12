@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {StudyService} from './study.service';
 import {ISUFactors} from '../model/ISUFactors';
 import {Subscription} from 'rxjs';
@@ -7,7 +7,7 @@ import {isNullOrUndefined} from 'util';
 import {NGXLogger} from 'ngx-logger';
 
 @Injectable()
-export class RepeatedMeasureGuard implements CanActivate {
+export class RepeatedMeasureGuard  {
   private isuFactors: ISUFactors;
   private fullBeta: boolean;
   private isuFactorsSubscription: Subscription;

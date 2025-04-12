@@ -40,11 +40,11 @@
             [attr.id]="'result_display_row_'+i">
           <td id="{{'power_' + i}}" data-label="Power">
             <div *ngIf="!error(result)">{{formatNumber(result.power)}}</div>
-            <div *ngIf="error(result)">{{result.model.errors}}</div>
+            <div *ngIf="error(result)" style="white-space: pre-line;">{{result.model.errors}}</div>
           </td>
           <td *ngIf="hasConfidenceInterval()" id="{{'ci_' + i}}" data-label="Confidence Intervals">({{formatNumber(result.lower_bound)}} , {{formatNumber(result.upper_bound)}})</td>
           <td *ngIf="isSamplesize() && !error(result)" data-label="Total Sample Size">{{result.samplesize}}</td>
-          <td *ngIf="isSamplesize() && error(result)" data-label="Errors">{{result.model.errors}}</td>
+          <td *ngIf="isSamplesize() && error(result)" data-label="Errors"></td>
           <td *ngIf="isPower()" data-label="Total Sample Size">{{result.model.total_n}}</td>
           <td *ngIf="isSamplesize()" id="{{'targetpower_' + i}}" data-label="Target Power">{{result.model.target_power}}</td>
           <td id="{{'means_scale_factor_' + i}}" data-label="Means Scale Factor">{{ result.model.means_scale_factor }}</td>

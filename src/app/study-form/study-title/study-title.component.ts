@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs/index';
 import {StudyService} from '../../shared/services/study.service';
 import {isNullOrUndefined} from 'util';
@@ -15,7 +15,7 @@ import {NGXLogger} from 'ngx-logger';
 })
 export class StudyTitleComponent implements OnInit, DoCheck, OnDestroy {
   private _studyTitle: string;
-  private _studyTitleForm: FormGroup;
+  private _studyTitleForm: UntypedFormGroup;
   private _studyTitleSubscription: Subscription;
   private _showHelpTextSubscription: Subscription;
 
@@ -28,7 +28,7 @@ export class StudyTitleComponent implements OnInit, DoCheck, OnDestroy {
   private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
               private log: NGXLogger) {
@@ -134,7 +134,7 @@ export class StudyTitleComponent implements OnInit, DoCheck, OnDestroy {
       });
   }
 
-  get studyTitleForm(): FormGroup {
+  get studyTitleForm(): UntypedFormGroup {
     return this._studyTitleForm;
   }
 

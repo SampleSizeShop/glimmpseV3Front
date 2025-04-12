@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {PowerCurve} from '../model/PowerCurve';
@@ -7,7 +7,7 @@ import {isNullOrUndefined} from 'util';
 import {NGXLogger} from 'ngx-logger';
 
 @Injectable()
-export class PowerCurveGuard implements CanActivate {
+export class PowerCurveGuard  {
   private powerCurve: PowerCurve;
   private powerCurveSubscription: Subscription;
 

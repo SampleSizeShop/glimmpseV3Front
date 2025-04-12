@@ -2,7 +2,7 @@ import {Component, DoCheck, OnInit, OnDestroy, ViewChild} from '@angular/core';
 import {constants} from '../../shared/model/constants';
 import {StudyService} from '../../shared/services/study.service';
 import {Subscription} from 'rxjs';
-import {FormBuilder, FormGroup, FormArray, FormControl} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, UntypedFormArray, UntypedFormControl} from '@angular/forms';
 import {statisticalTestsValidator} from '../../shared/validators/statistical-tests.validator';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -15,7 +15,7 @@ import {NGXLogger} from 'ngx-logger';
 })
 export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   private _statisticalTests;
-  private _statisticalTestsForm: FormGroup;
+  private _statisticalTestsForm: UntypedFormGroup;
   private _selectedTests: string[];
   private _selectedTestsSubscription: Subscription;
   private _navigationSubscription: Subscription;
@@ -34,7 +34,7 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -114,10 +114,10 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   buildForm() {
-    const controls = this.statisticalTestsOption.map(c => new FormControl(this.isSelected(c.name)));
+    const controls = this.statisticalTestsOption.map(c => new UntypedFormControl(this.isSelected(c.name)));
 
     this.statisticalTestsForm = this.fb.group({
-      statisticaltestsoptions: new FormArray(controls, statisticalTestsValidator(1, this._isClickNextReference))
+      statisticaltestsoptions: new UntypedFormArray(controls, statisticalTestsValidator(1, this._isClickNextReference))
     });
     this.statisticalTestsForm.valueChanges.subscribe(data => this.emptyErrorMessage());
 
@@ -240,19 +240,19 @@ export class StatisticalTestsComponent implements OnInit, DoCheck, OnDestroy {
     this._navigationSubscription = value;
   }
 
-  get statisticalTestsForm(): FormGroup {
+  get statisticalTestsForm(): UntypedFormGroup {
     return this._statisticalTestsForm;
   }
 
-  set statisticalTestsForm(value: FormGroup) {
+  set statisticalTestsForm(value: UntypedFormGroup) {
     this._statisticalTestsForm = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
-  set fb(value: FormBuilder) {
+  set fb(value: UntypedFormBuilder) {
     this._fb = value;
   }
   get validationMessages() {

@@ -11,7 +11,7 @@ import {Predictor} from '../../shared/model/Predictor';
 import {NGXLogger} from 'ngx-logger';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {ContrastMatrixService} from '../custom-contrast-matrix/contrast-matrix.service';
 import {fadeTransition} from '../../animations/animations';
@@ -32,7 +32,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   private _isuFactors: ISUFactors;
   private _formErrors = constants.HYPOTHESIS_BETWEEN_FORM_ERRORS;
   private _validationMessages = constants.HYPOTHESIS_BETWEEN_VALIDATION_MESSAGES;
-  private _noRowsForm: FormGroup;
+  private _noRowsForm: UntypedFormGroup;
   private _maxRows: number;
   private _numCustomRows: number;
   private _contrast_matrix: PartialMatrix;
@@ -62,7 +62,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
   constructor(private study_service: StudyService,
               private navigation_service: NavigationService,
               private contrast_matrix_service: ContrastMatrixService,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               private router: Router,
               private modalService: NgbModal,
               private log: NGXLogger) {
@@ -408,7 +408,7 @@ export class HypothesisBetweenComponent implements OnInit, OnDestroy {
     return this._formErrors;
   }
 
-  get noRowsForm(): FormGroup {
+  get noRowsForm(): UntypedFormGroup {
     return this._noRowsForm;
   }
 

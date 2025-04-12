@@ -3,7 +3,7 @@ import {of as observableOf, Subscription, Observable} from 'rxjs';
 
 import {map, switchMap} from 'rxjs/operators';
 import {Component, DoCheck, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {StudyService} from '../../shared/services/study.service';
 import {ISUFactors} from '../../shared/model/ISUFactors';
 import {isNullOrUndefined} from 'util';
@@ -26,7 +26,7 @@ import {relativeGroupSizeValidator} from '../../shared/validators/relative.group
 export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
 
   private _isuFactors: ISUFactors;
-  private _relativeGroupSizeForm: FormGroup;
+  private _relativeGroupSizeForm: UntypedFormGroup;
   private _table$: Observable<RelativeGroupSizeTable>;
   private _table: RelativeGroupSizeTable;
   private _formErrors = constants.BETWEEN_ISU_RELATIVE_GROUP_ERRORS;
@@ -41,7 +41,7 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private route: ActivatedRoute,
               private _study_service: StudyService,
               private navigation_service: NavigationService,
@@ -224,11 +224,11 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     }
   }
 
-  get relativeGroupSizeForm(): FormGroup {
+  get relativeGroupSizeForm(): UntypedFormGroup {
     return this._relativeGroupSizeForm;
   }
 
-  set relativeGroupSizeForm(value: FormGroup) {
+  set relativeGroupSizeForm(value: UntypedFormGroup) {
     this._relativeGroupSizeForm = value;
   }
 
@@ -248,11 +248,11 @@ export class BetweenIsuGroupsComponent implements OnInit, DoCheck, OnDestroy {
     this._isuFactorsSubscription = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
 
-  set fb(value: FormBuilder) {
+  set fb(value: UntypedFormBuilder) {
     this._fb = value;
   }
 

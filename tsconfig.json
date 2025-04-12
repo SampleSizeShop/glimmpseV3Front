@@ -11,9 +11,8 @@
     "inlineSources": true,
     "declaration": false,
     "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2017",
+    "target": "ES2022",
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -21,6 +20,7 @@
       "es2017",
       "dom"
     ],
-    "module": "esnext"
+    "module": "esnext",
+    "useDefineForClassFields": false
   }
 }

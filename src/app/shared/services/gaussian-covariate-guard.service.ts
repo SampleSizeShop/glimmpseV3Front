@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
@@ -11,7 +11,7 @@ import {NGXLogger} from 'ngx-logger';
  * gaussian covariate defined.
  */
 @Injectable()
-export class GaussianCovariateGuard implements CanActivate {
+export class GaussianCovariateGuard  {
   private gaussianCovariate: GaussianCovariate;
   private gaussianCovariatesSubscription: Subscription;
 

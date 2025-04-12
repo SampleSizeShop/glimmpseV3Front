@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {RepeatedMeasure} from '../../shared/model/RepeatedMeasure';
 import {constants} from '../../shared/model/constants';
 import {Subscription, Observable} from 'rxjs';
@@ -23,10 +23,10 @@ import {orderedValidator} from '../../shared/validators/ordered.validator';
   styleUrls: ['./within-isu-repeated-measures.component.scss']
 })
 export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
-  private _dimensionForm: FormGroup;
-  private _typeForm: FormGroup;
-  private _repeatsForm: FormGroup;
-  private _spacingForm: FormGroup;
+  private _dimensionForm: UntypedFormGroup;
+  private _typeForm: UntypedFormGroup;
+  private _repeatsForm: UntypedFormGroup;
+  private _spacingForm: UntypedFormGroup;
   private _repeatedMeasures: RepeatedMeasure[];
   private _repMeasure: RepeatedMeasure;
   private _spacingControlNames: number[];
@@ -58,7 +58,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
   private helpTextModalReference: any;
   private _afterInit: boolean;
 
-  constructor(private _fb: FormBuilder,
+  constructor(private _fb: UntypedFormBuilder,
               private study_service: StudyService,
               private navigation_service: NavigationService,
               private modalService: NgbModal,
@@ -559,7 +559,7 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     return this._formErrors;
   }
 
-  get dimensionForm(): FormGroup {
+  get dimensionForm(): UntypedFormGroup {
     return this._dimensionForm;
   }
 
@@ -567,15 +567,15 @@ export class WithinIsuRepeatedMeasuresComponent implements OnInit, OnDestroy {
     return this._max;
   }
 
-  get typeForm(): FormGroup {
+  get typeForm(): UntypedFormGroup {
     return this._typeForm;
   }
 
-  get repeatsForm(): FormGroup {
+  get repeatsForm(): UntypedFormGroup {
     return this._repeatsForm;
   }
 
-  get spacingForm(): FormGroup {
+  get spacingForm(): UntypedFormGroup {
     return this._spacingForm;
   }
 

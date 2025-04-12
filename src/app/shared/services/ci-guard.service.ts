@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import {StudyService} from './study.service';
 import {Subscription} from 'rxjs';
 import {PowerCurve} from '../model/PowerCurve';
@@ -11,7 +11,7 @@ import {NGXLogger} from 'ngx-logger';
  * defined with a PowerCurveConfidenceInterval.
  */
 @Injectable()
-export class ConfidenceIntervalGuard implements CanActivate {
+export class ConfidenceIntervalGuard  {
   private powerCurve: PowerCurve;
   private powerCurveSubscription: Subscription;
 

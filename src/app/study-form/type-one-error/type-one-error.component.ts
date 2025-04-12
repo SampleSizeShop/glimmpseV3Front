@@ -1,5 +1,5 @@
 import {Component, DoCheck, OnInit, OnDestroy, ViewChild, ChangeDetectorRef} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {minMaxValidator} from '../../shared/validators/minmax.validator';
 import {NGXLogger} from 'ngx-logger';
 import {constants} from '../../shared/model/constants';
@@ -21,7 +21,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   private _studyDesign: StudyDesign;
   private _studySubscription: Subscription;
   private _typeOneErrorRate: Array<number>;
-  private _typeOneErrorRateForm: FormGroup;
+  private _typeOneErrorRateForm: UntypedFormGroup;
   private _formErrors = constants.TYPE_ONE_ERROR_ERRORS;
   private _validationMessages = constants.TYPE_ONE_ERROR_VALIDATION_MESSAGES;
 
@@ -39,7 +39,7 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
   private _afterInit: boolean;
 
   constructor(private study_service: StudyService,
-              private fb: FormBuilder,
+              private fb: UntypedFormBuilder,
               private log: NGXLogger,
               private navigation_service: NavigationService,
               private modalService: NgbModal) {
@@ -207,11 +207,11 @@ export class TypeOneErrorComponent implements DoCheck, OnDestroy, OnInit {
     return observableOf(this.typeOneErrorRate)
   }
 
-  get typeOneErrorRateForm(): FormGroup {
+  get typeOneErrorRateForm(): UntypedFormGroup {
     return this._typeOneErrorRateForm;
   }
 
-  set typeOneErrorRateForm(value: FormGroup) {
+  set typeOneErrorRateForm(value: UntypedFormGroup) {
     this._typeOneErrorRateForm = value;
   }
 

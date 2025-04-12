@@ -1,115 +1,116 @@
-<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
-  <ngb-panel id="Design">
-    <ng-template ngbPanelHeader let-opened="opened">
-      <div class="d-flex align-items-center justify-content-between" (click)="acc.toggle('Design')">
-        <h5 class="m-0">Design</h5>
-        <mat-icon *ngIf="design" style="color: #265b87;">check_circle_outline</mat-icon>
+<div ngbAccordion>
+  <div ngbAccordionItem id="Design">
+    <div ngbAccordionHeader class="card-header d-flex align-items-center justify-content-between">
+      <button ngbAccordionButton><h5>Design</h5></button>
+      <mat-icon *ngIf="design" style="color: #265b87;">check_circle_outline</mat-icon>
+    </div>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <ng-template>
+          <p style="padding-left: 0.5em"><b>Solve For:</b> {{solveFor}}</p>
+          <p style="padding-left: 0.5em"><b>Type I error:</b> {{study.typeOneErrorRate | json}}</p>
+          <p style="padding-left: 0.5em"><b>Tests:</b> {{study.selectedTests | json}}</p>
+          <table class="table">
+            <thead>
+            <th class="col col-md-auto">
+              ISU Factor
+            </th>
+            <th class="col col-md-auto">
+              Type
+            </th>
+            <th class="col col-md-auto">
+              Details
+            </th>
+            </thead>
+            <tbody>
+            <tr *ngFor="let factor of study.isuFactors.variables; let i = index" [class]="rowStyle(i)">
+              <td class="col col-md-auto" data-label="Dimension">
+                {{factor.name}}
+              </td>
+              <td class="col col-md-auto" data-label="Type">
+                {{getFactorType(factor)}}
+              </td>
+              <td class="col col-md-auto" data-label="Units">
+                {{getDetails(factor)}}
+              </td>
+            </tr>
+            <tr *ngIf="study.gaussianCovariate" [class]="rowStyle(study.isuFactors.variables.length)">
+              <td class="col col-md-auto" data-label="Dimension">
+                Gaussian Covariate
+              </td>
+              <td class="col col-md-auto" data-label="Type">
+                Gaussian Covariate
+              </td>
+              <td class="col col-md-auto" data-label="Units">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </ng-template>
       </div>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <p style="padding-left: 0.5em"><b>Solve For:</b> {{solveFor}}</p>
-        <p style="padding-left: 0.5em"><b>Type I error:</b> {{study.typeOneErrorRate | json}}</p>
-        <p style="padding-left: 0.5em"><b>Tests:</b> {{study.selectedTests | json}}</p>
-      <table class="table">
-        <thead>
-        <th class="col col-md-auto">
-          ISU Factor
-        </th>
-        <th class="col col-md-auto">
-          Type
-        </th>
-        <th class="col col-md-auto">
-          Details
-        </th>
-        </thead>
-        <tbody>
-        <tr *ngFor="let factor of study.isuFactors.variables; let i = index" [class]="rowStyle(i)">
-          <td class="col col-md-auto" data-label="Dimension">
-            {{factor.name}}
-          </td>
-          <td class="col col-md-auto" data-label="Type">
-            {{getFactorType(factor)}}
-          </td>
-          <td class="col col-md-auto" data-label="Units">
-            {{getDetails(factor)}}
-          </td>
-        </tr>
-        <tr *ngIf="study.gaussianCovariate" [class]="rowStyle(study.isuFactors.variables.length)">
-          <td class="col col-md-auto" data-label="Dimension">
-            Gaussian Covariate
-          </td>
-          <td class="col col-md-auto" data-label="Type">
-            Gaussian Covariate
-          </td>
-          <td class="col col-md-auto" data-label="Units">
-          </td>
-        </tr>
-        </tbody>
-      </table>
-    </ng-template>
-  </ngb-panel>
-  <ngb-panel id="Hypothesis">
-    <ng-template ngbPanelHeader let-opened="opened">
-      <div class="d-flex align-items-center justify-content-between" (click)="acc.toggle('Hypothesis')">
-        <h5 class="m-0">Hypothesis</h5>
-        <mat-icon *ngIf="hypothesis" style="color: #265b87;">check_circle_outline</mat-icon>
+    </div>
+  </div>
+  <div ngbAccordionItem id="Hypothesis">
+    <div ngbAccordionHeader class="card-header d-flex align-items-center justify-content-between">
+      <button ngbAccordionButton><h5>Hypothesis</h5></button>
+      <mat-icon *ngIf="hypothesis" style="color: #265b87;">check_circle_outline</mat-icon>
+    </div>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <div *ngIf="!design">
+          <p style="padding-left: 0.5em">Once you have defined your design, details will become available here.</p>
+        </div>
+        <div *ngIf="design">
+          <p style="padding-left: 0.5em"><b>Hypothesis Effect:</b> {{hypothesisEffect.name}}</p>
+          <p style="padding-left: 0.5em"><b>Hypothesis Nature:</b> {{hypothesisEffect.nature}}</p>
+          <p style="padding-left: 0.5em"><b>Contrast:</b> {{contrast}}</p>
+          <p style="padding-left: 0.5em"><b>Theta nought:</b> {{thetaNought}}</p>
+        </div>
       </div>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <div *ngIf="!design">
-        <p style="padding-left: 0.5em">Once you have defined your design, details will become available here.</p>
-      </div>
-      <div *ngIf="design">
-        <p style="padding-left: 0.5em"><b>Hypothesis Effect:</b> {{hypothesisEffect.name}}</p>
-        <p style="padding-left: 0.5em"><b>Hypothesis Nature:</b> {{hypothesisEffect.nature}}</p>
-        <p style="padding-left: 0.5em"><b>Contrast:</b> {{contrast}}</p>
-        <p style="padding-left: 0.5em"><b>Theta nought:</b> {{thetaNought}}</p>
-      </div>
-    </ng-template>
-  </ngb-panel>
-  <ngb-panel id="Design Dimensions">
-    <ng-template ngbPanelHeader let-opened="opened">
-      <div class="d-flex align-items-center justify-content-between" (click)="acc.toggle('Design Dimensions')">
-        <h5 class="m-0">Design Dimensions</h5>
-        <mat-icon *ngIf="dimensions" style="color: #265b87;">check_circle_outline</mat-icon>
-      </div>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <div *ngIf="!design || !hypothesis">
-        <p style="padding-left: 0.5em">Once you have defined your design and hypothesis, details will be available here.</p>
-      </div>
-      <div *ngIf="design && hypothesis">
-        <p *ngIf="solveForPower" style="padding-left: 0.5em"><b>Smallest group size:</b> {{thetaNought}}</p>
-        <div *ngFor="let groupsizetable of study.isuFactors.betweenIsuRelativeGroupSizes">
-          <p style="padding-left: 0.5em"><b>Relative group sizes for:</b> {{groupsizetable.name}}</p>
-          <div class="row">
-            <div class="col-2"></div>
-            <div class="col-md-auto" style="display:flex; justify-content: center">
-              {{groupsizetable.getColDimensionLabel()}}
+    </div>
+  </div>
+  <div ngbAccordionItem id="Design Dimensions">
+    <div ngbAccordionHeader class="card-header d-flex align-items-center justify-content-between">
+      <button ngbAccordionButton><h5>Design Dimensions</h5></button>
+      <mat-icon *ngIf="dimensions" style="color: #265b87;">check_circle_outline</mat-icon>
+    </div>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <div *ngIf="!design || !hypothesis">
+          <p style="padding-left: 0.5em">Once you have defined your design and hypothesis, details will be available here.</p>
+        </div>
+        <div *ngIf="design && hypothesis">
+          <p *ngIf="solveForPower" style="padding-left: 0.5em"><b>Smallest group size:</b> {{thetaNought}}</p>
+          <div *ngFor="let groupsizetable of study.isuFactors.betweenIsuRelativeGroupSizes">
+            <p style="padding-left: 0.5em"><b>Relative group sizes for:</b> {{groupsizetable.name}}</p>
+            <div class="row">
+              <div class="col-2"></div>
+              <div class="col-md-auto" style="display:flex; justify-content: center">
+                {{groupsizetable.getColDimensionLabel()}}
+              </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-2" style="align-self:center; writing-mode: vertical-lr; transform: rotate(-180deg);">{{groupsizetable.getRowDimensionLabel()}}</div>
-            <div class="col-md-auto" style="display:flex; justify-content: left">
-              <div [mathJaxExpr]="groupsizetable.toTex()" style="overflow: scroll"></div>
+            <div class="row">
+              <div class="col-2" style="align-self:center; writing-mode: vertical-lr; transform: rotate(-180deg);">{{groupsizetable.getRowDimensionLabel()}}</div>
+              <div class="col-md-auto" style="display:flex; justify-content: left">
+                <div [mathJaxExpr]="groupsizetable.toTex()" style="overflow: scroll"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </ng-template>
-  </ngb-panel>
-  <ngb-panel id="Parameters">
-    <ng-template ngbPanelHeader let-opened="opened">
-      <div class="d-flex align-items-center justify-content-between" (click)="acc.toggle('Parameters')">
-        <h5 class="m-0">Parameters</h5>
-        <mat-icon *ngIf="parameters" style="color: #265b87;">check_circle_outline</mat-icon>
-      </div>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <div *ngIf="!design || !hypothesis">
-        <p style="padding-left: 0.5em">Once you have defined your design and hypothesis, details will be available here.</p>
-      </div>
-      <div *ngIf="design && hypothesis">
+    </div>
+  </div>
+  <div ngbAccordionItem id="Parameters">
+    <div ngbAccordionHeader class="card-header d-flex align-items-center justify-content-between">
+      <button ngbAccordionButton><h5>Parameters</h5></button>
+      <mat-icon *ngIf="parameters" style="color: #265b87;">check_circle_outline</mat-icon>
+    </div>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <div *ngIf="!design || !hypothesis">
+          <p style="padding-left: 0.5em">Once you have defined your design and hypothesis, details will be available here.</p>
+        </div>
+        <div *ngIf="design && hypothesis">
           <div *ngFor="let meanstable of study.isuFactors.marginalMeans">
             <p style="padding-left: 0.5em"><b>Marginal means for outcome:</b> {{meanstable.name}}</p>
             <div class="row">
@@ -136,9 +137,9 @@
           </div>
           <div *ngIf="study.isuFactors.repeatedMeasuresInHypothesis.length > 0">
             <div *ngFor="let measure of study.isuFactors.repeatedMeasuresInHypothesis"
-                style="padding-left: 0.5em">
+                 style="padding-left: 0.5em">
               <p><b>Correlation matrix for {{measure.name}}:</b></p>
-            <div [mathJaxExpr]="measure.correlationMatrix.toTeX()" style="overflow: scroll"></div>
+              <div [mathJaxExpr]="measure.correlationMatrix.toTeX()" style="overflow: scroll"></div>
             </div>
           </div>
           <div *ngIf="study.isuFactors.cluster" style="padding-left: 0.5em">
@@ -154,29 +155,30 @@
             <p *ngIf="study.gaussianCovariate.isQuantile()"><b>quantiles:</b> {{study.quantiles | json}}</p>
           </div>
           <p style="padding-left: 0.5em"><b>Variance scale factor(s):</b> {{study.varianceScaleFactors | json}}</p>
+        </div>
+    </div>
+    </div>
+  </div>
+  <div ngbAccordionItem id="Optional Specifications">
+    <div ngbAccordionHeader class="card-header d-flex align-items-center justify-content-between">
+      <button ngbAccordionButton><h5>Optional Specifications</h5></button>
+      <mat-icon *ngIf="optional" style="color: #265b87;">check_circle_outline</mat-icon>
+    </div>
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <div *ngIf="!study.confidence_interval">
+          <p style="padding-left: 0.5em">Confidence interval not included</p>
+        </div>
+        <div *ngIf="study.confidence_interval">
+          <p>Confidence Intervals:</p>
+          <p style="padding-left: 0.5em"><b>Beta known:</b> {{study.confidence_interval.beta_known | json}}</p>
+          <p style="padding-left: 0.5em"><b>Lower tail probability:</b> {{study.confidence_interval.lower_tail}}</p>
+          <p style="padding-left: 0.5em"><b>Upper tail propbability:</b> {{study.confidence_interval.upper_tail}}</p>
+          <p style="padding-left: 0.5em"><b>Rank of design matrix:</b> {{study.confidence_interval.rank_est}}</p>
+          <p style="padding-left: 0.5em"><b>Total Sample Size:</b> {{study.confidence_interval.n_est}}</p>
+        </div>
       </div>
-    </ng-template>
-  </ngb-panel>
-  <ngb-panel id="Optional Specifications">
-    <ng-template ngbPanelHeader let-opened="opened">
-      <div class="d-flex align-items-center justify-content-between" (click)="acc.toggle('Optional Specifications')">
-        <h5 class="m-0">Optional Specifications</h5>
-        <mat-icon *ngIf="optional" style="color: #265b87;">check_circle_outline</mat-icon>
-      </div>
-    </ng-template>
-    <ng-template ngbPanelContent>
-      <div *ngIf="!study.confidence_interval">
-        <p style="padding-left: 0.5em">Confidence interval not included</p>
-      </div>
-      <div *ngIf="study.confidence_interval">
-        <p>Confidence Intervals:</p>
-        <p style="padding-left: 0.5em"><b>Beta known:</b> {{study.confidence_interval.beta_known | json}}</p>
-        <p style="padding-left: 0.5em"><b>Lower tail probability:</b> {{study.confidence_interval.lower_tail}}</p>
-        <p style="padding-left: 0.5em"><b>Upper tail propbability:</b> {{study.confidence_interval.upper_tail}}</p>
-        <p style="padding-left: 0.5em"><b>Rank of design matrix:</b> {{study.confidence_interval.rank_est}}</p>
-        <p style="padding-left: 0.5em"><b>Total Sample Size:</b> {{study.confidence_interval.n_est}}</p>
-      </div>
-    </ng-template>
-  </ngb-panel>
-</ngb-accordion>
+    </div>
+  </div>
+</div>
 

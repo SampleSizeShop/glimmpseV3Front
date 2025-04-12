@@ -3,7 +3,7 @@ import {ISUFactors} from '../../shared/model/ISUFactors';
 import {Subscription} from 'rxjs';
 import {StudyService} from '../../shared/services/study.service';
 import {constants} from '../../shared/model/constants';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {NavigationService} from '../../shared/services/navigation.service';
 import {GaussianCovariate} from '../../shared/model/GaussianCovariate';
 import {isNullOrUndefined} from 'util';
@@ -20,7 +20,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
   private _isuFactorsSubscription: Subscription;
   private _formErrors = constants.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_ERRORS;
   private _validationMessages = constants.PARAMETERS_GAUSSIAN_COVARIATE_CORRELATION_VALIDATION_MESSAGES;
-  private _gaussianCovariateCorrForm: FormGroup;
+  private _gaussianCovariateCorrForm: UntypedFormGroup;
   private _gaussianCovariate: GaussianCovariate;
   private _gaussianCovariatesSubscription: Subscription;
   private _corellations: Array<number>;
@@ -28,7 +28,7 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
 
   constructor(private study_service: StudyService,
               private navigation_service: NavigationService,
-              private _fb: FormBuilder) {
+              private _fb: UntypedFormBuilder) {
     this.isuFactorsSubscription = this.study_service.isuFactors$.subscribe( isuFactors => {
       this.isuFactors = isuFactors;
       }
@@ -179,14 +179,14 @@ export class ParametersGaussianCovariateCorrelationComponent implements OnInit, 
     this._validationMessages = value;
   }
 
-  get fb(): FormBuilder {
+  get fb(): UntypedFormBuilder {
     return this._fb;
   }
-  get gaussianCovariateCorrForm(): FormGroup {
+  get gaussianCovariateCorrForm(): UntypedFormGroup {
     return this._gaussianCovariateCorrForm;
   }
 
-  set gaussianCovariateCorrForm(value: FormGroup) {
+  set gaussianCovariateCorrForm(value: UntypedFormGroup) {
     this._gaussianCovariateCorrForm = value;
   }
 
